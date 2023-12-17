@@ -1,4 +1,4 @@
-This is a fun, 7 Day (ish) project, starting on Dec 20th 2023 and ending Dec 29th 2023. Yes, that's more than 7 days, but there are important family events in this period for many of our community.  It is designed to allow us to try out some new gamedev skills. This is a not a game jam. 
+This is a fun, 7 Day (ish) project, starting on Dec 20th 2023 and ending Dec 29th 2023. Yes, that's more than 7 days, but there are important family events in this period for many of our community.  It is designed to allow us to try out some new gamedev skills. This is a not a competitive game jam, it's a collaborative learning experience.
 
 It is fun and educational for all. 
 We work together on a single project. 
