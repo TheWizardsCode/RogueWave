@@ -6,6 +6,7 @@ namespace Playground
 {
     public class Spawner : MonoBehaviour
     {
+        [Header("Wave Definition")]
         [SerializeField, Tooltip("The enemy prefabs to spawn.")]
         private GameObject[] enemyPrefabs;
         [SerializeField, Tooltip("The number of enemies to spawn to spawn each second.")]
