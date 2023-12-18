@@ -63,8 +63,9 @@ namespace Playground
                 if (possibleEnemySpawnPositions.Count == 0)
                     break;
                 Vector2 spawnerPosition = possibleEnemySpawnPositions[Random.Range(0, possibleEnemySpawnPositions.Count)];
-                position = new Vector3(spawnerPosition.x, 0, spawnerPosition.y);
+                position = new Vector3(spawnerPosition.x, spawnerPrefab.spawnRadius, spawnerPosition.y);
                 Spawner spawner = Instantiate(spawnerPrefab, position, Quaternion.identity);
+                spawner.GetComponentInChildren<MeshRenderer>().transform.localScale = new Vector3(spawnerPrefab.spawnRadius * 2, spawnerPrefab.spawnRadius * 2, spawnerPrefab.spawnRadius * 2);
                 spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
             }
         }

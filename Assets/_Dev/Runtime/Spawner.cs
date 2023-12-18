@@ -12,7 +12,7 @@ namespace Playground
         [SerializeField, Tooltip("The number of enemies to spawn to spawn each second.")]
         private float spawnRate = 1f;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
-        private float spawnRadius = 10f;
+        internal float spawnRadius = 5f;
         [SerializeField, Tooltip("The duration of each spawn wave in seconds.")]
         private float waveDuration = 10f;
         [SerializeField, Tooltip("The duration of the wait between each spawn wave in seconds.")]
