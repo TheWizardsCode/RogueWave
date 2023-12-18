@@ -10,3 +10,8 @@ We will only be using a single paid asset, the wonderful [NeoFPS](https://assets
 Note that all assets produced as part of the sprint will be made available on GitHub as MIT licensed open source or CC0 assets as appropriate. You will retain copyright in your work but must make it available to us under these licenses to facilitate open collaboration.
 
 To get involved just click "Interested" below and, ideally, reply to this thread and provide a quick intro describing what you are looking to learn and how you can contribute. You can find some information about how to ⁠[Get Involved](https://discord.com/channels/728852904978415676/1185689608994955294) on our [Discord](https://discord.gg/qpemytCd98).
+
+# Contributing
+
+`dev` is the default branch, please issue PRs against this branch.
+`main` should be in an always releasable state. `dev` will be merged into `main` as frequenly as possible. 
