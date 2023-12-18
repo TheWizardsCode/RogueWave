@@ -153,6 +153,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   size: {x: 500, y: 500}
+  buildingLotSize: {x: 25, y: 25}
+  buildingDensity: 0.6
   groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
   buildingPrefabs:
   - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
@@ -161,8 +163,8 @@ MonoBehaviour:
   - {fileID: 895710043128325180, guid: a9aaa7cc6f16b504899e8f2bdc066b57, type: 3}
   - {fileID: 4330765639891971577, guid: a890f145341659149991d7b77a40c12e, type: 3}
   - {fileID: 7019865242113649934, guid: 58ccb8d32c23cc94c80153045c24d74a, type: 3}
-  buildingDensity: 0.6
-  buildingLotSize: {x: 25, y: 25}
+  spawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
+  numberOfEnemySpawners: 2
 --- !u!4 &117578075
 Transform:
   m_ObjectHideFlags: 0
@@ -1797,15 +1799,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.9729042
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -13.369999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.653021
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: m_LocalRotation.w
