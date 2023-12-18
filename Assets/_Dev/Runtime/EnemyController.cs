@@ -30,6 +30,11 @@ namespace Playground.December23
             }
         }
 
+        public void OnAliveIsChanged(bool isAlive)
+        {
+            if (!isAlive)
+                Destroy(gameObject);
+        }
 
     }
 }
