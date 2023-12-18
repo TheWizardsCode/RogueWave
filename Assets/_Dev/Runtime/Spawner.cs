@@ -41,5 +41,18 @@ namespace Playground
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
             Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPosition, Quaternion.identity);
         }
+
+        public void OnAliveIsChanged(bool isAlive)
+        {
+            if (isAlive)
+            {
+                StartCoroutine(SpawnEnemies());
+            }
+            else
+            {
+                StopCoroutine(SpawnEnemies());
+                Destroy(gameObject);
+            }
+        }
     }
 }
