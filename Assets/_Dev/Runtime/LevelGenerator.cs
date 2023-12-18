@@ -1,3 +1,4 @@
+using NeoFPS;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -63,7 +64,8 @@ namespace Playground
                     break;
                 Vector2 spawnerPosition = possibleEnemySpawnPositions[Random.Range(0, possibleEnemySpawnPositions.Count)];
                 position = new Vector3(spawnerPosition.x, 0, spawnerPosition.y);
-                Instantiate(spawnerPrefab, position, Quaternion.identity);
+                Spawner spawner = Instantiate(spawnerPrefab, position, Quaternion.identity);
+                spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
             }
         }
     }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3813918967654428348}
   - component: {fileID: 5095478218168087987}
   - component: {fileID: 1768168615545587999}
+  - component: {fileID: 7923576013544642157}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -105,6 +106,20 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &7923576013544642157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1948440393096838436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba672449e0da655428ca4e3b031f6b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Multiplier: 1
+  m_Critical: 0
 --- !u!1 &5299311784649714057
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,9 +130,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6134286060280689273}
   - component: {fileID: 6576056135945926902}
+  - component: {fileID: 2142438204395784425}
   m_Layer: 0
   m_Name: Spawner
-  m_TagString: Untagged
+  m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -156,3 +172,24 @@ MonoBehaviour:
   spawnRadius: 10
   waveDuration: 10
   waveWait: 5
+--- !u!114 &2142438204395784425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299311784649714057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afb4f6b079a31f949b8a10f7e86b427e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Health: 500
+  m_HealthMax: 500
+  m_CanDamageSelf: 0
+  m_OnHealthChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnIsAliveChanged:
+    m_PersistentCalls:
+      m_Calls: []
