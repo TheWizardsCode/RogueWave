@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Playground
 {
@@ -8,7 +9,7 @@ namespace Playground
     {
         [Header("Wave Definition")]
         [SerializeField, Tooltip("The enemy prefabs to spawn.")]
-        private GameObject[] enemyPrefabs;
+        private EnemyController[] enemyPrefabs;
         [SerializeField, Tooltip("The number of enemies to spawn to spawn each second.")]
         private float spawnRate = 1f;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
@@ -17,6 +18,12 @@ namespace Playground
         private float waveDuration = 10f;
         [SerializeField, Tooltip("The duration of the wait between each spawn wave in seconds.")]
         private float waveWait = 5f;
+
+        [Header("Events")]
+        [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
+        public UnityEvent onDestroyed;
+
+        List<EnemyController> spawnedEnemies = new List<EnemyController>();
 
         private void Start()
         {
@@ -39,7 +46,8 @@ namespace Playground
         private void SpawnEnemy()
         {
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
-            Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPosition, Quaternion.identity);
+            EnemyController enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPosition, Quaternion.identity);
+            spawnedEnemies.Add(enemy);
         }
 
         public void OnAliveIsChanged(bool isAlive)
@@ -51,6 +59,15 @@ namespace Playground
             else
             {
                 StopCoroutine(SpawnEnemies());
+                onDestroyed?.Invoke();
+
+                for (int i  = 0; i < spawnedEnemies.Count; i++)
+                {
+                    if (spawnedEnemies[i] != null) {
+                        Destroy(spawnedEnemies[i].gameObject);
+                    }
+                }
+
                 Destroy(gameObject);
             }
         }
