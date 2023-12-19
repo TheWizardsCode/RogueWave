@@ -167,11 +167,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyPrefabs:
-  - {fileID: 7985948857531989657, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
+  - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
   spawnRate: 0.3
   spawnRadius: 5
   waveDuration: 5
   waveWait: 5
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2142438204395784425
 MonoBehaviour:
   m_ObjectHideFlags: 0
