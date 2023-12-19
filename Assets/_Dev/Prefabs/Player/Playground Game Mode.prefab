@@ -1,5 +1,62 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1821366899230268264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6262499156547862416}
+  - component: {fileID: 3423411428560200973}
+  m_Layer: 0
+  m_Name: Level Generator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6262499156547862416
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821366899230268264}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5226446580903751955}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3423411428560200973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821366899230268264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5c187386a2187f4fac5475fff8f1275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: {x: 100, y: 100}
+  buildingLotSize: {x: 25, y: 25}
+  buildingDensity: 0.6
+  groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
+  buildingPrefabs:
+  - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
+  - {fileID: 2060113240144020941, guid: ba2b4875383ad064691053d037b07f7a, type: 3}
+  - {fileID: 5230112460837190557, guid: 07103324111bf7641975a5f08d5429c6, type: 3}
+  - {fileID: 895710043128325180, guid: a9aaa7cc6f16b504899e8f2bdc066b57, type: 3}
+  - {fileID: 4330765639891971577, guid: a890f145341659149991d7b77a40c12e, type: 3}
+  - {fileID: 7019865242113649934, guid: 58ccb8d32c23cc94c80153045c24d74a, type: 3}
+  spawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
+  numberOfEnemySpawners: 2
 --- !u!1 &5223561033937574973
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +66,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5226446580903751955}
-  - component: {fileID: 5909061314493781948}
+  - component: {fileID: 7050872739850107185}
   - component: {fileID: 3957620431239229239}
   - component: {fileID: 905963099382226170}
   m_Layer: 0
@@ -34,9 +91,10 @@ Transform:
   m_Children:
   - {fileID: 3021623268426482257}
   - {fileID: 4050552346493902172}
+  - {fileID: 6262499156547862416}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5909061314493781948
+--- !u!114 &7050872739850107185
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -45,13 +103,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5223561033937574973}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20cc0cf83a8fe9a4aaaf0bb87e5ba19e, type: 3}
+  m_Script: {fileID: 11500000, guid: fe07f003119ea994b8921e2e6f63f8a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: 6169814705679472414, guid: 48de05b5a7c62a9449024e8677cf08fd, type: 3}
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: c2d7e740ad643f048be2111e7512f65d, type: 3}
+  generateLevelOnSpawn: 1
   m_SpawnZones:
     mapSprite: {fileID: 0}
     spawnZones: []
@@ -62,19 +121,10 @@ MonoBehaviour:
       - {fileID: 114019755459329486, guid: 8b5504061b7bb8f47a88b8f89b801d7f, type: 3}
       - {fileID: 114580528451335776, guid: 4f376179095c5d24580ac94b4451307a, type: 3}
       - {fileID: 114824030615666136, guid: 3917f00b33fcfa948898c7da1d86366d, type: 3}
-      - {fileID: 114885381139505388, guid: c31cacfe42242894e9a7cf34bf67817d, type: 3}
-      - {fileID: 114443825773037756, guid: eac6c0b6378f21e4e9821225b19319e6, type: 3}
-      - {fileID: 114436808263846824, guid: 7f9a5057450954943bd212a32c07cd84, type: 3}
-      - {fileID: 0}
     - m_DisplayName: Secondary
       m_Options:
       - {fileID: 114885381139505388, guid: c31cacfe42242894e9a7cf34bf67817d, type: 3}
-      - {fileID: 114443825773037756, guid: eac6c0b6378f21e4e9821225b19319e6, type: 3}
       - {fileID: 114436808263846824, guid: 7f9a5057450954943bd212a32c07cd84, type: 3}
-      - {fileID: 0}
-      - {fileID: 114019755459329486, guid: 8b5504061b7bb8f47a88b8f89b801d7f, type: 3}
-      - {fileID: 114580528451335776, guid: 4f376179095c5d24580ac94b4451307a, type: 3}
-      - {fileID: 114824030615666136, guid: 3917f00b33fcfa948898c7da1d86366d, type: 3}
     - m_DisplayName: Melee
       m_Options:
       - {fileID: 114731684343392398, guid: 5b2845fc7178e7b48b6753e76f548de0, type: 3}
@@ -83,15 +133,7 @@ MonoBehaviour:
       m_Options:
       - {fileID: 114415774362595642, guid: af1f40b7493f82e429cccafcf1024b29, type: 3}
       - {fileID: 0}
-    fixedItems:
-    - {fileID: 114720571942937776, guid: 25052ae8d9ffa584ab7a888c968e9928, type: 3}
-    - {fileID: 114235257556039404, guid: ab24071e22a652e4dbc48ed117444ac7, type: 3}
-    - {fileID: 114155156615581814, guid: 31e4dfeb91fd0ac46855f35a6d2caee4, type: 3}
-    - {fileID: 114988272171304022, guid: 5c980cba8889f0843a626060b12d0bf1, type: 3}
-    - {fileID: 114491831698022604, guid: 4e7829f40914c0f4a8fb1fc66df42120, type: 3}
-    - {fileID: 114798084419304180, guid: dc6d03b4117094b46a5aa832d83b27e3, type: 3}
-    - {fileID: 8177139102759709749, guid: 66cac9465f371f547b6036afd25fe7c2, type: 3}
-    - {fileID: 1575289363954670002, guid: d64bb3a12b682f6438476834d0149bb9, type: 3}
+    fixedItems: []
 --- !u!114 &3957620431239229239
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,11 +311,11 @@ MonoBehaviour:
     m_Keys: 
     m_Values: []
     m_GameObject: {fileID: 8502458911778582416}
-  m_PrefabStrongID: 1845453616
+  m_PrefabStrongID: -850998762
   expandChildObjects: 0
   expandNeoComponents: 0
   expandOtherComponents: 0
-  prefabGuid: 57d21c387b168784fb6fec988b47896a
+  prefabGuid: 3f2b5cc90618dbb46b29cd834ae94c12
 --- !u!1 &8684738436908811697
 GameObject:
   m_ObjectHideFlags: 0

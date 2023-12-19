@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Playground.December23
+namespace Playground
 {
     public class EnemyController : MonoBehaviour
     {
