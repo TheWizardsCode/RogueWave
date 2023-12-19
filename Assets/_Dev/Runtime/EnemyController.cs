@@ -13,6 +13,12 @@ namespace Playground
         [SerializeField, Tooltip("How fast the enemy rotates.")]
         private float rotationSpeed = 1f;
 
+        [Header("Rewards")]
+        [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
+        private float resourcesDropChance = 0.5f;
+        [SerializeField, Tooltip("The resources this enemy drops when killed.")]
+        private ResourcesPickup resourcesPrefab;
+
         private void Update()
         {
             if (FpsSoloCharacter.localPlayerCharacter == null)
@@ -33,8 +39,21 @@ namespace Playground
         public void OnAliveIsChanged(bool isAlive)
         {
             if (!isAlive)
-                Destroy(gameObject);
+                Die();
         }
 
+        private void Die()
+        {
+            // Drop resources
+            if (Random.value <= resourcesDropChance)
+            {
+                Vector3 pos = transform.position;
+                pos.y = 0;
+                ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
+            }
+
+
+            Destroy(gameObject);
+        }
     }
 }
