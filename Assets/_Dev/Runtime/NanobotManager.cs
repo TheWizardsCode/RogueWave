@@ -5,8 +5,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
-using static NeoFPS.BasicHealthManager;
 
 namespace Playground
 {
@@ -72,6 +70,7 @@ namespace Playground
             return false;
         }
 
+        private IEnumerator BuildRecipe(IRecipe recipe)
         private IEnumerator BuildRecipe(IRecipe recipe)
         {
             isBuilding = true;
