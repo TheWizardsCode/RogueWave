@@ -13,6 +13,12 @@ namespace Playground
         [SerializeField, Tooltip("How fast the enemy rotates.")]
         private float rotationSpeed = 1f;
 
+        [Header("Feedback")]
+        [SerializeField, Tooltip("The sound to play when the enemy is killed.")]
+        private AudioClip[] deathClips;
+        [SerializeField, Tooltip("The particle system to play when the enemy is killed.")]
+        private ParticleSystem deathParticlePrefab;
+
         [Header("Rewards")]
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         private float resourcesDropChance = 0.5f;
@@ -44,6 +50,18 @@ namespace Playground
 
         private void Die()
         {
+            // Death Feedback
+            if (deathClips.Length > 0)
+            {
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(deathClips[Random.Range(0, deathClips.Length)], transform.position);
+            }
+            // TODO use pool for particles
+            if (deathParticlePrefab != null)
+            {
+                ParticleSystem deathParticle = Instantiate(deathParticlePrefab, transform.position, Quaternion.identity);
+                deathParticle.Play();
+            }
+
             // Drop resources
             if (Random.value <= resourcesDropChance)
             {
