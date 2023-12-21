@@ -14,7 +14,7 @@ namespace Playground
         [SerializeField, Tooltip("The pickup item this recipe creates.")]
         T item;
         [SerializeField, Tooltip("The offset from the NanobotManager to spawn the item.")]
-        Vector3 spawnOffset = new Vector3(0, 0, -2);
+        Vector3 spawnOffset = new Vector3(0, 0, 0);
         [SerializeField, Tooltip("The resources required to build this ammo type.")]
         int cost = 10;
         [SerializeField, Tooltip("The time it takes to build this recipe.")]
