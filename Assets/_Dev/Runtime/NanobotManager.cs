@@ -71,7 +71,6 @@ namespace Playground
         }
 
         private IEnumerator BuildRecipe(IRecipe recipe)
-        private IEnumerator BuildRecipe(IRecipe recipe)
         {
             isBuilding = true;
             resources -= recipe.Cost;
