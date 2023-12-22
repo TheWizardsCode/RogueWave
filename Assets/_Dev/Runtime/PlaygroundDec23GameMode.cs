@@ -6,6 +6,7 @@ using NeoSaveGames;
 using Playground;
 using NeoFPS;
 using UnityEngine.Events;
+using NeoSaveGames.SceneManagement;
 
 namespace Playground
 {
@@ -35,7 +36,9 @@ namespace Playground
         {
             if (spawnersRemaining == 0)
             {
-                PreSpawnStep();
+                // Some delay here
+                NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+                //PreSpawnStep();
             }
         }
         #endregion
