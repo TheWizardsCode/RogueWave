@@ -12,6 +12,8 @@ namespace Playground
     {
         [SerializeField, Tooltip("The health recipes available to the Nanobots in order of preference.")]
         private List<HealthPickupRecipe> healthRecipes = new List<HealthPickupRecipe>();
+        [SerializeField, Tooltip("The weapon recipes available to the Nanobots in order of preference.")]
+        private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
         [SerializeField, Tooltip("The ammo recipes available to the Nanobots in order of preference.")]
         private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
         [SerializeField, Tooltip("Cooldown between recipes.")]
@@ -29,14 +31,8 @@ namespace Playground
         public event OnResourcesChanged onResourcesChanged;
 
         private int currentResources = 0;
-        private FpsInventorySwappable inventory;
         private bool isBuilding = false;
         private float timeOfNextBuiild = 0;
-
-        private void Start()
-        {
-            inventory = FpsSoloCharacter.localPlayerCharacter.inventory as FpsInventorySwappable;
-        }
 
         private void Update()
         {
@@ -45,6 +41,14 @@ namespace Playground
             for (int i = 0; i < healthRecipes.Count; i++)
             {
                 if (TryRecipe(healthRecipes[i]))
+                {
+                    return;
+                }
+            }
+
+            for (int i = 0; i < weaponRecipes.Count; i++)
+            {
+                if (TryRecipe(weaponRecipes[i]))
                 {
                     return;
                 }
