@@ -166,14 +166,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyPrefabs:
-  - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
-  - {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
-  spawnRate: 0.3
+  waves:
+  - {fileID: 11400000, guid: 0584f6c883b9f504283bcf1adf09c804, type: 2}
+  - {fileID: 11400000, guid: 65f5c7bc57bf572468e8ca99d380b670, type: 2}
+  - {fileID: 11400000, guid: d7351e7798c1bef4eb96e2bec215f10e, type: 2}
   spawnRadius: 5
-  waveDuration: 5
   waveWait: 5
+  generateWaves: 1
   onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  onAllWavesComplete:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &2142438204395784425
