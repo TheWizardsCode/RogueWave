@@ -8,45 +8,105 @@ namespace Playground
     public class Spawner : MonoBehaviour
     {
         [Header("Wave Definition")]
-        [SerializeField, Tooltip("The enemy prefabs to spawn.")]
-        private BasicEnemyController[] enemyPrefabs;
-        [SerializeField, Tooltip("The number of enemies to spawn to spawn each second.")]
-        private float spawnRate = 1f;
+        [SerializeField, Tooltip("The list of defined waves used for spawning.")]
+        private WaveDefinition[] waves;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
-        [SerializeField, Tooltip("The duration of each spawn wave in seconds.")]
-        private float waveDuration = 10f;
         [SerializeField, Tooltip("The duration of the wait between each spawn wave in seconds.")]
         private float waveWait = 5f;
+        [SerializeField, Tooltip("When defined waves are exhausted, generate more?.")]
+        private bool generateWaves = true;
 
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
         public UnityEvent onDestroyed;
+        [SerializeField, Tooltip("The event to trigger when all waves are complete.")]
+        public UnityEvent onWavesComplete;
 
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
 
+        private int currentWaveIndex = -1;
+
+        private WaveDefinition currentWave;
+
         private void Start()
         {
-            StartCoroutine(SpawnEnemies());
+            StartCoroutine(SpawnWaves());
         }
 
-        private IEnumerator SpawnEnemies()
+        private void NextWave()
         {
-            while (true)
+            currentWaveIndex++;
+            if (currentWaveIndex >= waves.Length)
             {
-                for (int i = 0; i < spawnRate * waveDuration; i++)
+                if (!generateWaves)
                 {
-                    SpawnEnemy();
-                    yield return new WaitForSeconds(1f / spawnRate);
+                    Debug.LogWarning("No more waves to spawn.");
+                    currentWave = null;
+                    onWavesComplete?.Invoke();
+                    StopCoroutine(SpawnWaves());
+                    return;
+                }
+                currentWave = GenerateNewWave();
+                return;
+            }
+            Debug.Log($"Starting wave {currentWaveIndex + 1} of {waves.Length}...");
+            currentWave = waves[currentWaveIndex];
+            currentWave.Reset();
+        }
+
+        private WaveDefinition GenerateNewWave()
+        {
+            Debug.Log("Generating new wave...");
+            WaveDefinition newWave = ScriptableObject.CreateInstance<WaveDefinition>();
+            // populate newWave with random values based loosely on the previous wave
+            var lastWave = currentWave;
+            if (lastWave == null)
+            {
+                lastWave = waves[waves.Length - 1];
+            }
+            // collect all enemy prefabs from all waves and then randomly select from them
+            List<BasicEnemyController> enemyPrefabs = new List<BasicEnemyController>();
+            for (int i = 0; i < waves.Length; i++)
+            {
+                enemyPrefabs.AddRange(waves[i].EnemyPrefabs);
+            }
+            newWave.Init(
+                enemyPrefabs.ToArray(),
+                Mathf.Max(lastWave.SpawnRate + Random.Range(-1f, 1f), 1f), // TODO: make this change more interesting?
+                Mathf.Max(lastWave.WaveDuration + Random.Range(-1f, 1f), 1f),
+                WaveDefinition.SpawnOrder.Random
+            );
+            return newWave;
+        }
+
+        private IEnumerator SpawnWaves()
+        {
+            NextWave();
+            while (currentWave != null)
+            {
+                float waveStart = Time.time;
+                while (Time.time - waveStart < currentWave.WaveDuration)
+                {
+                    yield return new WaitForSeconds(currentWave.SpawnRate);
+                    for (int i = 0; i < currentWave.SpawnAmount; i++)
+                        SpawnEnemy();
                 }
                 yield return new WaitForSeconds(waveWait);
+                NextWave();
             }
         }
 
         private void SpawnEnemy()
         {
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
-            BasicEnemyController enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPosition, Quaternion.identity);
+            var prefab = currentWave.GetNextEnemy();
+            if (prefab == null)
+            {
+                Debug.LogError("No enemy prefab found in wave definition.");
+                return;
+            }
+            BasicEnemyController enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
             spawnedEnemies.Add(enemy);
         }
 
@@ -54,16 +114,17 @@ namespace Playground
         {
             if (isAlive)
             {
-                StartCoroutine(SpawnEnemies());
+                StartCoroutine(SpawnWaves());
             }
             else
             {
-                StopCoroutine(SpawnEnemies());
+                StopCoroutine(SpawnWaves());
                 onDestroyed?.Invoke();
 
-                for (int i  = 0; i < spawnedEnemies.Count; i++)
+                for (int i = 0; i < spawnedEnemies.Count; i++)
                 {
-                    if (spawnedEnemies[i] != null) {
+                    if (spawnedEnemies[i] != null)
+                    {
                         Destroy(spawnedEnemies[i].gameObject);
                     }
                 }
