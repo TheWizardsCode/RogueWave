@@ -26,23 +26,26 @@ namespace Playground
         }
         [NonSerialized] private InventoryItemPickup inventoryPickup;
 
-        public override bool ShouldBuild
+        /// <summary>
+        /// Test if the player has a given amount of ammo, expressed as a percentage of the maximum.
+        /// </summary>
+        /// <param name="requiredAmmoAmount">A value between 0 and 1 which is a % of the maxQuantity of ammo the player can hold.</param>
+        /// <returns></returns>
+        public bool HasAmount(float requiredAmmoAmount)
         {
-            get
+            SharedPoolAmmo sharedPoolAmmo = inventory.selected.GetComponent<SharedPoolAmmo>();
+            if (sharedPoolAmmo == null)
             {
-                SharedPoolAmmo sharedPoolAmmo = inventory.selected.GetComponent<SharedPoolAmmo>();
-                if (sharedPoolAmmo == null)
-                {
-                    return false;
-                }
+                return false;
+            }
 
-                if (sharedPoolAmmo.ammoType.itemIdentifier == ammo.itemIdentifier)
-                {
-                    return !sharedPoolAmmo.atMaximum;
-                } else
-                {
-                    return false;
-                }
+            if (sharedPoolAmmo.ammoType.itemIdentifier == ammo.itemIdentifier)
+            {
+                return sharedPoolAmmo.currentAmmo >= ammo.maxQuantity * requiredAmmoAmount;
+            }
+            else
+            {
+                return true;
             }
         }
     }
