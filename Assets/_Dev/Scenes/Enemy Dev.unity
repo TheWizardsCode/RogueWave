@@ -3162,9 +3162,21 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
-      propertyPath: enemyPrefabs.Array.data[1]
+      propertyPath: waves.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
+      propertyPath: waves.Array.data[0]
       value: 
-      objectReference: {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
+      objectReference: {fileID: 11400000, guid: 0584f6c883b9f504283bcf1adf09c804, type: 2}
+    - target: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
+      propertyPath: waves.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 65f5c7bc57bf572468e8ca99d380b670, type: 2}
+    - target: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
+      propertyPath: enemyPrefabs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
