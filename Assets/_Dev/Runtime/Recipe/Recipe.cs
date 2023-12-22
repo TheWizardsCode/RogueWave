@@ -3,6 +3,7 @@ using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Playground
 {
@@ -14,7 +15,8 @@ namespace Playground
 
         [Header("Item")]
         [SerializeField, Tooltip("The pickup item this recipe creates.")]
-        protected T item;
+        [FormerlySerializedAs("item")]
+        protected T pickup;
         [SerializeField, Tooltip("The offset from the NanobotManager to spawn the item.")]
         Vector3 spawnOffset = new Vector3(0, 0, 0);
         [SerializeField, Tooltip("The resources required to build this ammo type.")]
@@ -48,6 +50,6 @@ namespace Playground
 
         public AudioClip BuildCompleteClip => buildCompleteClip;
 
-        public Component Item => item;
+        public Component Item => pickup;
     }
 }

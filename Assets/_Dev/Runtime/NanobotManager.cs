@@ -10,14 +10,17 @@ namespace Playground
 {
     public class NanobotManager : MonoBehaviour
     {
+        [Header("Starting Recipes")]
         [SerializeField, Tooltip("The health recipes available to the Nanobots in order of preference.")]
         private List<HealthPickupRecipe> healthRecipes = new List<HealthPickupRecipe>();
         [SerializeField, Tooltip("The weapon recipes available to the Nanobots in order of preference.")]
         private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
         [SerializeField, Tooltip("The ammo recipes available to the Nanobots in order of preference.")]
         private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
+
+        [Header("Building")]
         [SerializeField, Tooltip("Cooldown between recipes.")]
-        private float cooldown = 3;
+        private float cooldown = 5;
 
         [Header("Feedback")]
         [SerializeField, Tooltip("The sound to play when the build is started. Note that this can be overridden in the recipe.")]
