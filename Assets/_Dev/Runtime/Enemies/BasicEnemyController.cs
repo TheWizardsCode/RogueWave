@@ -6,26 +6,33 @@ using UnityEngine;
 
 namespace Playground
 {
-    public class EnemyController : MonoBehaviour
+    public class BasicEnemyController : MonoBehaviour
     {
+        [Header("Metadata")]
+        [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
+        protected string displayName = "TBD";
+        [SerializeField, Tooltip("The description of this enemy as displayed in the UI.")]
+        protected string description = "TBD";
+
+        [Header("Movement")]
         [SerializeField, Tooltip("How fast the enemy moves.")]
-        private float speed = 5f;
+        protected float speed = 5f;
         [SerializeField, Tooltip("How fast the enemy rotates.")]
-        private float rotationSpeed = 1f;
+        protected float rotationSpeed = 1f;
 
         [Header("Feedback")]
         [SerializeField, Tooltip("The sound to play when the enemy is killed.")]
-        private AudioClip[] deathClips;
+        protected AudioClip[] deathClips;
         [SerializeField, Tooltip("The particle system to play when the enemy is killed.")]
-        private ParticleSystem deathParticlePrefab;
+        protected ParticleSystem deathParticlePrefab;
 
         [Header("Rewards")]
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
-        private float resourcesDropChance = 0.5f;
+        protected float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
-        private ResourcesPickup resourcesPrefab;
+        protected ResourcesPickup resourcesPrefab;
 
-        private void Update()
+        protected virtual void Update()
         {
             if (FpsSoloCharacter.localPlayerCharacter == null)
                 return;

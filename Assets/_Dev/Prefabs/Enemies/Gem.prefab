@@ -396,6 +396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735e4c1315dedbc4a869e8dc7e67a4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: Gem
+  description: Moves slowly towards the enemy in a direct line and attacks on contact.
   speed: 2
   rotationSpeed: 0.5
   deathClips:
@@ -405,7 +407,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
   deathParticlePrefab: {fileID: 5327745311076098471, guid: e2b98be0b3446aa4492800d8aecef82d, type: 3}
-  resourcesDropChance: 0.3
+  resourcesDropChance: 0.5
   resourcesPrefab: {fileID: 8288433013401571843, guid: 202fbc0cad3414c469d55c2ee8b5a10a, type: 3}
 --- !u!114 &5219187662690625511
 MonoBehaviour:
