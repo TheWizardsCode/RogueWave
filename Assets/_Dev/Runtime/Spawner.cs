@@ -21,7 +21,7 @@ namespace Playground
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
         public UnityEvent onDestroyed;
         [SerializeField, Tooltip("The event to trigger when all waves are complete.")]
-        public UnityEvent onWavesComplete;
+        public UnityEvent onAllWavesComplete;
 
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
 
@@ -39,11 +39,11 @@ namespace Playground
             currentWaveIndex++;
             if (currentWaveIndex >= waves.Length)
             {
+                onAllWavesComplete?.Invoke();
                 if (!generateWaves)
                 {
                     Debug.LogWarning("No more waves to spawn.");
                     currentWave = null;
-                    onWavesComplete?.Invoke();
                     StopCoroutine(SpawnWaves());
                     return;
                 }
@@ -73,8 +73,8 @@ namespace Playground
             }
             newWave.Init(
                 enemyPrefabs.ToArray(),
-                Mathf.Max(lastWave.SpawnRate + Random.Range(-1f, 1f), 1f), // TODO: make this change more interesting?
-                Mathf.Max(lastWave.WaveDuration + Random.Range(-1f, 1f), 1f),
+                Mathf.Max(lastWave.SpawnRate - 0.1f, 0.1f), // faster!
+                lastWave.WaveDuration + Random.Range(1f, 5f), // longer!
                 WaveDefinition.SpawnOrder.Random
             );
             return newWave;
