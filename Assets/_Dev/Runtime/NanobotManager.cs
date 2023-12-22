@@ -39,31 +39,74 @@ namespace Playground
 
         private void Update()
         {
-            if (isBuilding || Time.timeSinceLevelLoad < timeOfNextBuiild) return;
+            if (isBuilding || Time.timeSinceLevelLoad < timeOfNextBuiild)
+            {
+                return;
+            }
 
+
+            if (TryAmmoRecipes(0.1f))
+            {
+                return;
+            }
+
+            if (TryHealthRecipes())
+            {
+                return;
+            }
+
+            if(TryPowerUpRecipes()) {
+                return;
+            }
+
+            if (TryAmmoRecipes(1))
+            {
+                return;
+            }
+        }
+
+        private bool TryHealthRecipes()
+        {
             for (int i = 0; i < healthRecipes.Count; i++)
             {
                 if (TryRecipe(healthRecipes[i]))
                 {
-                    return;
+                    return true;
                 }
             }
 
+            return false;
+        }
+
+        private bool TryPowerUpRecipes()
+        {
             for (int i = 0; i < weaponRecipes.Count; i++)
             {
                 if (TryRecipe(weaponRecipes[i]))
                 {
-                    return;
+                    return true;
                 }
             }
 
+            return false;
+        }
+
+        /// <summary>
+        /// If the ammo available for the currently equipped weapon is below the minimum level, try to build ammo.
+        /// </summary>
+        /// <param name="minimumAmmoAmount">The % (0-1) of ammo that is the minimum required</param>
+        /// <returns></returns>
+        private bool TryAmmoRecipes(float minimumAmmoAmount)
+        {
             for (int i = 0; i < ammoRecipes.Count; i++)
             {
-                if (TryRecipe(ammoRecipes[i]))
+                if (!ammoRecipes[i].HasAmount(minimumAmmoAmount))
                 {
-                    return;
+                    return TryRecipe(ammoRecipes[i]);
                 }
             }
+
+            return false;
         }
 
         private bool TryRecipe(IRecipe recipe)
