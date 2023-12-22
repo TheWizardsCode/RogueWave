@@ -35,7 +35,14 @@ namespace Playground
                 {
                     return false;
                 }
-                return sharedPoolAmmo.ammoType.itemIdentifier == ammo.itemIdentifier;
+
+                if (sharedPoolAmmo.ammoType.itemIdentifier == ammo.itemIdentifier)
+                {
+                    return !sharedPoolAmmo.atMaximum;
+                } else
+                {
+                    return false;
+                }
             }
         }
     }

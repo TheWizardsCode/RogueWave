@@ -110,27 +110,22 @@ MonoBehaviour:
   m_Popup: {fileID: 6169814705679472414, guid: 48de05b5a7c62a9449024e8677cf08fd, type: 3}
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: c2d7e740ad643f048be2111e7512f65d, type: 3}
-  generateLevelOnSpawn: 1
+  generateLevelOnSpawn: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
     spawnZones: []
   m_LoadoutBuilder:
     slots:
     - m_DisplayName: Primary
-      m_Options:
-      - {fileID: 114019755459329486, guid: 8b5504061b7bb8f47a88b8f89b801d7f, type: 3}
-      - {fileID: 114580528451335776, guid: 4f376179095c5d24580ac94b4451307a, type: 3}
-      - {fileID: 114824030615666136, guid: 3917f00b33fcfa948898c7da1d86366d, type: 3}
+      m_Options: []
     - m_DisplayName: Secondary
       m_Options:
       - {fileID: 114885381139505388, guid: c31cacfe42242894e9a7cf34bf67817d, type: 3}
-      - {fileID: 114436808263846824, guid: 7f9a5057450954943bd212a32c07cd84, type: 3}
     - m_DisplayName: Melee
       m_Options:
-      - {fileID: 114731684343392398, guid: 5b2845fc7178e7b48b6753e76f548de0, type: 3}
+      - {fileID: 114731684343392398, guid: 05d73335c0e2a354eb4bdc95583ad37b, type: 3}
     - m_DisplayName: Thrown
-      m_Options:
-      - {fileID: 7070040359146820139, guid: 1f99ee13fd9bd314ab1b5bf0cb4036b7, type: 3}
+      m_Options: []
     fixedItems: []
 --- !u!114 &3957620431239229239
 MonoBehaviour:
