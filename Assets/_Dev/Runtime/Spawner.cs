@@ -9,7 +9,7 @@ namespace Playground
     {
         [Header("Wave Definition")]
         [SerializeField, Tooltip("The enemy prefabs to spawn.")]
-        private EnemyController[] enemyPrefabs;
+        private BasicEnemyController[] enemyPrefabs;
         [SerializeField, Tooltip("The number of enemies to spawn to spawn each second.")]
         private float spawnRate = 1f;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
@@ -23,7 +23,7 @@ namespace Playground
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
         public UnityEvent onDestroyed;
 
-        List<EnemyController> spawnedEnemies = new List<EnemyController>();
+        List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
 
         private void Start()
         {
@@ -46,7 +46,7 @@ namespace Playground
         private void SpawnEnemy()
         {
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
-            EnemyController enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPosition, Quaternion.identity);
+            BasicEnemyController enemy = Instantiate(enemyPrefabs[Random.Range(0, enemyPrefabs.Length)], spawnPosition, Quaternion.identity);
             spawnedEnemies.Add(enemy);
         }
 
