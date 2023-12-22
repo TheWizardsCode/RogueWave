@@ -51,15 +51,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Health: 100
   m_HealthMax: 100
-  m_CanDamageSelf: 0
+  m_CanDamageSelf: 1
   m_OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: Playground.December23.EnemyController, Assembly-CSharp
+      - m_Target: {fileID: -6177641379027551643}
+        m_TargetAssemblyTypeName: Playground.BasicEnemyController, playground
         m_MethodName: OnAliveIsChanged
         m_Mode: 0
         m_Arguments:
@@ -219,7 +219,12 @@ MonoBehaviour:
     Once within attack range will move quickly towards the player damaging on contact.
   speed: 1.2
   rotationSpeed: 0.1
-  deathClips: []
+  deathClips:
+  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
+  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
+  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
+  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
+  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
   deathParticlePrefab: {fileID: 5327745311076098471, guid: e2b98be0b3446aa4492800d8aecef82d, type: 3}
   resourcesDropChance: 0.5
   resourcesPrefab: {fileID: 8288433013401571843, guid: a2c8f2ccb453f9d45abf28aba779609c, type: 3}
