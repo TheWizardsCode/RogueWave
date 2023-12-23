@@ -16,6 +16,7 @@ namespace Playground
         private float range = 5;
         [SerializeField, Tooltip("The speed at which the magnet attracts pickups.")]
         private float speed = 2;
+        [SerializeField, Tooltip("How often the magnet scans for pickups.")]
         private float frequencyOfScans = 0.5f;
 
         List<Transform> targets = new List<Transform>();
@@ -48,6 +49,8 @@ namespace Playground
                         targets.Add(pickup.transform);
                     }
                 }
+
+                timeOfNextScan = Time.time + frequencyOfScans;
             }
         }
     }

@@ -47,5 +47,9 @@ namespace Playground
         public AudioClip BuildCompleteClip => buildCompleteClip;
 
         public Component Item => pickup;
+
+        public virtual void BuildFinished()
+        {
+        }
     }
 }

@@ -37,6 +37,8 @@ namespace Playground
         private bool isBuilding = false;
         private float timeOfNextBuiild = 0;
 
+        private List<FpsInventoryBase> obtainedWeapons = new List<FpsInventoryBase>();
+
         private void Update()
         {
             if (isBuilding || Time.timeSinceLevelLoad < timeOfNextBuiild)
@@ -155,9 +157,48 @@ namespace Playground
                 ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);
                 ps.Play();
             }
-            
+
+            recipe.BuildFinished();
+
             isBuilding = false;
             timeOfNextBuiild = Time.timeSinceLevelLoad + cooldown;
+        }
+
+        /// <summary>
+        /// Adds the recipe to the list of starting recipes.
+        /// </summary>
+        /// <param name="ammoRecipe"></param>
+        internal void Add(IRecipe recipe)
+        {
+            AmmoPickupRecipe ammo = recipe as AmmoPickupRecipe;
+            if (recipe != null)
+            {
+                if (!ammoRecipes.Contains(ammo))
+                {
+                    ammoRecipes.Add(recipe as AmmoPickupRecipe);
+                }
+                return;
+            }
+
+            HealthPickupRecipe health = recipe as HealthPickupRecipe;
+            if (recipe != null)
+            {
+                if (!healthRecipes.Contains(health))
+                {
+                    healthRecipes.Add(recipe as HealthPickupRecipe);
+                }
+                return;
+            }
+
+            WeaponPickupRecipe weapon = recipe as WeaponPickupRecipe;
+            if (recipe != null)
+            {
+                if (!weaponRecipes.Contains(weapon))
+                {
+                    weaponRecipes.Add(recipe as WeaponPickupRecipe);
+                }
+                return;
+            }
         }
 
         /// <summary>
