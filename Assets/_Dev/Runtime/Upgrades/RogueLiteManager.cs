@@ -70,6 +70,19 @@ namespace Playground
             }
         }
 
+        private static List<FpsInventoryItemBase> m_RunLoadoutData = new List<FpsInventoryItemBase>();
+        /// <summary>
+        /// The items that will be available to the player in their loadout when they start a level in a run.
+        /// This will be reset on death.
+        /// </summary>
+        public static List<FpsInventoryItemBase> RunLoadoutData
+        {
+            get
+            {
+                return m_RunLoadoutData;
+            }
+        }
+
         public override bool IsValid()
         {
             return true;

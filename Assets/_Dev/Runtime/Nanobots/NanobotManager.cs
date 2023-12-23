@@ -37,8 +37,6 @@ namespace Playground
         private bool isBuilding = false;
         private float timeOfNextBuiild = 0;
 
-        private List<FpsInventoryBase> obtainedWeapons = new List<FpsInventoryBase>();
-
         private void Update()
         {
             if (isBuilding || Time.timeSinceLevelLoad < timeOfNextBuiild)

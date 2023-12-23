@@ -8,6 +8,8 @@ using NeoFPS;
 using UnityEngine.Events;
 using NeoSaveGames.SceneManagement;
 using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace Playground
 {
@@ -150,6 +152,13 @@ namespace Playground
             return m_LoadoutBuilder.GetLoadout();
         }
 
+        public void AddToLoadout(FpsInventoryItemBase item)
+        {
+            if (!RogueLiteManager.RunLoadoutData.Contains(item)) {
+                RogueLiteManager.RunLoadoutData.Add(item);
+            }
+        }
+
         protected override void OnCharacterSpawned(ICharacter character)
         {
             // Apply inventory loadout
@@ -166,6 +175,12 @@ namespace Playground
             {
                 spawnersRemaining = levelGenerator.Generate(this);
             }
+
+            for (int i = 0; i < RogueLiteManager.RunLoadoutData.Count; i++)
+            {
+                m_LoadoutBuilder.slots[0].AddOption(RogueLiteManager.RunLoadoutData[0] as FpsInventoryItemBase);
+            }
+
             return base.PreSpawnStep();
         }
 
@@ -195,4 +210,16 @@ namespace Playground
                 m_SpawnZones.currentIndex = index;
         }
     }
+
+    public static class LoadoutBuilderSlotExtensions
+    {
+        public static void AddOption(this LoadoutBuilderSlot slot, FpsInventoryItemBase option)
+        {
+            var field = typeof(LoadoutBuilderSlot).GetField("m_Options", BindingFlags.NonPublic | BindingFlags.Instance);
+            var options = (FpsInventoryItemBase[])field.GetValue(slot);
+            var optionsList = new List<FpsInventoryItemBase>(options) { option };
+            field.SetValue(slot, optionsList.ToArray());
+        }
+    }
+
 }
