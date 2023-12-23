@@ -7,6 +7,7 @@ using Playground;
 using NeoFPS;
 using UnityEngine.Events;
 using NeoSaveGames.SceneManagement;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -24,6 +25,10 @@ namespace Playground
         [SerializeField, Tooltip("Should a level be auto generated on start?")]
         bool generateLevelOnSpawn = true;
 
+        [Header("Victory")]
+        [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
+        float m_VictoryDuration = 5f;
+
         LevelGenerator levelGenerator;
         private int spawnersRemaining = int.MaxValue;
 
@@ -36,20 +41,53 @@ namespace Playground
 
         private void Update()
         {
-            if (spawnersRemaining == 0)
+            if (spawnersRemaining == 0 && m_VictoryCoroutine == null)
             {
-                // Some delay here
-                NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
-                //PreSpawnStep();
+                m_VictoryCoroutine = StartCoroutine(DelayedVictoryCoroutine(m_VictoryDuration));
             }
         }
         #endregion
 
         #region Game Events
+
+        private Coroutine m_VictoryCoroutine = null;
+        private float m_VictoryTimer = 0f;
+
+        public static event UnityAction onVictory;
+
         internal void SpawnerDestroyed()
         {
             spawnersRemaining--;
         }
+
+        protected override void DelayedDeathAction()
+        {
+            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+        }
+
+        void DelayedVictoryAction()
+        {
+            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+        }
+
+        private IEnumerator DelayedVictoryCoroutine(float delay)
+        {
+            onVictory?.Invoke();
+
+            yield return null;
+
+            // Delay timer
+            m_VictoryTimer = delay;
+            while (m_VictoryTimer > 0f && !SkipDelayedDeathReaction())
+            {
+                m_VictoryTimer -= Time.deltaTime;
+                yield return null;
+            }
+
+            if (inGame)
+                DelayedVictoryAction();
+        }
+
         #endregion
 
         #region ISpawnZoneSelector IMPLEMENTATION
