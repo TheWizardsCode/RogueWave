@@ -27,6 +27,12 @@ namespace Playground
             }
         }
 
+        public override void BuildFinished()
+        {
+            FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>().Add(ammoRecipe);
+            base.BuildFinished();
+        }
+
         public override bool ShouldBuild
         {
             get
@@ -40,7 +46,6 @@ namespace Playground
                     }
                 }
 
-                Debug.LogError("Need to ensure that we are also providing the ammo recipe for earned weapon.");
                 return true;
             }
         }
