@@ -33,6 +33,11 @@ namespace Playground
         /// <returns></returns>
         public bool HasAmount(float requiredAmmoAmount)
         {
+            if (inventory.selected == null)
+            {
+                return false;
+            }
+
             SharedPoolAmmo sharedPoolAmmo = inventory.selected.GetComponent<SharedPoolAmmo>();
             if (sharedPoolAmmo == null)
             {

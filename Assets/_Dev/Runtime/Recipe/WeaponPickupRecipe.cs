@@ -29,7 +29,10 @@ namespace Playground
 
         public override void BuildFinished()
         {
-            FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>().Add(ammoRecipe);
+            NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
+            nanobotManager.Add(ammoRecipe);
+            RogueLiteManager.RunLoadoutData.Add(pickup.GetItem() as FpsInventoryItemBase);
+
             base.BuildFinished();
         }
 
