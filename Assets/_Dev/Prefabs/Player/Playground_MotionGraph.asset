@@ -917,6 +917,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Property: {fileID: 114699990105392668}
   m_CompareValue: 1
+--- !u!114 &-3662257810765899533
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ed7f52d04f4a8748822054d6baa1b4e, type: 3}
+  m_Name: Condition Group
+  m_EditorClassIdentifier: 
+  m_TimeoutProperty: {fileID: 0}
+  m_TimeoutValue: 0.01
 --- !u!114 &-3579414947497611608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -976,20 +990,6 @@ MonoBehaviour:
   m_Name: Condition Group
   m_EditorClassIdentifier: 
   m_Property: {fileID: -174307487123211955}
-  m_CompareValue: 1
---- !u!114 &-2795802811728450005
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea5a78367a23ca4b919922a6452c53a, type: 3}
-  m_Name: Condition Group
-  m_EditorClassIdentifier: 
-  m_Property: {fileID: 0}
   m_CompareValue: 1
 --- !u!114 &-2706152082943545104
 MonoBehaviour:
@@ -2167,20 +2167,6 @@ MonoBehaviour:
   m_ClampSpeed: 0
   m_MomentumConservation: 0
   m_Damping: 0.25
---- !u!114 &114086606612506422
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea5a78367a23ca4b919922a6452c53a, type: 3}
-  m_Name: Condition Group
-  m_EditorClassIdentifier: 
-  m_Property: {fileID: 0}
-  m_CompareValue: 1
 --- !u!114 &114087224818364120
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4503,7 +4489,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3a3b456335ca61438524818321f8afd, type: 3}
-  m_Name: enableWallRunning
+  m_Name: canWallRun
   m_EditorClassIdentifier: 
   m_StartingValue: 0
 --- !u!114 &114540292935280478
@@ -4774,7 +4760,7 @@ MonoBehaviour:
   m_Name: Condition Group
   m_EditorClassIdentifier: 
   m_CompareTo: 0.6
-  m_HeightMode: 0
+  m_HeightMode: 1
   m_ComparisonType: 4
 --- !u!114 &114587947860642190
 MonoBehaviour:
@@ -4915,7 +4901,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c864f9b690ea7a34ba6b6c7824cb5143, type: 3}
   m_Name: Movement
   m_EditorClassIdentifier: 
-  uiPosition: {x: 0.5, y: 54}
+  uiPosition: {x: 0.5, y: 53}
   defaultName: NewState
   m_Parent: {fileID: 114283596380861660}
   m_Connections:
@@ -5118,7 +5104,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624e48642449e8148ae5cdaee559c937, type: 3}
   m_Name: Movement
   m_EditorClassIdentifier: 
-  uiPosition: {x: 0.49993896, y: 1.999939}
+  uiPosition: {x: 1.499939, y: 1.999939}
   defaultName: NewState
   m_Parent: {fileID: 114640565812653590}
   m_Connections:
@@ -5172,20 +5158,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Filter: 128
   m_FilterType: 1
---- !u!114 &114662474738033290
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea5a78367a23ca4b919922a6452c53a, type: 3}
-  m_Name: Condition Group
-  m_EditorClassIdentifier: 
-  m_Property: {fileID: 0}
-  m_CompareValue: 0
 --- !u!114 &114669547355213584
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5262,7 +5234,6 @@ MonoBehaviour:
   m_TransitionOn: 1
   m_Conditions:
   - {fileID: 114454444586893978}
-  - {fileID: 114587630573798832}
   m_ConditionGroups: []
 --- !u!114 &114676329650650264
 MonoBehaviour:
@@ -6417,20 +6388,6 @@ MonoBehaviour:
   m_Conditions:
   - {fileID: 114902752251638794}
   m_ConditionGroups: []
---- !u!114 &114853146125666306
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea5a78367a23ca4b919922a6452c53a, type: 3}
-  m_Name: Condition Group
-  m_EditorClassIdentifier: 
-  m_Property: {fileID: 0}
-  m_CompareValue: 0
 --- !u!114 &114860403521996532
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7590,20 +7547,6 @@ MonoBehaviour:
   m_Name: minDashInterval
   m_EditorClassIdentifier: 
   m_StartingValue: 0.5
---- !u!114 &1520192676218939542
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea5a78367a23ca4b919922a6452c53a, type: 3}
-  m_Name: Condition Group
-  m_EditorClassIdentifier: 
-  m_Property: {fileID: 0}
-  m_CompareValue: 0
 --- !u!114 &1794144817932943170
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8424,7 +8367,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3a3b456335ca61438524818321f8afd, type: 3}
-  m_Name: aimHover
+  m_Name: canAimHover
   m_EditorClassIdentifier: 
   m_StartingValue: 0
 --- !u!114 &5915753768476038390
@@ -8762,7 +8705,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3a3b456335ca61438524818321f8afd, type: 3}
-  m_Name: hasJetpack
+  m_Name: canJetpack
   m_EditorClassIdentifier: 
   m_StartingValue: 0
 --- !u!114 &8172903505689064690
