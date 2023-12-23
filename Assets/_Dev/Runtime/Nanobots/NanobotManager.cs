@@ -44,22 +44,25 @@ namespace Playground
                 return;
             }
 
-
+            // Prioritize building ammo if the player is low on ammo
             if (TryAmmoRecipes(0.1f))
             {
                 return;
             }
 
+            // Health is the next priority, got to stay alive
             if (TryHealthRecipes())
             {
                 return;
             }
 
+            // If we can afford a powerup, build it
             if(TryPowerUpRecipes()) {
                 return;
             }
 
-            if (TryAmmoRecipes(1))
+            // If we can't afford a powerup, build ammo up to near mazimum (not maximum because there will often be half used clips lying around)
+            if (TryAmmoRecipes(0.9f))
             {
                 return;
             }
@@ -149,8 +152,7 @@ namespace Playground
             // TODO: Use the pool manager to create the particle system
             if (pickupSpawnParticlePrefab != null)
             {
-                ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab);
-                ps.transform.position = go.transform.position;
+                ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);
                 ps.Play();
             }
             
