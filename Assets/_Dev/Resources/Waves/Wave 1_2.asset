@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 05fde312255415440b722ae6c2cc41ea, type: 3}
-  m_Name: FirstWave
+  m_Name: Wave 1_2
   m_EditorClassIdentifier: 
   enemyPrefabs:
   - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
+  - {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
   spawnRate: 2.5
-  spawnAmount: 1
-  waveDuration: 15
-  spawnOrder: 1
+  spawnAmount: 2
+  waveDuration: 20
+  spawnOrder: 0
