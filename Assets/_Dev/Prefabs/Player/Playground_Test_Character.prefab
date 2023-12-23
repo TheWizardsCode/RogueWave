@@ -2273,6 +2273,7 @@ GameObject:
   - component: {fileID: 8278156938334086020}
   - component: {fileID: 633221874965437618}
   - component: {fileID: -6015524435027920292}
+  - component: {fileID: 2584534266323046183}
   m_Layer: 13
   m_Name: Playground_Test_Character
   m_TagString: Player
@@ -2977,6 +2978,20 @@ MonoBehaviour:
   buildStartedClip: {fileID: 8300000, guid: 19caa26d8d01e794b9135018f61d304d, type: 3}
   buildCompleteClip: {fileID: 8300000, guid: bcaacdb2a1cc5224a95d8982f7ee37d1, type: 3}
   pickupSpawnParticlePrefab: {fileID: 1974278376555586578, guid: 5431668a66cd19c42ac02f0bdd90e9d2, type: 3}
+--- !u!114 &2584534266323046183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6ad94cdc6d29eb4d827be9d04a30fbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  range: 5
+  speed: 1.1
 --- !u!1 &4167775306372098691
 GameObject:
   m_ObjectHideFlags: 0
