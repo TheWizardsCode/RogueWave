@@ -7,9 +7,11 @@ namespace Playground
 {
     public class Spawner : MonoBehaviour
     {
-        [Header("Wave Definition")]
+        [Header("Spawn Behaviours")]
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
+        [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]
+        internal bool destroySpawnsOnDeath = true;
         
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
@@ -118,11 +120,14 @@ namespace Playground
                 StopCoroutine(SpawnWaves());
                 onDestroyed?.Invoke();
 
-                for (int i = 0; i < spawnedEnemies.Count; i++)
+                if (destroySpawnsOnDeath)
                 {
-                    if (spawnedEnemies[i] != null)
+                    for (int i = 0; i < spawnedEnemies.Count; i++)
                     {
-                        Destroy(spawnedEnemies[i].gameObject);
+                        if (spawnedEnemies[i] != null)
+                        {
+                            Destroy(spawnedEnemies[i].gameObject);
+                        }
                     }
                 }
 
