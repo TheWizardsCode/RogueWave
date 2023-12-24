@@ -22,8 +22,8 @@ namespace Playground
         private FpsSoloCharacter m_CharacterPrefab = null;
 
         [Header("Level Generation")]
-        [SerializeField, Tooltip("Should a level be auto generated on start?")]
-        bool generateLevelOnSpawn = true;
+        [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
+        LevelDefinition[] levels;
 
         [Header("Victory")]
         [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
@@ -31,6 +31,11 @@ namespace Playground
 
         LevelGenerator levelGenerator;
         private int spawnersRemaining = int.MaxValue;
+
+        public LevelDefinition currentLevelDefinition
+        {
+            get { return levels[RogueLiteManager.runData.currentLevel]; }
+        }
 
         #region Unity Life-cycle
         protected override void Awake()
@@ -69,6 +74,8 @@ namespace Playground
 
         void DelayedVictoryAction()
         {
+            RogueLiteManager.runData.currentLevel++;
+
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
 
@@ -178,7 +185,7 @@ namespace Playground
 
         protected override bool PreSpawnStep()
         {
-            if (generateLevelOnSpawn)
+            if (levels[RogueLiteManager.runData.currentLevel].generateLevelOnSpawn)
             {
                 spawnersRemaining = levelGenerator.Generate(this);
             }
