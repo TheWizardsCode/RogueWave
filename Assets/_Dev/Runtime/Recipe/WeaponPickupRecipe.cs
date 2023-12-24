@@ -31,7 +31,7 @@ namespace Playground
         {
             NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
             nanobotManager.Add(ammoRecipe);
-            RogueLiteManager.RunLoadoutData.Add(pickup.GetItem() as FpsInventoryItemBase);
+            RogueLiteManager.runData.Add(pickup.GetItem() as FpsInventoryItemBase);
 
             base.BuildFinished();
         }

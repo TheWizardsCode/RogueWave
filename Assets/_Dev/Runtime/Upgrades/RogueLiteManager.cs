@@ -70,36 +70,20 @@ namespace Playground
             }
         }
 
-        private static List<FpsInventoryItemBase> m_RunLoadoutData = new List<FpsInventoryItemBase>();
-        /// <summary>
-        /// The items that will be available to the player in their loadout when they start a level in a run.
-        /// This will be reset on death.
-        /// </summary>
-        public static List<FpsInventoryItemBase> RunLoadoutData
+        private static RogueLiteRunData m_RunData = null;
+        public static RogueLiteRunData runData
         {
             get
             {
-                return m_RunLoadoutData;
+                if (m_RunData == null)
+                    ResetRunData();
+                return m_RunData;
             }
         }
 
-        private static List<IRecipe> m_RunRecipeData = new List<IRecipe>();
-        /// <summary>
-        /// The recipes that will be available to the player in their NanobotManager when they start a level in a run.
-        /// This will be reset on death.
-        /// </summary>
-        public static List<IRecipe> RunRecipeData
+        public static void ResetRunData()
         {
-            get
-            {
-                return m_RunRecipeData;
-            }
-        }
-
-        public static void ClearRunData()
-        {
-            RunRecipeData.Clear();
-            RunLoadoutData.Clear();
+            m_RunData = new RogueLiteRunData();
         }
 
         public override bool IsValid()
