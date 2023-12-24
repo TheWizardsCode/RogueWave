@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Playground
 {
-    internal interface IRecipe
+    public interface IRecipe
     {
         public string DisplayName { get; }
         public Component Item { get; }
