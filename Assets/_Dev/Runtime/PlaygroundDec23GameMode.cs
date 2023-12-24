@@ -62,6 +62,8 @@ namespace Playground
 
         protected override void DelayedDeathAction()
         {
+            RogueLiteManager.RunLoadoutData.Clear();
+
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
 
