@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Playground
 {
@@ -36,6 +37,24 @@ namespace Playground
         private int currentResources = 0;
         private bool isBuilding = false;
         private float timeOfNextBuiild = 0;
+
+        private void Start()
+        {
+            ShuffleWeaponRecipes();
+        }
+
+        private void ShuffleWeaponRecipes()
+        {
+            int n = weaponRecipes.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0, n + 1);
+                WeaponPickupRecipe value = weaponRecipes[k];
+                weaponRecipes[k] = weaponRecipes[n];
+                weaponRecipes[n] = value;
+            }
+        }
 
         private void Update()
         {
