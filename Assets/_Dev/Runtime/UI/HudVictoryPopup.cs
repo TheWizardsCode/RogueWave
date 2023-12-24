@@ -21,6 +21,11 @@ namespace Playground
             gameObject.SetActive(false);
         }
 
+        private void OnDestroy()
+        {
+            PlaygroundDecember23GameMode.onVictory -= OnVictory;
+        }
+
         private void OnVictory()
         {
             m_CanvasGroup.alpha = 1f;
