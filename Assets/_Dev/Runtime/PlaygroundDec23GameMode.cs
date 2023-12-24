@@ -218,16 +218,4 @@ namespace Playground
                 m_SpawnZones.currentIndex = index;
         }
     }
-
-    public static class LoadoutBuilderSlotExtensions
-    {
-        public static void AddOption(this LoadoutBuilderSlot slot, FpsInventoryItemBase option)
-        {
-            var field = typeof(LoadoutBuilderSlot).GetField("m_Options", BindingFlags.NonPublic | BindingFlags.Instance);
-            var options = (FpsInventoryItemBase[])field.GetValue(slot);
-            var optionsList = new List<FpsInventoryItemBase>(options) { option };
-            field.SetValue(slot, optionsList.ToArray());
-        }
-    }
-
 }
