@@ -62,7 +62,7 @@ namespace Playground
 
         protected override void DelayedDeathAction()
         {
-            RogueLiteManager.ClearRunData();
+            RogueLiteManager.ResetRunData();
 
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
@@ -156,9 +156,7 @@ namespace Playground
 
         public void AddToLoadout(FpsInventoryItemBase item)
         {
-            if (!RogueLiteManager.RunLoadoutData.Contains(item)) {
-                RogueLiteManager.RunLoadoutData.Add(item);
-            }
+            RogueLiteManager.runData.Add(item);
         }
 
         protected override void OnCharacterSpawned(ICharacter character)
@@ -170,9 +168,9 @@ namespace Playground
 
             // Add nanobot recipes
             NanobotManager manager = character.GetComponent<NanobotManager>();
-            for (int i = 0; i < RogueLiteManager.RunRecipeData.Count; i++)
+            for (int i = 0; i < RogueLiteManager.runData.Recipes.Count; i++)
             {
-                manager.Add(RogueLiteManager.RunRecipeData[i]);
+                manager.Add(RogueLiteManager.runData.Recipes[i]);
             }
         }
 
@@ -185,9 +183,9 @@ namespace Playground
                 spawnersRemaining = levelGenerator.Generate(this);
             }
 
-            for (int i = 0; i < RogueLiteManager.RunLoadoutData.Count; i++)
+            for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)
             {
-                m_LoadoutBuilder.slots[0].AddOption(RogueLiteManager.RunLoadoutData[0] as FpsInventoryItemBase);
+                m_LoadoutBuilder.slots[0].AddOption(RogueLiteManager.runData.Loadout[0] as FpsInventoryItemBase);
             }
 
             return base.PreSpawnStep();
