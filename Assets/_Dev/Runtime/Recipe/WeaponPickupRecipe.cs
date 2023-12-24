@@ -11,8 +11,11 @@ namespace Playground
     [CreateAssetMenu(fileName = "Weapon Pickup Recipe", menuName = "Playground/Weapon Pickup Recipe")]
     public class WeaponPickupRecipe : Recipe<InteractivePickup>
     {
+        [Header("Weapon")]
         [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]
         private AmmoPickupRecipe ammoRecipe;
+        [SerializeField, Tooltip("The inventory slot this item should be placed in.")]
+        internal int inventorySlot = 1;
 
         private FpsInventorySwappable _inventory;
         private FpsInventorySwappable inventory
