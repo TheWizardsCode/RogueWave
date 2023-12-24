@@ -62,7 +62,7 @@ namespace Playground
 
         protected override void DelayedDeathAction()
         {
-            RogueLiteManager.RunLoadoutData.Clear();
+            RogueLiteManager.ClearRunData();
 
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
@@ -167,6 +167,13 @@ namespace Playground
             var loadout = m_LoadoutBuilder.GetLoadout();
             if (loadout != null)
                 character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
+
+            // Add nanobot recipes
+            NanobotManager manager = character.GetComponent<NanobotManager>();
+            for (int i = 0; i < RogueLiteManager.RunRecipeData.Count; i++)
+            {
+                manager.Add(RogueLiteManager.RunRecipeData[i]);
+            }
         }
 
         #endregion

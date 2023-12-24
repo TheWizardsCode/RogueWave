@@ -83,6 +83,25 @@ namespace Playground
             }
         }
 
+        private static List<IRecipe> m_RunRecipeData = new List<IRecipe>();
+        /// <summary>
+        /// The recipes that will be available to the player in their NanobotManager when they start a level in a run.
+        /// This will be reset on death.
+        /// </summary>
+        public static List<IRecipe> RunRecipeData
+        {
+            get
+            {
+                return m_RunRecipeData;
+            }
+        }
+
+        public static void ClearRunData()
+        {
+            RunRecipeData.Clear();
+            RunLoadoutData.Clear();
+        }
+
         public override bool IsValid()
         {
             return true;

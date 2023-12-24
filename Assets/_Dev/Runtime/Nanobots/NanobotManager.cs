@@ -168,6 +168,11 @@ namespace Playground
         /// <param name="ammoRecipe"></param>
         internal void Add(IRecipe recipe)
         {
+            if (!RogueLiteManager.RunRecipeData.Contains(recipe))
+            {
+                RogueLiteManager.RunRecipeData.Add(recipe);
+            }
+
             AmmoPickupRecipe ammo = recipe as AmmoPickupRecipe;
             if (recipe != null)
             {
