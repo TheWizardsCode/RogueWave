@@ -8,15 +8,9 @@ namespace Playground
     public class Spawner : MonoBehaviour
     {
         [Header("Wave Definition")]
-        [SerializeField, Tooltip("The list of defined waves used for spawning.")]
-        private WaveDefinition[] waves;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
-        [SerializeField, Tooltip("The duration of the wait between each spawn wave in seconds.")]
-        private float waveWait = 5f;
-        [SerializeField, Tooltip("When defined waves are exhausted, generate more?.")]
-        private bool generateWaves = true;
-
+        
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
         public UnityEvent onDestroyed;
@@ -26,8 +20,11 @@ namespace Playground
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
 
         private int currentWaveIndex = -1;
-
         private WaveDefinition currentWave;
+
+        private WaveDefinition[] waves;
+        private float waveWait = 5f;
+        private bool generateWaves = true;
 
         private void Start()
         {
@@ -131,6 +128,17 @@ namespace Playground
 
                 Destroy(gameObject);
             }
+        }
+
+        /// <summary>
+        /// Configure this spawner accoring to a level definition.
+        /// </summary>
+        /// <param name="currentLevelDefinition"></param>
+        internal void Initialize(LevelDefinition currentLevelDefinition)
+        {
+            waves = currentLevelDefinition.Waves;
+            waveWait  = currentLevelDefinition.WaveWait;
+            generateWaves = currentLevelDefinition.GenerateNewWaves;
         }
     }
 }
