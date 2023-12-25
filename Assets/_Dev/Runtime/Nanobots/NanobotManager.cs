@@ -23,12 +23,12 @@ namespace Playground
         [SerializeField, Tooltip("Cooldown between recipes.")]
         private float cooldown = 5;
 
-        [Header("Feedback")]
+        [Header("Default Feedback")]
         [SerializeField, Tooltip("The sound to play when the build is started. Note that this can be overridden in the recipe.")]
         private AudioClip buildStartedClip;
         [SerializeField, Tooltip("The sound to play when the build is complete. Note that this can be overridden in the recipe.")]
         private AudioClip buildCompleteClip;
-        [SerializeField, Tooltip("The particle system to play when a pickup is spawned.")]
+        [SerializeField, Tooltip("The particle system to play when a pickup is spawned. Note that this can be overridden in the recipe.")]
         ParticleSystem pickupSpawnParticlePrefab;
 
         public delegate void OnResourcesChanged(float from, float to);
@@ -169,6 +169,11 @@ namespace Playground
             }
 
             // TODO: Use the pool manager to create the particle system
+            if (recipe.PickupParticles != null)
+            {
+                ParticleSystem ps = Instantiate(recipe.PickupParticles, go.transform);
+                ps.Play();
+            }
             if (pickupSpawnParticlePrefab != null)
             {
                 ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);

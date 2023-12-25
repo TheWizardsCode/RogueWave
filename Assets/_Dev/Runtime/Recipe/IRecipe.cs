@@ -11,6 +11,7 @@ namespace Playground
         public float TimeToBuild { get; }
         public AudioClip BuildStartedClip { get; }
         public AudioClip BuildCompleteClip { get; }
+        public ParticleSystem PickupParticles { get; }
 
         /// <summary>
         /// Indicates whether this recipe should be built if enough resources are available.

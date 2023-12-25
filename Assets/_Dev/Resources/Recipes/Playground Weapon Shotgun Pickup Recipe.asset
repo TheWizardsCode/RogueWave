@@ -14,9 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Shotgun
   pickup: {fileID: 5274049787565617587, guid: c5620ade635845e438b3008965902601, type: 3}
-  spawnOffset: {x: 0, y: 0, z: 0}
   cost: 150
   timeToBuild: 10
   buildStartedClip: {fileID: 0}
   buildCompleteClip: {fileID: 0}
+  pickupParticles: {fileID: 1974278376555586578, guid: 51d5c13109dedfa448db6e094ab4ea52, type: 3}
   ammoRecipe: {fileID: 11400000, guid: 925d033e3c87a1a49a8882178734bbe2, type: 2}
+  inventorySlot: 1

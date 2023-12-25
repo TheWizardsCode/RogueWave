@@ -23,10 +23,12 @@ namespace Playground
         float timeToBuild = 5;
 
         [Header("Feedback")]
-        [SerializeField, Tooltip("The sound to play when the build is started.")]
+        [SerializeField, Tooltip("The sound to play when the build is started. If this is null then ")]
         AudioClip buildStartedClip;
         [SerializeField, Tooltip("The sound to play when the build is complete.")]
         AudioClip buildCompleteClip;
+        [SerializeField, Tooltip("The particle system to play when a pickup is spawned.")]
+        ParticleSystem pickupParticles;
 
         public virtual bool ShouldBuild
         {
@@ -47,6 +49,8 @@ namespace Playground
         public AudioClip BuildCompleteClip => buildCompleteClip;
 
         public Component Item => pickup;
+
+        public ParticleSystem PickupParticles => pickupParticles;
 
         public virtual void BuildFinished()
         {
