@@ -12,6 +12,10 @@ namespace Playground
         internal float spawnRadius = 5f;
         [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]
         internal bool destroySpawnsOnDeath = true;
+
+        [Header("Juice")]
+        [SerializeField, Tooltip("The particle system to play when the spawner is destroyed.")]
+        internal ParticleSystem deathParticlePrefab;
         
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
@@ -119,6 +123,23 @@ namespace Playground
             {
                 StopCoroutine(SpawnWaves());
                 onDestroyed?.Invoke();
+
+                Renderer parentRenderer = GetComponentInChildren<Renderer>();
+
+                // TODO use pool for particles
+                if (deathParticlePrefab != null)
+                {
+                    ParticleSystem deathParticle = Instantiate(deathParticlePrefab, transform.position, Quaternion.identity);
+                    if (parentRenderer != null)
+                    {
+                        var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();
+                        if (particleSystemRenderer != null)
+                        {
+                            particleSystemRenderer.material = parentRenderer.material;
+                        }
+                    }
+                    deathParticle.Play();
+                }
 
                 if (destroySpawnsOnDeath)
                 {
