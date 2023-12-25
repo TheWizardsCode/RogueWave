@@ -166,13 +166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waves:
-  - {fileID: 11400000, guid: 0584f6c883b9f504283bcf1adf09c804, type: 2}
-  - {fileID: 11400000, guid: 65f5c7bc57bf572468e8ca99d380b670, type: 2}
-  - {fileID: 11400000, guid: d7351e7798c1bef4eb96e2bec215f10e, type: 2}
   spawnRadius: 5
-  waveWait: 10
-  generateWaves: 0
+  destroySpawnsOnDeath: 1
+  deathParticlePrefab: {fileID: 5327745311076098471, guid: ecf74d541dbf5cb40a417278326c0f1e, type: 3}
   onDestroyed:
     m_PersistentCalls:
       m_Calls: []
