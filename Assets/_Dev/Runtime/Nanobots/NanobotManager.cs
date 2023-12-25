@@ -161,7 +161,7 @@ namespace Playground
             // TODO Use the pool manager to create the item
             GameObject go = Instantiate(recipe.Item.gameObject);
             go.transform.position = transform.position + (transform.forward * 5) + (transform.up * 0.5f);
-            
+             
             if (recipe.BuildCompleteClip != null)
             {
                 NeoFpsAudioManager.PlayEffectAudioAtPosition(recipe.BuildCompleteClip, go.transform.position, 1);
