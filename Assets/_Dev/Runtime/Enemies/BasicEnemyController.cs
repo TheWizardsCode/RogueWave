@@ -62,10 +62,21 @@ namespace Playground
             {
                 NeoFpsAudioManager.PlayEffectAudioAtPosition(deathClips[Random.Range(0, deathClips.Length)], transform.position);
             }
+
+            Renderer parentRenderer = GetComponentInChildren<Renderer>();
+
             // TODO use pool for particles
             if (deathParticlePrefab != null)
             {
                 ParticleSystem deathParticle = Instantiate(deathParticlePrefab, transform.position, Quaternion.identity);
+                if (parentRenderer != null)
+                {
+                    var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();
+                    if (particleSystemRenderer != null)
+                    {
+                        particleSystemRenderer.material = parentRenderer.material;
+                    }
+                }
                 deathParticle.Play();
             }
 
@@ -75,8 +86,15 @@ namespace Playground
                 Vector3 pos = transform.position;
                 pos.y = 0;
                 ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
+                if (parentRenderer != null)
+                {
+                    var resourcesRenderer = resources.GetComponentInChildren<Renderer>();
+                    if (resourcesRenderer != null)
+                    {
+                        resourcesRenderer.material = parentRenderer.material;
+                    }
+                }
             }
-
 
             Destroy(gameObject);
         }
