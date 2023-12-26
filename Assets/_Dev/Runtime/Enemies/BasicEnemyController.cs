@@ -23,12 +23,10 @@ namespace Playground
         float minimumHeight = 0.5f;
         [SerializeField, Tooltip("How close to the player will this enemy try to get?")]
         float optimalDistanceFromPlayer = 0.2f;
-        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them.")]
-        float seekDuration = 7;
-        [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point.")]
-        float wanderRange = 15f;
 
         [Header("Behaviour")]
+        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them.")]
+        float seekDuration = 7;
         [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state.")]
         float maxWanderRange = 30f;
         [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight. If false they will always seek out the player.")]
@@ -62,6 +60,18 @@ namespace Playground
                 if (_target == null && FpsSoloCharacter.localPlayerCharacter != null)
                     _target = FpsSoloCharacter.localPlayerCharacter.transform;
                 return _target;
+            }
+        }
+        internal virtual bool shouldAttack
+        {
+            get
+            { 
+                if (requireLineOfSight && CanSeeTarget == false)
+                {
+                    return false;
+                }
+
+                return true;
             }
         }
 
@@ -142,17 +152,17 @@ namespace Playground
         internal virtual void MoveTo(Vector3 destination, float speedMultiplier = 1)
         {
 
-            if (destination.y < minimumHeight)
-            {
-                destination.y = minimumHeight;
-            }
-
             Vector3 directionToDestination = (destination - transform.position).normalized;
             float currentDistance = Vector3.Distance(transform.position, destination);
 
             if (currentDistance < optimalDistanceFromPlayer)
             {
-                destination = transform.position + directionToDestination * optimalDistanceFromPlayer;
+                destination = transform.position - directionToDestination * optimalDistanceFromPlayer;
+            }
+
+            if (destination.y < minimumHeight)
+            {
+                destination.y = minimumHeight;
             }
 
             float turnAngle = 50f;
@@ -238,8 +248,8 @@ namespace Playground
             if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
             {
                 timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, maxWanderRange);
-                wanderDestination = spawnPosition + Random.insideUnitSphere * wanderRange;
-                wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, wanderRange);
+                wanderDestination = spawnPosition + Random.insideUnitSphere * maxWanderRange;
+                wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, maxWanderRange);
                 lastKnownPosition = wanderDestination;
             }
 

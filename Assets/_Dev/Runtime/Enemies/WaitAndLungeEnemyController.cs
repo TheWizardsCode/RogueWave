@@ -10,10 +10,10 @@ namespace Playground
     public class WaitAndLungeEnemyController : BasicEnemyController
     {
         [Header("Behaviour")]
-        [SerializeField, Tooltip("Minimum distance to attack from. If the player is further away than this the enemy will not attack.")]
+        [SerializeField, Tooltip("Minimum distance to attack from. If the player is further away than this the enemy will not attack. Note that if require line of sight is true and view distance is less than this value then this value will have not effect.")]
         protected float minAttackDistance = 20f;
         [SerializeField, Tooltip("The multiplier for speed when attacking.")]
-        protected float speedMultiplier = 2f;
+        protected float attackSpeedMultiplier = 2f;
 
         protected override void Update()
         {
@@ -22,19 +22,19 @@ namespace Playground
 
             if (shouldAttack)
             {
-                MoveTo(Target.position, speedMultiplier);
+                MoveTo(Target.position, attackSpeedMultiplier);
             } else
             {
                 base.Update();
             }
         }
 
-        protected bool shouldAttack {
+        internal override bool shouldAttack {
             get
             {
                 if (Vector3.Distance(transform.position, FpsSoloCharacter.localPlayerCharacter.localTransform.position) < minAttackDistance)
                 {
-                    return true;
+                    return base.shouldAttack;
                 }
                 else
                 {
