@@ -19,6 +19,10 @@ namespace Playground
         protected float speed = 5f;
         [SerializeField, Tooltip("How fast the enemy rotates.")]
         protected float rotationSpeed = 1f;
+        [SerializeField, Tooltip("The minimum height the enemy will move to.")]
+        float minimumHeight = 0.5f;
+        [SerializeField, Tooltip("How close to the player will this enemy try to get?")]
+        float optimalDistanceFromPlayer = 0.2f;
         [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them.")]
         float seekDuration = 7;
         [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point.")]
@@ -61,6 +65,38 @@ namespace Playground
             }
         }
 
+        internal bool CanSeeTarget
+        {
+            get
+            {
+                if (Target == null)
+                    return false;
+
+                Vector3 targetPosition = Target.position;
+
+                if (Vector3.Distance(targetPosition, transform.position) <= viewDistance)
+                {
+                    Vector3 rayTargetPosition = targetPosition;
+                    rayTargetPosition.y = targetPosition.y + 0.8f; // TODO: Should use the seek targets
+
+                    Vector3 targetVector = rayTargetPosition - transform.position;
+
+                    Ray ray = new Ray(sensor.position, targetVector);
+                    // Debug.DrawRay(sensor.position, targetVector, Color.red);
+                    RaycastHit hit;
+
+                    if (Physics.Raycast(ray, out hit, viewDistance, sensorMask) && hit.transform == Target)
+                    {
+                        lastKnownPosition = targetPosition;
+                        timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+        }   
+
         Vector3 spawnPosition = Vector3.zero;
         Vector3 lastKnownPosition = Vector3.zero;
         Vector3 wanderDestination = Vector3.zero;
@@ -79,32 +115,12 @@ namespace Playground
                 return;
             }
 
-            Vector3 targetPosition = Target.position;
-
-            bool hasLineOfSight = false;
-            if (requireLineOfSight && Vector3.Distance(targetPosition, transform.position) <= viewDistance)
-            {
-                Vector3 rayTargetPosition = targetPosition;
-                rayTargetPosition.y = targetPosition.y + 0.8f; // TODO: Should use the seek targets
-
-                Vector3 targetVector = rayTargetPosition - transform.position;
-
-                Ray ray = new Ray(sensor.position, targetVector);
-                Debug.DrawRay(sensor.position, targetVector, Color.red);
-                RaycastHit hit;
-
-                if (Physics.Raycast(ray, out hit, viewDistance, sensorMask) && hit.transform == Target)
-                {
-                    lastKnownPosition = targetPosition;
-                    timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
-                    hasLineOfSight = true;
-                }
-            } else if (!requireLineOfSight)
-            {
-                lastKnownPosition = targetPosition;
+            if (requireLineOfSight == false)
+            { 
+                lastKnownPosition = Target.position;
             }
 
-            if (requireLineOfSight && !hasLineOfSight)
+            if (requireLineOfSight && CanSeeTarget == false)
             {
                 if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
                 {
@@ -125,9 +141,18 @@ namespace Playground
 
         internal virtual void MoveTo(Vector3 destination, float speedMultiplier = 1)
         {
-            if (Vector3.Distance(transform.position, destination) < 1f)
+
+            if (destination.y < minimumHeight)
             {
-                return;
+                destination.y = minimumHeight;
+            }
+
+            Vector3 directionToDestination = (destination - transform.position).normalized;
+            float currentDistance = Vector3.Distance(transform.position, destination);
+
+            if (currentDistance < optimalDistanceFromPlayer)
+            {
+                destination = transform.position + directionToDestination * optimalDistanceFromPlayer;
             }
 
             float turnAngle = 50f;
@@ -135,7 +160,7 @@ namespace Playground
             bool rotateRight = true;
             Ray ray = new Ray(sensor.position, transform.forward);
             //ray.direction = transform.forward;
-            
+
             if (Physics.Raycast(ray, out RaycastHit forwardHit, obstacleAvoidanceDistance, sensorMask))
             {
                 if (forwardHit.collider.transform.root != Target)
@@ -174,7 +199,7 @@ namespace Playground
                 {
                     targetRotation = transform.rotation * Quaternion.Euler(0, -turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
                 }
-                Debug.Log($"Rotating to avoid obstacle F {forwardHit.collider}, L {leftForwardHit.collider}, R {rightForwardHit.collider}");
+                //Debug.Log($"Rotating to avoid obstacle F {forwardHit.collider}, L {leftForwardHit.collider}, R {rightForwardHit.collider}");
             }
             else // no obstacle so rotate towards target
             {
@@ -187,8 +212,12 @@ namespace Playground
             }
 
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            
             transform.position += transform.forward * speed * speedMultiplier * Time.deltaTime;
+            AdjustHeight(destination, speedMultiplier);
+        }
+
+        private void AdjustHeight(Vector3 destination, float speedMultiplier)
+        {
             if (!Mathf.Approximately(destination.y, transform.position.y))
             {
                 float rate = speed * speedMultiplier * Time.deltaTime;
@@ -200,7 +229,7 @@ namespace Playground
                 {
                     transform.position -= Vector3.up * rate;
                 }
-                
+
             }
         }
 
