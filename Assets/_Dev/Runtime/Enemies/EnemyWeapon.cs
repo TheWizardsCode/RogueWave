@@ -58,7 +58,7 @@ namespace Playground
 
             _fireTimer += Time.deltaTime;
 
-            if (_fireTimer >= _fireRate)
+            if (_fireTimer >= _fireRate && controller.shouldAttack)
             {
                 _fireTimer = 0f;
                 StartCoroutine(Fire());
