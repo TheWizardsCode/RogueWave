@@ -33,6 +33,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 9069839117940701132}
   - {fileID: 2465497831105786840}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,8 +51,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Bolt
   description: TBD
-  speed: 2.1
-  rotationSpeed: 0.1
+  speed: 3
+  rotationSpeed: 3
+  seekDuration: 15
+  wanderRange: 60
+  maxWanderRange: 75
+  requireLineOfSight: 1
+  viewDistance: 100
+  obstacleAvoidanceDistance: 5
+  sensor: {fileID: 9069839117940701132}
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 12651521
   deathClips:
   - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
   - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
@@ -130,6 +141,37 @@ MonoBehaviour:
   m_DamagePerSecond: 10
   m_DamageType: 1
   m_DamageDescription: Damage Zone
+--- !u!1 &8500651545726619052
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9069839117940701132}
+  m_Layer: 12
+  m_Name: Sensor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9069839117940701132
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8500651545726619052}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1450764596457488462}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2719484006154572851
 PrefabInstance:
   m_ObjectHideFlags: 0

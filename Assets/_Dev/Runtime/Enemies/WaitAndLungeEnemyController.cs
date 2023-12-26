@@ -22,16 +22,7 @@ namespace Playground
 
             if (shouldAttack)
             {
-                Vector3 destination = FpsSoloCharacter.localPlayerCharacter.localTransform.position;
-                transform.position = Vector3.MoveTowards(transform.position, destination, speed * speedMultiplier * Time.deltaTime);
-
-                Vector3 directionToTarget = destination - transform.position;
-                directionToTarget.y = 0;
-                if (directionToTarget != Vector3.zero)
-                {
-                    Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-                }
+                MoveTo(Target.position, speedMultiplier);
             } else
             {
                 base.Update();
