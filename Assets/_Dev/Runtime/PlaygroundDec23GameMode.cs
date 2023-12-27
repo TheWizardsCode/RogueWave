@@ -179,6 +179,19 @@ namespace Playground
             {
                 manager.Add(RogueLiteManager.runData.Recipes[i]);
             }
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            {
+                if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe))
+                {
+                    manager.Add(recipe);
+
+                    WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
+                    if (weaponRecipe != null)
+                    {
+                        manager.Add(weaponRecipe.ammoRecipe);
+                    }
+                }
+            }
         }
 
         #endregion
@@ -188,6 +201,23 @@ namespace Playground
             if (levels[RogueLiteManager.runData.currentLevel].generateLevelOnSpawn)
             {
                 spawnersRemaining = levelGenerator.Generate(this);
+            }
+
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            {
+                if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe) == false)
+                {
+                    continue;
+                }
+
+                RogueLiteManager.runData.Add(recipe);
+
+                WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
+
+                if (weaponRecipe != null)
+                {
+                    RogueLiteManager.runData.Add(weaponRecipe.pickup.GetItemPrefab());
+                }
             }
 
             for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)

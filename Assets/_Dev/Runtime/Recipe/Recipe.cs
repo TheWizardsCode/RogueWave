@@ -3,6 +3,7 @@ using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
 using System;
 using Unity.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,7 +15,7 @@ namespace Playground
         [SerializeField, Tooltip("The name of this recipe.")]
         string displayName = "TBD";
         [SerializeField, Tooltip("DO NOT CHANGE THIS. TODO: Create a custom editor that hides this in case of accidental change.")]
-        string uniqueID = string.Empty;
+        string uniqueID;
 
         [Header("Item")]
         [SerializeField, Tooltip("The pickup item this recipe creates.")]
@@ -40,7 +41,7 @@ namespace Playground
                 return true;
             }
         }
-        public string GUID => uniqueID;
+        public string UniqueID => uniqueID;
 
         public string DisplayName => displayName;
 
@@ -60,12 +61,16 @@ namespace Playground
         {
         }
 
+#if UNITY_EDITOR
         private void OnValidate()
         {
             if (string.IsNullOrEmpty(uniqueID))
             {
                 uniqueID = Guid.NewGuid().ToString();
+                EditorUtility.SetDirty(this);
+                AssetDatabase.SaveAssets();
             }
         }
+#endif
     }
 }

@@ -175,6 +175,7 @@ namespace Playground
                 ParticleSystem ps = Instantiate(recipe.PickupParticles, go.transform);
                 ps.Play();
             }
+            // TODO: Why are there two sets of particles here, suspect a merge error at some point
             if (pickupSpawnParticlePrefab != null)
             {
                 ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);
@@ -196,7 +197,7 @@ namespace Playground
             RogueLiteManager.runData.Add(recipe);
 
             AmmoPickupRecipe ammo = recipe as AmmoPickupRecipe;
-            if (recipe != null)
+            if (ammo != null)
             {
                 if (!ammoRecipes.Contains(ammo))
                 {
@@ -206,7 +207,7 @@ namespace Playground
             }
 
             HealthPickupRecipe health = recipe as HealthPickupRecipe;
-            if (recipe != null)
+            if (health != null)
             {
                 if (!healthRecipes.Contains(health))
                 {
@@ -216,7 +217,7 @@ namespace Playground
             }
 
             WeaponPickupRecipe weapon = recipe as WeaponPickupRecipe;
-            if (recipe != null)
+            if (weapon != null)
             {
                 if (!weaponRecipes.Contains(weapon))
                 {
