@@ -54,26 +54,30 @@ namespace Playground
         /// </summary>
         /// <param name="quantity">The number of upgrades to offer.</param>
         /// <returns>An array of recipes that can be offered to the player.</returns>
-        internal static IRecipe[] GetOffers(int quantity)
+        internal static List<IRecipe> GetOffers(int quantity)
         {
             if (isInitialised == false)
             {
                 Initialise();
             }
 
-            IRecipe[] offers = new IRecipe[quantity];
+            List<IRecipe> offers = new List<IRecipe>();
             List<IRecipe> candidates = GetPoweupCandidates();
 
             if (candidates.Count < quantity)
             {
-                Debug.Log("TODO: handle the situation where there are not enough recipes to offer.");
-                return offers;
+                Debug.LogWarning("TODO: handle the situation where there are not enough recipes to offer.");
             }
 
             for (int i = 0; i < quantity; i++)
             {
+                if (candidates.Count == 0)
+                {
+                    break;
+                }
+
                 int index = Random.Range(0, candidates.Count);
-                offers[i] = candidates[index];
+                offers.Add(candidates[index]);
                 candidates.RemoveAt(index);
             }
 
@@ -86,11 +90,24 @@ namespace Playground
         /// <returns></returns>
         private static List<IRecipe> GetPoweupCandidates()
         {
-            // TODO: Remove recipes that are already in the player's inventory
-            // TODO: Remove recipes that are already in the player's loadout
-            // TODO: Remove some portion of the recipes that are not particularly useful for the player at this time
+            List<IRecipe> candidates = new List<IRecipe>();
+            foreach (IRecipe recipe in powerupRecipes.Values)
+            {
+                // TODO: Remove recipse that the player cannot afford
 
-            return new List<IRecipe>(powerupRecipes.Values);
+                if (RogueLiteManager.persistentData.RecipeIds.Contains(recipe.UniqueID))
+                {
+                    continue;
+                }
+                
+                // TODO: Remove recipes that are already in the player's loadout
+                
+                // TODO: Remove some portion of the recipes that are not particularly useful for the player at this time
+                
+                candidates.Add(recipe);
+            }
+
+            return candidates;
         }
     }
 }
