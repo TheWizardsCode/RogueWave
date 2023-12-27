@@ -192,7 +192,7 @@ namespace Playground
 
             for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)
             {
-                FpsInventoryItemBase item = RogueLiteManager.runData.Loadout[0] as FpsInventoryItemBase;
+                FpsInventoryItemBase item = RogueLiteManager.runData.Loadout[i] as FpsInventoryItemBase;
                 m_LoadoutBuilder.slots[((FpsInventoryWieldableSwappable)item).category].AddOption(item);
             }
 
