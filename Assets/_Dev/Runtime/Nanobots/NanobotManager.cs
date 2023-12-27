@@ -190,7 +190,7 @@ namespace Playground
         /// <summary>
         /// Adds the recipe to the list of starting recipes.
         /// </summary>
-        /// <param name="ammoRecipe"></param>
+        /// <param name="recipe"></param>
         internal void Add(IRecipe recipe)
         {
             RogueLiteManager.runData.Add(recipe);
