@@ -147,7 +147,7 @@ namespace Playground
                     {
                         if (spawnedEnemies[i] != null)
                         {
-                            Destroy(spawnedEnemies[i].gameObject);
+                            spawnedEnemies[i].OnAliveIsChanged(false);
                         }
                     }
                 }
