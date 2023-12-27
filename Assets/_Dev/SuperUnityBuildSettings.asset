@@ -1,0 +1,215 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d5886119a5c7b34d8872ab527ca3e1b, type: 3}
+  m_Name: SuperUnityBuildSettings
+  m_EditorClassIdentifier: 
+  _basicSettings:
+    baseBuildFolder: Builds
+    buildPath: $VERSION/$RELEASE_TYPE/$PLATFORM/$ARCHITECTURE/$SCRIPTING_BACKEND
+    openFolderPostBuild: 1
+    constantsFileLocation: Assets\SuperUnityBuild
+  _productParameters:
+    buildCounter: 22
+    buildVersion: 0.0.0.22
+    versionTemplate: 0.0.0.$BUILD
+    autoGenerate: 1
+    syncWithPlayerSettings: 0
+  _releaseTypeList:
+    releaseTypes:
+    - typeName: DeveloperTest
+      bundleIdentifier: com.Wizards-Code.PlaygroundDecember23
+      companyName: Wizards Code
+      productName: PlaygroundDecember23
+      syncAppNameWithProduct: 1
+      appBuildName: PlaygroundDecember23
+      buildOptions: 1
+      customDefines: 
+      sceneList:
+        releaseScenes:
+        - fileGUID: 1c5ac81b33c25354493cf5509cdec7a9
+          sceneActive: 1
+        - fileGUID: a0f3f3e3cd0ea744c9be2690f0371031
+          sceneActive: 1
+        - fileGUID: bb58b10c0d3b40b489fcc89256f23cd5
+          sceneActive: 1
+        - fileGUID: 220a728d3c0961149be17e591ae889be
+          sceneActive: 1
+    - typeName: DeveloperRelease
+      bundleIdentifier: com.Wizards-Code.PlaygroundDecember23
+      companyName: Wizards Code
+      productName: PlaygroundDecember23
+      syncAppNameWithProduct: 1
+      appBuildName: PlaygroundDecember23
+      buildOptions: 1
+      customDefines: 
+      sceneList:
+        releaseScenes:
+        - fileGUID: 1c5ac81b33c25354493cf5509cdec7a9
+          sceneActive: 1
+        - fileGUID: bb58b10c0d3b40b489fcc89256f23cd5
+          sceneActive: 1
+        - fileGUID: a0f3f3e3cd0ea744c9be2690f0371031
+          sceneActive: 1
+        - fileGUID: 220a728d3c0961149be17e591ae889be
+          sceneActive: 1
+  _platformList:
+    platforms:
+    - {fileID: 2802847493315861311}
+  _projectConfigurations:
+    configSet:
+      _Buckets: ffffffffffffffffffffffff0700000006000000ffffffff0400000000000000ffffffffffffffff02000000ffffffffffffffff0100000003000000ffffffffffffffff
+      _HashCodes: 2020f900f62b2e010c2f1e4ad0f5da17352d4250f1e62968dfc34e7813b48362000000000000000000000000000000000000000000000000000000000000000000000000
+      _Next: ffffffffffffffffffffffffffffffffffffffffffffffff05000000ffffffff000000000000000000000000000000000000000000000000000000000000000000000000
+      _Count: 8
+      _Version: 8
+      _FreeList: -1
+      _FreeCount: 0
+      _Keys:
+      - DeveloperTest/PC/Windows x64 (App)/Mono
+      - DeveloperTest/PC/Windows x64 (App)
+      - DeveloperTest/PC
+      - DeveloperTest
+      - DeveloperRelease/PC/Windows x64 (App)/Mono
+      - DeveloperRelease/PC/Windows x64 (App)
+      - DeveloperRelease/PC
+      - DeveloperRelease
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      _Values:
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys:
+        - DeveloperTest/PC/Windows x64 (App)/Mono
+      - enabled: 1
+        childKeys:
+        - DeveloperTest/PC/Windows x64 (App)
+      - enabled: 1
+        childKeys:
+        - DeveloperTest/PC
+      - enabled: 0
+        childKeys: []
+      - enabled: 1
+        childKeys:
+        - DeveloperRelease/PC/Windows x64 (App)/Mono
+      - enabled: 1
+        childKeys:
+        - DeveloperRelease/PC/Windows x64 (App)
+      - enabled: 1
+        childKeys:
+        - DeveloperRelease/PC
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+    showViewOptions: 0
+    showConfigs: 0
+    showBuildInfo: 0
+    hideDisabled: 0
+    treeView: 0
+    selectedKeyChain: 
+  _preBuildActions:
+    buildActions: []
+  _postBuildActions:
+    buildActions:
+    - {fileID: 337343308820732416}
+--- !u!114 &337343308820732416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97d88f7d353534a4fbdeb11196057db7, type: 3}
+  m_Name: UploadItch
+  m_EditorClassIdentifier: 
+  actionType: 1
+  actionName: UploadItch
+  note: 
+  actionEnabled: 1
+  configureEditor: 0
+  filter:
+    condition: 0
+    clauses:
+    - type: 0
+      comparison: 0
+      test: DEVELOPERTEST
+  pathToButlerExe: C:\Users\ross\OneDrive\bin\Butler\butler.exe
+  nameOfItchUser: WizardsCode
+  nameOfItchGame: rogue-wave
+  useGeneratedBuildVersion: 1
+  channelName: $PLATFORM-$ARCHITECTURE
+  showUploadProgress: 1
+  itchChannelOverride: 
+--- !u!114 &2802847493315861311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2786f6b2301a94f4288672ff5305244c, type: 3}
+  m_Name: PC
+  m_EditorClassIdentifier: 
+  enabled: 1
+  distributionList:
+    distributions: []
+  architectures:
+  - target: 5
+    name: Windows x86
+    enabled: 0
+    binaryNameFormat: '{0}.exe'
+  - target: 19
+    name: Windows x64
+    enabled: 1
+    binaryNameFormat: '{0}.exe'
+  variants:
+  - variantName: Build Output
+    selectedIndex: 0
+    values:
+    - App
+    - Visual Studio Solution
+    isFlag: 0
+  scriptingBackends:
+  - scriptingImplementation: 0
+    name: Mono
+    enabled: 1
+  - scriptingImplementation: 1
+    name: IL2CPP
+    enabled: 0
+  platformName: PC
+  targetGroup: 1
