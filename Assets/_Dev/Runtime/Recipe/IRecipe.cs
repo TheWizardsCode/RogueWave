@@ -7,6 +7,7 @@ namespace Playground
     {
         public string UniqueID { get; }
         public string DisplayName { get; }
+        public bool IsPowerUp { get; }
         public Component Item { get; }
         public int Cost { get; }
         public float TimeToBuild { get; }
