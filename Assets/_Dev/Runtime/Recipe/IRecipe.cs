@@ -5,6 +5,7 @@ namespace Playground
 {
     public interface IRecipe
     {
+        public string GUID { get; }
         public string DisplayName { get; }
         public Component Item { get; }
         public int Cost { get; }
