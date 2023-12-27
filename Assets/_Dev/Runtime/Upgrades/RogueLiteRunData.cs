@@ -15,9 +15,21 @@ namespace Playground
     public class RogueLiteRunData
     {
         public int currentLevel = 0; // The currentl level of the player, the player advances a level each time they destroy all waves in a game level
+        public int currentResources = 0; // The current resources of the player, the player gains resources by destroying enemies and loses resources by dying
 
         private static List<FpsInventoryItemBase> m_RunLoadoutData = new List<FpsInventoryItemBase>();
         public List<FpsInventoryItemBase> Loadout { get { return m_RunLoadoutData; } }
+
+        public RogueLiteRunData()
+        {
+            m_RunLoadoutData.Clear();
+            m_RunRecipeData.Clear();
+#if UNITY_EDITOR
+            currentResources = 1000;
+            Debug.Log("RogueLiteRunData: Setting current resources to 1000 since running in editor, good for testing.");
+#endif
+        }
+
         /// <summary>
         /// Add an items that will be available to the player in their loadout when they start a level in a run.
         /// This will be lost on death.
@@ -31,6 +43,7 @@ namespace Playground
             }
 
             m_RunLoadoutData.Add(item);
+            isDirty = true;
             return true;
         }
 
@@ -49,6 +62,7 @@ namespace Playground
             }
 
             m_RunRecipeData.Add(recipe);
+            isDirty = true;
             return true;
         }
 

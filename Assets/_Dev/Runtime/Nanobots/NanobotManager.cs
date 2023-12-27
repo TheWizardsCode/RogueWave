@@ -34,7 +34,6 @@ namespace Playground
         public delegate void OnResourcesChanged(float from, float to);
         public event OnResourcesChanged onResourcesChanged;
 
-        private int currentResources = 0;
         private bool isBuilding = false;
         private float timeOfNextBuiild = 0;
 
@@ -134,7 +133,7 @@ namespace Playground
 
         private bool TryRecipe(IRecipe recipe)
         {
-            if (currentResources >= recipe.Cost && recipe.ShouldBuild)
+            if (RogueLiteManager.runData.currentResources >= recipe.Cost && recipe.ShouldBuild)
             {
                 StartCoroutine(BuildRecipe(recipe));
                 return true;
@@ -232,16 +231,16 @@ namespace Playground
         /// </summary>
         public int resources
         {
-            get { return currentResources; }
+            get { return RogueLiteManager.runData.currentResources; }
             set
             {
-                if (currentResources == value)
+                if (RogueLiteManager.runData.currentResources == value)
                     return;
 
                 if (onResourcesChanged != null)
-                    onResourcesChanged(currentResources, value);
+                    onResourcesChanged(RogueLiteManager.runData.currentResources, value);
 
-                currentResources = value;
+                RogueLiteManager.runData.currentResources = value;
             }
         }
     }
