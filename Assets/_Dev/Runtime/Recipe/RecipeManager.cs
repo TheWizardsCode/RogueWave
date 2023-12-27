@@ -93,7 +93,10 @@ namespace Playground
             List<IRecipe> candidates = new List<IRecipe>();
             foreach (IRecipe recipe in powerupRecipes.Values)
             {
-                // TODO: Remove recipse that the player cannot afford
+                if (RogueLiteManager.runData.currentResources < recipe.Cost)
+                {
+                    continue;
+                }
 
                 if (RogueLiteManager.persistentData.RecipeIds.Contains(recipe.UniqueID))
                 {
