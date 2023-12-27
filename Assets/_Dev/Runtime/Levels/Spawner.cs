@@ -53,7 +53,7 @@ namespace Playground
                 currentWave = GenerateNewWave();
                 return;
             }
-            Debug.Log($"Starting wave {currentWaveIndex + 1} of {waves.Length}...");
+            //Debug.Log($"Starting wave {currentWaveIndex + 1} of {waves.Length}...");
             currentWave = waves[currentWaveIndex];
             currentWave.Reset();
         }
