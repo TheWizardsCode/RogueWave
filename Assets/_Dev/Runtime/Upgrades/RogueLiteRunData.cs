@@ -37,12 +37,12 @@ namespace Playground
         /// <returns>True if the item is added, false if not added because already present.</returns> 
         public bool Add(FpsInventoryItemBase item)
         {
-            if (m_RunLoadoutData.Contains(item))
+            if (Loadout.Contains(item))
             {
                 return false;
             }
 
-            m_RunLoadoutData.Add(item);
+            Loadout.Add(item);
             isDirty = true;
             return true;
         }

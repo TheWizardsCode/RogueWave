@@ -13,7 +13,7 @@ namespace Playground
     {
         [Header("Weapon")]
         [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]
-        private AmmoPickupRecipe ammoRecipe;
+        internal AmmoPickupRecipe ammoRecipe;
         [SerializeField, Tooltip("The inventory slot this item should be placed in.")]
         internal int inventorySlot = 1;
 
