@@ -72,12 +72,15 @@ namespace Playground
             {
                 GUILayout.BeginArea(new Rect(10f, 10f, 300f, 1000f));
 
-                foreach (IRecipe offer in offers)
+                for (int i = offers.Count - 1; i >= 0; i--)
                 {
-                    if (GUILayout.Button(offer.DisplayName))
+                    IRecipe offer = offers[i];
+
+                    if (RogueLiteManager.runData.currentResources >= offer.Cost && GUILayout.Button($"{offer.DisplayName} ({offer.Cost} resources)"))
                     {
                         m_Data.Add(offer);
                         offers.Remove(offer);
+                        RogueLiteManager.runData.currentResources -= offer.Cost;
                     }
                 }
 
