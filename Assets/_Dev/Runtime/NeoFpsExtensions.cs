@@ -7,7 +7,7 @@ namespace Playground
 {
     public static class InteractivePickupExtension
     {
-        public static FpsInventoryItemBase GetItem(this InteractivePickup instance)
+        public static FpsInventoryItemBase GetItemPrefab(this InteractivePickup instance)
         {
             var fieldInfo = typeof(InteractivePickup).GetField("m_Item", BindingFlags.NonPublic | BindingFlags.Instance);
             return fieldInfo.GetValue(instance) as FpsInventoryItemBase;
