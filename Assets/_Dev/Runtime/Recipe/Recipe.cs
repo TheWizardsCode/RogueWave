@@ -2,6 +2,7 @@
 using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
 using System;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -12,11 +13,13 @@ namespace Playground
         [Header("Metadata")]
         [SerializeField, Tooltip("The name of this recipe.")]
         string displayName = "TBD";
+        [SerializeField, Tooltip("DO NOT CHANGE THIS. TODO: Create a custom editor that hides this in case of accidental change.")]
+        string uniqueID = string.Empty;
 
         [Header("Item")]
         [SerializeField, Tooltip("The pickup item this recipe creates.")]
         [FormerlySerializedAs("item")]
-        protected T pickup;
+        internal T pickup;
         [SerializeField, Tooltip("The resources required to build this ammo type.")]
         int cost = 10;
         [SerializeField, Tooltip("The time it takes to build this recipe.")]
@@ -37,6 +40,7 @@ namespace Playground
                 return true;
             }
         }
+        public string GUID => uniqueID;
 
         public string DisplayName => displayName;
 
@@ -54,6 +58,14 @@ namespace Playground
 
         public virtual void BuildFinished()
         {
+        }
+
+        private void OnValidate()
+        {
+            if (string.IsNullOrEmpty(uniqueID))
+            {
+                uniqueID = Guid.NewGuid().ToString();
+            }
         }
     }
 }
