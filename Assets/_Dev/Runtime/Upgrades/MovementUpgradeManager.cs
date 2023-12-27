@@ -91,7 +91,8 @@ namespace Playground
         void InitialiseDataModifiers()
         {
             var persistent = RogueLiteManager.persistentData;
-            moveSpeed = new FloatValueModifier(persistent.moveSpeedMultiplier, persistent.moveSpeedPreAdd, persistent.moveSpeedPostAdd); Debug.Log("Move speed multiplier: " + persistent.moveSpeedMultiplier);
+            moveSpeed = new FloatValueModifier(persistent.moveSpeedMultiplier, persistent.moveSpeedPreAdd, persistent.moveSpeedPostAdd); 
+            // Debug.Log("Move speed multiplier: " + persistent.moveSpeedMultiplier);
             moveSpeedAirborne = new FloatValueModifier(persistent.airbourneSpeedMultiplier, persistent.airbourneSpeedPreAdd, persistent.airbourneSpeedPostAdd);
             acceleration = new FloatValueModifier(persistent.accelerationMultiplier, persistent.accelerationdPreAdd, persistent.accelerationPostAdd);
             maxJumpHeight = new FloatValueModifier(persistent.maxJumpHeightMultiplier, persistent.maxJumpHeightPreAdd, persistent.maxJumpHeightPostAdd);
