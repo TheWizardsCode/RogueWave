@@ -34,7 +34,7 @@ namespace Playground
         {
             NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
             nanobotManager.Add(ammoRecipe);
-            RogueLiteManager.runData.Add(pickup.GetItem() as FpsInventoryItemBase);
+            RogueLiteManager.runData.Add(pickup.GetItemPrefab() as FpsInventoryItemBase);
 
             base.BuildFinished();
         }
@@ -46,7 +46,7 @@ namespace Playground
                 IInventoryItem[] ownedItems = inventory.GetItems();
                 for (int i = 0; i < ownedItems.Length; i++)
                 {
-                    if (ownedItems[i].itemIdentifier == pickup.GetItem().itemIdentifier)
+                    if (ownedItems[i].itemIdentifier == pickup.GetItemPrefab().itemIdentifier)
                     {
                         return false;
                     }
