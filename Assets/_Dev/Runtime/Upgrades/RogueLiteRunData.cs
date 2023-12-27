@@ -24,10 +24,8 @@ namespace Playground
         {
             m_RunLoadoutData.Clear();
             m_RunRecipeData.Clear();
-#if UNITY_EDITOR
-            currentResources = 1000;
-            Debug.Log("RogueLiteRunData: Setting current resources to 1000 since running in editor, good for testing.");
-#endif
+
+            currentResources = 150;
         }
 
         /// <summary>
