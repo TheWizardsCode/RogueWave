@@ -41,7 +41,7 @@ namespace Playground
         private WeaponPickupRecipe[] weaponRecipes;
 
         private RogueLitePersistentData m_Data = null;
-        private IRecipe[] offers;
+        private List<IRecipe> offers;
 
         void Start()
         {
@@ -77,6 +77,7 @@ namespace Playground
                     if (GUILayout.Button(offer.DisplayName))
                     {
                         m_Data.Add(offer);
+                        offers.Remove(offer);
                     }
                 }
 
