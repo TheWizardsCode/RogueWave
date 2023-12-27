@@ -16,6 +16,8 @@ namespace Playground
         string displayName = "TBD";
         [SerializeField, Tooltip("DO NOT CHANGE THIS. TODO: Create a custom editor that hides this in case of accidental change.")]
         string uniqueID;
+        [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
+        bool isPowerUp = false;
 
         [Header("Item")]
         [SerializeField, Tooltip("The pickup item this recipe creates.")]
@@ -44,6 +46,8 @@ namespace Playground
         public string UniqueID => uniqueID;
 
         public string DisplayName => displayName;
+
+        public bool IsPowerUp => isPowerUp;
 
         public int Cost => cost;
 

@@ -49,8 +49,7 @@ namespace Playground
 
             m_Data = RogueLiteManager.persistentData;
 
-            RefreshAvailableRecipes();
-            IRecipe[] offers = GetOffers(3);
+            offers = RecipeManager.GetOffers(3);
 
             if (m_MoveSpeedMultButton != null)
                 m_MoveSpeedMultButton.onClick.AddListener(OnClickMoveSpeedMultiplier);
@@ -65,11 +64,6 @@ namespace Playground
 
             if (m_StartRunButton != null)
                 m_StartRunButton.onClick.AddListener(OnClickStartRun);
-        }
-
-        private void RefreshAvailableRecipes()
-        {
-            weaponRecipes = Resources.LoadAll<WeaponPickupRecipe>("Recipes/");
         }
 
         void OnGUI()
@@ -88,34 +82,6 @@ namespace Playground
 
                 GUILayout.EndArea();
             }   
-        }
-
-        /// <summary>
-        /// Gets a number of upgrade recipes that can be offered to the player.
-        /// </summary>
-        /// <param name="quantity">The number of upgrades to offer.</param>
-        /// <returns>An array of recipes that can be offered to the player.</returns>
-        private IRecipe[] GetOffers(int quantity)
-        {
-            offers = new IRecipe[quantity];
-
-            int count = weaponRecipes.Length;
-
-            if (count < quantity)
-            {
-                Debug.Log("TODO: handle the situation where there are not enough recipes to offer.");
-                return offers;
-            }
-
-            List<WeaponPickupRecipe> candidates = weaponRecipes.ToList<WeaponPickupRecipe>(); 
-            for (int i = 0; i < quantity; i++)
-            {
-                int index = Random.Range(0, candidates.Count);
-                offers[i] = candidates[index];
-                candidates.RemoveAt(index);
-            }
-
-            return offers;
         }
 
         private void OnClickStartRun()
