@@ -1,10 +1,6 @@
-using Codice.CM.Common.Replication;
 using NeoFPS;
 using NeoSaveGames.SceneManagement;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
@@ -114,7 +110,7 @@ namespace Playground
                     GUIStyle optionStyle = new GUIStyle(GUI.skin.box);
                     optionStyle.normal.background = optionsBackground;
 
-                    GUIStyle descriptionStyle = new GUIStyle(EditorStyles.textArea);
+                    GUIStyle descriptionStyle = new GUIStyle(GUI.skin.textArea);
                     descriptionStyle.fontSize = 16;
                     descriptionStyle.alignment = TextAnchor.MiddleCenter;
                     descriptionStyle.normal.textColor = Color.grey;

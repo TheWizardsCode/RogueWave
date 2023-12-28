@@ -1,7 +1,3 @@
-using NeoFPS;
-using PlasticPipe.PlasticProtocol.Messages;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Playground
