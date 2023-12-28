@@ -14,6 +14,10 @@ namespace Playground
 {
     public class HubSceneUI : MonoBehaviour
     {
+        [Header("Resources")]
+        [SerializeField, Tooltip("The number of resources currently available to the player.")]
+        private Text m_ResourcesText = null;
+
         [Header("Start Run")]
 
         [SerializeField] private Button m_StartRunButton = null;
@@ -73,18 +77,27 @@ namespace Playground
 
         void OnGUI()
         {
+            m_ResourcesText.text = RogueLiteManager.runData.currentResources.ToString();
+
             if (m_Data != null)
             {
+                int numberOfOffers = offers.Count;
                 float screenWidth = Screen.width;
                 float screenHeight = Screen.height;
-                float targetWidth = screenWidth * 0.66f;
+                float targetWidth = screenWidth * 0.9f;
                 float targetHeight = screenHeight * 0.5f;
+
+                float cardWidth = (targetWidth * 0.8f) / numberOfOffers; 
+
+                float imageHeight = targetHeight * 0.6f;
+                float imageWidth = 640 * (imageHeight / 960f);
 
                 GUILayout.BeginArea(new Rect((screenWidth - targetWidth) / 2, (screenHeight - targetHeight) / 2, targetWidth, targetHeight));
 
                 GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
+                GUILayout.FlexibleSpace();
 
-                for (int i = offers.Count - 1; i >= 0; i--)
+                for (int i = numberOfOffers - 1; i >= 0; i--)
                 {
                     IRecipe offer = offers[i];
                     if (RogueLiteManager.runData.currentResources < offer.Cost)
@@ -103,13 +116,13 @@ namespace Playground
                     GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button);
                     myButtonStyle.fontSize = 25;
 
-                    GUILayout.BeginVertical(optionStyle);
+                    GUILayout.BeginVertical(optionStyle, GUILayout.Width(cardWidth));
                     GUILayout.FlexibleSpace();
 
                     GUILayout.BeginHorizontal();
                     GUILayout.FlexibleSpace();
 
-                    GUILayout.Box(offer.HeroImage, GUILayout.Width(200), GUILayout.Height(300));
+                    GUILayout.Box(offer.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
 
                     GUILayout.FlexibleSpace();
                     GUILayout.EndHorizontal();
@@ -129,6 +142,7 @@ namespace Playground
                     GUILayout.EndVertical();
                 }
 
+                GUILayout.FlexibleSpace();
                 GUILayout.EndHorizontal();
 
                 GUILayout.EndArea();
