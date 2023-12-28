@@ -91,7 +91,6 @@ namespace Playground
                 possibleEnemySpawnPositions.Remove(spawnerPosition);
 
                 Spawner spawner = Instantiate(spawnerPrefab, position, Quaternion.identity, level.transform);
-                spawner.GetComponentInChildren<MeshRenderer>().transform.localScale = new Vector3(spawnerPrefab.spawnRadius * 2, spawnerPrefab.spawnRadius * 2, spawnerPrefab.spawnRadius * 2);
                 spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
                 spawner.onDestroyed.AddListener(() => gameMode.SpawnerDestroyed());
 

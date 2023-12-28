@@ -28,8 +28,8 @@ MonoBehaviour:
     m_Data: {fileID: 3199725676262105831}
     m_Value: 50
   m_WallNormal: {fileID: 114511717334314542}
-  m_DashInTime: 0.05
-  m_DashOutTime: 0.5
+  m_DashInTime: 0.02
+  m_DashOutTime: 0.3
   m_DashOutCurve:
     serializedVersion: 2
     m_Curve:
@@ -52,16 +52,16 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.7
-      value: -0.05
-      inSlope: 0
-      outSlope: 0
+      time: 0.87999266
+      value: -0.030651856
+      inSlope: -2.0530133
+      outSlope: -2.0530133
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.036190066
       outWeight: 0
     - serializedVersion: 3
-      time: 0.9
+      time: 0.9470581
       value: 0.02
       inSlope: 0
       outSlope: 0
@@ -82,6 +82,18 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   m_YawWithCurve: 1
+--- !u!114 &-9094725038615292566
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adeb22da40544dd4c952b62ae8925a78, type: 3}
+  m_Name: ability
+  m_EditorClassIdentifier: 
 --- !u!114 &-8813353824549061066
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -97,18 +109,6 @@ MonoBehaviour:
   m_TimeValue: {fileID: 3599564094986714648}
   m_CompareValue: {fileID: 1445123349444157301}
   m_ComparisonType: 0
---- !u!114 &-8775495765905116981
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adeb22da40544dd4c952b62ae8925a78, type: 3}
-  m_Name: dash
-  m_EditorClassIdentifier: 
 --- !u!114 &-8719111368795501213
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d31765eb23c6c4d9a5388e4351abc4, type: 3}
   m_Name: Condition Group
   m_EditorClassIdentifier: 
-  m_Property: {fileID: -8775495765905116981}
+  m_Property: {fileID: -9094725038615292566}
 --- !u!114 &-7977581649231933917
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -343,7 +343,7 @@ MonoBehaviour:
   m_Name: moveSpeedAirWalk
   m_EditorClassIdentifier: 
   m_DataID: -6836
-  m_Value: 5
+  m_Value: 8
 --- !u!114 &-7320552355722757241
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -371,7 +371,7 @@ MonoBehaviour:
   m_Name: moveSpeedAirSprint
   m_EditorClassIdentifier: 
   m_DataID: -6852
-  m_Value: 7.5
+  m_Value: 10
 --- !u!114 &-6967109434151927680
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -917,20 +917,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Property: {fileID: 114699990105392668}
   m_CompareValue: 1
---- !u!114 &-3662257810765899533
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ed7f52d04f4a8748822054d6baa1b4e, type: 3}
-  m_Name: Condition Group
-  m_EditorClassIdentifier: 
-  m_TimeoutProperty: {fileID: 0}
-  m_TimeoutValue: 0.01
 --- !u!114 &-3579414947497611608
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1309,10 +1295,10 @@ MonoBehaviour:
   m_Acceleration:
     m_Data: {fileID: 114747533251092432}
     m_Value: 50
-  m_FrameOfReference: 0
+  m_FrameOfReference: 1
   m_DashAngle: 0
-  m_DashInTime: 0.05
-  m_DashOutTime: 0.5
+  m_DashInTime: 0.02
+  m_DashOutTime: 0.3
   m_DashOutCurve:
     serializedVersion: 2
     m_Curve:
@@ -1335,16 +1321,16 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.7
-      value: -0.05
-      inSlope: 0
-      outSlope: 0
+      time: 0.87999266
+      value: -0.030651856
+      inSlope: -2.0530133
+      outSlope: -2.0530133
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.036190066
       outWeight: 0
     - serializedVersion: 3
-      time: 0.9
+      time: 0.9470581
       value: 0.02
       inSlope: 0
       outSlope: 0
@@ -1410,7 +1396,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d31765eb23c6c4d9a5388e4351abc4, type: 3}
   m_Name: Condition Group
   m_EditorClassIdentifier: 
-  m_Property: {fileID: -8775495765905116981}
+  m_Property: {fileID: -9094725038615292566}
 --- !u!114 &-1062645410067693452
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1423,7 +1409,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d31765eb23c6c4d9a5388e4351abc4, type: 3}
   m_Name: Condition Group
   m_EditorClassIdentifier: 
-  m_Property: {fileID: -8775495765905116981}
+  m_Property: {fileID: -9094725038615292566}
 --- !u!114 &-791053028991188009
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1516,11 +1502,11 @@ MonoBehaviour:
   - {fileID: -7894180014999886164}
   - {fileID: 7847957981102658146}
   - {fileID: 7775411193757474458}
-  - {fileID: -8775495765905116981}
   - {fileID: 8172903505689064690}
   - {fileID: -174307487123211955}
   - {fileID: -3942688625533938481}
   - {fileID: 6697981507655171519}
+  - {fileID: -9094725038615292566}
   m_Data:
   - {fileID: 114899237803255160}
   - {fileID: 114570194571897652}
@@ -2548,7 +2534,7 @@ MonoBehaviour:
   m_Name: moveSpeedCrouching
   m_EditorClassIdentifier: 
   m_DataID: -3088926
-  m_Value: 2
+  m_Value: 3
 --- !u!114 &114169014938862456
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3035,7 +3021,7 @@ MonoBehaviour:
   m_Name: accelerationAirborne
   m_EditorClassIdentifier: 
   m_DataID: -1189436
-  m_Value: 20
+  m_Value: 40
 --- !u!114 &114277136105510726
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4428,7 +4414,7 @@ MonoBehaviour:
   m_Behaviours:
   - {fileID: 4790686183672535652}
   m_SerializationKey: -246196450
-  internalUiPosition: {x: -3, y: -199}
+  internalUiPosition: {x: -2, y: -199}
   m_Container: {fileID: 11400000}
   m_States:
   - {fileID: 114421834176741900}
@@ -4659,7 +4645,7 @@ MonoBehaviour:
   m_Name: moveSpeedWalkAiming
   m_EditorClassIdentifier: 
   m_DataID: -3123164
-  m_Value: 3
+  m_Value: 7
 --- !u!114 &114570333607889050
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4747,21 +4733,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Property: {fileID: 114876834398404404}
   m_CompareValue: 1
---- !u!114 &114587630573798832
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45fb99beb869ebc469f9a3beb28c0a9a, type: 3}
-  m_Name: Condition Group
-  m_EditorClassIdentifier: 
-  m_CompareTo: 0.6
-  m_HeightMode: 1
-  m_ComparisonType: 4
 --- !u!114 &114587947860642190
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4832,7 +4803,7 @@ MonoBehaviour:
   m_Name: maxJumpHeight
   m_EditorClassIdentifier: 
   m_DataID: -2594210
-  m_Value: 1.05
+  m_Value: 1.55
 --- !u!114 &114597430466943450
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5523,7 +5494,7 @@ MonoBehaviour:
   m_Name: moveSpeedSprinting
   m_EditorClassIdentifier: 
   m_DataID: -3131970
-  m_Value: 7.5
+  m_Value: 10
 --- !u!114 &114725368627682950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5774,7 +5745,7 @@ MonoBehaviour:
   m_Name: acceleration
   m_EditorClassIdentifier: 
   m_DataID: -36654
-  m_Value: 75
+  m_Value: 120
 --- !u!114 &114749013191396734
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6322,7 +6293,7 @@ MonoBehaviour:
   m_Name: deceleration
   m_EditorClassIdentifier: 
   m_DataID: -1069324
-  m_Value: 50
+  m_Value: 75
 --- !u!114 &114841524148053834
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6336,7 +6307,7 @@ MonoBehaviour:
   m_Name: moveSpeedSprintAiming
   m_EditorClassIdentifier: 
   m_DataID: -3139956
-  m_Value: 5
+  m_Value: 9
 --- !u!114 &114847131809565966
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6433,7 +6404,7 @@ MonoBehaviour:
   m_Name: reverseMultilplier
   m_EditorClassIdentifier: 
   m_DataID: -35448
-  m_Value: 0.5
+  m_Value: 0.75
 --- !u!114 &114865457078101294
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -6614,7 +6585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 624e48642449e8148ae5cdaee559c937, type: 3}
   m_Name: Airborne
   m_EditorClassIdentifier: 
-  uiPosition: {x: 251.5, y: 126}
+  uiPosition: {x: 253.5, y: 126}
   defaultName: NewState
   m_Parent: {fileID: 114650566821116758}
   m_Connections:
@@ -6729,7 +6700,7 @@ MonoBehaviour:
   m_Name: moveSpeedWalking
   m_EditorClassIdentifier: 
   m_DataID: -32678
-  m_Value: 5
+  m_Value: 8
 --- !u!114 &114902752251638794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7181,7 +7152,7 @@ MonoBehaviour:
   m_Name: strafeMultiplier
   m_EditorClassIdentifier: 
   m_DataID: -33962
-  m_Value: 0.75
+  m_Value: 0.85
 --- !u!114 &114981683502221606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7998,7 +7969,7 @@ MonoBehaviour:
   m_Name: moveSpeedAirCrouch
   m_EditorClassIdentifier: 
   m_DataID: -6910
-  m_Value: 2
+  m_Value: 3
 --- !u!114 &3729389407262673264
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8188,7 +8159,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3a3b456335ca61438524818321f8afd, type: 3}
   m_Name: canDash
   m_EditorClassIdentifier: 
-  m_StartingValue: 0
+  m_StartingValue: 1
 --- !u!114 &4790686183672535652
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8617,7 +8588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77d31765eb23c6c4d9a5388e4351abc4, type: 3}
   m_Name: Condition Group
   m_EditorClassIdentifier: 
-  m_Property: {fileID: -8775495765905116981}
+  m_Property: {fileID: -9094725038615292566}
 --- !u!114 &7775411193757474458
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8879,10 +8850,10 @@ MonoBehaviour:
   m_Acceleration:
     m_Data: {fileID: 0}
     m_Value: 50
-  m_FrameOfReference: 0
+  m_FrameOfReference: 1
   m_DashAngle: 0
-  m_DashInTime: 0.05
-  m_DashOutTime: 0.5
+  m_DashInTime: 0.02
+  m_DashOutTime: 0.3
   m_DashOutCurve:
     serializedVersion: 2
     m_Curve:
@@ -8905,16 +8876,16 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.7
-      value: -0.05
-      inSlope: 0
-      outSlope: 0
+      time: 0.87999266
+      value: -0.030651856
+      inSlope: -2.0530133
+      outSlope: -2.0530133
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.036190066
       outWeight: 0
     - serializedVersion: 3
-      time: 0.9
+      time: 0.9470581
       value: 0.02
       inSlope: 0
       outSlope: 0
