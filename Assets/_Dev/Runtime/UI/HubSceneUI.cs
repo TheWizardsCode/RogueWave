@@ -1,15 +1,25 @@
+using Codice.CM.Common.Replication;
 using NeoFPS;
 using NeoSaveGames.SceneManagement;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 namespace Playground
 {
     public class HubSceneUI : MonoBehaviour
     {
+        [Header("Resources")]
+        [SerializeField, Tooltip("The number of resources currently available to the player.")]
+        private Text m_ResourcesText = null;
+        [SerializeField, Tooltip("A message informing the player that they do not have enough resourcwe sot build an upgrade.")]
+        private RectTransform m_NotEnoughResourcesMessage = null;
+
         [Header("Start Run")]
 
         [SerializeField] private Button m_StartRunButton = null;
@@ -35,13 +45,20 @@ namespace Playground
         [SerializeField] private Button m_MoveSpeedPostButton = null;
         [SerializeField] private float m_MoveSpeedPostIncrement = 0.05f;
 
+        private WeaponPickupRecipe[] weaponRecipes;
+
         private RogueLitePersistentData m_Data = null;
+        private List<IRecipe> offers;
+
+        private Texture2D optionsBackground;
 
         void Start()
         {
             NeoFpsInputManager.captureMouseCursor = false;
 
             m_Data = RogueLiteManager.persistentData;
+
+            offers = RecipeManager.GetOffers(3);
 
             if (m_MoveSpeedMultButton != null)
                 m_MoveSpeedMultButton.onClick.AddListener(OnClickMoveSpeedMultiplier);
@@ -56,6 +73,86 @@ namespace Playground
 
             if (m_StartRunButton != null)
                 m_StartRunButton.onClick.AddListener(OnClickStartRun);
+
+            optionsBackground = MakeTex(2, 2, new Color(0.4f, 0.4f, 0.4f, 0.5f));
+        }
+
+        void OnGUI()
+        {
+            m_ResourcesText.text = RogueLiteManager.runData.currentResources.ToString();
+
+            if (m_Data != null)
+            {
+                int numberOfOffers = offers.Count;
+                float screenWidth = Screen.width;
+                float screenHeight = Screen.height;
+                float targetWidth = screenWidth * 0.9f;
+                float targetHeight = screenHeight * 0.5f;
+
+                float cardWidth = (targetWidth * 0.8f) / numberOfOffers; 
+
+                float imageHeight = targetHeight * 0.6f;
+                float imageWidth = 640 * (imageHeight / 960f);
+
+                GUILayout.BeginArea(new Rect((screenWidth - targetWidth) / 2, (screenHeight - targetHeight) / 2, targetWidth, targetHeight));
+
+                GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
+                GUILayout.FlexibleSpace();
+
+                m_NotEnoughResourcesMessage.gameObject.SetActive(true);
+
+                for (int i = numberOfOffers - 1; i >= 0; i--)
+                {
+                    IRecipe offer = offers[i];
+                    if (RogueLiteManager.runData.currentResources < offer.Cost)
+                    {
+                        continue;
+                    }
+
+                    m_NotEnoughResourcesMessage.gameObject.SetActive(false);
+
+                    GUIStyle optionStyle = new GUIStyle(GUI.skin.box);
+                    optionStyle.normal.background = optionsBackground;
+
+                    GUIStyle descriptionStyle = new GUIStyle(EditorStyles.textArea);
+                    descriptionStyle.fontSize = 16;
+                    descriptionStyle.alignment = TextAnchor.MiddleCenter;
+                    descriptionStyle.normal.textColor = Color.grey;
+
+                    GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button);
+                    myButtonStyle.fontSize = 25;
+
+                    GUILayout.BeginVertical(optionStyle, GUILayout.Width(cardWidth));
+                    GUILayout.FlexibleSpace();
+
+                    GUILayout.BeginHorizontal();
+                    GUILayout.FlexibleSpace();
+
+                    GUILayout.Box(offer.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+
+                    GUILayout.FlexibleSpace();
+                    GUILayout.EndHorizontal();
+
+                    GUILayout.FlexibleSpace();
+
+                    GUILayout.Label(offer.Description, descriptionStyle, GUILayout.MinHeight(60), GUILayout.MaxHeight(60));
+
+                    GUILayout.FlexibleSpace();
+                    if (GUILayout.Button($"{offer.DisplayName} ({offer.Cost} resources)", myButtonStyle, GUILayout.Height(50))) // Make the button taller
+                    {
+                        m_Data.Add(offer);
+                        offers.Remove(offer);
+                        RogueLiteManager.runData.currentResources -= offer.Cost;
+                    }
+
+                    GUILayout.EndVertical();
+                }
+
+                GUILayout.FlexibleSpace();
+                GUILayout.EndHorizontal();
+
+                GUILayout.EndArea();
+            }   
         }
 
         private void OnClickStartRun()
@@ -121,5 +218,17 @@ namespace Playground
             RefreshMoveSpeedPostAddText();
             m_Data.isDirty = true;
         }
+
+        Texture2D MakeTex(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; i++)
+                pix[i] = col;
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
+        }
+
     }
 }

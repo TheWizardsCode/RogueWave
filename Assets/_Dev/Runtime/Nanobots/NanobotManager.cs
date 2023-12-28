@@ -18,6 +18,8 @@ namespace Playground
         private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
         [SerializeField, Tooltip("The ammo recipes available to the Nanobots in order of preference.")]
         private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
+        [SerializeField, Tooltip("The tool recipes available to the Nanobots in order of preference.")]
+        private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
 
         [Header("Building")]
         [SerializeField, Tooltip("Cooldown between recipes.")]
@@ -39,19 +41,21 @@ namespace Playground
 
         private void Start()
         {
-            ShuffleWeaponRecipes();
-        }
-
-        private void ShuffleWeaponRecipes()
-        {
-            int n = weaponRecipes.Count;
-            while (n > 1)
+            foreach (var healthRecipe in healthRecipes)
             {
-                n--;
-                int k = Random.Range(0, n + 1);
-                WeaponPickupRecipe value = weaponRecipes[k];
-                weaponRecipes[k] = weaponRecipes[n];
-                weaponRecipes[n] = value;
+                healthRecipe.Reset();
+            }
+            foreach (var weaponRecipe in weaponRecipes)
+            {
+                weaponRecipe.Reset();
+            }
+            foreach (var ammoRecipe in ammoRecipes)
+            {
+                ammoRecipe.Reset();
+            }
+            foreach (var toolRecipe in toolRecipes)
+            {
+                toolRecipe.Reset();
             }
         }
 
@@ -157,28 +161,39 @@ namespace Playground
 
             yield return new WaitForSeconds(recipe.TimeToBuild);
 
-            // TODO Use the pool manager to create the item
-            GameObject go = Instantiate(recipe.Item.gameObject);
-            go.transform.position = transform.position + (transform.forward * 5) + (transform.up * 0.5f);
-             
-            if (recipe.BuildCompleteClip != null)
-            {
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(recipe.BuildCompleteClip, go.transform.position, 1);
-            } else
-            {
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(buildCompleteClip, go.transform.position, 1);
-            }
 
-            // TODO: Use the pool manager to create the particle system
-            if (recipe.PickupParticles != null)
+            IItemRecipe itemRecipe = recipe as IItemRecipe;
+            if (itemRecipe != null)
             {
-                ParticleSystem ps = Instantiate(recipe.PickupParticles, go.transform);
-                ps.Play();
+                // TODO Use the pool manager to create the item
+                GameObject go = Instantiate(itemRecipe.Item.gameObject);
+                go.transform.position = transform.position + (transform.forward * 5) + (transform.up * 0.5f);
+
+                if (recipe.BuildCompleteClip != null)
+                {
+                    NeoFpsAudioManager.PlayEffectAudioAtPosition(recipe.BuildCompleteClip, go.transform.position, 1);
+                }
+                else
+                {
+                    NeoFpsAudioManager.PlayEffectAudioAtPosition(buildCompleteClip, go.transform.position, 1);
+                }
+
+                // TODO: Use the pool manager to create the particle system
+                if (recipe.PickupParticles != null)
+                {
+                    ParticleSystem ps = Instantiate(recipe.PickupParticles, go.transform);
+                    ps.Play();
+                }
+                // TODO: Why are there two sets of particles here, suspect a merge error at some point
+                if (pickupSpawnParticlePrefab != null)
+                {
+                    ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);
+                    ps.Play();
+                }
             }
-            if (pickupSpawnParticlePrefab != null)
+            else
             {
-                ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);
-                ps.Play();
+                Debug.LogError("TODO: handle building recipes of type: " + recipe.GetType().Name);
             }
 
             recipe.BuildFinished();
@@ -193,10 +208,16 @@ namespace Playground
         /// <param name="recipe"></param>
         internal void Add(IRecipe recipe)
         {
+            if (recipe == null)
+            {
+                Debug.LogError("Attempting to add a null recipe to the NanobotManager.");
+                return;
+            }
+
             RogueLiteManager.runData.Add(recipe);
 
             AmmoPickupRecipe ammo = recipe as AmmoPickupRecipe;
-            if (recipe != null)
+            if (ammo != null)
             {
                 if (!ammoRecipes.Contains(ammo))
                 {
@@ -206,7 +227,7 @@ namespace Playground
             }
 
             HealthPickupRecipe health = recipe as HealthPickupRecipe;
-            if (recipe != null)
+            if (health != null)
             {
                 if (!healthRecipes.Contains(health))
                 {
@@ -216,14 +237,28 @@ namespace Playground
             }
 
             WeaponPickupRecipe weapon = recipe as WeaponPickupRecipe;
-            if (recipe != null)
+            if (weapon != null)
             {
                 if (!weaponRecipes.Contains(weapon))
                 {
                     weaponRecipes.Add(recipe as WeaponPickupRecipe);
+                    ShuffleWeaponRecipes();
                 }
                 return;
             }
+
+            ToolPickupRecipe tool = recipe as ToolPickupRecipe;
+            if (tool != null)
+            {
+                if (!toolRecipes.Contains(tool))
+                {
+                    toolRecipes.Add(recipe as ToolPickupRecipe);
+                    ShuffleToolRecipes();
+                }
+                return;
+            }
+
+            Debug.LogError("Unknown recipe type: " + recipe.GetType().Name);
         }
 
         /// <summary>
@@ -241,6 +276,32 @@ namespace Playground
                     onResourcesChanged(RogueLiteManager.runData.currentResources, value);
 
                 RogueLiteManager.runData.currentResources = value;
+            }
+        }
+
+        private void ShuffleWeaponRecipes()
+        {
+            int n = weaponRecipes.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0, n + 1);
+                WeaponPickupRecipe value = weaponRecipes[k];
+                weaponRecipes[k] = weaponRecipes[n];
+                weaponRecipes[n] = value;
+            }
+        }
+
+        private void ShuffleToolRecipes()
+        {
+            int n = toolRecipes.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0, n + 1);
+                ToolPickupRecipe value = toolRecipes[k];
+                toolRecipes[k] = toolRecipes[n];
+                toolRecipes[n] = value;
             }
         }
     }

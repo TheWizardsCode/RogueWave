@@ -7,8 +7,9 @@ using UnityEngine;
 namespace Playground
 {
     [CreateAssetMenu(fileName = "Health Pickup Recipe", menuName = "Playground/Health Pickup Recipe")]
-    public class HealthPickupRecipe : Recipe<HealthPickup>
-    {   
+    public class HealthPickupRecipe : ItemRecipe<HealthPickup>
+    {
+        [NonSerialized]
         private IHealthManager _healthManager;
         private IHealthManager healthManager
         {
@@ -20,6 +21,12 @@ namespace Playground
                 }
                 return _healthManager;
             }
+        }
+
+        public override void Reset()
+        {
+            _healthManager = null;
+            base.Reset();
         }
 
         public override bool ShouldBuild

@@ -1,25 +1,24 @@
-﻿using NeoFPS;
-using NeoFPS.ModularFirearms;
-using NeoFPS.SinglePlayer;
-using System;
-using Unity.Collections;
+using NeoFPS;
+using PlasticPipe.PlasticProtocol.Messages;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Playground
 {
-    public class Recipe<T> : ScriptableObject, IRecipe where T : MonoBehaviour
+    public abstract class AbstractRecipe : ScriptableObject, IRecipe
     {
         [Header("Metadata")]
-        [SerializeField, Tooltip("The name of this recipe.")]
+        [SerializeField, Tooltip("The name of this recipe. Used in the UI for the player.")]
         string displayName = "TBD";
+        [SerializeField, TextArea(1, 4), Tooltip("A short description of this recipe helping the player understand what it is.")]
+        string description = "TBD";
+        [SerializeField, Tooltip("An image to use as the hero image for this recipe.")]
+        Texture2D heroImage;
         [SerializeField, Tooltip("DO NOT CHANGE THIS. TODO: Create a custom editor that hides this in case of accidental change.")]
-        string uniqueID = string.Empty;
-
-        [Header("Item")]
-        [SerializeField, Tooltip("The pickup item this recipe creates.")]
-        [FormerlySerializedAs("item")]
-        internal T pickup;
+        internal string uniqueID;
+        [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
+        bool isPowerUp = false; 
         [SerializeField, Tooltip("The resources required to build this ammo type.")]
         int cost = 10;
         [SerializeField, Tooltip("The time it takes to build this recipe.")]
@@ -33,16 +32,15 @@ namespace Playground
         [SerializeField, Tooltip("The particle system to play when a pickup is spawned.")]
         ParticleSystem pickupParticles;
 
-        public virtual bool ShouldBuild
-        {
-            get
-            {
-                return true;
-            }
-        }
-        public string GUID => uniqueID;
+        public string UniqueID => uniqueID;
 
         public string DisplayName => displayName;
+
+        public string Description => description;
+
+        public Texture2D HeroImage => heroImage;
+
+        public bool IsPowerUp => isPowerUp;
 
         public int Cost => cost;
 
@@ -52,20 +50,21 @@ namespace Playground
 
         public AudioClip BuildCompleteClip => buildCompleteClip;
 
-        public Component Item => pickup;
-
         public ParticleSystem PickupParticles => pickupParticles;
 
-        public virtual void BuildFinished()
+        public virtual void Reset()
         {
         }
 
-        private void OnValidate()
+        public virtual bool ShouldBuild
         {
-            if (string.IsNullOrEmpty(uniqueID))
+            get
             {
-                uniqueID = Guid.NewGuid().ToString();
+                return true;
             }
+        }
+        public virtual void BuildFinished()
+        {
         }
     }
 }

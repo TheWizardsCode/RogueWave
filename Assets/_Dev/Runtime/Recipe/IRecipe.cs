@@ -5,14 +5,22 @@ namespace Playground
 {
     public interface IRecipe
     {
-        public string GUID { get; }
+        public string UniqueID { get; }
         public string DisplayName { get; }
-        public Component Item { get; }
+        public string Description { get; }
+        public Texture2D HeroImage { get; }
+        public bool IsPowerUp { get; }
         public int Cost { get; }
         public float TimeToBuild { get; }
         public AudioClip BuildStartedClip { get; }
         public AudioClip BuildCompleteClip { get; }
         public ParticleSystem PickupParticles { get; }
+
+        /// <summary>
+        /// This is called whenever the recipe is enabled. 
+        /// This is useful for resetting any state that may have been changed, such as a reference to the player or any component on them.
+        /// </summary>
+        public void Reset();
 
         /// <summary>
         /// Indicates whether this recipe should be built if enough resources are available.
