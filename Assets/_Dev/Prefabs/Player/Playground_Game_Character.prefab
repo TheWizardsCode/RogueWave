@@ -2277,7 +2277,7 @@ GameObject:
   - component: {fileID: 2830470345106830554}
   - component: {fileID: 2842958109973861201}
   m_Layer: 13
-  m_Name: Playground_Test_Character
+  m_Name: Playground_Game_Character
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2919,12 +2919,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   healthRecipes:
   - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
-  weaponRecipes:
-  - {fileID: 11400000, guid: 717b3145eec8b6f4f88197865f326b24, type: 2}
-  ammoRecipes:
-  - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
-  - {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
-  toolRecipes: []
+  weaponRecipes: []
+  ammoRecipes: []
   cooldown: 3
   buildStartedClip: {fileID: 8300000, guid: 19caa26d8d01e794b9135018f61d304d, type: 3}
   buildCompleteClip: {fileID: 8300000, guid: bcaacdb2a1cc5224a95d8982f7ee37d1, type: 3}
