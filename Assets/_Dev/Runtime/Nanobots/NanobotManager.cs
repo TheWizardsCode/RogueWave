@@ -18,6 +18,8 @@ namespace Playground
         private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
         [SerializeField, Tooltip("The ammo recipes available to the Nanobots in order of preference.")]
         private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
+        [SerializeField, Tooltip("The tool recipes available to the Nanobots in order of preference.")]
+        private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
 
         [Header("Building")]
         [SerializeField, Tooltip("Cooldown between recipes.")]
@@ -194,6 +196,12 @@ namespace Playground
         /// <param name="recipe"></param>
         internal void Add(IRecipe recipe)
         {
+            if (recipe == null)
+            {
+                Debug.LogError("Attempting to add a null recipe to the NanobotManager.");
+                return;
+            }
+
             RogueLiteManager.runData.Add(recipe);
 
             AmmoPickupRecipe ammo = recipe as AmmoPickupRecipe;
@@ -225,6 +233,18 @@ namespace Playground
                 }
                 return;
             }
+
+            ToolPickupRecipe tool = recipe as ToolPickupRecipe;
+            if (tool != null)
+            {
+                if (!toolRecipes.Contains(tool))
+                {
+                    toolRecipes.Add(recipe as ToolPickupRecipe);
+                }
+                return;
+            }
+
+            Debug.LogError("Unknown recipe type: " + recipe.GetType().Name);
         }
 
         /// <summary>

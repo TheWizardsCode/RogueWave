@@ -11,8 +11,38 @@ namespace Playground
 
         internal static void Initialise()
         {
-            WeaponPickupRecipe[] recipes = Resources.LoadAll<WeaponPickupRecipe>("Recipes");
-            foreach (WeaponPickupRecipe recipe in recipes)
+            HealthPickupRecipe[] healthRecipes = Resources.LoadAll<HealthPickupRecipe>("Recipes");
+            foreach (HealthPickupRecipe recipe in healthRecipes)
+            {
+                allRecipes.Add(recipe.UniqueID, recipe);
+                if (recipe.IsPowerUp)
+                {
+                    powerupRecipes.Add(recipe.UniqueID, recipe);
+                }
+            }
+
+            AmmoPickupRecipe[] ammoRecipes = Resources.LoadAll<AmmoPickupRecipe>("Recipes");
+            foreach (AmmoPickupRecipe recipe in ammoRecipes)
+            {
+                allRecipes.Add(recipe.UniqueID, recipe);
+                if (recipe.IsPowerUp)
+                {
+                    powerupRecipes.Add(recipe.UniqueID, recipe);
+                }
+            }
+
+            WeaponPickupRecipe[] weaponRecipes = Resources.LoadAll<WeaponPickupRecipe>("Recipes");
+            foreach (WeaponPickupRecipe recipe in weaponRecipes)
+            {
+                allRecipes.Add(recipe.UniqueID, recipe);
+                if (recipe.IsPowerUp)
+                {
+                    powerupRecipes.Add(recipe.UniqueID, recipe);
+                }
+            }
+
+            ToolPickupRecipe[] toolRecipes = Resources.LoadAll<ToolPickupRecipe>("Recipes");
+            foreach (ToolPickupRecipe recipe in toolRecipes)
             {
                 allRecipes.Add(recipe.UniqueID, recipe);
                 if (recipe.IsPowerUp)

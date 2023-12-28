@@ -17,6 +17,8 @@ namespace Playground
         [Header("Resources")]
         [SerializeField, Tooltip("The number of resources currently available to the player.")]
         private Text m_ResourcesText = null;
+        [SerializeField, Tooltip("A message informing the player that they do not have enough resourcwe sot build an upgrade.")]
+        private RectTransform m_NotEnoughResourcesMessage = null;
 
         [Header("Start Run")]
 
@@ -97,6 +99,8 @@ namespace Playground
                 GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
                 GUILayout.FlexibleSpace();
 
+                m_NotEnoughResourcesMessage.gameObject.SetActive(true);
+
                 for (int i = numberOfOffers - 1; i >= 0; i--)
                 {
                     IRecipe offer = offers[i];
@@ -104,6 +108,8 @@ namespace Playground
                     {
                         continue;
                     }
+
+                    m_NotEnoughResourcesMessage.gameObject.SetActive(false);
 
                     GUIStyle optionStyle = new GUIStyle(GUI.skin.box);
                     optionStyle.normal.background = optionsBackground;

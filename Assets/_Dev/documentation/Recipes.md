@@ -21,4 +21,3 @@ The following steps are the same for all kinds of Recipe. See the following sect
 The following steps are unique to the creation of a weapon recipe:
 
 1. If the weapon requires ammo then place the recipe for its creation in the `Ammo Recipe` field. Whenever a player is given a weapon recipe they will also recieve this recipe
-2. Set the inventory slot that this weapon should be placed into (from 1 to 10). Note that if the player has two weapons in the same slot one will be dropped.
