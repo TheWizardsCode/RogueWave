@@ -6,14 +6,12 @@ using UnityEngine.Serialization;
 namespace Playground
 {
     /// <summary>
-    /// Creates a recipe for a item. This is a generic class that can be used to create any pickup item.
-    /// However, some pickup items may require additional functionality. In that case, create a new class that
-    /// extends this one. For example, see the WeaponPickupRecipe class.
-    /// 
-    /// We don't deal directly with the item itself because we want to enable both pickup spawning and direct creation.
-    /// Therefore we work with the pickup prefab and create an instance when needed.
+    /// Creates a recipe for an item. This is a generic class that can be used to create any item.
     /// </summary>
     /// <typeparam name="T">The type of item that will be created.</typeparam>
+    /// <seealso cref="AmmoPickupRecipe"/>
+    /// <seealso cref="WeaponPickupRecipe"/>
+    /// <seealso cref="ToolPickupRecipe"/>
     public class ItemRecipe<T> : AbstractRecipe, IItemRecipe where T : MonoBehaviour
     {
         [Header("Item")]
