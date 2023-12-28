@@ -1,3 +1,4 @@
+using NeoFPS;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,7 +24,49 @@ namespace Playground
         [SerializeField, Tooltip("The event to trigger when all waves are complete.")]
         public UnityEvent onAllWavesComplete;
 
+        [Header("Shield")]
+        [SerializeField, Tooltip("")]
+        internal BasicHealthManager shieldGenerator;
+        [SerializeField, Tooltip("The particle system to play when a shield generator is destroyed.")]
+        internal ParticleSystem shieldGenParticlePrefab;
+        [SerializeField, Tooltip("")]
+        internal int numShieldGenerators = 3;
+        [SerializeField, Tooltip("")]
+        internal float shieldGeneratorRPM = 45f;
+        [SerializeField, Tooltip("")]
+        internal float shieldGenSpawnDelay = 10f;
+        [SerializeField, Tooltip("")]
+        internal Collider shieldCollider;
+
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
+        List<ShieldGenerator> shieldGenerators = new List<ShieldGenerator>();
+
+        private class ShieldGenerator
+        {
+            public BasicHealthManager healthManager;
+            public GameObject gameObject;
+            public Transform transform;
+
+            public ShieldGenerator (BasicHealthManager h)
+            {
+                healthManager = h;
+                gameObject = h.gameObject;
+                transform = h.transform;
+                h.onIsAliveChanged += OnIsAliveChanged;
+            }
+
+            public void OnIsAliveChanged(bool alive)
+            {
+                gameObject.SetActive(alive);
+            }
+
+            public void Respawn(float health)
+            {
+                healthManager.healthMax = health;
+                healthManager.health = health;
+                // TODO: Shader
+            }
+        }
 
         private int currentWaveIndex = -1;
         private WaveDefinition currentWave;
@@ -32,9 +75,75 @@ namespace Playground
         private float waveWait = 5f;
         private bool generateWaves = true;
 
+        private int livingShieldGenerators = 0;
+
+        private void Update()
+        {
+            var rotation = new Vector3(0f, shieldGeneratorRPM * Time.deltaTime, 0f);
+            for (int i = 0; i < numShieldGenerators; i++)
+                shieldGenerators[i].transform.Rotate(rotation, Space.Self);
+        }
+
         private void Start()
         {
+            transform.localScale = new Vector3(spawnRadius * 2, spawnRadius * 2, spawnRadius * 2);
+
             StartCoroutine(SpawnWaves());
+
+            if (shieldGenerator != null)
+            {
+                RegisterShieldGenerator(shieldGenerator);
+                for (int i = 1; i < numShieldGenerators; ++i)
+                {
+                    var duplicate = Instantiate(shieldGenerator, shieldGenerator.transform.parent);
+                    duplicate.transform.localRotation = Quaternion.Euler(0f, 360f * i / numShieldGenerators, 0f);
+                    RegisterShieldGenerator(duplicate);
+
+                    //var lineRenderer = duplicate.GetComponentInChildren<LineRenderer>();
+                    //if (lineRenderer != null)
+                    //    lineRenderer.widthMultiplier = spawnRadius * 2;
+                }
+
+                livingShieldGenerators = numShieldGenerators;
+            }
+        }
+
+        void RegisterShieldGenerator(BasicHealthManager h)
+        {
+            var sg = new ShieldGenerator(h);
+            shieldGenerators.Add(sg);
+            h.onIsAliveChanged += OnShieldGeneratorIsAliveChanged;
+        }
+
+        private void OnShieldGeneratorIsAliveChanged(bool alive)
+        {
+            // TODO: Need to detect which shield gen and disable it, spawn particles, etc
+
+            int oldLivingShieldGenerators = livingShieldGenerators;
+
+            if (alive)
+                ++livingShieldGenerators;
+            else
+                --livingShieldGenerators;
+
+            if (shieldCollider != null)
+            {
+                if (livingShieldGenerators == 0 && oldLivingShieldGenerators != 0)
+                {
+                    // Disable the shield
+                    shieldCollider.enabled = false;
+                    shieldCollider.gameObject.SetActive(false); // TODO: Shader
+                }
+                else
+                {
+                    if (livingShieldGenerators != 0 && oldLivingShieldGenerators == 0)
+                    {
+                        // Enable the shield
+                        shieldCollider.enabled = true;
+                        shieldCollider.gameObject.SetActive(true); // TODO: Shader
+                    }
+                }
+            }
         }
 
         private void NextWave()
