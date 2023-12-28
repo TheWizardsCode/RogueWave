@@ -41,19 +41,21 @@ namespace Playground
 
         private void Start()
         {
-            ShuffleWeaponRecipes();
-        }
-
-        private void ShuffleWeaponRecipes()
-        {
-            int n = weaponRecipes.Count;
-            while (n > 1)
+            foreach (var healthRecipe in healthRecipes)
             {
-                n--;
-                int k = Random.Range(0, n + 1);
-                WeaponPickupRecipe value = weaponRecipes[k];
-                weaponRecipes[k] = weaponRecipes[n];
-                weaponRecipes[n] = value;
+                healthRecipe.Reset();
+            }
+            foreach (var weaponRecipe in weaponRecipes)
+            {
+                weaponRecipe.Reset();
+            }
+            foreach (var ammoRecipe in ammoRecipes)
+            {
+                ammoRecipe.Reset();
+            }
+            foreach (var toolRecipe in toolRecipes)
+            {
+                toolRecipe.Reset();
             }
         }
 
@@ -240,6 +242,7 @@ namespace Playground
                 if (!weaponRecipes.Contains(weapon))
                 {
                     weaponRecipes.Add(recipe as WeaponPickupRecipe);
+                    ShuffleWeaponRecipes();
                 }
                 return;
             }
@@ -250,6 +253,7 @@ namespace Playground
                 if (!toolRecipes.Contains(tool))
                 {
                     toolRecipes.Add(recipe as ToolPickupRecipe);
+                    ShuffleToolRecipes();
                 }
                 return;
             }
@@ -272,6 +276,32 @@ namespace Playground
                     onResourcesChanged(RogueLiteManager.runData.currentResources, value);
 
                 RogueLiteManager.runData.currentResources = value;
+            }
+        }
+
+        private void ShuffleWeaponRecipes()
+        {
+            int n = weaponRecipes.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0, n + 1);
+                WeaponPickupRecipe value = weaponRecipes[k];
+                weaponRecipes[k] = weaponRecipes[n];
+                weaponRecipes[n] = value;
+            }
+        }
+
+        private void ShuffleToolRecipes()
+        {
+            int n = toolRecipes.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0, n + 1);
+                ToolPickupRecipe value = toolRecipes[k];
+                toolRecipes[k] = toolRecipes[n];
+                toolRecipes[n] = value;
             }
         }
     }

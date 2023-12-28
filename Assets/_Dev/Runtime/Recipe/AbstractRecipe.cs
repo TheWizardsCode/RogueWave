@@ -1,4 +1,5 @@
 using NeoFPS;
+using PlasticPipe.PlasticProtocol.Messages;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -50,6 +51,10 @@ namespace Playground
         public AudioClip BuildCompleteClip => buildCompleteClip;
 
         public ParticleSystem PickupParticles => pickupParticles;
+
+        public virtual void Reset()
+        {
+        }
 
         public virtual bool ShouldBuild
         {

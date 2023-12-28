@@ -68,6 +68,7 @@ namespace Playground
         {
             if (m_RunRecipeData.Contains(recipe))
             {
+                recipe.Reset();
                 return false;
             }
 

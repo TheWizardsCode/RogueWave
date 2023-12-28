@@ -17,6 +17,12 @@ namespace Playground
         public ParticleSystem PickupParticles { get; }
 
         /// <summary>
+        /// This is called whenever the recipe is enabled. 
+        /// This is useful for resetting any state that may have been changed, such as a reference to the player or any component on them.
+        /// </summary>
+        public void Reset();
+
+        /// <summary>
         /// Indicates whether this recipe should be built if enough resources are available.
         /// This will test to see if the item would be useful to the player at this point in time.
         /// For example, if the player already has full health, a health pickup would not be useful.

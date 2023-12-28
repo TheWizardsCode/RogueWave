@@ -1,10 +1,7 @@
-using NeoFPS.ModularFirearms;
 using NeoFPS;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using NeoFPS.SinglePlayer;
-using System.Reflection;
+using System;
 
 namespace Playground
 {
@@ -15,6 +12,7 @@ namespace Playground
         [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]
         internal AmmoPickupRecipe ammoRecipe;
 
+        [NonSerialized]
         private FpsInventorySwappable _inventory;
         private FpsInventorySwappable inventory
         {
@@ -26,6 +24,12 @@ namespace Playground
                 }
                 return _inventory;
             }
+        }
+
+        public override void Reset()
+        {
+            _inventory = null;
+            base.Reset();
         }
 
         public override void BuildFinished()

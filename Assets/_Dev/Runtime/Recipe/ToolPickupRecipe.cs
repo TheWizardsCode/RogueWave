@@ -1,14 +1,14 @@
 using NeoFPS.SinglePlayer;
 using NeoFPS;
-using System.ComponentModel;
 using UnityEngine;
+using System;
 
 namespace Playground
 {
     [CreateAssetMenu(fileName = "Tool Pickup Recipe", menuName = "Playground/Tool Pickup Recipe")]
     public class ToolPickupRecipe : ItemRecipe<InventoryItemPickup>
     {
-
+        [NonSerialized]
         private FpsInventorySwappable _inventory;
         private FpsInventorySwappable inventory
         {
@@ -20,6 +20,12 @@ namespace Playground
                 }
                 return _inventory;
             }
+        }
+
+        public override void Reset()
+        {
+            _inventory = null;
+            base.Reset();
         }
 
         public override void BuildFinished()

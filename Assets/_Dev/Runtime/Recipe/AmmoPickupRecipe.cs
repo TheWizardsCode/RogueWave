@@ -24,7 +24,12 @@ namespace Playground
                 return _inventory;
             }
         }
-        [NonSerialized] private InventoryItemPickup inventoryPickup;
+
+        public override void Reset()
+        {
+            _inventory = null;
+            base.Reset();
+        }
 
         /// <summary>
         /// Test if the player has a given amount of ammo, expressed as a percentage of the maximum.
