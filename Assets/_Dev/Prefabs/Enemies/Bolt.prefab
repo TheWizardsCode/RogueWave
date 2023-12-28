@@ -53,8 +53,9 @@ MonoBehaviour:
   description: TBD
   speed: 3
   rotationSpeed: 3
+  minimumHeight: 0.5
+  optimalDistanceFromPlayer: 0.2
   seekDuration: 15
-  wanderRange: 60
   maxWanderRange: 75
   requireLineOfSight: 1
   viewDistance: 100
@@ -220,6 +221,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: c65cea7223e33dc43b6e654e94aa447e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 582b53bdec178c44fb9723fae5d979bf, type: 2}
     - target: {fileID: 919132149155446097, guid: c65cea7223e33dc43b6e654e94aa447e, type: 3}
       propertyPath: m_Name
       value: bolts
@@ -237,6 +242,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c65cea7223e33dc43b6e654e94aa447e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5272578678109600215}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: c65cea7223e33dc43b6e654e94aa447e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2110995479154502147}
   m_SourcePrefab: {fileID: 100100000, guid: c65cea7223e33dc43b6e654e94aa447e, type: 3}
 --- !u!4 &2465497831105786840 stripped
 Transform:
@@ -298,3 +306,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Surface:
     m_Value: 10
+--- !u!114 &2110995479154502147
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2989516704054126946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324eb03c118da784a8221564f9ef26f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DissolveTime: 1
