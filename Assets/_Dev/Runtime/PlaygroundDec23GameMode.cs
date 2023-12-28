@@ -35,7 +35,12 @@ namespace Playground
 
         public LevelDefinition currentLevelDefinition
         {
-            get { return levels[RogueLiteManager.runData.currentLevel]; }
+            get { 
+                if (levels.Length <= RogueLiteManager.runData.currentLevel)
+                    return levels[levels.Length - 1]; 
+                else
+                    return levels[RogueLiteManager.runData.currentLevel];
+            }
         }
 
         #region Unity Life-cycle
@@ -202,7 +207,7 @@ namespace Playground
 
         protected override bool PreSpawnStep()
         {
-            if (levels[RogueLiteManager.runData.currentLevel].generateLevelOnSpawn)
+            if (currentLevelDefinition.generateLevelOnSpawn)
             {
                 spawnersRemaining = levelGenerator.Generate(this);
             }
