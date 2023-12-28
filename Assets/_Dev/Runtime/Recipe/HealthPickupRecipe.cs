@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Playground
 {
     [CreateAssetMenu(fileName = "Health Pickup Recipe", menuName = "Playground/Health Pickup Recipe")]
-    public class HealthPickupRecipe : Recipe<HealthPickup>
+    public class HealthPickupRecipe : ItemRecipe<HealthPickup>
     {   
         private IHealthManager _healthManager;
         private IHealthManager healthManager

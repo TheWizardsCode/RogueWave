@@ -9,7 +9,7 @@ using System.Reflection;
 namespace Playground
 {
     [CreateAssetMenu(fileName = "Weapon Pickup Recipe", menuName = "Playground/Weapon Pickup Recipe")]
-    public class WeaponPickupRecipe : Recipe<InteractivePickup>
+    public class WeaponPickupRecipe : ItemRecipe<InteractivePickup>
     {
         [Header("Weapon")]
         [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]

@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Playground
 {
     [CreateAssetMenu(fileName = "Tool Pickup Recipe", menuName = "Playground/Tool Pickup Recipe")]
-    public class ToolPickupRecipe : Recipe<InventoryItemPickup>
+    public class ToolPickupRecipe : ItemRecipe<InventoryItemPickup>
     {
 
         private FpsInventorySwappable _inventory;
