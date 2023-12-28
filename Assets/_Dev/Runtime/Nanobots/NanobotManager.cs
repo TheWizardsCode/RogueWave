@@ -159,29 +159,39 @@ namespace Playground
 
             yield return new WaitForSeconds(recipe.TimeToBuild);
 
-            // TODO Use the pool manager to create the item
-            GameObject go = Instantiate(recipe.Item.gameObject);
-            go.transform.position = transform.position + (transform.forward * 5) + (transform.up * 0.5f);
-             
-            if (recipe.BuildCompleteClip != null)
-            {
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(recipe.BuildCompleteClip, go.transform.position, 1);
-            } else
-            {
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(buildCompleteClip, go.transform.position, 1);
-            }
 
-            // TODO: Use the pool manager to create the particle system
-            if (recipe.PickupParticles != null)
+            IItemRecipe itemRecipe = recipe as IItemRecipe;
+            if (itemRecipe != null)
             {
-                ParticleSystem ps = Instantiate(recipe.PickupParticles, go.transform);
-                ps.Play();
+                // TODO Use the pool manager to create the item
+                GameObject go = Instantiate(itemRecipe.Item.gameObject);
+                go.transform.position = transform.position + (transform.forward * 5) + (transform.up * 0.5f);
+
+                if (recipe.BuildCompleteClip != null)
+                {
+                    NeoFpsAudioManager.PlayEffectAudioAtPosition(recipe.BuildCompleteClip, go.transform.position, 1);
+                }
+                else
+                {
+                    NeoFpsAudioManager.PlayEffectAudioAtPosition(buildCompleteClip, go.transform.position, 1);
+                }
+
+                // TODO: Use the pool manager to create the particle system
+                if (recipe.PickupParticles != null)
+                {
+                    ParticleSystem ps = Instantiate(recipe.PickupParticles, go.transform);
+                    ps.Play();
+                }
+                // TODO: Why are there two sets of particles here, suspect a merge error at some point
+                if (pickupSpawnParticlePrefab != null)
+                {
+                    ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);
+                    ps.Play();
+                }
             }
-            // TODO: Why are there two sets of particles here, suspect a merge error at some point
-            if (pickupSpawnParticlePrefab != null)
+            else
             {
-                ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);
-                ps.Play();
+                Debug.LogError("TODO: handle building recipes of type: " + recipe.GetType().Name);
             }
 
             recipe.BuildFinished();
