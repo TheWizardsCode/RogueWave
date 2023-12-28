@@ -88,7 +88,6 @@ MonoBehaviour:
   minimumHeight: 20
   optimalDistanceFromPlayer: 50
   seekDuration: 20
-  wanderRange: 50
   maxWanderRange: 75
   requireLineOfSight: 1
   viewDistance: 100
@@ -285,6 +284,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 1298c6460d67b9347ba0b8f268004d18, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5ba0ace889d035c46881b8838d2ecfb7, type: 2}
     - target: {fileID: 919132149155446097, guid: 1298c6460d67b9347ba0b8f268004d18, type: 3}
       propertyPath: m_Name
       value: saucer
@@ -302,6 +305,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1298c6460d67b9347ba0b8f268004d18, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2780322845640545423}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1298c6460d67b9347ba0b8f268004d18, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2160322589265665652}
   m_SourcePrefab: {fileID: 100100000, guid: 1298c6460d67b9347ba0b8f268004d18, type: 3}
 --- !u!4 &6004605724691275000 stripped
 Transform:
@@ -363,3 +369,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Surface:
     m_Value: 12
+--- !u!114 &2160322589265665652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6349923447215244866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324eb03c118da784a8221564f9ef26f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DissolveTime: 1
