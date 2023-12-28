@@ -28,7 +28,7 @@ namespace Playground
         }
 #endif
 
-        [SerializeField, Tooltip("")]
+        [SerializeField, Tooltip("Name of the Hub Scene to load between levels. This is where the player gets to buy permanent upgrades for their character.")]
         private string m_HubScene = "Playground_HubScene";
 
         const string k_Extension = "profileData";

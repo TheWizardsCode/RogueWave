@@ -109,10 +109,9 @@ MonoBehaviour:
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: 6169814705679472414, guid: 48de05b5a7c62a9449024e8677cf08fd, type: 3}
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
-  m_CharacterPrefab: {fileID: 4053288922990363585, guid: c2d7e740ad643f048be2111e7512f65d, type: 3}
+  m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   levels:
-  - {fileID: 11400000, guid: beb1b1e0f23a69d47a0c2d5b9dc66662, type: 2}
-  - {fileID: 11400000, guid: 543e7f3598e6cb7439f8bb6c5effd41a, type: 2}
+  - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
   m_VictoryDuration: 5
   m_SpawnZones:
     mapSprite: {fileID: 0}
@@ -120,10 +119,11 @@ MonoBehaviour:
   m_LoadoutBuilder:
     slots:
     - m_DisplayName: Primary
-      m_Options: []
+      m_Options:
+      - {fileID: 114019755459329486, guid: 432455827fdeb344e84b804690d24149, type: 3}
     - m_DisplayName: Secondary
       m_Options:
-      - {fileID: 114885381139505388, guid: c31cacfe42242894e9a7cf34bf67817d, type: 3}
+      - {fileID: 114885381139505388, guid: e1ec80373623ca349a20a0a3441f046b, type: 3}
     - m_DisplayName: Melee
       m_Options:
       - {fileID: 114731684343392398, guid: 05d73335c0e2a354eb4bdc95583ad37b, type: 3}
@@ -170,11 +170,11 @@ MonoBehaviour:
     m_Values:
     - {fileID: 8502458911778582416}
     m_GameObject: {fileID: 905963099382226170}
-  m_PrefabStrongID: -850998762
+  m_PrefabStrongID: -1496116264
   expandChildObjects: 0
   expandNeoComponents: 0
   expandOtherComponents: 0
-  prefabGuid: 3f2b5cc90618dbb46b29cd834ae94c12
+  prefabGuid: 5c01213201fd72b4e806db0dd061f6f3
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,11 +307,11 @@ MonoBehaviour:
     m_Keys: 
     m_Values: []
     m_GameObject: {fileID: 8502458911778582416}
-  m_PrefabStrongID: -850998762
+  m_PrefabStrongID: -1496116264
   expandChildObjects: 0
   expandNeoComponents: 0
   expandOtherComponents: 0
-  prefabGuid: 3f2b5cc90618dbb46b29cd834ae94c12
+  prefabGuid: 5c01213201fd72b4e806db0dd061f6f3
 --- !u!1 &8684738436908811697
 GameObject:
   m_ObjectHideFlags: 0

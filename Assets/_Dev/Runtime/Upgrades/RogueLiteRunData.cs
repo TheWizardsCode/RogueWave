@@ -24,9 +24,19 @@ namespace Playground
         {
             m_RunLoadoutData.Clear();
             m_RunRecipeData.Clear();
+
 #if UNITY_EDITOR
-            currentResources = 1000;
-            Debug.Log("RogueLiteRunData: Setting current resources to 1000 since running in editor, good for testing.");
+            if (RogueLiteManager.persistentData.runNumber == 0) // this will be the players first run
+            {
+                currentResources = 100000;
+                Debug.Log("RogueLiteRunData: currentResources set to 100000 as it is the first run for this players profile and we are running in the editor.");
+            }
+#else
+
+            if (RogueLiteManager.persistentData.runNumber == 0) // this will be the players first run
+            {
+                currentResources = 150;
+            }
 #endif
         }
 
@@ -35,14 +45,14 @@ namespace Playground
         /// This will be lost on death.
         /// </summary>
         /// <returns>True if the item is added, false if not added because already present.</returns> 
-        public bool Add(FpsInventoryItemBase item)
+        public bool AddToLoadout(FpsInventoryItemBase item)
         {
-            if (m_RunLoadoutData.Contains(item))
+            if (Loadout.Contains(item))
             {
                 return false;
             }
 
-            m_RunLoadoutData.Add(item);
+            Loadout.Add(item);
             isDirty = true;
             return true;
         }
@@ -58,6 +68,7 @@ namespace Playground
         {
             if (m_RunRecipeData.Contains(recipe))
             {
+                recipe.Reset();
                 return false;
             }
 

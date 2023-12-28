@@ -1,22 +1,18 @@
-using NeoFPS.ModularFirearms;
 using NeoFPS;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using NeoFPS.SinglePlayer;
-using System.Reflection;
+using System;
 
 namespace Playground
 {
     [CreateAssetMenu(fileName = "Weapon Pickup Recipe", menuName = "Playground/Weapon Pickup Recipe")]
-    public class WeaponPickupRecipe : Recipe<InteractivePickup>
+    public class WeaponPickupRecipe : ItemRecipe<InteractivePickup>
     {
         [Header("Weapon")]
         [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]
-        private AmmoPickupRecipe ammoRecipe;
-        [SerializeField, Tooltip("The inventory slot this item should be placed in.")]
-        internal int inventorySlot = 1;
+        internal AmmoPickupRecipe ammoRecipe;
 
+        [NonSerialized]
         private FpsInventorySwappable _inventory;
         private FpsInventorySwappable inventory
         {
@@ -30,11 +26,17 @@ namespace Playground
             }
         }
 
+        public override void Reset()
+        {
+            _inventory = null;
+            base.Reset();
+        }
+
         public override void BuildFinished()
         {
             NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
             nanobotManager.Add(ammoRecipe);
-            RogueLiteManager.runData.Add(pickup.GetItemPrefab() as FpsInventoryItemBase);
+            RogueLiteManager.runData.AddToLoadout(pickup.GetItemPrefab() as FpsInventoryItemBase);
 
             base.BuildFinished();
         }

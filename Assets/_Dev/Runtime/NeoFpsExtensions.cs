@@ -13,6 +13,14 @@ namespace Playground
             return fieldInfo.GetValue(instance) as FpsInventoryItemBase;
         }
     }
+    public static class InventoryItemPickupExtension
+    {
+        public static FpsInventoryItemBase GetItemPrefab(this InventoryItemPickup instance)
+        {
+            var fieldInfo = typeof(InventoryItemPickup).GetField("m_ItemPrefab", BindingFlags.NonPublic | BindingFlags.Instance);
+            return fieldInfo.GetValue(instance) as FpsInventoryItemBase;
+        }
+    }
 
     public static class LoadoutBuilderSlotExtensions
     {

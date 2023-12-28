@@ -2672,7 +2672,79 @@ MonoBehaviour:
   - {fileID: 1575289363954670002, guid: d64bb3a12b682f6438476834d0149bb9, type: 3}
   m_DuplicateBehaviour: 3
   m_SwapAction: 0
-  m_GroupSizes: 050000000200000003000000
+  m_GroupSizes: 060000000200000002000000
+--- !u!114 &2000301058560624785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625fd8b9bf5d3804a826e99dfb6e894f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3997416269590772967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10962701be0ee4f48889a75703164086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EncumberedSwitchKey: encumbered
+  m_EncumberedThreshold: 0.5
+  m_MaxWeightSpeedMultiplier: 0.2
+  m_GraphData:
+  - moveSpeedWalking
+  - moveSpeedWalkAiming
+  - moveSpeedSprinting
+  - moveSpeedSprintAiming
+  - moveSpeedCrouching
+--- !u!114 &4580383138697328011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4381c6719a3f00f4d811de517d587d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxDistance: 2.25
+  m_TickRate: 1
+  m_MassLimit: 50.1
+  m_AnalogRotateRate: 60
+  m_MouseRotateRate: 10
+  m_ValidCarryLayers:
+    serializedVersion: 2
+    m_Bits: 20975617
+  m_BlockingLayers:
+    serializedVersion: 2
+    m_Bits: 8391169
+  m_DropOnDamage: 10
+  m_MaxTotalDamage: 10
+  m_Anchor: {fileID: 818700445492283600}
+  m_CarrySpeed: 50
+  m_PositionBlend: 0.85
+  m_ThrowDirection: {fileID: 2772710991694823938}
+  m_ThrowForce: 10
+  m_ThrowForceMode: 2
+  m_BreakDistance: 1
+  m_BreakDuration: 0.75
+  m_OnPickedObjectUp:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDroppedObject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8278156938334086020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2723,10 +2795,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
   weaponRecipes:
   - {fileID: 11400000, guid: 717b3145eec8b6f4f88197865f326b24, type: 2}
-  - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
-  - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
   ammoRecipes:
+  - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
   - {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
+  toolRecipes: []
   cooldown: 3
   buildStartedClip: {fileID: 8300000, guid: 19caa26d8d01e794b9135018f61d304d, type: 3}
   buildCompleteClip: {fileID: 8300000, guid: bcaacdb2a1cc5224a95d8982f7ee37d1, type: 3}

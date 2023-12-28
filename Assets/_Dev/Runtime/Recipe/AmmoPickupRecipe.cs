@@ -7,7 +7,7 @@ using UnityEngine;
 namespace Playground
 {
     [CreateAssetMenu(fileName = "Ammo Pickup Recipe", menuName = "Playground/Ammo Pickup Recipe")]
-    public class AmmoPickupRecipe : Recipe<Pickup>
+    public class AmmoPickupRecipe : ItemRecipe<Pickup>
     {
         [SerializeField, Tooltip("The ammo type this recipe creates.")]
         private SharedAmmoType ammo;
@@ -24,7 +24,12 @@ namespace Playground
                 return _inventory;
             }
         }
-        [NonSerialized] private InventoryItemPickup inventoryPickup;
+
+        public override void Reset()
+        {
+            _inventory = null;
+            base.Reset();
+        }
 
         /// <summary>
         /// Test if the player has a given amount of ammo, expressed as a percentage of the maximum.

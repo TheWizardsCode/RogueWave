@@ -8,6 +8,8 @@ namespace Playground
     public class EnemyWeapon : MonoBehaviour
     {
         [Header("Weapon")]
+        [SerializeField, Tooltip("The amount of time in seconds that the weapon will lock on to the player before firing.")]
+        private float _LockOnTime = 1.5f;
         [SerializeField, Tooltip("How frequently this weapon can fire in seconds.")]
         private float _fireRate = 1f;
         [SerializeField, Tooltip("The amount of damage this weapon will do to the player.")]
@@ -19,7 +21,15 @@ namespace Playground
         [SerializeField, Tooltip("The amount of time in seconds that the weapon will be visible when firing.")]
         private float _fireDuration = 0.75f;
 
+        enum State
+        {
+            Idle,
+            LockingOn,
+            Firing
+        }
 
+        private State _state = State.Idle;
+        private float _lockOnTimer = 0f;
         private float _fireTimer = 0f;
 
         BasicEnemyController controller;
@@ -51,17 +61,47 @@ namespace Playground
         private void Update()
         {
             if (controller.CanSeeTarget == false || PlayerDamageHandler == null) {
+                _state = State.Idle;
                 return;
             }
 
-            _lineRenderer.SetPosition(0, transform.position);
-
-            _fireTimer += Time.deltaTime;
-
-            if (_fireTimer >= _fireRate && controller.shouldAttack)
+            if (_state == State.Idle && controller.CanSeeTarget)
             {
-                _fireTimer = 0f;
-                StartCoroutine(Fire());
+                _state = State.LockingOn;
+                _lockOnTimer = _LockOnTime;
+                return;
+            }
+
+            if (_state == State.LockingOn)
+            {
+                if (controller.CanSeeTarget)
+                {
+                    _lockOnTimer -= Time.deltaTime;
+                    if (_lockOnTimer <= 0f)
+                    {
+                        _state = State.Firing;
+                    } else
+                    {
+                        return;
+                    }
+                } else
+                {
+                    _state = State.Idle;
+                    return;
+                }
+            }
+
+            if (_state == State.Firing)
+            {
+                _lineRenderer.SetPosition(0, transform.position);
+
+                _fireTimer += Time.deltaTime;
+
+                if (_fireTimer >= _fireRate && controller.shouldAttack)
+                {
+                    _fireTimer = 0f;
+                    StartCoroutine(Fire());
+                }
             }
         }
 
