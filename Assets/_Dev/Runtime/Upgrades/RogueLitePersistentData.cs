@@ -36,6 +36,8 @@ namespace Playground
         // Can NOT(!) serialize UnityEngine.Object references or non-serializable types like dictionary
         // Remember to set isDirty = true when changing a value
 
+        public int runNumber = 0;
+
         public List<string> recipeGuids = new List<string>();
         public List<string> RecipeIds { get { return recipeGuids; } }
         /// <summary>

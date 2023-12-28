@@ -64,11 +64,6 @@ namespace Playground
             List<IRecipe> offers = new List<IRecipe>();
             List<IRecipe> candidates = GetPoweupCandidates();
 
-            if (candidates.Count < quantity)
-            {
-                Debug.LogWarning("TODO: handle the situation where there are not enough recipes to offer.");
-            }
-
             for (int i = 0; i < quantity; i++)
             {
                 if (candidates.Count == 0)

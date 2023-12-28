@@ -207,6 +207,8 @@ namespace Playground
 
         protected override bool PreSpawnStep()
         {
+            RogueLiteManager.persistentData.runNumber++;
+
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
                 spawnersRemaining = levelGenerator.Generate(this);
@@ -263,6 +265,9 @@ namespace Playground
                 }
                 m_LoadoutBuilder.slots[category].AddOption(item);
             }
+
+            RogueLiteManager.persistentData.isDirty = true;
+            RogueLiteManager.runData.isDirty = true;
 
             return base.PreSpawnStep();
         }

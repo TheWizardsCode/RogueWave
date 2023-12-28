@@ -26,11 +26,17 @@ namespace Playground
             m_RunRecipeData.Clear();
 
 #if UNITY_EDITOR
-            currentResources = 100000;
-            Debug.Log("RogueLiteRunData: currentResources set to 100000 as running in the editor.");
-
+            if (RogueLiteManager.persistentData.runNumber == 0) // this will be the players first run
+            {
+                currentResources = 100000;
+                Debug.Log("RogueLiteRunData: currentResources set to 100000 as it is the first run for this players profile and we are running in the editor.");
+            }
 #else
-            currentResources = 150;
+
+            if (RogueLiteManager.persistentData.runNumber == 0) // this will be the players first run
+            {
+                currentResources = 150;
+            }
 #endif
         }
 
