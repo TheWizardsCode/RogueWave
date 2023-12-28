@@ -7,6 +7,8 @@ namespace Playground
     {
         public string UniqueID { get; }
         public string DisplayName { get; }
+        public string Description { get; }
+        public Texture2D HeroImage { get; }
         public bool IsPowerUp { get; }
         public Component Item { get; }
         public int Cost { get; }

@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -43,6 +44,8 @@ namespace Playground
         private RogueLitePersistentData m_Data = null;
         private List<IRecipe> offers;
 
+        private Texture2D optionsBackground;
+
         void Start()
         {
             NeoFpsInputManager.captureMouseCursor = false;
@@ -64,25 +67,69 @@ namespace Playground
 
             if (m_StartRunButton != null)
                 m_StartRunButton.onClick.AddListener(OnClickStartRun);
+
+            optionsBackground = MakeTex(2, 2, new Color(0.4f, 0.4f, 0.4f, 0.5f));
         }
 
         void OnGUI()
         {
             if (m_Data != null)
             {
-                GUILayout.BeginArea(new Rect(10f, 10f, 300f, 1000f));
+                float screenWidth = Screen.width;
+                float screenHeight = Screen.height;
+                float targetWidth = screenWidth * 0.66f;
+                float targetHeight = screenHeight * 0.5f;
+
+                GUILayout.BeginArea(new Rect((screenWidth - targetWidth) / 2, (screenHeight - targetHeight) / 2, targetWidth, targetHeight));
+
+                GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
 
                 for (int i = offers.Count - 1; i >= 0; i--)
                 {
                     IRecipe offer = offers[i];
+                    if (RogueLiteManager.runData.currentResources < offer.Cost)
+                    {
+                        continue;
+                    }
 
-                    if (RogueLiteManager.runData.currentResources >= offer.Cost && GUILayout.Button($"{offer.DisplayName} ({offer.Cost} resources)"))
+                    GUIStyle optionStyle = new GUIStyle(GUI.skin.box);
+                    optionStyle.normal.background = optionsBackground;
+
+                    GUIStyle descriptionStyle = new GUIStyle(EditorStyles.textArea);
+                    descriptionStyle.fontSize = 16;
+                    descriptionStyle.alignment = TextAnchor.MiddleCenter;
+                    descriptionStyle.normal.textColor = Color.grey;
+
+                    GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button);
+                    myButtonStyle.fontSize = 25;
+
+                    GUILayout.BeginVertical(optionStyle);
+                    GUILayout.FlexibleSpace();
+
+                    GUILayout.BeginHorizontal();
+                    GUILayout.FlexibleSpace();
+
+                    GUILayout.Box(offer.HeroImage, GUILayout.Width(200), GUILayout.Height(300));
+
+                    GUILayout.FlexibleSpace();
+                    GUILayout.EndHorizontal();
+
+                    GUILayout.FlexibleSpace();
+
+                    GUILayout.Label(offer.Description, descriptionStyle, GUILayout.MinHeight(60), GUILayout.MaxHeight(60));
+
+                    GUILayout.FlexibleSpace();
+                    if (GUILayout.Button($"{offer.DisplayName} ({offer.Cost} resources)", myButtonStyle, GUILayout.Height(50))) // Make the button taller
                     {
                         m_Data.Add(offer);
                         offers.Remove(offer);
                         RogueLiteManager.runData.currentResources -= offer.Cost;
                     }
+
+                    GUILayout.EndVertical();
                 }
+
+                GUILayout.EndHorizontal();
 
                 GUILayout.EndArea();
             }   
@@ -151,5 +198,17 @@ namespace Playground
             RefreshMoveSpeedPostAddText();
             m_Data.isDirty = true;
         }
+
+        Texture2D MakeTex(int width, int height, Color col)
+        {
+            Color[] pix = new Color[width * height];
+            for (int i = 0; i < pix.Length; i++)
+                pix[i] = col;
+            Texture2D result = new Texture2D(width, height);
+            result.SetPixels(pix);
+            result.Apply();
+            return result;
+        }
+
     }
 }
