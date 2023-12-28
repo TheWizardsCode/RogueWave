@@ -10,6 +10,7 @@ using NeoSaveGames.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using NeoFPS.Constants;
 
 namespace Playground
 {
@@ -163,12 +164,11 @@ namespace Playground
 
         public void AddToLoadout(FpsInventoryItemBase item)
         {
-            RogueLiteManager.runData.Add(item);
+            RogueLiteManager.runData.AddToLoadout(item);
         }
 
         protected override void OnCharacterSpawned(ICharacter character)
         {
-            // Apply inventory loadout
             var loadout = m_LoadoutBuilder.GetLoadout();
             if (loadout != null)
                 character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
@@ -179,6 +179,7 @@ namespace Playground
             {
                 manager.Add(RogueLiteManager.runData.Recipes[i]);
             }
+
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
                 if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe))
@@ -188,7 +189,10 @@ namespace Playground
                     WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
                     if (weaponRecipe != null)
                     {
-                        manager.Add(weaponRecipe.ammoRecipe);
+                        if (weaponRecipe.ammoRecipe != null)
+                        {
+                            manager.Add(weaponRecipe.ammoRecipe);
+                        }
                     }
                 }
             }
@@ -213,17 +217,46 @@ namespace Playground
                 RogueLiteManager.runData.Add(recipe);
 
                 WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
-
                 if (weaponRecipe != null)
                 {
-                    RogueLiteManager.runData.Add(weaponRecipe.pickup.GetItemPrefab());
+                    if (weaponRecipe.pickup == null)
+                    {
+                        Debug.LogError("WeaponPickupRecipe " + weaponRecipe.name + " has no pickup assigned.");
+                    }
+                    RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
+                }
+
+                ToolPickupRecipe toolRecipe = recipe as ToolPickupRecipe;
+                if (toolRecipe != null)
+                {
+                    if (toolRecipe.pickup == null)
+                    {
+                        Debug.LogError("ToolPickupRecipe " + toolRecipe.name + " has no pickup assigned.");
+                        break;
+                    }
+                    RogueLiteManager.runData.AddToLoadout(toolRecipe.pickup.GetItemPrefab());
                 }
             }
 
             for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)
             {
                 FpsInventoryItemBase item = RogueLiteManager.runData.Loadout[i] as FpsInventoryItemBase;
-                m_LoadoutBuilder.slots[((FpsInventoryWieldableSwappable)item).category].AddOption(item);
+                FpsSwappableCategory category = FpsSwappableCategory.Firearm;
+
+                FpsInventoryQuickUseSwappableItem quickUse = item as FpsInventoryQuickUseSwappableItem;
+                if (quickUse != null)
+                {
+                    category = quickUse.category; 
+                }
+                else
+                {
+                    FpsInventoryWieldableSwappable wieldable = item as FpsInventoryWieldableSwappable;
+                    if (wieldable != null)
+                    {
+                        category = wieldable.category;
+                    }
+                }
+                m_LoadoutBuilder.slots[category].AddOption(item);
             }
 
             return base.PreSpawnStep();

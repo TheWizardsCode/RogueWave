@@ -25,7 +25,13 @@ namespace Playground
             m_RunLoadoutData.Clear();
             m_RunRecipeData.Clear();
 
+#if UNITY_EDITOR
+            currentResources = 100000;
+            Debug.Log("RogueLiteRunData: currentResources set to 100000 as running in the editor.");
+
+#else
             currentResources = 150;
+#endif
         }
 
         /// <summary>
@@ -33,7 +39,7 @@ namespace Playground
         /// This will be lost on death.
         /// </summary>
         /// <returns>True if the item is added, false if not added because already present.</returns> 
-        public bool Add(FpsInventoryItemBase item)
+        public bool AddToLoadout(FpsInventoryItemBase item)
         {
             if (Loadout.Contains(item))
             {

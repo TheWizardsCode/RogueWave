@@ -1,19 +1,13 @@
-using NeoFPS.ModularFirearms;
-using NeoFPS;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using NeoFPS.SinglePlayer;
-using System.Reflection;
+using NeoFPS;
+using System.ComponentModel;
+using UnityEngine;
 
 namespace Playground
 {
-    [CreateAssetMenu(fileName = "Weapon Pickup Recipe", menuName = "Playground/Weapon Pickup Recipe")]
-    public class WeaponPickupRecipe : Recipe<InteractivePickup>
+    [CreateAssetMenu(fileName = "Tool Pickup Recipe", menuName = "Playground/Tool Pickup Recipe")]
+    public class ToolPickupRecipe : Recipe<InventoryItemPickup>
     {
-        [Header("Weapon")]
-        [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]
-        internal AmmoPickupRecipe ammoRecipe;
 
         private FpsInventorySwappable _inventory;
         private FpsInventorySwappable inventory
@@ -30,8 +24,6 @@ namespace Playground
 
         public override void BuildFinished()
         {
-            NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
-            nanobotManager.Add(ammoRecipe);
             RogueLiteManager.runData.AddToLoadout(pickup.GetItemPrefab() as FpsInventoryItemBase);
 
             base.BuildFinished();
