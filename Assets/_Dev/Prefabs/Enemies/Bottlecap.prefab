@@ -84,8 +84,9 @@ MonoBehaviour:
   description: Moves slowly towards the enemy in a direct line and attacks on contact.
   speed: 4
   rotationSpeed: 4
+  minimumHeight: 0.5
+  optimalDistanceFromPlayer: 0.2
   seekDuration: 7
-  wanderRange: 40
   maxWanderRange: 30
   requireLineOfSight: 1
   viewDistance: 100
@@ -232,6 +233,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f045c6dca73d15a4f8e3280e3e37c6e6, type: 2}
     - target: {fileID: 919132149155446097, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}
       propertyPath: m_Name
       value: bottlecap
@@ -249,6 +254,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5153797917701189976}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2203699230584328228}
   m_SourcePrefab: {fileID: 100100000, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}
 --- !u!1 &1275075781956060638 stripped
 GameObject:
@@ -305,6 +313,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Surface:
     m_Value: 12
+--- !u!114 &2203699230584328228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275075781956060638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324eb03c118da784a8221564f9ef26f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DissolveTime: 1
 --- !u!4 &1943912401393000292 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}

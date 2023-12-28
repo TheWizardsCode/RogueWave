@@ -289,6 +289,7 @@ GameObject:
   - component: {fileID: 4455739884227912645}
   - component: {fileID: 4955364468326104971}
   - component: {fileID: 40696254190186761}
+  - component: {fileID: 5051522473541029572}
   m_Layer: 0
   m_Name: shield_gen
   m_TagString: Untagged
@@ -339,7 +340,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6478536213147159724, guid: 457fa3dd2d22e14458c36179c7a9b829, type: 3}
+  - {fileID: 2100000, guid: afcf101812da1574eb666c8621f164e1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -398,6 +399,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Multiplier: 1
   m_Critical: 0
+--- !u!114 &5051522473541029572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798155529671557648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324eb03c118da784a8221564f9ef26f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DissolveTime: 1
 --- !u!1 &3203945097326499287
 GameObject:
   m_ObjectHideFlags: 0
