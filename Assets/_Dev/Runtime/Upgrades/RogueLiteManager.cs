@@ -81,6 +81,13 @@ namespace Playground
             }
         }
 
+        protected override void OnDestroy()
+        {
+            SaveProfile();
+
+            base.OnDestroy();
+        }
+
         public static void ResetRunData()
         {
             m_RunData = new RogueLiteRunData();
@@ -102,7 +109,6 @@ namespace Playground
             {
                 StartCoroutine(SaveProfileData());
             }
-
             IEnumerator SaveProfileData()
             {
                 var wait = new WaitForSecondsRealtime(3f);
