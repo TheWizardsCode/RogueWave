@@ -28,6 +28,8 @@ namespace Playground
             if (m_Renderer != null)
             {
                 m_Dissolve = 1f;
+                m_PropertyBlock.SetFloat(k_ShaderParameter_Dissolve, m_Dissolve);
+                m_Renderer.SetPropertyBlock(m_PropertyBlock, 0);
             }
         }
 
