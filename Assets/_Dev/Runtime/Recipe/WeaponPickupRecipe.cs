@@ -5,7 +5,7 @@ using System;
 
 namespace Playground
 {
-    [CreateAssetMenu(fileName = "Weapon Pickup Recipe", menuName = "Playground/Weapon Pickup Recipe")]
+    [CreateAssetMenu(fileName = "Weapon Pickup Recipe", menuName = "Playground/Weapon Pickup Recipe", order = 108)]
     public class WeaponPickupRecipe : ItemRecipe<InteractivePickup>
     {
         [Header("Weapon")]
