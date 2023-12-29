@@ -10,7 +10,7 @@ namespace Playground
     /// Each level consists of one or more waves of enemies to spawn.
     /// </summary>
     /// <seealso cref="WaveDefinition"/>
-    [CreateAssetMenu(fileName = "LevelDefinition", menuName = "Playground/Level Definition")]
+    [CreateAssetMenu(fileName = "LevelDefinition", menuName = "Playground/Level Definition", order = 200)]
     public class LevelDefinition : ScriptableObject
     {
         [Header("Enemies")]
