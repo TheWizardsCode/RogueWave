@@ -1,19 +1,35 @@
 using NeoFPS;
+using NeoFPS.SinglePlayer;
 using NeoSaveGames.SceneManagement;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Playground
 {
-    public class HubSceneUI : MonoBehaviour
+    /// <summary>
+    /// Show a UI that allows the player to select a recipe to build.
+    /// This UI is designed to be run either Pre Spawn or during a run (post spawn).
+    /// </summary>
+    public class RecipeSelectorUI : MonoBehaviour
     {
+        [Header("Behaviour")]
+        [SerializeField, Tooltip("If this UI is being shown before the run actually starts, e.g. in a Hub Scene, this should be set to true. If, however, the player has been spawned and this is being shown in a run then this should be false.")]
+        private bool m_PreSpawn = true;
+        [SerializeField, Tooltip("If true then selections will be recorded in persistent data and will survive between runs. If false then the selection will be recorded in run data and lost upon death.")]
+        private bool m_MakePersistentSelections = true;
+        [SerializeField, Tooltip("The number of offers that should be shown to the plauer. This could be modified by the game situation.")]
+        int m_NumberOfOffers = 3;
+        [SerializeField, Tooltip("The number of selections that can be made. This could be modified by the game situation.")]
+        int m_NumberOfSelections = 1;
+
         [Header("Resources")]
-        [SerializeField, Tooltip("The number of resources currently available to the player.")]
+        [SerializeField, Tooltip("The number of resources currently available to the player. If this is null then it is assumed that the resources should not be shown.")]
         private Text m_ResourcesText = null;
-        [SerializeField, Tooltip("A message informing the player that they do not have enough resourcwe sot build an upgrade.")]
+        [SerializeField, Tooltip("A message informing the player that they do not have enough resourcwe sot build an upgrade. If this is null then it is assumed no message is needed.")]
         private RectTransform m_NotEnoughResourcesMessage = null;
 
         [Header("Start Run")]
@@ -27,45 +43,49 @@ namespace Playground
         [SerializeField] private Color m_GoodColour = Color.green;
         [SerializeField] private Color m_BadColour = Color.red;
 
-        [Header("Move Speed Example")]
-
-        [SerializeField] private Text m_MoveSpeedMultText = null;
-        [SerializeField] private Button m_MoveSpeedMultButton = null;
-        [SerializeField] private float m_MoveSpeedMultIncrement = 0.05f;
-
-        [SerializeField] private Text m_MoveSpeedPreText = null;
-        [SerializeField] private Button m_MoveSpeedPreButton = null;
-        [SerializeField] private float m_MoveSpeedPreIncrement = 0.05f;
-
-        [SerializeField] private Text m_MoveSpeedPostText = null;
-        [SerializeField] private Button m_MoveSpeedPostButton = null;
-        [SerializeField] private float m_MoveSpeedPostIncrement = 0.05f;
-
         private WeaponPickupRecipe[] weaponRecipes;
 
-        private RogueLitePersistentData m_Data = null;
+        private RogueLitePersistentData m_PersistentData = null;
+        private RogueLiteRunData m_RunData = null;
         private List<IRecipe> offers;
 
         private Texture2D optionsBackground;
+        private int m_SelectionCount;
+
+        private NanobotManager nanobotManager {
+            get
+            {
+                if (FpsSoloCharacter.localPlayerCharacter != null)
+                {
+                    return FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
+                } else
+                {
+                    return null;
+                }
+            }
+        }
 
         void Start()
         {
+            if (m_PreSpawn)
+            {
+                ChooseRecipe();
+            }
+        }
+
+        /// <summary>
+        /// Display the UI and start the choosing process.
+        /// When a recipe is chosen the UI will be hidden and the chosen recipe will be added to the player's runData.
+        /// </summary>
+        /// <param name="numberOfOffers">The number of offers that should be presented.</param>
+        /// <param name="numberOfSelections">The number of selections that can be made.</param>
+        public void ChooseRecipe() { 
             NeoFpsInputManager.captureMouseCursor = false;
 
-            m_Data = RogueLiteManager.persistentData;
-
-            offers = RecipeManager.GetOffers(3);
-
-            if (m_MoveSpeedMultButton != null)
-                m_MoveSpeedMultButton.onClick.AddListener(OnClickMoveSpeedMultiplier);
-            if (m_MoveSpeedPreButton != null)
-                m_MoveSpeedPreButton.onClick.AddListener(OnClickMoveSpeedPreAdd);
-            if (m_MoveSpeedPostButton != null)
-                m_MoveSpeedPostButton.onClick.AddListener(OnClickMoveSpeedPostAdd);
-
-            RefreshMoveSpeedMultiplierText();
-            RefreshMoveSpeedPreAddText();
-            RefreshMoveSpeedPostAddText();
+            m_PersistentData = RogueLiteManager.persistentData;
+            m_RunData = RogueLiteManager.runData;
+            
+            offers = RecipeManager.GetOffers(m_NumberOfOffers);
 
             if (m_StartRunButton != null)
                 m_StartRunButton.onClick.AddListener(OnClickStartRun);
@@ -75,9 +95,15 @@ namespace Playground
 
         void OnGUI()
         {
-            m_ResourcesText.text = RogueLiteManager.runData.currentResources.ToString();
+            if (offers == null)
+                return;
 
-            if (m_Data != null)
+            if (m_ResourcesText != null)
+            {
+                m_ResourcesText.text = RogueLiteManager.runData.currentResources.ToString();
+            }
+
+            if (m_PersistentData != null)
             {
                 int numberOfOffers = offers.Count;
                 float screenWidth = Screen.width;
@@ -95,7 +121,10 @@ namespace Playground
                 GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
                 GUILayout.FlexibleSpace();
 
-                m_NotEnoughResourcesMessage.gameObject.SetActive(true);
+                if (m_NotEnoughResourcesMessage != null)
+                {
+                    m_NotEnoughResourcesMessage.gameObject.SetActive(true);
+                }
 
                 for (int i = numberOfOffers - 1; i >= 0; i--)
                 {
@@ -105,7 +134,10 @@ namespace Playground
                         continue;
                     }
 
-                    m_NotEnoughResourcesMessage.gameObject.SetActive(false);
+                    if (m_NotEnoughResourcesMessage != null)
+                    {
+                        m_NotEnoughResourcesMessage.gameObject.SetActive(false);
+                    }
 
                     GUIStyle optionStyle = new GUIStyle(GUI.skin.box);
                     optionStyle.normal.background = optionsBackground;
@@ -134,11 +166,18 @@ namespace Playground
                     GUILayout.Label(offer.Description, descriptionStyle, GUILayout.MinHeight(60), GUILayout.MaxHeight(60));
 
                     GUILayout.FlexibleSpace();
-                    if (GUILayout.Button($"{offer.DisplayName} ({offer.Cost} resources)", myButtonStyle, GUILayout.Height(50))) // Make the button taller
+                    string btnText;
+                    if (m_MakePersistentSelections)
                     {
-                        m_Data.Add(offer);
-                        offers.Remove(offer);
-                        RogueLiteManager.runData.currentResources -= offer.Cost;
+                        btnText = $"{offer.DisplayName} ({offer.Cost} resources)";
+                    }
+                    else
+                    {
+                        btnText = $"{offer.DisplayName}";
+                    }
+                    if (GUILayout.Button(btnText, myButtonStyle, GUILayout.Height(50))) // Make the button taller
+                    {
+                        Select(offer);
                     }
 
                     GUILayout.EndVertical();
@@ -149,6 +188,39 @@ namespace Playground
 
                 GUILayout.EndArea();
             }   
+        }
+
+        private void Select(IRecipe offer)
+        {
+            m_SelectionCount++;
+
+            if (nanobotManager != null)
+            {
+                nanobotManager.Add(offer, m_MakePersistentSelections);
+            }
+
+            if (m_MakePersistentSelections)
+            {
+                RogueLiteManager.persistentData.Add(offer);
+                RogueLiteManager.runData.currentResources -= offer.Cost;
+            } else
+            {
+                RogueLiteManager.runData.Add(offer);
+            }
+
+            offers.Remove(offer);
+
+            if (m_SelectionCount == m_NumberOfSelections) {
+                if (m_PreSpawn)
+                {
+                    OnClickStartRun();
+                }
+                else
+                {
+                    NeoFpsInputManager.captureMouseCursor = true;
+                    Destroy(gameObject);
+                }
+            }
         }
 
         private void OnClickStartRun()
@@ -179,6 +251,7 @@ namespace Playground
             }
         }
 
+        /* TODO: Reinstate this functionality by adding recipes to do it
         public void RefreshMoveSpeedMultiplierText()
         {
             RefreshValueText(m_MoveSpeedMultText, m_Data.moveSpeedMultiplier, 1f, true);
@@ -214,6 +287,7 @@ namespace Playground
             RefreshMoveSpeedPostAddText();
             m_Data.isDirty = true;
         }
+        */
 
         Texture2D MakeTex(int width, int height, Color col)
         {
@@ -225,6 +299,5 @@ namespace Playground
             result.Apply();
             return result;
         }
-
     }
 }

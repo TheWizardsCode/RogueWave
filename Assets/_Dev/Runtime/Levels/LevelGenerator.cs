@@ -1,10 +1,12 @@
 using NeoFPS;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 namespace Playground
 {
@@ -24,6 +26,10 @@ namespace Playground
         [SerializeField, Tooltip("The prefabs to use for buildings.")]
         GameObject[] buildingPrefabs;
 
+        [Header("Additional Items")]
+        [SerializeField, Tooltip("Recipe drops enable the player to colelct recipes for use within the run. if this is not null than a number of drops, proportional to the map size and density, will be placed in empty areas.")]
+        RecipeSelectorUI recipeDropPrefab;
+
         [Header("Enemies")]
         [SerializeField, Tooltip("The spawner to use for this level. This will be placed in a random lot that does not have a building in it.")]
         Spawner spawnerPrefab;
@@ -31,21 +37,56 @@ namespace Playground
         int numberOfEnemySpawners = 2;
         private GameObject level;
 
-        internal int Generate(PlaygroundDecember23GameMode gameMode)
+        /// <summary>
+        /// Generate a level.
+        /// </summary>
+        /// <param name="gameMode"></param>
+        /// <param name="seed">The seed to use, if it is set to -1 (the default) then a random seed will be generated.</param>
+        /// <returns></returns>
+        internal int Generate(PlaygroundDecember23GameMode gameMode, int seed = -1)
         {
             if (level != null)
                 Clear();
 
+            if (seed == -1)
+            {
+                seed = Environment.TickCount;
+            }
+            UnityEngine.Random.InitState(seed);
+
             level = new GameObject("Level");
 
-            // Create a plane to represent the ground. setting the material as appropriate
-            GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            ground.name = "Ground";
-            ground.transform.localScale = new Vector3(size.x * 0.1f, 1, size.y * 0.1f); // Plane's default size is 10x10
-            Renderer planeRenderer = ground.GetComponent<Renderer>();
-            planeRenderer.material = groundMaterial;
+            CreatePlane();
 
-            // iterate over a grid of positions buildingSize appart and place a building at each position
+            List<Vector2> possibleEnemySpawnPositions = PlaceBuildings();
+
+            try
+            {
+                PlaceSpawners(possibleEnemySpawnPositions, gameMode);
+                PlaceRecipeDrops(possibleEnemySpawnPositions, gameMode);
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"Creating level using seed {seed} failed. See below for more details.\n\n{e.Message}\n\n{e.StackTrace}");
+                Clear();
+                return Generate(gameMode);
+            }
+
+            try
+            {
+            }
+            catch
+            {
+                // this is an invalid level, so clear it and try again.
+                Clear();
+                return Generate(gameMode);
+            }
+
+            return numberOfEnemySpawners;
+        }
+
+        private List<Vector2> PlaceBuildings()
+        {
             Vector3 position;
             List<Vector2> possibleEnemySpawnPositions = new List<Vector2>();
             for (float x = -size.x / 2; x < size.x / 2; x += buildingLotSize.x)
@@ -64,17 +105,16 @@ namespace Playground
                 }
             }
 
-            try
-            {
-                PlaceSpawners(possibleEnemySpawnPositions, gameMode);
-            } catch
-            {
-                // this is an invalid level, so clear it and try again.
-                Clear();
-                return Generate(gameMode);
-            }
+            return possibleEnemySpawnPositions;
+        }
 
-            return numberOfEnemySpawners;
+        private void CreatePlane()
+        {
+            GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
+            ground.name = "Ground";
+            ground.transform.localScale = new Vector3(size.x * 0.1f, 1, size.y * 0.1f); // Plane's default size is 10x10
+            Renderer planeRenderer = ground.GetComponent<Renderer>();
+            planeRenderer.material = groundMaterial;
         }
 
         private void PlaceSpawners(List<Vector2> possibleEnemySpawnPositions, PlaygroundDecember23GameMode gameMode)
@@ -95,6 +135,31 @@ namespace Playground
                 spawner.onDestroyed.AddListener(() => gameMode.SpawnerDestroyed());
 
                 spawner.Initialize(gameMode.currentLevelDefinition);
+            }
+        }
+
+        private void PlaceRecipeDrops(List<Vector2> possibleRecipeDropPositions, PlaygroundDecember23GameMode gameMode)
+        {
+            Vector3 position;
+
+            int numberOfRecipeDrops = Mathf.RoundToInt(possibleRecipeDropPositions.Count * 0.05f);
+            if (numberOfRecipeDrops < numberOfEnemySpawners)
+            {
+                numberOfRecipeDrops = numberOfEnemySpawners;
+            }
+
+            while (possibleRecipeDropPositions.Count < numberOfRecipeDrops)
+            {
+                numberOfRecipeDrops--;
+            }
+            
+            for (int i = 0; i < numberOfRecipeDrops; i++)
+            {
+                Vector2 spawnerPosition = ValidSpawnerPosition(possibleRecipeDropPositions);
+                position = new Vector3(spawnerPosition.x, spawnerPrefab.spawnRadius, spawnerPosition.y);
+                possibleRecipeDropPositions.Remove(spawnerPosition);
+
+                Instantiate(recipeDropPrefab, position, Quaternion.identity, level.transform);
             }
         }
 

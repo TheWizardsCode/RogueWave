@@ -34,8 +34,10 @@ namespace Playground
 
         public override void BuildFinished()
         {
-            NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
-            nanobotManager.Add(ammoRecipe);
+            if (ammoRecipe != null)
+            {
+                FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>().Add(ammoRecipe);
+            }
             RogueLiteManager.runData.AddToLoadout(pickup.GetItemPrefab() as FpsInventoryItemBase);
 
             base.BuildFinished();
