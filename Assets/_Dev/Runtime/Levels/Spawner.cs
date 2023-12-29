@@ -27,17 +27,17 @@ namespace Playground
         public UnityEvent onAllWavesComplete;
 
         [Header("Shield")]
-        [SerializeField, Tooltip("")]
+        [SerializeField, Tooltip("Should this spawner generate a shield to protect itself?")]
+        bool hasShield = true;
+        [SerializeField, Tooltip("Shield generators are models that will orbit the spawner and create a shield. The player must destroy the generators to destroy the shield and thus get t othe spawner.")]
         internal BasicHealthManager shieldGenerator;
         [SerializeField, Tooltip("The particle system to play when a shield generator is destroyed.")]
         internal ParticleSystem shieldGenParticlePrefab;
-        [SerializeField, Tooltip("")]
+        [SerializeField, Tooltip("How many generators this shield should have.")]
         internal int numShieldGenerators = 3;
-        [SerializeField, Tooltip("")]
+        [SerializeField, Tooltip("The speed of the shield generators, in revolutions per minute.")]
         internal float shieldGeneratorRPM = 45f;
-        [SerializeField, Tooltip("")]
-        internal float shieldGenSpawnDelay = 10f;
-        [SerializeField, Tooltip("")]
+        [SerializeField, Tooltip("The model and collider that will represent the shield.")]
         internal Collider shieldCollider;
 
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
@@ -91,7 +91,7 @@ namespace Playground
 
             StartCoroutine(SpawnWaves());
 
-            if (shieldGenerator != null)
+            if (hasShield && shieldGenerator != null)
             {
                 RegisterShieldGenerator(shieldGenerator);
                 for (int i = 1; i < numShieldGenerators; ++i)
