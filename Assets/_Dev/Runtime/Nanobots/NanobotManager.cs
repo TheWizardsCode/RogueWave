@@ -239,8 +239,9 @@ namespace Playground
         /// <summary>
         /// Adds the recipe to the list of starting recipes.
         /// </summary>
-        /// <param name="recipe"></param>
-        internal void Add(IRecipe recipe)
+        /// <param name="recipe">The recipe to add.</param>
+        /// <param name="isPermanent">If set to <c>true</c> the recipe will be added to the list of permanent recipes, otherwise it will be added only to the current runs recipes..</param>
+        internal void Add(IRecipe recipe, bool isPermanent = false)
         {
             if (recipe == null)
             {
@@ -249,6 +250,10 @@ namespace Playground
             }
 
             RogueLiteManager.runData.Add(recipe);
+            if (isPermanent)
+            {
+                RogueLiteManager.persistentData.Add(recipe);
+            }
 
             AmmoPickupRecipe ammo = recipe as AmmoPickupRecipe;
             if (ammo != null)
