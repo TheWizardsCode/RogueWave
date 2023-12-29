@@ -38,8 +38,35 @@ namespace Playground
 
         public int runNumber = 0;
 
+        public int m_CurrentResources = 0; // The current resources of the player, the player gains resources by destroying enemies and loses resources by dying
+        public int currentResources
+        {
+            get { return m_CurrentResources; }
+            set
+            {
+                m_CurrentResources = value;
+                isDirty = true;
+            }
+        }
+
         public List<string> recipeGuids = new List<string>();
         public List<string> RecipeIds { get { return recipeGuids; } }
+
+        public RogueLitePersistentData()
+        {
+
+#if UNITY_EDITOR
+            currentResources = 100000;
+            Debug.Log("RogueLiteRunData: currentResources set to 100000 as we are running in the editor.");
+#else
+
+            if (runNumber == 0) // this will be the players first run
+            {
+                currentResources = 150;
+            }
+#endif
+        }
+
         /// <summary>
         /// The recipes that will be available to the player in their NanobotManager when they start a level in a run.
         /// This will be reset on death.

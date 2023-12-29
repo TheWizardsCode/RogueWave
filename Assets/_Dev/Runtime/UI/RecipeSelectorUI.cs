@@ -100,7 +100,7 @@ namespace Playground
 
             if (m_ResourcesText != null)
             {
-                m_ResourcesText.text = RogueLiteManager.runData.currentResources.ToString();
+                m_ResourcesText.text = RogueLiteManager.persistentData.currentResources.ToString();
             }
 
             if (m_PersistentData != null)
@@ -129,7 +129,7 @@ namespace Playground
                 for (int i = numberOfOffers - 1; i >= 0; i--)
                 {
                     IRecipe offer = offers[i];
-                    if (RogueLiteManager.runData.currentResources < offer.Cost)
+                    if (RogueLiteManager.persistentData.currentResources < offer.Cost)
                     {
                         continue;
                     }
@@ -202,7 +202,7 @@ namespace Playground
             if (m_MakePersistentSelections)
             {
                 RogueLiteManager.persistentData.Add(offer);
-                RogueLiteManager.runData.currentResources -= offer.Cost;
+                RogueLiteManager.persistentData.currentResources -= offer.Cost;
             } else
             {
                 RogueLiteManager.runData.Add(offer);

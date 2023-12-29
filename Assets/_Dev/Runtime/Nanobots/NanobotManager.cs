@@ -131,11 +131,18 @@ namespace Playground
             return false;
         }
 
+        float earliestTimeOfNextItemSpawn = 0;
         private bool TryItemRecipes()
         {
+            if (earliestTimeOfNextItemSpawn < Time.timeSinceLevelLoad)
+            {
+                return false;
+            }
+
+            float approximateFrequency = 1000;
             // TODO: make a decision on whether to make a generic item in a more intelligent way
             // TODO: can we make tests that are dependent on the pickup, e.g. when the pickup is triggered it will only be picked up if needed 
-            if (RogueLiteManager.runData.currentResources < 500 || Random.value > 0.1)
+            if (RogueLiteManager.persistentData.currentResources < 500)
             {
                 return false;
             }
@@ -144,6 +151,7 @@ namespace Playground
             {
                 if (TryRecipe(itemRecipes[i]))
                 {
+                    earliestTimeOfNextItemSpawn = Time.timeSinceLevelLoad + (approximateFrequency * Random.Range(0.7f, 1.3f));
                     return true;
                 }
             }
@@ -171,7 +179,7 @@ namespace Playground
 
         private bool TryRecipe(IRecipe recipe)
         {
-            if (RogueLiteManager.runData.currentResources >= recipe.Cost && recipe.ShouldBuild)
+            if (RogueLiteManager.persistentData.currentResources >= recipe.Cost && recipe.ShouldBuild)
             {
                 StartCoroutine(BuildRecipe(recipe));
                 return true;
@@ -316,16 +324,16 @@ namespace Playground
         /// </summary>
         public int resources
         {
-            get { return RogueLiteManager.runData.currentResources; }
+            get { return RogueLiteManager.persistentData.currentResources; }
             set
             {
-                if (RogueLiteManager.runData.currentResources == value)
+                if (RogueLiteManager.persistentData.currentResources == value)
                     return;
 
                 if (onResourcesChanged != null)
-                    onResourcesChanged(RogueLiteManager.runData.currentResources, value);
+                    onResourcesChanged(RogueLiteManager.persistentData.currentResources, value);
 
-                RogueLiteManager.runData.currentResources = value;
+                RogueLiteManager.persistentData.currentResources = value;
             }
         }
 

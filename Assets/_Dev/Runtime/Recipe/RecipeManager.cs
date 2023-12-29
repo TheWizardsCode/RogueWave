@@ -62,7 +62,7 @@ namespace Playground
             }
 
             List<IRecipe> offers = new List<IRecipe>();
-            List<IRecipe> candidates = GetPoweupCandidates();
+            List<IRecipe> candidates = GetPowerUpCandidates();
 
             for (int i = 0; i < quantity; i++)
             {
@@ -83,12 +83,12 @@ namespace Playground
         /// Get a list of powerup recipes that can be offered to the player.
         /// </summary>
         /// <returns></returns>
-        private static List<IRecipe> GetPoweupCandidates()
+        private static List<IRecipe> GetPowerUpCandidates()
         {
             List<IRecipe> candidates = new List<IRecipe>();
             foreach (IRecipe recipe in powerupRecipes.Values)
             {
-                if (RogueLiteManager.runData.currentResources < recipe.Cost)
+                if (RogueLiteManager.persistentData.currentResources < recipe.Cost)
                 {
                     continue;
                 }
@@ -97,11 +97,14 @@ namespace Playground
                 {
                     continue;
                 }
-                
-                // TODO: Remove recipes that are already in the player's loadout
-                
+
+                if (RogueLiteManager.runData.Contains(recipe))
+                {
+                    continue;
+                }
+
                 // TODO: Remove some portion of the recipes that are not particularly useful for the player at this time
-                
+
                 candidates.Add(recipe);
             }
 
