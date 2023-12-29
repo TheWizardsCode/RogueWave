@@ -8,6 +8,8 @@ namespace Playground
     public class EnemyWeapon : MonoBehaviour
     {
         [Header("Weapon")]
+        [SerializeField, Tooltip("The range of the weapon. If not within this range then it will not fire.")]
+        float _Range = 50f;
         [SerializeField, Tooltip("The amount of time in seconds that the weapon will lock on to the player before firing.")]
         private float _LockOnTime = 1.5f;
         [SerializeField, Tooltip("How frequently this weapon can fire in seconds.")]
@@ -74,7 +76,8 @@ namespace Playground
 
             if (_state == State.LockingOn)
             {
-                if (controller.CanSeeTarget)
+                float distanceToTarget = Vector3.Distance(transform.position, controller.Target.position);
+                if (distanceToTarget <= _Range && controller.CanSeeTarget)
                 {
                     _lockOnTimer -= Time.deltaTime;
                     if (_lockOnTimer <= 0f)
