@@ -12,6 +12,7 @@ namespace Playground
     /// <seealso cref="AmmoPickupRecipe"/>
     /// <seealso cref="WeaponPickupRecipe"/>
     /// <seealso cref="ToolPickupRecipe"/>
+    [CreateAssetMenu(fileName = "Item Pickup Recipe", menuName = "Playground/Generic Item Pickup Recipe", order = 100)]
     public class ItemRecipe<T> : AbstractRecipe, IItemRecipe where T : MonoBehaviour
     {
         [Header("Item")]

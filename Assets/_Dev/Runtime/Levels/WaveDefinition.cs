@@ -9,7 +9,7 @@ namespace Playground
     /// </summary>
     /// <seealso cref="LevelDefinition"/>
     /// <see cref="Spawner"/>
-    [CreateAssetMenu(fileName = "WaveDefinition", menuName = "Playground/Wave Definition")]
+    [CreateAssetMenu(fileName = "WaveDefinition", menuName = "Playground/Wave Definition", order = 201)]
     public class WaveDefinition : ScriptableObject
     {
         public enum SpawnOrder
