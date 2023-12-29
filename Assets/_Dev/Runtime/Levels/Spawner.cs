@@ -13,6 +13,8 @@ namespace Playground
         internal float spawnRadius = 5f;
         [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]
         internal bool destroySpawnsOnDeath = true;
+        [SerializeField, Tooltip("The time to wait betweeen waves, in seconds.")]
+        private float timeBetweenWaves = 10f;
 
         [Header("Juice")]
         [SerializeField, Tooltip("The particle system to play when the spawner is destroyed.")]
@@ -72,7 +74,6 @@ namespace Playground
         private WaveDefinition currentWave;
 
         private WaveDefinition[] waves;
-        private float waveWait = 5f;
         private bool generateWaves = true;
 
         private int livingShieldGenerators = 0;
@@ -204,7 +205,7 @@ namespace Playground
                     for (int i = 0; i < currentWave.SpawnAmount; i++)
                         SpawnEnemy();
                 }
-                yield return new WaitForSeconds(waveWait);
+                yield return new WaitForSeconds(timeBetweenWaves);
                 NextWave();
             }
         }
@@ -272,7 +273,7 @@ namespace Playground
         internal void Initialize(LevelDefinition currentLevelDefinition)
         {
             waves = currentLevelDefinition.Waves;
-            waveWait  = currentLevelDefinition.WaveWait;
+            timeBetweenWaves  = currentLevelDefinition.WaveWait;
             generateWaves = currentLevelDefinition.GenerateNewWaves;
         }
     }
