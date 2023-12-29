@@ -82,12 +82,10 @@ namespace Playground
                 if (Target == null)
                     return false;
 
-                Vector3 targetPosition = Target.position;
-
-                if (Vector3.Distance(targetPosition, transform.position) <= viewDistance)
+                if (Vector3.Distance(Target.position, transform.position) <= viewDistance)
                 {
-                    Vector3 rayTargetPosition = targetPosition;
-                    rayTargetPosition.y = targetPosition.y + 0.8f; // TODO: Should use the seek targets
+                    Vector3 rayTargetPosition = Target.position;
+                    rayTargetPosition.y = Target.position.y + 0.8f; // TODO: Should use the seek targets
 
                     Vector3 targetVector = rayTargetPosition - transform.position;
 
@@ -97,7 +95,7 @@ namespace Playground
 
                     if (Physics.Raycast(ray, out hit, viewDistance, sensorMask) && hit.transform == Target)
                     {
-                        lastKnownPosition = targetPosition;
+                        lastKnownPosition = GetDestination(Target.position);
                         timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
                         return true;
                     }
@@ -105,7 +103,29 @@ namespace Playground
 
                 return false;
             }
-        }   
+        }
+
+        /// <summary>
+        /// Enemies should not go to exactly where the player is but rather somewhere that places them at an
+        /// optimal position. This method will return such a position.
+        /// </summary>
+        /// <param name="targetPosition">The current position of the target.</param>
+        /// <returns>A position near the player that places the enemy at an optimal position to attack from.</returns>
+        public Vector3 GetDestination(Vector3 targetPosition)
+        {
+            Vector3 newPosition = new Vector3();
+            for (int i = 0; i < 4; i++)
+            {
+                newPosition = UnityEngine.Random.onUnitSphere * optimalDistanceFromPlayer;
+                newPosition += targetPosition;
+                if (newPosition.y >= minimumHeight)
+                {
+                    return newPosition;
+                }
+            }
+            newPosition.y = Mathf.Max(newPosition.y, minimumHeight);
+            return newPosition;
+        }
 
         Vector3 spawnPosition = Vector3.zero;
         Vector3 lastKnownPosition = Vector3.zero;
@@ -126,8 +146,8 @@ namespace Playground
             }
 
             if (requireLineOfSight == false)
-            { 
-                lastKnownPosition = Target.position;
+            {
+                lastKnownPosition = GetDestination(Target.position);
             }
 
             if (requireLineOfSight && CanSeeTarget == false)
@@ -168,9 +188,8 @@ namespace Playground
             float turnAngle = 50f;
             float distanceToObstacle = 0;
             bool rotateRight = true;
-            Ray ray = new Ray(sensor.position, transform.forward);
-            //ray.direction = transform.forward;
 
+            Ray ray = new Ray(sensor.position, transform.forward);
             if (Physics.Raycast(ray, out RaycastHit forwardHit, obstacleAvoidanceDistance, sensorMask))
             {
                 if (forwardHit.collider.transform.root != Target)
@@ -228,7 +247,8 @@ namespace Playground
 
         private void AdjustHeight(Vector3 destination, float speedMultiplier)
         {
-            if (!Mathf.Approximately(destination.y, transform.position.y))
+            float heightDifference = transform.position.y - destination.y;
+            if ( heightDifference > 0.2f || heightDifference < -0.2f)
             {
                 float rate = speed * speedMultiplier * Time.deltaTime;
                 if (destination.y > transform.position.y)
