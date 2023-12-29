@@ -14,7 +14,7 @@ namespace Playground
     /// <seealso cref="WeaponPickupRecipe"/>
     /// <seealso cref="ToolPickupRecipe"/>
     [CreateAssetMenu(fileName = "Item Pickup Recipe", menuName = "Playground/Generic Item Pickup Recipe", order = 100)]
-    public class GenericItemRecipe : ItemRecipe<Pickup>
+    public class GenericItemPickupRecipe : ItemRecipe<Pickup>
     {
     }
 }

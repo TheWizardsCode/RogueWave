@@ -20,6 +20,8 @@ namespace Playground
         private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
         [SerializeField, Tooltip("The tool recipes available to the Nanobots in order of preference.")]
         private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
+        [SerializeField, Tooltip("The generic item recipes that do not fit into other categories but are available to the Nanobots in order of preference.")]
+        private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
 
         [Header("Building")]
         [SerializeField, Tooltip("Cooldown between recipes.")]
@@ -57,6 +59,10 @@ namespace Playground
             {
                 toolRecipe.Reset();
             }
+            foreach (var itemRecipe in itemRecipes)
+            {
+                itemRecipe.Reset();
+            }
         }
 
         private void Update()
@@ -88,7 +94,15 @@ namespace Playground
             {
                 return;
             }
+
+            // If we are in good shape then see if there is a generic item we can build
+            if (TryItemRecipes())
+            {
+                return;
+            }
         }
+
+        // TODO: we can probably generalize these now that we have refactored the recipes to use interfaces/Abstract classes
 
         private bool TryHealthRecipes()
         {
@@ -110,6 +124,26 @@ namespace Playground
                 if (TryRecipe(weaponRecipes[i]))
                 {
                     weaponRecipes.RemoveAt(i);
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool TryItemRecipes()
+        {
+            // TODO: make a decision on whether to make a generic item in a more intelligent way
+            // TODO: can we make tests that are dependent on the pickup, e.g. when the pickup is triggered it will only be picked up if needed 
+            if (RogueLiteManager.runData.currentResources < 500 || Random.value > 0.1)
+            {
+                return false;
+            }
+
+            for (int i = 0; i < itemRecipes.Count; i++)
+            {
+                if (TryRecipe(itemRecipes[i]))
+                {
                     return true;
                 }
             }
@@ -258,6 +292,17 @@ namespace Playground
                 return;
             }
 
+            GenericItemPickupRecipe item = recipe as GenericItemPickupRecipe;
+            if (item != null)
+            {
+                if (!itemRecipes.Contains(item))
+                {
+                    itemRecipes.Add(item);
+                    ShuffleItemRecipes();
+                }
+                return;
+            }
+
             Debug.LogError("Unknown recipe type: " + recipe.GetType().Name);
         }
 
@@ -302,6 +347,19 @@ namespace Playground
                 ToolPickupRecipe value = toolRecipes[k];
                 toolRecipes[k] = toolRecipes[n];
                 toolRecipes[n] = value;
+            }
+        }
+
+        private void ShuffleItemRecipes()
+        {
+            int n = itemRecipes.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = Random.Range(0, n + 1);
+                GenericItemPickupRecipe value = itemRecipes[k];
+                itemRecipes[k] = itemRecipes[n];
+                itemRecipes[n] = value;
             }
         }
     }
