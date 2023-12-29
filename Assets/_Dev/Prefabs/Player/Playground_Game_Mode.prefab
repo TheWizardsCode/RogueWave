@@ -44,9 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c187386a2187f4fac5475fff8f1275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 100, y: 100}
+  size: {x: 250, y: 250}
   buildingLotSize: {x: 25, y: 25}
-  buildingDensity: 0.6
+  buildingDensity: 0.734
   groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
   buildingPrefabs:
   - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
@@ -55,6 +55,7 @@ MonoBehaviour:
   - {fileID: 895710043128325180, guid: a9aaa7cc6f16b504899e8f2bdc066b57, type: 3}
   - {fileID: 4330765639891971577, guid: a890f145341659149991d7b77a40c12e, type: 3}
   - {fileID: 7019865242113649934, guid: 58ccb8d32c23cc94c80153045c24d74a, type: 3}
+  recipeDropPrefab: {fileID: 4090585656190305989, guid: 382c373785256594888b943f67a8d32f, type: 3}
   spawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
   numberOfEnemySpawners: 2
 --- !u!1 &5223561033937574973
@@ -112,6 +113,7 @@ MonoBehaviour:
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: c2d7e740ad643f048be2111e7512f65d, type: 3}
   levels:
   - {fileID: 11400000, guid: beb1b1e0f23a69d47a0c2d5b9dc66662, type: 2}
+  - {fileID: 11400000, guid: 44fc4b4d12062884394c89580d492d70, type: 2}
   - {fileID: 11400000, guid: 543e7f3598e6cb7439f8bb6c5effd41a, type: 2}
   m_VictoryDuration: 5
   m_SpawnZones:
@@ -217,8 +219,8 @@ Camera:
   m_GameObject: {fileID: 6495454180581363533}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
