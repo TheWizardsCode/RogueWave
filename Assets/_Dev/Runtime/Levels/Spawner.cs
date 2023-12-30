@@ -1,4 +1,5 @@
 using NeoFPS;
+using NeoFPS.SinglePlayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +10,18 @@ namespace Playground
     public class Spawner : MonoBehaviour
     {
         [Header("Spawn Behaviours")]
+        [SerializeField, Tooltip("Distance to player for this spawner to be activated. If this is set to 0 then it will always be active, if >0 then the spawner will only be active when the player is within this many units. If the player moves further away then the spawner will pause.")]
+        float activeRange = 0;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
         [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]
         internal bool destroySpawnsOnDeath = true;
         [SerializeField, Tooltip("The time to wait betweeen waves, in seconds.")]
         private float timeBetweenWaves = 10f;
+        [SerializeField, Tooltip("The waves this spawner should spawn. If this is set to null then it is assumed that the waves will be set by a level manager.")]
+        private WaveDefinition[] waves;
+        [SerializeField, Tooltip("If no more wave definitions are available should this spawner generate new waves of increasing difficulty? This value may be overriden by a level manager.")]
+        private bool generateWaves = false;
 
         [Header("Juice")]
         [SerializeField, Tooltip("The particle system to play when the spawner is destroyed.")]
@@ -73,13 +80,17 @@ namespace Playground
         private int currentWaveIndex = -1;
         private WaveDefinition currentWave;
 
-        private WaveDefinition[] waves;
-        private bool generateWaves = true;
 
         private int livingShieldGenerators = 0;
+        private float activeRangeSqr;
 
         private void Update()
         {
+            if (hasShield == false)
+            {
+                return;
+            }
+
             var rotation = new Vector3(0f, shieldGeneratorRPM * Time.deltaTime, 0f);
             for (int i = 0; i < numShieldGenerators; i++)
                 shieldGenerators[i].transform.Rotate(rotation, Space.Self);
@@ -107,6 +118,8 @@ namespace Playground
 
                 livingShieldGenerators = numShieldGenerators;
             }
+
+            activeRangeSqr = activeRange * activeRange;
         }
 
         void RegisterShieldGenerator(BasicHealthManager h)
@@ -195,6 +208,12 @@ namespace Playground
 
         private IEnumerator SpawnWaves()
         {
+            while (FpsSoloCharacter.localPlayerCharacter == null)
+            {
+                yield return new WaitForSeconds(0.5f);
+            }
+
+
             NextWave();
             while (currentWave != null)
             {
@@ -202,9 +221,15 @@ namespace Playground
                 while (Time.time - waveStart < currentWave.WaveDuration)
                 {
                     yield return new WaitForSeconds(currentWave.SpawnRate);
-                    for (int i = 0; i < currentWave.SpawnAmount; i++)
-                        SpawnEnemy();
+
+                    if (activeRange == 0 || Vector3.SqrMagnitude(FpsSoloCharacter.localPlayerCharacter.transform.position - transform.position) <= activeRangeSqr)
+                    {
+                        // TODO: rather than spawn all of them at once spread this out over the SpawnRate
+                        for (int i = 0; i < currentWave.SpawnAmount; i++)
+                            SpawnEnemy();
+                    }
                 }
+
                 yield return new WaitForSeconds(timeBetweenWaves);
                 NextWave();
             }

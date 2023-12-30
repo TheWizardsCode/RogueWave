@@ -1,10 +1,14 @@
 using NeoFPS;
+using NeoSaveGames;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Unity.VisualScripting.YamlDotNet.Core;
 using UnityEngine;
+using UnityEngine.Android;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 
@@ -31,10 +35,16 @@ namespace Playground
         RecipeSelectorUI recipeDropPrefab;
 
         [Header("Enemies")]
-        [SerializeField, Tooltip("The spawner to use for this level. This will be placed in a random lot that does not have a building in it.")]
-        Spawner spawnerPrefab;
+        //TODO: Move spawner prefab into the Wave definition
+        [SerializeField, Tooltip("The spawner to use for this level. This will be placed in a random lot that does not have a building in it."), FormerlySerializedAs("spawnerPrefab")]
+        Spawner mainSpawnerPrefab;
         [SerializeField, Tooltip("The number of Enemy Spawners to create.")]
         int numberOfEnemySpawners = 2;
+        [SerializeField, Tooltip("The density of buildings that will contain a proximity spawner. These buildings will generate enemies if the player is nearby.")]
+        float buildingSpawnerDensity = 0.25f;
+        [SerializeField, Tooltip("The prefab to use when generating proximity spawners in buildings.")]
+        Spawner buildingProximitySpawner;
+
         private GameObject level;
 
         /// <summary>
@@ -58,7 +68,7 @@ namespace Playground
 
             CreatePlane();
 
-            List<Vector2> possibleEnemySpawnPositions = PlaceBuildings();
+            List<Vector2> possibleEnemySpawnPositions = PlaceBuildings(gameMode);
 
             try
             {
@@ -85,7 +95,11 @@ namespace Playground
             return numberOfEnemySpawners;
         }
 
-        private List<Vector2> PlaceBuildings()
+        /// <summary>
+        /// Place buildings in the map.
+        /// </summary>
+        /// <returns>List of positions that are not occupied by a building.</returns>
+        private List<Vector2> PlaceBuildings(PlaygroundDecember23GameMode gameMode)
         {
             Vector3 position;
             List<Vector2> possibleEnemySpawnPositions = new List<Vector2>();
@@ -100,8 +114,16 @@ namespace Playground
                     }
 
                     GameObject buildingPrefab = buildingPrefabs[Random.Range(0, buildingPrefabs.Length)];
-                    position = new Vector3(x, 0, z);
-                    Instantiate(buildingPrefab, position, Quaternion.identity, level.transform);
+                    position = new Vector3(x + (buildingLotSize.x / 2), 0, z + (buildingLotSize.x / 2));
+                    Transform building = Instantiate(buildingPrefab, position, Quaternion.identity, level.transform).transform;
+
+                    if (Random.value <= buildingSpawnerDensity)
+                    {
+                        Spawner spawner = Instantiate(buildingProximitySpawner, building);
+                        spawner.transform.localPosition = new Vector3(0, 1.5f, 0);
+                        spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
+                        spawner.onDestroyed.AddListener(() => gameMode.SpawnerDestroyed());
+                    }
                 }
             }
 
@@ -127,10 +149,10 @@ namespace Playground
                     throw new System.Exception("Not enough space to place all the spawners.");
 
                 Vector2 spawnerPosition = ValidSpawnerPosition(possibleEnemySpawnPositions);
-                position = new Vector3(spawnerPosition.x, spawnerPrefab.spawnRadius, spawnerPosition.y);
+                position = new Vector3(spawnerPosition.x, mainSpawnerPrefab.spawnRadius, spawnerPosition.y);
                 possibleEnemySpawnPositions.Remove(spawnerPosition);
 
-                Spawner spawner = Instantiate(spawnerPrefab, position, Quaternion.identity, level.transform);
+                Spawner spawner = Instantiate(mainSpawnerPrefab, position, Quaternion.identity, level.transform);
                 spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
                 spawner.onDestroyed.AddListener(() => gameMode.SpawnerDestroyed());
 
@@ -156,7 +178,7 @@ namespace Playground
             for (int i = 0; i < numberOfRecipeDrops; i++)
             {
                 Vector2 spawnerPosition = ValidSpawnerPosition(possibleRecipeDropPositions);
-                position = new Vector3(spawnerPosition.x, spawnerPrefab.spawnRadius, spawnerPosition.y);
+                position = new Vector3(spawnerPosition.x, mainSpawnerPrefab.spawnRadius, spawnerPosition.y);
                 possibleRecipeDropPositions.Remove(spawnerPosition);
 
                 Instantiate(recipeDropPrefab, position, Quaternion.identity, level.transform);

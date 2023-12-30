@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028377, g: 0.22571409, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -163,8 +163,11 @@ MonoBehaviour:
   - {fileID: 895710043128325180, guid: a9aaa7cc6f16b504899e8f2bdc066b57, type: 3}
   - {fileID: 4330765639891971577, guid: a890f145341659149991d7b77a40c12e, type: 3}
   - {fileID: 7019865242113649934, guid: 58ccb8d32c23cc94c80153045c24d74a, type: 3}
-  spawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
+  recipeDropPrefab: {fileID: 0}
+  mainSpawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
   numberOfEnemySpawners: 2
+  buildingSpawnerDensity: 0.25
+  buildingProximitySpawner: {fileID: 0}
 --- !u!4 &117578075
 Transform:
   m_ObjectHideFlags: 0
@@ -1202,6 +1205,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3423411428560200973, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: buildingProximitySpawner
+      value: 
+      objectReference: {fileID: 6576056135945926902, guid: 8580e7bc57d7d9a4e9cc17120733b0c9, type: 3}
     - target: {fileID: 5223561033937574973, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: m_Name
       value: Playground Game Mode
