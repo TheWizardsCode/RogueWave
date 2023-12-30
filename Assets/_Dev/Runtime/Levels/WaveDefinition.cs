@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Playground
 {
@@ -22,8 +23,8 @@ namespace Playground
         private BasicEnemyController[] enemyPrefabs;
         [SerializeField, Range(1f, 99f), Tooltip("The number of seconds between enemy spawns. The number of enemies spawned each cycle is defined by spawnAmount.")]
         private float spawnRate = 5f;
-        [SerializeField, Range(1, 99), Tooltip("The number of enemies to spawn every rate interval.")]
-        private int spawnAmount = 3;
+        [SerializeField, Range(1, 99), Tooltip("The number of enemies to spawn every rate interval."), FormerlySerializedAs("spawnAmount")]
+        private int numberToSpawn = 3;
         [SerializeField, Tooltip("The duration of each spawn wave in seconds. The spawner will continue to spawn enemies for this many seconds.")]
         private float waveDuration = 10f;
         [SerializeField, Tooltip("The order in which to spawn enemies.")] 
@@ -31,7 +32,7 @@ namespace Playground
 
         public BasicEnemyController[] EnemyPrefabs => enemyPrefabs;
         public float SpawnRate => spawnRate;
-        public int SpawnAmount => spawnAmount;
+        public int SpawnAmount => numberToSpawn;
         public float WaveDuration => waveDuration;
         public SpawnOrder Order => spawnOrder;
 
