@@ -17,7 +17,9 @@ namespace Playground
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
         private FpsSoloCharacter m_CharacterPrefab = null;
-        
+        [SerializeField, Tooltip("How many resources are needed for a reward. This will be multiplied by the current level squared. Meaning the higher the level the more resources are required for a reward crate.")]
+        private static int _resourcesRewardMultiplier = 200;
+
         [Header("Level Management")]
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
         LevelDefinition[] levels;
@@ -164,7 +166,7 @@ namespace Playground
 
         [SerializeField, Tooltip("The loadouts that are available to use.")]
         private LoadoutBuilderData m_LoadoutBuilder = new LoadoutBuilderData();
-        
+
         public int numLoadoutBuilderSlots
         {
             get { return m_LoadoutBuilder.slots.Length; }
@@ -221,7 +223,7 @@ namespace Playground
         private static int GetRequiredResourcesForNextLevel()
         {
             int level = RogueLiteManager.runData.currentLevel + 1;
-            return RogueLiteManager.persistentData.currentResources + (level * level * 100);
+            return RogueLiteManager.persistentData.currentResources + (level * level * _resourcesRewardMultiplier);
         }
 
         #endregion

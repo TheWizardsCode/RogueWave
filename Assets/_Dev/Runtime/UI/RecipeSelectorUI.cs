@@ -21,6 +21,8 @@ namespace Playground
         private bool m_PreSpawn = true;
         [SerializeField, Tooltip("If true then selections will be recorded in persistent data and will survive between runs. If false then the selection will be recorded in run data and lost upon death.")]
         private bool m_MakePersistentSelections = true;
+        [SerializeField, Tooltip("If true then the player will be given the item as well as the recipe. If they are given the item they will be charged for it, and it will be available immediately.")]
+        private bool m_buildItem = false;
         [SerializeField, Tooltip("The number of offers that should be shown to the plauer. This could be modified by the game situation.")]
         int m_NumberOfOffers = 3;
         [SerializeField, Tooltip("The number of selections that can be made. This could be modified by the game situation.")]
@@ -67,6 +69,13 @@ namespace Playground
 
         void Start()
         {
+            offers = RecipeManager.GetOffers(m_NumberOfOffers);
+
+            if (offers.Count == 0)
+            {
+                Close();
+            }
+
             if (m_PreSpawn)
             {
                 ChooseRecipe();
@@ -84,8 +93,6 @@ namespace Playground
 
             m_PersistentData = RogueLiteManager.persistentData;
             m_RunData = RogueLiteManager.runData;
-            
-            offers = RecipeManager.GetOffers(m_NumberOfOffers);
 
             if (m_StartRunButton != null)
                 m_StartRunButton.onClick.AddListener(OnClickStartRun);
@@ -210,16 +217,30 @@ namespace Playground
 
             offers.Remove(offer);
 
-            if (m_SelectionCount == m_NumberOfSelections) {
-                if (m_PreSpawn)
-                {
-                    OnClickStartRun();
-                }
-                else
-                {
-                    NeoFpsInputManager.captureMouseCursor = true;
-                    Destroy(gameObject);
-                }
+            if (m_buildItem)
+            {
+                StartCoroutine(nanobotManager.BuildRecipe(offer));
+            }
+
+            if (m_SelectionCount == m_NumberOfSelections)
+            {
+                Close();
+            }
+        }
+
+        /// <summary>
+        /// Close the UI and end the interaction.
+        /// </summary>
+        private void Close()
+        {
+            if (m_PreSpawn)
+            {
+                OnClickStartRun();
+            }
+            else
+            {
+                NeoFpsInputManager.captureMouseCursor = true;
+                Destroy(gameObject);
             }
         }
 
