@@ -117,7 +117,7 @@ namespace Playground
                     position = new Vector3(x + (buildingLotSize.x / 2), 0, z + (buildingLotSize.x / 2));
                     Transform building = Instantiate(buildingPrefab, position, Quaternion.identity, level.transform).transform;
 
-                    if (Random.value <= buildingSpawnerDensity)
+                    if (buildingProximitySpawner != null && Random.value <= buildingSpawnerDensity)
                     {
                         Spawner spawner = Instantiate(buildingProximitySpawner, building);
                         spawner.transform.localPosition = new Vector3(0, 1.5f, 0);
