@@ -1606,7 +1606,7 @@ Camera:
   m_GameObject: {fileID: 4167708424366983049}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0.019607844}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -2273,6 +2273,9 @@ GameObject:
   - component: {fileID: 2830470345106830554}
   - component: {fileID: 2842958109973861201}
   - component: {fileID: 7348178143987570334}
+  - component: {fileID: 2000301058560624785}
+  - component: {fileID: 3997416269590772967}
+  - component: {fileID: 4580383138697328011}
   m_Layer: 13
   m_Name: Playground_Test_Character
   m_TagString: Player
@@ -2673,78 +2676,6 @@ MonoBehaviour:
   m_DuplicateBehaviour: 3
   m_SwapAction: 0
   m_GroupSizes: 060000000200000002000000
---- !u!114 &2000301058560624785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167708427938660213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 625fd8b9bf5d3804a826e99dfb6e894f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &3997416269590772967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167708427938660213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10962701be0ee4f48889a75703164086, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EncumberedSwitchKey: encumbered
-  m_EncumberedThreshold: 0.5
-  m_MaxWeightSpeedMultiplier: 0.2
-  m_GraphData:
-  - moveSpeedWalking
-  - moveSpeedWalkAiming
-  - moveSpeedSprinting
-  - moveSpeedSprintAiming
-  - moveSpeedCrouching
---- !u!114 &4580383138697328011
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167708427938660213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4381c6719a3f00f4d811de517d587d3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_MaxDistance: 2.25
-  m_TickRate: 1
-  m_MassLimit: 50.1
-  m_AnalogRotateRate: 60
-  m_MouseRotateRate: 10
-  m_ValidCarryLayers:
-    serializedVersion: 2
-    m_Bits: 20975617
-  m_BlockingLayers:
-    serializedVersion: 2
-    m_Bits: 8391169
-  m_DropOnDamage: 10
-  m_MaxTotalDamage: 10
-  m_Anchor: {fileID: 818700445492283600}
-  m_CarrySpeed: 50
-  m_PositionBlend: 0.85
-  m_ThrowDirection: {fileID: 2772710991694823938}
-  m_ThrowForce: 10
-  m_ThrowForceMode: 2
-  m_BreakDistance: 1
-  m_BreakDuration: 0.75
-  m_OnPickedObjectUp:
-    m_PersistentCalls:
-      m_Calls: []
-  m_OnDroppedObject:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &8278156938334086020
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2799,6 +2730,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
   - {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
   toolRecipes: []
+  itemRecipes: []
   cooldown: 3
   buildStartedClip: {fileID: 8300000, guid: 19caa26d8d01e794b9135018f61d304d, type: 3}
   buildCompleteClip: {fileID: 8300000, guid: bcaacdb2a1cc5224a95d8982f7ee37d1, type: 3}
@@ -2873,6 +2805,78 @@ MonoBehaviour:
   m_ChargeRate: 10
   m_ChargeDelay: 10
   m_CanBreakStep1: 0
+--- !u!114 &2000301058560624785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 625fd8b9bf5d3804a826e99dfb6e894f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3997416269590772967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10962701be0ee4f48889a75703164086, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EncumberedSwitchKey: encumbered
+  m_EncumberedThreshold: 0.5
+  m_MaxWeightSpeedMultiplier: 0.2
+  m_GraphData:
+  - moveSpeedWalking
+  - moveSpeedWalkAiming
+  - moveSpeedSprinting
+  - moveSpeedSprintAiming
+  - moveSpeedCrouching
+--- !u!114 &4580383138697328011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4381c6719a3f00f4d811de517d587d3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_MaxDistance: 2.25
+  m_TickRate: 1
+  m_MassLimit: 50.1
+  m_AnalogRotateRate: 60
+  m_MouseRotateRate: 10
+  m_ValidCarryLayers:
+    serializedVersion: 2
+    m_Bits: 20975617
+  m_BlockingLayers:
+    serializedVersion: 2
+    m_Bits: 8391169
+  m_DropOnDamage: 10
+  m_MaxTotalDamage: 10
+  m_Anchor: {fileID: 818700445492283600}
+  m_CarrySpeed: 50
+  m_PositionBlend: 0.85
+  m_ThrowDirection: {fileID: 2772710991694823938}
+  m_ThrowForce: 10
+  m_ThrowForceMode: 2
+  m_BreakDistance: 1
+  m_BreakDuration: 0.75
+  m_OnPickedObjectUp:
+    m_PersistentCalls:
+      m_Calls: []
+  m_OnDroppedObject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4167775306372098691
 GameObject:
   m_ObjectHideFlags: 0
