@@ -42,7 +42,6 @@ namespace Playground
         [SerializeField, Tooltip("The layers the character can see")]
         LayerMask sensorMask = 0;
 
-        [Header("Feedback")]
         [SerializeField, Tooltip("The sound to play when the enemy is killed.")]
         protected AudioClip[] deathClips;
         [SerializeField, Tooltip("The particle system to play when the enemy is killed.")]
