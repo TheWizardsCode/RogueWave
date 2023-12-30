@@ -1,15 +1,11 @@
 ﻿using UnityEngine;
 using NeoFPS.SinglePlayer;
-using System;
 using NeoSaveGames.Serialization;
 using NeoSaveGames;
-using Playground;
 using NeoFPS;
 using UnityEngine.Events;
 using NeoSaveGames.SceneManagement;
 using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
 using NeoFPS.Constants;
 
 namespace Playground
@@ -21,16 +17,19 @@ namespace Playground
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
         private FpsSoloCharacter m_CharacterPrefab = null;
-
-        [Header("Level Generation")]
+        
+        [Header("Level Management")]
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
         LevelDefinition[] levels;
+        [SerializeField, Tooltip("The prefab to use when generating level up rewards.")]
+        private RecipeSelectorUI rewardsPrefab;
 
         [Header("Victory")]
         [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
         float m_VictoryDuration = 5f;
 
         LevelGenerator levelGenerator;
+        int nextRewardsLevel = 200;
         private int spawnersRemaining = int.MaxValue;
 
         public LevelDefinition currentLevelDefinition
@@ -52,9 +51,23 @@ namespace Playground
 
         private void Update()
         {
+            if (FpsSoloCharacter.localPlayerCharacter == null) 
+            {
+                return;
+            }
+
             if (spawnersRemaining == 0 && m_VictoryCoroutine == null)
             {
                 m_VictoryCoroutine = StartCoroutine(DelayedVictoryCoroutine(m_VictoryDuration));
+            }
+
+            if (RogueLiteManager.persistentData.currentResources > nextRewardsLevel)
+            {
+                Transform player = FpsSoloCharacter.localPlayerCharacter.transform;
+                Vector3 position = player.position + player.forward * 5;
+                RecipeSelectorUI rewards = Instantiate(rewardsPrefab, position, Quaternion.identity);
+
+                nextRewardsLevel = GetRequiredResourcesForNextLevel();
             }
         }
         #endregion
@@ -151,7 +164,7 @@ namespace Playground
 
         [SerializeField, Tooltip("The loadouts that are available to use.")]
         private LoadoutBuilderData m_LoadoutBuilder = new LoadoutBuilderData();
-
+        
         public int numLoadoutBuilderSlots
         {
             get { return m_LoadoutBuilder.slots.Length; }
@@ -201,6 +214,14 @@ namespace Playground
                     }
                 }
             }
+
+            nextRewardsLevel = GetRequiredResourcesForNextLevel();
+        }
+
+        private static int GetRequiredResourcesForNextLevel()
+        {
+            int level = RogueLiteManager.runData.currentLevel + 1;
+            return RogueLiteManager.persistentData.currentResources + (level * level * 100);
         }
 
         #endregion

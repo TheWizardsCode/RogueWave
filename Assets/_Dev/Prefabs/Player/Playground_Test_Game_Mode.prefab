@@ -55,8 +55,11 @@ MonoBehaviour:
   - {fileID: 895710043128325180, guid: a9aaa7cc6f16b504899e8f2bdc066b57, type: 3}
   - {fileID: 4330765639891971577, guid: a890f145341659149991d7b77a40c12e, type: 3}
   - {fileID: 7019865242113649934, guid: 58ccb8d32c23cc94c80153045c24d74a, type: 3}
-  spawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
+  recipeDropPrefab: {fileID: 0}
+  mainSpawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
   numberOfEnemySpawners: 2
+  buildingSpawnerDensity: 0.1
+  buildingProximitySpawner: {fileID: 6576056135945926902, guid: 8580e7bc57d7d9a4e9cc17120733b0c9, type: 3}
 --- !u!1 &5223561033937574973
 GameObject:
   m_ObjectHideFlags: 0
@@ -112,6 +115,7 @@ MonoBehaviour:
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   levels:
   - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
+  rewardsPrefab: {fileID: 0}
   m_VictoryDuration: 5
   m_SpawnZones:
     mapSprite: {fileID: 0}

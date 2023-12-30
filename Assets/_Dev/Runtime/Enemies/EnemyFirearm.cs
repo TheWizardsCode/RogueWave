@@ -8,6 +8,9 @@ namespace Playground
 {
     public class EnemyFirearm : MonoBehaviour
     {
+        [SerializeField, Tooltip("If true the weapon will aim at the player. Make this false for guided projectiles.")]
+        private bool _AimAtPlayer = true;
+
         BasicEnemyController controller;
 
         private ModularFirearm m_Firearm = null;
@@ -39,8 +42,10 @@ namespace Playground
                 }
             }
 
-            if (controller.Target != null)
+            if (_AimAtPlayer && controller.Target != null)
+            {
                 transform.LookAt(controller.Target.position + Vector3.up * 1f);
+            }
         }
     }
 }

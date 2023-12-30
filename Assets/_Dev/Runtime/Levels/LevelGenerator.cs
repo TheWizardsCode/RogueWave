@@ -162,6 +162,11 @@ namespace Playground
 
         private void PlaceRecipeDrops(List<Vector2> possibleRecipeDropPositions, PlaygroundDecember23GameMode gameMode)
         {
+            if (recipeDropPrefab == null)
+            {
+                return;
+            }
+
             Vector3 position;
 
             int numberOfRecipeDrops = Mathf.RoundToInt(possibleRecipeDropPositions.Count * 0.05f);

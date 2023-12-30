@@ -21,6 +21,8 @@ namespace Playground
         protected float rotationSpeed = 1f;
         [SerializeField, Tooltip("The minimum height the enemy will move to.")]
         float minimumHeight = 0.5f;
+        [SerializeField, Tooltip("The maximum height the enemy will move to.")]
+        float maximumHeight = 75f;
         [SerializeField, Tooltip("How close to the player will this enemy try to get?")]
         float optimalDistanceFromPlayer = 0.2f;
 
@@ -51,6 +53,10 @@ namespace Playground
         protected float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
         protected ResourcesPickup resourcesPrefab;
+
+        [Header("Debug")]
+        [SerializeField, Tooltip("Enable debuggging for this enemy.")]
+        bool isDebug;
 
         Transform _target;
         internal Transform Target
@@ -87,12 +93,16 @@ namespace Playground
                     Vector3 rayTargetPosition = Target.position;
                     rayTargetPosition.y = Target.position.y + 0.8f; // TODO: Should use the seek targets
 
-                    Vector3 targetVector = rayTargetPosition - transform.position;
+                    Vector3 targetVector = rayTargetPosition - sensor.position;
 
                     Ray ray = new Ray(sensor.position, targetVector);
-                    // Debug.DrawRay(sensor.position, targetVector, Color.red);
+#if UNITY_EDITOR
+                    if (isDebug)
+                    {
+                        Debug.DrawRay(sensor.position, targetVector, Color.red);
+                    }
+#endif
                     RaycastHit hit;
-
                     if (Physics.Raycast(ray, out hit, viewDistance, sensorMask) && hit.transform == Target)
                     {
                         lastKnownPosition = GetDestination(Target.position);
@@ -171,21 +181,26 @@ namespace Playground
 
         internal virtual void MoveTo(Vector3 destination, float speedMultiplier = 1)
         {
-
             Vector3 directionToDestination = (destination - transform.position).normalized;
             float currentDistance = Vector3.Distance(transform.position, destination);
 
             if (currentDistance < optimalDistanceFromPlayer)
             {
-                destination = transform.position - directionToDestination * optimalDistanceFromPlayer;
+                float distanceToMoveAway = optimalDistanceFromPlayer - currentDistance;
+                destination = transform.position - (directionToDestination * distanceToMoveAway);
             }
+
 
             if (destination.y < minimumHeight)
             {
                 destination.y = minimumHeight;
+            } else if (destination.y > maximumHeight)
+            {
+                destination.y = maximumHeight;
             }
 
-            float turnAngle = 50f;
+            float turnAngle = Vector3.Angle(transform.forward, directionToDestination);
+
             float distanceToObstacle = 0;
             bool rotateRight = true;
 
