@@ -33,7 +33,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1070318524709720543}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.7071066, y: -0, z: -0, w: 0.70710707}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 1.893, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_ActivationMode: 0
   m_ProjectilePrefab: {fileID: 114313776099250690, guid: 7697bd19ba7857248bc3b61252fdfe99, type: 3}
   m_MuzzleTip: {fileID: 6116810472173647472}
-  m_MuzzleSpeed: 30
+  m_MuzzleSpeed: 20
   m_Layers:
     serializedVersion: 2
     m_Bits: 26416129
@@ -253,7 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 077784c97c4f3b549bb4a2c5e5d7c266, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _AimAtPlayer: 1
+  _AimAtPlayer: 0
 --- !u!114 &548515806938106304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +283,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DamageType: 4
-  m_Explosion: {fileID: 114979659285474882, guid: 6cc8f6c6d77ce154f8922f69a74b1351, type: 3}
-  m_Damage: 25
-  m_MaxForce: 15
+  m_Explosion: {fileID: 114979659285474882, guid: db8adfb32c6dcf1498cf78f59fe9edb3, type: 3}
+  m_Damage: 3
+  m_MaxForce: 7
   m_NormalOffset: 0
