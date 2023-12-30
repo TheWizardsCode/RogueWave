@@ -18,8 +18,8 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 28
-    buildVersion: 0.0.0.28
+    buildCounter: 32
+    buildVersion: 0.0.0.32
     versionTemplate: 0.0.0.$BUILD
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -55,9 +55,9 @@ MonoBehaviour:
         releaseScenes:
         - fileGUID: 1c5ac81b33c25354493cf5509cdec7a9
           sceneActive: 1
-        - fileGUID: bb58b10c0d3b40b489fcc89256f23cd5
-          sceneActive: 1
         - fileGUID: a0f3f3e3cd0ea744c9be2690f0371031
+          sceneActive: 1
+        - fileGUID: bb58b10c0d3b40b489fcc89256f23cd5
           sceneActive: 1
         - fileGUID: 220a728d3c0961149be17e591ae889be
           sceneActive: 1
@@ -92,7 +92,7 @@ MonoBehaviour:
       - 
       - 
       _Values:
-      - enabled: 1
+      - enabled: 0
         childKeys: []
       - enabled: 1
         childKeys:
@@ -103,7 +103,7 @@ MonoBehaviour:
       - enabled: 1
         childKeys:
         - DeveloperTest/PC
-      - enabled: 0
+      - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:

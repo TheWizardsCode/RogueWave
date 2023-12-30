@@ -102,13 +102,34 @@ namespace Playground
                     }
 #endif
                     RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, viewDistance, sensorMask) && hit.transform == Target)
+                    if (Physics.Raycast(ray, out hit, viewDistance, sensorMask))
                     {
-                        lastKnownPosition = GetDestination(Target.position);
-                        timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
-                        return true;
+                        if (hit.transform == Target)
+                        {
+                            lastKnownPosition = GetDestination(Target.position);
+                            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
+                            return true;
+                        }
+#if UNITY_EDITOR
+                        else if (isDebug)
+                        {
+                            Debug.Log($"{name} couldn't see the player, sightline blocked by {hit.collider} on {hit.transform.root} at {hit.point}.");
+                        }
+#endif
                     }
+#if UNITY_EDITOR
+                    else if (isDebug)
+                    {
+                        Debug.Log($"{name} couldn't see the player, the raycast hit nothing.");
+                    }
+#endif
                 }
+#if UNITY_EDITOR
+                else if (isDebug)
+                {
+                    Debug.Log($"{name} cannot see the player as they are further than {viewDistance}m away.");
+                }
+#endif
 
                 return false;
             }
@@ -140,6 +161,13 @@ namespace Playground
         Vector3 lastKnownPosition = Vector3.zero;
         Vector3 wanderDestination = Vector3.zero;
         float timeOfNextWanderPositionChange = 0;
+
+        private void Awake()
+        {
+#if ! UNITY_EDITOR
+            isDebug = false;
+#endif
+        }
 
         private void Start()
         {
@@ -285,6 +313,12 @@ namespace Playground
                 wanderDestination = spawnPosition + Random.insideUnitSphere * maxWanderRange;
                 wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, maxWanderRange);
                 lastKnownPosition = wanderDestination;
+
+#if UNITY_EDITOR
+                if (isDebug)
+                    Debug.LogWarning($"{name} updating wander position to {lastKnownPosition}");
+#endif
+
             }
 
             MoveTo(wanderDestination);
