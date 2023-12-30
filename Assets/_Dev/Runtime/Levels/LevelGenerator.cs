@@ -134,7 +134,7 @@ namespace Playground
         {
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.name = "Ground";
-            ground.transform.localScale = new Vector3(size.x * 0.1f, 1, size.y * 0.1f); // Plane's default size is 10x10
+            ground.transform.localScale = new Vector3(size.x * 0.2f, 1, size.y * 0.2f); // Plane's default size is 10x10, but we want the plane to be much larger than the play area to minimize the chances of the player falling off
             Renderer planeRenderer = ground.GetComponent<Renderer>();
             planeRenderer.material = groundMaterial;
         }
