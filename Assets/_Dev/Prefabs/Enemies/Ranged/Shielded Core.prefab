@@ -87,6 +87,7 @@ MonoBehaviour:
   speed: 3
   rotationSpeed: 2
   minimumHeight: 2.5
+  maximumHeight: 75
   optimalDistanceFromPlayer: 5
   seekDuration: 15
   maxWanderRange: 250
@@ -96,7 +97,7 @@ MonoBehaviour:
   sensor: {fileID: 8620451866325067554}
   sensorMask:
     serializedVersion: 2
-    m_Bits: 79772673
+    m_Bits: 12781057
   deathClips:
   - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
   - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
@@ -106,6 +107,7 @@ MonoBehaviour:
   deathParticlePrefab: {fileID: 5327745311076098471, guid: e2b98be0b3446aa4492800d8aecef82d, type: 3}
   resourcesDropChance: 0.7
   resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
+  isDebug: 0
 --- !u!114 &4830127741829248690
 MonoBehaviour:
   m_ObjectHideFlags: 0
