@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91a2df84f75e07643b0e114d1ff2cf6d, type: 3}
+  m_Name: FpsManager_Audio
+  m_EditorClassIdentifier: 
+  m_Mixer: {fileID: 24100000, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c, type: 2}
+  m_MasterGroup: {fileID: 24300002, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c, type: 2}
+  m_SpatialEffectsGroup: {fileID: 243059815924327020, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c,
+    type: 2}
+  m_UiEffectsGroup: {fileID: 243733795572159108, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c,
+    type: 2}
+  m_AmbienceGroup: {fileID: 243851859824196598, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c,
+    type: 2}
+  m_MusicGroup: {fileID: 243651810819452942, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c,
+    type: 2}
+  m_MasterVolumeKey: MasterVolume
+  m_EffectsVolumeKey: EffectsVolume
+  m_AmbienceVolumeKey: AmbienceVolume
+  m_MusicVolumeKey: MusicVolume
+  m_NumSpatialEffectSources: 40
+  m_SpatialSourcePrefab: {fileID: 370538277899368380, guid: 92c2063533aeeaf48852c9504a3f035a,
+    type: 3}
+  m_Num2dEffectSources: 5
+  m_2dSourcePrefab: {fileID: 8735742480841930834, guid: aa191ce4f2a10ce48b8a7fd05adb9df0,
+    type: 3}
+  m_NumAmbienceOneShotSources: 10
+  m_AmbienceSourcePrefab: {fileID: 8735742480841930834, guid: 3ae3f154d99bb55498e3f528cd3d07fe,
+    type: 3}

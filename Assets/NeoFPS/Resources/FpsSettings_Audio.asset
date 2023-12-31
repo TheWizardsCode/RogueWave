@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fef93f568759573488c04b32668200ed, type: 3}
+  m_Name: FpsSettings_Audio
+  m_EditorClassIdentifier: 
+  m_MixerResource: NeoFpsAudioMixer
+  m_MasterVolume: 1
+  m_MasterVolumeKey: MasterVolume
+  m_EffectsVolume: 1
+  m_EffectsVolumeKey: EffectsVolume
+  m_MusicVolume: 1
+  m_MusicVolumeKey: MusicVolume
