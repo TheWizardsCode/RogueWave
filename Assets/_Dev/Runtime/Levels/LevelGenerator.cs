@@ -172,7 +172,7 @@ namespace Playground
                 if (possibleEnemySpawnPositions.Count == 0)
                     throw new System.Exception("Not enough space to place all the spawners.");
 
-                Vector2 spawnerPosition = ValidSpawnerPosition(possibleEnemySpawnPositions);
+                Vector2 spawnerPosition = GetValidSpawnerPosition(possibleEnemySpawnPositions);
                 position = new Vector3(spawnerPosition.x, mainSpawnerPrefab.spawnRadius, spawnerPosition.y);
                 possibleEnemySpawnPositions.Remove(spawnerPosition);
 
@@ -207,7 +207,7 @@ namespace Playground
             
             for (int i = 0; i < numberOfRecipeDrops; i++)
             {
-                Vector2 spawnerPosition = ValidSpawnerPosition(possibleRecipeDropPositions);
+                Vector2 spawnerPosition = GetValidSpawnerPosition(possibleRecipeDropPositions);
                 position = new Vector3(spawnerPosition.x, mainSpawnerPrefab.spawnRadius, spawnerPosition.y);
                 possibleRecipeDropPositions.Remove(spawnerPosition);
 
@@ -221,7 +221,7 @@ namespace Playground
         /// <param name="possibleEnemySpawnPositions">An array of positions that are considered valid.</param>
         /// <returns></returns>
         /// <exception cref="System.Exception">Unable to find a valid spawn position.</exception>
-        private Vector2 ValidSpawnerPosition(List<Vector2> possibleEnemySpawnPositions)
+        private Vector2 GetValidSpawnerPosition(List<Vector2> possibleEnemySpawnPositions)
         {
             Vector2 position = Vector2.zero;
             bool validPosition = false;
@@ -230,10 +230,16 @@ namespace Playground
             {
                 tries--;
                 position = possibleEnemySpawnPositions[Random.Range(0, possibleEnemySpawnPositions.Count)];
+
                 if (position.x == 0 && position.y == 0)
                 {
                     continue;
-                } else
+                } else if (position.x == -size.x / 2 || position.x == size.x /2
+                    || position.y == -size.y / 2 || position.y == size.y / 2) // in the walls
+                {
+                    continue;
+                }
+                else 
                 {
                     validPosition = true;
                 }
