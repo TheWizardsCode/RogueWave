@@ -1,20 +1,48 @@
 ﻿using NeoFPS;
-using System;
-using UnityEditor;
+using NeoFPS.SinglePlayer;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Playground
 {
     /// <summary>
-    /// Creates a recipe for an item. This is a generic class that can be used to create any item.
+    /// This will add a shield manager to the player if they don't have one, and if they do, it will recharge a depleted shield.
     /// </summary>
-    /// <typeparam name="T">The type of item that will be created.</typeparam>
-    /// <seealso cref="AmmoPickupRecipe"/>
-    /// <seealso cref="WeaponPickupRecipe"/>
-    /// <seealso cref="ToolPickupRecipe"/>
-    [CreateAssetMenu(fileName = "Shield Pickup Recipe", menuName = "Playground/Shield Pickup Recipe", order = 100)]
+    [CreateAssetMenu(fileName = "Shield Pickup Recipe", menuName = "Playground/Shield Pickup Recipe", order = 110)]
     public class ShieldPickupRecipe : ItemRecipe<ShieldPickup>
     {
+        private ShieldManager _shieldMgr;
+
+        private ShieldManager shieldManager
+        {
+            get
+            {
+                if (_shieldMgr == null)
+                {
+                    _shieldMgr = FpsSoloCharacter.localPlayerCharacter.GetComponent<ShieldManager>();
+                }
+                return _shieldMgr;
+            }
+        }
+
+        public override void Reset()
+        {
+            _shieldMgr = null;
+            base.Reset();
+        }
+
+        public override bool ShouldBuild
+        {
+            get
+            {
+                if (shieldManager == null)
+                {
+                    return true;
+                }
+
+                return shieldManager.shieldState != ShieldState.Recharging
+                    && shieldManager.shield < (shieldManager.shieldStepCount * shieldManager.shieldStepCapacity)
+                    && base.ShouldBuild;
+            }
+        }
     }
 }

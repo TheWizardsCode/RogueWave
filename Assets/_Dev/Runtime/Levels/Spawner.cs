@@ -183,7 +183,6 @@ namespace Playground
 
         private WaveDefinition GenerateNewWave()
         {
-            Debug.Log($"{name} generating new wave...");
             WaveDefinition newWave = ScriptableObject.CreateInstance<WaveDefinition>();
             // populate newWave with random values based loosely on the previous wave
             var lastWave = currentWave;

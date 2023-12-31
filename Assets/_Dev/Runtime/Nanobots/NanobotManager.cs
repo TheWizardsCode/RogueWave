@@ -11,18 +11,6 @@ namespace Playground
 {
     public class NanobotManager : MonoBehaviour
     {
-        [Header("Starting Recipes")]
-        [SerializeField, Tooltip("The health recipes available to the Nanobots in order of preference.")]
-        private List<HealthPickupRecipe> healthRecipes = new List<HealthPickupRecipe>();
-        [SerializeField, Tooltip("The weapon recipes available to the Nanobots in order of preference.")]
-        private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
-        [SerializeField, Tooltip("The ammo recipes available to the Nanobots in order of preference.")]
-        private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
-        [SerializeField, Tooltip("The tool recipes available to the Nanobots in order of preference.")]
-        private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
-        [SerializeField, Tooltip("The generic item recipes that do not fit into other categories but are available to the Nanobots in order of preference.")]
-        private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
-
         [Header("Building")]
         [SerializeField, Tooltip("Cooldown between recipes.")]
         private float cooldown = 5;
@@ -34,6 +22,14 @@ namespace Playground
         private AudioClip buildCompleteClip;
         [SerializeField, Tooltip("The particle system to play when a pickup is spawned. Note that this can be overridden in the recipe.")]
         ParticleSystem pickupSpawnParticlePrefab;
+
+        private List<HealthPickupRecipe> healthRecipes = new List<HealthPickupRecipe>();
+        private List<ShieldPickupRecipe> shieldRecipes = new List<ShieldPickupRecipe>();
+        private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
+        private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
+        private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
+        private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
+
 
         public delegate void OnResourcesChanged(float from, float to);
         public event OnResourcesChanged onResourcesChanged;
@@ -84,8 +80,14 @@ namespace Playground
                 return;
             }
 
+            // Prioritize building ammo if the player is low on ammo
+            if (TryShieldRecipes())
+            {
+                return;
+            }
+
             // If we can afford a powerup, build it
-            if(TryPowerUpRecipes()) {
+            if (TryPowerUpRecipes()) {
                 return;
             }
 
@@ -109,6 +111,19 @@ namespace Playground
             for (int i = 0; i < healthRecipes.Count; i++)
             {
                 if (TryRecipe(healthRecipes[i]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool TryShieldRecipes()
+        {
+            for (int i = 0; i < shieldRecipes.Count; i++)
+            {
+                if (TryRecipe(shieldRecipes[i]))
                 {
                     return true;
                 }
@@ -301,6 +316,17 @@ namespace Playground
                 {
                     toolRecipes.Add(recipe as ToolPickupRecipe);
                     ShuffleToolRecipes();
+                }
+                return;
+            }
+
+            ShieldPickupRecipe shield = recipe as ShieldPickupRecipe;
+            if (shield != null)
+            {
+                if (!shieldRecipes.Contains(shield))
+                {
+                    shieldRecipes.Add(shield);
+                    ShuffleItemRecipes();
                 }
                 return;
             }

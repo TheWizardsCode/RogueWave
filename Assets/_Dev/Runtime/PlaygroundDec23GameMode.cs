@@ -291,7 +291,9 @@ namespace Playground
 
             RogueLiteManager.persistentData.isDirty = true;
             RogueLiteManager.runData.isDirty = true;
-
+            
+            NeoFpsInputManager.captureMouseCursor = false;
+            
             return base.PreSpawnStep();
         }
 
