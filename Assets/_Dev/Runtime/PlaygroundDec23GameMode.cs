@@ -32,9 +32,27 @@ namespace Playground
         [SerializeField, Tooltip("The prefab to use when generating level up rewards.")]
         private RecipeSelectorUI rewardsPrefab;
 
-        LevelGenerator levelGenerator;
         int nextRewardsLevel = 200;
         private int spawnersRemaining = int.MaxValue;
+
+        LevelGenerator _levelGenerator;
+        internal LevelGenerator levelGenerator
+        {
+            get
+            {
+                if (_levelGenerator == null)
+                    _levelGenerator = GetComponentInChildren<LevelGenerator>();
+                return _levelGenerator;
+            }
+            private set
+            {
+                if (_levelGenerator != null && _levelGenerator != value)
+                {
+                    _levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
+                }
+                _levelGenerator = value;
+            }
+        }
 
         public LevelDefinition currentLevelDefinition
         {
@@ -50,7 +68,16 @@ namespace Playground
         protected override void Awake()
         {
             levelGenerator = GetComponentInChildren<LevelGenerator>();
+            levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
+
             base.Awake();
+        }
+
+        protected override void OnDestroy()
+        {
+            levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
+
+            base.OnDestroy();
         }
 
         private void Update()
@@ -83,7 +110,12 @@ namespace Playground
 
         public static event UnityAction onVictory;
 
-        internal void SpawnerDestroyed()
+        internal void OnSpawnerCreated(Spawner spawner)
+        {
+            spawnersRemaining++;
+        }
+
+        internal void OnSpawnerDestroyed()
         {
             spawnersRemaining--;
         }

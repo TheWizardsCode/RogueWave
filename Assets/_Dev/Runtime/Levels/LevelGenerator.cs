@@ -2,6 +2,7 @@ using NeoFPS;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
@@ -39,6 +40,10 @@ namespace Playground
         float buildingSpawnerDensity = 0.25f;
         [SerializeField, Tooltip("The prefab to use when generating proximity spawners in buildings.")]
         Spawner buildingProximitySpawner;
+
+        [Header("Events")]
+        [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
+        public UnityEvent<Spawner> onSpawnerCreated;
 
         private GameObject level;
 
@@ -118,7 +123,6 @@ namespace Playground
                         Spawner spawner = Instantiate(buildingProximitySpawner, building);
                         spawner.transform.localPosition = new Vector3(0, 1.5f, 0);
                         spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
-                        spawner.onDestroyed.AddListener(() => gameMode.SpawnerDestroyed());
                     }
                 }
             }
@@ -174,9 +178,10 @@ namespace Playground
 
                 Spawner spawner = Instantiate(mainSpawnerPrefab, position, Quaternion.identity, level.transform);
                 spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
-                spawner.onDestroyed.AddListener(() => gameMode.SpawnerDestroyed());
-
+                
                 spawner.Initialize(gameMode.currentLevelDefinition);
+
+                onSpawnerCreated.Invoke(spawner);
             }
         }
 

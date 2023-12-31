@@ -48,6 +48,7 @@ MonoBehaviour:
   buildingLotSize: {x: 25, y: 25}
   buildingDensity: 0.6
   groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
+  wallMaterial: {fileID: 2100000, guid: 64710d2176c2e8f438cd7dbd01d584a9, type: 2}
   buildingPrefabs:
   - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
   - {fileID: 2060113240144020941, guid: ba2b4875383ad064691053d037b07f7a, type: 3}
@@ -55,7 +56,7 @@ MonoBehaviour:
   - {fileID: 895710043128325180, guid: a9aaa7cc6f16b504899e8f2bdc066b57, type: 3}
   - {fileID: 4330765639891971577, guid: a890f145341659149991d7b77a40c12e, type: 3}
   - {fileID: 7019865242113649934, guid: 58ccb8d32c23cc94c80153045c24d74a, type: 3}
-  recipeDropPrefab: {fileID: 0}
+  recipeDropPrefab: {fileID: 4090585656190305989, guid: 382c373785256594888b943f67a8d32f, type: 3}
   mainSpawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
   numberOfEnemySpawners: 2
   buildingSpawnerDensity: 0.1
@@ -111,6 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: 6169814705679472414, guid: 48de05b5a7c62a9449024e8677cf08fd, type: 3}
+  m_VictoryDuration: 5
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   _resourcesRewardMultiplier: 200
@@ -119,7 +121,6 @@ MonoBehaviour:
   levels:
   - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
   rewardsPrefab: {fileID: 0}
-  m_VictoryDuration: 5
   m_SpawnZones:
     mapSprite: {fileID: 0}
     spawnZones: []
@@ -345,7 +346,7 @@ Transform:
   m_GameObject: {fileID: 8684738436908811697}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9393216, z: -0, w: 0.34303805}
-  m_LocalPosition: {x: 3.54, y: 0, z: 4.2}
+  m_LocalPosition: {x: 5.75, y: 0, z: 6.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

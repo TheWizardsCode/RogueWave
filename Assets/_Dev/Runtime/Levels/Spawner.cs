@@ -26,12 +26,6 @@ namespace Playground
         [Header("Juice")]
         [SerializeField, Tooltip("The particle system to play when the spawner is destroyed.")]
         internal ParticleSystem deathParticlePrefab;
-        
-        [Header("Events")]
-        [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
-        public UnityEvent onDestroyed;
-        [SerializeField, Tooltip("The event to trigger when all waves are complete.")]
-        public UnityEvent onAllWavesComplete;
 
         [Header("Shield")]
         [SerializeField, Tooltip("Should this spawner generate a shield to protect itself?")]
@@ -46,6 +40,14 @@ namespace Playground
         internal float shieldGeneratorRPM = 45f;
         [SerializeField, Tooltip("The model and collider that will represent the shield.")]
         internal Collider shieldCollider;
+
+        [Header("Events")]
+        [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
+        public UnityEvent onDestroyed;
+        [SerializeField, Tooltip("The event to trigger when an enemy is spawned.")]
+        public UnityEvent<BasicEnemyController> onEnemySpawned;
+        [SerializeField, Tooltip("The event to trigger when all waves are complete.")]
+        public UnityEvent onAllWavesComplete;
 
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
         List<ShieldGenerator> shieldGenerators = new List<ShieldGenerator>();
@@ -120,6 +122,13 @@ namespace Playground
             }
 
             activeRangeSqr = activeRange * activeRange;
+        }
+
+        private void OnDestroy()
+        {
+            StopAllCoroutines();
+
+            onDestroyed?.Invoke();
         }
 
         void RegisterShieldGenerator(BasicHealthManager h)
@@ -245,6 +254,8 @@ namespace Playground
             }
             BasicEnemyController enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
             spawnedEnemies.Add(enemy);
+
+            onEnemySpawned?.Invoke(enemy);
         }
 
         public void OnAliveIsChanged(bool isAlive)
@@ -255,9 +266,6 @@ namespace Playground
             }
             else
             {
-                StopCoroutine(SpawnWaves());
-                onDestroyed?.Invoke();
-
                 Renderer parentRenderer = GetComponentInChildren<Renderer>();
 
                 // TODO use pool for particles
