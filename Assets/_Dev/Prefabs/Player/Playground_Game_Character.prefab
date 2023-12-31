@@ -2489,7 +2489,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_HeadTransformHandler: {fileID: 4054035901437707719}
   m_BodyTransformHandler: {fileID: 4053917508628190249}
-  m_DamageAudioThreshold: 1
+  m_DamageAudioThreshold: 0
   m_ApplyFallDamage: 1
   m_LandingMinForce: 10
   m_LandingFullForce: 40
@@ -2907,7 +2907,7 @@ MonoBehaviour:
   cooldown: 3
   buildStartedClip: {fileID: 8300000, guid: 19caa26d8d01e794b9135018f61d304d, type: 3}
   buildCompleteClip: {fileID: 8300000, guid: bcaacdb2a1cc5224a95d8982f7ee37d1, type: 3}
-  pickupSpawnParticlePrefab: {fileID: 1974278376555586578, guid: 5431668a66cd19c42ac02f0bdd90e9d2, type: 3}
+  defaultPickupParticlePrefab: {fileID: 1974278376555586578, guid: 5431668a66cd19c42ac02f0bdd90e9d2, type: 3}
 --- !u!114 &2584534266323046183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2974,7 +2974,7 @@ MonoBehaviour:
   m_Shield: 1
   m_StepCapacity: 100
   m_StepCount: 1
-  m_DamageMitigation: 1
+  m_DamageMitigation: 0.5
   m_ChargeRate: 0
   m_ChargeDelay: 10
   m_CanBreakStep1: 1
