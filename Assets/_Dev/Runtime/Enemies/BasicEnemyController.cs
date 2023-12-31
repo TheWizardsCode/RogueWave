@@ -3,6 +3,7 @@ using NeoFPS.SinglePlayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Playground
 {
@@ -52,6 +53,10 @@ namespace Playground
         protected float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
         protected ResourcesPickup resourcesPrefab;
+
+
+        [SerializeField, Tooltip("The event to trigger when this enemy is destroyed.")]
+        public UnityEvent onDestroyed;
 
         [Header("Debug")]
         [SerializeField, Tooltip("Enable debuggging for this enemy.")]
@@ -133,6 +138,13 @@ namespace Playground
 
                 return false;
             }
+        }
+
+        private void OnDestroy()
+        {
+            onDestroyed?.Invoke();
+
+            onDestroyed.RemoveAllListeners();
         }
 
         /// <summary>
@@ -339,7 +351,6 @@ namespace Playground
             }
 
             Renderer parentRenderer = GetComponentInChildren<Renderer>();
-
 
             // TODO use pool for particles
             if (deathParticlePrefab != null)

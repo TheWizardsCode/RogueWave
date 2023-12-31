@@ -197,7 +197,12 @@ namespace Playground
                 GUIStyle startRunButtonStyle = new GUIStyle(GUI.skin.button);
                 startRunButtonStyle.fontSize = 25;
 
-                string startRunButtonText = "Start Run";
+                string startRunButtonText = "Back to the Action";
+                if (m_PreSpawn)
+                {
+                    startRunButtonText = "Enter Combat";
+                }
+
                 if (GUILayout.Button(startRunButtonText, startRunButtonStyle, GUILayout.Height(50)))
                 {
                     QuitSelectionUI();
