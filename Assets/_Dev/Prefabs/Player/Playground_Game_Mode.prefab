@@ -111,14 +111,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: 6169814705679472414, guid: 48de05b5a7c62a9449024e8677cf08fd, type: 3}
+  m_VictoryDuration: 5
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: c2d7e740ad643f048be2111e7512f65d, type: 3}
+  _resourcesRewardMultiplier: 200
+  _startingRecipes:
+  - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
   levels:
   - {fileID: 11400000, guid: beb1b1e0f23a69d47a0c2d5b9dc66662, type: 2}
   - {fileID: 11400000, guid: 44fc4b4d12062884394c89580d492d70, type: 2}
   - {fileID: 11400000, guid: 543e7f3598e6cb7439f8bb6c5effd41a, type: 2}
   rewardsPrefab: {fileID: 4090585656190305989, guid: 382c373785256594888b943f67a8d32f, type: 3}
-  m_VictoryDuration: 5
   m_SpawnZones:
     mapSprite: {fileID: 0}
     spawnZones: []

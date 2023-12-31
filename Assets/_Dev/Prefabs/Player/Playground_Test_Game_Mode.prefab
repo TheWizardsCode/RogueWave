@@ -113,6 +113,9 @@ MonoBehaviour:
   m_Popup: {fileID: 6169814705679472414, guid: 48de05b5a7c62a9449024e8677cf08fd, type: 3}
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
+  _resourcesRewardMultiplier: 200
+  _startingRecipes:
+  - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
   levels:
   - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
   rewardsPrefab: {fileID: 0}
@@ -342,7 +345,7 @@ Transform:
   m_GameObject: {fileID: 8684738436908811697}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9393216, z: -0, w: 0.34303805}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 3.54, y: 0, z: 4.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

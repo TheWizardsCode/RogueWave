@@ -12,23 +12,25 @@ namespace Playground
 {
     public class PlaygroundDecember23GameMode : FpsSoloGameCustomisable, ISpawnZoneSelector, ILoadoutBuilder
     {
+        [Header("Victory")]
+        [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
+        float m_VictoryDuration = 5f;
+
         [Header("Character")]
         [SerializeField, NeoPrefabField(required = true), Tooltip("The player prefab to instantiate if none exists.")]
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
         private FpsSoloCharacter m_CharacterPrefab = null;
         [SerializeField, Tooltip("How many resources are needed for a reward. This will be multiplied by the current level squared. Meaning the higher the level the more resources are required for a reward crate.")]
-        private static int _resourcesRewardMultiplier = 200;
+        private int _resourcesRewardMultiplier = 200;
+        [SerializeField, Tooltip("The recipes that will be available to the player at the start of each run, regardless of resources.")]
+        private AbstractRecipe[] _startingRecipes;
 
         [Header("Level Management")]
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
         LevelDefinition[] levels;
         [SerializeField, Tooltip("The prefab to use when generating level up rewards.")]
         private RecipeSelectorUI rewardsPrefab;
-
-        [Header("Victory")]
-        [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
-        float m_VictoryDuration = 5f;
 
         LevelGenerator levelGenerator;
         int nextRewardsLevel = 200;
@@ -164,7 +166,7 @@ namespace Playground
 
         [Header("Loadout Builder")]
 
-        [SerializeField, Tooltip("The loadouts that are available to use.")]
+        [SerializeField, HideInInspector]
         private LoadoutBuilderData m_LoadoutBuilder = new LoadoutBuilderData();
 
         public int numLoadoutBuilderSlots
@@ -220,7 +222,7 @@ namespace Playground
             nextRewardsLevel = GetRequiredResourcesForNextLevel();
         }
 
-        private static int GetRequiredResourcesForNextLevel()
+        private int GetRequiredResourcesForNextLevel()
         {
             int level = RogueLiteManager.runData.currentLevel + 1;
             return RogueLiteManager.persistentData.currentResources + (level * level * _resourcesRewardMultiplier);
@@ -237,6 +239,54 @@ namespace Playground
                 spawnersRemaining = levelGenerator.Generate(this);
             }
 
+            for (int i = 0; i < _startingRecipes.Length; i++)
+            {
+                ConfigureRecipe(_startingRecipes[i]);
+            }
+
+            ConfigurePersistentRecipes();
+            ConfigureRunRecipes();
+
+            return base.PreSpawnStep();
+        }
+
+        private void ConfigureRecipe(IRecipe recipe)
+        {
+            RogueLiteManager.persistentData.Add(recipe);
+        }
+
+        /// <summary>
+        /// Any recipes that have been bought during this run will be configured and made available for use in the next level.
+        /// </summary>
+        private void ConfigureRunRecipes()
+        {
+            for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)
+            {
+                FpsInventoryItemBase item = RogueLiteManager.runData.Loadout[i] as FpsInventoryItemBase;
+                FpsSwappableCategory category = FpsSwappableCategory.Firearm;
+
+                FpsInventoryQuickUseSwappableItem quickUse = item as FpsInventoryQuickUseSwappableItem;
+                if (quickUse != null)
+                {
+                    category = quickUse.category;
+                }
+                else
+                {
+                    FpsInventoryWieldableSwappable wieldable = item as FpsInventoryWieldableSwappable;
+                    if (wieldable != null)
+                    {
+                        category = wieldable.category;
+                    }
+                }
+                m_LoadoutBuilder.slots[category].AddOption(item);
+            }
+        }
+
+        /// <summary>
+        /// Any recipes that are permenantly owned will be configured and setup in the nanobotmanager, ready for use.
+        /// </summary>
+        private static void ConfigurePersistentRecipes()
+        {
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
                 if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe) == false)
@@ -267,34 +317,6 @@ namespace Playground
                     RogueLiteManager.runData.AddToLoadout(toolRecipe.pickup.GetItemPrefab());
                 }
             }
-
-            for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)
-            {
-                FpsInventoryItemBase item = RogueLiteManager.runData.Loadout[i] as FpsInventoryItemBase;
-                FpsSwappableCategory category = FpsSwappableCategory.Firearm;
-
-                FpsInventoryQuickUseSwappableItem quickUse = item as FpsInventoryQuickUseSwappableItem;
-                if (quickUse != null)
-                {
-                    category = quickUse.category; 
-                }
-                else
-                {
-                    FpsInventoryWieldableSwappable wieldable = item as FpsInventoryWieldableSwappable;
-                    if (wieldable != null)
-                    {
-                        category = wieldable.category;
-                    }
-                }
-                m_LoadoutBuilder.slots[category].AddOption(item);
-            }
-
-            RogueLiteManager.persistentData.isDirty = true;
-            RogueLiteManager.runData.isDirty = true;
-            
-            NeoFpsInputManager.captureMouseCursor = false;
-            
-            return base.PreSpawnStep();
         }
 
         protected override IController GetPlayerControllerPrototype()
