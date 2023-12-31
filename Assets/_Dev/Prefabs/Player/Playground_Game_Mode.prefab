@@ -48,6 +48,7 @@ MonoBehaviour:
   buildingLotSize: {x: 25, y: 25}
   buildingDensity: 0.734
   groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
+  wallMaterial: {fileID: 0}
   buildingPrefabs:
   - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
   - {fileID: 2060113240144020941, guid: ba2b4875383ad064691053d037b07f7a, type: 3}
@@ -60,6 +61,9 @@ MonoBehaviour:
   numberOfEnemySpawners: 2
   buildingSpawnerDensity: 0.25
   buildingProximitySpawner: {fileID: 6576056135945926902, guid: 8580e7bc57d7d9a4e9cc17120733b0c9, type: 3}
+  onSpawnerCreated:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &5223561033937574973
 GameObject:
   m_ObjectHideFlags: 0
@@ -114,7 +118,7 @@ MonoBehaviour:
   m_VictoryDuration: 5
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: c2d7e740ad643f048be2111e7512f65d, type: 3}
-  _resourcesRewardMultiplier: 200
+  _resourcesRewardMultiplier: 300
   _startingRecipes:
   - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
   levels:
