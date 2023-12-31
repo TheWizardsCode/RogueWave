@@ -244,8 +244,12 @@ namespace Playground
                 ConfigureRecipe(_startingRecipes[i]);
             }
 
-            ConfigurePersistentRecipes();
-            ConfigureRunRecipes();
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            {
+                ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
+            }
+            
+            ConfigureLoadout();
 
             return base.PreSpawnStep();
         }
@@ -253,16 +257,36 @@ namespace Playground
         private void ConfigureRecipe(IRecipe recipe)
         {
             RogueLiteManager.persistentData.Add(recipe);
+            RogueLiteManager.runData.Add(recipe);
+
+            WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
+            if (weaponRecipe != null)
+            {
+                if (weaponRecipe.pickup == null)
+                {
+                    Debug.LogError("WeaponPickupRecipe " + weaponRecipe.name + " has no pickup assigned. Not adding this weapon recipe to the loadout.");
+                    return;
+                }
+                RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
+            }
+
+            ToolPickupRecipe toolRecipe = recipe as ToolPickupRecipe;
+            if (toolRecipe != null)
+            {
+                if (toolRecipe.pickup == null)
+                {
+                    Debug.LogError("ToolPickupRecipe " + toolRecipe.name + " has no pickup assigned. Not adding this tool recipe to the loadout.");
+                    return;
+                }
+                RogueLiteManager.runData.AddToLoadout(toolRecipe.pickup.GetItemPrefab());
+            }
         }
 
-        /// <summary>
-        /// Any recipes that have been bought during this run will be configured and made available for use in the next level.
-        /// </summary>
-        private void ConfigureRunRecipes()
+        private void ConfigureLoadout()
         {
             for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)
             {
-                FpsInventoryItemBase item = RogueLiteManager.runData.Loadout[i] as FpsInventoryItemBase;
+                FpsInventoryItemBase item = RogueLiteManager.runData.Loadout[i];
                 FpsSwappableCategory category = FpsSwappableCategory.Firearm;
 
                 FpsInventoryQuickUseSwappableItem quickUse = item as FpsInventoryQuickUseSwappableItem;
@@ -282,41 +306,15 @@ namespace Playground
             }
         }
 
-        /// <summary>
-        /// Any recipes that are permenantly owned will be configured and setup in the nanobotmanager, ready for use.
-        /// </summary>
-        private static void ConfigurePersistentRecipes()
+        private void ConfigureRecipe(string recipeId)
         {
-            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            if (RecipeManager.TryGetRecipeFor(recipeId, out IRecipe recipe) == false)
             {
-                if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe) == false)
-                {
-                    continue;
-                }
-
-                RogueLiteManager.runData.Add(recipe);
-
-                WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
-                if (weaponRecipe != null)
-                {
-                    if (weaponRecipe.pickup == null)
-                    {
-                        Debug.LogError("WeaponPickupRecipe " + weaponRecipe.name + " has no pickup assigned.");
-                    }
-                    RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
-                }
-
-                ToolPickupRecipe toolRecipe = recipe as ToolPickupRecipe;
-                if (toolRecipe != null)
-                {
-                    if (toolRecipe.pickup == null)
-                    {
-                        Debug.LogError("ToolPickupRecipe " + toolRecipe.name + " has no pickup assigned.");
-                        break;
-                    }
-                    RogueLiteManager.runData.AddToLoadout(toolRecipe.pickup.GetItemPrefab());
-                }
+                Debug.LogError($"Attempt to configure a recipe with ID {recipeId} but no such recipe can be found. Ignoring this recipe.");
+                return;
             }
+
+            ConfigureRecipe(recipe);
         }
 
         protected override IController GetPlayerControllerPrototype()
