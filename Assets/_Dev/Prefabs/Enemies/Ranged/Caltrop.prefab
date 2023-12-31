@@ -155,10 +155,10 @@ MonoBehaviour:
     Once within attack range will move quickly towards the player damaging on contact.
     Whhen they are attacking they no longer need line of sight.
   speed: 3
-  rotationSpeed: 10
+  rotationSpeed: 2
   minimumHeight: 0.5
   maximumHeight: 75
-  optimalDistanceFromPlayer: 30
+  optimalDistanceFromPlayer: 20
   seekDuration: 15
   maxWanderRange: 150
   requireLineOfSight: 1
@@ -178,7 +178,7 @@ MonoBehaviour:
   resourcesDropChance: 0.8
   resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
   isDebug: 0
-  minAttackDistance: 50
+  minAttackDistance: 35
   attackSpeedMultiplier: 1.5
 --- !u!1001 &1029828500594978946
 PrefabInstance:
