@@ -5,6 +5,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Playground
@@ -20,8 +21,8 @@ namespace Playground
         private AudioClip buildStartedClip;
         [SerializeField, Tooltip("The sound to play when the build is complete. Note that this can be overridden in the recipe.")]
         private AudioClip buildCompleteClip;
-        [SerializeField, Tooltip("The particle system to play when a pickup is spawned. Note that this can be overridden in the recipe.")]
-        ParticleSystem pickupSpawnParticlePrefab;
+        [SerializeField, Tooltip("The default particle system to play when a pickup is spawned. Note that this can be overridden in the recipe."), FormerlySerializedAs("pickupSpawnParticlePrefab")]
+        ParticleSystem defaultPickupParticlePrefab;
 
         private List<HealthPickupRecipe> healthRecipes = new List<HealthPickupRecipe>();
         private List<ShieldPickupRecipe> shieldRecipes = new List<ShieldPickupRecipe>();
@@ -240,11 +241,9 @@ namespace Playground
                 {
                     ParticleSystem ps = Instantiate(recipe.PickupParticles, go.transform);
                     ps.Play();
-                }
-                // TODO: Why are there two sets of particles here, suspect a merge error at some point
-                if (pickupSpawnParticlePrefab != null)
+                } else if (defaultPickupParticlePrefab != null)
                 {
-                    ParticleSystem ps = Instantiate(pickupSpawnParticlePrefab, go.transform);
+                    ParticleSystem ps = Instantiate(defaultPickupParticlePrefab, go.transform);
                     ps.Play();
                 }
             }

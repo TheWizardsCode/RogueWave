@@ -229,6 +229,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &56577467
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.99
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.66735905
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.21813953
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.21438965
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.6790318
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -35.619003
+      objectReference: {fileID: 0}
+    - target: {fileID: 4209379729599423182, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: -90.993004
+      objectReference: {fileID: 0}
+    - target: {fileID: 4215017854572520756, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+      propertyPath: m_Name
+      value: Playground WeaponPickup_GrenadeLauncher_Swappable
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
 --- !u!43 &183878925
 Mesh:
   m_ObjectHideFlags: 0
@@ -642,11 +699,26 @@ PrefabInstance:
       propertyPath: m_Name
       value: Recipe Pickup
       objectReference: {fileID: 0}
+    - target: {fileID: 6403222481422761800, guid: 382c373785256594888b943f67a8d32f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 382c373785256594888b943f67a8d32f, type: 3}
+--- !u!114 &344674815 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4315419260146729336, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+  m_PrefabInstance: {fileID: 56577467}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421f12c4cc2c4614f9e0616ef942cf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &627946328
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1071,11 +1143,12 @@ MonoBehaviour:
   m_Prefabs: []
   m_Assets: []
   m_SceneObjects:
-    m_Keys: 3dbc59555421d4845479f439
+    m_Keys: 3dbc59555421d4845479f4395e8f0a99
     m_Values:
     - {fileID: 1661939426}
     - {fileID: 1363707440}
     - {fileID: 1818502828}
+    - {fileID: 344674815}
     m_Scene: {fileID: 830978940}
   m_DisplayName: Demo Facility
   m_ThumbnailTexture: {fileID: 2800000, guid: 4250822b9dc66db46b187c45e73ea610, type: 3}
@@ -3619,3 +3692,4 @@ SceneRoots:
   - {fileID: 268451315}
   - {fileID: 627946328}
   - {fileID: 337088505}
+  - {fileID: 56577467}
