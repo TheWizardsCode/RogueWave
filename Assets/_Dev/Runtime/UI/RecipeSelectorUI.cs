@@ -73,7 +73,7 @@ namespace Playground
 
             if (offers.Count == 0)
             {
-                Close();
+                OnClickStartRun();
             }
 
             if (m_PreSpawn)
@@ -224,30 +224,24 @@ namespace Playground
 
             if (m_SelectionCount == m_NumberOfSelections)
             {
-                Close();
-            }
-        }
-
-        /// <summary>
-        /// Close the UI and end the interaction.
-        /// </summary>
-        private void Close()
-        {
-            if (m_PreSpawn)
-            {
                 OnClickStartRun();
-            }
-            else
-            {
-                NeoFpsInputManager.captureMouseCursor = true;
-                Destroy(gameObject);
             }
         }
 
         private void OnClickStartRun()
         {
-            if (!string.IsNullOrWhiteSpace(m_CombatScene))
-                NeoSceneManager.LoadScene(m_CombatScene);
+            if (m_PreSpawn)
+            {
+                if (!string.IsNullOrWhiteSpace(m_CombatScene))
+                {
+                    NeoFpsInputManager.captureMouseCursor = false;
+                    NeoSceneManager.LoadScene(m_CombatScene);
+                }
+            }
+            else {
+                NeoFpsInputManager.captureMouseCursor = true;
+                Destroy(gameObject);
+            }
         }
 
         Color GetValueColour(float value, float standard, bool greater)

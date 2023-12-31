@@ -18,8 +18,8 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 32
-    buildVersion: 0.0.0.32
+    buildCounter: 34
+    buildVersion: 0.0.0.34
     versionTemplate: 0.0.0.$BUILD
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -43,13 +43,13 @@ MonoBehaviour:
           sceneActive: 1
         - fileGUID: 220a728d3c0961149be17e591ae889be
           sceneActive: 1
-    - typeName: DeveloperRelease
+    - typeName: Release
       bundleIdentifier: com.Wizards-Code.PlaygroundDecember23
       companyName: Wizards Code
       productName: PlaygroundDecember23
       syncAppNameWithProduct: 1
       appBuildName: PlaygroundDecember23
-      buildOptions: 1
+      buildOptions: 0
       customDefines: 
       sceneList:
         releaseScenes:
@@ -66,9 +66,9 @@ MonoBehaviour:
     - {fileID: 2802847493315861311}
   _projectConfigurations:
     configSet:
-      _Buckets: ffffffffffffffffffffffff0700000006000000ffffffff0400000000000000ffffffffffffffff02000000ffffffffffffffff0100000003000000ffffffffffffffff
-      _HashCodes: 2020f900f62b2e010c2f1e4ad0f5da17352d4250f1e62968dfc34e7813b48362000000000000000000000000000000000000000000000000000000000000000000000000
-      _Next: ffffffffffffffffffffffffffffffffffffffffffffffff05000000ffffffff000000000000000000000000000000000000000000000000000000000000000000000000
+      _Buckets: ffffffffffffffffffffffff07000000ffffffffffffffffffffffff00000000ffffffffffffffff0200000004000000ffffffff010000000300000005000000ffffffff
+      _HashCodes: 2020f900f62b2e010c2f1e4ad0f5da17f7e46342878a7279510e9f592d6dfd48000000000000000000000000000000000000000000000000000000000000000000000000
+      _Next: ffffffffffffffffffffffffffffffffffffffffffffffffffffffff06000000000000000000000000000000000000000000000000000000000000000000000000000000
       _Count: 8
       _Version: 8
       _FreeList: -1
@@ -78,10 +78,10 @@ MonoBehaviour:
       - DeveloperTest/PC/Windows x64 (App)
       - DeveloperTest/PC
       - DeveloperTest
-      - DeveloperRelease/PC/Windows x64 (App)/Mono
-      - DeveloperRelease/PC/Windows x64 (App)
-      - DeveloperRelease/PC
-      - DeveloperRelease
+      - Release/PC/Windows x64 (App)/Mono
+      - Release/PC/Windows x64 (App)
+      - Release/PC
+      - Release
       - 
       - 
       - 
@@ -92,7 +92,7 @@ MonoBehaviour:
       - 
       - 
       _Values:
-      - enabled: 0
+      - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:
@@ -103,17 +103,17 @@ MonoBehaviour:
       - enabled: 1
         childKeys:
         - DeveloperTest/PC
-      - enabled: 1
+      - enabled: 0
         childKeys: []
       - enabled: 1
         childKeys:
-        - DeveloperRelease/PC/Windows x64 (App)/Mono
+        - Release/PC/Windows x64 (App)/Mono
       - enabled: 1
         childKeys:
-        - DeveloperRelease/PC/Windows x64 (App)
+        - Release/PC/Windows x64 (App)
       - enabled: 1
         childKeys:
-        - DeveloperRelease/PC
+        - Release/PC
       - enabled: 1
         childKeys: []
       - enabled: 1
@@ -165,7 +165,7 @@ MonoBehaviour:
     clauses:
     - type: 0
       comparison: 0
-      test: DEVELOPERTEST
+      test: RELEASE
   pathToButlerExe: C:\Users\ross\OneDrive\bin\Butler\butler.exe
   nameOfItchUser: WizardsCode
   nameOfItchGame: rogue-wave

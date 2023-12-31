@@ -2270,12 +2270,13 @@ GameObject:
   - component: {fileID: 3997416269590772967}
   - component: {fileID: 4580383138697328011}
   - component: {fileID: 8278156938334086020}
-  - component: {fileID: 633221874965437618}
   - component: {fileID: -6015524435027920292}
   - component: {fileID: 2584534266323046183}
   - component: {fileID: 7136947164496695666}
   - component: {fileID: 2830470345106830554}
   - component: {fileID: 2842958109973861201}
+  - component: {fileID: -1666555697875400461}
+  - component: {fileID: -6680647042397803885}
   m_Layer: 13
   m_Name: Playground_Game_Character
   m_TagString: Player
@@ -2891,20 +2892,6 @@ MonoBehaviour:
   m_FootstepLayers:
     serializedVersion: 2
     m_Bits: 26416129
---- !u!114 &633221874965437618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167708427938660213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba672449e0da655428ca4e3b031f6b65, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Multiplier: 1
-  m_Critical: 0
 --- !u!114 &-6015524435027920292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2917,12 +2904,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750a797d8f5dd2f4dad9dd839ee9f7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthRecipes:
-  - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
-  weaponRecipes: []
-  ammoRecipes: []
-  toolRecipes: []
-  itemRecipes: []
   cooldown: 3
   buildStartedClip: {fileID: 8300000, guid: 19caa26d8d01e794b9135018f61d304d, type: 3}
   buildCompleteClip: {fileID: 8300000, guid: bcaacdb2a1cc5224a95d8982f7ee37d1, type: 3}
@@ -2978,6 +2959,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00d098d18af1a764991938fd6810d87d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1666555697875400461
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4480beccd2f001346865fd2ebe505fa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Shield: 1
+  m_StepCapacity: 100
+  m_StepCount: 1
+  m_DamageMitigation: 1
+  m_ChargeRate: 0
+  m_ChargeDelay: 10
+  m_CanBreakStep1: 1
+--- !u!114 &-6680647042397803885
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 518d9bee85267a2419df6c8aa895ece3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Multiplier: 1
+  m_Critical: 0
+  m_InventoryKey:
+    m_Value: 0
+  m_InventoryID: 353087605
+  m_DamageMitigation: 0.75
+  m_ArmourDamageMultiplier: 1
 --- !u!1 &4167775306372098691
 GameObject:
   m_ObjectHideFlags: 0
