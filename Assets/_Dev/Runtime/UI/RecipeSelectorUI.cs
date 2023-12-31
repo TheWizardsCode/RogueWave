@@ -1,6 +1,7 @@
 using NeoFPS;
 using NeoFPS.SinglePlayer;
 using NeoSaveGames.SceneManagement;
+using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -35,8 +36,6 @@ namespace Playground
         private RectTransform m_NotEnoughResourcesMessage = null;
 
         [Header("Start Run")]
-
-        [SerializeField] private Button m_StartRunButton = null;
         [SerializeField] private string m_CombatScene = string.Empty;
 
         [Header("Shared")]
@@ -73,7 +72,7 @@ namespace Playground
 
             if (offers.Count == 0)
             {
-                OnClickStartRun();
+                QuitSelectionUI();
             }
 
             if (m_PreSpawn)
@@ -93,9 +92,6 @@ namespace Playground
 
             m_PersistentData = RogueLiteManager.persistentData;
             m_RunData = RogueLiteManager.runData;
-
-            if (m_StartRunButton != null)
-                m_StartRunButton.onClick.AddListener(OnClickStartRun);
 
             optionsBackground = MakeTex(2, 2, new Color(0.4f, 0.4f, 0.4f, 0.5f));
         }
@@ -154,8 +150,8 @@ namespace Playground
                     descriptionStyle.alignment = TextAnchor.MiddleCenter;
                     descriptionStyle.normal.textColor = Color.grey;
 
-                    GUIStyle myButtonStyle = new GUIStyle(GUI.skin.button);
-                    myButtonStyle.fontSize = 25;
+                    GUIStyle selectionButtonStyle = new GUIStyle(GUI.skin.button);
+                    selectionButtonStyle.fontSize = 25;
 
                     GUILayout.BeginVertical(optionStyle, GUILayout.Width(cardWidth));
                     GUILayout.FlexibleSpace();
@@ -173,16 +169,16 @@ namespace Playground
                     GUILayout.Label(offer.Description, descriptionStyle, GUILayout.MinHeight(60), GUILayout.MaxHeight(60));
 
                     GUILayout.FlexibleSpace();
-                    string btnText;
+                    string selectionButtonText;
                     if (m_MakePersistentSelections)
                     {
-                        btnText = $"{offer.DisplayName} ({offer.Cost} resources)";
+                        selectionButtonText = $"{offer.DisplayName} ({offer.Cost} resources)";
                     }
                     else
                     {
-                        btnText = $"{offer.DisplayName}";
+                        selectionButtonText = $"{offer.DisplayName}";
                     }
-                    if (GUILayout.Button(btnText, myButtonStyle, GUILayout.Height(50))) // Make the button taller
+                    if (GUILayout.Button(selectionButtonText, selectionButtonStyle, GUILayout.Height(50)))
                     {
                         Select(offer);
                     }
@@ -192,6 +188,20 @@ namespace Playground
 
                 GUILayout.FlexibleSpace();
                 GUILayout.EndHorizontal();
+
+                GUILayout.EndArea();
+
+
+                GUILayout.BeginArea(new Rect((screenWidth - targetWidth) / 2, screenHeight - (targetHeight / 4), targetWidth, targetHeight));
+
+                GUIStyle startRunButtonStyle = new GUIStyle(GUI.skin.button);
+                startRunButtonStyle.fontSize = 25;
+
+                string startRunButtonText = "Start Run";
+                if (GUILayout.Button(startRunButtonText, startRunButtonStyle, GUILayout.Height(50)))
+                {
+                    QuitSelectionUI();
+                }
 
                 GUILayout.EndArea();
             }   
@@ -224,11 +234,11 @@ namespace Playground
 
             if (m_SelectionCount == m_NumberOfSelections)
             {
-                OnClickStartRun();
+                QuitSelectionUI();
             }
         }
 
-        private void OnClickStartRun()
+        private void QuitSelectionUI()
         {
             if (m_PreSpawn)
             {
