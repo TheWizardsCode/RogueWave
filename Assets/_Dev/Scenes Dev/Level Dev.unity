@@ -156,6 +156,7 @@ MonoBehaviour:
   buildingLotSize: {x: 25, y: 25}
   buildingDensity: 0.6
   groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
+  wallMaterial: {fileID: 0}
   buildingPrefabs:
   - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
   - {fileID: 2060113240144020941, guid: ba2b4875383ad064691053d037b07f7a, type: 3}
@@ -1205,6 +1206,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3423411428560200973, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: wallMaterial
+      value: 
+      objectReference: {fileID: 2100000, guid: 64710d2176c2e8f438cd7dbd01d584a9, type: 2}
     - target: {fileID: 3423411428560200973, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: buildingProximitySpawner
       value: 

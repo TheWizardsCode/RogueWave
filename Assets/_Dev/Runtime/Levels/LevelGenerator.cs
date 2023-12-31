@@ -20,6 +20,8 @@ namespace Playground
         [Header("Level Visuals")]
         [SerializeField, Tooltip("The material to apply to the ground.")]
         Material groundMaterial;
+        [SerializeField, Tooltip("The material to apply to the walls.")]
+        Material wallMaterial;
         [SerializeField, Tooltip("The prefabs to use for buildings.")]
         GameObject[] buildingPrefabs;
 
@@ -60,6 +62,7 @@ namespace Playground
             level = new GameObject("Level");
 
             CreatePlane();
+            CreateWalls();
 
             List<Vector2> possibleEnemySpawnPositions = PlaceBuildings(gameMode);
 
@@ -127,9 +130,33 @@ namespace Playground
         {
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.name = "Ground";
-            ground.transform.localScale = new Vector3(size.x * 0.2f, 1, size.y * 0.2f); // Plane's default size is 10x10, but we want the plane to be much larger than the play area to minimize the chances of the player falling off
+            ground.transform.localScale = new Vector3(size.x * 0.1f, 1, size.y * 0.1f); // Plane's default size is 10x10, but we want the plane to be much larger than the play area to minimize the chances of the player falling off
+            
             Renderer planeRenderer = ground.GetComponent<Renderer>();
             planeRenderer.material = groundMaterial;
+        }
+
+          private void CreateWalls()
+        {
+            float wallThickness = 5.0f;
+            float wallHeight = 20.0f;
+            float xOffset = size.x / 2;
+            float zOffset = size.y / 2;
+
+            CreateWall(new Vector3(0, 0, zOffset + wallThickness / 2), new Vector3(size.x, wallHeight, wallThickness), "South Wall");
+            CreateWall(new Vector3(0, 0, -zOffset), new Vector3(size.x, wallHeight, wallThickness), "North Wall");
+            CreateWall(new Vector3(xOffset + wallThickness / 2, 0, wallThickness / 2), new Vector3(wallThickness, wallHeight, size.y + wallThickness), "West Wall");
+            CreateWall(new Vector3(-xOffset, 0, wallThickness / 2), new Vector3(wallThickness, wallHeight, size.y + wallThickness), "East Wall");
+        }
+
+        void CreateWall(Vector3 position, Vector3 size, string name)
+        {
+            GameObject wall = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            wall.name = name;
+            wall.transform.position = position;
+            wall.transform.localScale = size;
+            Renderer renderer = wall.GetComponent<Renderer>();
+            renderer.material = wallMaterial;
         }
 
         private void PlaceSpawners(List<Vector2> possibleEnemySpawnPositions, PlaygroundDecember23GameMode gameMode)
