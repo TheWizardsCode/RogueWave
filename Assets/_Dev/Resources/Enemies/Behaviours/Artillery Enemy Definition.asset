@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094fd309cbedad74e987c684d8f373f5, type: 3}
   m_Name: Artillery Enemy Definition
   m_EditorClassIdentifier: 
+  requireLineOfSight: 1
+  viewDistance: 100
   speed: 2
   rotationSpeed: 1
   minimumHeight: 0
   maximumHeight: 0
   optimalDistanceFromPlayer: 50
-  seekDuration: 15
-  maxWanderRange: 50
-  requireLineOfSight: 1
-  viewDistance: 100
   obstacleAvoidanceDistance: 7
   sensorMask:
     serializedVersion: 2
     m_Bits: 12781057
+  seekDuration: 15
+  maxWanderRange: 50
+  resourcesDropChance: 0.55
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}

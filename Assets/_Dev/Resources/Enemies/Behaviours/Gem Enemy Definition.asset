@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094fd309cbedad74e987c684d8f373f5, type: 3}
   m_Name: Gem Enemy Definition
   m_EditorClassIdentifier: 
+  requireLineOfSight: 1
+  viewDistance: 100
   speed: 3
   rotationSpeed: 3
   minimumHeight: 0.5
   maximumHeight: 75
   optimalDistanceFromPlayer: 0.2
-  seekDuration: 15
-  maxWanderRange: 75
-  requireLineOfSight: 1
-  viewDistance: 100
   obstacleAvoidanceDistance: 5
   sensorMask:
     serializedVersion: 2
     m_Bits: 12781057
+  seekDuration: 15
+  maxWanderRange: 75
+  resourcesDropChance: 0.8
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}

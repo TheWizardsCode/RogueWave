@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094fd309cbedad74e987c684d8f373f5, type: 3}
   m_Name: Shielded Core Enemy Definition
   m_EditorClassIdentifier: 
+  requireLineOfSight: 1
+  viewDistance: 100
   speed: 3
   rotationSpeed: 2
   minimumHeight: 2.5
   maximumHeight: 75
   optimalDistanceFromPlayer: 5
-  seekDuration: 15
-  maxWanderRange: 250
-  requireLineOfSight: 1
-  viewDistance: 100
   obstacleAvoidanceDistance: 5
   sensorMask:
     serializedVersion: 2
     m_Bits: 12781057
+  seekDuration: 15
+  maxWanderRange: 250
+  resourcesDropChance: 0.7
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}

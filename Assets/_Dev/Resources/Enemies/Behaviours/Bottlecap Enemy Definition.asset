@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094fd309cbedad74e987c684d8f373f5, type: 3}
   m_Name: Bottlecap Enemy Definition
   m_EditorClassIdentifier: 
+  requireLineOfSight: 1
+  viewDistance: 100
   speed: 5
   rotationSpeed: 4
   minimumHeight: 0.5
   maximumHeight: 75
   optimalDistanceFromPlayer: 0.2
-  seekDuration: 7
-  maxWanderRange: 30
-  requireLineOfSight: 1
-  viewDistance: 100
   obstacleAvoidanceDistance: 5
   sensorMask:
     serializedVersion: 2
     m_Bits: 12781057
+  seekDuration: 7
+  maxWanderRange: 30
+  resourcesDropChance: 0.7
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}

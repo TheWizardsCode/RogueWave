@@ -40,5 +40,11 @@ namespace Playground
         internal float seekDuration = 7;
         [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state.")]
         internal float maxWanderRange = 30f;
+
+        [Header("Rewards")]
+        [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
+        internal float resourcesDropChance = 0.5f;
+        [SerializeField, Tooltip("The resources this enemy drops when killed.")]
+        internal ResourcesPickup resourcesPrefab;
     }
 }

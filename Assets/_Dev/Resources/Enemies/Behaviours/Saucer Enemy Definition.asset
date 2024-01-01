@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 094fd309cbedad74e987c684d8f373f5, type: 3}
   m_Name: Saucer Enemy Definition
   m_EditorClassIdentifier: 
+  requireLineOfSight: 1
+  viewDistance: 100
   speed: 3.5
   rotationSpeed: 3
   minimumHeight: 20
   maximumHeight: 75
   optimalDistanceFromPlayer: 50
-  seekDuration: 20
-  maxWanderRange: 75
-  requireLineOfSight: 1
-  viewDistance: 100
   obstacleAvoidanceDistance: 5
   sensorMask:
     serializedVersion: 2
     m_Bits: 12781057
+  seekDuration: 20
+  maxWanderRange: 75
+  resourcesDropChance: 0.7
+  resourcesPrefab: {fileID: 0}

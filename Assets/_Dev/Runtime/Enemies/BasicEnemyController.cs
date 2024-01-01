@@ -53,12 +53,12 @@ namespace Playground
         float obstacleAvoidanceDistance = 2f;
         [SerializeField, Tooltip("The layers the character can see"), Foldout("Senses")]
         LayerMask sensorMask = 0;
-        */
 
         [SerializeField, Tooltip("The chance of dropping a reward when killed."), Foldout("Rewards")]
         protected float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed."), Foldout("Rewards")]
         protected ResourcesPickup resourcesPrefab;
+        */
 
         [SerializeField, Tooltip("The particle system to play when the enemy is killed."), Foldout("Juice")]
         protected ParticleSystem deathParticlePrefab;
@@ -371,11 +371,11 @@ namespace Playground
             }
 
             // Drop resources
-            if (UnityEngine.Random.value <= resourcesDropChance)
+            if (UnityEngine.Random.value <= config.resourcesDropChance)
             {
                 Vector3 pos = transform.position;
                 pos.y = 0;
-                ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
+                ResourcesPickup resources = Instantiate(config.resourcesPrefab, pos, Quaternion.identity);
                 if (parentRenderer != null)
                 {
                     var resourcesRenderer = resources.GetComponentInChildren<Renderer>();
