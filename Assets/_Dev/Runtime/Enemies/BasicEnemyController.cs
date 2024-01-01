@@ -1,9 +1,6 @@
 using NaughtyAttributes;
-using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using UnityEditor;
@@ -24,44 +21,8 @@ namespace Playground
         [Required("A configuration must be provided. This forms the base definition of the enemy. Higher level enemies will be generated from this base definition.")]
         EnemyBehaviourDefinition config = null;
 
-        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider.")]
+        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), Foldout("References")]
         Transform sensor;
-
-        /*
-        [SerializeField, Tooltip("How fast the enemy moves."), Foldout("Movement")]
-        protected float speed = 5f;
-        [SerializeField, Tooltip("How fast the enemy rotates."), Foldout("Movement")]
-        protected float rotationSpeed = 1f;
-        [SerializeField, Tooltip("The minimum height the enemy will move to."), Foldout("Movement")]
-        float minimumHeight = 0.5f;
-        [SerializeField, Tooltip("The maximum height the enemy will move to."), Foldout("Movement")]
-        float maximumHeight = 75f;
-        [SerializeField, Tooltip("How close to the player will this enemy try to get?"), Foldout("Movement")]
-        float optimalDistanceFromPlayer = 0.2f;
-
-        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), Foldout("Behaviour")]
-        float seekDuration = 7;
-        [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state."), Foldout("Behaviour")]
-        float maxWanderRange = 30f;        
-
-        [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight. If false they will always seek out the player."), Foldout("Senses")]
-        bool requireLineOfSight = true;
-        [SerializeField, Tooltip("The maximum distance the character can see"), Foldout("Senses")]
-        float viewDistance = 30f;
-        
-        [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), Foldout("Senses")]
-        float obstacleAvoidanceDistance = 2f;
-        [SerializeField, Tooltip("The layers the character can see"), Foldout("Senses")]
-        LayerMask sensorMask = 0;
-
-        [SerializeField, Tooltip("The chance of dropping a reward when killed."), Foldout("Rewards")]
-        protected float resourcesDropChance = 0.5f;
-        [SerializeField, Tooltip("The resources this enemy drops when killed."), Foldout("Rewards")]
-        protected ResourcesPickup resourcesPrefab;
-        */
-
-        [SerializeField, Tooltip("The particle system to play when the enemy is killed."), Foldout("Juice")]
-        protected ParticleSystem deathParticlePrefab;
 
         [SerializeField, Tooltip("The event to trigger when this enemy dies."), Foldout("Events")]
         public UnityEvent onDeath;
@@ -356,9 +317,9 @@ namespace Playground
             Renderer parentRenderer = GetComponentInChildren<Renderer>();
 
             // TODO use pool for particles
-            if (deathParticlePrefab != null)
+            if (config.deathParticlePrefab != null)
             {
-                ParticleSystem deathParticle = Instantiate(deathParticlePrefab, transform.position, Quaternion.identity);
+                ParticleSystem deathParticle = Instantiate(config.deathParticlePrefab, transform.position, Quaternion.identity);
                 if (parentRenderer != null)
                 {
                     var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();

@@ -41,6 +41,10 @@ namespace Playground
         [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state.")]
         internal float maxWanderRange = 30f;
 
+        [Header("Juice")]
+        [SerializeField, Tooltip("The particle system to play when the enemy is killed.")]
+        internal ParticleSystem deathParticlePrefab;
+
         [Header("Rewards")]
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         internal float resourcesDropChance = 0.5f;
