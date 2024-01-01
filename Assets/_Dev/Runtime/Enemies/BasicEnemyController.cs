@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System.Collections;
@@ -9,58 +10,53 @@ namespace Playground
 {
     public class BasicEnemyController : MonoBehaviour
     {
-        [Header("Metadata")]
         [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
         protected string displayName = "TBD";
         [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI.")]
         protected string description = "TBD";
 
-        [Header("Movement")]
-        [SerializeField, Tooltip("How fast the enemy moves.")]
+        [SerializeField, Tooltip("How fast the enemy moves."), Foldout("Movement")]
         protected float speed = 5f;
-        [SerializeField, Tooltip("How fast the enemy rotates.")]
+        [SerializeField, Tooltip("How fast the enemy rotates."), Foldout("Movement")]
         protected float rotationSpeed = 1f;
-        [SerializeField, Tooltip("The minimum height the enemy will move to.")]
+        [SerializeField, Tooltip("The minimum height the enemy will move to."), Foldout("Movement")]
         float minimumHeight = 0.5f;
-        [SerializeField, Tooltip("The maximum height the enemy will move to.")]
+        [SerializeField, Tooltip("The maximum height the enemy will move to."), Foldout("Movement")]
         float maximumHeight = 75f;
-        [SerializeField, Tooltip("How close to the player will this enemy try to get?")]
+        [SerializeField, Tooltip("How close to the player will this enemy try to get?"), Foldout("Movement")]
         float optimalDistanceFromPlayer = 0.2f;
 
-        [Header("Behaviour")]
-        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them.")]
+        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), Foldout("Behaviour")]
         float seekDuration = 7;
-        [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state.")]
+        [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state."), Foldout("Behaviour")]
         float maxWanderRange = 30f;
-        [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight. If false they will always seek out the player.")]
+        
+        [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight. If false they will always seek out the player."), Foldout("Senses")]
         bool requireLineOfSight = true;
-        [SerializeField, Tooltip("The maximum distance the character can see")]
+        [SerializeField, Tooltip("The maximum distance the character can see"), Foldout("Senses")]
         float viewDistance = 30f;
-        [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by.")]
+        
+        [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), Foldout("Senses")]
         float obstacleAvoidanceDistance = 2f;
-        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider.")]
+        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), Foldout("Senses")]
         Transform sensor;
-        [SerializeField, Tooltip("The layers the character can see")]
+        [SerializeField, Tooltip("The layers the character can see"), Foldout("Senses")]
         LayerMask sensorMask = 0;
 
-        [Header("Rewards")]
-        [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
+        [SerializeField, Tooltip("The chance of dropping a reward when killed."), Foldout("Rewards")]
         protected float resourcesDropChance = 0.5f;
-        [SerializeField, Tooltip("The resources this enemy drops when killed.")]
+        [SerializeField, Tooltip("The resources this enemy drops when killed."), Foldout("Rewards")]
         protected ResourcesPickup resourcesPrefab;
 
-        [Header("Juice")]
-        [SerializeField, Tooltip("The particle system to play when the enemy is killed.")]
+        [SerializeField, Tooltip("The particle system to play when the enemy is killed."), Foldout("Juice")]
         protected ParticleSystem deathParticlePrefab;
 
-        [Header("Events")]
-        [SerializeField, Tooltip("The event to trigger when this enemy dies.")]
+        [SerializeField, Tooltip("The event to trigger when this enemy dies."), Foldout("Events")]
         public UnityEvent onDeath;
-        [SerializeField, Tooltip("The event to trigger when this enemy is destroyed.")]
+        [SerializeField, Tooltip("The event to trigger when this enemy is destroyed."), Foldout("Events")]
         public UnityEvent onDestroyed;
 
-        [Header("Debug")]
-        [SerializeField, Tooltip("Enable debuggging for this enemy.")]
+        [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Debug")]
         bool isDebug;
 
         Transform _target;
