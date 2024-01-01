@@ -67,44 +67,50 @@ namespace Playground
                 return;
             }
 
-            if (_state == State.Idle && controller.CanSeeTarget)
+            switch (_state)
             {
-                _state = State.LockingOn;
-                _lockOnTimer = _LockOnTime;
-                return;
-            }
-
-            if (_state == State.LockingOn)
-            {
-                float distanceToTarget = Vector3.Distance(transform.position, controller.Target.position);
-                if (distanceToTarget <= _Range && controller.CanSeeTarget)
-                {
-                    _lockOnTimer -= Time.deltaTime;
-                    if (_lockOnTimer <= 0f)
+                case State.Idle:
+                    _state = State.LockingOn;
+                    _lockOnTimer = _LockOnTime;
+                    return;
+                case State.LockingOn:
+                    if (Vector3.Distance(transform.position, controller.Target.position) <= _Range)
                     {
-                        _state = State.Firing;
-                    } else
+                        _lockOnTimer -= Time.deltaTime;
+                        if (_lockOnTimer <= 0f)
+                        {
+                            _state = State.Firing;
+                        }
+                        else
+                        {
+                            return;
+                        }
+                    }
+                    else
                     {
+                        _state = State.Idle;
                         return;
                     }
-                } else
-                {
-                    _state = State.Idle;
-                    return;
-                }
-            }
+                    break;
+                case State.Firing:
+                    if (Vector3.Distance(transform.position, controller.Target.position) > _Range)
+                    {
+                        _state = State.Idle;
+                        return;
+                    }
+                    else
+                    {
+                        _lineRenderer.SetPosition(0, transform.position);
 
-            if (_state == State.Firing)
-            {
-                _lineRenderer.SetPosition(0, transform.position);
+                        _fireTimer += Time.deltaTime;
 
-                _fireTimer += Time.deltaTime;
-
-                if (_fireTimer >= _fireRate && controller.shouldAttack)
-                {
-                    _fireTimer = 0f;
-                    StartCoroutine(Fire());
-                }
+                        if (_fireTimer >= _fireRate && controller.shouldAttack)
+                        {
+                            _fireTimer = 0f;
+                            StartCoroutine(Fire());
+                        }
+                    }
+                    break;
             }
         }
 
