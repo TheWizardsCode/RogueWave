@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,11 +12,10 @@ namespace Playground
     [CreateAssetMenu(fileName = "Enemy Definition", menuName = "Playground/Enemy Definition", order = 300)]
     public class EnemyDefinition : ScriptableObject
     {
-        [Header("Audio")]
-        [SerializeField, Tooltip("The drone sound to play for this enemy.")]
+        [SerializeField, Tooltip("The drone sound to play for this enemy."), Foldout("Clips")]
         AudioClip _droneClip = null;
 
-        [SerializeField, Tooltip("The sound to play when the enemy is killed.")]
+        [SerializeField, Tooltip("The sound to play when the enemy is killed."), Foldout("Clips")]
         AudioClip[] deathClips;
 
         /// <summary>
