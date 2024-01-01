@@ -13,10 +13,10 @@ namespace Playground
     public class EnemyDefinition : ScriptableObject
     {
         [SerializeField, Tooltip("The drone sound to play for this enemy."), Foldout("Clips")]
-        AudioClip _droneClip = null;
+        internal AudioClip _droneClip = null;
 
         [SerializeField, Tooltip("The sound to play when the enemy is killed."), Foldout("Clips")]
-        AudioClip[] deathClips;
+        internal AudioClip[] deathClips;
 
         /// <summary>
         /// The drone is the sound that plays when the enemy is alive.
