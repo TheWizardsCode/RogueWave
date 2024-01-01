@@ -1,22 +1,22 @@
-﻿using NeoFPS;
+﻿using NaughtyAttributes;
+using NeoFPS;
 using UnityEngine;
 
 namespace Playground
 {
     internal class EnemyAudioController : MonoBehaviour
     {
-        [SerializeField, Tooltip("The Enemy Definition to use for default values if any of the values below are not set.")]
+        [SerializeField, Tooltip("The Enemy Definition to use for default values if any of the values below are not set."), Expandable]
         EnemyDefinition defaults = null;
 
-        [Header("Audio Source Configuration")]
-        [SerializeField, Tooltip("The audio source for this enemies drone sound.")]
+        [SerializeField, Tooltip("The audio source for this enemies drone sound."), Foldout("Audio Sources")]
         AudioSource droneSource = null;
 
         [Header("Audio Clips")]
-        [SerializeField, Tooltip("The drone sound to play for this enemy. If empty the default will be used. ")]
+        [SerializeField, Tooltip("The drone sound to play for this enemy. If empty the default will be used. "), Foldout("Clips")]
         AudioClip droneClip = null;
         [SerializeField, Tooltip("The sound to play when the enemy is killed. " +
-            "If empty the settins in the enemy definition will be used.")]
+            "If empty the settins in the enemy definition will be used."), Foldout("Clips")]
         AudioClip[] deathClips;
 
         BasicEnemyController m_EnemyController = null;
