@@ -1,11 +1,4 @@
-using log4net.Util;
 using NaughtyAttributes;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -18,6 +11,12 @@ namespace Playground
     [CreateAssetMenu(fileName = "Enemy Behaviour Definition", menuName = "Playground/Enemy Behaviour Definition", order = 300)]
     public class EnemyBehaviourDefinition : ScriptableObject
     {
+        [Header("Senses")]
+        [SerializeField, Tooltip("If true, the enemy will only move towards or attack the player if they have line of sight. If false they will always seek out the player.")]
+        internal bool requireLineOfSight = true;
+        [SerializeField, Tooltip("The maximum distance the character can see"), ShowIf("requireLineOfSight")]
+        internal float viewDistance = 30f;
+
         [Header("Movement")]
         [SerializeField, Tooltip("How fast the enemy moves.")]
         internal float speed = 5f;
@@ -30,10 +29,16 @@ namespace Playground
         [SerializeField, Tooltip("How close to the player will this enemy try to get?")]
         internal float optimalDistanceFromPlayer = 0.2f;
 
+        [Header("Navigation")]
+        [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by.")]
+        internal float obstacleAvoidanceDistance = 2f;
+        [SerializeField, Tooltip("The layers the character can see")]
+        internal LayerMask sensorMask = 0;
+
         [Header("Seek Behaviour")]
-        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), Foldout("Behaviour")]
+        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them.")]
         internal float seekDuration = 7;
-        [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state."), Foldout("Behaviour")]
+        [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state.")]
         internal float maxWanderRange = 30f;
     }
 }

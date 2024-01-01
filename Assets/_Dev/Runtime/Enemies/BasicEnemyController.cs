@@ -24,6 +24,9 @@ namespace Playground
         [Required("A configuration must be provided. This forms the base definition of the enemy. Higher level enemies will be generated from this base definition.")]
         EnemyBehaviourDefinition config = null;
 
+        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider.")]
+        Transform sensor;
+
         /*
         [SerializeField, Tooltip("How fast the enemy moves."), Foldout("Movement")]
         protected float speed = 5f;
@@ -39,8 +42,7 @@ namespace Playground
         [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), Foldout("Behaviour")]
         float seekDuration = 7;
         [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state."), Foldout("Behaviour")]
-        float maxWanderRange = 30f;
-        */
+        float maxWanderRange = 30f;        
 
         [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight. If false they will always seek out the player."), Foldout("Senses")]
         bool requireLineOfSight = true;
@@ -49,10 +51,9 @@ namespace Playground
         
         [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), Foldout("Senses")]
         float obstacleAvoidanceDistance = 2f;
-        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), Foldout("Senses")]
-        Transform sensor;
         [SerializeField, Tooltip("The layers the character can see"), Foldout("Senses")]
         LayerMask sensorMask = 0;
+        */
 
         [SerializeField, Tooltip("The chance of dropping a reward when killed."), Foldout("Rewards")]
         protected float resourcesDropChance = 0.5f;
@@ -84,7 +85,7 @@ namespace Playground
         {
             get
             { 
-                if (requireLineOfSight && CanSeeTarget == false)
+                if (config.requireLineOfSight && CanSeeTarget == false)
                 {
                     return false;
                 }
@@ -100,7 +101,7 @@ namespace Playground
                 if (Target == null)
                     return false;
 
-                if (Vector3.Distance(Target.position, transform.position) <= viewDistance)
+                if (Vector3.Distance(Target.position, transform.position) <= config.viewDistance)
                 {
                     Vector3 rayTargetPosition = Target.position;
                     rayTargetPosition.y = Target.position.y + 0.8f; // TODO: Should use the seek targets
@@ -115,7 +116,7 @@ namespace Playground
                     }
 #endif
                     RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, viewDistance, sensorMask))
+                    if (Physics.Raycast(ray, out hit, config.viewDistance, config.sensorMask))
                     {
                         if (hit.transform == Target)
                         {
@@ -140,7 +141,7 @@ namespace Playground
 #if UNITY_EDITOR
                 else if (isDebug)
                 {
-                    Debug.Log($"{name} cannot see the player as they are further than {viewDistance}m away.");
+                    Debug.Log($"{name} cannot see the player as they are further than {config.viewDistance}m away.");
                 }
 #endif
 
@@ -202,12 +203,12 @@ namespace Playground
                 return;
             }
 
-            if (requireLineOfSight == false)
+            if (config.requireLineOfSight == false)
             {
                 lastKnownPosition = GetDestination(Target.position);
             }
 
-            if (requireLineOfSight && CanSeeTarget == false)
+            if (config.requireLineOfSight && CanSeeTarget == false)
             {
                 if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
                 {
@@ -252,7 +253,7 @@ namespace Playground
             bool rotateRight = true;
 
             Ray ray = new Ray(sensor.position, transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit forwardHit, obstacleAvoidanceDistance, sensorMask))
+            if (Physics.Raycast(ray, out RaycastHit forwardHit, config.obstacleAvoidanceDistance, config.sensorMask))
             {
                 if (forwardHit.collider.transform.root != Target)
                 {
@@ -261,7 +262,7 @@ namespace Playground
             }
 
             ray.direction = Quaternion.AngleAxis(turnAngle, transform.transform.up) * transform.forward;
-            if (Physics.Raycast(ray, out RaycastHit rightForwardHit, obstacleAvoidanceDistance, sensorMask))
+            if (Physics.Raycast(ray, out RaycastHit rightForwardHit, config.obstacleAvoidanceDistance, config.sensorMask))
             {
                 if (rightForwardHit.collider.transform.root != Target)
                 {
@@ -271,7 +272,7 @@ namespace Playground
             }
 
             ray.direction = Quaternion.AngleAxis(-turnAngle, transform.transform.up) * transform.forward;
-            if (Physics.Raycast(ray, out RaycastHit leftForwardHit, obstacleAvoidanceDistance, sensorMask))
+            if (Physics.Raycast(ray, out RaycastHit leftForwardHit, config.obstacleAvoidanceDistance, config.sensorMask))
             {
                 if (leftForwardHit.collider.transform.root != Target)
                 {
@@ -284,11 +285,11 @@ namespace Playground
             {
                 if (rotateRight)
                 {
-                    targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
+                    targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (distanceToObstacle / config.obstacleAvoidanceDistance), 0);
                 }
                 else
                 {
-                    targetRotation = transform.rotation * Quaternion.Euler(0, -turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
+                    targetRotation = transform.rotation * Quaternion.Euler(0, -turnAngle * (distanceToObstacle / config.obstacleAvoidanceDistance), 0);
                 }
                 //Debug.Log($"Rotating to avoid obstacle F {forwardHit.collider}, L {leftForwardHit.collider}, R {rightForwardHit.collider}");
             }
