@@ -43,18 +43,19 @@ namespace Playground
         [SerializeField, Tooltip("The layers the character can see")]
         LayerMask sensorMask = 0;
 
-        [SerializeField, Tooltip("The sound to play when the enemy is killed.")]
-        protected AudioClip[] deathClips;
-        [SerializeField, Tooltip("The particle system to play when the enemy is killed.")]
-        protected ParticleSystem deathParticlePrefab;
-
         [Header("Rewards")]
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         protected float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
         protected ResourcesPickup resourcesPrefab;
 
+        [Header("Juice")]
+        [SerializeField, Tooltip("The particle system to play when the enemy is killed.")]
+        protected ParticleSystem deathParticlePrefab;
 
+        [Header("Events")]
+        [SerializeField, Tooltip("The event to trigger when this enemy dies.")]
+        public UnityEvent onDeath;
         [SerializeField, Tooltip("The event to trigger when this enemy is destroyed.")]
         public UnityEvent onDestroyed;
 
@@ -344,12 +345,6 @@ namespace Playground
 
         private void Die()
         {
-            // Death Feedback
-            if (deathClips.Length > 0)
-            {
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(deathClips[Random.Range(0, deathClips.Length)], transform.position);
-            }
-
             Renderer parentRenderer = GetComponentInChildren<Renderer>();
 
             // TODO use pool for particles
@@ -382,6 +377,8 @@ namespace Playground
                     }
                 }
             }
+
+            onDeath?.Invoke();
 
             Destroy(gameObject);
         }
