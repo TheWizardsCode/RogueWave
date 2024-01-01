@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 3281636757601728904}
   - component: {fileID: 8920570852494711528}
   - component: {fileID: 6274646092407174085}
+  - component: {fileID: 8698099878786347980}
   m_Layer: 12
   m_Name: Bottlecap
   m_TagString: Untagged
@@ -97,15 +98,15 @@ MonoBehaviour:
   sensorMask:
     serializedVersion: 2
     m_Bits: 12781057
-  deathClips:
-  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
-  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
-  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
-  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
-  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
-  deathParticlePrefab: {fileID: 5327745311076098471, guid: e2b98be0b3446aa4492800d8aecef82d, type: 3}
   resourcesDropChance: 0.7
   resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}
+  deathParticlePrefab: {fileID: 5327745311076098471, guid: e2b98be0b3446aa4492800d8aecef82d, type: 3}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
   isDebug: 0
 --- !u!114 &5219187662690625511
 MonoBehaviour:
@@ -186,8 +187,8 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243059815924327020, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c, type: 2}
-  m_audioClip: {fileID: 8300000, guid: ec2120f1d44fe1f4fa1c1060d9deea73, type: 3}
-  m_PlayOnAwake: 1
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1
@@ -197,7 +198,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 50
+  MaxDistance: 100
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -245,12 +246,12 @@ AudioSource:
     - serializedVersion: 3
       time: 0.45734435
       value: 0.08380127
-      inSlope: -0.10013438
-      outSlope: -0.10013438
+      inSlope: -0.49732572
+      outSlope: -0.49732572
       tangentMode: 0
       weightedMode: 0
       inWeight: 1
-      outWeight: 0
+      outWeight: 0.6490862
     - serializedVersion: 3
       time: 0.64
       value: 0.03125
@@ -317,6 +318,22 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8698099878786347980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985948857531989657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99c66edff86b6934292b17047252c5e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaults: {fileID: 11400000, guid: dd9dd38bb10772a41aa5a9ce16634dec, type: 2}
+  droneSource: {fileID: 6274646092407174085}
+  droneClip: {fileID: 8300000, guid: 9a6a8d5101feca341b16462e808284e5, type: 3}
+  deathClips: []
 --- !u!1001 &2121357580465666191
 PrefabInstance:
   m_ObjectHideFlags: 0
