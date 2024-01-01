@@ -1,10 +1,15 @@
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using Random = UnityEngine.Random;
 
 namespace Playground
 {
@@ -15,6 +20,11 @@ namespace Playground
         [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI.")]
         protected string description = "TBD";
 
+        [SerializeField, Tooltip("The Enemy behaviour definition defines how this enemy will behave. The best way to start is to drag in an existing configuration and then save a copy using the button below. Then edit for your needs."), Expandable]
+        [Required("A configuration must be provided. This forms the base definition of the enemy. Higher level enemies will be generated from this base definition.")]
+        EnemyBehaviourDefinition config = null;
+
+        /*
         [SerializeField, Tooltip("How fast the enemy moves."), Foldout("Movement")]
         protected float speed = 5f;
         [SerializeField, Tooltip("How fast the enemy rotates."), Foldout("Movement")]
@@ -30,7 +40,8 @@ namespace Playground
         float seekDuration = 7;
         [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state."), Foldout("Behaviour")]
         float maxWanderRange = 30f;
-        
+        */
+
         [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight. If false they will always seek out the player."), Foldout("Senses")]
         bool requireLineOfSight = true;
         [SerializeField, Tooltip("The maximum distance the character can see"), Foldout("Senses")]
@@ -109,7 +120,7 @@ namespace Playground
                         if (hit.transform == Target)
                         {
                             lastKnownPosition = GetDestination(Target.position);
-                            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
+                            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + config.seekDuration;
                             return true;
                         }
 #if UNITY_EDITOR
@@ -155,14 +166,14 @@ namespace Playground
             Vector3 newPosition = new Vector3();
             for (int i = 0; i < 4; i++)
             {
-                newPosition = UnityEngine.Random.onUnitSphere * optimalDistanceFromPlayer;
+                newPosition = UnityEngine.Random.onUnitSphere * config.optimalDistanceFromPlayer;
                 newPosition += targetPosition;
-                if (newPosition.y >= minimumHeight)
+                if (newPosition.y >= config.minimumHeight)
                 {
                     return newPosition;
                 }
             }
-            newPosition.y = Mathf.Max(newPosition.y, minimumHeight);
+            newPosition.y = Mathf.Max(newPosition.y, config.minimumHeight);
             return newPosition;
         }
 
@@ -220,19 +231,19 @@ namespace Playground
             Vector3 directionToDestination = (destination - transform.position).normalized;
             float currentDistance = Vector3.Distance(transform.position, destination);
 
-            if (currentDistance < optimalDistanceFromPlayer)
+            if (currentDistance < config.optimalDistanceFromPlayer)
             {
-                float distanceToMoveAway = optimalDistanceFromPlayer - currentDistance;
+                float distanceToMoveAway = config.optimalDistanceFromPlayer - currentDistance;
                 destination = transform.position - (directionToDestination * distanceToMoveAway);
             }
 
 
-            if (destination.y < minimumHeight)
+            if (destination.y < config.minimumHeight)
             {
-                destination.y = minimumHeight;
-            } else if (destination.y > maximumHeight)
+                destination.y = config.minimumHeight;
+            } else if (destination.y > config.maximumHeight)
             {
-                destination.y = maximumHeight;
+                destination.y = config.maximumHeight;
             }
 
             float turnAngle = Vector3.Angle(transform.forward, directionToDestination);
@@ -291,8 +302,8 @@ namespace Playground
                 }
             }
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            transform.position += transform.forward * speed * speedMultiplier * Time.deltaTime;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, config.rotationSpeed * Time.deltaTime);
+            transform.position += transform.forward * config.speed * speedMultiplier * Time.deltaTime;
             AdjustHeight(destination, speedMultiplier);
         }
 
@@ -301,7 +312,7 @@ namespace Playground
             float heightDifference = transform.position.y - destination.y;
             if ( heightDifference > 0.2f || heightDifference < -0.2f)
             {
-                float rate = speed * speedMultiplier * Time.deltaTime;
+                float rate = config.speed * speedMultiplier * Time.deltaTime;
                 if (destination.y > transform.position.y)
                 {
                     transform.position += Vector3.up * rate;
@@ -318,9 +329,9 @@ namespace Playground
         {
             if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
             {
-                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, maxWanderRange);
-                wanderDestination = spawnPosition + Random.insideUnitSphere * maxWanderRange;
-                wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, maxWanderRange);
+                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, config.maxWanderRange);
+                wanderDestination = spawnPosition + Random.insideUnitSphere * config.maxWanderRange;
+                wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, config.maxWanderRange);
                 lastKnownPosition = wanderDestination;
 
 #if UNITY_EDITOR
@@ -359,7 +370,7 @@ namespace Playground
             }
 
             // Drop resources
-            if (Random.value <= resourcesDropChance)
+            if (UnityEngine.Random.value <= resourcesDropChance)
             {
                 Vector3 pos = transform.position;
                 pos.y = 0;
@@ -378,5 +389,48 @@ namespace Playground
 
             Destroy(gameObject);
         }
+
+
+#if UNITY_EDITOR
+        #region Inspector
+        [Button]
+        private void SaveCopyOfConfig()
+        {
+            string defaultPath = AssetDatabase.GetAssetPath(config);
+            string directoryPath = Path.GetDirectoryName(defaultPath);
+
+            string path = EditorUtility.SaveFilePanel(
+                "Save Enemy Behaviour Definition",
+                directoryPath,
+                $"{transform.root.name} Enemy Behaviour Definition",
+                "asset"
+            );
+
+            if (path.Length != 0)
+            {
+                string relativePath = "Assets" + path.Substring(Application.dataPath.Length);
+
+                EnemyBehaviourDefinition newConfig = ScriptableObject.CreateInstance<EnemyBehaviourDefinition>();
+
+                FieldInfo[] fields = newConfig.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                foreach (FieldInfo field in fields)
+                {
+                    if (field.IsPublic && !Attribute.IsDefined(field, typeof(System.NonSerializedAttribute)) ||
+                        Attribute.IsDefined(field, typeof(SerializeField)))
+                    {
+                        field.SetValue(newConfig, field.GetValue(config));
+                    }
+                }
+
+                AssetDatabase.CreateAsset(newConfig, relativePath);
+                config = newConfig;
+                AssetDatabase.SaveAssets();
+            }
+        }
+        #region Validatoin
+        #endregion
+
+        #endregion
+#endif
     }
 }
