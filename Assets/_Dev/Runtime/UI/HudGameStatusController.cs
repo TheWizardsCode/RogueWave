@@ -114,7 +114,12 @@ namespace Playground
 		protected virtual void OnResourcesChanged (float from, float to, float resourcesUntilNextLevel)
         {
             m_ResourcesText.text = ((int)to).ToString ();
-            m_LevelUpResourcesText.text = ((int)resourcesUntilNextLevel).ToString();
+            int needed = (int)resourcesUntilNextLevel;
+            if (needed < 0)
+            {
+                needed = 0;
+            }
+            m_LevelUpResourcesText.text = needed.ToString();
         }
     }
 }

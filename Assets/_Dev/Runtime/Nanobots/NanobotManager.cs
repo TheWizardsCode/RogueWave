@@ -54,15 +54,52 @@ namespace Playground
         public delegate void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel);
         public event OnResourcesChanged onResourcesChanged;
 
-        enum Status
+        public delegate void OnStatusChanged(Status status);
+        public event OnStatusChanged onStatusChanged;
+
+        public delegate void OnOfferChanged(IRecipe offer);
+        public event OnOfferChanged onOfferChanged;
+
+        public enum Status
         {
             Idle,
             OfferingRecipe,
+            RequestQueued,
             Requesting,
+            RequestRecieved,
             Building
         }
-        Status status = Status.Idle;
+        Status _status;
+        public Status status
+        {
+            get { return _status; }
+            set
+            {
+                   if (_status == value)
+                        return;
+    
+                    _status = value;
+    
+                    if (onStatusChanged != null)
+                        onStatusChanged(_status);
+            }
+        }
 
+        IRecipe _currentOffer;
+        public IRecipe currentOffer
+        {
+            get { return _currentOffer; }
+            set
+            {
+                if (_currentOffer == value)
+                    return;
+
+                _currentOffer = value;
+
+                if (onOfferChanged != null)
+                    onOfferChanged(_currentOffer);
+            }
+        }
         private float timeOfLastRewardOffer = 0;
 
         private float timeOfNextBuiild = 0;
@@ -156,18 +193,18 @@ namespace Playground
         IEnumerator OfferInGameRewardRecipe()
         {
             timeOfLastRewardOffer = Time.timeSinceLevelLoad;
-            status = Status.OfferingRecipe;
 
-            IRecipe offer = RecipeManager.GetOffers(1)[0];
+            currentOffer = RecipeManager.GetOffers(1)[0];
+            status = Status.OfferingRecipe;
             yield return null;
 
             // Announce a recipe is available
             AudioClip clip = recipeRequestPrefix[Random.Range(0, recipeRequestPrefix.Length)];
-            AudioClip recipeName = offer.NameClip;
+            AudioClip recipeName = currentOffer.NameClip;
             if (recipeName == null)
             {
                 recipeName = defaultRecipeName;
-                Debug.LogError($"Recipe {offer.DisplayName} (offer) does not have an audio clip for its name. Used default of `Unkown`.");
+                Debug.LogError($"Recipe {currentOffer.DisplayName} (offer) does not have an audio clip for its name. Used default of `Unkown`.");
             }
             yield return Announce(clip, recipeName);
 
@@ -183,6 +220,7 @@ namespace Playground
                     resourcesUntilNextLevel = GetRequiredResourcesForNextLevel();
 
                     if (status == Status.Building) {
+                        status = Status.RequestQueued;
                         clip = recipeRequestQueued[Random.Range(0, recipeRequestQueued.Length)];
                         yield return Announce(clip);
                         
@@ -193,7 +231,7 @@ namespace Playground
                     }
 
                     status = Status.Requesting;
-                    timeOfNextBuiild = Time.timeSinceLevelLoad + offer.TimeToBuild + 5f;
+                    timeOfNextBuiild = Time.timeSinceLevelLoad + currentOffer.TimeToBuild + 5f;
 
                     // Announce request made
                     clip = recipeRequested[Random.Range(0, recipeRequested.Length)];
@@ -206,13 +244,14 @@ namespace Playground
                         yield return Announce(clip, recipeName);
                     }
 
-                    yield return new WaitForSeconds(offer.TimeToBuild);
+                    yield return new WaitForSeconds(currentOffer.TimeToBuild);
 
                     // Announce request recieved
+                    status = Status.RequestRecieved;
                     clip = recipeRecievedPrefix[Random.Range(0, recipeRecievedPrefix.Length)];
                     Announce(clip);
                     yield return new WaitForSeconds(clip.length);
-                    if (offer.TimeToBuild > 5)
+                    if (currentOffer.TimeToBuild > 5)
                     {
                         yield return Announce(clip);
                     }
@@ -221,7 +260,7 @@ namespace Playground
                         yield return Announce(clip, recipeName);
                     }
 
-                    Add(offer, false);
+                    Add(currentOffer, false);
 
                     status = Status.Idle;
 
@@ -248,7 +287,7 @@ namespace Playground
         /// <param name="recipeName">OPTIONAL: if not null then this recipe name clip will be announced after the main clip</param>
         private IEnumerator Announce(AudioClip mainClip, AudioClip recipeName)
         {
-            Debug.Log($"Announcing {mainClip.name} with recipe name {recipeName?.name}");
+            //Debug.Log($"Announcing {mainClip.name} with recipe name {recipeName?.name}");
 
             NeoFpsAudioManager.PlayEffectAudioAtPosition(mainClip, transform.position, 1);
             yield return new WaitForSeconds(mainClip.length);
