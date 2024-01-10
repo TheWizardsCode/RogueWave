@@ -171,6 +171,8 @@ namespace Playground
             }
             yield return Announce(clip, recipeName);
 
+
+            yield return new WaitForSeconds(2);
             status = Status.Idle;
 
             while (true) // this coroutine will run until the player accepts or a new coroutine is started with a new offer
