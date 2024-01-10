@@ -10,6 +10,8 @@ namespace Playground
     {
 		[SerializeField, Tooltip("The text readout for the current characters resources.")]
 		private Text m_ResourcesText = null;
+        [SerializeField, Tooltip("The text readout for the required resources for the next level up.")]
+        private Text m_LevelUpResourcesText = null;
         [SerializeField, Tooltip("The text readout for the number of remaining spawners.")]
         private Text m_SpawnersText = null;
         [SerializeField, Tooltip("The text readout for the number of remaining enemies.")]
@@ -100,7 +102,7 @@ namespace Playground
             if (nanobotManager != null)
             {
                 nanobotManager.onResourcesChanged += OnResourcesChanged;
-                OnResourcesChanged(0f, nanobotManager.resources);
+                OnResourcesChanged(0f, nanobotManager.resources, nanobotManager.resources);
                 gameObject.SetActive(true);
             }
             else
@@ -109,9 +111,10 @@ namespace Playground
             }
 		}
 
-		protected virtual void OnResourcesChanged (float from, float to)
+		protected virtual void OnResourcesChanged (float from, float to, float resourcesUntilNextLevel)
         {
             m_ResourcesText.text = ((int)to).ToString ();
+            m_LevelUpResourcesText.text = ((int)resourcesUntilNextLevel).ToString();
         }
     }
 }
