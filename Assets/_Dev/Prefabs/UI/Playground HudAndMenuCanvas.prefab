@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ResourcesText: {fileID: 2937852868884516388}
+  m_LevelUpResourcesText: {fileID: 5564853957598309244}
   m_SpawnersText: {fileID: 6491465033045827271}
   m_EnemiesText: {fileID: 2062495145664521896}
 --- !u!1 &6088336194742650778
@@ -333,6 +334,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 224428087252769344, guid: 19f61d656a8a4b44eab45cad62f19b1b, type: 3}
   m_PrefabInstance: {fileID: 2977015719355160904}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &5564853957598309244 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7235641066777080372, guid: 19f61d656a8a4b44eab45cad62f19b1b, type: 3}
+  m_PrefabInstance: {fileID: 2977015719355160904}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6491465033045827271 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8306376092235319183, guid: 19f61d656a8a4b44eab45cad62f19b1b, type: 3}

@@ -2723,8 +2723,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingCooldown: 4
-  resourcesRewardMultiplier: 100
-  timeBetweenRecipeOffers: 60
+  resourcesRewardMultiplier: 50
+  timeBetweenRecipeOffers: 10
   recipeRequestPrefix:
   - {fileID: 8300000, guid: 070e760ddfb02be44a7bb06d05054646, type: 3}
   - {fileID: 8300000, guid: 8f11d42199da93843aa021882d0d2489, type: 3}
@@ -2747,6 +2747,18 @@ MonoBehaviour:
   - {fileID: 8300000, guid: e41c24860eb1f86419192a658fb3e93b, type: 3}
   - {fileID: 8300000, guid: 46e6727848692e7469fcc27601a0328c, type: 3}
   - {fileID: 8300000, guid: 5fdee490563fc96449b20a1fceb3c91d, type: 3}
+  recipeRequestQueued:
+  - {fileID: 8300000, guid: ccc827b500e9c6a43bab12d6040c0b2a, type: 3}
+  - {fileID: 8300000, guid: b3a13e31c4509934f876bda67a50d9c4, type: 3}
+  - {fileID: 8300000, guid: 2483e337b478dce4c8dc42bdb1b4ae37, type: 3}
+  - {fileID: 8300000, guid: 401385b08622675418b6d42e9b94b5b2, type: 3}
+  - {fileID: 8300000, guid: 5d5b10fc400787a4783862691ed2678c, type: 3}
+  - {fileID: 8300000, guid: b9e92f6bef8cf744e8591f0d362408c9, type: 3}
+  - {fileID: 8300000, guid: df8879ba07d30d642b0bdcf43e3f30a6, type: 3}
+  - {fileID: 8300000, guid: 35ab5fd7ab0245b40aa5bd64aacb637c, type: 3}
+  - {fileID: 8300000, guid: b713251094576f24aa28b099da030f5f, type: 3}
+  - {fileID: 8300000, guid: d45d298eb291ea64c8b610be36455f50, type: 3}
+  - {fileID: 8300000, guid: 2b2e739da2b5ecc4c95298f12c2c2218, type: 3}
   recipeRecievedPrefix:
   - {fileID: 8300000, guid: 243f55dd5a42c3c4ab486a1ad6af0fda, type: 3}
   - {fileID: 8300000, guid: d516ede58756c8b4ea56d19c8d1ace44, type: 3}
@@ -2790,6 +2802,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: bd18b889c86d1204889b4271d34bafce, type: 3}
   defaultPickupParticlePrefab: {fileID: 1974278376555586578, guid: 5431668a66cd19c42ac02f0bdd90e9d2, type: 3}
   defaultRecipeName: {fileID: 8300000, guid: 5c9df246d74fec146932e7763a983e49, type: 3}
+  isDebug: 0
 --- !u!114 &2584534266323046183
 MonoBehaviour:
   m_ObjectHideFlags: 0
