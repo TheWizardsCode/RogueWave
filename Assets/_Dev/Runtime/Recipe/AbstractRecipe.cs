@@ -15,6 +15,8 @@ namespace Playground
         string description = "TBD";
         [SerializeField, Tooltip("An image to use as the hero image for this recipe."), ShowAssetPreview]
         Texture2D heroImage;
+        [SerializeField, Tooltip("A sprite to use as the icon for this recipe."), ShowAssetPreview]
+        Sprite icon;
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
         bool isPowerUp = false; 
         [SerializeField, Tooltip("The resources required to build this ammo type.")]
@@ -39,6 +41,8 @@ namespace Playground
         public string Description => description;
 
         public Texture2D HeroImage => heroImage;
+
+        public Sprite Icon => icon;
 
         public bool IsPowerUp => isPowerUp;
 

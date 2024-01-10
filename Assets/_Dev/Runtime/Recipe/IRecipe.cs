@@ -9,6 +9,8 @@ namespace Playground
         public string DisplayName { get; }
         public string Description { get; }
         public Texture2D HeroImage { get; }
+
+        public Sprite Icon { get; }
         public bool IsPowerUp { get; }
         public int Cost { get; }
         public float TimeToBuild { get; }
