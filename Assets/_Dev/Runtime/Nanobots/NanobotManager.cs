@@ -208,8 +208,6 @@ namespace Playground
             }
             yield return Announce(clip, recipeName);
 
-
-            yield return new WaitForSeconds(2);
             status = Status.Idle;
 
             while (true) // this coroutine will run until the player accepts or a new coroutine is started with a new offer
@@ -226,9 +224,11 @@ namespace Playground
                         
                         while (status == Status.Building)
                         {
-                            yield return new WaitForSeconds(buildingCooldown);
+                            yield return new WaitForSeconds(1);
                         }
                     }
+
+                    yield return new WaitForSeconds(2);
 
                     status = Status.Requesting;
                     timeOfNextBuiild = Time.timeSinceLevelLoad + currentOffer.TimeToBuild + 5f;
