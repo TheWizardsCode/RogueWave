@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 5219187662690625511}
   - component: {fileID: 3410746078879773002}
   - component: {fileID: 7054961101329663811}
+  - component: {fileID: 7903795175863034719}
   m_Layer: 31
   m_Name: Saucer
   m_TagString: AI
@@ -281,6 +282,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &7903795175863034719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985948857531989657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1315779539987502643
 PrefabInstance:
   m_ObjectHideFlags: 0

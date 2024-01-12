@@ -113,6 +113,19 @@ namespace Playground
             }
         }
 
+        private Renderer _parentRenderer;
+        internal Renderer parentRenderer
+        {
+            get
+            {
+                if (_parentRenderer == null)
+                {
+                    _parentRenderer = GetComponentInChildren<Renderer>();
+                }
+                return _parentRenderer;
+            }
+        }
+
         private void OnDestroy()
         {
             onDestroyed?.Invoke();
@@ -377,23 +390,7 @@ namespace Playground
 
         private void Die()
         {
-            Renderer parentRenderer = GetComponentInChildren<Renderer>();
-
-            // TODO use pool for particles
-            if (config.deathParticlePrefab != null)
-            {
-                ParticleSystem deathParticle = Instantiate(config.deathParticlePrefab, transform.position, Quaternion.identity);
-                if (parentRenderer != null)
-                {
-                    var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();
-                    if (particleSystemRenderer != null)
-                    {
-                        particleSystemRenderer.material = parentRenderer.material;
-                    }
-                }
-                deathParticle.Play();
-            }
-
+            
             // Drop resources
             if (UnityEngine.Random.value <= config.resourcesDropChance)
             {

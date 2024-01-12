@@ -43,10 +43,9 @@ GameObject:
   - component: {fileID: 3898056511753922700}
   - component: {fileID: 2718792272166400357}
   - component: {fileID: 4830127741829248690}
-  - component: {fileID: 8215324592521519116}
-  - component: {fileID: 3508714589688286614}
   - component: {fileID: 3993961177526658726}
   - component: {fileID: 4529629528363867195}
+  - component: {fileID: 7736203549225892982}
   m_Layer: 31
   m_Name: Shielded Core
   m_TagString: AI
@@ -128,42 +127,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!135 &8215324592521519116
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8038197323659428586}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1
-  m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &3508714589688286614
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8038197323659428586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02f7ece69f6b33e41b0d85e8f9c53e02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_DamagePerSecond: 10
-  m_DamageType: 1
-  m_DamageDescription: Damage Zone
 --- !u!82 &3993961177526658726
 AudioSource:
   m_ObjectHideFlags: 0
@@ -319,6 +282,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: f360803de70a2034a8485921634803b7, type: 2}
   droneSource: {fileID: 3993961177526658726}
+--- !u!114 &7736203549225892982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8038197323659428586}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1864288036028586345
 PrefabInstance:
   m_ObjectHideFlags: 0
