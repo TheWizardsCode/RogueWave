@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5219187662690625511}
   - component: {fileID: 8124027268666945902}
   - component: {fileID: 2253302858215140040}
+  - component: {fileID: 1553841292609099499}
   m_Layer: 31
   m_Name: Gem
   m_TagString: AI
@@ -281,6 +282,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 62ef290a514289243bd7aaabda59742d, type: 2}
   droneSource: {fileID: 8124027268666945902}
+--- !u!114 &1553841292609099499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985948857531989657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &146371711493947339
 PrefabInstance:
   m_ObjectHideFlags: 0

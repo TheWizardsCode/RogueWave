@@ -19563,6 +19563,8 @@ GameObject:
   - component: {fileID: 4805939666006967488}
   - component: {fileID: 5327745311076098471}
   - component: {fileID: 6022859065833625822}
+  - component: {fileID: 2842660081239373315}
+  - component: {fileID: 2154722804164689202}
   m_Layer: 0
   m_Name: Enemy Death Particles with Large Explosion
   m_TagString: Untagged
@@ -24445,6 +24447,42 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2842660081239373315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7948146522112787363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2154722804164689202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7948146522112787363}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 054b73f0b12d9934799af4bcdb0221f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_CollisionLayers:
+    serializedVersion: 2
+    m_Bits: 26416129
+  m_QueryTriggerColliders: 0
+  m_Lifetime: 2
+  m_PrintableName: Explosion
+  m_DamageType: 4
+  m_Radius: 10
+  m_ShakeStrength: 0.5
+  m_ShakeInnerRadius: 10
+  m_ShakeFalloffDistance: 10
+  m_ShakeDuration: 0.75
 --- !u!1 &9139717775998855511
 GameObject:
   m_ObjectHideFlags: 0

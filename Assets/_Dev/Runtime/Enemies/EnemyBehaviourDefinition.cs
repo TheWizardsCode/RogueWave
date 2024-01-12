@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Playground
@@ -44,8 +45,17 @@ namespace Playground
         internal float seekDuration = 7;
 
         [Header("Juice")]
-        [SerializeField, Tooltip("The particle system to play when the enemy is killed.")]
-        internal ParticleSystem deathParticlePrefab;
+        [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions.")]
+        [FormerlySerializedAs("deathParticlePrefab")]
+        internal ParticleSystem juicePrefab;
+        [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed.")]
+        internal bool shouldExplodeOnDeath = false;
+        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The radius of the explosion when the enemy dies.")]
+        internal float deathExplosionRadius = 5f;
+        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The amount of damage the enemy does when it explodes on death.")]
+        internal float explosionDamageOnDeath = 20;
+        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The force of the explosion when the enemy dies.")]
+        internal float explosionForceOnDeath = 15;
 
         [Header("Rewards")]
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]

@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5219187662690625511}
   - component: {fileID: 5570795577165164235}
   - component: {fileID: 1130793805494448869}
+  - component: {fileID: 6755938055751181905}
   m_Layer: 31
   m_Name: Bolt
   m_TagString: AI
@@ -250,6 +251,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: 2ef1cd633368d0046a280cde4681dcbb, type: 2}
   droneSource: {fileID: 5570795577165164235}
+--- !u!114 &6755938055751181905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985948857531989657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8500651545726619052
 GameObject:
   m_ObjectHideFlags: 0

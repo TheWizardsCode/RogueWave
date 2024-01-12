@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: -6177641379027551643}
   - component: {fileID: 8266808405102126096}
   - component: {fileID: 4676414208784409485}
+  - component: {fileID: 3297794374706640729}
   m_Layer: 31
   m_Name: Caltrop
   m_TagString: AI
@@ -323,6 +324,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &3297794374706640729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985948857531989657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1029828500594978946
 PrefabInstance:
   m_ObjectHideFlags: 0

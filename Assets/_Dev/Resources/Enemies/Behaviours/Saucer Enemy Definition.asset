@@ -26,6 +26,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 12781057
   seekDuration: 50
-  deathParticlePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juicePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 40
+  explosionForceOnDeath: 15
   resourcesDropChance: 0.7
   resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}

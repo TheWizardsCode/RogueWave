@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 5219187662690625511}
   - component: {fileID: 6274646092407174085}
   - component: {fileID: 8698099878786347980}
+  - component: {fileID: 3417111857177567081}
   m_Layer: 31
   m_Name: Bottlecap
   m_TagString: AI
@@ -281,6 +282,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   config: {fileID: 11400000, guid: f69c554eea554f54cb3391a2000f10a7, type: 2}
   droneSource: {fileID: 6274646092407174085}
+--- !u!114 &3417111857177567081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985948857531989657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2121357580465666191
 PrefabInstance:
   m_ObjectHideFlags: 0
