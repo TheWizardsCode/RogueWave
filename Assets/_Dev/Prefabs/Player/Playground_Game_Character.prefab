@@ -2277,6 +2277,7 @@ GameObject:
   - component: {fileID: 2842958109973861201}
   - component: {fileID: -1666555697875400461}
   - component: {fileID: -6680647042397803885}
+  - component: {fileID: 8471855619212548163}
   m_Layer: 13
   m_Name: Playground_Game_Character
   m_TagString: Player
@@ -3074,6 +3075,54 @@ MonoBehaviour:
   m_InventoryID: 353087605
   m_DamageMitigation: 0.5
   m_ArmourDamageMultiplier: 1
+--- !u!114 &8471855619212548163
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cdc1e97c140cb94395d55f6a63a3be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chargeUp:
+  - {fileID: 8300000, guid: ddcfb27144190f248b04835b59f12feb, type: 3}
+  - {fileID: 8300000, guid: 68716fb5be7327d4ea502fea42583457, type: 3}
+  - {fileID: 8300000, guid: 923f03536cea7514c9d014afe8d098c9, type: 3}
+  - {fileID: 8300000, guid: 51dd49066ea464e45a8134e04bdd5bc5, type: 3}
+  - {fileID: 8300000, guid: af38194c951a2274d9596d311ca483f2, type: 3}
+  - {fileID: 8300000, guid: 049b13245170a3e49bac54f939ddb450, type: 3}
+  - {fileID: 8300000, guid: 07ebee98a2eb95745a1532f968f5a764, type: 3}
+  - {fileID: 8300000, guid: b031f2cb0db2c9d4a973a225603b4291, type: 3}
+  - {fileID: 8300000, guid: 04faaf21e40a0e044b27e34b7a6c1f51, type: 3}
+  - {fileID: 8300000, guid: 6e37243a6f809474a95dce34dc0dc90f, type: 3}
+  - {fileID: 8300000, guid: 63c78148c57b3824cb7a8a11112805f7, type: 3}
+  - {fileID: 8300000, guid: 92a000e70f6368b4fb19c65ee3157a5d, type: 3}
+  - {fileID: 8300000, guid: f4d2a556804b4ab4e8d4507f47497422, type: 3}
+  - {fileID: 8300000, guid: 62cb63309afba2c4fb7c162c4cc57ea3, type: 3}
+  - {fileID: 8300000, guid: 5e9b896ed25d73c4a96b6696cedb23be, type: 3}
+  - {fileID: 8300000, guid: e2d10b4587af0f846b5f1329fcfcca9d, type: 3}
+  - {fileID: 8300000, guid: 85e5524dcfd37c741867f6d7009bd708, type: 3}
+  chargeDown:
+  - {fileID: 8300000, guid: 37100e12080595541a88c09804c6b16a, type: 3}
+  - {fileID: 8300000, guid: 165cd1eb07c7ac846848da5d379ad8d1, type: 3}
+  - {fileID: 8300000, guid: ab8175d27689aa9429b938a016cd7676, type: 3}
+  - {fileID: 8300000, guid: 2b30eb2cea16d5942b1f9b878bb20515, type: 3}
+  - {fileID: 8300000, guid: 8d586086cca988e478ceeb3fd05b0cb6, type: 3}
+  - {fileID: 8300000, guid: 7d6edfdf4f0782d4c913bf98b68edc5f, type: 3}
+  - {fileID: 8300000, guid: faee5fcda8ea2864990983546e5df7ec, type: 3}
+  - {fileID: 8300000, guid: 7fbb44b9cd28b5a41a061b919172654d, type: 3}
+  - {fileID: 8300000, guid: 3d4a37bb500fc2e49898f4993a2f1dfd, type: 3}
+  - {fileID: 8300000, guid: 9a5e236b747b22946bae91a68b04b6df, type: 3}
+  - {fileID: 8300000, guid: e120e21946b216d42a920c7114fc0ef5, type: 3}
+  - {fileID: 8300000, guid: 80c79498c8e395a43a873a8ac1b25039, type: 3}
+  - {fileID: 8300000, guid: 9dffe42e8d18999459410afeba61ad82, type: 3}
+  - {fileID: 8300000, guid: 7edfd1f7edbbe7b48bf2bb36875945f1, type: 3}
+  - {fileID: 8300000, guid: 78910e60320d5a94697d6067b581cd58, type: 3}
+  - {fileID: 8300000, guid: 86d6ba2f58812f242bbc61539c50f69b, type: 3}
+  - {fileID: 8300000, guid: 501dd8e64a7c83647b94b45c81267dd1, type: 3}
 --- !u!1 &4167775306372098691
 GameObject:
   m_ObjectHideFlags: 0
