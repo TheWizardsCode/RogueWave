@@ -7,6 +7,7 @@ using UnityEngine.Events;
 
 namespace Playground
 {
+    [RequireComponent(typeof(AudioSource))]
     public class Spawner : MonoBehaviour
     {
         [Header("Spawn Behaviours")]
@@ -36,6 +37,10 @@ namespace Playground
         internal float shieldGeneratorRPM = 45f;
         [SerializeField, Tooltip("The model and collider that will represent the shield.")]
         internal Collider shieldCollider;
+
+        [Header("Feel")]
+        [SerializeField, Tooltip("The sound to play when a new spawning wave is starting.")]
+        AudioClip waveStartSound;
 
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
@@ -81,6 +86,12 @@ namespace Playground
 
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
+        private AudioSource audioSource;
+
+        private void Awake()
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
 
         private void Update()
         {
@@ -184,6 +195,12 @@ namespace Playground
             //Debug.Log($"Starting wave {currentWaveIndex + 1} of {waves.Length}...");
             currentWave = waves[currentWaveIndex];
             currentWave.Reset();
+
+            if (waveStartSound != null)
+            {
+                audioSource.clip = waveStartSound;
+                audioSource.Play();
+            }
         }
 
         private WaveDefinition GenerateNewWave()

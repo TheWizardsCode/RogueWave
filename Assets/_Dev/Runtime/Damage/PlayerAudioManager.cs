@@ -16,8 +16,7 @@ namespace Playground
         AudioClip[] chargeDown;
         
         private IShieldManager shieldManager;
-        private float earliestTimeOfLastShieldDown = 0f;
-        private float earliestTimeOfNextShieldUp = 0f;
+        private float earliestTimeOfNextShieldSound = 0;
 
         private void Awake()
         {
@@ -36,22 +35,27 @@ namespace Playground
 
         private void OnShieldValueChanged(IShieldManager shield, float from, float to)
         {
-            if (from > to && earliestTimeOfLastShieldDown < Time.time)
+            if (earliestTimeOfNextShieldSound > Time.timeSinceLevelLoad)
+            {
+                return;
+            }
+
+            if (from > to)
             {
                 if (chargeDown != null)
                 {
                     AudioClip clip = chargeDown[Random.Range(0, chargeDown.Length)];
                     NeoFpsAudioManager.PlayEffectAudioAtPosition(clip, transform.position);
-                    earliestTimeOfLastShieldDown = Time.timeSinceLevelLoad + clip.length + 0.2f;
+                    earliestTimeOfNextShieldSound = Time.timeSinceLevelLoad + clip.length + 0.2f;
                 }
             }
-            else if (from < to && earliestTimeOfNextShieldUp < Time.time)
+            else if (from < to)
             {
                 if (chargeUp != null)
                 {
                     AudioClip clip = chargeUp[Random.Range(0, chargeUp.Length)];
                     NeoFpsAudioManager.PlayEffectAudioAtPosition(clip, transform.position);
-                    earliestTimeOfNextShieldUp = Time.timeSinceLevelLoad + clip.length + 0.2f;
+                    earliestTimeOfNextShieldSound = Time.timeSinceLevelLoad + clip.length + 0.2f;
                 }
             }
         }
