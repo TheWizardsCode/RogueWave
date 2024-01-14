@@ -193,8 +193,14 @@ namespace Playground
         IEnumerator OfferInGameRewardRecipe()
         {
             timeOfLastRewardOffer = Time.timeSinceLevelLoad;
+            List<IRecipe> offers = RecipeManager.GetOffers(1, 0);
 
-            currentOffer = RecipeManager.GetOffers(1, 0)[0];
+            if (offers.Count == 0)
+            {
+                yield break;
+            }
+
+            currentOffer = offers[0];
             status = Status.OfferingRecipe;
             yield return null;
 
