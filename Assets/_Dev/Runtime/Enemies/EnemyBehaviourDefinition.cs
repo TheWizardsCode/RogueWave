@@ -17,6 +17,8 @@ namespace Playground
         internal bool requireLineOfSight = true;
         [SerializeField, Tooltip("The maximum distance the character can see"), ShowIf("requireLineOfSight")]
         internal float viewDistance = 30f;
+        [SerializeField, Tooltip("The layers the character can see"), ShowIf("isMobile")]
+        internal LayerMask sensorMask = 0;
 
         [Header("Movement")]
         [SerializeField, Tooltip("Is this enemy mobile?")]
@@ -37,8 +39,6 @@ namespace Playground
         [Header("Navigation")]
         [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), ShowIf("isMobile")]
         internal float obstacleAvoidanceDistance = 2f;
-        [SerializeField, Tooltip("The layers the character can see"), ShowIf("isMobile")]
-        internal LayerMask sensorMask = 0;
 
         [Header("Seek Behaviour")]
         [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), ShowIf("isMobile")]

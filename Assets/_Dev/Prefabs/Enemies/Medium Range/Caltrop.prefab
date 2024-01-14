@@ -42,7 +42,6 @@ GameObject:
   - component: {fileID: 1450764596457488462}
   - component: {fileID: 5219187662690625511}
   - component: {fileID: 5391398547824553434}
-  - component: {fileID: 3281636757601728904}
   - component: {fileID: -6177641379027551643}
   - component: {fileID: 8266808405102126096}
   - component: {fileID: 4676414208784409485}
@@ -126,21 +125,6 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1.6
   m_Center: {x: 0, y: 1, z: 0}
---- !u!114 &3281636757601728904
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985948857531989657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02f7ece69f6b33e41b0d85e8f9c53e02, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_DamagePerSecond: 10
-  m_DamageType: 1
-  m_DamageDescription: Damage Zone
 --- !u!114 &-6177641379027551643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -166,7 +150,7 @@ MonoBehaviour:
   onDestroyed:
     m_PersistentCalls:
       m_Calls: []
-  isDebug: 0
+  isDebug: 1
   minAttackDistance: 35
   attackSpeedMultiplier: 1.5
 --- !u!114 &8266808405102126096
@@ -390,7 +374,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 775cfd7a3bf41274fb8c81691497e90f, type: 2}
     - target: {fileID: 919132149155446097, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
       propertyPath: m_Name
-      value: caltrop
+      value: Model
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
