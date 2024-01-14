@@ -194,7 +194,7 @@ namespace Playground
         {
             timeOfLastRewardOffer = Time.timeSinceLevelLoad;
 
-            currentOffer = RecipeManager.GetOffers(1)[0];
+            currentOffer = RecipeManager.GetOffers(1, 0)[0];
             status = Status.OfferingRecipe;
             yield return null;
 
