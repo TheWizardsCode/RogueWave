@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Playground
 {
-    public class EnemyWeapon : MonoBehaviour
+    public class EnemyLaser : MonoBehaviour
     {
         [Header("Weapon")]
         [SerializeField, Tooltip("The range of the weapon. If not within this range then it will not fire.")]

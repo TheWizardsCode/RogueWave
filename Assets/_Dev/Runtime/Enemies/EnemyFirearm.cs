@@ -10,6 +10,8 @@ namespace Playground
     {
         [SerializeField, Tooltip("If true the weapon will aim at the player. Make this false for guided projectiles.")]
         private bool _AimAtPlayer = true;
+        [SerializeField, Tooltip("Weapon startup time. This is the time that must elapse between creation of the weapon and its first firing.")]
+        private float _StartupTime = 3f;
 
         BasicEnemyController controller;
 
@@ -24,10 +26,15 @@ namespace Playground
 
         private void Update()
         {
+            if (_StartupTime > 0f)
+            {
+                _StartupTime -= Time.deltaTime;
+                return;
+            }
 
             if (!m_TriggerDown)
             {
-                if (controller.CanSeeTarget && controller.shouldAttack)
+                if (controller.shouldAttack)
                 {
                     m_TriggerDown = true;
                     m_Firearm.trigger.Press();
@@ -35,7 +42,7 @@ namespace Playground
             }
             else
             {
-                if (!controller.CanSeeTarget || !controller.shouldAttack)
+                if (!controller.shouldAttack)
                 {
                     m_TriggerDown = false;
                     m_Firearm.trigger.Release();
