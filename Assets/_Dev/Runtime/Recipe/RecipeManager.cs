@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace Playground
 {
@@ -62,8 +64,19 @@ namespace Playground
             }
 
             List<IRecipe> offers = new List<IRecipe>();
-            List<IRecipe> candidates = GetPowerUpCandidates();
+            
+            // Disabled temporarily as this creates a player only gets weapons in-game on the first run
+            //// Always offer a weapon on the first run
+            //if (RogueLiteManager.persistentData.runNumber == 0)
+            //{
+            //    List<WeaponPickupRecipe> weaponCandidates = GetPowerUpCandidates<WeaponPickupRecipe>();
+            //    offers.Add(weaponCandidates[Random.Range(0, weaponCandidates.Count)]);
+            //    quantity--;
+            //}
 
+            List<IRecipe> candidates = GetPowerUpCandidates<IRecipe>();
+
+            bool isValid = RogueLiteManager.persistentData.runNumber != 0;
             for (int i = 0; i < quantity; i++)
             {
                 if (candidates.Count == 0)
@@ -83,11 +96,16 @@ namespace Playground
         /// Get a list of powerup recipes that can be offered to the player.
         /// </summary>
         /// <returns></returns>
-        private static List<IRecipe> GetPowerUpCandidates()
+        private static List<T> GetPowerUpCandidates<T>() where T : IRecipe
         {
-            List<IRecipe> candidates = new List<IRecipe>();
+            List<T> candidates = new List<T>();
             foreach (IRecipe recipe in powerupRecipes.Values)
             {
+                if (recipe is not T)
+                {
+                    continue;
+                } 
+
                 if (RogueLiteManager.persistentData.currentResources < recipe.Cost)
                 {
                     continue;
@@ -105,7 +123,7 @@ namespace Playground
 
                 // TODO: Remove some portion of the recipes that are not particularly useful for the player at this time
 
-                candidates.Add(recipe);
+                candidates.Add((T)recipe);
             }
 
             return candidates;
