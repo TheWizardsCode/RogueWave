@@ -69,7 +69,13 @@ namespace Playground
 
         void Start()
         {
-            offers = RecipeManager.GetOffers(m_NumberOfOffers);
+            int weapons = 0;
+            if (RogueLiteManager.persistentData.runNumber == 0)
+            {
+                weapons = 1;
+            }
+
+            offers = RecipeManager.GetOffers(m_NumberOfOffers, weapons);
 
             if (FpsSoloCharacter.localPlayerCharacter != null && offers.Count == 0)
             {
@@ -79,22 +85,6 @@ namespace Playground
             {
                 NeoFpsInputManager.captureMouseCursor = false;
             }
-        }
-
-        /// <summary>
-        /// Display the UI and start the choosing process.
-        /// When a recipe is chosen the UI will be hidden and the chosen recipe will be added to the player's runData.
-        /// </summary>
-        public void ChooseRecipe() {
-            NeoFpsInputManager.captureMouseCursor = false;
-
-            offers = RecipeManager.GetOffers(m_NumberOfOffers);
-            m_PersistentData = RogueLiteManager.persistentData;
-            m_RunData = RogueLiteManager.runData;
-
-            optionsBackground = MakeTex(2, 2, new Color(0.4f, 0.4f, 0.4f, 0.5f));
-
-            isOpen = true;
         }
 
         void OnGUI()

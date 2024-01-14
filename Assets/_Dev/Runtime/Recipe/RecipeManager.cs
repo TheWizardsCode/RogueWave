@@ -55,8 +55,9 @@ namespace Playground
         /// Gets a number of upgrade recipes that can be offered to the player.
         /// </summary>
         /// <param name="quantity">The number of upgrades to offer.</param>
+        /// <param name="requiredWeaponCount">The number of weapons that must be offered.</param>
         /// <returns>An array of recipes that can be offered to the player.</returns>
-        internal static List<IRecipe> GetOffers(int quantity)
+        internal static List<IRecipe> GetOffers(int quantity, int requiredWeaponCount)
         {
             if (isInitialised == false)
             {
@@ -64,15 +65,15 @@ namespace Playground
             }
 
             List<IRecipe> offers = new List<IRecipe>();
-            
-            // Disabled temporarily as this creates a player only gets weapons in-game on the first run
-            //// Always offer a weapon on the first run
-            //if (RogueLiteManager.persistentData.runNumber == 0)
-            //{
-            //    List<WeaponPickupRecipe> weaponCandidates = GetPowerUpCandidates<WeaponPickupRecipe>();
-            //    offers.Add(weaponCandidates[Random.Range(0, weaponCandidates.Count)]);
-            //    quantity--;
-            //}
+
+            // Always offer a weapon on the first run
+            if (requiredWeaponCount > 0)
+            {
+                List<WeaponPickupRecipe> weaponCandidates = GetPowerUpCandidates<WeaponPickupRecipe>();
+                offers.Add(weaponCandidates[Random.Range(0, weaponCandidates.Count)]);
+                quantity--;
+                requiredWeaponCount--;
+            }
 
             List<IRecipe> candidates = GetPowerUpCandidates<IRecipe>();
 
