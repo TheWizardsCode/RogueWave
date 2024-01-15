@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca6596388ba2ec4c894740aca5af5ab, type: 3}
+  m_Name: DashSpeedMultiplier 10%
+  m_EditorClassIdentifier: 
+  displayName: Dash Speed 10%
+  description: Increase the base Dash Speed by 10%
+  heroImage: {fileID: 2800000, guid: 1510d14dc92404f40bc6f609f0506862, type: 3}
+  icon: {fileID: 0}
+  isPowerUp: 1
+  cost: 225
+  timeToBuild: 5
+  nameClips:
+  - {fileID: 8300000, guid: dcdadb9e30d518a4d80d570dc06ea922, type: 3}
+  - {fileID: 8300000, guid: 2fcb08efebca7e944a89f13727534455, type: 3}
+  - {fileID: 8300000, guid: 97f68e0a90e9b234882d76cf708fe58d, type: 3}
+  - {fileID: 8300000, guid: bfa95be9c3fa3af49a0cb9c2e2ae8948, type: 3}
+  - {fileID: 8300000, guid: 64f4350b28b1ce74299d1a110d57a812, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: ba32ae4f-91d2-4f5f-bd35-ca3ff21f94df
+  statName: dashSpeed
+  additionalMultiplier: 0.1
+  additionalPreMultiplyAdd: 0
+  additionalPostMultiplyAdd: 0
