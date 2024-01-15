@@ -1,3 +1,4 @@
+using Codice.Client.Commands;
 using NeoFPS;
 using NeoFPS.Samples;
 using NeoFPS.SinglePlayer;
@@ -52,6 +53,7 @@ namespace Playground
         private List<IRecipe> offers;
 
         private Texture2D optionsBackground;
+        private Texture2D acquiredBackground;
         private int m_SelectionCount;
 
         private NanobotManager nanobotManager {
@@ -85,6 +87,10 @@ namespace Playground
             {
                 NeoFpsInputManager.captureMouseCursor = false;
             }
+
+            optionsBackground = MakeTex(2, 2, new Color(0.1f, 0.1f, 0.1f, 0.5f));
+            acquiredBackground = MakeTex(2, 2, new Color(0f, 0.2f, 0f, 0.5f));
+
         }
 
         void OnGUI()
@@ -98,105 +104,165 @@ namespace Playground
             }
 
             int numberOfOffers = offers.Count;
-            float screenWidth = Screen.width;
-            float screenHeight = Screen.height;
-            float targetWidth = screenWidth * 0.9f;
-            float targetHeight = screenHeight * 0.5f;
 
-            float cardWidth = (targetWidth * 0.8f) / numberOfOffers; 
+            float buttonHeight = Screen.height * 0.05f;
+            ActionButtonsGUI(10, buttonHeight);
 
-            float imageHeight = targetHeight * 0.6f;
-            float imageWidth = imageHeight;
+            float heightOffset = buttonHeight * 1.5f;
+            float cardHeight = Screen.height * 0.55f;
+            OfferCardsGUI(numberOfOffers, heightOffset, cardHeight);
 
-            GUILayout.BeginArea(new Rect((screenWidth - targetWidth) / 2, (screenHeight - targetHeight) / 2, targetWidth, targetHeight));
+            float statsHeight = Screen.height * 0.3f;
+            CurrentUpgradesGUI(buttonHeight + cardHeight + 50, statsHeight);
+        }
 
-            GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
-            GUILayout.FlexibleSpace();
+        private void CurrentUpgradesGUI(float heightOffset, float targetHeight)
+        {
+            float targetWidth = Screen.width * 0.9f;
+            float imageWidth = targetWidth * 0.1f;
+            float imageHeight = imageWidth;
 
-            if (m_NotEnoughResourcesMessage != null)
+            GUIStyle sectionBoxStyle = new GUIStyle(GUI.skin.box);
+            sectionBoxStyle.normal.background = acquiredBackground;
+
+            GUILayout.BeginArea(new Rect((Screen.width - targetWidth) / 2, Screen.height - targetHeight - heightOffset, targetWidth, targetHeight), sectionBoxStyle);
             {
-                m_NotEnoughResourcesMessage.gameObject.SetActive(true);
-            }
+                GUIStyle headingStyle = new GUIStyle(GUI.skin.label);
+                headingStyle.fontSize = 25;
 
-            for (int i = numberOfOffers - 1; i >= 0; i--)
-            {
-                IRecipe offer = offers[i];
-                if (RogueLiteManager.persistentData.currentResources < offer.Cost)
+                GUILayout.Label("Current Upgrades", headingStyle);
+
+                GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight - headingStyle.lineHeight));
                 {
-                    continue;
+                    GUILayout.FlexibleSpace();
+
+                    foreach (string id in RogueLiteManager.persistentData.RecipeIds)
+                    {
+                        IRecipe recipe;
+                        if (RecipeManager.TryGetRecipeFor(id, out recipe))
+                        {
+                                    GUILayout.BeginVertical();
+                                    {
+                                        GUILayout.FlexibleSpace();
+
+                                        GUILayout.Box(recipe.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+                                        GUILayout.Label(recipe.DisplayName);
+
+                                        GUILayout.FlexibleSpace();
+                                    }
+                                    GUILayout.EndVertical();
+                        }
+                    }
+                    GUILayout.FlexibleSpace();
                 }
-
-                if (m_NotEnoughResourcesMessage != null)
-                {
-                    m_NotEnoughResourcesMessage.gameObject.SetActive(false);
-                }
-
-                GUIStyle optionStyle = new GUIStyle(GUI.skin.box);
-                optionStyle.normal.background = optionsBackground;
-
-                GUIStyle descriptionStyle = new GUIStyle(GUI.skin.textArea);
-                descriptionStyle.fontSize = 16;
-                descriptionStyle.alignment = TextAnchor.MiddleCenter;
-                descriptionStyle.normal.textColor = Color.grey;
-
-                GUIStyle selectionButtonStyle = new GUIStyle(GUI.skin.button);
-                selectionButtonStyle.fontSize = 25;
-
-                GUILayout.BeginVertical(optionStyle, GUILayout.Width(cardWidth));
-                GUILayout.FlexibleSpace();
-
-                GUILayout.BeginHorizontal();
-                GUILayout.FlexibleSpace();
-
-                GUILayout.Box(offer.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
-
-                GUILayout.FlexibleSpace();
                 GUILayout.EndHorizontal();
-
-                GUILayout.FlexibleSpace();
-
-                GUILayout.Label(offer.Description, descriptionStyle, GUILayout.MinHeight(60), GUILayout.MaxHeight(60));
-
-                GUILayout.FlexibleSpace();
-                string selectionButtonText;
-                if (m_MakePersistentSelections)
-                {
-                    selectionButtonText = $"{offer.DisplayName} ({offer.Cost} resources)";
-                }
-                else
-                {
-                    selectionButtonText = $"{offer.DisplayName}";
-                }
-                if (GUILayout.Button(selectionButtonText, selectionButtonStyle, GUILayout.Height(50)))
-                {
-                    Select(offer);
-                }
-
-                GUILayout.EndVertical();
             }
-
-            GUILayout.FlexibleSpace();
-            GUILayout.EndHorizontal();
-
             GUILayout.EndArea();
+        }
 
+        private void OfferCardsGUI(int numberOfOffers, float heightOffset, float targetHeight)
+        {
+            float targetWidth = Screen.width * 0.9f;
 
-            GUILayout.BeginArea(new Rect((screenWidth - targetWidth) / 2, screenHeight - (targetHeight / 4), targetWidth, targetHeight));
+            float cardWidth = (targetWidth * 0.9f) / numberOfOffers;
+            float imageWidth = cardWidth * 0.6f;
+            float imageHeight = imageWidth;
 
-            GUIStyle startRunButtonStyle = new GUIStyle(GUI.skin.button);
-            startRunButtonStyle.fontSize = 25;
-
-            string startRunButtonText = "Back to the Action";
-            if (FpsSoloCharacter.localPlayerCharacter == null)
+            GUILayout.BeginArea(new Rect((Screen.width - targetWidth) / 2, Screen.height - targetHeight - heightOffset, targetWidth, targetHeight));
             {
-                startRunButtonText = "Enter Combat";
-            }
+                GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight));
+                {
+                    GUILayout.FlexibleSpace();
 
-            if (GUILayout.Button(startRunButtonText, startRunButtonStyle, GUILayout.Height(50)))
+                    if (m_NotEnoughResourcesMessage != null)
+                    {
+                        m_NotEnoughResourcesMessage.gameObject.SetActive(true);
+                    }
+
+                    for (int i = numberOfOffers - 1; i >= 0; i--)
+                    {
+                        IRecipe offer = offers[i];
+                        if (RogueLiteManager.persistentData.currentResources < offer.Cost)
+                        {
+                            continue;
+                        }
+
+                        if (m_NotEnoughResourcesMessage != null)
+                        {
+                            m_NotEnoughResourcesMessage.gameObject.SetActive(false);
+                        }
+
+                        GUIStyle optionStyle = new GUIStyle(GUI.skin.box);
+                        optionStyle.normal.background = optionsBackground;
+
+                        GUIStyle descriptionStyle = new GUIStyle(GUI.skin.textArea);
+                        descriptionStyle.fontSize = 16;
+                        descriptionStyle.alignment = TextAnchor.MiddleCenter;
+                        descriptionStyle.normal.textColor = Color.grey;
+
+                        GUIStyle selectionButtonStyle = new GUIStyle(GUI.skin.button);
+                        selectionButtonStyle.fontSize = 25;
+
+                        GUILayout.BeginVertical(optionStyle, GUILayout.Width(cardWidth));
+                        GUILayout.FlexibleSpace();
+
+                        GUILayout.BeginHorizontal();
+                        GUILayout.FlexibleSpace();
+
+                        GUILayout.Box(offer.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+
+                        GUILayout.FlexibleSpace();
+                        GUILayout.EndHorizontal();
+
+                        GUILayout.FlexibleSpace();
+
+                        GUILayout.Label(offer.Description, descriptionStyle, GUILayout.MinHeight(60), GUILayout.MaxHeight(60));
+
+                        GUILayout.FlexibleSpace();
+                        string selectionButtonText;
+                        if (m_MakePersistentSelections)
+                        {
+                            selectionButtonText = $"Buy {offer.DisplayName} for {offer.Cost} resources";
+                        }
+                        else
+                        {
+                            selectionButtonText = $"{offer.DisplayName}";
+                        }
+                        if (GUILayout.Button(selectionButtonText, selectionButtonStyle, GUILayout.Height(50)))
+                        {
+                            Select(offer);
+                        }
+
+                        GUILayout.EndVertical();
+                    }
+
+                    GUILayout.FlexibleSpace();
+                }
+                GUILayout.EndHorizontal();
+            }
+            GUILayout.EndArea();
+        }
+
+        private void ActionButtonsGUI(float heightOffset, float targetHeight)
+        {
+            float targetWidth = Screen.width * 0.9f;
+
+            GUILayout.BeginArea(new Rect((Screen.width - targetWidth) / 2, Screen.height - targetHeight - heightOffset, targetWidth, targetHeight));
             {
-                QuitSelectionUI();
-            }
+                GUIStyle startRunButtonStyle = new GUIStyle(GUI.skin.button);
+                startRunButtonStyle.fontSize = 25;
 
+                string startRunButtonText = "Back to the Action";
+                if (FpsSoloCharacter.localPlayerCharacter == null)
+                {
+                    startRunButtonText = "Enter Combat";
+                }
+
+                if (GUILayout.Button(startRunButtonText, startRunButtonStyle, GUILayout.Height(targetHeight)))
+                {
+                    QuitSelectionUI();
+                }
+            }
             GUILayout.EndArea();
         }
 
@@ -270,44 +336,6 @@ namespace Playground
                 uiText.color = GetValueColour(value, standard, greater);
             }
         }
-
-        /* TODO: Reinstate this functionality by adding recipes to do it
-        public void RefreshMoveSpeedMultiplierText()
-        {
-            RefreshValueText(m_MoveSpeedMultText, m_Data.moveSpeedMultiplier, 1f, true);
-        }
-
-        public void RefreshMoveSpeedPreAddText()
-        {
-            RefreshValueText(m_MoveSpeedPreText, m_Data.moveSpeedPreAdd, 0f, true);
-        }
-
-        public void RefreshMoveSpeedPostAddText()
-        {
-            RefreshValueText(m_MoveSpeedPostText, m_Data.moveSpeedPostAdd, 0f, true);
-        }
-
-        private void OnClickMoveSpeedMultiplier()
-        {
-            m_Data.moveSpeedMultiplier += m_MoveSpeedMultIncrement;
-            RefreshMoveSpeedMultiplierText();
-            m_Data.isDirty = true;
-        }
-
-        private void OnClickMoveSpeedPreAdd()
-        {
-            m_Data.moveSpeedPreAdd += m_MoveSpeedPreIncrement;
-            RefreshMoveSpeedPreAddText();
-            m_Data.isDirty = true;
-        }
-
-        private void OnClickMoveSpeedPostAdd()
-        {
-            m_Data.moveSpeedPostAdd += m_MoveSpeedPostIncrement;
-            RefreshMoveSpeedPostAddText();
-            m_Data.isDirty = true;
-        }
-        */
 
         Texture2D MakeTex(int width, int height, Color col)
         {
