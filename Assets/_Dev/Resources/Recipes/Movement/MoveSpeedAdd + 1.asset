@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca6596388ba2ec4c894740aca5af5ab, type: 3}
+  m_Name: MoveSpeedAdd + 1
+  m_EditorClassIdentifier: 
+  displayName: Move Speed +1
+  description: Increase base move speed by 1 unit.
+  heroImage: {fileID: 2800000, guid: b2fa626ca68afce4484080eecb278924, type: 3}
+  icon: {fileID: 0}
+  isPowerUp: 1
+  cost: 175
+  timeToBuild: 0
+  nameClips:
+  - {fileID: 8300000, guid: f43dde04c3fc41f46890b9a0301a82bb, type: 3}
+  - {fileID: 8300000, guid: bdb69a5c2577e40429902f8698222e0b, type: 3}
+  - {fileID: 8300000, guid: 4228c9424ef372445989a6c386d7a219, type: 3}
+  - {fileID: 8300000, guid: 044c3fdf68fb7524689325937da59789, type: 3}
+  - {fileID: 8300000, guid: d0e7327d74c273345be72a7ab1b2f93f, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 1dabd5eb-63f4-4987-9394-279022b0ec12
+  statName: moveSpeed
+  additionalMultiplier: 0
+  additionalPreMultiplyAdd: 1
+  additionalPostMultiplyAdd: 0

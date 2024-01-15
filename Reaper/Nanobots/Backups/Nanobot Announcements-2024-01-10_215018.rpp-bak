@@ -1,4 +1,4 @@
-<REAPER_PROJECT 0.1 "7.07/win64" 1705286349
+<REAPER_PROJECT 0.1 "7.07/win64" 1704952218
   <NOTES 0 2
   >
   RIPPLE 0
@@ -16,9 +16,9 @@
   TIMEMODE 1 5 -1 30 0 0 -1
   VIDEO_CONFIG 0 0 256
   PANMODE 3
-  CURSOR 11.04250995708118
-  ZOOM 148.33584088820385 0 0
-  VZOOMEX 2 364
+  CURSOR 21.76343228408656
+  ZOOM 208.79059611027333 4274 0
+  VZOOMEX 2 26
   USE_REC_CFG 0
   RECMODE 1
   SMPTESYNC 0 30 100 40 1000 300 0 0 1 0 0
@@ -61,8 +61,8 @@
   GLOBAL_AUTO -1
   TEMPO 120 4 4
   PLAYRATE 1 0 0.25 4
-  SELECTION 1.65839893128325 1.72581352198582
-  SELECTION2 1.65839893128325 1.72581352198582
+  SELECTION 16.60036450190229 9.86155525372672
+  SELECTION2 16.60036450190229 9.86155525372672
   MASTERAUTOMODE 0
   MASTERTRACKHEIGHT 0 0
   MASTERPEAKCOL 16576
@@ -1021,7 +1021,7 @@
     <VST "VST: ReaComp (Cockos)" reacomp.dll 0 "" 1919247213<5653547265636D726561636F6D700000> ""
       bWNlcu9e7f4EAAAAAQAAAAAAAAACAAAAAAAAAAQAAAAAAAAACAAAAAAAAAACAAAAAQAAAAAAAAACAAAAAAAAAFwAAAAAAAAAAAAQAA==
       776t3g3wrd49F/495wHXPlO6djrPgz09AAAAAAAAAAC9QDc9n/1cPgAAAAAAAAAAnNEHMwAAgD8AAAAAzcxMPQAAAAAAAIA/AAAAAAAAgD7ZiZ09AAAAAAAAAAA=
-      AFByb2dyYW0gMQAQAAAA
+      AAAQAAAA
     >
     FLOATPOS 0 0 0 0
     FXID {86DFE7E7-F654-4214-B462-CC26C458797A}
@@ -1032,7 +1032,7 @@
       IQAAAAUAAAAEAAAAAQAAAF2s80eeW1BAAAAAAAAA8D+DwMqhRbb9PwEIAAAAAQAAANyLKP4N3mFAt333rdZY9T+yne+nxkvxPwEIAAAAAQAAAH5ZQcXFY5FAyJ/aQFEq
       6T/NzMzMzMwLQAEDAAAAAQAAAGOBCH22RrNAKRgn5+Fv4D+cxCCwcmjtPwEEAAAAAAAAANqyYy0HToNAAAAAAAAA8D8AAAAAAAAAQAEBAAAAAQAAAAAAAAAAAPA/AAAA
       AP0BAABcAQAAAgAAAA==
-      AFByb2dyYW0gMQAQAAAA
+      AAAQAAAA
     >
     FLOATPOS 0 0 0 0
     FXID {95E85E6A-3A8C-4BA0-9267-AE6AB4C65D6E}
@@ -1311,7 +1311,7 @@
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 1 1
-    BUSCOMP 2 0 0 0 0
+    BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FIXEDLANES 9 0 0
     SEL 0
@@ -1348,7 +1348,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -1395,7 +1395,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -1756,7 +1756,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -2073,7 +2073,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -2308,17 +2308,17 @@
     BEAT -1
     AUTOMODE 0
     VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 0 0
+    MUTESOLO 0 2 0
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 0 0
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FIXEDLANES 9 0 0
-    SEL 0
+    SEL 1
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -2577,7 +2577,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {6B169855-3DBC-4677-9875-01F9F9CEA8C4}
       IID 388
       NAME "ElevenLabs_2024-01-09T07_48_56_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2599,7 +2599,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {385CC84F-9147-48BB-993F-12F0A46B59E4}
       IID 389
       NAME "ElevenLabs_2024-01-09T07_49_13_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2621,7 +2621,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {D2344B8A-D3E4-477B-B2BD-98783A35D40F}
       IID 390
       NAME "ElevenLabs_2024-01-09T07_49_19_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2643,7 +2643,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {10519593-252C-49DA-9DBD-78131DEA9A63}
       IID 391
       NAME "ElevenLabs_2024-01-09T07_49_26_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2665,7 +2665,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {5A1734A7-7290-4E84-97A0-487F779230E3}
       IID 392
       NAME "ElevenLabs_2024-01-09T07_49_31_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2687,7 +2687,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {B2D5B3CB-CC36-4ED3-A981-E41C69CEA533}
       IID 393
       NAME "ElevenLabs_2024-01-09T07_49_37_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2709,7 +2709,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {5E88A60A-F50B-42A4-BAEA-B6DD0DAAEFFD}
       IID 394
       NAME "ElevenLabs_2024-01-09T07_49_43_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2731,7 +2731,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {E817A727-42B5-4DED-8AB4-D5A8FCA80B90}
       IID 395
       NAME "ElevenLabs_2024-01-09T07_49_48_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2753,7 +2753,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {72C7AA8E-F4DB-4588-AF41-6CD64E0A0698}
       IID 396
       NAME "ElevenLabs_2024-01-09T07_49_55_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2775,7 +2775,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {C925E9F3-35F0-49E0-9BA8-348EB30ACCB4}
       IID 397
       NAME "ElevenLabs_2024-01-09T07_50_00_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2797,7 +2797,7 @@
       FADEIN 1 0 0 1 0 0 0
       FADEOUT 1 0 0 1 0 0 0
       MUTE 0 0
-      SEL 0
+      SEL 1
       IGUID {B20502FE-1F4D-4C95-A3AD-411401B19F25}
       IID 398
       NAME "ElevenLabs_2024-01-09T07_50_02_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
@@ -2827,7 +2827,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -3072,7 +3072,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -5405,7 +5405,7 @@
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 1 1
-    BUSCOMP 2 0 0 0 0
+    BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FIXEDLANES 9 0 0
     SEL 0
@@ -5436,7 +5436,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 0
@@ -5577,7 +5577,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 0
@@ -5718,7 +5718,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -5853,7 +5853,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -5994,7 +5994,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 1 0 0 0 0 0
+    TRACKHEIGHT 0 0 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -6289,7 +6289,7 @@
     IPHASE 0
     PLAYOFFS 0 1
     ISBUS 1 1
-    BUSCOMP 0 0 0 0 0
+    BUSCOMP 2 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FIXEDLANES 9 0 0
     SEL 0
@@ -6320,7 +6320,7 @@
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 0 0 0 0 0 0
+    TRACKHEIGHT 0 1 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -6439,141 +6439,6 @@
       >
     >
   >
-  <TRACK {CA718FA3-A2F4-4F0A-A445-6644D3DD6D66}
-    NAME "Max Jump Height 10%"
-    PEAKCOL 16576
-    BEAT -1
-    AUTOMODE 0
-    VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 0 0
-    IPHASE 0
-    PLAYOFFS 0 1
-    ISBUS 0 0
-    BUSCOMP 0 0 0 0 0
-    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
-    FIXEDLANES 9 0 0
-    SEL 1
-    REC 0 0 1 0 0 0 0 0
-    VU 2
-    TRACKHEIGHT 0 0 0 0 0 0 0
-    INQ 0 0 0 0.5 100 0 0 100
-    NCHAN 2
-    FX 1
-    TRACKID {CA718FA3-A2F4-4F0A-A445-6644D3DD6D66}
-    PERF 0
-    MIDIOUT -1
-    MAINSEND 1 0
-    <ITEM
-      POSITION 0.12808772233489
-      SNAPOFFS 0
-      LENGTH 2.36595401186221
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 1
-      IGUID {AA828B2E-D9B7-4339-A795-F74CB53E1358}
-      IID 579
-      NAME "ElevenLabs_2024-01-15T02_31_28_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {23D1CF67-6FFB-4F7A-A864-5D792349A025}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_31_28_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 2.92425552277068
-      SNAPOFFS 0
-      LENGTH 2.07860707308669
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 1
-      IGUID {4BA919E4-DB27-4D96-B5F4-E06251901E47}
-      IID 580
-      NAME "ElevenLabs_2024-01-15T02_31_58_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {AE425E1F-06F6-4365-932D-3B24E80A3316}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_31_58_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 5.43307638446509
-      SNAPOFFS 0
-      LENGTH 2.17803090585521
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 1
-      IGUID {BDE6984B-611F-4E04-846A-5D25752636AA}
-      IID 581
-      NAME "ElevenLabs_2024-01-15T02_32_10_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {48D35C51-8C12-42F7-9E13-AB993F0C0F42}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_32_10_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 8.41210132777865
-      SNAPOFFS 0
-      LENGTH 2.46861361161636
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 1
-      IGUID {4F197991-2019-4D8C-B2D2-A8018BC02704}
-      IID 582
-      NAME "ElevenLabs_2024-01-15T02_32_28_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {AA8A10CE-4C66-4C22-A85C-9A925D9B05E0}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_32_28_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 11.62622831190179
-      SNAPOFFS 0
-      LENGTH 2.11960673235249
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 1
-      IGUID {70320DA0-5579-4D05-B59A-E0876FCF573A}
-      IID 583
-      NAME "ElevenLabs_2024-01-15T02_32_37_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {2F8A296A-68CD-48AE-8C00-ED0766461BD2}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_32_37_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-  >
   <TRACK {EEDF6ACA-DFCB-454B-AA1B-95E8494D53B1}
     NAME DashAnnouncerName
     PEAKCOL 16576
@@ -6583,14 +6448,14 @@
     MUTESOLO 0 0 0
     IPHASE 0
     PLAYOFFS 0 1
-    ISBUS 0 0
+    ISBUS 2 -1
     BUSCOMP 0 0 0 0 0
     SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
     FIXEDLANES 9 0 0
     SEL 0
     REC 0 0 1 0 0 0 0 0
     VU 2
-    TRACKHEIGHT 0 0 0 0 0 0 0
+    TRACKHEIGHT 0 1 0 0 0 0 0
     INQ 0 0 0 0.5 100 0 0 100
     NCHAN 2
     FX 1
@@ -6709,411 +6574,6 @@
       >
     >
   >
-  <TRACK {80BE3BA9-C401-444C-BB68-B9D7DBA623EE}
-    NAME "Dash Speed 10%"
-    PEAKCOL 16576
-    BEAT -1
-    AUTOMODE 0
-    VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 0 0
-    IPHASE 0
-    PLAYOFFS 0 1
-    ISBUS 0 0
-    BUSCOMP 0 0 0 0 0
-    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
-    FIXEDLANES 9 0 0
-    SEL 0
-    REC 0 0 1 0 0 0 0 0
-    VU 2
-    TRACKHEIGHT 0 0 0 0 0 0 0
-    INQ 0 0 0 0.5 100 0 0 100
-    NCHAN 2
-    FX 1
-    TRACKID {80BE3BA9-C401-444C-BB68-B9D7DBA623EE}
-    PERF 0
-    MIDIOUT -1
-    MAINSEND 1 0
-    <ITEM
-      POSITION 0.12808772233489
-      SNAPOFFS 0
-      LENGTH 1.51682829080785
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0.01 0 1 0 0 0
-      FADEOUT 1 0.01 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {5E670460-7B25-437A-B3E2-F0B5E676C224}
-      IID 557
-      NAME "ElevenLabs_2024-01-15T01_40_59_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {89E9BD36-AC1C-4585-B095-493B0CE5C5CA}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T01_40_59_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 1.99547188479611
-      SNAPOFFS 0
-      LENGTH 1.77300373547762
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {249F6518-9878-476C-B66A-59990DE3E191}
-      IID 558
-      NAME "ElevenLabs_2024-01-15T01_41_25_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.035222451735
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {441EE993-907C-4D25-BAC4-12253C98EB51}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T01_41_25_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 4.09206565564608
-      SNAPOFFS 0
-      LENGTH 1.63143309500223
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {0947AF6A-B045-4AC1-AFF9-2E424D19F783}
-      IID 559
-      NAME "ElevenLabs_2024-01-15T01_41_33_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.11932189147564
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {442F74E7-A310-47E5-BEF2-13ECBF22C9D5}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T01_41_33_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 6.06057170416116
-      SNAPOFFS 0
-      LENGTH 1.887608539672
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {5975380C-094A-4B18-9199-76E1E181D8E0}
-      IID 560
-      NAME "ElevenLabs_2024-01-15T01_41_41_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12757850692961
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {2FE9D5F6-86C9-4BE4-B4AF-4384DB2F880A}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T01_41_41_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 8.33918486990807
-      SNAPOFFS 0
-      LENGTH 1.8404183261802
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {F09678EC-E77C-4633-8D83-A22E0380199C}
-      IID 561
-      NAME "ElevenLabs_2024-01-15T01_41_54_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12134626326463
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {4D87B63C-F3C9-4D0D-AC9D-D96C3CB1211D}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T01_41_54_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-  >
-  <TRACK {D1440A18-80DA-445D-9798-2D37ECA7BFC4}
-    NAME "Movement Speed 10%"
-    PEAKCOL 16576
-    BEAT -1
-    AUTOMODE 0
-    VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 0 0
-    IPHASE 0
-    PLAYOFFS 0 1
-    ISBUS 0 0
-    BUSCOMP 0 0 0 0 0
-    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
-    FIXEDLANES 9 0 0
-    SEL 0
-    REC 0 0 1 0 0 0 0 0
-    VU 2
-    TRACKHEIGHT 0 0 0 0 0 0 0
-    INQ 0 0 0 0.5 100 0 0 100
-    NCHAN 2
-    FX 1
-    TRACKID {D1440A18-80DA-445D-9798-2D37ECA7BFC4}
-    PERF 0
-    MIDIOUT -1
-    MAINSEND 1 0
-    <ITEM
-      POSITION 0.12808772233489
-      SNAPOFFS 0
-      LENGTH 1.86064270339097
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {1F9BEF53-87F6-4DE3-95E2-DB9EAA8FAEDF}
-      IID 564
-      NAME "ElevenLabs_2024-01-15T02_15_41_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {D114F3BC-8376-4702-AB33-78C692D5470C}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_15_41_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 2.55854123713157
-      SNAPOFFS 0
-      LENGTH 2.16048011204842
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {9772CC92-ED8D-4C79-82B1-ABB0742B0BB3}
-      IID 565
-      NAME "ElevenLabs_2024-01-15T02_16_03_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {270C4DBB-AC12-4DD6-A312-5C3B88209A11}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_16_03_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 5.64205597630876
-      SNAPOFFS 0
-      LENGTH 2.0957447442073
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {D1E6BD2B-716F-4E27-8DDC-65951D4D9CA2}
-      IID 566
-      NAME "ElevenLabs_2024-01-15T02_16_13_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {C7688A01-DF9D-4E6A-B8DF-5D98E8190874}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_16_13_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 8.30761153191502
-      SNAPOFFS 0
-      LENGTH 1.86064270339096
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {843AD401-3E5C-4254-8876-0796DCA743DF}
-      IID 567
-      NAME "ElevenLabs_2024-01-15T02_16_26_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {2557A7B3-E36A-4E24-912E-680713B79507}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_16_26_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 10.73806504659529
-      SNAPOFFS 0
-      LENGTH 2.36733138598457
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {DDA50E96-2AC5-49EE-8FC4-8A97FD47C0A8}
-      IID 568
-      NAME "ElevenLabs_2024-01-15T02_16_39_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12808772233489
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {EDA0B61D-533D-4DA7-9831-D4C6F25C34FC}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_16_39_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-  >
-  <TRACK {C70F5ECA-3F00-46E9-8FBB-1654F7025CB6}
-    NAME "Movement Speed Add 1"
-    PEAKCOL 16576
-    BEAT -1
-    AUTOMODE 0
-    VOLPAN 1 0 -1 -1 1
-    MUTESOLO 0 0 0
-    IPHASE 0
-    PLAYOFFS 0 1
-    ISBUS 2 -1
-    BUSCOMP 0 0 0 0 0
-    SHOWINMIX 1 0.6667 0.5 1 0.5 0 0 0
-    FIXEDLANES 9 0 0
-    SEL 0
-    REC 0 0 1 0 0 0 0 0
-    VU 2
-    TRACKHEIGHT 0 0 0 0 0 0 0
-    INQ 0 0 0 0.5 100 0 0 100
-    NCHAN 2
-    FX 1
-    TRACKID {C70F5ECA-3F00-46E9-8FBB-1654F7025CB6}
-    PERF 0
-    MIDIOUT -1
-    MAINSEND 1 0
-    <ITEM
-      POSITION 0.12134626326463
-      SNAPOFFS 0
-      LENGTH 1.42918932289451
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {592F8417-5A92-4FBB-9471-F8FB01A0F3B0}
-      IID 574
-      NAME "ElevenLabs_2024-01-15T02_19_30_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12134626326463
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {63E1F82C-D788-416D-9A80-2A08F9B60218}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_19_30_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 2.02935079839392
-      SNAPOFFS 0
-      LENGTH 1.36834457301567
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {AFF446DC-1301-4993-860F-AD5C23A42EA9}
-      IID 575
-      NAME "ElevenLabs_2024-01-15T02_19_58_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12134626326463
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {4DC690B6-91C2-4137-BCEA-A2D16170241F}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_19_58_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 3.80674308869368
-      SNAPOFFS 0
-      LENGTH 1.51900957680945
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {3633C12F-7564-4C32-AAA3-98546CBA2338}
-      IID 576
-      NAME "ElevenLabs_2024-01-15T02_20_05_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12134626326463
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {C318ED43-06D4-42BB-91D1-45C7E9FB589C}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_20_05_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 5.76699252175479
-      SNAPOFFS 0
-      LENGTH 1.43288576527982
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {6CD0EF04-DF2B-4927-886D-9B4F17CA49AC}
-      IID 577
-      NAME "ElevenLabs_2024-01-15T02_20_16_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12134626326463
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {D2A828EB-9556-45C2-9D01-8CEEA898A9EB}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_20_16_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-    <ITEM
-      POSITION 7.64887460791818
-      SNAPOFFS 0
-      LENGTH 1.35771470994535
-      LOOP 1
-      ALLTAKES 0
-      FADEIN 1 0 0 1 0 0 0
-      FADEOUT 1 0 0 1 0 0 0
-      MUTE 0 0
-      SEL 0
-      IGUID {052AFCBB-4471-4300-B868-AA3DE42DF822}
-      IID 578
-      NAME "ElevenLabs_2024-01-15T02_20_25_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3"
-      VOLPAN 1 0 1 -1
-      SOFFS 0.12134626326463
-      PLAYRATE 1 1 0 -1 0 0.0025
-      CHANMODE 0
-      GUID {3479F7DB-0410-46D1-8A2C-3F58F131E3A4}
-      <SOURCE MP3
-        FILE "Media\ElevenLabs_2024-01-15T02_20_25_British, sensible and authorative_gen_s50_sb75_se0_b_m2.mp3" 1
-      >
-    >
-  >
   <EXTENSIONS
     <MCU_B_KLINKE
       |#{PROJECT_CONFIG/}#|
@@ -7162,8 +6622,6 @@
                  mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
           |#{STATE track="{7C17886E-B29D-4AC4-BEB9-1AA9D581C5E7}" name="" tcp="1"
                  mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
-          |#{STATE track="{80BE3BA9-C401-444C-BB68-B9D7DBA623EE}" name="" tcp="1"
-                 mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
           |#{STATE track="{89D65914-7205-49D3-A801-2FBE94AB3CA6}" name="" tcp="1"
                  mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
           |#{STATE track="{98191B43-33ED-4CDB-9FDA-E340F252216E}" name="" tcp="1"
@@ -7172,15 +6630,9 @@
                  mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
           |#{STATE track="{9FA6B3D4-F226-4529-8071-E872B974B6C2}" name="" tcp="1"
                  mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
-          |#{STATE track="{C70F5ECA-3F00-46E9-8FBB-1654F7025CB6}" name="" tcp="1"
-                 mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
           |#{STATE track="{C7EAEDAC-779A-44B6-98B5-A2CD8DCB8F21}" name="" tcp="1"
                  mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
           |#{STATE track="{C878494B-9875-486F-958A-0578895E3D33}" name="" tcp="1"
-                 mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
-          |#{STATE track="{CA718FA3-A2F4-4F0A-A445-6644D3DD6D66}" name="" tcp="1"
-                 mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
-          |#{STATE track="{D1440A18-80DA-445D-9798-2D37ECA7BFC4}" name="" tcp="1"
                  mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
           |#{STATE track="{D936C71B-971E-4206-BFCF-043114282802}" name="" tcp="1"
                  mcp="1" mcu="1" anchor="0" q_channel="0" q_name="" q_root="0"/}#|
