@@ -481,13 +481,6 @@ namespace Playground
                 }
                 else
                 {
-                    //AudioClip recipeName = recipe.NameClip;
-                    //if (recipeName == null)
-                    //{
-                    //    recipeName = defaultRecipeName;
-                    //    Debug.LogError($"Recipe {recipe.DisplayName} ({recipe}) does not have an audio clip for its name. Used default of `Unkown`.");
-                    //}
-
                     yield return Announce(buildCompleteClips[Random.Range(0, buildCompleteClips.Length)]);
                 }
             }
