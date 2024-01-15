@@ -41,6 +41,60 @@ namespace Playground
         public FloatValueModifier dashSpeed { get; private set; }
 
         public Func<bool, bool> GetBoolOverride(BoolData data) { return null; }
+
+        public bool GetBoolOverride(string name)
+        {
+            switch (name)
+            {
+                // Abilities
+                case "canAimHover":
+                    return canAimHover;
+                case "canDash":
+                    return canDash;
+                case "canGrapple":
+                    return canGrapple;
+                case "canJetpack":
+                    return canJetpack;
+                case "canWallRun":
+                    return canWallRun;
+                case "canWallRunUp":
+                    return canWallRunUp;
+
+                default:
+                    Debug.LogError(name + " is not a valid bool modifier name. Return default of false.");
+                    return false;
+            }
+        }
+        public void SetBoolOverride(string name, bool value)
+        {
+            switch (name)
+            {
+                // Abilities
+                case "canAimHover":
+                    canAimHover = value;
+                    break;
+                case "canDash":
+                    canDash = value;
+                    break;
+                case "canGrapple":
+                    canGrapple = value;
+                    break;
+                case "canJetpack":
+                    canJetpack = value;
+                    break;
+                case "canWallRun":
+                    canWallRun = value;
+                    break;
+                case "canWallRunUp":
+                    canWallRunUp = value;
+                    break;
+
+                default:
+                    Debug.LogError(name + " is not a valid bool modifier name.");
+                    break;
+            }
+        }
+
         public Func<int, int> GetIntOverride(IntData data) { return null; }
 
         public Func<float, float> GetFloatOverride(FloatData data)
@@ -84,6 +138,45 @@ namespace Playground
                     return dashSpeed.GetModifiedValue;
 
                 default:
+                    return null;
+            }
+        }
+
+        public FloatValueModifier GetFloatModifier(string name)
+        {
+            // OPTIMIZATION: use a hash here instead of string comparison
+            switch (name)
+            {
+                // Grounded move speed
+                case "moveSpeed":
+                    return moveSpeed;
+
+                // Airborne move speed
+                case "moveSpeedAirWalk":
+                    return moveSpeedAirborne;
+                case "moveSpeedAirSprint":
+                    return moveSpeedAirborne;
+                case "moveSpeedAirCrouch":
+                    return moveSpeedAirborne;
+
+                // Acceleration
+                case "acceleration":
+                    return acceleration;
+                case "accelerationAirborne":
+                    return acceleration;
+                case "deceleration":
+                    return acceleration;
+
+                // Other
+                case "maxJumpHeight":
+                    return maxJumpHeight;
+                case "jetpackForce":
+                    return jetpackForce;
+                case "dashSpeed":
+                    return dashSpeed;
+
+                default:
+                    Debug.LogError(name + " is not a valid float modifier name.");
                     return null;
             }
         }

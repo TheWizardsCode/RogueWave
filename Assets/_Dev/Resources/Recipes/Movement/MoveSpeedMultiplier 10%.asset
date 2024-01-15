@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca6596388ba2ec4c894740aca5af5ab, type: 3}
+  m_Name: MoveSpeedMultiplier 10%
+  m_EditorClassIdentifier: 
+  displayName: Move Speed 10%
+  description: Increase all your movement speeds  by 10%.
+  heroImage: {fileID: 2800000, guid: 96483226359b4b441b531974cf95e964, type: 3}
+  icon: {fileID: 0}
+  isPowerUp: 1
+  cost: 250
+  timeToBuild: 0
+  nameClips: []
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 91976d3c-305b-4f62-8175-038efe5b8360
+  statName: moveSpeed
+  additionalMultiplier: 0.1
+  additionalPreMultiplyAdd: 0
+  additionalPostMultiplyAdd: 0
