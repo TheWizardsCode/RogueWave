@@ -584,7 +584,7 @@ namespace Playground
                 }
                 return;
             }
-            StatRecipe statRecipe = recipe as StatRecipe;
+            BaseStatRecipe statRecipe = recipe as BaseStatRecipe;
             if (statRecipe != null)
             {
                 statRecipe.Apply();
