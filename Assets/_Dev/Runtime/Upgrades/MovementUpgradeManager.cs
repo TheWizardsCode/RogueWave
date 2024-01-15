@@ -152,11 +152,7 @@ namespace Playground
                     return moveSpeed;
 
                 // Airborne move speed
-                case "moveSpeedAirWalk":
-                    return moveSpeedAirborne;
-                case "moveSpeedAirSprint":
-                    return moveSpeedAirborne;
-                case "moveSpeedAirCrouch":
+                case "moveSpeedAirborne":
                     return moveSpeedAirborne;
 
                 // Acceleration

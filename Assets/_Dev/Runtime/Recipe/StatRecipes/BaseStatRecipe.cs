@@ -79,19 +79,6 @@ namespace Playground
         }
 
         internal abstract void Apply();
-        /*
-        {
-            switch (statType)
-            {
-                case StatType.MotionGraphMovementCanDash:
-                    movementUpgradeManager.canDash = true;
-                    break;
-                case StatType.MotionGraphMovementCanGrapple:
-                    movementUpgradeManager.canGrapple = true;
-                    break;
-            }
-        }
-        */
 
 #if UNITY_EDITOR
         private void OnValidate()

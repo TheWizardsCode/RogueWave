@@ -12,19 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca6596388ba2ec4c894740aca5af5ab, type: 3}
   m_Name: MaxJumpHeightMultiplier 10%
   m_EditorClassIdentifier: 
-  displayName: M
-  description: TBD
-  heroImage: {fileID: 0}
+  displayName: Max Jump 10%
+  description: Boost your base jump by 10%
+  heroImage: {fileID: 2800000, guid: 9d0b8ae27fcf2d54c83d2ba104ebf84a, type: 3}
   icon: {fileID: 0}
-  isPowerUp: 0
-  cost: 10
-  timeToBuild: 5
-  nameClips: []
+  isPowerUp: 1
+  cost: 125
+  timeToBuild: 0
+  nameClips:
+  - {fileID: 8300000, guid: ba7df79acd751304eb3a21d22184e53a, type: 3}
+  - {fileID: 8300000, guid: 60e87930d62dc4e4c945c72a51e75898, type: 3}
+  - {fileID: 8300000, guid: 5387fab06d8164e40b5d8225fc4aa8b2, type: 3}
+  - {fileID: 8300000, guid: 922c443f9b2ae584b985e6dd44dd147e, type: 3}
+  - {fileID: 8300000, guid: 7c1fccdb5d9875941803cd929a5d54f4, type: 3}
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
   uniqueID: 85bd8d16-2c30-4cf7-8563-01f2a4e7f7bf
-  statName: 
+  statName: maxJumpHeight
   additionalMultiplier: 0.1
   additionalPreMultiplyAdd: 0
   additionalPostMultiplyAdd: 0
