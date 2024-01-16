@@ -1,3 +1,4 @@
+using Codice.Client.BaseCommands.Changelist;
 using NeoFPS.CharacterMotion;
 using NeoFPS.CharacterMotion.MotionData;
 using NeoFPS.CharacterMotion.Parameters;
@@ -179,14 +180,12 @@ namespace Playground
 
         void InitialiseDataModifiers()
         {
-            var persistent = RogueLiteManager.persistentData;
-            moveSpeed = new FloatValueModifier(persistent.moveSpeedMultiplier, persistent.moveSpeedPreAdd, persistent.moveSpeedPostAdd); 
-            // Debug.Log("Move speed multiplier: " + persistent.moveSpeedMultiplier);
-            moveSpeedAirborne = new FloatValueModifier(persistent.airbourneSpeedMultiplier, persistent.airbourneSpeedPreAdd, persistent.airbourneSpeedPostAdd);
-            acceleration = new FloatValueModifier(persistent.accelerationMultiplier, persistent.accelerationdPreAdd, persistent.accelerationPostAdd);
-            maxJumpHeight = new FloatValueModifier(persistent.maxJumpHeightMultiplier, persistent.maxJumpHeightPreAdd, persistent.maxJumpHeightPostAdd);
-            jetpackForce = new FloatValueModifier(persistent.jetpackForceMultiplier, persistent.jetpackForcePreAdd, persistent.jetpackForcePostAdd);
-            dashSpeed = new FloatValueModifier(persistent.dashSpeedMultiplier, persistent.dashSpeedPreAdd, persistent.dashSpeedPostAdd);
+            moveSpeed = new FloatValueModifier(1, 0, 0);
+            moveSpeedAirborne = new FloatValueModifier(1, 0, 0);
+            acceleration = new FloatValueModifier(1, 0, 0);
+            maxJumpHeight = new FloatValueModifier(1, 0, 0);
+            jetpackForce = new FloatValueModifier(1, 0, 0);
+            dashSpeed = new FloatValueModifier(1, 0, 0);
         }
 
         #endregion
@@ -316,6 +315,25 @@ namespace Playground
 
             // Connect up the various data overrides
             m_MotionGraph.AddDataOverrides(this);
+        }
+
+        void Start()
+        {
+            // Apply all the recipe upgrades we have
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            {
+                if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe) == false)
+                {
+                    Debug.LogError($"Attempt to configure a recipe with ID {RogueLiteManager.persistentData.RecipeIds[i]} but no such recipe can be found. Ignoring this recipe.");
+                    return;
+                }
+
+                BaseStatRecipe statRecipe = recipe as BaseStatRecipe;
+                if (statRecipe != null)
+                {
+                    statRecipe.BuildFinished();
+                }
+            }
         }
     }
 }

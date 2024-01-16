@@ -289,9 +289,19 @@ namespace Playground
             return base.PreSpawnStep();
         }
 
+        private void ConfigureRecipe(string recipeId)
+        {
+            if (RecipeManager.TryGetRecipeFor(recipeId, out IRecipe recipe) == false)
+            {
+                Debug.LogError($"Attempt to configure a recipe with ID {recipeId} but no such recipe can be found. Ignoring this recipe.");
+                return;
+            }
+
+            ConfigureRecipe(recipe);
+        }
+
         private void ConfigureRecipe(IRecipe recipe)
         {
-            RogueLiteManager.persistentData.Add(recipe);
             RogueLiteManager.runData.Add(recipe);
 
             WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
@@ -339,17 +349,6 @@ namespace Playground
                 }
                 m_LoadoutBuilder.slots[category].AddOption(item);
             }
-        }
-
-        private void ConfigureRecipe(string recipeId)
-        {
-            if (RecipeManager.TryGetRecipeFor(recipeId, out IRecipe recipe) == false)
-            {
-                Debug.LogError($"Attempt to configure a recipe with ID {recipeId} but no such recipe can be found. Ignoring this recipe.");
-                return;
-            }
-
-            ConfigureRecipe(recipe);
         }
 
         protected override IController GetPlayerControllerPrototype()

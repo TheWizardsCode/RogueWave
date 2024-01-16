@@ -18,7 +18,9 @@ namespace Playground
         [SerializeField, Tooltip("A sprite to use as the icon for this recipe."), ShowAssetPreview]
         Sprite icon;
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
-        bool isPowerUp = false; 
+        bool isPowerUp = false;
+        [SerializeField, Tooltip("The maximum number of this recipe that can be held at once.")]
+        int maxStack = 1;
         [SerializeField, Tooltip("The resources required to build this ammo type.")]
         int cost = 10;
         [SerializeField, Tooltip("The time it takes to build this recipe.")]
@@ -45,6 +47,10 @@ namespace Playground
         public Sprite Icon => icon;
 
         public bool IsPowerUp => isPowerUp;
+
+        public bool IsStackable => maxStack > 1;
+
+        public int MaxStack => maxStack;
 
         public int Cost => cost;
 

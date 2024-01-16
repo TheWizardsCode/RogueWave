@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Playground
@@ -53,13 +54,32 @@ namespace Playground
         {
             if (m_RunRecipeData.Contains(recipe))
             {
-                recipe.Reset();
-                return false;
+                if (recipe.IsStackable == false)
+                {
+                    recipe.Reset();
+                    return false;
+                }
+                
+                if (GetCount(recipe) >= recipe.MaxStack)
+                {
+                    recipe.Reset();
+                    return false;
+                }
             }
 
             m_RunRecipeData.Add(recipe);
             isDirty = true;
             return true;
+        }
+
+        /// <summary>
+        /// Get the number of instances of a supplied recipe that are in the player's permanent recipe collection.
+        /// </summary>
+        /// <param name="recipe">The recipe to count instances of.</param>
+        /// <returns>The number of times the recipse appears in the persistent data.</returns>
+        public int GetCount(IRecipe recipe)
+        {
+            return m_RunRecipeData.Count(r => r == recipe);
         }
 
         internal bool Contains(IRecipe recipe)

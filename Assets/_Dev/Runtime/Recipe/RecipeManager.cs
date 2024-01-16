@@ -77,7 +77,6 @@ namespace Playground
 
             List<IRecipe> candidates = GetPowerUpCandidates<IRecipe>();
 
-            bool isValid = RogueLiteManager.persistentData.runNumber != 0;
             for (int i = 0; i < quantity; i++)
             {
                 if (candidates.Count == 0)
@@ -112,12 +111,8 @@ namespace Playground
                     continue;
                 }
 
-                if (RogueLiteManager.persistentData.RecipeIds.Contains(recipe.UniqueID))
-                {
-                    continue;
-                }
-
-                if (RogueLiteManager.runData.Contains(recipe))
+                if (RogueLiteManager.runData.GetCount(recipe) >= recipe.MaxStack
+                    || RogueLiteManager.persistentData.GetCount(recipe) >= recipe.MaxStack)
                 {
                     continue;
                 }

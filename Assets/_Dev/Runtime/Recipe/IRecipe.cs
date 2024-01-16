@@ -12,6 +12,8 @@ namespace Playground
 
         public Sprite Icon { get; }
         public bool IsPowerUp { get; }
+        public bool IsStackable { get; }
+        public int MaxStack { get; }
         public int Cost { get; }
         public float TimeToBuild { get; }
         public AudioClip NameClip { get; }
