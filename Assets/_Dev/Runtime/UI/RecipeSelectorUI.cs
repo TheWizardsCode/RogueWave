@@ -46,10 +46,6 @@ namespace Playground
         [SerializeField] private Color m_GoodColour = Color.green;
         [SerializeField] private Color m_BadColour = Color.red;
 
-        private WeaponPickupRecipe[] weaponRecipes;
-
-        private RogueLitePersistentData m_PersistentData = null;
-        private RogueLiteRunData m_RunData = null;
         private List<IRecipe> offers;
 
         private Texture2D optionsBackground;
@@ -118,6 +114,8 @@ namespace Playground
 
         private void CurrentUpgradesGUI(float heightOffset, float targetHeight)
         {
+            List<string> displayed = new List<string>();
+
             float targetWidth = Screen.width * 0.9f;
             float imageWidth = targetWidth * 0.1f;
             float imageHeight = imageWidth;
@@ -130,7 +128,7 @@ namespace Playground
                 GUIStyle headingStyle = new GUIStyle(GUI.skin.label);
                 headingStyle.fontSize = 25;
 
-                GUILayout.Label("Current Upgrades", headingStyle);
+                GUILayout.Label("Current Permanent Upgrades", headingStyle);
 
                 GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight - headingStyle.lineHeight));
                 {
@@ -138,21 +136,35 @@ namespace Playground
 
                     foreach (string id in RogueLiteManager.persistentData.RecipeIds)
                     {
+                        if (displayed.Contains(id))
+                        {
+                            continue;
+                        }
+                        displayed.Add(id);
+
                         IRecipe recipe;
                         if (RecipeManager.TryGetRecipeFor(id, out recipe))
                         {
-                                    GUILayout.BeginVertical();
-                                    {
-                                        GUILayout.FlexibleSpace();
+                            GUILayout.BeginVertical();
+                            {
+                                GUILayout.FlexibleSpace();
 
-                                        GUILayout.Box(recipe.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
-                                        GUILayout.Label(recipe.DisplayName);
+                                GUILayout.Box(recipe.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+                                if (recipe.IsStackable)
+                                {
+                                    GUILayout.Label($"{recipe.DisplayName} ({RogueLiteManager.persistentData.GetCount(recipe)} of {recipe.MaxStack})");
+                                }
+                                else
+                                {
+                                    GUILayout.Label(recipe.DisplayName);
+                                }
 
-                                        GUILayout.FlexibleSpace();
-                                    }
-                                    GUILayout.EndVertical();
+                                GUILayout.FlexibleSpace();
+                            }
+                            GUILayout.EndVertical();
                         }
                     }
+
                     GUILayout.FlexibleSpace();
                 }
                 GUILayout.EndHorizontal();
