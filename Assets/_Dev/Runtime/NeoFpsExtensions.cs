@@ -15,6 +15,7 @@ namespace Playground
             return fieldInfo.GetValue(instance) as FpsInventoryItemBase;
         }
     }
+    
     public static class InventoryItemPickupExtension
     {
         public static FpsInventoryItemBase GetItemPrefab(this InventoryItemPickup instance)
@@ -41,6 +42,17 @@ namespace Playground
             var options = (FpsInventoryItemBase[])field.GetValue(slot);
             var optionsList = new List<FpsInventoryItemBase>(options) { option };
             field.SetValue(slot, optionsList.ToArray());
+        }
+    }
+
+    public static class ShieldManagerExtensions
+    {
+        public static void AddDamageMitigation(this ShieldManager instance, float value)
+        {
+            var field = typeof(ShieldManager).GetField("m_DamageMitigation", BindingFlags.NonPublic | BindingFlags.Instance);
+            var damageMitigation = (float)field.GetValue(instance);
+            damageMitigation += value;
+            field.SetValue(instance, damageMitigation);
         }
     }
 }

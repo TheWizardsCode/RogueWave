@@ -16,7 +16,7 @@ namespace Playground
         {
             get
             {
-                if (_shieldMgr == null)
+                if (_shieldMgr == null && FpsSoloCharacter.localPlayerCharacter != null)
                 {
                     _shieldMgr = FpsSoloCharacter.localPlayerCharacter.GetComponent<ShieldManager>();
                 }
@@ -36,7 +36,8 @@ namespace Playground
             {
                 if (shieldManager == null)
                 {
-                    return true;
+                    // Character has not been spawned yet and so we must be in the upgrade level menu
+                    return base.ShouldBuild;
                 }
 
                 return shieldManager.shieldState != ShieldState.Recharging

@@ -17,8 +17,12 @@ namespace Playground
         Texture2D heroImage;
         [SerializeField, Tooltip("A sprite to use as the icon for this recipe."), ShowAssetPreview]
         Sprite icon;
+
+        [Header("Build")]
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
         bool isPowerUp = false;
+        [SerializeField, Tooltip("The recipes that must be built before this recipe can be built.")]
+        AbstractRecipe[] dependencies = new AbstractRecipe[0];
         [SerializeField, Tooltip("The maximum number of this recipe that can be held at once.")]
         int maxStack = 1;
         [SerializeField, Tooltip("The resources required to build this ammo type.")]
@@ -109,9 +113,28 @@ namespace Playground
         {
             get
             {
+                int runCount = RogueLiteManager.runData.GetCount(this);
+                int persistentCount = RogueLiteManager.persistentData.GetCount(this);
+
+                if (runCount >= MaxStack
+                    || persistentCount >= MaxStack)
+                {
+                    return false;
+                }
+
+                foreach (IRecipe dependency in dependencies)
+                {
+                    if (RogueLiteManager.persistentData.RecipeIds.Contains(dependency.UniqueID) == false && RogueLiteManager.runData.Recipes.Contains(dependency) == false)
+                    {
+                        //Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot build.");
+                        return false;
+                    }
+                    //Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can build.");
+                }
                 return true;
             }
         }
+
         public virtual void BuildFinished()
         {
         }
