@@ -8,8 +8,8 @@ namespace Playground
     /// <summary>
     /// The float Stat Recipe will upgrade one of the player's float stats, such as move speed.
     /// </summary>
-    [CreateAssetMenu(fileName = "Float Stat Recipe", menuName = "Playground/Recipe/Float Stat", order = 1)]
-    public class FloatStatRecipe : BaseStatRecipe
+    [CreateAssetMenu(fileName = "Float Stat Recipe", menuName = "Playground/Recipe/Move Speed Stat", order = 1)]
+    public class MoveSpeedRecipe : BaseStatRecipe
     {
         [SerializeField, Tooltip("The amount to add to the current multiplier for the stat. For example, if this value is 0.1 and the current multiplier is 1.5 then the new multiplier will be 1.6.")]
         float additionalMultiplier = 0.1f;
@@ -21,10 +21,10 @@ namespace Playground
         [Button("Apply Float Modifier (works in game only)")]
         internal override void Apply()
         {
-            FloatValueModifier moveSpeed = movementUpgradeManager.GetFloatModifier(statName);
-            moveSpeed.multiplier += additionalMultiplier;
-            moveSpeed.preMultiplyAdd += additionalPreMultiplyAdd;
-            moveSpeed.postMultiplyAdd += additionalPostMultiplyAdd;
+            FloatValueModifier modifier = movementUpgradeManager.GetFloatModifier(statName);
+            modifier.multiplier += additionalMultiplier;
+            modifier.preMultiplyAdd += additionalPreMultiplyAdd;
+            modifier.postMultiplyAdd += additionalPostMultiplyAdd;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Playground
         {
             get
             {
-                if (_inventory == null)
+                if (_inventory == null && FpsSoloCharacter.localPlayerCharacter != null)
                 {
                     _inventory = FpsSoloCharacter.localPlayerCharacter.inventory as FpsInventorySwappable;
                 }
@@ -39,16 +39,20 @@ namespace Playground
         {
             get
             {
-                IInventoryItem[] ownedItems = inventory.GetItems();
-                for (int i = 0; i < ownedItems.Length; i++)
+                if (inventory != null)
                 {
-                    if (ownedItems[i].itemIdentifier == pickup.GetItemPrefab().itemIdentifier)
+
+                    IInventoryItem[] ownedItems = inventory.GetItems();
+                    for (int i = 0; i < ownedItems.Length; i++)
                     {
-                        return false;
+                        if (ownedItems[i].itemIdentifier == pickup.GetItemPrefab().itemIdentifier)
+                        {
+                            return false;
+                        }
                     }
                 }
 
-                return true;
+                return base.ShouldBuild;
             }
         }
     }

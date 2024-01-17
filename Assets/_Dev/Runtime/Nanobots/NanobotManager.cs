@@ -508,7 +508,6 @@ namespace Playground
                 return;
             }
 
-            RogueLiteManager.runData.Add(recipe);
             if (isPermanent)
             {
                 RogueLiteManager.persistentData.Add(recipe);
@@ -645,5 +644,13 @@ namespace Playground
                 itemRecipes[n] = value;
             }
         }
+
+#if UNITY_EDITOR
+        [Button]
+        private void Add10000Resources()
+        {
+            RogueLiteManager.persistentData.currentResources += 10000;
+        }
+#endif
     }
 }

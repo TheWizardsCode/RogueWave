@@ -15,7 +15,7 @@ namespace Playground
         {
             get
             {
-                if (_healthManager == null)
+                if (_healthManager == null && FpsSoloCharacter.localPlayerCharacter != null)
                 {
                     _healthManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<IHealthManager>();
                 }
@@ -45,8 +45,15 @@ namespace Playground
         {
             get
             {
+                if (healthManager == null)
+                {
+                    // Character has not been spawned yet and so we must be in the upgrade level menu
+                    return base.ShouldBuild;
+                }
+
                 float missingHealth = healthManager.healthMax - healthManager.health;
-                return missingHealth > 0;
+
+                return missingHealth > 0 && base.ShouldBuild;
             }
         }
     }

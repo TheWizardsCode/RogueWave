@@ -24,9 +24,8 @@ namespace Playground
             }
         }
 
-        public List<string> recipeGuids = new List<string>();
-        public List<string> RecipeIds { get { return recipeGuids; } }
-
+        public List<string> RecipeIds = new List<string>();
+        
         public RogueLitePersistentData()
         {
             if (runNumber == 0) // this will be the players first run
@@ -47,7 +46,7 @@ namespace Playground
         /// <returns>True if the recipe is added, false if not added because already present.</returns> 
         public bool Add(IRecipe recipe)
         {
-            if (recipeGuids.Contains(recipe.UniqueID))
+            if (RecipeIds.Contains(recipe.UniqueID))
             {
                 if (recipe.IsStackable == false)
                 {
@@ -60,7 +59,7 @@ namespace Playground
                 }
             }
 
-            recipeGuids.Add(recipe.UniqueID);
+            RecipeIds.Add(recipe.UniqueID);
             isDirty = true;
             return true;
         }
@@ -72,7 +71,7 @@ namespace Playground
         /// <returns>The number of times the recipse appears in the persistent data.</returns>
         public int GetCount(IRecipe recipe)
         {
-            return recipeGuids.Count(r => r == recipe.UniqueID);
+            return RecipeIds.Count(r => r == recipe.UniqueID);
         }
 
         public bool isDirty { get; set; } // TODO: Need to wrap values above to automate setting this on change

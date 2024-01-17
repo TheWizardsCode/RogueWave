@@ -70,9 +70,25 @@ namespace Playground
             if (requiredWeaponCount > 0)
             {
                 List<WeaponPickupRecipe> weaponCandidates = GetPowerUpCandidates<WeaponPickupRecipe>();
-                offers.Add(weaponCandidates[Random.Range(0, weaponCandidates.Count)]);
-                quantity--;
-                requiredWeaponCount--;
+
+                int idx = Random.Range(0, weaponCandidates.Count);
+                for (int i = 0; i < weaponCandidates.Count; i++)
+                {
+                    if (weaponCandidates[idx].ShouldBuild)
+                    {
+                        offers.Add(weaponCandidates[idx]);
+                        quantity--;
+                        requiredWeaponCount--;
+                        break;
+                    }
+                }
+
+                if (offers.Count == 0)
+                {
+                    Debug.LogError("Failed to find a weapon to offer the player. This shouldn't happen since we should only force a weapon offer on first run. This can happen if resources < cheapest weapon. Setting to 150 resources and requesting offers again.");
+                    RogueLiteManager.persistentData.currentResources = 150;
+                    return GetOffers(quantity, requiredWeaponCount);
+                }
             }
 
             List<IRecipe> candidates = GetPowerUpCandidates<IRecipe>();
@@ -111,8 +127,7 @@ namespace Playground
                     continue;
                 }
 
-                if (RogueLiteManager.runData.GetCount(recipe) >= recipe.MaxStack
-                    || RogueLiteManager.persistentData.GetCount(recipe) >= recipe.MaxStack)
+                if (recipe.ShouldBuild == false)
                 {
                     continue;
                 }

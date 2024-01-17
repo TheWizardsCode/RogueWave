@@ -1,4 +1,5 @@
 using Codice.Client.Commands;
+using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.Samples;
 using NeoFPS.SinglePlayer;
@@ -359,5 +360,19 @@ namespace Playground
             result.Apply();
             return result;
         }
+
+#if UNITY_EDITOR
+        [SerializeField, Tooltip("To add recipes to the character for testing in game drop them here and click the Add Text Recipes button.")]
+        AbstractRecipe[] testRecipes;
+
+        [Button("Add test recipes")]
+        void AddTestRecipes()
+        {
+            foreach (AbstractRecipe recipe in testRecipes)
+            {
+                RogueLiteManager.persistentData.Add(recipe);
+            }
+        }
+#endif
     }
 }
