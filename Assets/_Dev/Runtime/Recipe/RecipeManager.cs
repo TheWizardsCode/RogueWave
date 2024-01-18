@@ -101,7 +101,14 @@ namespace Playground
                 }
 
                 int index = Random.Range(0, candidates.Count);
-                offers.Add(candidates[index]);
+                IRecipe offer = candidates[index];
+                if (offers.Contains(offer))
+                {
+                    // We already have this recipe in the offers list, almost certainly because of the weapon preference above. Try again.
+                    i--;
+                    continue;
+                }
+                offers.Add(offer);
                 candidates.RemoveAt(index);
             }
 
