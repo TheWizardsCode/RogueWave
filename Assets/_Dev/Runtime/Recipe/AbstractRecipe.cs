@@ -21,6 +21,8 @@ namespace Playground
         [Header("Build")]
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
         bool isPowerUp = false;
+        [SerializeField, Tooltip("Consumables are recipes that are used up when they are built. For example, health. These recipes can be built as many times as needed once they have been learned.")]
+        bool isConsumable = false;
         [SerializeField, Tooltip("The recipes that must be built before this recipe can be built.")]
         AbstractRecipe[] dependencies = new AbstractRecipe[0];
         [SerializeField, Tooltip("The maximum number of this recipe that can be held at once.")]
@@ -51,6 +53,8 @@ namespace Playground
         public Sprite Icon => icon;
 
         public bool IsPowerUp => isPowerUp;
+
+        public bool IsConsumable => isConsumable;
 
         public bool IsStackable => maxStack > 1;
 
@@ -113,13 +117,16 @@ namespace Playground
         {
             get
             {
-                int runCount = RogueLiteManager.runData.GetCount(this);
-                int persistentCount = RogueLiteManager.persistentData.GetCount(this);
-
-                if (runCount >= MaxStack
-                    || persistentCount >= MaxStack)
+                if (isConsumable == false)
                 {
-                    return false;
+                    int runCount = RogueLiteManager.runData.GetCount(this);
+                    int persistentCount = RogueLiteManager.persistentData.GetCount(this);
+
+                    if (runCount >= MaxStack
+                        || persistentCount >= MaxStack)
+                    {
+                        return false;
+                    }
                 }
 
                 foreach (IRecipe dependency in dependencies)

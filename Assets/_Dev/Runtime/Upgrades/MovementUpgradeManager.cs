@@ -1,10 +1,7 @@
-using Codice.Client.BaseCommands.Changelist;
 using NeoFPS.CharacterMotion;
 using NeoFPS.CharacterMotion.MotionData;
 using NeoFPS.CharacterMotion.Parameters;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Playground

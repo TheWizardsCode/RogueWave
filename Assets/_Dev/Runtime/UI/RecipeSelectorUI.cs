@@ -1,14 +1,9 @@
-using Codice.Client.Commands;
 using NaughtyAttributes;
 using NeoFPS;
-using NeoFPS.Samples;
 using NeoFPS.SinglePlayer;
 using NeoSaveGames.SceneManagement;
-using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.TextCore.Text;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
