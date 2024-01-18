@@ -30,14 +30,12 @@ namespace Playground
         }
 
         /// <summary>
-        /// Return the amount of healing above the required healing this recipe would probide.
+        /// Get the heal amount as a percentage of the characters missing health.
         /// </summary>
-        /// <returns></returns>
-        public float Overage
+        public float healAmountPerCent
         {
             get {
-                float missingHealth = healthManager.healthMax - healthManager.health;
-                return missingHealth - (pickup as HealthPickup).GetHealAmount();
+                return (pickup as HealthPickup).GetHealAmount() / (_healthManager.healthMax - _healthManager.health);
             }
         }
 

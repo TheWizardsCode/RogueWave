@@ -318,16 +318,20 @@ namespace Playground
         private bool TryHealthRecipes()
         {
             HealthPickupRecipe chosenRecipe = null;
-            float chosenOverage = int.MaxValue;
+            float chosenAmount = 0;
             for (int i = 0; i < healthRecipes.Count; i++)
             {
                 if (RogueLiteManager.persistentData.currentResources >= healthRecipes[i].Cost && healthRecipes[i].ShouldBuild)
                 {
-                    float overage = healthRecipes[i].Overage;
-                    if (chosenOverage > overage)
+                    float healAmount = Mathf.Min(1, healthRecipes[i].healAmountPerCent);
+                    if (healAmount > chosenAmount)
                     {
                         chosenRecipe = healthRecipes[i];
-                        chosenOverage = overage;
+                        chosenAmount = healAmount;
+                    } else if (healAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.Cost > healthRecipes[i].Cost)))
+                    {
+                        chosenRecipe = healthRecipes[i];
+                        chosenAmount = healAmount;
                     }
                 }
             }
