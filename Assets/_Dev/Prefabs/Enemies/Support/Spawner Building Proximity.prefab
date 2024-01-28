@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 6134286060280689273}
   - component: {fileID: 6576056135945926902}
   - component: {fileID: 2142438204395784425}
+  - component: {fileID: 611689538892668499}
   m_Layer: 0
   m_Name: Spawner Building Proximity
   m_TagString: AI
@@ -273,27 +274,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenWaves: 3
+  ignoreMaxAlive: 1
   activeRange: 15
   spawnRadius: 5
   destroySpawnsOnDeath: 0
-  timeBetweenWaves: 10
-  waves:
-  - {fileID: 11400000, guid: 40bf7cd588be7754680f5d65daf4a29e, type: 2}
-  - {fileID: 11400000, guid: 0b6381ee6cae5af4e811c12c271ea057, type: 2}
-  generateWaves: 1
-  deathParticlePrefab: {fileID: 5327745311076098471, guid: ecf74d541dbf5cb40a417278326c0f1e, type: 3}
-  onDestroyed:
-    m_PersistentCalls:
-      m_Calls: []
-  onAllWavesComplete:
-    m_PersistentCalls:
-      m_Calls: []
   hasShield: 0
   shieldGenerator: {fileID: 0}
   shieldGenParticlePrefab: {fileID: 5327745311076098471, guid: 05ee104c9679f0f41bda212c0bb37ffc, type: 3}
   numShieldGenerators: 3
   shieldGeneratorRPM: 22.5
   shieldCollider: {fileID: 0}
+  waveStartSound: {fileID: 0}
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemySpawned:
+    m_PersistentCalls:
+      m_Calls: []
+  onAllWavesComplete:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &2142438204395784425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -315,6 +316,102 @@ MonoBehaviour:
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!82 &611689538892668499
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299311784649714057}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8487198492372542588
 GameObject:
   m_ObjectHideFlags: 0

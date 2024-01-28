@@ -11,19 +11,17 @@ namespace Playground
     public class Spawner : MonoBehaviour
     {
         [Header("Spawn Behaviours")]
+        [SerializeField, Tooltip("The time to wait between waves.")]
+        private float timeBetweenWaves = 5;
+        [SerializeField, Tooltip("If true then the spawner will ignore the max alive setting in the level definition and will spawn as many enemies as it can.")]
+        private bool ignoreMaxAlive = false;
         [SerializeField, Tooltip("Distance to player for this spawner to be activated. If this is set to 0 then it will always be active, if >0 then the spawner will only be active when the player is within this many units. If the player moves further away then the spawner will pause.")]
         float activeRange = 0;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
         [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]
         internal bool destroySpawnsOnDeath = true;
-        [SerializeField, Tooltip("The time to wait betweeen waves, in seconds.")]
-        private float timeBetweenWaves = 10f;
-        [SerializeField, Tooltip("The waves this spawner should spawn. If this is set to null then it is assumed that the waves will be set by a level manager.")]
-        private WaveDefinition[] waves;
-        [SerializeField, Tooltip("If no more wave definitions are available should this spawner generate new waves of increasing difficulty? This value may be overriden by a level manager.")]
-        private bool generateWaves = false;
-
+        
         [Header("Shield")]
         [SerializeField, Tooltip("Should this spawner generate a shield to protect itself?")]
         bool hasShield = true;
@@ -80,6 +78,7 @@ namespace Playground
             }
         }
 
+        private LevelDefinition currentLevel;
         private int currentWaveIndex = -1;
         private WaveDefinition currentWave;
 
@@ -179,10 +178,10 @@ namespace Playground
         private void NextWave()
         {
             currentWaveIndex++;
-            if (currentWaveIndex >= waves.Length)
+            if (currentWaveIndex >= currentLevel.waves.Length)
             {
                 onAllWavesComplete?.Invoke();
-                if (!generateWaves)
+                if (!currentLevel.generateNewWaves)
                 {
                     Debug.LogWarning("No more waves to spawn.");
                     currentWave = null;
@@ -193,7 +192,7 @@ namespace Playground
                 return;
             }
             //Debug.Log($"Starting wave {currentWaveIndex + 1} of {waves.Length}...");
-            currentWave = waves[currentWaveIndex];
+            currentWave = currentLevel.waves[currentWaveIndex];
             currentWave.Reset();
 
             if (waveStartSound != null)
@@ -210,13 +209,13 @@ namespace Playground
             var lastWave = currentWave;
             if (lastWave == null)
             {
-                lastWave = waves[waves.Length - 1];
+                lastWave = currentLevel.waves[currentLevel.waves.Length - 1];
             }
             // collect all enemy prefabs from all waves and then randomly select from them
             List<BasicEnemyController> enemyPrefabs = new List<BasicEnemyController>();
-            for (int i = 0; i < waves.Length; i++)
+            for (int i = 0; i < currentLevel.waves.Length; i++)
             {
-                enemyPrefabs.AddRange(waves[i].EnemyPrefabs);
+                enemyPrefabs.AddRange(currentLevel.waves[i].EnemyPrefabs);
             }
             newWave.Init(
                 enemyPrefabs.ToArray(),
@@ -229,7 +228,7 @@ namespace Playground
 
         private IEnumerator SpawnWaves()
         {
-            while (FpsSoloCharacter.localPlayerCharacter == null)
+            while (FpsSoloCharacter.localPlayerCharacter == null || currentLevel == null)
             {
                 yield return new WaitForSeconds(0.5f);
             }
@@ -239,15 +238,21 @@ namespace Playground
             while (currentWave != null)
             {
                 float waveStart = Time.time;
-                while (Time.time - waveStart < currentWave.WaveDuration)
+                WaitForSeconds waitForSpawnRate = new WaitForSeconds(currentWave.SpawnRate);
+                while (Time.time - waveStart < currentWave.WaveDuration && (ignoreMaxAlive || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
                 {
-                    yield return new WaitForSeconds(currentWave.SpawnRate);
+                    yield return waitForSpawnRate;
 
-                    if (activeRange == 0 || Vector3.SqrMagnitude(FpsSoloCharacter.localPlayerCharacter.transform.position - transform.position) <= activeRangeSqr)
+                    for (int i = 0; i < currentWave.SpawnAmount; i++)
                     {
-                        // TODO: rather than spawn all of them at once spread this out over the SpawnRate
-                        for (int i = 0; i < currentWave.SpawnAmount; i++)
+                        if (activeRange == 0 || Vector3.SqrMagnitude(FpsSoloCharacter.localPlayerCharacter.transform.position - transform.position) <= activeRangeSqr)
+                        {
                             SpawnEnemy();
+                            while (ignoreMaxAlive == false && currentLevel.maxAlive != 0 && spawnedEnemies.Count >= currentLevel.maxAlive) {
+                                yield return waitForSpawnRate;
+                            }
+                            yield return null;
+                        }
                     }
                 }
 
@@ -266,9 +271,15 @@ namespace Playground
                 return;
             }
             BasicEnemyController enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
+            enemy.onDeath.AddListener(OnEnemyDeath);
+            
             spawnedEnemies.Add(enemy);
-
             onEnemySpawned?.Invoke(enemy);
+        }
+
+        private void OnEnemyDeath(BasicEnemyController enemy)
+        {
+            spawnedEnemies.Remove(enemy);
         }
 
         public void OnAliveIsChanged(bool isAlive)
@@ -298,9 +309,7 @@ namespace Playground
         /// <param name="currentLevelDefinition"></param>
         internal void Initialize(LevelDefinition currentLevelDefinition)
         {
-            waves = currentLevelDefinition.Waves;
-            timeBetweenWaves  = currentLevelDefinition.WaveWait;
-            generateWaves = currentLevelDefinition.GenerateNewWaves;
+            currentLevel = currentLevelDefinition;
         }
 
         /// <summary>

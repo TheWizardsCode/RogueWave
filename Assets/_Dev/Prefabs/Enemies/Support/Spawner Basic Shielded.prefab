@@ -469,12 +469,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBetweenWaves: 10
+  ignoreMaxAlive: 0
   activeRange: 0
   spawnRadius: 5
   destroySpawnsOnDeath: 1
-  timeBetweenWaves: 10
-  waves: []
-  generateWaves: 0
   hasShield: 1
   shieldGenerator: {fileID: 1313982842987553621}
   shieldGenParticlePrefab: {fileID: 5327745311076098471, guid: 05ee104c9679f0f41bda212c0bb37ffc, type: 3}

@@ -15,11 +15,13 @@ namespace Playground
     {
         [Header("Enemies")]
         [SerializeField, Tooltip("The waves of enemies to spawn in this level.")]
-        private WaveDefinition[] waves;
+        internal WaveDefinition[] waves;
         [SerializeField, Tooltip("The duration of the wait between each spawn wave in seconds.")]
-        private float waveWait = 5f;
+        internal float waveWait = 5f;
         [SerializeField, Tooltip("If there are no more eaves defined should the spawners generate new ones?")]
-        private bool generateNewWaves = false;
+        internal bool generateNewWaves = false;
+        [SerializeField, Tooltip("The maximum number of enemies that can be alive at any one time. Note that this may be overridden in the spawner settings. If this is set to 0 then there is no limit.")]
+        internal int maxAlive = 200;
 
         [Header("Level Generation")]
         [SerializeField, Tooltip("Should a level geometry be auto generated on start? If false it is expected that the scene will already contain the level geometry.")]
