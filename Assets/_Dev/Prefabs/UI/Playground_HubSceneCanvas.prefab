@@ -128,6 +128,7 @@ MonoBehaviour:
   m_DefaultColour: {r: 0, g: 0, b: 0, a: 1}
   m_GoodColour: {r: 0.035793543, g: 1, b: 0, a: 1}
   m_BadColour: {r: 1, g: 0, b: 0, a: 1}
+  testRecipes: []
 --- !u!1 &7898510451035444826
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,6 +639,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224428087252769344, guid: 19f61d656a8a4b44eab45cad62f19b1b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7251281006819539832, guid: 19f61d656a8a4b44eab45cad62f19b1b, type: 3}
+      propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
