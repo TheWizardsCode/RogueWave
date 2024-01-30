@@ -25,14 +25,40 @@ namespace Playground
         }
 
         public List<string> RecipeIds = new List<string>();
-        
+        public List<string> _weaponBuildOrderBackingField = new List<string>(); // this is public to ensure it is serialized. TODO: write a custom serialiser for this class to avoid this
+        internal List<string> WeaponBuildOrder
+        {
+            get
+            {
+                if (_weaponBuildOrderBackingField.Count > 0)
+                {
+                    return _weaponBuildOrderBackingField;
+                }
+
+                foreach (string id in RecipeIds)
+                {
+                    IRecipe recipe;
+                    if (RecipeManager.TryGetRecipeFor(id, out recipe) && recipe is WeaponPickupRecipe)
+                    {
+                        _weaponBuildOrderBackingField.Add(id);
+                    }
+                }
+                
+                return _weaponBuildOrderBackingField;
+            }
+
+            set
+            {
+                _weaponBuildOrderBackingField = value;
+                isDirty = true;
+            }
+        }
         public RogueLitePersistentData()
         {
             if (runNumber == 0) // this will be the players first run
             {
                 currentResources = 150;
             }
-
 #if UNITY_EDITOR
             //currentResources = 100000;
             //Debug.Log("RogueLiteRunData: currentResources set to 100000 as we are running in the editor in debug mode.");
@@ -60,6 +86,11 @@ namespace Playground
             }
 
             RecipeIds.Add(recipe.UniqueID);
+            if (recipe is WeaponPickupRecipe)
+            {
+                _weaponBuildOrderBackingField.Add(recipe.UniqueID);
+            }
+
             isDirty = true;
             return true;
         }

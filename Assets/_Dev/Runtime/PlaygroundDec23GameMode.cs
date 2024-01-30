@@ -8,6 +8,8 @@ using NeoSaveGames.SceneManagement;
 using System.Collections;
 using NeoFPS.Constants;
 using NaughtyAttributes;
+using NeoFPS.Samples;
+using System.Collections.Generic;
 
 namespace Playground
 {
@@ -234,6 +236,13 @@ namespace Playground
 
         protected override void OnCharacterSpawned(ICharacter character)
         {
+            IRecipe startingWeapon;
+            if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
+            {
+                RogueLiteManager.runData.AddToLoadout(((WeaponPickupRecipe)startingWeapon).pickup.GetItemPrefab());
+            }
+            ConfigureLoadout();
+
             var loadout = m_LoadoutBuilder.GetLoadout();
             if (loadout != null)
                 character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
@@ -264,31 +273,7 @@ namespace Playground
         }
 
         #endregion
-
-        protected override bool PreSpawnStep()
-        {
-            RogueLiteManager.persistentData.runNumber++;
-
-            if (currentLevelDefinition.generateLevelOnSpawn)
-            {
-                spawnersRemaining = levelGenerator.Generate(this);
-            }
-
-            for (int i = 0; i < _startingRecipes.Length; i++)
-            {
-                ConfigureRecipe(_startingRecipes[i]);
-            }
-
-            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
-            {
-                ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
-            }
-            
-            ConfigureLoadout();
-
-            return base.PreSpawnStep();
-        }
-
+        
         private void ConfigureRecipe(string recipeId)
         {
             if (RecipeManager.TryGetRecipeFor(recipeId, out IRecipe recipe) == false)
@@ -312,7 +297,6 @@ namespace Playground
                     Debug.LogError("WeaponPickupRecipe " + weaponRecipe.name + " has no pickup assigned. Not adding this weapon recipe to the loadout.");
                     return;
                 }
-                RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
             }
 
             ToolPickupRecipe toolRecipe = recipe as ToolPickupRecipe;
@@ -376,5 +360,29 @@ namespace Playground
             if (reader.TryReadValue(k_SpawnZoneIndexKey, out index, m_SpawnZones.currentIndex))
                 m_SpawnZones.currentIndex = index;
         }
+
+        #region Pre Spawn
+        protected override bool PreSpawnStep()
+        {
+            RogueLiteManager.persistentData.runNumber++;
+
+            if (currentLevelDefinition.generateLevelOnSpawn)
+            {
+                spawnersRemaining = levelGenerator.Generate(this);
+            }
+
+            for (int i = 0; i < _startingRecipes.Length; i++)
+            {
+                ConfigureRecipe(_startingRecipes[i]);
+            }
+
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            {
+                ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
+            }
+
+            return base.PreSpawnStep();
+        }
+        #endregion
     }
 }
