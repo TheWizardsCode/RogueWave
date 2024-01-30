@@ -173,7 +173,7 @@ namespace Playground
             }
 
             // If we can afford a powerup, build it
-            if (TryPowerUpRecipes()) {
+            if (TryWeaponRecipes()) {
                 return;
             }
 
@@ -358,8 +358,20 @@ namespace Playground
             return false;
         }
 
-        private bool TryPowerUpRecipes()
+        private bool TryWeaponRecipes()
         {
+            foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
+            {
+                IRecipe weapon;
+                if (RecipeManager.TryGetRecipeFor(id, out weapon))
+                {
+                    if (TryRecipe(weapon as WeaponPickupRecipe))
+                    {
+                        return true;
+                    }
+                }
+            }
+
             for (int i = 0; i < weaponRecipes.Count; i++)
             {
                 if (TryRecipe(weaponRecipes[i]))
@@ -422,6 +434,12 @@ namespace Playground
 
         private bool TryRecipe(IRecipe recipe)
         {
+            if (recipe == null)
+            {
+                Debug.LogError("Attempting to build a null recipe.");
+                return false;
+            }
+
             if (RogueLiteManager.persistentData.currentResources >= recipe.Cost && recipe.ShouldBuild)
             {
                 StartCoroutine(BuildRecipe(recipe));
