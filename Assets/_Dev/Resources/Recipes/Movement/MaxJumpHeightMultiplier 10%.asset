@@ -17,8 +17,10 @@ MonoBehaviour:
   heroImage: {fileID: 2800000, guid: 9d0b8ae27fcf2d54c83d2ba104ebf84a, type: 3}
   icon: {fileID: 0}
   isPowerUp: 1
-  isConsumable: 1
+  isConsumable: 0
+  cooldown: 45
   dependencies: []
+  isStackable: 1
   maxStack: 10
   cost: 125
   timeToBuild: 0

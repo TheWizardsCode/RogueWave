@@ -23,9 +23,13 @@ namespace Playground
         bool isPowerUp = false;
         [SerializeField, Tooltip("Consumables are recipes that are used up when they are built. For example, health. These recipes can be built as many times as needed once they have been learned.")]
         bool isConsumable = false;
+        [SerializeField, Tooltip("The cooldown time for this recipe (in seconds). If the nanobots have built this recipe, they cannot build it again until this time has passed.")]
+        float cooldown = 10;
         [SerializeField, Tooltip("The recipes that must be built before this recipe can be built.")]
         AbstractRecipe[] dependencies = new AbstractRecipe[0];
-        [SerializeField, Tooltip("The maximum number of this recipe that can be held at once.")]
+        [SerializeField, Tooltip("If true, this recipe can be stacked, that is if the player can hold more than onve of these at a time. Weapons, for example, are not stackable while health boosts are.")]
+        bool isStackable = false;
+        [SerializeField, ShowIf("isStackable"), Tooltip("The maximum number of this recipe that can be held at once.")]
         int maxStack = 1;
         [SerializeField, Tooltip("The resources required to build this ammo type.")]
         int cost = 10;
@@ -41,6 +45,8 @@ namespace Playground
         AudioClip[] buildCompleteClips = new AudioClip[0];
         [SerializeField, Tooltip("The particle system to play when a pickup is spawned.")]
         ParticleSystem pickupParticles;
+
+        float nextTimeAvailable = 0;
 
         public string UniqueID => uniqueID;
 
@@ -117,13 +123,14 @@ namespace Playground
         {
             get
             {
-                if (isConsumable == false)
+                if (Time.timeSinceLevelLoad < nextTimeAvailable)
                 {
-                    int runCount = RogueLiteManager.runData.GetCount(this);
-                    int persistentCount = RogueLiteManager.persistentData.GetCount(this);
+                    return false;
+                }
 
-                    if (runCount >= MaxStack
-                        || persistentCount >= MaxStack)
+                if (isStackable) 
+                {
+                    if (RogueLiteManager.runData.GetCount(this) >= MaxStack)
                     {
                         return false;
                     }
@@ -144,6 +151,7 @@ namespace Playground
 
         public virtual void BuildFinished()
         {
+            nextTimeAvailable = Time.timeSinceLevelLoad + cooldown;
         }
 
 
