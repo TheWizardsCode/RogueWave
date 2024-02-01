@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System.Collections;
@@ -11,6 +12,10 @@ namespace Playground
     public class Spawner : MonoBehaviour
     {
         [Header("Spawn Behaviours")]
+        [SerializeField, Tooltip("If true then the spawner will use the level definition to determine what to spawn, the leveldefinition must be set by calling `Initialize`. If false then the spawner will spawn according to the level definition below.")]
+        bool useLevelDefinition = false;
+        [SerializeField, ShowIf("useLevelDefinition"), Tooltip("The level definition to use for this spawner.")]
+        LevelDefinition levelDefinition;
         [SerializeField, Tooltip("The time to wait between waves.")]
         private float timeBetweenWaves = 5;
         [SerializeField, Tooltip("If true then the spawner will ignore the max alive setting in the level definition and will spawn as many enemies as it can.")]
@@ -25,15 +30,15 @@ namespace Playground
         [Header("Shield")]
         [SerializeField, Tooltip("Should this spawner generate a shield to protect itself?")]
         bool hasShield = true;
-        [SerializeField, Tooltip("Shield generators are models that will orbit the spawner and create a shield. The player must destroy the generators to destroy the shield and thus get t othe spawner.")]
+        [SerializeField, ShowIf("hasShield"), Tooltip("Shield generators are models that will orbit the spawner and create a shield. The player must destroy the generators to destroy the shield and thus get t othe spawner.")]
         internal BasicHealthManager shieldGenerator;
-        [SerializeField, Tooltip("The particle system to play when a shield generator is destroyed.")]
+        [SerializeField, ShowIf("hasShield"), Tooltip("The particle system to play when a shield generator is destroyed.")]
         internal ParticleSystem shieldGenParticlePrefab;
-        [SerializeField, Tooltip("How many generators this shield should have.")]
+        [SerializeField, ShowIf("hasShield"), Tooltip("How many generators this shield should have.")]
         internal int numShieldGenerators = 3;
-        [SerializeField, Tooltip("The speed of the shield generators, in revolutions per minute.")]
+        [SerializeField, ShowIf("hasShield"), Tooltip("The speed of the shield generators, in revolutions per minute.")]
         internal float shieldGeneratorRPM = 45f;
-        [SerializeField, Tooltip("The model and collider that will represent the shield.")]
+        [SerializeField, ShowIf("hasShield"), Tooltip("The model and collider that will represent the shield.")]
         internal Collider shieldCollider;
 
         [Header("Feel")]
@@ -107,6 +112,16 @@ namespace Playground
         private void Start()
         {
             transform.localScale = new Vector3(spawnRadius * 2, spawnRadius * 2, spawnRadius * 2);
+
+            if (useLevelDefinition)
+            {
+                if (levelDefinition == null)
+                {
+                    Debug.LogError("No level definition set for this spawner and it is set to not use the level definition. The spawner will not be active.");
+                    return;
+                }
+                currentLevel = levelDefinition;
+            }
 
             StartCoroutine(SpawnWaves());
 

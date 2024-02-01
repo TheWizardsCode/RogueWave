@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Level 2
+  m_Name: Level 1-2 - Proximity Spawners
   m_EditorClassIdentifier: 
   waves:
-  - {fileID: 11400000, guid: e545fe9a86c74ea4f80381d8707d6e39, type: 2}
-  - {fileID: 11400000, guid: fe8a06d0582661b45befec902aac7c98, type: 2}
-  - {fileID: 11400000, guid: 53e1dda1c06806e4e920d9268135c824, type: 2}
-  waveWait: 5
-  generateNewWaves: 0
-  maxAlive: 300
-  generateLevelOnSpawn: 1
+  - {fileID: 11400000, guid: 40bf7cd588be7754680f5d65daf4a29e, type: 2}
+  - {fileID: 11400000, guid: 0b6381ee6cae5af4e811c12c271ea057, type: 2}
+  waveWait: 10
+  generateNewWaves: 1
+  maxAlive: 25
+  generateLevelOnSpawn: 0
