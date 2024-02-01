@@ -17,7 +17,7 @@ namespace Playground
         [SerializeField, Tooltip("The text readout for the number of remaining enemies.")]
         private Text m_EnemiesText = null;
 
-        private PlaygroundDecember23GameMode gameMode = null;
+        private RogueWaveGameMode gameMode = null;
         private NanobotManager nanobotManager = null;
 
         int spawnersCount = 0;
@@ -27,7 +27,7 @@ namespace Playground
         {
             base.Awake();
 
-            gameMode = FindObjectOfType<PlaygroundDecember23GameMode>();
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
             if (gameMode != null)
             {
                 gameMode.levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);

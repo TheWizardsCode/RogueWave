@@ -13,7 +13,7 @@ using System.Collections.Generic;
 
 namespace Playground
 {
-    public class PlaygroundDecember23GameMode : FpsSoloGameCustomisable, ISpawnZoneSelector, ILoadoutBuilder
+    public class RogueWaveGameMode : FpsSoloGameCustomisable, ISpawnZoneSelector, ILoadoutBuilder
     {
         [Header("Victory")]
         [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
@@ -36,7 +36,7 @@ namespace Playground
 
         private int spawnersRemaining = int.MaxValue;
 
-        public static PlaygroundDecember23GameMode Instance { get; private set; }
+        public static RogueWaveGameMode Instance { get; private set; }
 
         LevelGenerator _levelGenerator;
         internal LevelGenerator levelGenerator

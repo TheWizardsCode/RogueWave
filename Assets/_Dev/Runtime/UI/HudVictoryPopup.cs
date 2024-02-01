@@ -16,14 +16,14 @@ namespace Playground
         void Awake()
         {
             m_CanvasGroup = GetComponent<CanvasGroup>();
-            PlaygroundDecember23GameMode.onVictory += OnVictory;
+            RogueWaveGameMode.onVictory += OnVictory;
             m_CanvasGroup.alpha = 0f;
             gameObject.SetActive(false);
         }
 
         private void OnDestroy()
         {
-            PlaygroundDecember23GameMode.onVictory -= OnVictory;
+            RogueWaveGameMode.onVictory -= OnVictory;
         }
 
         private void OnVictory()
