@@ -51,6 +51,7 @@ namespace Playground
 
         internal int resourcesUntilNextLevel = 200;
 
+
         public delegate void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel);
         public event OnResourcesChanged onResourcesChanged;
 
@@ -338,8 +339,7 @@ namespace Playground
 
             if (chosenRecipe != null)
             {
-                StartCoroutine(BuildRecipe(chosenRecipe));
-                return true;
+                return TryRecipe(chosenRecipe);
             }
 
             return false;
@@ -440,7 +440,12 @@ namespace Playground
                 return false;
             }
 
-            if (RogueLiteManager.persistentData.currentResources >= recipe.Cost && recipe.ShouldBuild)
+            if (RogueLiteManager.persistentData.currentResources < recipe.Cost) 
+            {
+                return false;
+            }
+
+            if (recipe.ShouldBuild)
             {
                 StartCoroutine(BuildRecipe(recipe));
                 return true;

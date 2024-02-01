@@ -73,7 +73,7 @@ namespace Playground
         }
 
         /// <summary>
-        /// Get the number of instances of a supplied recipe that are in the player's permanent recipe collection.
+        /// Get the number of instances of a supplied recipe that are in the player's current recipe collection.
         /// </summary>
         /// <param name="recipe">The recipe to count instances of.</param>
         /// <returns>The number of times the recipse appears in the persistent data.</returns>

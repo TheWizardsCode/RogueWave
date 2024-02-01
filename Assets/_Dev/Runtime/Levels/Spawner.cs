@@ -239,7 +239,7 @@ namespace Playground
             {
                 float waveStart = Time.time;
                 WaitForSeconds waitForSpawnRate = new WaitForSeconds(currentWave.SpawnRate);
-                while (Time.time - waveStart < currentWave.WaveDuration && (ignoreMaxAlive || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
+                while (Time.time - waveStart < currentWave.WaveDuration && (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
                 {
                     yield return waitForSpawnRate;
 

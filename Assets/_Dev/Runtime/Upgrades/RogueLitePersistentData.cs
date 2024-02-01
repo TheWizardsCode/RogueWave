@@ -105,6 +105,11 @@ namespace Playground
             return RecipeIds.Count(r => r == recipe.UniqueID);
         }
 
+        internal bool Contains(IRecipe recipe)
+        {
+            return RecipeIds.Contains(recipe.UniqueID);
+        }
+
         public bool isDirty { get; set; } // TODO: Need to wrap values above to automate setting this on change
     }
 }
