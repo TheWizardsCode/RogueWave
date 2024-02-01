@@ -13,6 +13,34 @@ namespace Playground
     [CreateAssetMenu(fileName = "LevelDefinition", menuName = "Playground/Level Definition", order = 200)]
     public class LevelDefinition : ScriptableObject
     {
+        [Header("Size and Layout")]
+        [SerializeField, Tooltip("The size of the level in square meters.")]
+        internal Vector2 size = new Vector2(500f, 500f);
+        [SerializeField, Tooltip("The space to allocate for each building.")]
+        internal Vector2 buildingLotSize = new Vector2(25f, 25f);
+        [SerializeField, Range(0.1f, 1), Tooltip("How frequently buildings should be placed. Increase for a more dense level.")]
+        internal float buildingDensity = 0.7f;
+        
+        [Header("Level Visuals")]
+        [SerializeField, Tooltip("The material to apply to the ground.")]
+        internal Material groundMaterial;
+        [SerializeField, Tooltip("The material to apply to the walls.")]
+        internal Material wallMaterial;
+        [SerializeField, Tooltip("The prefabs to use for buildings without proximity spawners.")]
+        internal GameObject[] buildingWithoutSpawnerPrefabs;
+        [SerializeField, Tooltip("The prefabs to use for buildings with proximity spawners.")]
+        internal GameObject[] buildingWithSpawnerPrefabs;
+
+        [Header("Spawners")]
+        [SerializeField, Tooltip("The number of Enemy Spawners to create.")]
+        internal int numberOfEnemySpawners = 2;
+        [SerializeField, Tooltip("The spawner to use for this level. This will be placed in a random lot that does not have a building in it.")]
+        internal Spawner mainSpawnerPrefab;
+        [SerializeField, Tooltip("The density of buildings that will contain a proximity spawner. These buildings will generate enemies if the player is nearby.")]
+        internal float buildingSpawnerDensity = 0.25f;
+        [SerializeField, Tooltip("The prefab to use when generating proximity spawners in buildings.")]
+        internal Spawner buildingProximitySpawner;
+
         [Header("Enemies")]
         [SerializeField, Tooltip("The waves of enemies to spawn in this level.")]
         internal WaveDefinition[] waves;

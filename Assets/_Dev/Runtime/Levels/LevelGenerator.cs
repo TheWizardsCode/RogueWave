@@ -10,40 +10,12 @@ namespace Playground
 {
     public class LevelGenerator : MonoBehaviour
     {
-        [Header("Size and Layout")]
-        [SerializeField, Tooltip("The size of the level in square meters.")]
-        Vector2 size = new Vector2(500f, 500f);
-        [SerializeField, Tooltip("The space to allocate for each building.")]
-        Vector2 buildingLotSize = new Vector2(25f, 25f);
-        [SerializeField, Range(0.1f, 1), Tooltip("How frequently buildings should be placed. Increase for a more dense level.")]
-        float buildingDensity = 0.6f;
-
-        [Header("Level Visuals")]
-        [SerializeField, Tooltip("The material to apply to the ground.")]
-        Material groundMaterial;
-        [SerializeField, Tooltip("The material to apply to the walls.")]
-        Material wallMaterial;
-        [SerializeField, Tooltip("The prefabs to use for buildings without proximity spawners."), FormerlySerializedAs("buildingPrefabs")]
-        GameObject[] buildingWithoutSpawnerPrefabs;
-        [SerializeField, Tooltip("The prefabs to use for buildings with proximity spawners.")]
-        GameObject[] buildingWithSpawnerPrefabs;
-
-        [Header("Enemies")]
-        //TODO: Move spawner prefab into the Wave definition
-        [SerializeField, Tooltip("The spawner to use for this level. This will be placed in a random lot that does not have a building in it."), FormerlySerializedAs("spawnerPrefab")]
-        Spawner mainSpawnerPrefab;
-        [SerializeField, Tooltip("The number of Enemy Spawners to create.")]
-        int numberOfEnemySpawners = 2;
-        [SerializeField, Tooltip("The density of buildings that will contain a proximity spawner. These buildings will generate enemies if the player is nearby.")]
-        float buildingSpawnerDensity = 0.25f;
-        [SerializeField, Tooltip("The prefab to use when generating proximity spawners in buildings.")]
-        Spawner buildingProximitySpawner;
-
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
         public UnityEvent<Spawner> onSpawnerCreated;
 
         private GameObject level;
+        private LevelDefinition levelDefinition;
 
         /// <summary>
         /// Generate a level.
@@ -51,8 +23,10 @@ namespace Playground
         /// <param name="gameMode"></param>
         /// <param name="seed">The seed to use, if it is set to -1 (the default) then a random seed will be generated.</param>
         /// <returns></returns>
-        internal int Generate(PlaygroundDecember23GameMode gameMode, int seed = -1)
+        internal int Generate(RogueWaveGameMode gameMode, int seed = -1)
         {
+            levelDefinition = gameMode.currentLevelDefinition;
+
             if (level != null)
                 Clear();
 
@@ -67,7 +41,7 @@ namespace Playground
             CreatePlane();
             CreateWalls();
 
-            List<Vector2> possibleEnemySpawnPositions = PlaceBuildings(gameMode);
+            List<Vector2> possibleEnemySpawnPositions = PlaceBuildings();
 
             try
             {
@@ -90,44 +64,44 @@ namespace Playground
                 return Generate(gameMode);
             }
 
-            return numberOfEnemySpawners;
+            return levelDefinition.numberOfEnemySpawners;
         }
 
         /// <summary>
         /// Place buildings in the map.
         /// </summary>
         /// <returns>List of positions that are not occupied by a building.</returns>
-        private List<Vector2> PlaceBuildings(PlaygroundDecember23GameMode gameMode)
+        private List<Vector2> PlaceBuildings()
         {
             Vector3 position;
             List<Vector2> possibleEnemySpawnPositions = new List<Vector2>();
-            for (float x = -size.x / 2; x < size.x / 2; x += buildingLotSize.x)
+            for (float x = -levelDefinition.size.x / 2; x < levelDefinition.size.x / 2; x += levelDefinition.buildingLotSize.x)
             {
-                for (float z = -size.y / 2; z < size.y / 2; z += buildingLotSize.y)
+                for (float z = -levelDefinition.size.y / 2; z < levelDefinition.size.y / 2; z += levelDefinition.buildingLotSize.y)
                 {
-                    if ((x == 0 && z == 0) || Random.value > buildingDensity)
+                    if ((x == 0 && z == 0) || Random.value > levelDefinition.buildingDensity)
                     {
                         possibleEnemySpawnPositions.Add(new Vector2(x, z));
                         continue;
                     }
 
-                    bool hasBuildingSpawner = buildingProximitySpawner != null && Random.value <= buildingSpawnerDensity;
+                    bool hasBuildingSpawner = levelDefinition.buildingProximitySpawner != null && Random.value <= levelDefinition.buildingSpawnerDensity;
 
                     GameObject buildingPrefab = null;
                     if (hasBuildingSpawner)
                     {
-                        buildingPrefab = buildingWithSpawnerPrefabs[Random.Range(0, buildingWithSpawnerPrefabs.Length - 1)];
+                        buildingPrefab = levelDefinition.buildingWithSpawnerPrefabs[Random.Range(0, levelDefinition.buildingWithSpawnerPrefabs.Length - 1)];
                     }
                     else
                     {
-                        buildingPrefab = buildingWithoutSpawnerPrefabs[Random.Range(0, buildingWithoutSpawnerPrefabs.Length)];
+                        buildingPrefab = levelDefinition.buildingWithoutSpawnerPrefabs[Random.Range(0, levelDefinition.buildingWithoutSpawnerPrefabs.Length)];
                     }
-                    position = new Vector3(x + (buildingLotSize.x / 2), 0, z + (buildingLotSize.x / 2));
+                    position = new Vector3(x + (levelDefinition.buildingLotSize.x / 2), 0, z + (levelDefinition.buildingLotSize.x / 2));
                     Transform building = Instantiate(buildingPrefab, position, Quaternion.identity, level.transform).transform;
 
                     if (hasBuildingSpawner)
                     {
-                        Spawner spawner = Instantiate(buildingProximitySpawner, building);
+                        Spawner spawner = Instantiate(levelDefinition.buildingProximitySpawner, building);
                         spawner.spawnRadius = 3;
                         spawner.transform.localPosition = new Vector3(0, 1.5f, 0);
                         spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
@@ -143,23 +117,23 @@ namespace Playground
             GameObject ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
             ground.transform.SetParent(level.transform);
             ground.name = "Ground";
-            ground.transform.localScale = new Vector3(size.x * 0.1f, 1, size.y * 0.1f); // Plane's default size is 10x10, but we want the plane to be much larger than the play area to minimize the chances of the player falling off
+            ground.transform.localScale = new Vector3(levelDefinition.size.x * 0.1f, 1, levelDefinition.size.y * 0.1f); // Plane's default size is 10x10, but we want the plane to be much larger than the play area to minimize the chances of the player falling off
             
             Renderer planeRenderer = ground.GetComponent<Renderer>();
-            planeRenderer.material = groundMaterial;
+            planeRenderer.material = levelDefinition.groundMaterial;
         }
 
           private void CreateWalls()
         {
             float wallThickness = 5.0f;
             float wallHeight = 20.0f;
-            float xOffset = size.x / 2;
-            float zOffset = size.y / 2;
+            float xOffset = levelDefinition.size.x / 2;
+            float zOffset = levelDefinition.size.y / 2;
 
-            CreateWall(new Vector3(0, 0, zOffset + wallThickness / 2), new Vector3(size.x, wallHeight, wallThickness), "South Wall");
-            CreateWall(new Vector3(0, 0, -zOffset), new Vector3(size.x, wallHeight, wallThickness), "North Wall");
-            CreateWall(new Vector3(xOffset + wallThickness / 2, 0, wallThickness / 2), new Vector3(wallThickness, wallHeight, size.y + wallThickness), "West Wall");
-            CreateWall(new Vector3(-xOffset, 0, wallThickness / 2), new Vector3(wallThickness, wallHeight, size.y + wallThickness), "East Wall");
+            CreateWall(new Vector3(0, 0, zOffset + wallThickness / 2), new Vector3(levelDefinition.size.x, wallHeight, wallThickness), "South Wall");
+            CreateWall(new Vector3(0, 0, -zOffset), new Vector3(levelDefinition.size.x, wallHeight, wallThickness), "North Wall");
+            CreateWall(new Vector3(xOffset + wallThickness / 2, 0, wallThickness / 2), new Vector3(wallThickness, wallHeight, levelDefinition.size.y + wallThickness), "West Wall");
+            CreateWall(new Vector3(-xOffset, 0, wallThickness / 2), new Vector3(wallThickness, wallHeight, levelDefinition.size.y + wallThickness), "East Wall");
         }
 
         void CreateWall(Vector3 position, Vector3 size, string name)
@@ -169,23 +143,23 @@ namespace Playground
             wall.transform.position = position;
             wall.transform.localScale = size;
             Renderer renderer = wall.GetComponent<Renderer>();
-            renderer.material = wallMaterial;
+            renderer.material = levelDefinition.wallMaterial;
         }
 
-        private void PlaceSpawners(List<Vector2> possibleEnemySpawnPositions, PlaygroundDecember23GameMode gameMode)
+        private void PlaceSpawners(List<Vector2> possibleEnemySpawnPositions, RogueWaveGameMode gameMode)
         {
             Vector3 position;
 
-            for (int i = 0; i < numberOfEnemySpawners; i++)
+            for (int i = 0; i < levelDefinition.numberOfEnemySpawners; i++)
             {
                 if (possibleEnemySpawnPositions.Count == 0)
                     throw new System.Exception("Not enough space to place all the spawners.");
 
                 Vector2 spawnerPosition = GetValidSpawnerPosition(possibleEnemySpawnPositions);
-                position = new Vector3(spawnerPosition.x, mainSpawnerPrefab.spawnRadius, spawnerPosition.y);
+                position = new Vector3(spawnerPosition.x, levelDefinition.mainSpawnerPrefab.spawnRadius, spawnerPosition.y);
                 possibleEnemySpawnPositions.Remove(spawnerPosition);
 
-                Spawner spawner = Instantiate(mainSpawnerPrefab, position, Quaternion.identity, level.transform);
+                Spawner spawner = Instantiate(levelDefinition.mainSpawnerPrefab, position, Quaternion.identity, level.transform);
                 spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
                 
                 spawner.Initialize(gameMode.currentLevelDefinition);
@@ -213,8 +187,8 @@ namespace Playground
                 if (position.x == 0 && position.y == 0)
                 {
                     continue;
-                } else if (position.x == -size.x / 2 || position.x == size.x /2
-                    || position.y == -size.y / 2 || position.y == size.y / 2) // in the walls
+                } else if (position.x == -levelDefinition.size.x / 2 || position.x == levelDefinition.size.x /2
+                    || position.y == -levelDefinition.size.y / 2 || position.y == levelDefinition.size.y / 2) // in the walls
                 {
                     continue;
                 }
