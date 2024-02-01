@@ -16,8 +16,8 @@ namespace Playground
         [Header("Size and Layout")]
         [SerializeField, Tooltip("The size of the level in square meters.")]
         internal Vector2 size = new Vector2(500f, 500f);
-        [SerializeField, Tooltip("The space to allocate for each building.")]
-        internal Vector2 buildingLotSize = new Vector2(25f, 25f);
+        [SerializeField, Tooltip("The space to allocate for each lot. The level will therefore be size / lotSize units.")]
+        internal Vector2 lotSize = new Vector2(25f, 25f);
         [SerializeField, Range(0.1f, 1), Tooltip("How frequently buildings should be placed. Increase for a more dense level.")]
         internal float buildingDensity = 0.7f;
         
