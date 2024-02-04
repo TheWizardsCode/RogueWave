@@ -26,8 +26,6 @@ namespace Playground
         internal TileDefinition proximitySpawnTileDefinition;
         [SerializeField, Tooltip("The tile to use for spawners.")]
         internal TileDefinition spawnerTileDefinition;
-        [SerializeField, Tooltip("The tile to use for buildings.")]
-        internal TileDefinition buildingTileDefinition;
 
         [Header("Spawners")]
         [SerializeField, Tooltip("The number of Enemy Spawners to create.")]

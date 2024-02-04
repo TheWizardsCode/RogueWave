@@ -20,6 +20,8 @@ namespace Playground
         float m_VictoryDuration = 5f;
 
         [Header("Character")]
+        [SerializeField, Tooltip("If true, the player will spawn at a random spawn point. If false, the player will spawn at the first spawn point in the scene.")]
+        internal bool randomizePlayerSpawn = true;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The player prefab to instantiate if none exists.")]
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
@@ -297,6 +299,8 @@ namespace Playground
                     Debug.LogError("WeaponPickupRecipe " + weaponRecipe.name + " has no pickup assigned. Not adding this weapon recipe to the loadout.");
                     return;
                 }
+
+                RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipe.UniqueID);
             }
 
             ToolPickupRecipe toolRecipe = recipe as ToolPickupRecipe;
