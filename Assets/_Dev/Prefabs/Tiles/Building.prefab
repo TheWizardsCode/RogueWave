@@ -1,0 +1,71 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2654456790820855860
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2002441999730550479}
+  - component: {fileID: 4512869180751816955}
+  m_Layer: 0
+  m_Name: Building
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2002441999730550479
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2654456790820855860}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4512869180751816955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2654456790820855860}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db65358f7d230e042b6d85f8cb13f8de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
+  xPositiveNeighbours:
+  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
+  - {fileID: 4512869180751816955}
+  xNegativeNeighbours:
+  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
+  - {fileID: 4512869180751816955}
+  - {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
+  yPositiveNeighbours:
+  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
+  - {fileID: 4512869180751816955}
+  - {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
+  yNegativeNeighbours:
+  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
+  - {fileID: 4512869180751816955}
+  - {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
+  buildingPrefabs:
+  - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
+  - {fileID: 2060113240144020941, guid: ba2b4875383ad064691053d037b07f7a, type: 3}
+  - {fileID: 5230112460837190557, guid: 07103324111bf7641975a5f08d5429c6, type: 3}
+  - {fileID: 895710043128325180, guid: a9aaa7cc6f16b504899e8f2bdc066b57, type: 3}
+  - {fileID: 4330765639891971577, guid: a890f145341659149991d7b77a40c12e, type: 3}
+  - {fileID: 7019865242113649934, guid: 58ccb8d32c23cc94c80153045c24d74a, type: 3}
+  - {fileID: 5602506014738665672, guid: 7252a707a62d47745906c69d920e2a57, type: 3}
+  - {fileID: 3878517904651559269, guid: f3a2a4d0535b34541ab64d341eeb65b2, type: 3}
