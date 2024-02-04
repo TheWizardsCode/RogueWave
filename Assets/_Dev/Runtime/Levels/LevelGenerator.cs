@@ -64,17 +64,36 @@ namespace Playground
         private void PlacePlayerSpawn(int xLots, int yLots)
         {
             RogueWaveGameMode spawn = FindObjectOfType<RogueWaveGameMode>();
+            int x, y;
 
-            int x = Random.Range(1, xLots);
-            int y = Random.Range(1, yLots);
-
-            if (tiles[x, y] != null)
+            if (((RogueWaveGameMode)FpsGameMode.current).randomizePlayerSpawn)
             {
-                PlacePlayerSpawn(xLots, yLots);
+                x = Random.Range(1, xLots);
+                y = Random.Range(1, yLots);
+
+                if (tiles[x, y] != null)
+                {
+                    PlacePlayerSpawn(xLots, yLots);
+                }
+            }
+            else
+            {
+                x = WorldPositionToTileCoordinates(spawn.transform.position).x;
+                y = WorldPositionToTileCoordinates(spawn.transform.position).y;
             }
 
             tiles[x, y] = InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
-            spawn.transform.position = new Vector3((x * levelDefinition.lotSize.x) - (levelDefinition.size.x / 2), 0, (y * levelDefinition.lotSize.y) - (levelDefinition.size.y / 2));
+            spawn.transform.position = TileCoordinatesToWorldPosition(x, y);
+        }
+
+        private static Vector3 TileCoordinatesToWorldPosition(int x, int y)
+        {
+            return new Vector3((x * levelDefinition.lotSize.x) - (levelDefinition.size.x / 2), 0, (y * levelDefinition.lotSize.y) - (levelDefinition.size.y / 2));
+        }
+
+        private static Vector2Int WorldPositionToTileCoordinates(Vector3 position)
+        {
+            return new Vector2Int(Mathf.RoundToInt((position.x + (levelDefinition.size.x / 2)) / levelDefinition.lotSize.x), Mathf.RoundToInt((position.z + (levelDefinition.size.y / 2)) / levelDefinition.lotSize.y));
         }
 
         private void GenerateTileContent(int xLots, int yLots)
@@ -275,7 +294,7 @@ namespace Playground
         private BaseTile InstantiateTile(TileDefinition tileDefinition, int x, int y)
         {
             BaseTile tile = tileDefinition.GetTileObject(levelRoot.transform);
-            tile.transform.position = new Vector3((x * levelDefinition.lotSize.x) - (levelDefinition.size.x / 2), 0, (y * levelDefinition.lotSize.y) - (levelDefinition.size.y / 2));
+            tile.transform.position = TileCoordinatesToWorldPosition(x, y);
             return tile;
         }
 

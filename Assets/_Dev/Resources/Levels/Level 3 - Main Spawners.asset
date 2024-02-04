@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Level 1-2 - Proximity Spawners
+  m_Name: Level 3 - Main Spawners
   m_EditorClassIdentifier: 
   size: {x: 500, y: 500}
   buildingDensity: 0.7
@@ -18,12 +18,13 @@ MonoBehaviour:
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   proximitySpawnTileDefinition: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
   spawnerTileDefinition: {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
-  numberOfEnemySpawners: 2
+  numberOfEnemySpawners: 3
   buildingSpawnerDensity: 0.25
   waves:
-  - {fileID: 11400000, guid: 40bf7cd588be7754680f5d65daf4a29e, type: 2}
-  - {fileID: 11400000, guid: 0b6381ee6cae5af4e811c12c271ea057, type: 2}
-  waveWait: 10
-  generateNewWaves: 1
-  maxAlive: 6
-  generateLevelOnSpawn: 0
+  - {fileID: 11400000, guid: e545fe9a86c74ea4f80381d8707d6e39, type: 2}
+  - {fileID: 11400000, guid: fe8a06d0582661b45befec902aac7c98, type: 2}
+  - {fileID: 11400000, guid: 53e1dda1c06806e4e920d9268135c824, type: 2}
+  waveWait: 4.5
+  generateNewWaves: 0
+  maxAlive: 350
+  generateLevelOnSpawn: 1
