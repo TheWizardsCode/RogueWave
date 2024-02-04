@@ -300,7 +300,10 @@ namespace Playground
                     return;
                 }
 
-                RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipe.UniqueID);
+                if (RogueLiteManager.runData.Loadout.Contains(weaponRecipe.pickup.GetItemPrefab()) == false)
+                {
+                    RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
+                }
             }
 
             ToolPickupRecipe toolRecipe = recipe as ToolPickupRecipe;
