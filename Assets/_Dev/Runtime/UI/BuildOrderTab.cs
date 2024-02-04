@@ -1,10 +1,7 @@
-using NeoFPS.Samples;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
 using UnityEngine;
-using static Codice.Client.Common.Connection.AskCredentialsToUser;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine.UI;
 
 namespace Playground

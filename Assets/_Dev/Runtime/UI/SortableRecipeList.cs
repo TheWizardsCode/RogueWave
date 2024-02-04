@@ -1,8 +1,6 @@
 using System.Collections.Generic;
-using UnityEditorInternal.VersionControl;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR;
 
 namespace Playground
 {

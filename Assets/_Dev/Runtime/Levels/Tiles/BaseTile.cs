@@ -1,7 +1,4 @@
-using NeoFPS;
 using ProceduralToolkit;
-using System;
-using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,7 +7,6 @@ namespace Playground
     /// <summary>
     /// Responsible for the creation of the contents of a tile in the level.
     /// </summary>
-    [CanEditMultipleObjects]
     public class BaseTile : MonoBehaviour
     {
         [SerializeField, Tooltip("The material to use for the ground.")]
