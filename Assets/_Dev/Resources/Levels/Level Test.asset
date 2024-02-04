@@ -13,25 +13,14 @@ MonoBehaviour:
   m_Name: Level Test
   m_EditorClassIdentifier: 
   size: {x: 500, y: 500}
-  lotSize: {x: 25, y: 25}
   buildingDensity: 0.7
-  groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
-  wallMaterial: {fileID: 2100000, guid: 64710d2176c2e8f438cd7dbd01d584a9, type: 2}
-  buildingWithoutSpawnerPrefabs:
-  - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
-  - {fileID: 2060113240144020941, guid: ba2b4875383ad064691053d037b07f7a, type: 3}
-  - {fileID: 5230112460837190557, guid: 07103324111bf7641975a5f08d5429c6, type: 3}
-  - {fileID: 895710043128325180, guid: a9aaa7cc6f16b504899e8f2bdc066b57, type: 3}
-  - {fileID: 4330765639891971577, guid: a890f145341659149991d7b77a40c12e, type: 3}
-  - {fileID: 7019865242113649934, guid: 58ccb8d32c23cc94c80153045c24d74a, type: 3}
-  - {fileID: 5602506014738665672, guid: 7252a707a62d47745906c69d920e2a57, type: 3}
-  - {fileID: 3878517904651559269, guid: f3a2a4d0535b34541ab64d341eeb65b2, type: 3}
-  buildingWithSpawnerPrefabs:
-  - {fileID: 7571342023460485295, guid: f349bcbf314ebbe45ba44bba226acdf8, type: 3}
+  emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
+  wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  proximitySpawnTileDefinition: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
+  spawnerTileDefinition: {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
+  buildingTileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
   numberOfEnemySpawners: 2
-  mainSpawnerPrefab: {fileID: 6576056135945926902, guid: aa20c983568f3cf449287cfaea83b7ed, type: 3}
   buildingSpawnerDensity: 0.25
-  buildingProximitySpawner: {fileID: 6576056135945926902, guid: 8580e7bc57d7d9a4e9cc17120733b0c9, type: 3}
   waves:
   - {fileID: 11400000, guid: d0bacb7e2cf2eaf43bd02ca3e6299354, type: 2}
   waveWait: 5
