@@ -10,14 +10,14 @@ namespace Playground
     public class HealthPickupRecipe : ItemRecipe<HealthPickup>
     {
         [NonSerialized]
-        private IHealthManager _healthManager;
-        private IHealthManager healthManager
+        private BasicHealthManager _healthManager;
+        private BasicHealthManager healthManager
         {
             get
             {
-                if (_healthManager == null && FpsSoloCharacter.localPlayerCharacter != null)
+                if (!_healthManager && FpsSoloCharacter.localPlayerCharacter != null)
                 {
-                    _healthManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<IHealthManager>();
+                    _healthManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>();
                 }
                 return _healthManager;
             }

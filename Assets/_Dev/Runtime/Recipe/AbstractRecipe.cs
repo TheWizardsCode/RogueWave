@@ -117,6 +117,7 @@ namespace Playground
 
         public virtual void Reset()
         {
+            nextTimeAvailable = 0;
         }
 
         public virtual bool ShouldBuild

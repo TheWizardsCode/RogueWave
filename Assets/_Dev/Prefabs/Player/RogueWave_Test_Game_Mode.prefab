@@ -59,9 +59,9 @@ GameObject:
   - component: {fileID: 7050872739850107185}
   - component: {fileID: 3957620431239229239}
   - component: {fileID: 905963099382226170}
-  - component: {fileID: 2767766673360794206}
+  - component: {fileID: 8474616463793294590}
   m_Layer: 0
-  m_Name: Playground_Game_Mode
+  m_Name: RogueWave_Test_Game_Mode
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -100,16 +100,14 @@ MonoBehaviour:
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: -2446305894394526636, guid: 3ff6e92f43d79ed4d9afc6a3afdacc58, type: 3}
   m_VictoryDuration: 5
-  randomizePlayerSpawn: 1
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   _startingRecipes:
   - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
+  - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
+  - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
   levels:
-  - {fileID: 11400000, guid: beb1b1e0f23a69d47a0c2d5b9dc66662, type: 2}
-  - {fileID: 11400000, guid: 44fc4b4d12062884394c89580d492d70, type: 2}
-  - {fileID: 11400000, guid: fb95424d128eaed4a8f49b1cd43dafd7, type: 2}
-  - {fileID: 11400000, guid: 543e7f3598e6cb7439f8bb6c5effd41a, type: 2}
+  - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
   _isDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
@@ -117,11 +115,14 @@ MonoBehaviour:
   m_LoadoutBuilder:
     slots:
     - m_DisplayName: Primary
-      m_Options: []
+      m_Options:
+      - {fileID: 114019755459329486, guid: 432455827fdeb344e84b804690d24149, type: 3}
     - m_DisplayName: Secondary
-      m_Options: []
+      m_Options:
+      - {fileID: 114885381139505388, guid: e1ec80373623ca349a20a0a3441f046b, type: 3}
     - m_DisplayName: Melee
-      m_Options: []
+      m_Options:
+      - {fileID: 114731684343392398, guid: 05d73335c0e2a354eb4bdc95583ad37b, type: 3}
     - m_DisplayName: Thrown
       m_Options: []
     fixedItems: []
@@ -165,12 +166,12 @@ MonoBehaviour:
     m_Values:
     - {fileID: 8502458911778582416}
     m_GameObject: {fileID: 905963099382226170}
-  m_PrefabStrongID: -850998762
+  m_PrefabStrongID: -1496116264
   expandChildObjects: 0
   expandNeoComponents: 0
   expandOtherComponents: 0
-  prefabGuid: 3f2b5cc90618dbb46b29cd834ae94c12
---- !u!114 &2767766673360794206
+  prefabGuid: 5c01213201fd72b4e806db0dd061f6f3
+--- !u!114 &8474616463793294590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -187,7 +188,7 @@ MonoBehaviour:
   scannerPrefab: {fileID: 4437746279418429034, guid: bf1c25210103bed4bb9378c859bef582, type: 3}
   timeSlice: 25
   targetKillScore: 0.3
-  isDebug: 0
+  isDebug: 1
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0
@@ -233,7 +234,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
+  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -320,11 +321,11 @@ MonoBehaviour:
     m_Keys: 
     m_Values: []
     m_GameObject: {fileID: 8502458911778582416}
-  m_PrefabStrongID: -850998762
+  m_PrefabStrongID: -1496116264
   expandChildObjects: 0
   expandNeoComponents: 0
   expandOtherComponents: 0
-  prefabGuid: 3f2b5cc90618dbb46b29cd834ae94c12
+  prefabGuid: 5c01213201fd72b4e806db0dd061f6f3
 --- !u!1 &8684738436908811697
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,7 +352,7 @@ Transform:
   m_GameObject: {fileID: 8684738436908811697}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.9393216, z: -0, w: 0.34303805}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.75, y: 0, z: 6.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

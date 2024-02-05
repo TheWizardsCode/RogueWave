@@ -17,7 +17,7 @@ namespace Playground
         {
             get
             {
-                if (_inventory == null)
+                if (!_inventory)
                 {
                     _inventory = FpsSoloCharacter.localPlayerCharacter.inventory as FpsInventorySwappable;
                 }

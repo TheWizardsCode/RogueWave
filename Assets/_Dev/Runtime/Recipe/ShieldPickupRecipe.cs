@@ -16,7 +16,7 @@ namespace Playground
         {
             get
             {
-                if (_shieldMgr == null && FpsSoloCharacter.localPlayerCharacter != null)
+                if (!_shieldMgr && FpsSoloCharacter.localPlayerCharacter != null)
                 {
                     _shieldMgr = FpsSoloCharacter.localPlayerCharacter.GetComponent<ShieldManager>();
                 }

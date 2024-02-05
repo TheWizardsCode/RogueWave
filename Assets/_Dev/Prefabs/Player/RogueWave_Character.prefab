@@ -2277,8 +2277,9 @@ GameObject:
   - component: {fileID: 4580383138697328011}
   - component: {fileID: 2555977511233868292}
   - component: {fileID: 7432026935965906545}
+  - component: {fileID: 5187909369627873069}
   m_Layer: 13
-  m_Name: Playground_Character
+  m_Name: RogueWave_Character
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2995,6 +2996,38 @@ MonoBehaviour:
   m_ChargeRate: 0
   m_ChargeDelay: 10
   m_CanBreakStep1: 1
+--- !u!114 &5187909369627873069
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4167708427938660213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421f12c4cc2c4614f9e0616ef942cf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SaveName: 0
+  m_Position: 0
+  m_Rotation: 0
+  m_LocalScale: 0
+  m_FilterChildObjects: 0
+  m_ChildObjects: []
+  m_FilterNeoComponents: 0
+  m_NeoComponents: []
+  m_OtherComponents: []
+  m_Overrides: []
+  m_Children:
+    m_Keys: 3f582bd7
+    m_Values:
+    - {fileID: 4054233941332996555}
+    m_GameObject: {fileID: 5187909369627873069}
+  m_PrefabStrongID: 0
+  expandChildObjects: 0
+  expandNeoComponents: 0
+  expandOtherComponents: 0
+  prefabGuid: 
 --- !u!1 &4167775306372098691
 GameObject:
   m_ObjectHideFlags: 0
