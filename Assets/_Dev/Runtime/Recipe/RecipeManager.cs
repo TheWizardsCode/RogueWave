@@ -69,7 +69,7 @@ namespace Playground
             // Always offer a weapon on the first run
             if (requiredWeaponCount > 0)
             {
-                List<WeaponPickupRecipe> weaponCandidates = GetPowerUpCandidates<WeaponPickupRecipe>();
+                List<WeaponPickupRecipe> weaponCandidates = GetOfferCandidates<WeaponPickupRecipe>();
 
                 int idx = Random.Range(0, weaponCandidates.Count);
                 for (int i = 0; i < weaponCandidates.Count; i++)
@@ -91,7 +91,7 @@ namespace Playground
                 }
             }
 
-            List<IRecipe> candidates = GetPowerUpCandidates<IRecipe>();
+            List<IRecipe> candidates = GetOfferCandidates<IRecipe>();
 
             for (int i = 0; i < quantity; i++)
             {
@@ -119,7 +119,7 @@ namespace Playground
         /// Get a list of powerup recipes that can be offered to the player.
         /// </summary>
         /// <returns></returns>
-        private static List<T> GetPowerUpCandidates<T>() where T : IRecipe
+        private static List<T> GetOfferCandidates<T>() where T : IRecipe
         {
             List<T> candidates = new List<T>();
             foreach (IRecipe recipe in powerupRecipes.Values)
@@ -134,7 +134,7 @@ namespace Playground
                     continue;
                 }
 
-                if (RogueLiteManager.persistentData.Contains(recipe) || RogueLiteManager.runData.Contains(recipe))
+                if (RogueLiteManager.persistentData.Contains(recipe as AbstractRecipe) || RogueLiteManager.runData.Contains(recipe as AbstractRecipe))
                 {
                     continue;
                 }
