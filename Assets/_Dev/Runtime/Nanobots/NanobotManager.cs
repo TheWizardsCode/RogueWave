@@ -4,6 +4,7 @@ using NeoFPS.SinglePlayer;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -51,8 +52,7 @@ namespace Playground
         private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
         private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
 
-        internal int resourcesUntilNextLevel = 200;
-
+        internal int resourcesForNextLevel = 0;
 
         public delegate void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel);
         public event OnResourcesChanged onResourcesChanged;
@@ -109,7 +109,7 @@ namespace Playground
 
         private void Start()
         {
-            resourcesUntilNextLevel = GetRequiredResourcesForNextLevel();
+            resourcesForNextLevel = GetRequiredResourcesForNextLevel();
 
             foreach (var healthRecipe in healthRecipes)
             {
@@ -141,7 +141,7 @@ namespace Playground
             }
 
             // Offer a new recipe if leveled up
-            if (resourcesUntilNextLevel <= 0)
+            if (resourcesForNextLevel <= 0)
             {
                 if (status != Status.Requesting && timeOfLastRewardOffer + timeBetweenRecipeOffers < Time.timeSinceLevelLoad)
                 {
@@ -224,7 +224,7 @@ namespace Playground
                 // TODO: add this key to the NeoFPS input manager
                 if (Input.GetKeyDown(KeyCode.B))
                 {
-                    resourcesUntilNextLevel = GetRequiredResourcesForNextLevel();
+                    resourcesForNextLevel = GetRequiredResourcesForNextLevel();
 
                     if (status == Status.Building) {
                         status = Status.RequestQueued;
@@ -621,18 +621,22 @@ namespace Playground
         public int resources
         {
             get { return RogueLiteManager.persistentData.currentResources; }
-            set
+            private set
             {
                 if (RogueLiteManager.persistentData.currentResources == value)
                     return;
 
-                resourcesUntilNextLevel -= (value - RogueLiteManager.persistentData.currentResources);
-
                 if (onResourcesChanged != null)
-                    onResourcesChanged(RogueLiteManager.persistentData.currentResources, value, resourcesUntilNextLevel);
+                    onResourcesChanged(RogueLiteManager.persistentData.currentResources, value, resourcesForNextLevel);
 
                 RogueLiteManager.persistentData.currentResources = value;
             }
+        }
+
+        public void CollectResources(int amount)
+        {
+            resources += amount;
+            resourcesForNextLevel -= amount;
         }
 
         private void ShuffleWeaponRecipes()

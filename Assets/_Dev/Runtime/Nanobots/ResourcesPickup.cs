@@ -43,7 +43,7 @@ namespace Playground
 
             m_OnResourcesCollected.Invoke();
 
-            nanobotManager.resources += m_ResourcesAmount;
+            nanobotManager.CollectResources(m_ResourcesAmount);
             DestroyPickup();
         }
 
