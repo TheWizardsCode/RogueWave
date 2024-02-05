@@ -490,7 +490,16 @@ namespace Playground
             {
                 // TODO Use the pool manager to create the item
                 GameObject go = Instantiate(itemRecipe.Item.gameObject);
-                go.transform.position = transform.position + (transform.forward * 5) + (transform.up * 1f);
+
+                Vector3 position = transform.position + (transform.forward * 5) + (transform.up * 1f);
+                int positionCheck = 0;
+                while (Physics.CheckSphere(position, 0.5f) || positionCheck > 10)
+                {
+                    positionCheck++;
+                    position -= transform.forward;
+                }
+
+                go.transform.position = position;
 
                 // TODO: Use the pool manager to create the particle system
                 if (recipe.PickupParticles != null)
