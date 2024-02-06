@@ -299,11 +299,6 @@ namespace Playground
                     Debug.LogError("WeaponPickupRecipe " + weaponRecipe.name + " has no pickup assigned. Not adding this weapon recipe to the loadout.");
                     return;
                 }
-
-                if (RogueLiteManager.runData.Loadout.Contains(weaponRecipe.pickup.GetItemPrefab()) == false)
-                {
-                    RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
-                }
             }
 
             ToolPickupRecipe toolRecipe = recipe as ToolPickupRecipe;
@@ -371,6 +366,8 @@ namespace Playground
         #region Pre Spawn
         protected override bool PreSpawnStep()
         {
+            RogueLiteManager.runData.Loadout.Clear();
+
             RogueLiteManager.persistentData.runNumber++;
 
             if (currentLevelDefinition.generateLevelOnSpawn)

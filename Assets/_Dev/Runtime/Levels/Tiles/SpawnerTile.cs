@@ -10,7 +10,7 @@ namespace Playground
 
         internal override void GenerateTileContent(int x, int y, BaseTile[,] tiles)
         {
-            Vector3 position = new Vector3(0, 10, 0);
+            Vector3 position = new Vector3(0, 5, 0);
             Spawner spawner = Instantiate(spawnerPrefab, transform);
             spawner.transform.localPosition = position;
             spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
