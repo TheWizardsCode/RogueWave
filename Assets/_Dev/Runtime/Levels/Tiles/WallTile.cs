@@ -29,7 +29,6 @@ namespace Playground
 
                 meshFilter = contentObject.AddComponent<MeshFilter>();
                 contentObject.AddComponent<MeshRenderer>().material = wallMaterial;
-                contentObject.AddComponent<MeshCollider>();
             } else
             {
                 meshFilter = contentObject.GetComponent<MeshFilter>();
@@ -72,6 +71,8 @@ namespace Playground
 
             compoundDraft.MergeDraftsWithTheSameName();
             meshFilter.mesh = compoundDraft.ToMeshDraft().ToMesh();
+
+            contentObject.AddComponent<MeshCollider>().sharedMesh = meshFilter.mesh;
 
             base.GenerateTileContent(x, y, tiles);
         }
