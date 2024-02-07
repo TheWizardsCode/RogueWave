@@ -10,6 +10,8 @@ namespace Playground
 {
     /// <summary>
     /// EnemyJuicer is responsible for adding juice to the game when an enemy is spawned, injured, killed or other events.
+    /// 
+    /// Place it anywhere on an enemy and ensure that the Juics sections of the config are setup. The juics will be added at the location of this components transform.
     /// </summary>
     public class EnemyJuicer : MonoBehaviour
     {
@@ -17,7 +19,7 @@ namespace Playground
 
         private void Awake()
         {
-            controller = GetComponent<BasicEnemyController>();
+            controller = GetComponentInParent<BasicEnemyController>();
         }
 
         private void OnEnable()
@@ -33,7 +35,8 @@ namespace Playground
             }
 
             // TODO use pool for juice Object
-            ParticleSystem deathParticle = Instantiate(controller.config.juicePrefab, transform.position, Quaternion.identity);
+            Vector3 pos = transform.position + controller.config.juiceOffset;
+            ParticleSystem deathParticle = Instantiate(controller.config.juicePrefab, pos, Quaternion.identity);
             if (controller.parentRenderer != null)
             {
                 var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();
@@ -46,7 +49,7 @@ namespace Playground
 
             if (controller.config.shouldExplodeOnDeath)
             {
-                PooledExplosion explosion = deathParticle.GetComponent<PooledExplosion>();
+                PooledExplosion explosion = deathParticle.GetComponentInChildren<PooledExplosion>();
                 explosion.radius = controller.config.deathExplosionRadius;
                 explosion.Explode(controller.config.explosionDamageOnDeath, controller.config.explosionForceOnDeath, null);
             }

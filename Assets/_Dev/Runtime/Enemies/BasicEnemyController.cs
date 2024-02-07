@@ -161,6 +161,7 @@ namespace Playground
         internal Vector3 goalDestination = Vector3.zero;
         Vector3 wanderDestination = Vector3.zero;
         float timeOfNextWanderPositionChange = 0;
+        private BasicHealthManager healthManager;
 
         private void Awake()
         {
@@ -172,6 +173,24 @@ namespace Playground
         private void Start()
         {
             spawnPosition = transform.position;
+        }
+
+
+        private void OnEnable()
+        {
+            healthManager = GetComponent<BasicHealthManager>();
+            if (healthManager != null)
+            {
+                healthManager.onIsAliveChanged += OnAliveIsChanged;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (healthManager != null)
+            {
+                healthManager.onIsAliveChanged -= OnAliveIsChanged;
+            }
         }
 
         protected virtual void Update()

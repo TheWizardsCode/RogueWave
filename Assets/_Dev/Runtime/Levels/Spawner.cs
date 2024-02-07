@@ -32,8 +32,6 @@ namespace Playground
         bool hasShield = true;
         [SerializeField, ShowIf("hasShield"), Tooltip("Shield generators are models that will orbit the spawner and create a shield. The player must destroy the generators to destroy the shield and thus get t othe spawner.")]
         internal BasicHealthManager shieldGenerator;
-        [SerializeField, ShowIf("hasShield"), Tooltip("The particle system to play when a shield generator is destroyed.")]
-        internal ParticleSystem shieldGenParticlePrefab;
         [SerializeField, ShowIf("hasShield"), Tooltip("How many generators this shield should have.")]
         internal int numShieldGenerators = 3;
         [SerializeField, ShowIf("hasShield"), Tooltip("The speed of the shield generators, in revolutions per minute.")]
@@ -67,12 +65,6 @@ namespace Playground
                 healthManager = h;
                 gameObject = h.gameObject;
                 transform = h.transform;
-                h.onIsAliveChanged += OnIsAliveChanged;
-            }
-
-            public void OnIsAliveChanged(bool alive)
-            {
-                gameObject.SetActive(alive);
             }
 
             public void Respawn(float health)
@@ -105,8 +97,16 @@ namespace Playground
             }
 
             var rotation = new Vector3(0f, shieldGeneratorRPM * Time.deltaTime, 0f);
-            for (int i = 0; i < numShieldGenerators; i++)
-                shieldGenerators[i].transform.Rotate(rotation, Space.Self);
+            for (int i = 0; i < shieldGenerators.Count; i++)
+            {
+                if (shieldGenerators[i].gameObject) {
+                    shieldGenerators[i].transform.Rotate(rotation, Space.Self);
+                } else
+                {
+                    shieldGenerators.RemoveAt(i);
+                }
+
+            }
         }
 
         private void Start()
@@ -133,10 +133,6 @@ namespace Playground
                     var duplicate = Instantiate(shieldGenerator, shieldGenerator.transform.parent);
                     duplicate.transform.localRotation = Quaternion.Euler(0f, 360f * i / numShieldGenerators, 0f);
                     RegisterShieldGenerator(duplicate);
-
-                    //var lineRenderer = duplicate.GetComponentInChildren<LineRenderer>();
-                    //if (lineRenderer != null)
-                    //    lineRenderer.widthMultiplier = spawnRadius * 2;
                 }
 
                 livingShieldGenerators = numShieldGenerators;
@@ -161,14 +157,16 @@ namespace Playground
 
         private void OnShieldGeneratorIsAliveChanged(bool alive)
         {
-            // TODO: Need to detect which shield gen and disable it, spawn particles, etc
-
             int oldLivingShieldGenerators = livingShieldGenerators;
 
             if (alive)
+            {
                 ++livingShieldGenerators;
+            }
             else
+            {
                 --livingShieldGenerators;
+            }
 
             if (shieldCollider != null)
             {

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5906009036372984608}
   - component: {fileID: 1313982842987553621}
+  - component: {fileID: 3994410130652304606}
   m_Layer: 0
   m_Name: Shield Generator
   m_TagString: Untagged
@@ -55,6 +56,31 @@ MonoBehaviour:
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &3994410130652304606
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 14795264238898160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 735e4c1315dedbc4a869e8dc7e67a4e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displayName: Shield Generator
+  description: Generate a shield around a nearby object. To attack that object the
+    shield generaotr(s) will need to be destroyed first.
+  challengeRating: 1
+  config: {fileID: 11400000, guid: 25dbf908baf78de4cb65c8df357f464f, type: 2}
+  sensor: {fileID: 0}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  isDebug: 0
 --- !u!1 &610628251586757860
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,6 +211,7 @@ GameObject:
   - component: {fileID: 4955364468326104971}
   - component: {fileID: 40696254190186761}
   - component: {fileID: 5051522473541029572}
+  - component: {fileID: 5020004363600936425}
   m_Layer: 0
   m_Name: shield_gen
   m_TagString: Untagged
@@ -307,6 +334,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DissolveTime: 1
+--- !u!114 &5020004363600936425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2798155529671557648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3203945097326499287
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +471,7 @@ GameObject:
   - component: {fileID: -8418557012773986996}
   - component: {fileID: 8863506516404993791}
   - component: {fileID: 4880692556491869283}
+  - component: {fileID: 8691472257596452135}
   m_Layer: 0
   m_Name: Spawner Basic Shielded
   m_TagString: AI
@@ -469,6 +509,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useLevelDefinition: 0
+  levelDefinition: {fileID: 0}
   timeBetweenWaves: 10
   ignoreMaxAlive: 0
   activeRange: 0
@@ -476,7 +518,6 @@ MonoBehaviour:
   destroySpawnsOnDeath: 1
   hasShield: 1
   shieldGenerator: {fileID: 1313982842987553621}
-  shieldGenParticlePrefab: {fileID: 5327745311076098471, guid: 05ee104c9679f0f41bda212c0bb37ffc, type: 3}
   numShieldGenerators: 3
   shieldGeneratorRPM: 22.5
   shieldCollider: {fileID: 1768168615545587999}
@@ -657,6 +698,18 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &8691472257596452135
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5299311784649714057}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5833403160988965908
 GameObject:
   m_ObjectHideFlags: 0
