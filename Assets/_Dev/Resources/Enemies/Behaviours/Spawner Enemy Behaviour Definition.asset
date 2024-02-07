@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requireLineOfSight: 0
   viewDistance: 30
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 0
   isMobile: 0
   speed: 0
   rotationSpeed: 0
@@ -22,10 +25,12 @@ MonoBehaviour:
   optimalDistanceFromPlayer: 25
   maxWanderRange: 30
   obstacleAvoidanceDistance: 2
-  sensorMask:
-    serializedVersion: 2
-    m_Bits: 0
   seekDuration: 7
-  deathParticlePrefab: {fileID: 5327745311076098471, guid: ecf74d541dbf5cb40a417278326c0f1e, type: 3}
+  juicePrefab: {fileID: 5327745311076098471, guid: 05ee104c9679f0f41bda212c0bb37ffc, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 30
+  explosionDamageOnDeath: 30
+  explosionForceOnDeath: 34
   resourcesDropChance: 0.7
   resourcesPrefab: {fileID: 8288433013401571843, guid: caf9459c819d25843b1b923efddbb709, type: 3}

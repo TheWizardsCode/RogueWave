@@ -30,7 +30,11 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: -0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 7896497067251724925}
+  - {fileID: 6895485990423585627}
+  - {fileID: 4262993819210457011}
+  - {fileID: 2186976280914149081}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!198 &5327745311076098471
@@ -4888,3 +4892,251 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!1001 &2090672228888700827
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4805939666006967488}
+    m_Modifications:
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.18200003
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948146522112787363, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+      propertyPath: m_Name
+      value: Enemy Death Particles with Medium 360 Explosion (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+--- !u!4 &6895485990423585627 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4805939666006967488, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+  m_PrefabInstance: {fileID: 2090672228888700827}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &3397929184184366781
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4805939666006967488}
+    m_Modifications:
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948146522112787363, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+      propertyPath: m_Name
+      value: Enemy Death Particles with Large 360 Explosion (1)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+--- !u!4 &7896497067251724925 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4805939666006967488, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  m_PrefabInstance: {fileID: 3397929184184366781}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6695607994045544985
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4805939666006967488}
+    m_Modifications:
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.247
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948146522112787363, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_Name
+      value: Enemy Death Particles with Small 360 Explosion (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+--- !u!4 &2186976280914149081 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+  m_PrefabInstance: {fileID: 6695607994045544985}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &8762618266649074547
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 4805939666006967488}
+    m_Modifications:
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.291
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7948146522112787363, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+      propertyPath: m_Name
+      value: Enemy Death Particles with Small 360 Explosion (2)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+--- !u!4 &4262993819210457011 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4805939666006967488, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+  m_PrefabInstance: {fileID: 8762618266649074547}
+  m_PrefabAsset: {fileID: 0}
