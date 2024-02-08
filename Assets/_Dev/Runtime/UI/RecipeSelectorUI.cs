@@ -172,7 +172,7 @@ namespace Playground
         {
             float targetWidth = Screen.width * 0.9f;
 
-            float cardWidth = (targetWidth * 0.9f) / numberOfOffers;
+            float cardWidth = Mathf.Min((targetWidth * 0.9f) / numberOfOffers, (targetWidth * 0.9f) / 3);
             float imageWidth = cardWidth * 0.6f;
             float imageHeight = imageWidth;
 

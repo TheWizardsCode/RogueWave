@@ -47,10 +47,17 @@ namespace Playground
 
             levelRoot = new GameObject("Level");
 
-            int x, y;
+            int x, y, spawnersPlaced = 0;
             for (int i = 0; i < levelDefinition.numberOfEnemySpawners; i++)
             {
-                PlaceEnemySpawner(xLots, yLots);
+                try {
+                    spawnersPlaced++;   
+                    PlaceEnemySpawner(xLots, yLots);
+                    spawnersPlaced++;
+                } catch (Exception e)
+                {
+                    Debug.LogError(e);
+                }
             }
 
             PlacePlayerSpawn(xLots, yLots);
@@ -58,7 +65,7 @@ namespace Playground
             PlaceTiles(xLots, yLots);
             GenerateTileContent(xLots, yLots);
 
-            return levelDefinition.numberOfEnemySpawners;
+            return spawnersPlaced;
         }
 
         private void PlacePlayerSpawn(int xLots, int yLots)
@@ -68,8 +75,8 @@ namespace Playground
 
             if (((RogueWaveGameMode)FpsGameMode.current).randomizePlayerSpawn)
             {
-                x = Random.Range(1, xLots);
-                y = Random.Range(1, yLots);
+                x = Random.Range(1, xLots - 1);
+                y = Random.Range(1, yLots - 1);
 
                 if (tiles[x, y] != null)
                 {
@@ -277,10 +284,15 @@ namespace Playground
             }
         }
 
+        /// <summary>
+        /// Place enemy spawners in the level.
+        /// </summary>
+        /// <param name="xLots">The number of lots in the x axis.</param>
+        /// <param name="yLots">The number of lots on the y axis.</param>
         private void PlaceEnemySpawner(int xLots, int yLots)
         {
-            int x = Random.Range(1, xLots);
-            int y = Random.Range(1, yLots);
+            int x = Random.Range(1, xLots - 1);
+            int y = Random.Range(1, yLots - 1);
 
             if (tiles[x, y] != null)
             {
