@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using ProceduralToolkit;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -12,6 +13,12 @@ namespace Playground
         [SerializeField, Tooltip("The material to use for the ground.")]
         private Material groundMaterial = null;
 
+        [Header("Tile Content")]
+        [SerializeField, Tooltip("Spawn furniture on the tile. If true, the tile will be populated with furniture.")]
+        private bool spawnFurniture = false;
+        [SerializeField, ShowIf("spawnFurniture"), Tooltip("Prefabs that may be spawned on this tile. Only one of these, selected at random, will be generated.")]
+        private GameObject[] furniturePrefabs = null;
+
         protected float tileWidth = 25f;
         protected float tileHeight = 25f;
 
@@ -19,6 +26,11 @@ namespace Playground
 
         internal virtual void GenerateTileContent(int x, int y, BaseTile[,] tiles)
         {
+            if (spawnFurniture && furniturePrefabs.Length > 0)
+            {
+                GameObject tileContentPrefab = furniturePrefabs[Random.Range(0, furniturePrefabs.Length)];
+                Instantiate(tileContentPrefab, transform);
+            }
         }
 
         protected virtual void GenerateGround(int x, int y, BaseTile[,] tiles)

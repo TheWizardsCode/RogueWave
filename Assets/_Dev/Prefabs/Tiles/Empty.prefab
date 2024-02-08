@@ -45,15 +45,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
-  xPositiveNeighbours:
-  - {fileID: 2542797727158204644}
-  - {fileID: 4512869180751816955, guid: 1b35890d051dd3b4b8ff71dc0b58642a, type: 3}
-  xNegativeNeighbours:
-  - {fileID: 2542797727158204644}
-  - {fileID: 4512869180751816955, guid: 1b35890d051dd3b4b8ff71dc0b58642a, type: 3}
-  yPositiveNeighbours:
-  - {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
-  - {fileID: 4512869180751816955, guid: 1b35890d051dd3b4b8ff71dc0b58642a, type: 3}
-  yNegativeNeighbours:
-  - {fileID: 2542797727158204644}
-  - {fileID: 4512869180751816955, guid: 1b35890d051dd3b4b8ff71dc0b58642a, type: 3}
+  spawnFurniture: 1
+  furniturePrefabs:
+  - {fileID: 633833043486375824, guid: b0da73c1229f3a249bdd550c7a216e80, type: 3}
