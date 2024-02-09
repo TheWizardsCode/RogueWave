@@ -16,6 +16,8 @@ namespace Playground
         [Header("Tile Content")]
         [SerializeField, Tooltip("Spawn furniture on the tile. If true, the tile will be populated with furniture.")]
         private bool spawnFurniture = false;
+        [SerializeField, ShowIf("spawnFurniture"), Tooltip("The base chance for furniture to be present on this tile.")]
+        private float furnitureChance = 0.25f;
         [SerializeField, ShowIf("spawnFurniture"), Tooltip("Prefabs that may be spawned on this tile. Only one of these, selected at random, will be generated.")]
         private GameObject[] furniturePrefabs = null;
 
@@ -26,7 +28,7 @@ namespace Playground
 
         internal virtual void GenerateTileContent(int x, int y, BaseTile[,] tiles)
         {
-            if (spawnFurniture && furniturePrefabs.Length > 0)
+            if (spawnFurniture && furniturePrefabs.Length > 0 && Random.value < furnitureChance)
             {
                 GameObject tileContentPrefab = furniturePrefabs[Random.Range(0, furniturePrefabs.Length)];
                 Instantiate(tileContentPrefab, transform);

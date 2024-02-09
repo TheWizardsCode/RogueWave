@@ -387,6 +387,7 @@ namespace Playground
 
             return base.PreSpawnStep();
         }
+
         #endregion
     }
 }

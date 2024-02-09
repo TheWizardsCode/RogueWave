@@ -129,7 +129,7 @@ namespace Playground
                     return false;
                 }
 
-                if (isStackable) 
+                if (isStackable)
                 {
                     if (RogueLiteManager.runData.GetCount(this) >= MaxStack)
                     {
@@ -139,13 +139,47 @@ namespace Playground
 
                 foreach (IRecipe dependency in dependencies)
                 {
-                    if (RogueLiteManager.persistentData.RecipeIds.Contains(dependency.UniqueID) == false && RogueLiteManager.runData.Recipes.Contains(dependency) == false)
+                    if (RogueLiteManager.persistentData.Contains(this) == false && RogueLiteManager.runData.Contains(this) == false)
                     {
                         //Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot build.");
                         return false;
                     }
                     //Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can build.");
                 }
+
+                return true;
+            }
+        }
+
+        /// <summary>
+        /// Check to see if this recipe can be offered to the player.
+        /// This considers the dependencies of the recipe and whether the player already has the maximum number of instances of the recipe.
+        /// </summary>
+        public virtual bool CanOffer
+        {
+            get
+            {
+                if (isStackable)
+                {
+                    if (RogueLiteManager.runData.GetCount(this) >= MaxStack)
+                    {
+                        return false;
+                    }
+                } else if (RogueLiteManager.persistentData.Contains(this) || RogueLiteManager.runData.Contains(this))
+                {
+                    return false;
+                }
+
+                foreach (IRecipe dependency in dependencies)
+                {
+                    if (RogueLiteManager.persistentData.Contains(this) == false && RogueLiteManager.runData.Contains(this) == false)
+                    {
+                        //Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot build.");
+                        return false;
+                    }
+                    //Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can build.");
+                }
+
                 return true;
             }
         }

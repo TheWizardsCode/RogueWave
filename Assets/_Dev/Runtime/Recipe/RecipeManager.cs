@@ -134,8 +134,8 @@ namespace Playground
                     continue;
                 }
 
-                if (RogueLiteManager.persistentData.Contains(recipe as AbstractRecipe) || RogueLiteManager.runData.Contains(recipe as AbstractRecipe))
-                {
+                if (recipe.CanOffer == false)
+                {   
                     continue;
                 }
 

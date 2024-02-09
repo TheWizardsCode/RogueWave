@@ -54,5 +54,18 @@ namespace Playground
                 return missingHealth > 0 && base.ShouldBuild;
             }
         }
+
+        /// <summary>
+        /// Test to see if the character currently has at least a minimum % health available to them.
+        /// </summary>
+        public bool HasAmount(float amountPerCent)
+        {
+            if (healthManager == null)
+            {
+                return true;
+            }
+
+            return healthManager.health / healthManager.healthMax >= amountPerCent;
+        }
     }
 }
