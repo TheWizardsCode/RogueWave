@@ -2518,8 +2518,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb4f6b079a31f949b8a10f7e86b427e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 80
-  m_HealthMax: 80
+  m_Health: 50
+  m_HealthMax: 50
   m_CanDamageSelf: 1
   m_OnHealthChanged:
     m_PersistentCalls:
@@ -2978,9 +2978,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Shield: 1
-  m_StepCapacity: 50
+  m_StepCapacity: 25
   m_StepCount: 1
-  m_DamageMitigation: 0.5
+  m_DamageMitigation: 0.25
   m_ChargeRate: 0
   m_ChargeDelay: 10
   m_CanBreakStep1: 1
