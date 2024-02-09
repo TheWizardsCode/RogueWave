@@ -34,6 +34,7 @@ namespace Playground
         /// For example, if the player already has full health, a health pickup would not be useful.
         /// </summary>
         public bool ShouldBuild { get; }
+        bool CanOffer { get; }
 
         /// <summary>
         /// Called when this recipe has been built.

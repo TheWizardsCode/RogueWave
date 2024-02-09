@@ -163,14 +163,20 @@ namespace Playground
                 return;
             }
 
-            // Health is the next priority, got to stay alive
-            if (TryHealthRecipes())
+            // Health is the next priority, got to stay alive, but only build at this stage if fairly badly hurt
+            if (TryHealthRecipes(0.6f))
             {
                 return;
             }
 
             // Prioritize building ammo if the player is low on ammo
             if (TryShieldRecipes())
+            {
+                return;
+            }
+
+            // Health is the next priority, got to stay alive, but only build at this stage we should only need a small topup
+            if (TryHealthRecipes(0.85f))
             {
                 return;
             }
@@ -188,6 +194,12 @@ namespace Playground
 
             // If we are in good shape then see if there is a generic item we can build
             if (TryItemRecipes())
+            {
+                return;
+            }
+
+            // May as well get to maximum health if there is nothing else to build
+            if (TryHealthRecipes(1f))
             {
                 return;
             }
@@ -215,7 +227,7 @@ namespace Playground
                 recipeName = defaultRecipeName;
                 Debug.LogError($"Recipe {currentOffer.DisplayName} (offer) does not have an audio clip for its name. Used default of `Unkown`.");
             }
-            yield return Announce(clip, recipeName);
+            yield return StartCoroutine(Announce(clip, recipeName));
 
             status = Status.Idle;
 
@@ -318,12 +330,23 @@ namespace Playground
         }
 
         // TODO: we can probably generalize these Try* methods now that we have refactored the recipes to use interfaces/Abstract classes
-        private bool TryHealthRecipes()
+
+        /// <summary>
+        /// Build the best health recipe available. The best is the one that will heal to MaxHealth with the minimum waste.
+        /// </summary>
+        /// <param name="minimumHealthAmount">The % (0-1) of health that is the minimum required before health will be built</param>
+        /// <returns></returns>
+        private bool TryHealthRecipes(float minimumHealthAmount = 1)
         {
             HealthPickupRecipe chosenRecipe = null;
             float chosenAmount = 0;
             for (int i = 0; i < healthRecipes.Count; i++)
             {
+                if (healthRecipes[i].HasAmount(minimumHealthAmount))
+                {
+                    return false;
+                }
+
                 if (RogueLiteManager.persistentData.currentResources >= healthRecipes[i].Cost && healthRecipes[i].ShouldBuild)
                 {
                     float healAmount = Mathf.Min(1, healthRecipes[i].healAmountPerCent);
