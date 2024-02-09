@@ -1,10 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS;
-using NeoFPS.SinglePlayer;
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;

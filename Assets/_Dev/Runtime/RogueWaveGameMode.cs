@@ -36,7 +36,7 @@ namespace Playground
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
 
-        private int spawnersRemaining = int.MaxValue;
+        private int spawnersRemaining = 0;
 
         public static RogueWaveGameMode Instance { get; private set; }
 
@@ -372,7 +372,7 @@ namespace Playground
 
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
-                spawnersRemaining = levelGenerator.Generate(this);
+                levelGenerator.Generate(this);
             }
 
             for (int i = 0; i < _startingRecipes.Length; i++)

@@ -27,8 +27,7 @@ namespace Playground
         /// </summary>
         /// <param name="gameMode"></param>
         /// <param name="seed">The seed to use, if it is set to -1 (the default) then a random seed will be generated.</param>
-        /// <returns></returns>
-        internal int Generate(RogueWaveGameMode gameMode, int seed = -1)
+        internal void Generate(RogueWaveGameMode gameMode, int seed = -1)
         {
             levelDefinition = gameMode.currentLevelDefinition;
 
@@ -64,8 +63,6 @@ namespace Playground
 
             PlaceTiles(xLots, yLots);
             GenerateTileContent(xLots, yLots);
-
-            return spawnersPlaced;
         }
 
         private void PlacePlayerSpawn(int xLots, int yLots)
