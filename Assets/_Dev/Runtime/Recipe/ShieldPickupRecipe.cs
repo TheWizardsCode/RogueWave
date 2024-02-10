@@ -45,5 +45,15 @@ namespace Playground
                     && base.ShouldBuild;
             }
         }
+
+        /// <summary>
+        /// Check to see if the current shield amount is at least a minimum % of the maximum shield capacity.
+        /// </summary>
+        /// <param name="amountPerCent">Minimum amount we are checking for.</param>
+        /// <returns></returns>
+        public bool HasAmount(float amountPerCent)
+        {
+            return shieldManager.shield >= (shieldManager.shieldStepCount * shieldManager.shieldStepCapacity) * amountPerCent;
+        }
     }
 }
