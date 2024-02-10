@@ -166,8 +166,8 @@ namespace Playground
                 return;
             }
 
-            // Prioritize building ammo if the player is low on ammo
-            if (TryShieldRecipes())
+            // Prioritize building shield if the player does not have a shield or is low on shield
+            if (TryShieldRecipes(0.4f))
             {
                 return;
             }
@@ -191,6 +191,12 @@ namespace Playground
 
             // If we are in good shape then see if there is a generic item we can build
             if (TryItemRecipes())
+            {
+                return;
+            }
+
+            // Prioritize building shield if the player does not have a shield or there is some damage to the shiled
+            if (TryShieldRecipes(0.9f))
             {
                 return;
             }
@@ -367,13 +373,16 @@ namespace Playground
             return false;
         }
 
-        private bool TryShieldRecipes()
+        private bool TryShieldRecipes(float minimumShieldAmount)
         {
             for (int i = 0; i < shieldRecipes.Count; i++)
             {
-                if (TryRecipe(shieldRecipes[i]))
+                if (!shieldRecipes[i].HasAmount(minimumShieldAmount))
                 {
-                    return true;
+                    if (TryRecipe(shieldRecipes[i]))
+                    {
+                        return true;
+                    }
                 }
             }
 

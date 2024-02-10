@@ -18,19 +18,19 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 13
-    buildVersion: 2024.01.13.303
+    buildCounter: 19
+    buildVersion: 2024.02.09.4095
     versionTemplate: $YEAR.$MONTH.$DAY.$SECONDS
     autoGenerate: 1
     syncWithPlayerSettings: 0
   _releaseTypeList:
     releaseTypes:
     - typeName: DeveloperTest
-      bundleIdentifier: com.Wizards-Code.PlaygroundDecember23
+      bundleIdentifier: com.Wizards-Code.RogueWave
       companyName: Wizards Code
-      productName: PlaygroundDecember23
+      productName: RogueWave
       syncAppNameWithProduct: 1
-      appBuildName: PlaygroundDecember23
+      appBuildName: RogueWave
       buildOptions: 1
       customDefines: 
       sceneList:
@@ -44,11 +44,11 @@ MonoBehaviour:
         - fileGUID: 220a728d3c0961149be17e591ae889be
           sceneActive: 1
     - typeName: Release
-      bundleIdentifier: com.Wizards-Code.PlaygroundDecember23
+      bundleIdentifier: com.Wizards-Code.RogueWave
       companyName: Wizards Code
-      productName: PlaygroundDecember23
+      productName: RogeWave
       syncAppNameWithProduct: 1
-      appBuildName: PlaygroundDecember23
+      appBuildName: RogeWave
       buildOptions: 0
       customDefines: 
       sceneList:
@@ -93,7 +93,7 @@ MonoBehaviour:
       - Release
       - 
       _Values:
-      - enabled: 0
+      - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:
@@ -101,7 +101,7 @@ MonoBehaviour:
       - enabled: 1
         childKeys:
         - DeveloperTest/PC/Windows x64 (App)
-      - enabled: 1
+      - enabled: 0
         childKeys: []
       - enabled: 1
         childKeys:
@@ -146,7 +146,7 @@ MonoBehaviour:
     showBuildInfo: 0
     hideDisabled: 0
     treeView: 0
-    selectedKeyChain: Release/PC/Windows x64 (App)/Mono
+    selectedKeyChain: DeveloperTest/PC/Windows x64 (App)/Mono
   _preBuildActions:
     buildActions: []
   _postBuildActions:
