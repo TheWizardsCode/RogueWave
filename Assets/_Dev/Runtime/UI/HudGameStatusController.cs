@@ -8,6 +8,8 @@ namespace Playground
 {
 	public class HudGameStatusController : PlayerCharacterHudBase
     {
+        [SerializeField, Tooltip("The resources UI section. This will be shown and hidden at appropriate times.")]
+        private RectTransform m_ResourcesUI = null;
 		[SerializeField, Tooltip("The text readout for the current characters resources.")]
 		private Text m_ResourcesText = null;
         [SerializeField, Tooltip("The text readout for the required resources for the next level up.")]
@@ -16,6 +18,10 @@ namespace Playground
         private Text m_SpawnersText = null;
         [SerializeField, Tooltip("The text readout for the number of remaining enemies.")]
         private Text m_EnemiesText = null;
+        [SerializeField, Tooltip("The text readout for the current game level number.")]
+        private TMPro.TMP_Text m_GameLevelNumberText = null;
+        [SerializeField, Tooltip("The text readout for the current players Nanobot level number.")]
+        private TMPro.TMP_Text m_NanobotLevelNumberText = null;
 
         private RogueWaveGameMode gameMode = null;
         private NanobotManager nanobotManager = null;
@@ -101,15 +107,32 @@ namespace Playground
 
             if (nanobotManager != null)
             {
+                nanobotManager.onNanobotLevelUp += OnNanobotLevelUp;
+                OnNanobotLevelUp();
+
                 nanobotManager.onResourcesChanged += OnResourcesChanged;
                 OnResourcesChanged(0f, nanobotManager.resources, nanobotManager.resources);
-                gameObject.SetActive(true);
+                
+                m_ResourcesUI.gameObject.SetActive(true);
             }
             else
             {
-                gameObject.SetActive(false);
+                m_ResourcesUI.gameObject.SetActive(false);
             }
-		}
+
+            if (m_GameLevelNumberText != null)
+            {
+                m_GameLevelNumberText.text = (RogueLiteManager.persistentData.currentGameLevel + 1).ToString();
+            }
+        }
+
+        protected void OnNanobotLevelUp()
+        {
+            if (m_NanobotLevelNumberText != null)
+            {
+                m_NanobotLevelNumberText.text = (RogueLiteManager.runData.currentNanobotLevel + 1).ToString();
+            }
+        }
 
 		protected virtual void OnResourcesChanged (float from, float to, float resourcesUntilNextLevel)
         {

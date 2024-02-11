@@ -62,10 +62,10 @@ namespace Playground
         public LevelDefinition currentLevelDefinition
         {
             get { 
-                if (levels.Length <= RogueLiteManager.runData.currentLevel)
+                if (levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
                     return levels[levels.Length - 1]; 
                 else
-                    return levels[RogueLiteManager.runData.currentLevel];
+                    return levels[RogueLiteManager.persistentData.currentGameLevel];
             }
         }
 
@@ -126,8 +126,6 @@ namespace Playground
 
         void DelayedVictoryAction()
         {
-            RogueLiteManager.runData.currentLevel++;
-
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
 
@@ -162,6 +160,8 @@ namespace Playground
                 magnet.range = originalRange;
                 magnet.speed = originalSpeed;
             }
+
+            RogueLiteManager.persistentData.currentGameLevel++;
 
             if (inGame)
                 DelayedVictoryAction();

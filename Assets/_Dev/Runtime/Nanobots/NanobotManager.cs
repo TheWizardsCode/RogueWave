@@ -49,10 +49,13 @@ namespace Playground
         private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
         private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
 
-        internal int resourcesForNextLevel = 0;
+        internal int resourcesForNextNanobotLevel = 0;
 
         public delegate void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel);
         public event OnResourcesChanged onResourcesChanged;
+
+        public delegate void OnNanobotLevelUp();
+        public event OnNanobotLevelUp onNanobotLevelUp;
 
         public delegate void OnStatusChanged(Status status);
         public event OnStatusChanged onStatusChanged;
@@ -106,7 +109,7 @@ namespace Playground
 
         private void Start()
         {
-            resourcesForNextLevel = GetRequiredResourcesForNextLevel();
+            resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
 
             foreach (var healthRecipe in healthRecipes)
             {
@@ -138,7 +141,7 @@ namespace Playground
             }
 
             // Offer a new recipe if leveled up
-            if (resourcesForNextLevel <= 0)
+            if (resourcesForNextNanobotLevel <= 0)
             {
                 if (status != Status.Requesting && timeOfLastRewardOffer + timeBetweenRecipeOffers < Time.timeSinceLevelLoad)
                 {
@@ -234,12 +237,14 @@ namespace Playground
 
             status = Status.Idle;
 
-            while (true) // this coroutine will run until the player accepts or a new coroutine is started with a new offer
+            while (true)
             {
                 // TODO: add this key to the NeoFPS input manager
                 if (Input.GetKeyDown(KeyCode.B))
                 {
-                    resourcesForNextLevel = GetRequiredResourcesForNextLevel();
+                    LevelUp();
+
+                    resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
 
                     if (status == Status.Building) {
                         status = Status.RequestQueued;
@@ -295,6 +300,12 @@ namespace Playground
             }
         }
 
+        private void LevelUp()
+        {
+            RogueLiteManager.runData.currentNanobotLevel++;
+            onNanobotLevelUp?.Invoke();
+        }
+
         /// <summary>
         /// Make an announcement to the player. This will play the clip at the position of the nanobot manager.
         /// </summary>
@@ -326,10 +337,9 @@ namespace Playground
             yield return new WaitForSeconds(recipeName.length);
         }
 
-        private int GetRequiredResourcesForNextLevel()
+        private int GetRequiredResourcesForNextNanobotLevel()
         {
-            RogueLiteManager.runData.currentLevel++;
-            return Mathf.RoundToInt(RogueLiteManager.runData.currentLevel * resourcesPerLevelMultiplier * baseResourcesPerLevel);
+            return Mathf.RoundToInt(RogueLiteManager.runData.currentNanobotLevel * resourcesPerLevelMultiplier * baseResourcesPerLevel);
         }
 
         // TODO: we can probably generalize these Try* methods now that we have refactored the recipes to use interfaces/Abstract classes
@@ -665,7 +675,7 @@ namespace Playground
                     return;
 
                 if (onResourcesChanged != null)
-                    onResourcesChanged(RogueLiteManager.persistentData.currentResources, value, resourcesForNextLevel);
+                    onResourcesChanged(RogueLiteManager.persistentData.currentResources, value, resourcesForNextNanobotLevel);
 
                 RogueLiteManager.persistentData.currentResources = value;
             }
@@ -674,7 +684,7 @@ namespace Playground
         public void CollectResources(int amount)
         {
             resources += amount;
-            resourcesForNextLevel -= amount;
+            resourcesForNextNanobotLevel -= amount;
         }
 
         private void ShuffleWeaponRecipes()
