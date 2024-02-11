@@ -15,7 +15,7 @@ namespace Playground
     [Serializable]
     public class RogueLiteRunData
     {
-        public int currentLevel = 0; // The currentl level of the player, the player advances a level each time they destroy all waves in a game level
+        internal int currentNanobotLevel = 0; // The currentl level of the players nanobots, the nanobots advance a level when they collect enough resources for the level up
 
         private static List<FpsInventoryItemBase> m_RunLoadoutData = new List<FpsInventoryItemBase>();
         public List<FpsInventoryItemBase> Loadout { get { return m_RunLoadoutData; } }

@@ -11,9 +11,10 @@ namespace Playground
         // Can NOT(!) serialize UnityEngine.Object references or non-serializable types like dictionary
         // Remember to set isDirty = true when changing a value
 
-        public int runNumber = 0;
+        internal int runNumber = 0;
+        internal int currentGameLevel = 0; // The currentl level of the game, this advances each time the player completes all waves in a level.
 
-        public int m_CurrentResources = 0; // The current resources of the player, the player gains resources by destroying enemies and loses resources by dying
+        int m_CurrentResources = 0; // The current resources of the player, the player gains resources by destroying enemies and loses resources by dying
         public int currentResources
         {
             get { return m_CurrentResources; }
