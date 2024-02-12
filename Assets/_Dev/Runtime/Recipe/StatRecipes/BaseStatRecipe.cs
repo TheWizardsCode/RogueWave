@@ -82,9 +82,7 @@ namespace Playground
         {
             if (string.IsNullOrEmpty(uniqueID))
             {
-                uniqueID = Guid.NewGuid().ToString();
-                EditorUtility.SetDirty(this);
-                AssetDatabase.SaveAssets();
+                GenerateID();
             }
 
             //TODO: is it possible to check the statName is valid in the motiongraph?

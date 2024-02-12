@@ -190,11 +190,11 @@ namespace Playground
         }
 
 
-        [SerializeField, Tooltip("DO NOT CHANGE THIS. TODO: Create a custom editor that hides this in case of accidental change."), BoxGroup("Internal"), ReadOnly]
+        [SerializeField, Tooltip("DO NOT CHANGE THIS. Unless you know what you are doing"), BoxGroup("Internal"), ReadOnly]
         internal string uniqueID;
 
 #if UNITY_EDITOR
-        [Button("ERROR: Need a valid ID."), HideIf("IsValidID")]
+        [Button("Regenerate ID (use with care)")]
         protected void GenerateID()
         {
             uniqueID = Guid.NewGuid().ToString();

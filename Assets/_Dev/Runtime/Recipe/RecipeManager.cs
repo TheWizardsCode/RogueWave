@@ -16,6 +16,12 @@ namespace Playground
             AbstractRecipe[] itemRecipes = Resources.LoadAll<AbstractRecipe>("Recipes");
             foreach (AbstractRecipe recipe in itemRecipes)
             {
+                if (allRecipes.ContainsKey(recipe.UniqueID))
+                {
+                    Debug.LogError($"Duplicate recipe found for GUID {recipe.UniqueID} the two recipes are {recipe} and {allRecipes[recipe.uniqueID]}. This shouldn't happen.");
+                    continue;
+                }
+
                 allRecipes.Add(recipe.UniqueID, recipe);
                 if (recipe.IsPowerUp)
                 {
