@@ -8,9 +8,11 @@ namespace Playground
     /// <summary>
     /// The float Stat Recipe will upgrade one of the player's float stats, such as move speed.
     /// </summary>
-    [CreateAssetMenu(fileName = "Float Stat Recipe", menuName = "Playground/Recipe/Move Speed Stat", order = 1)]
-    public class MoveSpeedRecipe : BaseStatRecipe
+    [CreateAssetMenu(fileName = "Movement Stat Recipe", menuName = "Playground/Recipe/Movement Stat", order = 1)]
+    public class MovementRecipe : BaseStatRecipe
     {
+        [SerializeField, Tooltip("The name of the stat to modify.")]
+        internal string statName = string.Empty;
         [SerializeField, Tooltip("The amount to add to the current multiplier for the stat. For example, if this value is 0.1 and the current multiplier is 1.5 then the new multiplier will be 1.6.")]
         float additionalMultiplier = 0.1f;
         [SerializeField, Tooltip("The amount to add to the pre-multiplication additive value for the stat. For example if the current pre-multiplier additive is 0.5 and this value is 0.1 then the new value will be 0.6.")]
