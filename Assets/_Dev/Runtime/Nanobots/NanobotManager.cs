@@ -406,19 +406,12 @@ namespace Playground
                 IRecipe weapon;
                 if (RecipeManager.TryGetRecipeFor(id, out weapon))
                 {
-                    if (TryRecipe(weapon as WeaponPickupRecipe))
+                    if (RogueLiteManager.runData.Contains(weapon))
                     {
-                        return true;
+                        continue;
                     }
-                }
-            }
 
-            for (int i = 0; i < weaponRecipes.Count; i++)
-            {
-                if (TryRecipe(weaponRecipes[i]))
-                {
-                    weaponRecipes.RemoveAt(i);
-                    return true;
+                    return TryRecipe(weapon as WeaponPickupRecipe);
                 }
             }
 
@@ -653,6 +646,7 @@ namespace Playground
                 }
                 return;
             }
+
             BaseStatRecipe statRecipe = recipe as BaseStatRecipe;
             if (statRecipe != null)
             {

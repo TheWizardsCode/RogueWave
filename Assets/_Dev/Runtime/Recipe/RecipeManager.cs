@@ -85,9 +85,8 @@ namespace Playground
 
                 if (offers.Count == 0)
                 {
-                    Debug.LogError("Failed to find a weapon to offer the player. This shouldn't happen since we should only force a weapon offer on first run. This can happen if resources < cheapest weapon. Setting to 150 resources and requesting offers again.");
-                    RogueLiteManager.persistentData.currentResources = 150;
-                    return GetOffers(quantity, requiredWeaponCount);
+                    Debug.LogError("Failed to find a weapon to offer the player. This shouldn't happen since we should only force a weapon offer on first run and thus weapons should be available. Re-requesting offers with no required weapon.");
+                    return GetOffers(quantity, 0);
                 }
             }
 
