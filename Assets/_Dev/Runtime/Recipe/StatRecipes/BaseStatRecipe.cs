@@ -55,9 +55,6 @@ namespace Playground
         moveSpeed
     */
 
-        [SerializeField, Tooltip("The name of stat to modify.")]
-        internal string statName = string.Empty;
-
         MovementUpgradeManager _movementUpgradeManager;
         internal MovementUpgradeManager movementUpgradeManager
         {

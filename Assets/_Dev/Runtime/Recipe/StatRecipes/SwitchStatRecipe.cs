@@ -11,6 +11,8 @@ namespace Playground
     [CreateAssetMenu(fileName = "Switch Stat Recipe", menuName = "Playground/Recipe/Switch Stat", order = 1)]
     public class SwitchStatRecipe : BaseStatRecipe
     {
+        [SerializeField, Tooltip("The name of the stat to modify.")]
+        internal string statName = string.Empty;
         [SerializeField, Tooltip("The value of the stat when this recipe is applied.")]
         bool value = false;
 

@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450cef1de72d2234d90c54f14782b3ff, type: 3}
+  m_Name: Max Health Increase 20 Recipe
+  m_EditorClassIdentifier: 
+  displayName: Maximum Health +20
+  description: Increase maximum health by 20
+  heroImage: {fileID: 0}
+  icon: {fileID: 21300000, guid: e25e598a5094b714a990f32ac70e3e75, type: 3}
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 10
+  dependencies: []
+  isStackable: 1
+  maxStack: 1
+  cost: 750
+  timeToBuild: 10
+  nameClips:
+  - {fileID: 8300000, guid: bbad8b7f047873e4ea2447c309d94be4, type: 3}
+  - {fileID: 8300000, guid: d96d29342e4a3184ea14401ee62d18cd, type: 3}
+  - {fileID: 8300000, guid: 593090b0292181543a680bf342239e78, type: 3}
+  - {fileID: 8300000, guid: ba5cf74014c8cc74f8bd22317056886a, type: 3}
+  - {fileID: 8300000, guid: adda4fc087f3d5e4b95f53714a1d0305, type: 3}
+  buildStartedClips:
+  - {fileID: 8300000, guid: 5707be107dc57964d8fbc4d1bd33a096, type: 3}
+  - {fileID: 8300000, guid: 2c714e000622f6544bb39904da1ea88f, type: 3}
+  - {fileID: 8300000, guid: 90cf8bc36f2629f4e82723bdfaa8f039, type: 3}
+  - {fileID: 8300000, guid: 9fec7fb2b61d53a419545c1dafcfe67a, type: 3}
+  - {fileID: 8300000, guid: 7bd3f237413a4364dac3b179089f65a7, type: 3}
+  buildCompleteClips:
+  - {fileID: 8300000, guid: cf19d292e0d6cc54a936589ad4c98bb2, type: 3}
+  - {fileID: 8300000, guid: 0f6575ea37a6ab540868663ef2f86baa, type: 3}
+  - {fileID: 8300000, guid: 2debacc510795284eb2beab6a6630429, type: 3}
+  - {fileID: 8300000, guid: ec68c10cdfe0ed54885f46b7d928c2b5, type: 3}
+  - {fileID: 8300000, guid: ab02f842e644b264ca4cf6950ec6ef01, type: 3}
+  - {fileID: 8300000, guid: 41312061328b6a54e9afc1f23315bb1d, type: 3}
+  - {fileID: 8300000, guid: c7563a76c1d2f664ea993629fdd55d6c, type: 3}
+  pickupParticles: {fileID: 0}
+  uniqueID: 2cd7976f-7898-419a-a602-43a793480601
+  AdditionalMaxHealth: 20
