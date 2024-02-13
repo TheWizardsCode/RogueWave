@@ -406,12 +406,10 @@ namespace Playground
                 IRecipe weapon;
                 if (RecipeManager.TryGetRecipeFor(id, out weapon))
                 {
-                    if (RogueLiteManager.runData.Contains(weapon))
+                    if (((WeaponPickupRecipe)weapon).InInventory == false)
                     {
-                        continue;
+                        return TryRecipe(weapon as WeaponPickupRecipe);
                     }
-
-                    return TryRecipe(weapon as WeaponPickupRecipe);
                 }
             }
 

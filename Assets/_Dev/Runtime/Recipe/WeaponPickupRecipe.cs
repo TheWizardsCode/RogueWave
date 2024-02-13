@@ -47,6 +47,21 @@ namespace Playground
         {
             get
             {
+                if (InInventory == false)
+                {
+                    return base.ShouldBuild;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        public bool InInventory
+        {
+            get
+            {
                 if (inventory != null)
                 {
                     IInventoryItem[] ownedItems = inventory.GetItems();
@@ -54,12 +69,16 @@ namespace Playground
                     {
                         if (ownedItems[i].itemIdentifier == pickup.GetItemPrefab().itemIdentifier)
                         {
-                            return false;
+                            return true;
                         }
                     }
-                }
 
-                return base.ShouldBuild;
+                    return false;
+                }
+                else
+                {
+                     return false;
+                }
             }
         }
     }

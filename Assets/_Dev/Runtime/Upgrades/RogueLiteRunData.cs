@@ -79,7 +79,7 @@ namespace Playground
         /// <returns>The number of times the recipse appears in the persistent data.</returns>
         public int GetCount(IRecipe recipe)
         {
-            return m_RunRecipeData.Count(r => r == recipe);
+            return Recipes.Count(r => r == recipe);
         }
 
         internal bool Contains(IRecipe recipe)
