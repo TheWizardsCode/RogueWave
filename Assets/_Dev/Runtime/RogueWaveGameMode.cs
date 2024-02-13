@@ -272,6 +272,9 @@ namespace Playground
                     }
                 }
             }
+
+            BasicHealthManager healthManager = character.GetComponent<BasicHealthManager>();
+            healthManager.health = healthManager.healthMax;
         }
 
         #endregion
