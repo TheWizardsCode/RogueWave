@@ -17,7 +17,7 @@ MonoBehaviour:
   sensorMask:
     serializedVersion: 2
     m_Bits: 12781057
-  isMobile: 1
+  isMobile: 0
   speed: 2
   rotationSpeed: 1.5
   minimumHeight: 3
@@ -26,10 +26,11 @@ MonoBehaviour:
   maxWanderRange: 60
   obstacleAvoidanceDistance: 6
   seekDuration: 45
-  juicePrefab: {fileID: 5327745311076098471, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+  juicePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 1.5, z: 0}
   shouldExplodeOnDeath: 1
-  deathExplosionRadius: 20
-  explosionDamageOnDeath: 20
+  deathExplosionRadius: 25
+  explosionDamageOnDeath: 50
   explosionForceOnDeath: 40
   resourcesDropChance: 0.4
   resourcesPrefab: {fileID: 8288433013401571843, guid: caf9459c819d25843b1b923efddbb709, type: 3}

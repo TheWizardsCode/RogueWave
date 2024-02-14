@@ -14,15 +14,15 @@ namespace Playground
     public class BasicEnemyController : MonoBehaviour
     {
         [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
-        protected string displayName = "TBD";
+        public string displayName = "TBD";
         [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI.")]
-        protected string description = "TBD";
+        public string description = "TBD";
         [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat.")]
-        internal int challengeRating = 1;
+        public int challengeRating = 1;
 
         [SerializeField, Tooltip("The Enemy behaviour definition defines how this enemy will behave. The best way to start is to drag in an existing configuration and then save a copy using the button below. Then edit for your needs."), Expandable]
         [Required("A configuration must be provided. This forms the base definition of the enemy. Higher level enemies will be generated from this base definition.")]
-        internal EnemyBehaviourDefinition config = null;
+        public EnemyBehaviourDefinition config = null;
 
         [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), Foldout("References")]
         Transform sensor;
