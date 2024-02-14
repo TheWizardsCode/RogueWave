@@ -22,7 +22,7 @@ namespace Playground
 
         [Header("Movement")]
         [SerializeField, Tooltip("Is this enemy mobile?")]
-        internal bool isMobile = true;
+        public bool isMobile = true;
         [SerializeField, Tooltip("How fast the enemy moves."), ShowIf("isMobile")]
         internal float speed = 5f;
         [SerializeField, Tooltip("How fast the enemy rotates."), ShowIf("isMobile")]
