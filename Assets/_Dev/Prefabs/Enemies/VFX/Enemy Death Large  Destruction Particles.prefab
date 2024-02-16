@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5327745311076098471}
   - component: {fileID: 6022859065833625822}
   m_Layer: 0
-  m_Name: Spawner Shield Generator Destruction Particles
+  m_Name: Enemy Death Large  Destruction Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 8
+      scalar: 6
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -174,8 +174,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 9
-      minScalar: 2
+      scalar: 3
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -292,8 +292,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
-      minScalar: 0.04
+      scalar: 0.3
+      minScalar: 0.03
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -756,7 +756,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 5
+      value: 2.5
       mode: 0
       spread: 0
       speed:
@@ -985,7 +985,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 500
+        scalar: 200
         minScalar: 30
         maxCurve:
           serializedVersion: 2

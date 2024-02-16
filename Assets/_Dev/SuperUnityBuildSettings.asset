@@ -18,8 +18,8 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 19
-    buildVersion: 2024.02.09.4095
+    buildCounter: 23
+    buildVersion: 2024.02.16.2770
     versionTemplate: $YEAR.$MONTH.$DAY.$SECONDS
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -46,9 +46,9 @@ MonoBehaviour:
     - typeName: Release
       bundleIdentifier: com.Wizards-Code.RogueWave
       companyName: Wizards Code
-      productName: RogeWave
+      productName: RogueWave
       syncAppNameWithProduct: 1
-      appBuildName: RogeWave
+      appBuildName: RogueWave
       buildOptions: 0
       customDefines: 
       sceneList:
@@ -93,7 +93,7 @@ MonoBehaviour:
       - Release
       - 
       _Values:
-      - enabled: 1
+      - enabled: 0
         childKeys: []
       - enabled: 1
         childKeys:
@@ -116,7 +116,7 @@ MonoBehaviour:
         childKeys:
         - DeveloperTest/PC
         - DeveloperTest/Linux
-      - enabled: 0
+      - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:

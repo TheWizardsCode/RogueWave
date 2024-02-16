@@ -23,6 +23,7 @@ namespace RogueWave.Editor
         [SerializeField, Tooltip("The text component to display the challenge rating of the enemy. If null this will be ignored for this enemy.")]
         TMP_Text challengeRatingText;
 
+        private EnemyLaser laser;
         private BaseTriggerBehaviour trigger;
         private BasicHealthManager healthManager;
         private BasicEnemyController enemyController;
@@ -64,20 +65,25 @@ namespace RogueWave.Editor
 
         IEnumerator Shoot()
         {
-            if (trigger == null)
-            {
-                yield break;
-            }
-
             yield return new WaitForSeconds(0.5f);
 
-            while (animationDuration > 0)
-            {   
-                trigger.Press();
-                yield return new WaitForSeconds(0.2f);
-                
-                trigger.Release();
-                yield return new WaitForSeconds(0.8f + Random.Range(-0.1f, 0.1f));
+            if (trigger != null)
+            {
+                while (animationDuration > 0)
+                {
+                    trigger.Press();
+                    yield return new WaitForSeconds(0.2f);
+
+                    trigger.Release();
+                    yield return new WaitForSeconds(0.8f + Random.Range(-0.1f, 0.1f));
+                }
+            } else if (laser != null)
+            {
+                while (animationDuration > 0)
+                {
+                    laser.state = EnemyLaser.State.Firing;
+                    yield return new WaitForSeconds(0.8f + Random.Range(-0.1f, 0.1f));
+                }
             }
         }
 
@@ -91,6 +97,7 @@ namespace RogueWave.Editor
 
         private void Setup()
         {
+            laser = GetComponentInChildren<EnemyLaser>();
             trigger = GetComponentInChildren<BaseTriggerBehaviour>();
             healthManager = GetComponentInChildren<BasicHealthManager>();
             enemyController = GetComponentInChildren<BasicEnemyController>();
