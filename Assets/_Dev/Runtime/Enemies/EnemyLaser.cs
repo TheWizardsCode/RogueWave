@@ -36,7 +36,7 @@ namespace Playground
         private float _remainingShotTime;
         private Vector3 _targetedPos;
 
-        enum State
+        public enum State
         {
             Idle,
             LockingOn,
@@ -45,7 +45,7 @@ namespace Playground
         }
 
         private State _state = State.Idle;
-        private State state
+        public State state
         {
             get => _state;
             set
