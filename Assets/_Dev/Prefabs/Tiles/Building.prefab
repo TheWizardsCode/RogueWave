@@ -44,22 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db65358f7d230e042b6d85f8cb13f8de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
-  xPositiveNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  - {fileID: 4512869180751816955}
-  xNegativeNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  - {fileID: 4512869180751816955}
-  - {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
-  yPositiveNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  - {fileID: 4512869180751816955}
-  - {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
-  yNegativeNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  - {fileID: 4512869180751816955}
-  - {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
+  spawnFurniture: 0
+  furnitureChance: 0.25
+  furniturePrefabs: []
+  structureMaterial: {fileID: 2100000, guid: cda8aea4c982e154fb6821b85fffa65d, type: 2}
+  structureHeight: 0.05
   buildingPrefabs:
   - {fileID: 6543032934749555394, guid: 820a528fff96436408dc70de520ccdbe, type: 3}
   - {fileID: 2060113240144020941, guid: ba2b4875383ad064691053d037b07f7a, type: 3}

@@ -279,7 +279,6 @@ namespace Playground
                     status = Status.RequestRecieved;
                     clip = recipeRecievedPrefix[Random.Range(0, recipeRecievedPrefix.Length)];
                     Announce(clip);
-                    yield return new WaitForSeconds(clip.length);
                     if (currentOffer.TimeToBuild > 5)
                     {
                         yield return Announce(clip);
@@ -401,6 +400,7 @@ namespace Playground
 
         private bool TryWeaponRecipes()
         {
+            // Buid weapons in the build order first
             foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
             {
                 IRecipe weapon;
@@ -410,6 +410,16 @@ namespace Playground
                     {
                         return TryRecipe(weapon as WeaponPickupRecipe);
                     }
+                }
+            }
+
+            // If we have built everything in the build order then try to build anything we bought during this run
+            foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
+            {
+                WeaponPickupRecipe weapon = recipe as WeaponPickupRecipe;
+                if (weapon != null && weapon.InInventory == false)
+                {
+                    return TryRecipe(weapon);
                 }
             }
 
@@ -576,6 +586,8 @@ namespace Playground
                 return;
             }
 
+            RogueLiteManager.runData.Add(recipe);
+
             if (isPermanent)
             {
                 RogueLiteManager.persistentData.Add(recipe);
@@ -607,7 +619,6 @@ namespace Playground
                 if (!weaponRecipes.Contains(weapon))
                 {
                     weaponRecipes.Add(recipe as WeaponPickupRecipe);
-                    ShuffleWeaponRecipes();
                 }
                 return;
             }

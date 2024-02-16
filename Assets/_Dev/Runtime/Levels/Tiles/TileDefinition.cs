@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
@@ -16,28 +18,27 @@ namespace Playground
         }
 
         [SerializeField, Range(0, 1), Tooltip("The likelyhood of this tile being selected when multiple tiles are viable. Note this is not an absolute probability it is relative. The higher the chance here the more likely it will be selected. So, if there are two candidates with a chance of 0.1 then each has an equabl probability of being selected, while if there is one at a chance of 1 and another at a chance of 0.5 the relative probabilities are 1/(1+0.5) and 0.5/(1+0.5).")]
-        internal float relativeChance = 0.5f;
+        internal float weight = 0.5f;
 
         [SerializeField, Tooltip("The tile prefab to spawn for this tile type.")]
         BaseTile tilePrefab;
 
-        [Header("Connections:")]
-        [SerializeField, Tooltip("The possible neighbours to the x positive edge.")]
-        List<TileDefinition> xPositiveNeighbours = new List<TileDefinition>();
-        [SerializeField, Tooltip("The possible neighbours to the x negative edge.")]
-        List<TileDefinition> xNegativeNeighbours = new List<TileDefinition>();
-        [SerializeField, Tooltip("The possible neighbours to the y positive edge.")]
-        List<TileDefinition> yPositiveNeighbours = new List<TileDefinition>();
-        [SerializeField, Tooltip("The possible neighbours to the y negative edge.")]
-        List<TileDefinition> yNegativeNeighbours = new List<TileDefinition>();
+        [Header("Connections")]
+        [SerializeField, Tooltip("The constraints that define neighbours to the x positive edge.")]
+        internal List<TileConstraint> xPositiveConstraints = new List<TileConstraint>();
+        [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
+        internal List<TileConstraint> xNegativeConstraints = new List<TileConstraint>();
+        [SerializeField, Tooltip("The constraints that define neighbours to the y positive edge.")]
+        internal List<TileConstraint> yPositiveConstraints = new List<TileConstraint>();
+        [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
+        internal List<TileConstraint> yNegativeConstraints = new List<TileConstraint>();
 
         internal BaseTile GetTileObject(Transform root)
         {
             GameObject go = Instantiate(tilePrefab.gameObject, root);
-            go.transform.localPosition = Vector3.zero;
 
             BaseTile tile = go.GetComponent<BaseTile>();
-            tile.TileDefinition = this;
+            tile.tileDefinition = this;
             
             return tile;
         }
@@ -52,13 +53,13 @@ namespace Playground
             switch (direction)
             {
                 case Direction.XPositive:
-                    return xPositiveNeighbours.ToArray();
+                    return xPositiveConstraints.Select(c => c.tileDefinition).ToArray();
                 case Direction.XNegative:
-                    return xNegativeNeighbours.ToArray();
+                    return xNegativeConstraints.Select(c => c.tileDefinition).ToArray();
                 case Direction.YPositive:
-                    return yPositiveNeighbours.ToArray();
+                    return yPositiveConstraints.Select(c => c.tileDefinition).ToArray();
                 case Direction.YNegative:
-                    return yNegativeNeighbours.ToArray();
+                    return yNegativeConstraints.Select(c => c.tileDefinition).ToArray();
                 default:
                     return null;
             }
@@ -96,5 +97,14 @@ namespace Playground
 
             return neighbours;
         }
+    }
+
+    [Serializable]
+    internal class TileConstraint
+    {
+        [SerializeField, Tooltip("The definition of the tile described in this constraint.")]
+        internal TileDefinition tileDefinition;
+        [SerializeField, Range(0.01f, 1f), Tooltip("The liklihood of this tile definition being selected. If a random number is <= this value and other constraints match then this will be a candidate.")]
+        internal float weight = 0.8f;
     }
 }

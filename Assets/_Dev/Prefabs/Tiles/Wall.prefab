@@ -44,14 +44,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5babf7d9ab924d42ae2511bdaa63e74, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
-  xPositiveNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  xNegativeNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  yPositiveNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  yNegativeNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
+  spawnFurniture: 0
+  furnitureChance: 0.25
+  furniturePrefabs: []
   wallMaterial: {fileID: 2100000, guid: 64710d2176c2e8f438cd7dbd01d584a9, type: 2}
   wallHeight: 40

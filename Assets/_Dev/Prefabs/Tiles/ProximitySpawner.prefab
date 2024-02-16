@@ -44,15 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0462d772ae994b4791c696428f7703e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMaterial: {fileID: 2100000, guid: 05913f35d4d0cfb45a4e7a062d3f26b9, type: 2}
-  xPositiveNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  xNegativeNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  yPositiveNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
-  yNegativeNeighbours:
-  - {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
+  spawnFurniture: 0
+  furnitureChance: 0.25
+  furniturePrefabs: []
   buildingPrefabs:
   - {fileID: 7571342023460485295, guid: f349bcbf314ebbe45ba44bba226acdf8, type: 3}
   spawnerPrefab: {fileID: 6576056135945926902, guid: 8580e7bc57d7d9a4e9cc17120733b0c9, type: 3}
