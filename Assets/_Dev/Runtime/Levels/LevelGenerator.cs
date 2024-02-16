@@ -1,9 +1,17 @@
+using Codice.Client.BaseCommands;
+using Codice.Client.BaseCommands.Merge;
+using Codice.CM.Common.Replication;
+using Codice.CM.Common.Tree;
 using NeoFPS;
+using NeoFPSEditor.Hub.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using static log4net.Appender.ColoredConsoleAppender;
 using Random = UnityEngine.Random;
 
 namespace Playground
@@ -16,65 +24,90 @@ namespace Playground
 
         private GameObject levelRoot;
         internal static LevelDefinition levelDefinition;
-
         BaseTile[,] tiles;
+        private int xSize;
+        private int ySize;
 
         /// <summary>
         /// Generate a level.
         /// </summary>
         /// <param name="gameMode"></param>
-        /// <param name="seed">The seed to use, if it is set to -1 (the default) then a random seed will be generated.</param>
-        internal void Generate(RogueWaveGameMode gameMode, int seed = -1)
+        internal void Generate(RogueWaveGameMode gameMode)
         {
             levelDefinition = gameMode.currentLevelDefinition;
 
             if (levelRoot != null)
                 Clear();
 
-            if (seed == -1)
+            if (levelDefinition.seed <= 0)
             {
-                seed = Environment.TickCount;
+                Random.InitState(Environment.TickCount);
+            } else
+            {
+                Random.InitState(levelDefinition.seed);
             }
-            UnityEngine.Random.InitState(seed);
 
-            int xLots = Mathf.RoundToInt(levelDefinition.size.x / levelDefinition.lotSize.x);
-            int yLots = Mathf.RoundToInt(levelDefinition.size.y / levelDefinition.lotSize.y);
-            tiles = new BaseTile[xLots, yLots];
+            xSize = Mathf.RoundToInt(levelDefinition.size.x / levelDefinition.lotSize.x);
+            ySize = Mathf.RoundToInt(levelDefinition.size.y / levelDefinition.lotSize.y);
+            tiles = new BaseTile[xSize, ySize];
 
             levelRoot = new GameObject("Level");
+            
+            PlaceContainingWalls();
 
+            PlaceSpawners();
+
+            PlacePlayerSpawn();
+
+            WaveFunctionCollapse();
+            
+            GenerateTileContent();
+        }
+
+        private void PlaceContainingWalls() {
+            for (int x = 0; x < xSize; x++)
+            {
+                for (int y = 0; y < ySize; y++)
+                {
+                    if (x == 0 || x == xSize - 1 || y == 0 || y == ySize - 1)
+                    {
+                        tiles[x, y] = InstantiateTile(levelDefinition.wallTileDefinition, x, y);
+                    }
+                }
+            }
+       }
+
+        private void PlaceSpawners()
+        {
             int x, y, spawnersPlaced = 0;
             for (int i = 0; i < levelDefinition.numberOfEnemySpawners; i++)
             {
-                try {
-                    spawnersPlaced++;   
-                    PlaceEnemySpawner(xLots, yLots);
+                try
+                {
                     spawnersPlaced++;
-                } catch (Exception e)
+                    PlaceEnemySpawner(xSize, ySize);
+                    spawnersPlaced++;
+                }
+                catch (Exception e)
                 {
                     Debug.LogError(e);
                 }
             }
-
-            PlacePlayerSpawn(xLots, yLots);
-
-            PlaceTiles(xLots, yLots);
-            GenerateTileContent(xLots, yLots);
         }
 
-        private void PlacePlayerSpawn(int xLots, int yLots)
+        private void PlacePlayerSpawn()
         {
             RogueWaveGameMode spawn = FindObjectOfType<RogueWaveGameMode>();
             int x, y;
 
             if (((RogueWaveGameMode)FpsGameMode.current).randomizePlayerSpawn)
             {
-                x = Random.Range(1, xLots - 1);
-                y = Random.Range(1, yLots - 1);
+                x = Random.Range(1, xSize - 1);
+                y = Random.Range(1, ySize - 1);
 
                 if (tiles[x, y] != null)
                 {
-                    PlacePlayerSpawn(xLots, yLots);
+                    PlacePlayerSpawn();
                 }
             }
             else
@@ -89,19 +122,20 @@ namespace Playground
 
         private static Vector3 TileCoordinatesToWorldPosition(int x, int y)
         {
-            return new Vector3((x * levelDefinition.lotSize.x) - (levelDefinition.size.x / 2), 0, (y * levelDefinition.lotSize.y) - (levelDefinition.size.y / 2));
+
+            return new Vector3(x * levelDefinition.lotSize.x, 0, y * levelDefinition.lotSize.y);
         }
 
         private static Vector2Int WorldPositionToTileCoordinates(Vector3 position)
         {
-            return new Vector2Int(Mathf.RoundToInt((position.x + (levelDefinition.size.x / 2)) / levelDefinition.lotSize.x), Mathf.RoundToInt((position.z + (levelDefinition.size.y / 2)) / levelDefinition.lotSize.y));
+            return new Vector2Int(Mathf.RoundToInt(position.x / levelDefinition.lotSize.x), Mathf.RoundToInt(position.z / levelDefinition.lotSize.y));
         }
 
-        private void GenerateTileContent(int xLots, int yLots)
+        private void GenerateTileContent()
         {
-            for (int x = 0; x < xLots; x++)
+            for (int x = 0; x < xSize; x++)
             {
-                for (int y = 0; y < yLots; y++)
+                for (int y = 0; y < ySize; y++)
                 {
                     if (tiles[x, y] != null)
                     {
@@ -116,165 +150,229 @@ namespace Playground
             }
         }
 
-        private void PlaceTiles(int xLots, int yLots)
+        private void WaveFunctionCollapse()
         {
-            List<TileDefinition> candidates = new List<TileDefinition>();
-            bool hasChanged = false;
             int x, y = 0;
+            int uncollapsedTiles = 0;
+            int lowestEntropy = int.MaxValue;
+            List<Vector2Int> lowEntropyCoords = new List<Vector2Int>();
 
-            for (x = 0; x < xLots; x++)
+            // Create a list of all possible tile types in each undefined tile
+            List<TileDefinition>[,] candidatesForTilesYetToCollapse = new List<TileDefinition>[xSize, ySize];
+            for (x = 0; x < xSize; x++)
             {
-                for (y = 0; y < yLots; y++)
+                for (y = 0; y < ySize; y++)
                 {
-                    if (tiles[x, y] != null)
-                    {
-                        continue;
-                    }
+                    if (tiles[x, y] == null) {
+                        List<TileDefinition> candidates = new List<TileDefinition>();
 
-                    // edges will always be walls
-                    if (x == 0 || x == xLots - 1 || y == 0 || y == yLots - 1)
-                    {
-                        tiles[x, y] = InstantiateTile(levelDefinition.wallTileDefinition, x, y);
-                        hasChanged = true;
-                        continue;
-                    }
-
-                    // is xPositive a valid neighbour?
-                    if (x > 0 && tiles[x - 1, y] != null)
-                    {
-                        TileDefinition[] xNegativeCandidates = tiles[x - 1, y].TileDefinition.GetTileCandidates(TileDefinition.Direction.XNegative);
-                        // if there is only one candidate then we can place that tile
-                        if (xNegativeCandidates.Length == 1)
+                        foreach (TileDefinition candidate in levelDefinition.tileDefinitions)
                         {
-                            tiles[x, y] = InstantiateTile(xNegativeCandidates[0], x, y);
-                            hasChanged = true;
-                            continue;
-                        }
-                        // if there are more than one candidate then we need to check the other neighbours, so store the candidates
-                        candidates = xNegativeCandidates.ToList();
-                    }
-
-                    // is xNegative a valid neighbour?
-                    if (x < xLots - 1 && tiles[x + 1, y] != null)
-                    {
-                        TileDefinition[] xPositiveCandidates = tiles[x + 1, y].TileDefinition.GetTileCandidates(TileDefinition.Direction.XPositive);
-                        // if there is only one candidate then we can place that tile
-                        if (xPositiveCandidates.Length == 1)
-                        {
-                            tiles[x, y] = InstantiateTile(xPositiveCandidates[0], x, y);
-                            hasChanged = true;
-                            continue;
-                        }
-                        // if there are more than one candidate then we need to check the other neighbours, so store the candidates that are valid for this neighbour && the previous neighbours
-
-                        foreach (TileDefinition candidate in xPositiveCandidates)
-                        {
-                            if (!candidates.Contains(candidate))
+                            if (IsValidTileFor(x, y, candidate))
                             {
-                                candidates.Remove(candidate);
+                                candidates.Add(CreateTileDefinition(candidate));
+
+                                if (candidates.Count > lowestEntropy)
+                                {
+                                    break;
+                                }
                             }
                         }
-                    }
-                    
-                    // is yPositive a valid neighbour?
-                    if (y > 0 && tiles[x, y - 1] != null)
-                    {
-                        TileDefinition[] yPositiveCandidates = tiles[x, y - 1].TileDefinition.GetTileCandidates(TileDefinition.Direction.YPositive);
-                        // if there is only one candidate then we can place that tile
-                        if (yPositiveCandidates.Length == 1)
-                        {
-                            tiles[x, y] = InstantiateTile(yPositiveCandidates[0], x, y);
-                            hasChanged = true;
-                            continue;
-                        }
-                        // if there are more than one candidate then we need to check the other neighbours, so store the candidates that are valid for this neighbour && the previous neighbours
-                        foreach (TileDefinition candidate in yPositiveCandidates)
-                        {
-                            if (!candidates.Contains(candidate))
-                            {
-                                candidates.Remove(candidate);
-                            }
-                        }
-                    }
 
-                    // is yNegative a valid neighbour?
-                    if (y < yLots - 1 && tiles[x, y - 1] != null)
-                    {
-                        TileDefinition[] yNegativeCandidates = tiles[x, y - 1].TileDefinition.GetTileCandidates(TileDefinition.Direction.YNegative);
-                        // if there is only one candidate then we can place that tile
-                        if (yNegativeCandidates.Length == 1)
+                        candidatesForTilesYetToCollapse[x, y] = candidates;
+                        uncollapsedTiles++;
+
+                        if (candidatesForTilesYetToCollapse[x, y].Count == 0)
                         {
-                            tiles[x, y] = InstantiateTile(yNegativeCandidates[0], x, y);
-                            hasChanged = true;
-                            continue;
+                            Debug.LogWarning($"Tile at ({x}, {y}) has no valid tile type. Note this may happen because weights are too low. Neighbours are:\n\t" +
+                                $"({x + 1}, {y}) : {tiles[x + 1, y]?.tileDefinition}\n\t" +
+                                $"({x}, {y + 1}) : {tiles[x, y + 1]?.tileDefinition}\n\t" +
+                                $"({x - 1}, {y}) : {tiles[x - 1, y]?.tileDefinition}\n\t" +
+                                $"({x}, {y - 1}) : {tiles[x, y - 1]?.tileDefinition}\n\t");
                         }
-                        // if there are more than one candidate then we need to check the other neighbours, so store the candidates that are valid for this neighbour && the previous neighbours
-                        foreach (TileDefinition candidate in yNegativeCandidates)
+                        else if (candidatesForTilesYetToCollapse[x, y].Count < lowestEntropy)
                         {
-                            if (!candidates.Contains(candidate))
-                            {
-                                candidates.Remove(candidate);
-                            }
+                            lowestEntropy = candidatesForTilesYetToCollapse[x, y].Count;
+                            lowEntropyCoords.Clear();
+                            lowEntropyCoords.Add(new Vector2Int(x, y));
+                        } else if (candidatesForTilesYetToCollapse[x, y].Count == lowestEntropy)
+                        {
+                            lowEntropyCoords.Add(new Vector2Int(x, y));
                         }
-                    }
-                    
-                    // if there are no candidates then we need to place a wall
-                    if (candidates.Count == 0)
-                    {
-                        Debug.LogWarning($"No valid tile for {x}, {y}. Defaulting to a wall.");
-                        tiles[x, y] = InstantiateTile(levelDefinition.wallTileDefinition, x, y);
-                        hasChanged = true;
-                    }
-                    // if there is only one candidate then we can place that tile
-                    else if (candidates.Count == 1)
-                    {
-                        tiles[x, y] = InstantiateTile(candidates[0], x, y);
-                        hasChanged = true;
                     }
                 }
             }
-
-            bool isComplete = true;
-            for (x = 0; x < xLots; x++)
+            
+            // Collapse the lowest entropy tile (selecting one at random if there are more than 1 at the lowest entropy)
+            if (lowestEntropy == 1)
             {
-                for (y = 0; y < yLots; y++)
+                foreach (Vector2Int coords in lowEntropyCoords)
+                {
+                    CollapseTile(candidatesForTilesYetToCollapse[coords.x, coords.y], coords.x, coords.y, xSize, ySize);
+                    uncollapsedTiles--;
+                }
+            }
+            else if (lowestEntropy < int.MaxValue)
+            {
+                int idx = Random.Range(0, lowEntropyCoords.Count - 1);
+                x = lowEntropyCoords[idx].x;
+                y = lowEntropyCoords[idx].y;
+                CollapseTile(candidatesForTilesYetToCollapse[x, y], x, y, xSize, ySize);
+                uncollapsedTiles--;
+            }
+
+
+            if (uncollapsedTiles > 0 && lowestEntropy < int.MaxValue)
+            {
+                WaveFunctionCollapse();
+            }
+
+            // we only have tiles with no options left
+            for (x = 0; x < xSize; x++)
+            {
+                for (y = 0; y < ySize; y++)
                 {
                     if (tiles[x, y] == null)
                     {
-                        isComplete = false;
-                        break;
+                        tiles[x, y] = InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
                     }
                 }
+            }
+        }
 
-                if (!isComplete)
+        /// <summary>
+        /// Tests to see is a tile is valid at a defined position.
+        /// </summary>
+        /// <param name="x">The x coordinate for the location of the tile.</param>
+        /// <param name="y">The y coordination for the location of the tile.</param>
+        /// <param name="tile">The tile to test.</param>
+        /// <returns></returns>
+        private bool IsValidTileFor(int x, int y, TileDefinition tile)
+        {
+            bool isValid = true;
+
+            // Check X Positive direction
+            if (x < xSize - 1)
+            {
+                TileDefinition otherTile = tiles[x + 1, y]?.tileDefinition;
+
+                if (otherTile != null)
                 {
-                    break;
+                    TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.XNegative).FirstOrDefault(t => t == tile);
+
+                    if (candidate == null)
+                    {
+                        isValid = false;
+
+                        //if (!isValid) 
+                        //{
+                        //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the x positive tile is {otherTile}.");
+                        //}
+                    }
+                    else
+                    {
+                        isValid &= Random.value <= candidate.weight;
+                    }
                 }
             }
 
-            if (!isComplete && !hasChanged)
+            // Check X Negative direction
+            if (isValid && x > 0)
+            {
+                TileDefinition otherTile = tiles[x - 1, y]?.tileDefinition;
+
+                if (otherTile != null)
+                {
+                    isValid &= otherTile.GetTileCandidates(TileDefinition.Direction.XPositive).Contains(tile);
+                    //if (!isValid)
+                    //{
+                    //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the x negative tile is {otherTile}.");
+                    //}
+                }
+            }
+
+            // Check Y Positive direction
+            if (isValid && y < ySize - 1)
+            {
+                TileDefinition otherTile = tiles[x, y + 1]?.tileDefinition;
+
+                if (otherTile != null)
+                {
+                    isValid &= otherTile.GetTileCandidates(TileDefinition.Direction.YNegative).Contains(tile);
+                    //if (!isValid)
+                    //{
+                    //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the y positive tile is {otherTile}.");
+                    //}
+                }
+            }
+
+            // Check Y Negative direction
+            if (isValid && y > 0)
+            {
+                TileDefinition otherTile = tiles[x, y - 1]?.tileDefinition;
+
+                if (otherTile != null)
+                {
+                    isValid &= otherTile.GetTileCandidates(TileDefinition.Direction.YPositive).Contains(tile);
+                    //if (!isValid)
+                    //{
+                    //    Debug.Log($"{tile.name} is not valid for ({x}, {y}) because the y negative tile is {otherTile.name}.");
+                    //}
+                }
+            }
+
+            return isValid;
+        }
+
+        private TileDefinition CreateTileDefinition(TileDefinition template)
+        {
+            TileDefinition instance = ScriptableObject.CreateInstance<TileDefinition>();
+            foreach (var field in typeof(TileDefinition).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                field.SetValue(instance, field.GetValue(template));
+            }
+
+            instance.name = template.name;
+            return instance;
+        }
+
+        private void CollapseTile(List<TileDefinition> possibleTileDefinitions, int x, int y, int xSize, int ySize) {
+            // if this tile is not null then we already collapsed this tile, shouldn't happen but worth checking.
+            if (tiles[x, y] != null) 
+            {
+                return;
+            }
+
+            // if there are no candidates then we need to place an Empty tile
+            if (possibleTileDefinitions.Count == 0)
+            {
+                Debug.LogWarning($"No valid tile for {x}, {y}. Defaulting to a empty. We shouldn't get to this stage with no candidate.");
+                tiles[x, y] = InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
+            }
+            // if there is only one candidate then we can place that tile
+            else if (possibleTileDefinitions.Count == 1)
+            {
+                tiles[x, y] = InstantiateTile(possibleTileDefinitions[0], x, y);
+            }
+            // We have more than one candidate, pick one at random
+            else
             {
                 float totalChance = 0;
-                foreach (TileDefinition candidate in candidates)
+                foreach (TileDefinition candidate in possibleTileDefinitions)
                 {
-                    totalChance += candidate.relativeChance;
+                    totalChance += candidate.weight;
                 }
 
                 float random = Random.Range(0, totalChance);
-                foreach (TileDefinition candidate in candidates)
+                foreach (TileDefinition candidate in possibleTileDefinitions)
                 {
-                    totalChance -= candidate.relativeChance;
+                    totalChance -= candidate.weight;
                     if (random >= totalChance)
                     {
                         tiles[x, y] = InstantiateTile(candidate, x, y);
                         break;
                     }
                 }
-            }
-
-            if (!isComplete)
-            {
-                PlaceTiles(xLots, yLots);
             }
         }
 
@@ -300,7 +398,11 @@ namespace Playground
         private BaseTile InstantiateTile(TileDefinition tileDefinition, int x, int y)
         {
             BaseTile tile = tileDefinition.GetTileObject(levelRoot.transform);
+            tile.name = $"{tileDefinition.name} ({x}. {y})";
             tile.transform.position = TileCoordinatesToWorldPosition(x, y);
+
+            // Debug.Log($"Instantiating tile of type {tile.tileDefinition} at ({x}, {y})");
+
             return tile;
         }
 

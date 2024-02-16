@@ -12,20 +12,20 @@ namespace Playground
     public class LevelDefinition : ScriptableObject
     {
         [Header("Size and Layout")]
+        [SerializeField, Tooltip("The seed to use for the level generation. If this is set to <= 0 then a random seed will be used.")]
+        internal int seed = 0;
         [SerializeField, Tooltip("The size of the level in square meters.")]
         internal Vector2 size = new Vector2(500f, 500f);
-        [SerializeField, Range(0.1f, 1), Tooltip("How frequently buildings should be placed. Increase for a more dense level.")]
-        internal float buildingDensity = 0.7f;
 
-        [Header("Level Visuals")]
-        [SerializeField, Tooltip("The tile to use for empty tiles.")]
-        internal TileDefinition emptyTileDefinition;
-        [SerializeField, Tooltip("The tile to use for walls. Walls will attempt to autoconnect to adjacent tiles.")]
+        [Header("Tile Types")]
+        [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles.")]
         internal TileDefinition wallTileDefinition;
-        [SerializeField, Tooltip("The tile to use for proximity spawners.")]
-        internal TileDefinition proximitySpawnTileDefinition;
+        [SerializeField, Tooltip("The tile definitions to use for this level. If a tile is defined in the tile constraints but does not appear in this list it will not be used. This allows level definitions to be reused in different ways.")]
+        internal TileDefinition[] tileDefinitions;
         [SerializeField, Tooltip("The tile to use for spawners.")]
         internal TileDefinition spawnerTileDefinition;
+        [SerializeField, Tooltip("The tile to use for empty tiles. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined.")]
+        internal TileDefinition emptyTileDefinition;
 
         [Header("Spawners")]
         [SerializeField, Tooltip("The number of Enemy Spawners to create.")]
