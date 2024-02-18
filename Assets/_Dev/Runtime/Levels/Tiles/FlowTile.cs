@@ -29,7 +29,7 @@ namespace Playground
             MeshFilter meshFilter;
             if (contentObject == null)
             {
-                contentObject = new GameObject("Structure Segment");
+                contentObject = new GameObject("StruStructurement");
                 contentObject.transform.SetParent(transform);
                 contentObject.transform.localPosition = new Vector3(0, structureHeight / 2, 0);
 
