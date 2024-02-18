@@ -373,6 +373,17 @@ namespace Playground
 
             RogueLiteManager.persistentData.runNumber++;
 
+            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
+            {
+                for (int i = 0; i < _startingRecipes.Length; i++)
+                {
+                    if (_startingRecipes[i] is WeaponPickupRecipe)
+                    {
+                        RogueLiteManager.persistentData.WeaponBuildOrder.Add(_startingRecipes[i].uniqueID);
+                    }
+                }
+            }
+
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
                 levelGenerator.Generate(this);
