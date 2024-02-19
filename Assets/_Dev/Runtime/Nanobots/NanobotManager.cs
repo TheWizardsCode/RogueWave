@@ -620,6 +620,11 @@ namespace Playground
                 {
                     weaponRecipes.Add(recipe as WeaponPickupRecipe);
                 }
+
+                if (weapon.ammoRecipe != null)
+                {
+                    Add(weapon.ammoRecipe);
+                }
                 return;
             }
 

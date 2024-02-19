@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1651731687865070, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: m_Name
-      value: Playground WeaponPickup_ModdableSniperRifle
+      value: RogueWave WeaponPickup_ModdableSniperRifle
       objectReference: {fileID: 0}
     - target: {fileID: 1651731687865070, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: m_TagString
@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 90.26401
       objectReference: {fileID: 0}
+    - target: {fileID: 82876191916558562, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 82876191916558562, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 114353963506924802, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: prefabGuid
       value: 96201ef3dcedf0d40812ffbb86a169e0
@@ -67,6 +75,10 @@ PrefabInstance:
     - target: {fileID: 114353963506924802, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: m_PrefabStrongID
       value: 925475202
+      objectReference: {fileID: 0}
+    - target: {fileID: 114353963506924802, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      propertyPath: m_OtherComponents.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114402670123673510, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: m_Item
@@ -76,8 +88,70 @@ PrefabInstance:
       propertyPath: m_HoldDuration
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114744159254946762, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      propertyPath: m_RigidBody
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 114759217591837820, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      propertyPath: m_WeaponPickup
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114812711867920656, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+    - {fileID: 114050319239492590, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+    - {fileID: 54350471483907882, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+    - {fileID: 114335079681470958, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+    - {fileID: 114744159254946762, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+    - {fileID: 114402670123673510, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1651731687865070, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7025636817091255289}
+    - targetCorrespondingSourceObject: {fileID: 1651731687865070, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4675663663359441973}
   m_SourcePrefab: {fileID: 100100000, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+--- !u!1 &664032073796108354 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1485043236026710, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+  m_PrefabInstance: {fileID: 662692170944903444}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &664145951868224506 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1651731687865070, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+  m_PrefabInstance: {fileID: 662692170944903444}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7025636817091255289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664145951868224506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0e43043e50e45846bf430b85315b781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4675663663359441973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664145951868224506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb50696ccac3a7a49a037a0c25ace545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ConsumeResult: 0
+  m_ItemPrefab: {fileID: 114824030615666136, guid: 9dff20a966656944c8a3a4c7410fde45, type: 3}
+  m_AdditionalItems: []
+  m_SpawnOnAwake: 1
+  m_RespawnDuration: 20
+  m_DisplayMesh: {fileID: 664032073796108354}
+  weaponPickupRecipe: {fileID: 11400000, guid: 23a0325c8bb6a334d8082e5c163e5408, type: 2}
+  ammoPickupRecipe: {fileID: 11400000, guid: 63db726cd6cb7e14eaf506d41ab93140, type: 2}

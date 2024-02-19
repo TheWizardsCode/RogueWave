@@ -1,17 +1,11 @@
-using Codice.Client.BaseCommands;
-using Codice.Client.BaseCommands.Merge;
-using Codice.CM.Common.Replication;
-using Codice.CM.Common.Tree;
+using NaughtyAttributes;
 using NeoFPS;
-using NeoFPSEditor.Hub.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
-using static log4net.Appender.ColoredConsoleAppender;
 using Random = UnityEngine.Random;
 
 namespace Playground
@@ -55,13 +49,40 @@ namespace Playground
             
             PlaceContainingWalls();
 
-            PlaceSpawners();
+            PlaceFixedTiles();
 
             PlacePlayerSpawn();
 
             WaveFunctionCollapse();
             
             GenerateTileContent();
+        }
+
+        private void PlaceFixedTiles()
+        {
+            foreach (TileDefinition tile in levelDefinition.prePlacedTiles)
+            {
+                bool isPlaced = false;
+                int tries = 0;
+                while (isPlaced == false && tries < 50)
+                {
+                    tries++;
+
+                    int x = Random.Range(Mathf.RoundToInt(tile.bottomLeftBoundary.x * xSize), Mathf.RoundToInt(tile.topRightBoundary.x * xSize));
+                    int z = Random.Range(Mathf.RoundToInt(tile.bottomLeftBoundary.z * ySize), Mathf.RoundToInt(tile.topRightBoundary.z * ySize));
+
+                    if (tiles[x,z] == null)
+                    {
+                        isPlaced = true;
+                        InstantiateTile(tile, x, z);
+                    }
+                }
+
+                if (isPlaced == false)
+                {
+                    Debug.LogError($"Failed to instantiate pre placed tile {tile.name} after {tries} tries.");
+                }
+            }
         }
 
         private void PlaceContainingWalls() {
@@ -71,26 +92,8 @@ namespace Playground
                 {
                     if (x == 0 || x == xSize - 1 || y == 0 || y == ySize - 1)
                     {
-                        tiles[x, y] = InstantiateTile(levelDefinition.wallTileDefinition, x, y);
+                        InstantiateTile(levelDefinition.wallTileDefinition, x, y);
                     }
-                }
-            }
-       }
-
-        private void PlaceSpawners()
-        {
-            int x, y, spawnersPlaced = 0;
-            for (int i = 0; i < levelDefinition.numberOfEnemySpawners; i++)
-            {
-                try
-                {
-                    spawnersPlaced++;
-                    PlaceEnemySpawner(xSize, ySize);
-                    spawnersPlaced++;
-                }
-                catch (Exception e)
-                {
-                    Debug.LogError(e);
                 }
             }
         }
@@ -116,7 +119,7 @@ namespace Playground
                 y = WorldPositionToTileCoordinates(spawn.transform.position).y;
             }
 
-            tiles[x, y] = InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
+            InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
             spawn.transform.position = TileCoordinatesToWorldPosition(x, y);
         }
 
@@ -184,11 +187,11 @@ namespace Playground
 
                         if (candidatesForTilesYetToCollapse[x, y].Count == 0)
                         {
-                            Debug.LogWarning($"Tile at ({x}, {y}) has no valid tile type. Note this may happen because weights are too low. Neighbours are:\n\t" +
-                                $"({x + 1}, {y}) : {tiles[x + 1, y]?.tileDefinition}\n\t" +
-                                $"({x}, {y + 1}) : {tiles[x, y + 1]?.tileDefinition}\n\t" +
-                                $"({x - 1}, {y}) : {tiles[x - 1, y]?.tileDefinition}\n\t" +
-                                $"({x}, {y - 1}) : {tiles[x, y - 1]?.tileDefinition}\n\t");
+                            //Debug.LogWarning($"Tile at ({x}, {y}) has no valid tile type. Note this may happen because weights are too low. Neighbours are:\n\t" +
+                            //    $"({x + 1}, {y}) : {tiles[x + 1, y]?.tileDefinition}\n\t" +
+                            //    $"({x}, {y + 1}) : {tiles[x, y + 1]?.tileDefinition}\n\t" +
+                            //    $"({x - 1}, {y}) : {tiles[x - 1, y]?.tileDefinition}\n\t" +
+                            //    $"({x}, {y - 1}) : {tiles[x, y - 1]?.tileDefinition}\n\t");
                         }
                         else if (candidatesForTilesYetToCollapse[x, y].Count < lowestEntropy)
                         {
@@ -234,7 +237,7 @@ namespace Playground
                 {
                     if (tiles[x, y] == null)
                     {
-                        tiles[x, y] = InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
+                        InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
                     }
                 }
             }
@@ -249,16 +252,17 @@ namespace Playground
         /// <returns></returns>
         private bool IsValidTileFor(int x, int y, TileDefinition tile)
         {
-            bool isValid = true;
+            bool isValid = tile.CanPlace(new Vector3Int(x, 0, y), xSize, ySize);
 
             // Check X Positive direction
-            if (x < xSize - 1)
+            if (isValid && x < xSize - 1)
             {
                 TileDefinition otherTile = tiles[x + 1, y]?.tileDefinition;
 
                 if (otherTile != null)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.XNegative).FirstOrDefault(t => t == tile);
+                    //TileDefinition candidate = tile.GetTileCandidates(TileDefinition.Direction.XPositive).FirstOrDefault(t => t == otherTile);
 
                     if (candidate == null)
                     {
@@ -283,11 +287,21 @@ namespace Playground
 
                 if (otherTile != null)
                 {
-                    isValid &= otherTile.GetTileCandidates(TileDefinition.Direction.XPositive).Contains(tile);
-                    //if (!isValid)
-                    //{
-                    //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the x negative tile is {otherTile}.");
-                    //}
+                    TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.XPositive).FirstOrDefault(t => t == tile);
+                    //TileDefinition candidate = tile.GetTileCandidates(TileDefinition.Direction.XNegative).FirstOrDefault(t => t == otherTile);
+
+                    if (candidate == null)
+                    {
+                        isValid = false;
+                        //if (!isValid)
+                        //{
+                        //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the x negative tile is {otherTile}.");
+                        //}
+                    }
+                    else
+                    {
+                        isValid &= Random.value <= candidate.weight;
+                    }
                 }
             }
 
@@ -298,11 +312,21 @@ namespace Playground
 
                 if (otherTile != null)
                 {
-                    isValid &= otherTile.GetTileCandidates(TileDefinition.Direction.YNegative).Contains(tile);
-                    //if (!isValid)
-                    //{
-                    //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the y positive tile is {otherTile}.");
-                    //}
+                    TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.YNegative).FirstOrDefault(t => t == tile);
+                    //TileDefinition candidate = tile.GetTileCandidates(TileDefinition.Direction.YPositive).FirstOrDefault(t => t == otherTile);
+
+                    if (candidate == null)
+                    {
+                        isValid = false;
+                        //if (!isValid)
+                        //{
+                        //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the y positive tile is {otherTile}.");
+                        //}
+                    }
+                    else
+                    {
+                        isValid &= Random.value <= candidate.weight;
+                    }
                 }
             }
 
@@ -313,11 +337,21 @@ namespace Playground
 
                 if (otherTile != null)
                 {
-                    isValid &= otherTile.GetTileCandidates(TileDefinition.Direction.YPositive).Contains(tile);
-                    //if (!isValid)
-                    //{
-                    //    Debug.Log($"{tile.name} is not valid for ({x}, {y}) because the y negative tile is {otherTile.name}.");
-                    //}
+                    TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.YPositive).FirstOrDefault(t => t == tile);
+                    //TileDefinition candidate = tile.GetTileCandidates(TileDefinition.Direction.YNegative).FirstOrDefault(t => t == otherTile);
+
+                    if (candidate == null)
+                    {
+                        isValid = false;
+                        //if (!isValid)
+                        //{
+                        //    Debug.Log($"{tile.name} is not valid for ({x}, {y}) because the y negative tile is {otherTile.name}.");
+                        //}
+                    }
+                    else
+                    {
+                        isValid &= Random.value <= candidate.weight;
+                    }
                 }
             }
 
@@ -347,12 +381,12 @@ namespace Playground
             if (possibleTileDefinitions.Count == 0)
             {
                 Debug.LogWarning($"No valid tile for {x}, {y}. Defaulting to a empty. We shouldn't get to this stage with no candidate.");
-                tiles[x, y] = InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
+                InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
             }
             // if there is only one candidate then we can place that tile
             else if (possibleTileDefinitions.Count == 1)
             {
-                tiles[x, y] = InstantiateTile(possibleTileDefinitions[0], x, y);
+                InstantiateTile(possibleTileDefinitions[0], x, y);
             }
             // We have more than one candidate, pick one at random
             else
@@ -369,7 +403,7 @@ namespace Playground
                     totalChance -= candidate.weight;
                     if (random >= totalChance)
                     {
-                        tiles[x, y] = InstantiateTile(candidate, x, y);
+                        InstantiateTile(candidate, x, y);
                         break;
                     }
                 }
@@ -391,11 +425,10 @@ namespace Playground
                 PlaceEnemySpawner(xLots, yLots);
             }
 
-            BaseTile spawnerTile = InstantiateTile(levelDefinition.spawnerTileDefinition, x, y);
-            tiles[x, y] = spawnerTile;
+            InstantiateTile(levelDefinition.spawnerTileDefinition, x, y);
         }
 
-        private BaseTile InstantiateTile(TileDefinition tileDefinition, int x, int y)
+        private void InstantiateTile(TileDefinition tileDefinition, int x, int y)
         {
             BaseTile tile = tileDefinition.GetTileObject(levelRoot.transform);
             tile.name = $"{tileDefinition.name} ({x}. {y})";
@@ -403,7 +436,7 @@ namespace Playground
 
             // Debug.Log($"Instantiating tile of type {tile.tileDefinition} at ({x}, {y})");
 
-            return tile;
+            tiles[x, y] = tile;
         }
 
         internal void Clear()
@@ -412,5 +445,13 @@ namespace Playground
                 return;
             Destroy(levelRoot);
         }
+
+#if UNITY_EDITOR
+        [Button("(Re)Generate")]
+        void TestGenerate()
+        {
+            Generate(FindObjectOfType<RogueWaveGameMode>());
+        }
+#endif
     }
 }

@@ -100,12 +100,14 @@ MonoBehaviour:
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: -2446305894394526636, guid: 3ff6e92f43d79ed4d9afc6a3afdacc58, type: 3}
   m_VictoryDuration: 5
+  randomizePlayerSpawn: 1
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   _startingRecipes:
   - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
   - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
   - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
+  - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
   levels:
   - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
   _isDebug: 0
@@ -115,14 +117,11 @@ MonoBehaviour:
   m_LoadoutBuilder:
     slots:
     - m_DisplayName: Primary
-      m_Options:
-      - {fileID: 114019755459329486, guid: 432455827fdeb344e84b804690d24149, type: 3}
+      m_Options: []
     - m_DisplayName: Secondary
-      m_Options:
-      - {fileID: 114885381139505388, guid: e1ec80373623ca349a20a0a3441f046b, type: 3}
+      m_Options: []
     - m_DisplayName: Melee
-      m_Options:
-      - {fileID: 114731684343392398, guid: 05d73335c0e2a354eb4bdc95583ad37b, type: 3}
+      m_Options: []
     - m_DisplayName: Thrown
       m_Options: []
     fixedItems: []

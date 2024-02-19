@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 
 namespace Playground
 {
+
     public static class InteractivePickupExtension
     {
         public static FpsInventoryItemBase GetItemPrefab(this InteractivePickup instance)
