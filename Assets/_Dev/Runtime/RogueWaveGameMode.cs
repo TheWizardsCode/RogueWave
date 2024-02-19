@@ -239,7 +239,7 @@ namespace Playground
         protected override void OnCharacterSpawned(ICharacter character)
         {
             IRecipe startingWeapon;
-            if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
+            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
             {
                 AddToLoadout(((WeaponPickupRecipe)startingWeapon).pickup.GetItemPrefab());
             }
