@@ -280,7 +280,12 @@ namespace Playground
 
             if (nanobotManager != null)
             {
-                nanobotManager.Add(offer, m_MakePersistentSelections);
+                RogueLiteManager.runData.Add(offer);
+                if (m_MakePersistentSelections)
+                {
+                    RogueLiteManager.persistentData.Add(offer);
+                }
+                nanobotManager.Add(offer);
             }
 
             if (m_MakePersistentSelections)

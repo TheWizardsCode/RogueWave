@@ -241,7 +241,7 @@ namespace Playground
             IRecipe startingWeapon;
             if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
             {
-                RogueLiteManager.runData.AddToLoadout(((WeaponPickupRecipe)startingWeapon).pickup.GetItemPrefab());
+                AddToLoadout(((WeaponPickupRecipe)startingWeapon).pickup.GetItemPrefab());
             }
             ConfigureLoadout();
 
@@ -260,6 +260,7 @@ namespace Playground
             {
                 if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe))
                 {
+                    RogueLiteManager.runData.Add(recipe);
                     manager.Add(recipe);
 
                     WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
@@ -267,6 +268,7 @@ namespace Playground
                     {
                         if (weaponRecipe.ammoRecipe != null)
                         {
+                            RogueLiteManager.runData.Add(recipe);
                             manager.Add(weaponRecipe.ammoRecipe);
                         }
                     }
@@ -300,7 +302,9 @@ namespace Playground
                 if (weaponRecipe.pickup == null)
                 {
                     Debug.LogError("WeaponPickupRecipe " + weaponRecipe.name + " has no pickup assigned. Not adding this weapon recipe to the loadout.");
-                    return;
+                } else
+                {
+                    AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
                 }
             }
 
@@ -310,9 +314,11 @@ namespace Playground
                 if (toolRecipe.pickup == null)
                 {
                     Debug.LogError("ToolPickupRecipe " + toolRecipe.name + " has no pickup assigned. Not adding this tool recipe to the loadout.");
-                    return;
                 }
-                RogueLiteManager.runData.AddToLoadout(toolRecipe.pickup.GetItemPrefab());
+                else
+                {
+                    AddToLoadout(toolRecipe.pickup.GetItemPrefab());
+                }
             }
         }
 
