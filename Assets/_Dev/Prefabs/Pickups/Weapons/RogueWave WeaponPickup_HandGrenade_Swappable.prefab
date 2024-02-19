@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1651731687865070, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
       propertyPath: m_Name
-      value: Playground WeaponPickup_HandGrenade_Swappable
+      value: RogueWave WeaponPickup_HandGrenade_Swappable
       objectReference: {fileID: 0}
     - target: {fileID: 1651731687865070, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
       propertyPath: m_TagString
@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82110974132085804, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+      propertyPath: panLevelCustomCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 82110974132085804, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+      propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 114356316517324614, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
       propertyPath: prefabGuid
       value: 76b2dc26e6741424ca7f3656bda423ed
@@ -67,6 +75,10 @@ PrefabInstance:
     - target: {fileID: 114356316517324614, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
       propertyPath: m_PrefabStrongID
       value: -1722036871
+      objectReference: {fileID: 0}
+    - target: {fileID: 114356316517324614, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+      propertyPath: m_OtherComponents.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 114661210168784734, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
       propertyPath: m_Item
@@ -76,8 +88,66 @@ PrefabInstance:
       propertyPath: m_HoldDuration
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114996763066155702, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+      propertyPath: m_RigidBody
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114812711867920656, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+    - {fileID: 114148994595516704, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+    - {fileID: 54350471483907882, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+    - {fileID: 114996763066155702, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+    - {fileID: 114362090833031242, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+    - {fileID: 114661210168784734, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1651731687865070, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -3470823083365234843}
+    - targetCorrespondingSourceObject: {fileID: 1651731687865070, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 73874827290450196}
   m_SourcePrefab: {fileID: 100100000, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+--- !u!1 &281109454212870004 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1651731687865070, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+  m_PrefabInstance: {fileID: 280188217021978010}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &-3470823083365234843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281109454212870004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb50696ccac3a7a49a037a0c25ace545, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ConsumeResult: 0
+  m_ItemPrefab: {fileID: 114149182331079868, guid: 365d9a900ca3b73418fb33714b497876, type: 3}
+  m_AdditionalItems: []
+  m_SpawnOnAwake: 1
+  m_RespawnDuration: 20
+  m_DisplayMesh: {fileID: 281127816828071890}
+  weaponPickupRecipe: {fileID: 0}
+  ammoPickupRecipe: {fileID: 0}
+--- !u!114 &73874827290450196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 281109454212870004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0e43043e50e45846bf430b85315b781, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &281127816828071890 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1594224807836232, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+  m_PrefabInstance: {fileID: 280188217021978010}
+  m_PrefabAsset: {fileID: 0}

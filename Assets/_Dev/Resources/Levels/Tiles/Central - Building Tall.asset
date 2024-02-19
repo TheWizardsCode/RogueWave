@@ -10,53 +10,53 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: ProximitySpawner
+  m_Name: Central - Building Tall
   m_EditorClassIdentifier: 
-  bottomLeftBoundry: {x: 0, y: 0, z: 0}
-  topRightBoundry: {x: 1, y: 1, z: 1}
-  weight: 0.586
-  tilePrefab: {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
+  bottomLeftBoundary: {x: 0.35, y: 0, z: 0.35}
+  topRightBoundary: {x: 0.7, y: 1, z: 0.7}
+  weight: 0.679
+  tilePrefab: {fileID: 4512869180751816955, guid: 1b35890d051dd3b4b8ff71dc0b58642a, type: 3}
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.848
-  - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.634
-  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.64
+    weight: 0.627
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.409
+    weight: 0.65
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-    weight: 0.273
+    weight: 0.436
+  - tileDefinition: {fileID: 11400000}
+    weight: 0.615
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    weight: 0.411
   xNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.841
-  - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.631
-  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.651
+    weight: 0.636
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.401
+    weight: 0.636
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-    weight: 0.252
+    weight: 0.432
+  - tileDefinition: {fileID: 11400000}
+    weight: 0.612
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    weight: 0.351
   yPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.806
-  - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.642
-  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.622
+    weight: 0.6
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.44
+    weight: 0.6
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-    weight: 0.28
+    weight: 0.4
+  - tileDefinition: {fileID: 11400000}
+    weight: 0.624
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    weight: 0.355
   yNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.763
-  - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.603
-  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.622
+    weight: 0.623
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.432
+    weight: 0.623
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-    weight: 0.296
+    weight: 0.409
+  - tileDefinition: {fileID: 11400000}
+    weight: 0.688
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    weight: 0.386

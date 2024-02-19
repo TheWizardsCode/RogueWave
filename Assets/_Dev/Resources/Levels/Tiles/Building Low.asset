@@ -10,58 +10,45 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Building
+  m_Name: Building Low
   m_EditorClassIdentifier: 
-  weight: 0.5
-  tilePrefab: {fileID: 4512869180751816955, guid: 1b35890d051dd3b4b8ff71dc0b58642a, type: 3}
+  bottomLeftBoundry: {x: 0, y: 0, z: 0}
+  topRightBoundry: {x: 1, y: 1, z: 1}
+  weight: 0.789
+  tilePrefab: {fileID: 4512869180751816955, guid: 0632310973690cd4b8d6f686f3ab92ef, type: 3}
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.627
+    weight: 0.592
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.65
+    weight: 0.479
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
     weight: 0.436
   - tileDefinition: {fileID: 11400000}
-    weight: 0.615
+    weight: 0.745
   xNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.636
+    weight: 0.514
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.636
+    weight: 0.495
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
     weight: 0.432
   - tileDefinition: {fileID: 11400000}
-    weight: 0.612
+    weight: 0.824
   yPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.6
+    weight: 0.494
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.6
+    weight: 0.51
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
     weight: 0.4
   - tileDefinition: {fileID: 11400000}
-    weight: 0.624
+    weight: 0.82
   yNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.623
+    weight: 0.509
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.623
+    weight: 0.508
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
     weight: 0.409
   - tileDefinition: {fileID: 11400000}
-    weight: 0.688
-  xNegativeNeighbours:
-  - {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  - {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-  - {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-  - {fileID: 11400000}
-  yPositiveNeighbours:
-  - {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  - {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-  - {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-  - {fileID: 11400000}
-  yNegativeNeighbours:
-  - {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  - {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-  - {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-  - {fileID: 11400000}
+    weight: 0.843

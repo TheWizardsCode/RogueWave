@@ -46,6 +46,8 @@ namespace Playground
         [Header("Level Generation")]
         [SerializeField, Tooltip("Should a level geometry be auto generated on start? If false it is expected that the scene will already contain the level geometry.")]
         public bool generateLevelOnSpawn = true;
+        [SerializeField, Tooltip("The tiles to place in the level before any other generation is done. This is useful for things such as placing the player start position and objective tiles..")]
+        public TileDefinition[] prePlacedTiles;
 
 
         public WaveDefinition[] Waves => waves;

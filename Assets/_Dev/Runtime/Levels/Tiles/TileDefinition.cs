@@ -17,6 +17,13 @@ namespace Playground
             YNegative
         }
 
+        [Header("Constraints")]
+        [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
+            "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the bottome left of the allowed areas for this tile will be at (10, 0, 10).")]
+        internal Vector3 bottomLeftBoundary = Vector3.zero;
+        [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
+            "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the top right of the allowed areas for this tile will be at (10, 0, 10).")]
+        internal Vector3 topRightBoundary = Vector3.one;
         [SerializeField, Range(0, 1), Tooltip("The likelyhood of this tile being selected when multiple tiles are viable. Note this is not an absolute probability it is relative. The higher the chance here the more likely it will be selected. So, if there are two candidates with a chance of 0.1 then each has an equabl probability of being selected, while if there is one at a chance of 1 and another at a chance of 0.5 the relative probabilities are 1/(1+0.5) and 0.5/(1+0.5).")]
         internal float weight = 0.5f;
 
@@ -63,6 +70,19 @@ namespace Playground
                 default:
                     return null;
             }
+        }
+
+        internal bool CanPlace(Vector3Int tileCoords, int xSize, int ySize)
+        {
+            // if the tile is outside the bounds of the level then it cannot be placed.
+            if (tileCoords.x < bottomLeftBoundary.x * xSize || tileCoords.x > topRightBoundary.x * xSize
+                || tileCoords.y < bottomLeftBoundary.y * ySize || tileCoords.y > topRightBoundary.y * ySize
+                || tileCoords.z < bottomLeftBoundary.z * ySize || tileCoords.z > topRightBoundary.z * ySize)
+            {
+                    return false;
+            }
+
+            return true;
         }
 
         /// <summary>

@@ -10,8 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Spawner
+  m_Name: Bottom Left - Spawner
   m_EditorClassIdentifier: 
+  bottomLeftBoundary: {x: 0, y: 0, z: 0}
+  topRightBoundary: {x: 0.5, y: 1, z: 0.5}
   weight: 0.5
   tilePrefab: {fileID: 4840245277533164759, guid: badcfbe7566108c4caa59e48d134560b, type: 3}
   xPositiveConstraints:
