@@ -27,12 +27,6 @@ namespace Playground
         [SerializeField, Tooltip("The tile to use for empty tiles. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined.")]
         internal TileDefinition emptyTileDefinition;
 
-        [Header("Spawners")]
-        [SerializeField, Tooltip("The number of Enemy Spawners to create.")]
-        internal int numberOfEnemySpawners = 2;
-        [SerializeField, Tooltip("The density of buildings that will contain a proximity spawner. These buildings will generate enemies if the player is nearby.")]
-        internal float buildingSpawnerDensity = 0.25f;
-
         [Header("Enemies")]
         [SerializeField, Tooltip("The waves of enemies to spawn in this level.")]
         internal WaveDefinition[] waves;

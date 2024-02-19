@@ -1,8 +1,5 @@
 using NaughtyAttributes;
 using NeoFPS;
-using NeoFPSEditor;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace Playground {

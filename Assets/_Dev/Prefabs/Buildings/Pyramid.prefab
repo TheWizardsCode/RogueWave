@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb4f6b079a31f949b8a10f7e86b427e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 100
-  m_HealthMax: 100
+  m_Health: 2000
+  m_HealthMax: 2000
   m_CanDamageSelf: 1
   m_OnHealthChanged:
     m_PersistentCalls:
@@ -73,7 +73,7 @@ MonoBehaviour:
   - {fileID: 7343961097728468581, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_ParticalDensity: 25.3
   m_ExplosiveForce: 5.05
-  m_UnscaledDestructionParticles: []
+  m_UnscaledParticles: []
   m_ImpactDamageMultiplier: 1
 --- !u!1001 &8305505976554601566
 PrefabInstance:

@@ -16,10 +16,10 @@ namespace Playground
         [SerializeField, Tooltip("Explosive force. The higher this value the more the particles will move away from the center of the destructable object."), Range(0f, 10f)]
         float m_ExplosiveForce = 3;
         [SerializeField, Tooltip("The particle effect to replace the object with when it is destroyed. These effects will be adjusted to match the obnject being destroyed.")]
-        GameObject[] m_UnscaledDestructionParticles;
+        GameObject[] m_UnscaledParticles;
 
         [Header("Fall Damage")]
-        [SerializeField, Tooltip("A multiplier for fall damage. 0 means no damage will be taken.")]
+        [SerializeField, Tooltip("A multiplier for fall damage taken by this object. 0 means no damage will be taken. This allows you can make the object more or less susceptible to breakage when falling.")]
         float m_ImpactDamageMultiplier = 1;
 
         private BasicHealthManager m_HealthManager;
@@ -42,8 +42,11 @@ namespace Playground
                 if (m_ScaledFXParticles != null ||  m_ScaledDestructionParticles != null)
                 {
                     //OPTIMIZATION: cache on start
-                    MeshRenderer meshRenderer = GetComponentInChildren<MeshRenderer>();
-                    meshRenderer.enabled = false;
+                    MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
+                    foreach (MeshRenderer meshRenderer in meshRenderers)
+                    {
+                        meshRenderer.enabled = false;
+                    }
 
                     //OPTIMIZATION: cache on start
                     Collider[] colliders = GetComponentsInChildren<Collider>();
@@ -52,26 +55,26 @@ namespace Playground
                         colliders[i].enabled = false;
                     }
 
-                    int boundsMultiplier = 2 * (int)(meshRenderer.bounds.extents.x + meshRenderer.bounds.extents.y + meshRenderer.bounds.extents.z);
+                    int boundsMultiplier = 2 * (int)(meshRenderers[0].bounds.extents.x + meshRenderers[0].bounds.extents.y + meshRenderers[0].bounds.extents.z);
                     //Debug.Log($"Bounds multiplier {boundsMultiplier}");
 
                     if (m_ScaledDestructionParticles != null)
                     {
-                        SpawnScaledParticle(m_ScaledDestructionParticles, meshRenderer, boundsMultiplier, true);
+                        SpawnScaledParticle(m_ScaledDestructionParticles, meshRenderers[0], boundsMultiplier, true);
                     }
 
                     if (m_ScaledFXParticles != null)
                     {
-                        SpawnScaledParticle(m_ScaledFXParticles, meshRenderer, boundsMultiplier, false);
+                        SpawnScaledParticle(m_ScaledFXParticles, meshRenderers[0], boundsMultiplier, false);
                     }
                 }
 
-                if (m_UnscaledDestructionParticles != null)
+                if (m_UnscaledParticles != null)
                 {
                     //OPTIMIZATION: Use a pool system for the destruction particles
-                    for (int d = 0; d < m_UnscaledDestructionParticles.Length; d++)
+                    for (int d = 0; d < m_UnscaledParticles.Length; d++)
                     {
-                        GameObject go = Instantiate(m_UnscaledDestructionParticles[d]);
+                        GameObject go = Instantiate(m_UnscaledParticles[d]);
                         go.transform.position = transform.position;
                         go.transform.localPosition = Vector3.zero;
 
