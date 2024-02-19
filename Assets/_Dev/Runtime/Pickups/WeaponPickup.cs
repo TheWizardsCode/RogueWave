@@ -21,9 +21,11 @@ namespace Playground {
             NanobotManager nanobotManager = character.GetComponent<NanobotManager>();
             if (nanobotManager != null)
             {
+                RogueLiteManager.runData.Add(weaponPickupRecipe);
                 nanobotManager.Add(weaponPickupRecipe);
                 if (ammoPickupRecipe != null)
                 {
+                    RogueLiteManager.runData.Add(ammoPickupRecipe);
                     nanobotManager.Add(ammoPickupRecipe);
                 }
             }

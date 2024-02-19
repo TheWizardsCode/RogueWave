@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using NeoFPS;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -288,7 +289,8 @@ namespace Playground
                         yield return Announce(clip, recipeName);
                     }
 
-                    Add(currentOffer, false);
+                    RogueLiteManager.runData.Add(currentOffer);
+                    Add(currentOffer);
 
                     status = Status.Idle;
 
@@ -574,11 +576,10 @@ namespace Playground
         }
 
         /// <summary>
-        /// Adds the recipe to the list of starting recipes.
+        /// Adds the recipe to the list of recipes available to these nanobots on this run.
         /// </summary>
         /// <param name="recipe">The recipe to add.</param>
-        /// <param name="isPermanent">If set to <c>true</c> the recipe will be added to the list of permanent recipes, otherwise it will be added only to the current runs recipes..</param>
-        internal void Add(IRecipe recipe, bool isPermanent = false)
+        internal void Add(IRecipe recipe)
         {
             if (recipe == null)
             {
@@ -586,89 +587,54 @@ namespace Playground
                 return;
             }
 
-            RogueLiteManager.runData.Add(recipe);
-
-            if (isPermanent)
+            // TODO: This is messy, far too many if...else statements. Do we really need to keep separate lists now that they have a common AbstractRecipe base class?
+            if (recipe is AmmoPickupRecipe ammo && !ammoRecipes.Contains(ammo))
             {
-                RogueLiteManager.persistentData.Add(recipe);
+                ammoRecipes.Add(ammo);
             }
-
-            AmmoPickupRecipe ammo = recipe as AmmoPickupRecipe;
-            if (ammo != null)
+            else if (recipe is HealthPickupRecipe health && !healthRecipes.Contains(health))
             {
-                if (!ammoRecipes.Contains(ammo))
-                {
-                    ammoRecipes.Add(recipe as AmmoPickupRecipe);
-                }
-                return;
-            }
-
-            HealthPickupRecipe health = recipe as HealthPickupRecipe;
-            if (health != null)
+                healthRecipes.Add(health);
+            } 
+            else if (recipe is WeaponPickupRecipe weapon && !weaponRecipes.Contains(weapon))
             {
-                if (!healthRecipes.Contains(health))
-                {
-                    healthRecipes.Add(recipe as HealthPickupRecipe);
-                }
-                return;
-            }
-
-            WeaponPickupRecipe weapon = recipe as WeaponPickupRecipe;
-            if (weapon != null)
-            {
-                if (!weaponRecipes.Contains(weapon))
-                {
-                    weaponRecipes.Add(recipe as WeaponPickupRecipe);
-                }
-
+                weaponRecipes.Add(weapon);
                 if (weapon.ammoRecipe != null)
                 {
                     Add(weapon.ammoRecipe);
                 }
-                return;
             }
-
-            ToolPickupRecipe tool = recipe as ToolPickupRecipe;
-            if (tool != null)
+            else if (recipe is ToolPickupRecipe tool && !toolRecipes.Contains(tool))
             {
-                if (!toolRecipes.Contains(tool))
-                {
-                    toolRecipes.Add(recipe as ToolPickupRecipe);
-                    ShuffleToolRecipes();
-                }
-                return;
+                toolRecipes.Add(tool);
             }
-
-            ShieldPickupRecipe shield = recipe as ShieldPickupRecipe;
-            if (shield != null)
+            else if (recipe is ShieldPickupRecipe shield && !shieldRecipes.Contains(shield))
             {
-                if (!shieldRecipes.Contains(shield))
-                {
-                    shieldRecipes.Add(shield);
-                    ShuffleItemRecipes();
-                }
-                return;
+                shieldRecipes.Add(shield);
             }
-
-            GenericItemPickupRecipe item = recipe as GenericItemPickupRecipe;
-            if (item != null)
+            else if (recipe is GenericItemPickupRecipe item && !itemRecipes.Contains(item))
             {
-                if (!itemRecipes.Contains(item))
-                {
-                    itemRecipes.Add(item);
-                    ShuffleItemRecipes();
-                }
-                return;
+                itemRecipes.Add(item);
+            } 
+            else if (recipe is BaseStatRecipe statRecipe)
+            {
+                Apply(statRecipe);
             }
+#if UNITY_EDITOR
+            else
+            {
+                Debug.LogWarning($"Either {recipe.GetType().Name} is an unkown recipe type or we tried to add it a second time.");
+            }
+#endif
+        }
 
-            BaseStatRecipe statRecipe = recipe as BaseStatRecipe;
+        internal void Apply(BaseStatRecipe statRecipe)
+        {
             if (statRecipe != null)
             {
                 statRecipe.Apply();
                 return;
             }
-
-            Debug.LogError("Unknown recipe type: " + recipe.GetType().Name);
         }
 
         /// <summary>
