@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7b81f4165b0a6244b9fd646452c5eec, type: 3}
-  m_Name: Playground Ammo 556mm x 30 Pickup Recipe
+  m_Name: Rogue Wave Ammo 556mm x 60 Pickup Recipe
   m_EditorClassIdentifier: 
-  displayName: 556mm 30
-  description: TBD
+  displayName: 556mm 60
+  description: 60 rounds of 556mm ammo.
   heroImage: {fileID: 0}
   icon: {fileID: 0}
   isPowerUp: 0
@@ -22,8 +22,8 @@ MonoBehaviour:
   dependencies: []
   isStackable: 0
   maxStack: 1
-  cost: 30
-  timeToBuild: 3
+  cost: 50
+  timeToBuild: 4.5
   nameClips:
   - {fileID: 8300000, guid: 1817d2a6c599b574fbe960ffd10a7391, type: 3}
   - {fileID: 8300000, guid: 126e6e2952e9fcd4e817b19c71047238, type: 3}
@@ -33,6 +33,6 @@ MonoBehaviour:
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
-  uniqueID: d16ea57d-45d2-4521-861d-4a96ec69d455
-  pickup: {fileID: 114439433628311108, guid: 22b000e4b734447488222861cf03d541, type: 3}
+  uniqueID: 25f601dc-56b5-421e-837b-4d9a28ed76b0
+  pickup: {fileID: 114439433628311108, guid: 5a10982c16f685a44af1522ff13dc25a, type: 3}
   ammo: {fileID: 11400000, guid: db82c342eedf1a642856a1bbb5fd9a6e, type: 2}
