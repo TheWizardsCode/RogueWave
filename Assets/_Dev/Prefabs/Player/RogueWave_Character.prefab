@@ -2271,7 +2271,6 @@ GameObject:
   - component: {fileID: 2584534266323046183}
   - component: {fileID: 7136947164496695666}
   - component: {fileID: 2830470345106830554}
-  - component: {fileID: 2842958109973861201}
   - component: {fileID: 2000301058560624785}
   - component: {fileID: 3997416269590772967}
   - component: {fileID: 4580383138697328011}
@@ -2712,8 +2711,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750a797d8f5dd2f4dad9dd839ee9f7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildingCooldown: 4
-  baseResourcesPerLevel: 50
+  buildingCooldown: 5
+  baseResourcesPerLevel: 100
   resourcesPerLevelMultiplier: 1.5
   timeBetweenRecipeOffers: 10
   recipeRequestPrefix:
@@ -2831,18 +2830,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 161d3cefa810cb946b436eb6eb53bf53, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2842958109973861201
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4167708427938660213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00d098d18af1a764991938fd6810d87d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &2000301058560624785

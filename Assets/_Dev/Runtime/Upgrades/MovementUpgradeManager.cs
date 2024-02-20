@@ -325,7 +325,7 @@ namespace Playground
                     return;
                 }
 
-                BaseStatRecipe statRecipe = recipe as BaseStatRecipe;
+                AmmunitionEffectUpgradeRecipe statRecipe = recipe as AmmunitionEffectUpgradeRecipe;
                 if (statRecipe != null)
                 {
                     statRecipe.BuildFinished();
