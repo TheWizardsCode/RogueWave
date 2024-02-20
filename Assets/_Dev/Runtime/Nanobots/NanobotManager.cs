@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS;
+using NeoFPS.ModularFirearms;
 using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
@@ -15,7 +16,7 @@ namespace Playground
         [SerializeField, Tooltip("Cooldown between recipe builds.")]
         private float buildingCooldown = 4;
         [SerializeField, Tooltip("How many resources are needed for a level up recipe offer. This will be multiplied by the current level * 1.5. Meaning the higher the level the more resources are required for a reward crate.")]
-        private int baseResourcesPerLevel = 50;
+        private int baseResourcesPerLevel = 100;
         [SerializeField, Tooltip("This is the multiplier for the resources required for the next level. This is multiplied by the current level and the baseResourcesPerLevel to get the resources required for the next level.")]
         private float resourcesPerLevelMultiplier = 1.5f;
         [SerializeField, Tooltip("The time between recipe offers from the home planet. Once a player has levelled up they will recieve an updated offer until they accept one. This is the freqency at which the offer will be changed.")]
@@ -47,6 +48,7 @@ namespace Playground
         private List<ShieldPickupRecipe> shieldRecipes = new List<ShieldPickupRecipe>();
         private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
         private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
+        private List<AmmunitionEffectUpgradeRecipe> ammoUpgradeRecipes = new List<AmmunitionEffectUpgradeRecipe>();
         private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
         private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
 
@@ -79,13 +81,13 @@ namespace Playground
             get { return _status; }
             set
             {
-                   if (_status == value)
-                        return;
-    
-                    _status = value;
-    
-                    if (onStatusChanged != null)
-                        onStatusChanged(_status);
+                if (_status == value)
+                    return;
+
+                _status = value;
+
+                if (onStatusChanged != null)
+                    onStatusChanged(_status);
             }
         }
 
@@ -132,6 +134,10 @@ namespace Playground
             {
                 itemRecipe.Reset();
             }
+            foreach (var ammoRecipe in ammoUpgradeRecipes)
+            {
+                ammoRecipe.Reset();
+            }
         }
 
         private void Update()
@@ -154,7 +160,7 @@ namespace Playground
                 }
             }
 
-            if (status == Status.OfferingRecipe || status == Status.Requesting) {                 
+            if (status == Status.OfferingRecipe || status == Status.Requesting) {
                 return;
             }
 
@@ -182,11 +188,6 @@ namespace Playground
                 return;
             }
 
-            // If we can afford a powerup, build it
-            if (TryWeaponRecipes()) {
-                return;
-            }
-
             // If we can't afford a powerup, build ammo up to near mazimum (not maximum because there will often be half used clips lying around)
             if (TryAmmoRecipes(0.9f))
             {
@@ -210,6 +211,21 @@ namespace Playground
             {
                 return;
             }
+        }
+
+        internal List<AmmunitionEffectUpgradeRecipe> GetAmmunitionEffectUpgradesFor(SharedAmmoType ammoType)
+        {   
+            List<AmmunitionEffectUpgradeRecipe> matchingRecipes = new List<AmmunitionEffectUpgradeRecipe>();
+
+            foreach (var recipe in ammoUpgradeRecipes)
+            {
+                if (recipe.ammoType == ammoType)
+                {
+                    matchingRecipes.Add(recipe);
+                }
+            }
+
+            return matchingRecipes;
         }
 
         IEnumerator OfferInGameRewardRecipe()
@@ -340,7 +356,7 @@ namespace Playground
 
         private int GetRequiredResourcesForNextNanobotLevel()
         {
-            return Mathf.RoundToInt(RogueLiteManager.runData.currentNanobotLevel * resourcesPerLevelMultiplier * baseResourcesPerLevel);
+            return Mathf.RoundToInt((RogueLiteManager.runData.currentNanobotLevel + 1) * resourcesPerLevelMultiplier * baseResourcesPerLevel);
         }
 
         // TODO: we can probably generalize these Try* methods now that we have refactored the recipes to use interfaces/Abstract classes
@@ -402,7 +418,7 @@ namespace Playground
 
         private bool TryWeaponRecipes()
         {
-            // Buid weapons in the build order first
+            // Build weapons in the build order first
             foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
             {
                 IRecipe weapon;
@@ -619,6 +635,10 @@ namespace Playground
             else if (recipe is BaseStatRecipe statRecipe)
             {
                 Apply(statRecipe);
+            }
+            else if (recipe is AmmunitionEffectUpgradeRecipe ammoUpgradeRecipe)
+            {
+                ammoUpgradeRecipes.Add(ammoUpgradeRecipe);
             }
 #if UNITY_EDITOR
             else

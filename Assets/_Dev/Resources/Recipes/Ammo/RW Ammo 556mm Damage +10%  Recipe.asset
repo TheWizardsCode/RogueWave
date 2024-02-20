@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20841f593ee06e446bae0a97deac3b51, type: 3}
+  m_Name: RW Ammo 556mm Damage +10%  Recipe
+  m_EditorClassIdentifier: 
+  displayName: 556mm Damage +10%
+  description: Increase the damage done by 556mm ammo by 10%.
+  heroImage: {fileID: 0}
+  icon: {fileID: 0}
+  isPowerUp: 1
+  isConsumable: 0
+  cooldown: 30
+  dependencies:
+  - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
+  isStackable: 1
+  maxStack: 10
+  cost: 250
+  timeToBuild: 10
+  nameClips: []
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: ddcf58cb-6d76-4eac-a140-9948c601e810
+  ammoType: {fileID: 11400000, guid: db82c342eedf1a642856a1bbb5fd9a6e, type: 2}
+  multiplier: 1.1
