@@ -13,8 +13,9 @@ MonoBehaviour:
   m_Name: Level 3 - Main Spawners
   m_EditorClassIdentifier: 
   seed: 0
-  size: {x: 500, y: 500}
+  size: {x: 20, y: 20}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   tileDefinitions:
   - {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   - {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
@@ -22,10 +23,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
   - {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
   - {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
-  spawnerTileDefinition: {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
-  emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  numberOfEnemySpawners: 3
-  buildingSpawnerDensity: 0.25
   waves:
   - {fileID: 11400000, guid: 9df063dcb73a963439e6d2230b7bc099, type: 2}
   - {fileID: 11400000, guid: 9fe0dfa2a722a8a4688c8a0ffec82f1b, type: 2}
