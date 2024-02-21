@@ -7139,7 +7139,7 @@ AudioSource:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -7169,7 +7169,7 @@ AudioSource:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
 --- !u!114 &6567855165783141903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7268,13 +7268,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6536548838208586599}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64fd394f479190a46829796d6f6bffd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 22d5cc00fa460de41bfb386cacaa8410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_DamageType: 1
-  m_Damage: 100
-  m_BulletSize: 1.5
-  m_ImpactForce: 50
+  damage: 100
+  bulletSize: 1.5
+  impactForce: 50
 --- !u!114 &6567889800991868921
 MonoBehaviour:
   m_ObjectHideFlags: 0
