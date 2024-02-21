@@ -22,7 +22,7 @@ namespace RogueWave
 
         public RogueLiteRunData()
         {
-            m_RunLoadoutData.Clear();
+            Loadout.Clear();
             m_RunRecipeData.Clear();
         }
 

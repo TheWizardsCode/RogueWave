@@ -59,6 +59,7 @@ namespace RogueWave
             ConfigureMoveButtons();
 
             RogueLiteManager.persistentData.isDirty = true;
+            RogueLiteManager.SaveProfile();
         }
 
         private void ConfigureMoveButtons()
