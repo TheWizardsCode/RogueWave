@@ -1,14 +1,11 @@
 #if UNITY_EDITOR
 
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
 
 namespace RogueWave
 {
     [CustomEditor(typeof(CustomRogueLiteData), true)]
-    public class CustomRogueLiteDataEditor : Editor
+    public class CustomRogueLiteDataEditor : UnityEditor.Editor
     {
         public override void OnInspectorGUI()
         {
