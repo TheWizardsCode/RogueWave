@@ -217,7 +217,16 @@ namespace Playground
                         GUILayout.BeginHorizontal();
                         GUILayout.FlexibleSpace();
 
-                        GUILayout.Box(offer.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+                        if (offer.HeroImage != null)
+                        {
+                            GUILayout.Box(offer.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+                        } else
+                        {
+                            Debug.LogWarning($"No image for {offer.DisplayName}");
+                            GUIStyle style = new GUIStyle(GUI.skin.box);
+                            style.fontSize = 50;
+                            GUILayout.Box(offer.DisplayName, style, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+                        }
 
                         GUILayout.FlexibleSpace();
                         GUILayout.EndHorizontal();
