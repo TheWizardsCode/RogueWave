@@ -20,12 +20,12 @@ namespace RogueWave
         [Header("Tile Types")]
         [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles.")]
         internal TileDefinition wallTileDefinition;
-        [SerializeField, Tooltip("The tile definitions to use for this level. If a tile is defined in the tile constraints but does not appear in this list it will not be used. This allows level definitions to be reused in different ways.")]
-        internal TileDefinition[] tileDefinitions;
         [SerializeField, Tooltip("The tile to use for spawners.")]
         internal TileDefinition spawnerTileDefinition;
         [SerializeField, Tooltip("The tile to use for empty tiles. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined.")]
         internal TileDefinition emptyTileDefinition;
+        [SerializeField, Tooltip("The tile definitions to use for this level. If a tile is defined in the tile constraints but does not appear in this list it will not be used. This allows level definitions to be reused in different ways.")]
+        internal TileDefinition[] tileDefinitions;
 
         [Header("Enemies")]
         [SerializeField, Tooltip("The waves of enemies to spawn in this level.")]
