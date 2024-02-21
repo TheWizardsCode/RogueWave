@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Playground
 {
-    [CreateAssetMenu(fileName = "FpsManager_RogueLite", menuName = "Playground/Rogue-Lite Manager", order = 900)]
+    [CreateAssetMenu(fileName = "FpsManager_RogueLite", menuName = "Rogue Wave/Rogue-Lite Manager", order = 900)]
     public class RogueLiteManager : NeoFpsManager<RogueLiteManager>
     {
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

@@ -8,7 +8,7 @@ namespace Playground
     /// <summary>
     /// The float Stat Recipe will upgrade one of the player's float stats, such as move speed.
     /// </summary>
-    [CreateAssetMenu(fileName = "Movement Stat Recipe", menuName = "Playground/Recipe/Movement Stat", order = 1)]
+    [CreateAssetMenu(fileName = "Movement Stat Recipe", menuName = "Rogue Wave/Recipe/Movement Stat", order = 1)]
     public class MovementRecipe : BaseStatRecipe
     {
         [SerializeField, Tooltip("The name of the stat to modify.")]
