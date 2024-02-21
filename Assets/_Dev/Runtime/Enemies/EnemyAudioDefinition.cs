@@ -9,7 +9,7 @@ namespace Playground
     /// EnemyDefinition is a ScriptableObject that defines the behaviour of an enemy.
     /// It is used as a basis for configuring the BasicEnemyController for new enemies.
     /// </summary>
-    [CreateAssetMenu(fileName = "Enemy Audio Definition", menuName = "Playground/Enemy Audio Definition", order = 300)]
+    [CreateAssetMenu(fileName = "Enemy Audio Definition", menuName = "Rogue Wave/Enemy Audio Definition", order = 300)]
     public class EnemyAudioDefinition : ScriptableObject
     {
         [Header("Audio Clips")]

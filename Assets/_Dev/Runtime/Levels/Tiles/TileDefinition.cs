@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Playground
 {
-	[CreateAssetMenu(fileName = "NewTileDefinition", menuName = "Playground/Tile Definition", order = 250)]
+	[CreateAssetMenu(fileName = "NewTileDefinition", menuName = "Rogue Wave/Tile Definition", order = 250)]
 	public class TileDefinition : ScriptableObject
     {
         public enum Direction

@@ -9,7 +9,7 @@ namespace Playground
     /// EnemyBehaviourDefinition is a ScriptableObject that defines the behaviour of an enemy.
     /// It is used as a basis for configuring the BasicEnemyController for new enemies.
     /// </summary>
-    [CreateAssetMenu(fileName = "Enemy Behaviour Definition", menuName = "Playground/Enemy Behaviour Definition", order = 300)]
+    [CreateAssetMenu(fileName = "Enemy Behaviour Definition", menuName = "Rogue Wave/Enemy Behaviour Definition", order = 300)]
     public class EnemyBehaviourDefinition : ScriptableObject
     {
         [Header("Senses")]

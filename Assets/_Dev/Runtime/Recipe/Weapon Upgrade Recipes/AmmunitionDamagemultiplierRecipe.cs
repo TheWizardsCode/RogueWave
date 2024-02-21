@@ -5,7 +5,7 @@ namespace Playground
     /// <summary>
     /// Multiply the damage of the ammunition by a certain value. This effect will be applied to all weapons that use the specified ammunition type.
     /// </summary>
-    [CreateAssetMenu(fileName = "Ammunition Damage Multiplier Recipe", menuName = "Playground/Recipe/Ammunition Damage Multiplier", order = 10)]
+    [CreateAssetMenu(fileName = "Ammunition Damage Multiplier Recipe", menuName = "Rogue Wave/Recipe/Ammunition Damage Multiplier", order = 10)]
     public class AmmunitionDamageMultiplierRecipe : AmmunitionEffectUpgradeRecipe
     {
         [Header("Upgrade")]

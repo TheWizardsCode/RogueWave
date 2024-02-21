@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Playground { 
-    [CreateAssetMenu(fileName = "Shield Damage Mitigation Recipe", menuName = "Playground/Recipe/Shield Damage Mitigation Recipe", order = 1)]
+    [CreateAssetMenu(fileName = "Shield Damage Mitigation Recipe", menuName = "Rogue Wave/Recipe/Shield Damage Mitigation Recipe", order = 1)]
     public class ShieldDamageMitigationRecipe : BaseStatRecipe
     {
         [SerializeField, Tooltip("The amount to add to the current damage mitigation of the shields.")]

@@ -10,7 +10,7 @@ namespace Playground
     /// A stat recipe will upgrade one or more of the player's stats.
     /// The player need not doing anything once the upgrade has been built, it will be applied automatically.
     /// </summary>
-    [CreateAssetMenu(fileName = "Stat Recipe", menuName = "Playground/Recipe/Stat", order = 1)]
+    [CreateAssetMenu(fileName = "Stat Recipe", menuName = "Rogue Wave/Recipe/Stat", order = 1)]
     public abstract class BaseStatRecipe : AbstractRecipe
     {
         /*
