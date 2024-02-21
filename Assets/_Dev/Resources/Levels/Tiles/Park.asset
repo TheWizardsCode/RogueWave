@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
   m_Name: Park
   m_EditorClassIdentifier: 
-  bottomLeftBoundry: {x: 0, y: 0, z: 0}
-  topRightBoundry: {x: 1, y: 1, z: 1}
+  bottomLeftBoundary: {x: 0, y: 0, z: 0}
+  topRightBoundary: {x: 1, y: 1, z: 1}
   weight: 0.468
   tilePrefab: {fileID: 2542797727158204644, guid: bc53f977c2b5536439f992d31e5d7cbf, type: 3}
   xPositiveConstraints:
@@ -26,15 +26,13 @@ MonoBehaviour:
     weight: 0.761
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
     weight: 0.246
-  yPositiveConstraints:
+  zPositiveConstraints:
   - tileDefinition: {fileID: 11400000}
-    weight: 0.759
+    weight: 0.817
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.326
-  yNegativeConstraints:
+    weight: 0.221
+  zNegativeConstraints:
   - tileDefinition: {fileID: 11400000}
-    weight: 0.744
-  - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.796
+    weight: 0.817
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.162
+    weight: 0.221

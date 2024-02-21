@@ -1,6 +1,7 @@
 using NeoFPS;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
@@ -187,6 +188,25 @@ namespace RogueWave
 
         public static void SaveProfile()
         {
+#if UNITY_EDITOR
+            if (currentProfile == string.Empty)
+            {
+                currentProfile = "Test";
+
+                FileInfo newProfile = new FileInfo(string.Format("{0}\\{1}.{2}", Application.persistentDataPath, currentProfile, k_Extension));
+
+                if (availableProfiles == null)
+                {
+                    availableProfiles = new FileInfo[] { newProfile };
+                }
+                else
+                {
+                    List<FileInfo> temp = new List<FileInfo>(availableProfiles);
+                    temp.Add(newProfile);
+                    availableProfiles = temp.ToArray();
+                }
+            }
+#endif
             // Only save if there have been changes
             if (persistentData == null || !persistentData.isDirty || currentProfile == string.Empty)
                 return;

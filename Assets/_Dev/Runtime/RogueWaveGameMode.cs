@@ -295,31 +295,6 @@ namespace RogueWave
         private void ConfigureRecipe(IRecipe recipe)
         {
             RogueLiteManager.runData.Add(recipe);
-
-            WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
-            if (weaponRecipe != null)
-            {
-                if (weaponRecipe.pickup == null)
-                {
-                    Debug.LogError("WeaponPickupRecipe " + weaponRecipe.name + " has no pickup assigned. Not adding this weapon recipe to the loadout.");
-                } else
-                {
-                    AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
-                }
-            }
-
-            ToolPickupRecipe toolRecipe = recipe as ToolPickupRecipe;
-            if (toolRecipe != null)
-            {
-                if (toolRecipe.pickup == null)
-                {
-                    Debug.LogError("ToolPickupRecipe " + toolRecipe.name + " has no pickup assigned. Not adding this tool recipe to the loadout.");
-                }
-                else
-                {
-                    AddToLoadout(toolRecipe.pickup.GetItemPrefab());
-                }
-            }
         }
 
         private void ConfigureLoadout()
