@@ -6,7 +6,7 @@ namespace Playground
     /// Multiply the damage of the ammunition by a certain value. This effect will be applied to all weapons that use the specified ammunition type.
     /// </summary>
     [CreateAssetMenu(fileName = "Ammunition Damage Multiplier Recipe", menuName = "Playground/Recipe/Ammunition Damage Multiplier", order = 10)]
-    public class AmmunitionDamagemultiplierRecipe : AmmunitionEffectUpgradeRecipe
+    public class AmmunitionDamageMultiplierRecipe : AmmunitionEffectUpgradeRecipe
     {
         [Header("Upgrade")]
         [SerializeField, Tooltip("The damage multiplier to apply to this ammo type.")]

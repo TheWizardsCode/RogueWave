@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20841f593ee06e446bae0a97deac3b51, type: 3}
-  m_Name: RW Ammo 556mm Damage +10%  Recipe
+  m_Name: RW Ammo 12 Guage Damage +10%  Recipe
   m_EditorClassIdentifier: 
-  displayName: 556mm Damage +10%
-  description: Increase the damage done by 556mm ammo by 10%.
+  displayName: 12 Guage Damage +10%
+  description: Increase the damage done by 12 Gauge ammo by 10%.
   heroImage: {fileID: 0}
   icon: {fileID: 0}
   isPowerUp: 1
   isConsumable: 0
   cooldown: 30
   dependencies:
-  - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
+  - {fileID: 11400000, guid: 925d033e3c87a1a49a8882178734bbe2, type: 2}
   isStackable: 1
   maxStack: 10
   cost: 250
@@ -29,6 +29,6 @@ MonoBehaviour:
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
-  uniqueID: 5a896966-49ff-46af-ab0d-9863e456ada4
-  ammoType: {fileID: 11400000, guid: db82c342eedf1a642856a1bbb5fd9a6e, type: 2}
+  uniqueID: 071f9412-70b5-48c5-9fd3-bbd801be9f37
+  ammoType: {fileID: 11400000, guid: f9ed77a8d063c4944a556aff943186ce, type: 2}
   multiplier: 1.1
