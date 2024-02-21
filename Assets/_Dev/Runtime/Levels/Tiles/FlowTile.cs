@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// A Flow Tile is one that generates a wall or path to influence the flow of traffic through that tile.

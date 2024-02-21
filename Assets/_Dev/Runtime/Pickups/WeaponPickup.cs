@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using NeoFPS;
 using UnityEngine;
 
-namespace Playground {
+namespace RogueWave {
     public class WeaponPickup : InventoryItemPickup
     {
         [SerializeField, Tooltip("The pickup recipe for this weapon. When the player picks up this weapon, the recipe will be used to add the weapon to the Nanobot Manager for this run."), Required]

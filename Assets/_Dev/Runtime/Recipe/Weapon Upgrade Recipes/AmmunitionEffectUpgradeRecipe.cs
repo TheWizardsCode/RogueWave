@@ -5,7 +5,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// An Ammunition Effect Recipe will modify all weapons that use the specified ammunition effect.

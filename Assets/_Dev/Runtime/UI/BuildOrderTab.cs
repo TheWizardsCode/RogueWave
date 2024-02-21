@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-namespace Playground
+namespace RogueWave
 {
     public class BuildOrderTab : InstantSwitchTabBase
     {

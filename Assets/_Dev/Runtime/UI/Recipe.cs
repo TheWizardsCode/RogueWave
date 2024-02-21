@@ -1,4 +1,4 @@
-﻿namespace Playground
+﻿namespace RogueWave
 {
     internal class Recipe
     {

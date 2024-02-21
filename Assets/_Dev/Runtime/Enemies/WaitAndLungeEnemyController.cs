@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// This kind of enemy will wait until the player is close enough, then lunge at them.

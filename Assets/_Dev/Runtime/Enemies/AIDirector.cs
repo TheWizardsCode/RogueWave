@@ -6,7 +6,7 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// The AI director is responsible for coordinating AI attacks.

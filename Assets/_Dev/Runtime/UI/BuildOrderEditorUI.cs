@@ -1,7 +1,7 @@
 using NeoFPS.SinglePlayer;
 using UnityEngine.Events;
 
-namespace Playground
+namespace RogueWave
 {
     public class BuildOrderEditorUI : PreSpawnPopup
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
 	[CreateAssetMenu(fileName = "NewTileDefinition", menuName = "Rogue Wave/Tile Definition", order = 250)]
 	public class TileDefinition : ScriptableObject

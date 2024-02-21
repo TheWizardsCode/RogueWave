@@ -9,7 +9,7 @@ using NeoFPSEditor.CharacterMotion;
 using NeoFPS.CharacterMotion.Conditions;
 using NeoFPS.CharacterMotion.Parameters;
 
-namespace Playground
+namespace RogueWave
 {
     [MotionGraphConditionDrawer(typeof(CompareTimeToParameterCondition))]
     public class CompareTimeToParameterConditionDrawer : MotionGraphConditionDrawer

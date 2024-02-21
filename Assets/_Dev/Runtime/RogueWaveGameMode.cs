@@ -11,7 +11,7 @@ using NaughtyAttributes;
 using NeoFPS.Samples;
 using System.Collections.Generic;
 
-namespace Playground
+namespace RogueWave
 {
     public class RogueWaveGameMode : FpsSoloGameCustomisable, ISpawnZoneSelector, ILoadoutBuilder
     {

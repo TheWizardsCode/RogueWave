@@ -4,7 +4,7 @@ using NeoFPS.CharacterMotion.Parameters;
 using System;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     [RequireComponent(typeof(MotionController))]
     public class MovementUpgradeManager : MonoBehaviour, IMotionGraphDataOverride

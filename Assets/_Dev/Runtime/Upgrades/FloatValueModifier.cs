@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     public class FloatValueModifier
     {

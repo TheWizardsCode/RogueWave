@@ -2,7 +2,7 @@
 using NeoFPS.SinglePlayer;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// This will add a shield manager to the player if they don't have one, and if they do, it will recharge a depleted shield.

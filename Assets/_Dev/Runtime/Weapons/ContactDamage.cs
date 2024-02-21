@@ -3,7 +3,7 @@ using NeoFPS;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// A basic weapon that continues to do damage while in contact.

@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using System.Runtime.CompilerServices;
 
-namespace Playground
+namespace RogueWave
 {
 
     public static class InteractivePickupExtension

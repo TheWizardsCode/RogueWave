@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// Show a UI that allows the player to select a recipe to build.

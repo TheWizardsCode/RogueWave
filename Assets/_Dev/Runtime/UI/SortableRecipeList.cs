@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Playground
+namespace RogueWave
 {
     public class SortableRecipeList : MonoBehaviour
     {

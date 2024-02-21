@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// Creates a recipe for an item. This is a generic class that can be used to create any item.

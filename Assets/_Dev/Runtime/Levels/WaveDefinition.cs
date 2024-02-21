@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// Defines a single wave of enemies to spawn. Each level is madde of one or more waves.

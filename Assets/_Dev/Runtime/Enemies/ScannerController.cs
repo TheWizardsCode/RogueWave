@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// The Scanner Controller provides a scanner to enemies that enables them to detect the player up to a given range and precision, even without a line of sight.

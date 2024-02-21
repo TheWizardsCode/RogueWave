@@ -2,7 +2,7 @@ using UnityEngine;
 using NeoFPS;
 using UnityEngine.Serialization;
 
-namespace Playground
+namespace RogueWave
 {
     [RequireComponent(typeof(BasicHealthManager))]
     public class DestructibleController : MonoBehaviour
