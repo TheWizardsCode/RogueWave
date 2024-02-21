@@ -410,24 +410,6 @@ namespace RogueWave
             }
         }
 
-        /// <summary>
-        /// Place enemy spawners in the level.
-        /// </summary>
-        /// <param name="xLots">The number of lots in the x axis.</param>
-        /// <param name="yLots">The number of lots on the y axis.</param>
-        private void PlaceEnemySpawner(int xLots, int yLots)
-        {
-            int x = Random.Range(1, xLots - 1);
-            int y = Random.Range(1, yLots - 1);
-
-            if (tiles[x, y] != null)
-            {
-                PlaceEnemySpawner(xLots, yLots);
-            }
-
-            InstantiateTile(levelDefinition.spawnerTileDefinition, x, y);
-        }
-
         private void InstantiateTile(TileDefinition tileDefinition, int x, int y)
         {
             BaseTile tile = tileDefinition.GetTileObject(levelRoot.transform);
