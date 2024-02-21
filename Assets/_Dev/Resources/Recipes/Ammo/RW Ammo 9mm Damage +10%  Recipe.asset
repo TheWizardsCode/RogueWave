@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 20841f593ee06e446bae0a97deac3b51, type: 3}
-  m_Name: RW Ammo 556mm Damage +10%  Recipe
+  m_Name: RW Ammo 9mm Damage +10%  Recipe
   m_EditorClassIdentifier: 
-  displayName: 556mm Damage +10%
-  description: Increase the damage done by 556mm ammo by 10%.
+  displayName: 9mm Damage +10%
+  description: Increase the damage done by 9mm ammo by 10%.
   heroImage: {fileID: 0}
   icon: {fileID: 0}
   isPowerUp: 1
   isConsumable: 0
   cooldown: 30
   dependencies:
-  - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
+  - {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
   isStackable: 1
   maxStack: 10
-  cost: 250
+  cost: 200
   timeToBuild: 10
   nameClips: []
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
-  uniqueID: 5a896966-49ff-46af-ab0d-9863e456ada4
-  ammoType: {fileID: 11400000, guid: db82c342eedf1a642856a1bbb5fd9a6e, type: 2}
+  uniqueID: 7ca76629-a78c-4be8-94c7-3dfef1a15379
+  ammoType: {fileID: 11400000, guid: a79bf42d15972724a9473b8c0ab8881d, type: 2}
   multiplier: 1.1

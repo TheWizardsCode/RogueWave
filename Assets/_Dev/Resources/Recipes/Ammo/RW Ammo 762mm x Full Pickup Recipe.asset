@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a7b81f4165b0a6244b9fd646452c5eec, type: 3}
-  m_Name: RW Ammo 762 x Full Pickup Recipe
+  m_Name: RW Ammo 762mm x Full Pickup Recipe
   m_EditorClassIdentifier: 
   displayName: Ammo 762 Full
   description: A full mag of 762 ammo. Commonly used in Sniper rifles.
   heroImage: {fileID: 0}
   icon: {fileID: 0}
-  isPowerUp: 0
+  isPowerUp: 1
   isConsumable: 1
   cooldown: 5
-  dependencies: []
+  dependencies:
+  - {fileID: 11400000, guid: 63db726cd6cb7e14eaf506d41ab93140, type: 2}
   isStackable: 0
   maxStack: 1
   cost: 50
