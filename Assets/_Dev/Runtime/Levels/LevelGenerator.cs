@@ -19,8 +19,8 @@ namespace RogueWave
         private GameObject levelRoot;
         internal static LevelDefinition levelDefinition;
         BaseTile[,] tiles;
-        private int xSize;
-        private int ySize;
+        private int xSize => levelDefinition.size.x;
+        private int ySize => levelDefinition.size.y;
 
         /// <summary>
         /// Generate a level.
@@ -41,9 +41,7 @@ namespace RogueWave
                 Random.InitState(levelDefinition.seed);
             }
 
-            xSize = Mathf.RoundToInt(levelDefinition.size.x / levelDefinition.lotSize.x);
-            ySize = Mathf.RoundToInt(levelDefinition.size.y / levelDefinition.lotSize.y);
-            tiles = new BaseTile[xSize, ySize];
+            tiles = new BaseTile[levelDefinition.size.x, levelDefinition.size.y];
 
             levelRoot = new GameObject("Level");
             

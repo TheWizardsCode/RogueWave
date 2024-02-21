@@ -14,8 +14,8 @@ namespace RogueWave
         [Header("Size and Layout")]
         [SerializeField, Tooltip("The seed to use for the level generation. If this is set to <= 0 then a random seed will be used.")]
         internal int seed = 0;
-        [SerializeField, Tooltip("The size of the level in square meters.")]
-        internal Vector2 size = new Vector2(500f, 500f);
+        [SerializeField, Tooltip("The size of the level in tiles.")]
+        internal Vector2Int size = new Vector2Int(20, 20);
 
         [Header("Tile Types")]
         [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles.")]

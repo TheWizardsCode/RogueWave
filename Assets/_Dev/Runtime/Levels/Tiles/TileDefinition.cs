@@ -1,8 +1,10 @@
+using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RogueWave
 {
@@ -36,9 +38,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
         internal List<TileConstraint> xNegativeConstraints = new List<TileConstraint>();
         [SerializeField, Tooltip("The constraints that define neighbours to the y positive edge.")]
-        internal List<TileConstraint> yPositiveConstraints = new List<TileConstraint>();
+        internal List<TileConstraint> zPositiveConstraints = new List<TileConstraint>();
         [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
-        internal List<TileConstraint> yNegativeConstraints = new List<TileConstraint>();
+        internal List<TileConstraint> zNegativeConstraints = new List<TileConstraint>();
 
         internal BaseTile GetTileObject(Transform root)
         {
@@ -64,9 +66,9 @@ namespace RogueWave
                 case Direction.XNegative:
                     return xNegativeConstraints.Select(c => c.tileDefinition).ToArray();
                 case Direction.YPositive:
-                    return yPositiveConstraints.Select(c => c.tileDefinition).ToArray();
+                    return zPositiveConstraints.Select(c => c.tileDefinition).ToArray();
                 case Direction.YNegative:
-                    return yNegativeConstraints.Select(c => c.tileDefinition).ToArray();
+                    return zNegativeConstraints.Select(c => c.tileDefinition).ToArray();
                 default:
                     return null;
             }
@@ -117,6 +119,25 @@ namespace RogueWave
 
             return neighbours;
         }
+
+#if UNITY_EDITOR
+        [Button]
+        private void CopyXPositiveToEmptyConstraints()
+        {
+            if (xNegativeConstraints.Count == 0)
+            {
+                xNegativeConstraints = xPositiveConstraints.Select(c => new TileConstraint { tileDefinition = c.tileDefinition, weight = c.weight }).ToList();
+            }
+            if (zPositiveConstraints.Count == 0)
+            {
+                zPositiveConstraints = xPositiveConstraints.Select(c => new TileConstraint { tileDefinition = c.tileDefinition, weight = c.weight }).ToList();
+            }
+            if (zNegativeConstraints.Count == 0)
+            {
+                zNegativeConstraints = xPositiveConstraints.Select(c => new TileConstraint { tileDefinition = c.tileDefinition, weight = c.weight }).ToList();
+            }
+        }
+#endif
     }
 
     [Serializable]
