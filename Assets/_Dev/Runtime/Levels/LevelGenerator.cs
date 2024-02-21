@@ -69,7 +69,8 @@ namespace RogueWave
                     int x = Random.Range(Mathf.RoundToInt(tile.bottomLeftBoundary.x * xSize), Mathf.RoundToInt(tile.topRightBoundary.x * xSize));
                     int z = Random.Range(Mathf.RoundToInt(tile.bottomLeftBoundary.z * ySize), Mathf.RoundToInt(tile.topRightBoundary.z * ySize));
 
-                    if (tiles[x,z] == null)
+                    // TODO: we should be checking that this tile is valid here as we may have already placed a tile
+                    if (tiles[x, z] == null && IsValidTileFor(x, z, tile))
                     {
                         isPlaced = true;
                         InstantiateTile(tile, x, z);
