@@ -1,7 +1,7 @@
 ﻿using NeoFPS;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     internal class SpawnerTile : BaseTile
     {

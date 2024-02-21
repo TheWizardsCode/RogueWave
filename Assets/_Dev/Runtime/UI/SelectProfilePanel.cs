@@ -3,7 +3,7 @@ using NeoSaveGames.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
 	public class SelectProfilePanel : MenuPanel
     {

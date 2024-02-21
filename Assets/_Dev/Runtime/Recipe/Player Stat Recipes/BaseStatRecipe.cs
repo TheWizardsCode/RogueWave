@@ -4,7 +4,7 @@ using System;
 using UnityEditor;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// A stat recipe will upgrade one or more of the player's stats.

@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Playground.NanobotManager;
+using static RogueWave.NanobotManager;
 
-namespace Playground
+namespace RogueWave
 {
     public class NanobotManagerUI : PlayerCharacterHudBase
     {

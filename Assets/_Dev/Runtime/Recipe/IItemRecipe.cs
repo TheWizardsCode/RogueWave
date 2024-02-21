@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// An interface for recipes that create items. The type of item is identified by the Item property which can be

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace Playground
+namespace RogueWave
 {
     [CustomEditor(typeof(CustomRogueLiteData), true)]
     public class CustomRogueLiteDataEditor : Editor

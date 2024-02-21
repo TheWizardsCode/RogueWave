@@ -4,7 +4,7 @@ using NeoFPS.SinglePlayer;
 using System;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Ammo Pickup Recipe", menuName = "Rogue Wave/Recipe/Ammo Pickup", order = 110)]
     public class AmmoPickupRecipe : ItemRecipe<Pickup>

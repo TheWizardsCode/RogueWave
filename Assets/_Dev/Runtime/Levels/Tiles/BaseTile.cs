@@ -3,7 +3,7 @@ using ProceduralToolkit;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// Responsible for the creation of the contents of a tile in the level.

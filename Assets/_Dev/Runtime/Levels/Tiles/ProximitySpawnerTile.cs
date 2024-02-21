@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Playground
+namespace RogueWave
 {
     internal class ProximitySpawnerTile : BuildingTile
     {

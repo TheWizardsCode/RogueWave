@@ -4,7 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Playground { 
+namespace RogueWave { 
     [CreateAssetMenu(fileName = "Max Health Recipe", menuName = "Rogue Wave/Recipe/Maximum Health Recipe", order = 10)]
     public class MaxHealthIncreaseRecipe : BaseStatRecipe
     {

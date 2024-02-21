@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// Multiply the damage of the ammunition by a certain value. This effect will be applied to all weapons that use the specified ammunition type.

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// EnemyDefinition is a ScriptableObject that defines the behaviour of an enemy.

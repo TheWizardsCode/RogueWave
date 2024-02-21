@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using static NeoFPS.HealthDelegates;
 
-namespace Playground
+namespace RogueWave
 {
 	public class HudGameStatusController : PlayerCharacterHudBase
     {

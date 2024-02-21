@@ -6,7 +6,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// EnemyJuicer is responsible for adding juice to the game when an enemy is spawned, injured, killed or other events.

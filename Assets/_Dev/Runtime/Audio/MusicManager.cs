@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     [RequireComponent(typeof(AudioSource))]
     public class MusicManager : MonoBehaviour

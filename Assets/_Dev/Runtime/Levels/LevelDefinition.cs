@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// Defines a single level in the game. If the player survives a level they increase in experience.

@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
-namespace Playground
+namespace RogueWave
 {
     public class LevelGenerator : MonoBehaviour
     {

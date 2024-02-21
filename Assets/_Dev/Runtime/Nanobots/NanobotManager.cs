@@ -8,7 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace Playground
+namespace RogueWave
 {
     public class NanobotManager : MonoBehaviour
     {

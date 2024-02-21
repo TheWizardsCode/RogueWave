@@ -2,7 +2,7 @@
 using ProceduralToolkit;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     internal class BuildingTile : FlowTile
     {

@@ -6,7 +6,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     [RequireComponent(typeof(BasicEnemyController))]
     internal class EnemyAudioController : MonoBehaviour

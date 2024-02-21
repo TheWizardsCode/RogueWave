@@ -3,7 +3,7 @@ using NeoFPS;
 using UnityEngine;
 using System;
 
-namespace Playground
+namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Tool Pickup Recipe", menuName = "Rogue Wave/Recipe/Tool Pickup", order = 105)]
     public class ToolPickupRecipe : ItemRecipe<InventoryItemPickup>

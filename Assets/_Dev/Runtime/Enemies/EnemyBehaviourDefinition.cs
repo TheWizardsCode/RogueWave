@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// EnemyBehaviourDefinition is a ScriptableObject that defines the behaviour of an enemy.

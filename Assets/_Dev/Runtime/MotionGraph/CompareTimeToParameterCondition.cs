@@ -5,7 +5,7 @@ using NeoFPS.CharacterMotion;
 using NeoFPS.CharacterMotion.Parameters;
 using NeoFPS.CharacterMotion.Conditions;
 
-namespace Playground
+namespace RogueWave
 {
     [MotionGraphElement("Parameters/Compare Time To Parameter")]
     public class CompareTimeToParameterCondition : MotionGraphCondition

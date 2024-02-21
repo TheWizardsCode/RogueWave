@@ -4,7 +4,7 @@ using UnityEditor;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Playground
+namespace RogueWave
 {
     public abstract class AbstractRecipe : ScriptableObject, IRecipe
     {

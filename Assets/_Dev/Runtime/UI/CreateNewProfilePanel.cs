@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Playground
+namespace RogueWave
 {
 	public class CreateNewProfilePanel : MenuPanel
     {

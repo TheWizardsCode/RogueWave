@@ -4,7 +4,7 @@ using NeoFPS.SinglePlayer;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     public class RogueWaveBulletAmmoEffect : BaseAmmoEffect
     {

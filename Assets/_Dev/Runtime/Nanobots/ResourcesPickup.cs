@@ -5,7 +5,7 @@ using NeoSaveGames.Serialization;
 using NeoSaveGames;
 using NeoFPS;
 
-namespace Playground
+namespace RogueWave
 {
     [RequireComponent(typeof(AudioSource))]
     public class ResourcesPickup : MonoBehaviour, IPickup, INeoSerializableComponent

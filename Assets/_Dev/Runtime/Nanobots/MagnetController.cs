@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Playground
+namespace RogueWave
 {
     /// <summary>
     /// The magenet is available to the player on startup. It attracts pockups to the player.

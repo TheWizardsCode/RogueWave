@@ -6,7 +6,7 @@ using NeoFPS.SinglePlayer;
 using NeoFPS;
 using System;
 
-namespace Playground
+namespace RogueWave
 {
     [RequireComponent (typeof (CanvasGroup))]
 	public class HudVictoryPopup : MonoBehaviour
