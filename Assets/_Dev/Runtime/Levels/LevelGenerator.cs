@@ -54,6 +54,8 @@ namespace RogueWave
             WaveFunctionCollapse();
             
             GenerateTileContent();
+
+            GenerateEnemies();
         }
 
         private void PlaceFixedTiles()
@@ -237,6 +239,20 @@ namespace RogueWave
                     if (tiles[x, y] == null)
                     {
                         InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
+                    }
+                }
+            }
+        }
+
+        public void GenerateEnemies()
+        {
+            for (int x = 1; x < xSize - 1; x++)
+            {
+                for (int z = 1; z < ySize - 1; z++)
+                {
+                    if (Random.value < levelDefinition.enemySpawnChance)
+                    {
+                        BasicEnemyController enemy = Instantiate(levelDefinition.GetRandomEnemy(), TileCoordinatesToWorldPosition(x, z), Quaternion.identity);
                     }
                 }
             }

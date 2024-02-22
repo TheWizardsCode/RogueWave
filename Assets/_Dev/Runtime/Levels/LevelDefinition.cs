@@ -1,3 +1,4 @@
+using PlasticGui.WorkspaceWindow;
 using System;
 using UnityEngine;
 
@@ -26,6 +27,8 @@ namespace RogueWave
         internal TileDefinition[] tileDefinitions;
 
         [Header("Enemies")]
+        [SerializeField, Range(0f, 1f), Tooltip("The chance of an enemy spawning in any given tile. These are only spawned on level creation. They are not spawned while the level is being played. For that you need spawners.")]
+        internal float enemySpawnChance = 0.25f;
         [SerializeField, Tooltip("The waves of enemies to spawn in this level.")]
         internal WaveDefinition[] waves;
         [SerializeField, Tooltip("The duration of the wait between each spawn wave in seconds.")]
@@ -49,5 +52,15 @@ namespace RogueWave
         public bool GenerateNewWaves => generateNewWaves;
 
         internal Vector2 lotSize = new Vector2(25f, 25f);
+
+        /// <summary>
+        /// Get a random enemy from the first wave defined in this level.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        internal BasicEnemyController GetRandomEnemy()
+        {
+            return waves[0].GetNextEnemy(); ;
+        }
     }
 }
