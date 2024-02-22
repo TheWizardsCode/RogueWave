@@ -42,7 +42,7 @@ namespace RogueWave
         [SerializeField] private Color m_GoodColour = Color.green;
         [SerializeField] private Color m_BadColour = Color.red;
 
-        private List<IRecipe> offers;
+        private List<Offer> offers;
 
         private Texture2D optionsBackground;
         private Texture2D acquiredBackground;
@@ -189,7 +189,7 @@ namespace RogueWave
 
                     for (int i = numberOfOffers - 1; i >= 0; i--)
                     {
-                        IRecipe offer = offers[i];
+                        IRecipe offer = offers[i].recipe;
                         if (RogueLiteManager.persistentData.currentResources < offer.Cost)
                         {
                             continue;
@@ -306,7 +306,7 @@ namespace RogueWave
                 RogueLiteManager.runData.Add(offer);
             }
 
-            offers.Remove(offer);
+            offers.RemoveAll(o => o.recipe == offer);
 
             if (m_buildItem)
             {

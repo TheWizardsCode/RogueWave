@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NeoFPS.SinglePlayer;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -63,14 +64,14 @@ namespace RogueWave
         /// <param name="quantity">The number of upgrades to offer.</param>
         /// <param name="requiredWeaponCount">The number of weapons that must be offered.</param>
         /// <returns>An array of recipes that can be offered to the player.</returns>
-        internal static List<IRecipe> GetOffers(int quantity, int requiredWeaponCount)
+        internal static List<Offer> GetOffers(int quantity, int requiredWeaponCount)
         {
             if (isInitialised == false)
             {
                 Initialise();
             }
 
-            List<IRecipe> offers = new List<IRecipe>();
+            List<Offer> offers = new List<Offer>();
 
             // Always offer a weapon on the first run
             if (requiredWeaponCount > 0)
@@ -82,7 +83,8 @@ namespace RogueWave
                 {
                     if (weaponCandidates[idx].ShouldBuild)
                     {
-                        offers.Add(weaponCandidates[idx]);
+                        int weight = 1;
+                        offers.Add(new Offer(weaponCandidates[idx], weight));
                         quantity--;
                         requiredWeaponCount--;
                         break;
@@ -106,7 +108,8 @@ namespace RogueWave
                 }
 
                 int index = Random.Range(0, candidates.Count);
-                IRecipe offer = candidates[index];
+                int weight = 1;
+                Offer offer = new Offer(candidates[index], weight);
                 if (offers.Contains(offer))
                 {
                     // We already have this recipe in the offers list, almost certainly because of the weapon preference above. Try again.
@@ -126,30 +129,75 @@ namespace RogueWave
         /// <returns></returns>
         private static List<T> GetOfferCandidates<T>() where T : IRecipe
         {
+#if UNITY_EDITOR
+            Debug.Log($"Getting offer candidates for {typeof(T)}.\nNanobot level: {RogueLiteManager.runData.currentNanobotLevel}\nPowerup recipes: {powerupRecipes.Count}\nResources: {RogueLiteManager.persistentData.currentResources}");
+#endif
+
             List<T> candidates = new List<T>();
             foreach (IRecipe recipe in powerupRecipes.Values)
             {
-                if (recipe is not T)
-                {
-                    continue;
-                } 
 
                 if (RogueLiteManager.persistentData.currentResources < recipe.Cost)
                 {
+#if UNITY_EDITOR
+                    Debug.Log($"Skip: {recipe} is too expensive for the player.");
+#endif
                     continue;
                 }
 
+                if (RogueLiteManager.runData.currentNanobotLevel < recipe.Level)
+                {
+#if UNITY_EDITOR
+                    Debug.Log($"Skip: {recipe} is higher than the current nanobot level.");
+#endif
+                    continue;
+                }
+
+                if (recipe is not T)
+                {
+#if UNITY_EDITOR
+                    Debug.Log($"Skip: {recipe} is not of type {typeof(T)}.");
+#endif
+                    continue;
+                } 
+
                 if (recipe.CanOffer == false)
-                {   
+                {
+#if UNITY_EDITOR
+                    Debug.Log($"Skip: {recipe} is not available for offer.");
+#endif
                     continue;
                 }
 
                 // TODO: Remove some portion of the recipes that are not particularly useful for the player at this time
+#if UNITY_EDITOR
+                Debug.Log($"Candidate: {recipe}");
+#endif
 
                 candidates.Add((T)recipe);
             }
 
+#if UNITY_EDITOR
+            string listOfCandidates = "";
+            foreach (T candidate in candidates)
+            {
+                listOfCandidates += candidate + ", ";
+            }
+            Debug.Log($"Candidates: {candidates.Count} - {listOfCandidates}");
+#endif
             return candidates;
+        }
+    }
+
+    internal class Offer
+    {
+        internal IRecipe recipe;
+        internal int weight;
+
+        public Offer(IRecipe recipe, int weight)
+        {
+            this.recipe = recipe;
+            this.weight = weight;
         }
     }
 }

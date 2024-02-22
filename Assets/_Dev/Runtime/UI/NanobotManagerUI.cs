@@ -37,7 +37,7 @@ namespace RogueWave
             if (nanobotManager != null)
             {
                 nanobotManager.onOfferChanged += OnOfferChanged;
-                OnOfferChanged(nanobotManager.currentOffer);
+                OnOfferChanged(nanobotManager.currentOfferRecipe);
                 statusText.text = string.Empty;
 
                 nanobotManager.onStatusChanged += OnStatusChanged;
@@ -66,13 +66,13 @@ namespace RogueWave
         {
             switch (status) {
                 case Status.OfferingRecipe:
-                    statusText.text = $"Offering {nanobotManager.currentOffer.DisplayName}";
+                    statusText.text = $"Offering {nanobotManager.currentOfferRecipe.DisplayName}";
                     break;
                 case Status.RequestQueued:
-                    statusText.text = $"Queued: {nanobotManager.currentOffer.DisplayName}";
+                    statusText.text = $"Queued: {nanobotManager.currentOfferRecipe.DisplayName}";
                     break;
                 case Status.Requesting:
-                    statusText.text = $"Requesting {nanobotManager.currentOffer.DisplayName}";
+                    statusText.text = $"Requesting {nanobotManager.currentOfferRecipe.DisplayName}";
                     break;
                 case Status.RequestRecieved:
                     statusText.text = $"Waiting";

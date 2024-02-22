@@ -92,7 +92,7 @@ namespace RogueWave
         }
 
         IRecipe _currentOffer;
-        public IRecipe currentOffer
+        public IRecipe currentOfferRecipe
         {
             get { return _currentOffer; }
             set
@@ -231,24 +231,24 @@ namespace RogueWave
         IEnumerator OfferInGameRewardRecipe()
         {
             timeOfLastRewardOffer = Time.timeSinceLevelLoad;
-            List<IRecipe> offers = RecipeManager.GetOffers(1, 0);
+            List<Offer> offers = RecipeManager.GetOffers(1, 0);
 
             if (offers.Count == 0)
             {
                 yield break;
             }
 
-            currentOffer = offers[0];
+            currentOfferRecipe = offers[0].recipe;
             status = Status.OfferingRecipe;
             yield return null;
 
             // Announce a recipe is available
             AudioClip clip = recipeRequestPrefix[Random.Range(0, recipeRequestPrefix.Length)];
-            AudioClip recipeName = currentOffer.NameClip;
+            AudioClip recipeName = currentOfferRecipe.NameClip;
             if (recipeName == null)
             {
                 recipeName = defaultRecipeName;
-                Debug.LogError($"Recipe {currentOffer.DisplayName} (offer) does not have an audio clip for its name. Used default of `Unkown`.");
+                Debug.LogError($"Recipe {currentOfferRecipe.DisplayName} (offer) does not have an audio clip for its name. Used default of `Unkown`.");
             }
             yield return StartCoroutine(Announce(clip, recipeName));
 
@@ -277,7 +277,7 @@ namespace RogueWave
                     yield return new WaitForSeconds(2);
 
                     status = Status.Requesting;
-                    timeOfNextBuiild = Time.timeSinceLevelLoad + currentOffer.TimeToBuild + 5f;
+                    timeOfNextBuiild = Time.timeSinceLevelLoad + currentOfferRecipe.TimeToBuild + 5f;
 
                     // Announce request made
                     clip = recipeRequested[Random.Range(0, recipeRequested.Length)];
@@ -290,13 +290,13 @@ namespace RogueWave
                         yield return Announce(clip, recipeName);
                     }
 
-                    yield return new WaitForSeconds(currentOffer.TimeToBuild);
+                    yield return new WaitForSeconds(currentOfferRecipe.TimeToBuild);
 
                     // Announce request recieved
                     status = Status.RequestRecieved;
                     clip = recipeRecievedPrefix[Random.Range(0, recipeRecievedPrefix.Length)];
                     Announce(clip);
-                    if (currentOffer.TimeToBuild > 5)
+                    if (currentOfferRecipe.TimeToBuild > 5)
                     {
                         yield return Announce(clip);
                     }
@@ -305,8 +305,8 @@ namespace RogueWave
                         yield return Announce(clip, recipeName);
                     }
 
-                    RogueLiteManager.runData.Add(currentOffer);
-                    Add(currentOffer);
+                    RogueLiteManager.runData.Add(currentOfferRecipe);
+                    Add(currentOfferRecipe);
 
                     status = Status.Idle;
 
