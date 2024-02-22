@@ -130,7 +130,10 @@ namespace RogueWave
         private static List<T> GetOfferCandidates<T>() where T : IRecipe
         {
 #if UNITY_EDITOR
-            Debug.Log($"Getting offer candidates for {typeof(T)}.\nNanobot level: {RogueLiteManager.runData.currentNanobotLevel}\nPowerup recipes: {powerupRecipes.Count}\nResources: {RogueLiteManager.persistentData.currentResources}");
+            Debug.Log($"Getting offer candidates for {typeof(T)}." +
+                $"\nNanobot level: {RogueLiteManager.runData.currentNanobotLevel}" +
+                $"\nPowerup recipes: {powerupRecipes.Count}" +
+                $"\nResources: {RogueLiteManager.persistentData.currentResources}");
 #endif
 
             List<T> candidates = new List<T>();

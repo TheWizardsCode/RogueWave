@@ -15,7 +15,7 @@ namespace RogueWave
     [Serializable]
     public class RogueLiteRunData
     {
-        internal int currentNanobotLevel = 0; // The currentl level of the players nanobots, the nanobots advance a level when they collect enough resources for the level up
+        internal int currentNanobotLevel = 0; // The zero based currentl level of the players nanobots, the nanobots advance a level when they collect enough resources for the level up
 
         private static List<FpsInventoryItemBase> m_RunLoadoutData = new List<FpsInventoryItemBase>();
         public List<FpsInventoryItemBase> Loadout { get { return m_RunLoadoutData; } }

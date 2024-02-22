@@ -17,7 +17,7 @@ namespace RogueWave
         Texture2D heroImage;
         [SerializeField, Tooltip("A sprite to use as the icon for this recipe."), ShowAssetPreview]
         Sprite icon;
-        [SerializeField, Tooltip("The level of this recipe. This is used to influence when the recipe should be offered to the player.")]
+        [SerializeField, Tooltip("The zero based level of this recipe. This is used to influence when the recipe should be offered to the player.")]
         int level = 1;
 
         [Header("Build")]
