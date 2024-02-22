@@ -1,6 +1,7 @@
 ﻿using NeoFPS.SinglePlayer;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -74,9 +75,10 @@ namespace RogueWave
             List<Offer> offers = new List<Offer>();
 
             // Always offer a weapon on the first run
+            List<WeaponPickupRecipe> weaponCandidates = null;
             if (requiredWeaponCount > 0)
             {
-                List<WeaponPickupRecipe> weaponCandidates = GetOfferCandidates<WeaponPickupRecipe>();
+                weaponCandidates = GetOfferCandidates<WeaponPickupRecipe>();
 
                 int idx = Random.Range(0, weaponCandidates.Count);
                 for (int i = 0; i < weaponCandidates.Count; i++)
@@ -99,6 +101,10 @@ namespace RogueWave
             }
 
             List<IRecipe> candidates = GetOfferCandidates<IRecipe>();
+            if (weaponCandidates != null)
+            {
+                candidates.RemoveAll(c => offers.Any(o => o.recipe.UniqueID == c.UniqueID));
+            }
 
             for (int i = 0; i < quantity; i++)
             {
