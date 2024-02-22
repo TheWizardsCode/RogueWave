@@ -17,6 +17,8 @@ namespace RogueWave
         Texture2D heroImage;
         [SerializeField, Tooltip("A sprite to use as the icon for this recipe."), ShowAssetPreview]
         Sprite icon;
+        [SerializeField, Tooltip("The level of this recipe. This is used to influence when the recipe should be offered to the player.")]
+        int level = 1;
 
         [Header("Build")]
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
@@ -57,6 +59,8 @@ namespace RogueWave
         public Texture2D HeroImage => heroImage;
 
         public Sprite Icon => icon;
+
+        public int Level => level;
 
         public bool IsPowerUp => isPowerUp;
 
