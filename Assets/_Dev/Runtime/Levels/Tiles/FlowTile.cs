@@ -24,7 +24,7 @@ namespace RogueWave
         GameObject contentObject;
         BaseTile xPositive, xNegative, yPositive, yNegative;
 
-        internal override void GenerateTileContent(int x, int y, BaseTile[,] tiles)
+        internal override void GenerateTileContent(int x, int z, BaseTile[,] tiles)
         {
             MeshFilter meshFilter;
             if (contentObject == null)
@@ -40,11 +40,11 @@ namespace RogueWave
                 meshFilter = contentObject.GetComponent<MeshFilter>();
             }
 
-            GetNeighbours(x, y, tiles);
+            GetNeighbours(x, z, tiles);
 
             CompoundMeshDraft compoundDraft = new CompoundMeshDraft();
-            
-            if (xPositive is FlowTile)
+
+            if (xPositive?.GetType() == tiles[x, z].GetType())
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 2, tileHeight / 3, structureHeight);
                 draft.name = "Structure";
@@ -52,7 +52,7 @@ namespace RogueWave
                 compoundDraft.Add(draft);
             }
 
-            if (xNegative is FlowTile)
+            if (xNegative?.GetType() == tiles[x, z].GetType())
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 2, tileHeight / 3, structureHeight);
                 draft.Move(new Vector3(-tileWidth / 4, 0, 0));
@@ -60,14 +60,14 @@ namespace RogueWave
                 compoundDraft.Add(draft);
             }
             
-            if (yPositive is FlowTile)
+            if (yPositive?.GetType() == tiles[x, z].GetType())
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight, structureHeight);
                 draft.name = "Structure";
                 draft.Move(new Vector3(0, 0, tileHeight / 4));
                 compoundDraft.Add(draft);
             }
-            if (yNegative is FlowTile)
+            if (yNegative?.GetType() == tiles[x, z].GetType())
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight, structureHeight);
                 draft.Move(new Vector3(0, 0, -tileHeight / 4));
@@ -80,7 +80,7 @@ namespace RogueWave
 
             contentObject.AddComponent<MeshCollider>().sharedMesh = meshFilter.mesh;
 
-            base.GenerateTileContent(x, y, tiles);
+            base.GenerateTileContent(x, z, tiles);
         }
 
         private void GetNeighbours(int x, int y, BaseTile[,] tiles)
