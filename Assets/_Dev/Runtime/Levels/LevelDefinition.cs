@@ -1,5 +1,8 @@
+using NaughtyAttributes;
 using PlasticGui.WorkspaceWindow;
 using System;
+using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 namespace RogueWave
@@ -24,7 +27,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The tile to use for empty tiles. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined.")]
         internal TileDefinition emptyTileDefinition;
         [SerializeField, Tooltip("The tile definitions to use for this level. If a tile is defined in the tile constraints but does not appear in this list it will not be used. This allows level definitions to be reused in different ways.")]
-        internal TileDefinition[] tileDefinitions;
+        internal AvailableTile[] availableTiles;
 
         [Header("Enemies")]
         [SerializeField, Range(0f, 1f), Tooltip("The chance of an enemy spawning in any given tile. These are only spawned on level creation. They are not spawned while the level is being played. For that you need spawners.")]
@@ -61,6 +64,33 @@ namespace RogueWave
         internal BasicEnemyController GetRandomEnemy()
         {
             return waves[0].GetNextEnemy(); ;
+        }
+    }
+
+    [Serializable]
+    class AvailableTile {
+        [SerializeField, Tooltip("The tile definition for this tile, this describes when and where the tile can be placed.")]
+        public TileDefinition tile;
+        [SerializeField, Range(0.01f, 1f), Tooltip("The weight to use when selecting this tile. The higher the weight the more likely it is to be selected.")]
+        internal float weight;
+
+        public AvailableTile(TileDefinition tile, float weight)
+        {
+            this.tile = tile;
+            this.weight = weight;
+        }
+
+        internal TileDefinition InstantiateTile()
+        {
+            TileDefinition instance = ScriptableObject.CreateInstance<TileDefinition>();
+            foreach (var field in typeof(TileDefinition).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
+            {
+                field.SetValue(instance, field.GetValue(tile));
+            }
+
+            instance.name = tile.name;
+            instance.weight = weight;
+            return instance;
         }
     }
 }
