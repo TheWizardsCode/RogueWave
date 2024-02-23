@@ -14,28 +14,35 @@ namespace RogueWave
     /// </summary>
     internal class FlowTile : BaseTile
     {
-        [SerializeField, Tooltip("The material to use for the wall.")]
-        [FormerlySerializedAs("wallMaterial")] // Changed 2/17/24
+        [SerializeField, Tooltip("The material to use for the structure.")]
         Material structureMaterial;
-        [SerializeField, Tooltip("The height of the wall.")]
-        [FormerlySerializedAs("wallHeight")] // changed 2/17/24
+        [SerializeField, Tooltip("The height of the structure.")]
         float structureHeight = 40;
+        [SerializeField, Tooltip("Define the tiles that this kind of tile will create a flow structure (wall, path, fence etc.) to if they are neighbours.")]
+        BaseTile[] validConnections;
 
         GameObject contentObject;
         BaseTile xPositive, xNegative, yPositive, yNegative;
 
+        /// <summary>
+        /// Place and or generate the tile contents.
+        /// </summary>
+        /// <param name="x">The x coordinate of the location of this tile.</param>
+        /// <param name="z">The z coordinate of the location of this tile.</param>
+        /// <param name="tiles">The map of tiles.</param>
         internal override void GenerateTileContent(int x, int z, BaseTile[,] tiles)
         {
             MeshFilter meshFilter;
             if (contentObject == null)
             {
-                contentObject = new GameObject("StruStructurement");
+                contentObject = new GameObject("Flow Structure");
                 contentObject.transform.SetParent(transform);
                 contentObject.transform.localPosition = new Vector3(0, structureHeight / 2, 0);
 
                 meshFilter = contentObject.AddComponent<MeshFilter>();
                 contentObject.AddComponent<MeshRenderer>().material = structureMaterial;
-            } else
+            }
+            else
             {
                 meshFilter = contentObject.GetComponent<MeshFilter>();
             }
@@ -44,34 +51,34 @@ namespace RogueWave
 
             CompoundMeshDraft compoundDraft = new CompoundMeshDraft();
 
-            if (xPositive?.GetType() == tiles[x, z].GetType())
+            if (ShouldConnect(xPositive))
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 2, tileHeight / 3, structureHeight);
-                draft.name = "Structure";
+                draft.name = "Flow Structure";
                 draft.Move(new Vector3(tileWidth / 4, 0, 0));
                 compoundDraft.Add(draft);
             }
 
-            if (xNegative?.GetType() == tiles[x, z].GetType())
+            if (ShouldConnect(xNegative))
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 2, tileHeight / 3, structureHeight);
                 draft.Move(new Vector3(-tileWidth / 4, 0, 0));
-                draft.name = "Structure";
+                draft.name = "Flow Structure";
                 compoundDraft.Add(draft);
             }
-            
-            if (yPositive?.GetType() == tiles[x, z].GetType())
+
+            if (ShouldConnect(yPositive))
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight, structureHeight);
-                draft.name = "Structure";
+                draft.name = "Flow Structure";
                 draft.Move(new Vector3(0, 0, tileHeight / 4));
                 compoundDraft.Add(draft);
             }
-            if (yNegative?.GetType() == tiles[x, z].GetType())
+            if (ShouldConnect(yNegative))
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight, structureHeight);
                 draft.Move(new Vector3(0, 0, -tileHeight / 4));
-                draft.name = "Structure";
+                draft.name = "Flow Structure";
                 compoundDraft.Add(draft);
             }
 
@@ -81,6 +88,19 @@ namespace RogueWave
             contentObject.AddComponent<MeshCollider>().sharedMesh = meshFilter.mesh;
 
             base.GenerateTileContent(x, z, tiles);
+        }
+
+        private bool ShouldConnect(BaseTile otherTile)
+        {
+            foreach (BaseTile connectionType in validConnections)
+            {
+                if (otherTile?.GetType() == connectionType.GetType())
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private void GetNeighbours(int x, int y, BaseTile[,] tiles)

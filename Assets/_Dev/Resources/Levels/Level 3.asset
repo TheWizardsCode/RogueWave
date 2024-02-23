@@ -16,11 +16,15 @@ MonoBehaviour:
   size: {x: 8, y: 8}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  tileDefinitions:
-  - {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-  - {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
-  - {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-  - {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
+  availableTiles:
+  - tile: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    weight: 0.792
+  - tile: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
+    weight: 0.468
+  - tile: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
+    weight: 0.679
+  - tile: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
+    weight: 0.258
   enemySpawnChance: 0
   waves:
   - {fileID: 11400000, guid: d4b0e437136e476478ae4b38450caeb5, type: 2}

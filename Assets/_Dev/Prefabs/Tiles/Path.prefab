@@ -41,12 +41,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 1125955095931971287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e5babf7d9ab924d42ae2511bdaa63e74, type: 3}
+  m_Script: {fileID: 11500000, guid: 60f96795b3618e34b8934e3173607be4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
   spawnFurniture: 0
   furnitureChance: 0.25
   furniturePrefabs: []
-  wallMaterial: {fileID: 2100000, guid: cda8aea4c982e154fb6821b85fffa65d, type: 2}
-  wallHeight: 0.05
+  structureMaterial: {fileID: 2100000, guid: cda8aea4c982e154fb6821b85fffa65d, type: 2}
+  structureHeight: 0.02
+  validConnections:
+  - {fileID: -643772105435015575}
+  - {fileID: 4512869180751816955, guid: 05f0bc6a21f0d5b43a6300b84a18e744, type: 3}
+  - {fileID: 4512869180751816955, guid: 0632310973690cd4b8d6f686f3ab92ef, type: 3}
+  - {fileID: 4512869180751816955, guid: 1b35890d051dd3b4b8ff71dc0b58642a, type: 3}

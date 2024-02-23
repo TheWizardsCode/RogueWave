@@ -26,8 +26,6 @@ namespace RogueWave
         [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
             "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the top right of the allowed areas for this tile will be at (10, 0, 10).")]
         internal Vector3 topRightBoundary = Vector3.one;
-        [SerializeField, Range(0, 1), Tooltip("The likelyhood of this tile being selected when multiple tiles are viable. Note this is not an absolute probability it is relative. The higher the chance here the more likely it will be selected. So, if there are two candidates with a chance of 0.1 then each has an equabl probability of being selected, while if there is one at a chance of 1 and another at a chance of 0.5 the relative probabilities are 1/(1+0.5) and 0.5/(1+0.5).")]
-        internal float weight = 0.5f;
 
         [SerializeField, Tooltip("The tile prefab to spawn for this tile type.")]
         BaseTile tilePrefab;
@@ -41,6 +39,8 @@ namespace RogueWave
         internal List<TileConstraint> zPositiveConstraints = new List<TileConstraint>();
         [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
         internal List<TileConstraint> zNegativeConstraints = new List<TileConstraint>();
+
+        internal float weight { get; set; }
 
         internal BaseTile GetTileObject(Transform root)
         {

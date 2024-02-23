@@ -170,11 +170,11 @@ namespace RogueWave
                     if (tiles[x, y] == null) {
                         List<TileDefinition> candidates = new List<TileDefinition>();
 
-                        foreach (TileDefinition candidate in levelDefinition.tileDefinitions)
+                        foreach (AvailableTile candidate in levelDefinition.availableTiles)
                         {
-                            if (IsValidTileFor(x, y, candidate))
+                            if (IsValidTileFor(x, y, candidate.tile))
                             {
-                                candidates.Add(CreateTileDefinition(candidate));
+                                candidates.Add(candidate.InstantiateTile());
 
                                 if (candidates.Count > lowestEntropy)
                                 {
@@ -288,10 +288,6 @@ namespace RogueWave
                         //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the x positive tile is {otherTile}.");
                         //}
                     }
-                    else
-                    {
-                        isValid &= Random.value <= candidate.weight;
-                    }
                 }
             }
 
@@ -312,10 +308,6 @@ namespace RogueWave
                         //{
                         //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the x negative tile is {otherTile}.");
                         //}
-                    }
-                    else
-                    {
-                        isValid &= Random.value <= candidate.weight;
                     }
                 }
             }
@@ -338,10 +330,6 @@ namespace RogueWave
                         //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the y positive tile is {otherTile}.");
                         //}
                     }
-                    else
-                    {
-                        isValid &= Random.value <= candidate.weight;
-                    }
                 }
             }
 
@@ -363,29 +351,13 @@ namespace RogueWave
                         //    Debug.Log($"{tile.name} is not valid for ({x}, {y}) because the y negative tile is {otherTile.name}.");
                         //}
                     }
-                    else
-                    {
-                        isValid &= Random.value <= candidate.weight;
-                    }
                 }
             }
 
             return isValid;
         }
 
-        private TileDefinition CreateTileDefinition(TileDefinition template)
-        {
-            TileDefinition instance = ScriptableObject.CreateInstance<TileDefinition>();
-            foreach (var field in typeof(TileDefinition).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                field.SetValue(instance, field.GetValue(template));
-            }
-
-            instance.name = template.name;
-            return instance;
-        }
-
-        private void CollapseTile(List<TileDefinition> possibleTileDefinitions, int x, int y, int xSize, int ySize) {
+        private void CollapseTile(List<TileDefinition> possibleTiles, int x, int y, int xSize, int ySize) {
             // if this tile is not null then we already collapsed this tile, shouldn't happen but worth checking.
             if (tiles[x, y] != null) 
             {
@@ -393,27 +365,27 @@ namespace RogueWave
             }
 
             // if there are no candidates then we need to place an Empty tile
-            if (possibleTileDefinitions.Count == 0)
+            if (possibleTiles.Count == 0)
             {
                 Debug.LogWarning($"No valid tile for {x}, {y}. Defaulting to a empty. We shouldn't get to this stage with no candidate.");
                 InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
             }
             // if there is only one candidate then we can place that tile
-            else if (possibleTileDefinitions.Count == 1)
+            else if (possibleTiles.Count == 1)
             {
-                InstantiateTile(possibleTileDefinitions[0], x, y);
+                InstantiateTile(possibleTiles[0], x, y);
             }
             // We have more than one candidate, pick one at random
             else
             {
                 float totalChance = 0;
-                foreach (TileDefinition candidate in possibleTileDefinitions)
+                foreach (TileDefinition candidate in possibleTiles)
                 {
                     totalChance += candidate.weight;
                 }
 
                 float random = Random.Range(0, totalChance);
-                foreach (TileDefinition candidate in possibleTileDefinitions)
+                foreach (TileDefinition candidate in possibleTiles)
                 {
                     totalChance -= candidate.weight;
                     if (random >= totalChance)

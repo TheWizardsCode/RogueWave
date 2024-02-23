@@ -16,12 +16,18 @@ MonoBehaviour:
   size: {x: 20, y: 20}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  tileDefinitions:
-  - {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-  - {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  - {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
-  - {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
-  - {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  availableTiles:
+  - tile: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
+    weight: 0.679
+  - tile: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
+    weight: 0.243
+  - tile: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
+    weight: 0.586
+  - tile: {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
+    weight: 0.5
+  - tile: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+    weight: 0.5
+  enemySpawnChance: 0.25
   waves:
   - {fileID: 11400000, guid: 40bf7cd588be7754680f5d65daf4a29e, type: 2}
   - {fileID: 11400000, guid: 0b6381ee6cae5af4e811c12c271ea057, type: 2}
