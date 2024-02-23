@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RogueWave
 {
-    internal class PathTile : FlowTile
+    internal class PathTile : ConnectedTile
     {
     }
 }
