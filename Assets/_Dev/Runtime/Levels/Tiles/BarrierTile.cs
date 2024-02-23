@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RogueWave
 {
-    internal class BarrierTile : FlowTile
+    internal class BarrierTile : ConnectedTile
     {
     }
 }

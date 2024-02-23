@@ -12,7 +12,7 @@ namespace RogueWave
     /// <summary>
     /// A Flow Tile is one that generates a wall or path to influence the flow of traffic through that tile.
     /// </summary>
-    internal class FlowTile : BaseTile
+    internal class ConnectedTile : BaseTile
     {
         [SerializeField, Tooltip("The material to use for the structure.")]
         Material structureMaterial;

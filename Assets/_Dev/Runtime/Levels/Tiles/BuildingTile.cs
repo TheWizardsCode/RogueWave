@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RogueWave
 {
-    internal class BuildingTile : FlowTile
+    internal class BuildingTile : ConnectedTile
     {
         [SerializeField, Tooltip("The building prefabs that can be placed on this tile.")]
         internal GameObject[] buildingPrefabs;
