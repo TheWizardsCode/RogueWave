@@ -276,7 +276,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3991244696875155355}
-  m_Layer: 12
+  m_Layer: 31
   m_Name: Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -346,9 +346,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5117700066308340382, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
+      propertyPath: m_Layer
+      value: 31
+      objectReference: {fileID: 0}
+    - target: {fileID: -391268320553695201, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
+      propertyPath: m_Layer
+      value: 31
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
       propertyPath: m_Name
       value: doughnut
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
+      propertyPath: m_Layer
+      value: 31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

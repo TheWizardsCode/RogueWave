@@ -262,7 +262,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6926119318600642585}
-  m_Layer: 12
+  m_Layer: 31
   m_Name: Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -335,6 +335,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 0740c023dc155e041aa63aa12cff45bb, type: 3}
       propertyPath: m_Name
       value: wideTorusNodes
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0740c023dc155e041aa63aa12cff45bb, type: 3}
+      propertyPath: m_Layer
+      value: 31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -437,6 +441,10 @@ PrefabInstance:
     - target: {fileID: 1070318524709720543, guid: 2f077e09c83a3aa48a0ec87eaddb886a, type: 3}
       propertyPath: m_Name
       value: EnemyBurstFireGun
+      objectReference: {fileID: 0}
+    - target: {fileID: 1070318524709720543, guid: 2f077e09c83a3aa48a0ec87eaddb886a, type: 3}
+      propertyPath: m_Layer
+      value: 31
       objectReference: {fileID: 0}
     - target: {fileID: 3327559697653319178, guid: 2f077e09c83a3aa48a0ec87eaddb886a, type: 3}
       propertyPath: m_BurstSize
