@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using NeoFPS.SinglePlayer;
 using NeoSaveGames.Serialization;
 using NeoSaveGames;
@@ -241,7 +241,19 @@ namespace RogueWave
             IRecipe startingWeapon;
             if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
             {
-                AddToLoadout(((WeaponPickupRecipe)startingWeapon).pickup.GetItemPrefab());
+                WeaponPickupRecipe weaponRecipe = startingWeapon as WeaponPickupRecipe;
+                PassiveItemPickupRecipe passiveRecipe = startingWeapon as PassiveItemPickupRecipe;
+                if (weaponRecipe != null)
+                {
+                    RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
+                }
+                if (passiveRecipe != null)
+                {
+                    PassiveWeapon passiveWeapon = Instantiate(passiveRecipe.pickup.itemPrefab);
+                    passiveWeapon.transform.SetParent(character.transform);
+                    passiveWeapon.transform.localPosition = new Vector3(0, 1.6f, 0);
+
+                }
             }
             ConfigureLoadout();
 
@@ -359,6 +371,10 @@ namespace RogueWave
                 for (int i = 0; i < _startingRecipes.Length; i++)
                 {
                     if (_startingRecipes[i] is WeaponPickupRecipe)
+                    {
+                        RogueLiteManager.persistentData.WeaponBuildOrder.Add(_startingRecipes[i].uniqueID);
+                    }
+                    else if (_startingRecipes[i] is PassiveItemPickupRecipe)
                     {
                         RogueLiteManager.persistentData.WeaponBuildOrder.Add(_startingRecipes[i].uniqueID);
                     }

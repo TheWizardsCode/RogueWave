@@ -7,7 +7,6 @@ using System.Runtime.CompilerServices;
 
 namespace RogueWave
 {
-
     public static class InteractivePickupExtension
     {
         public static FpsInventoryItemBase GetItemPrefab(this InteractivePickup instance)

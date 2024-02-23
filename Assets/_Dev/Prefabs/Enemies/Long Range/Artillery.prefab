@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1723859731166736551}
-  m_Layer: 12
+  m_Layer: 31
   m_Name: Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -295,6 +295,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: EnemyDrunkenArtilleryGun
       objectReference: {fileID: 0}
+    - target: {fileID: 1070318524709720543, guid: 0792079464d15c840ae5af4f5f146fbd, type: 3}
+      propertyPath: m_Layer
+      value: 31
+      objectReference: {fileID: 0}
     - target: {fileID: 6116810472173647472, guid: 0792079464d15c840ae5af4f5f146fbd, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.4
@@ -396,6 +400,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 05ddb496004070443aca3b2d283a33e7, type: 3}
       propertyPath: m_Name
       value: Model
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 05ddb496004070443aca3b2d283a33e7, type: 3}
+      propertyPath: m_Layer
+      value: 31
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

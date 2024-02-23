@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5256639003744301464}
-  m_Layer: 12
+  m_Layer: 31
   m_Name: Sensors
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -350,6 +350,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: bottlecap
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}
+      propertyPath: m_Layer
+      value: 31
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -448,6 +452,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1450764596457488462}
     m_Modifications:
+    - target: {fileID: 715693049552409892, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
+      propertyPath: damagePerSecond
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 1120541826775380849, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Radius
       value: 1.25

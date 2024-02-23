@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3279353296584564737}
   - component: {fileID: 7915850157571994926}
   - component: {fileID: 4237585111736123269}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Core Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 1442629194260554073}
   - component: {fileID: 4897065453226415121}
   - component: {fileID: 5268795853535200986}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Point Light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -239,7 +239,7 @@ GameObject:
   - component: {fileID: 6576056135945926902}
   - component: {fileID: 2142438204395784425}
   - component: {fileID: 611689538892668499}
-  m_Layer: 0
+  m_Layer: 31
   m_Name: Spawner Building Proximity
   m_TagString: AI
   m_Icon: {fileID: 0}
@@ -283,7 +283,6 @@ MonoBehaviour:
   destroySpawnsOnDeath: 0
   hasShield: 0
   shieldGenerator: {fileID: 0}
-  shieldGenParticlePrefab: {fileID: 5327745311076098471, guid: 05ee104c9679f0f41bda212c0bb37ffc, type: 3}
   numShieldGenerators: 3
   shieldGeneratorRPM: 22.5
   shieldCollider: {fileID: 0}
@@ -426,7 +425,7 @@ GameObject:
   - component: {fileID: 5272762119277244771}
   - component: {fileID: 7982747437413893545}
   - component: {fileID: 5635240918685092749}
-  m_Layer: 24
+  m_Layer: 31
   m_Name: spawner_core (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -526,7 +525,7 @@ GameObject:
   - component: {fileID: 4993242163737316776}
   - component: {fileID: 7111034291139656034}
   - component: {fileID: 976793390643503113}
-  m_Layer: 24
+  m_Layer: 31
   m_Name: spawner_core
   m_TagString: Untagged
   m_Icon: {fileID: 0}
