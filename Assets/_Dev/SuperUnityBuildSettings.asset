@@ -18,8 +18,8 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 23
-    buildVersion: 2024.02.16.2770
+    buildCounter: 25
+    buildVersion: 2024.02.21.199
     versionTemplate: $YEAR.$MONTH.$DAY.$SECONDS
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -93,7 +93,7 @@ MonoBehaviour:
       - Release
       - 
       _Values:
-      - enabled: 0
+      - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:
@@ -116,7 +116,7 @@ MonoBehaviour:
         childKeys:
         - DeveloperTest/PC
         - DeveloperTest/Linux
-      - enabled: 1
+      - enabled: 0
         childKeys: []
       - enabled: 1
         childKeys:
@@ -146,7 +146,7 @@ MonoBehaviour:
     showBuildInfo: 0
     hideDisabled: 0
     treeView: 0
-    selectedKeyChain: DeveloperTest/PC/Windows x64 (App)/Mono
+    selectedKeyChain: Release/PC/Windows x64 (App)/Mono
   _preBuildActions:
     buildActions: []
   _postBuildActions:

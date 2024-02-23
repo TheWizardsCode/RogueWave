@@ -32,6 +32,9 @@ namespace RogueWave
         internal override bool shouldAttack {
             get
             {
+                if (FpsSoloCharacter.localPlayerCharacter == null)
+                    return false;
+
                 if (Vector3.Distance(transform.position, FpsSoloCharacter.localPlayerCharacter.localTransform.position) < minAttackDistance)
                 {
                     return base.shouldAttack;
