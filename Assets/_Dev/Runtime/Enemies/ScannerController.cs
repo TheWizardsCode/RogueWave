@@ -39,7 +39,7 @@ namespace RogueWave
             }
         }
 
-        protected void Update()
+        protected void LateUpdate()
         {
             if (m_controller.Target == null || m_TimeOfNextScan > Time.timeSinceLevelLoad)
             {

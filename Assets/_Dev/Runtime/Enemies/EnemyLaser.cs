@@ -102,7 +102,7 @@ namespace RogueWave
             HideLaser();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (controller.CanSeeTarget == false) {
                 state = State.Idle;

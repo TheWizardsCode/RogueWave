@@ -24,7 +24,7 @@ namespace RogueWave
             controller = GetComponentInParent<BasicEnemyController>();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             if (_StartupTime > 0f)
             {
@@ -46,6 +46,7 @@ namespace RogueWave
                 {
                     m_TriggerDown = false;
                     m_Firearm.trigger.Release();
+                    Debug.Log("Release");
                 }
             }
 

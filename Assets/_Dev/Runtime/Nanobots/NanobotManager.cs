@@ -3,7 +3,6 @@ using NeoFPS;
 using NeoFPS.ModularFirearms;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -142,14 +141,16 @@ namespace RogueWave
 
         private void Update()
         {
-            if (status != Status.Idle || Time.timeSinceLevelLoad < timeOfNextBuiild)
+            if (status != Status.Idle)
             {
                 return;
             }
 
-            // Offer a new recipe if leveled up
+            // Are we leveling up?
             if (resourcesForNextNanobotLevel <= 0)
             {
+                LevelUp();
+
                 if (status != Status.Requesting && timeOfLastRewardOffer + timeBetweenRecipeOffers < Time.timeSinceLevelLoad)
                 {
                     if (rewardCoroutine != null)
@@ -158,6 +159,11 @@ namespace RogueWave
                     }
                     rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
                 }
+            }
+
+            if (timeOfNextBuiild > Time.timeSinceLevelLoad)
+            {
+                return;
             }
 
             if (status == Status.OfferingRecipe || status == Status.Requesting) {
@@ -259,10 +265,6 @@ namespace RogueWave
                 // TODO: add this key to the NeoFPS input manager
                 if (Input.GetKeyDown(KeyCode.B))
                 {
-                    LevelUp();
-
-                    resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
-
                     if (status == Status.Building) {
                         status = Status.RequestQueued;
                         clip = recipeRequestQueued[Random.Range(0, recipeRequestQueued.Length)];
@@ -319,6 +321,7 @@ namespace RogueWave
 
         private void LevelUp()
         {
+            resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             RogueLiteManager.persistentData.currentNanobotLevel++;
             onNanobotLevelUp?.Invoke();
         }

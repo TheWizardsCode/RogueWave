@@ -193,7 +193,7 @@ namespace RogueWave
             }
         }
 
-        protected virtual void Update()
+        protected virtual void LateUpdate()
         {
             if (config.isMobile == false)
             {
