@@ -47,7 +47,6 @@ namespace RogueWave
             {
                 m_TriggerDown = false;
                 m_Firearm.trigger.Release();
-                Debug.Log($"{this} release trigger. Target {controller.Target} is at position {controller.Target.position} (RB at {controller.Target.GetComponent<Rigidbody>().position})");
             }
 
             if (_AimAtPlayer && controller.Target != null)
