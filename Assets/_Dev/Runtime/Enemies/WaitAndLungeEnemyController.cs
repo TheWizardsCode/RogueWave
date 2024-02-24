@@ -15,7 +15,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The multiplier for speed when attacking."), Foldout("Behaviour")]
         protected float attackSpeedMultiplier = 2f;
 
-        protected override void Update()
+        protected void Update()
         {
             if (FpsSoloCharacter.localPlayerCharacter == null)
                 return;
@@ -23,9 +23,6 @@ namespace RogueWave
             if (shouldAttack)
             {
                 MoveTowards(Target.position, attackSpeedMultiplier);
-            } else
-            {
-                base.Update();
             }
         }
 
