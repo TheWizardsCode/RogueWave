@@ -13,6 +13,7 @@ namespace RogueWave
 
         internal int runNumber = 0;
         internal int currentGameLevel = 0; // The currentl level of the game, this advances each time the player completes all waves in a level.
+        internal int currentNanobotLevel = 0; // The current level of the nanobots, this advances each time the player gahters enough resources to level up.
 
         int m_CurrentResources = 0; // The current resources of the player, the player gains resources by destroying enemies and loses resources by dying
         public int currentResources

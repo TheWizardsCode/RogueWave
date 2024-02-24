@@ -137,7 +137,7 @@ namespace RogueWave
         {
 #if UNITY_EDITOR
             Debug.Log($"Getting offer candidates for {typeof(T)}." +
-                $"\nNanobot level: {RogueLiteManager.runData.currentNanobotLevel}" +
+                $"\nNanobot level: {RogueLiteManager.persistentData.currentNanobotLevel}" +
                 $"\nPowerup recipes: {powerupRecipes.Count}" +
                 $"\nResources: {RogueLiteManager.persistentData.currentResources}");
 #endif
@@ -154,7 +154,7 @@ namespace RogueWave
                     continue;
                 }
 
-                if (RogueLiteManager.runData.currentNanobotLevel < recipe.Level)
+                if (RogueLiteManager.persistentData.currentNanobotLevel < recipe.Level)
                 {
 #if UNITY_EDITOR
                     Debug.Log($"Skip: {recipe} is higher than the current nanobot level.");
