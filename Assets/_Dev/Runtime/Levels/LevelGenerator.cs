@@ -76,6 +76,7 @@ namespace RogueWave
                     {
                         isPlaced = true;
                         InstantiateTile(tile, x, z);
+                        Debug.Log($"Placed fixed tile {tile.name} at ({x}, {z})");
                     }
                 }
 
@@ -103,25 +104,34 @@ namespace RogueWave
         {
             RogueWaveGameMode spawn = FindObjectOfType<RogueWaveGameMode>();
             int x, y;
+            int tries = 0;
+            bool isPlaced = false;
 
-            if (((RogueWaveGameMode)FpsGameMode.current).randomizePlayerSpawn)
+            while (isPlaced == false && tries < 50)
             {
-                x = Random.Range(1, xSize - 1);
-                y = Random.Range(1, ySize - 1);
-
-                if (tiles[x, y] != null)
+                tries++;
+                if (((RogueWaveGameMode)FpsGameMode.current).randomizePlayerSpawn)
                 {
-                    PlacePlayerSpawn();
+                    x = Random.Range(1, xSize - 1);
+                    y = Random.Range(1, ySize - 1);
+                }
+                else
+                {
+                    x = WorldPositionToTileCoordinates(spawn.transform.position).x;
+                    y = WorldPositionToTileCoordinates(spawn.transform.position).y;
+                }
+
+                if (tiles[x, y] == null) {
+                    InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
+                    spawn.transform.position = TileCoordinatesToWorldPosition(x, y);
+                    isPlaced = true;
                 }
             }
-            else
-            {
-                x = WorldPositionToTileCoordinates(spawn.transform.position).x;
-                y = WorldPositionToTileCoordinates(spawn.transform.position).y;
-            }
 
-            InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
-            spawn.transform.position = TileCoordinatesToWorldPosition(x, y);
+            if (isPlaced == false)
+            {
+                Debug.LogError($"Failed to place player spawn after {tries} tries.");
+            }
         }
 
         private static Vector3 TileCoordinatesToWorldPosition(int x, int y)

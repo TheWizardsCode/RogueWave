@@ -319,7 +319,7 @@ namespace RogueWave
 
         private void LevelUp()
         {
-            RogueLiteManager.runData.currentNanobotLevel++;
+            RogueLiteManager.persistentData.currentNanobotLevel++;
             onNanobotLevelUp?.Invoke();
         }
 
@@ -356,7 +356,7 @@ namespace RogueWave
 
         private int GetRequiredResourcesForNextNanobotLevel()
         {
-            return Mathf.RoundToInt((RogueLiteManager.runData.currentNanobotLevel + 1) * resourcesPerLevelMultiplier * baseResourcesPerLevel);
+            return Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * resourcesPerLevelMultiplier * baseResourcesPerLevel);
         }
 
         // TODO: we can probably generalize these Try* methods now that we have refactored the recipes to use interfaces/Abstract classes

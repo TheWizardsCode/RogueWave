@@ -130,7 +130,7 @@ namespace RogueWave
         {
             if (m_NanobotLevelNumberText != null)
             {
-                m_NanobotLevelNumberText.text = (RogueLiteManager.runData.currentNanobotLevel + 1).ToString();
+                m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
             }
         }
 
