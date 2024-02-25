@@ -123,11 +123,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ScaledDestructionParticles:
   - {fileID: 7343961097728468581, guid: 615239656eb90aa4389b7e949717865e, type: 3}
+  m_PooledScaledDestructionParticles:
+  - {fileID: -5594314414105656951, guid: 615239656eb90aa4389b7e949717865e, type: 3}
   m_ScaledFXParticles:
   - {fileID: 7343961097728468581, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
+  - {fileID: 7343961097728468581, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
+  m_PooledScaledFXParticles: []
   m_ParticalDensity: 25
   m_ExplosiveForce: 1.04
-  m_UnscaledDestructionParticles: []
+  m_UnscaledParticles: []
   m_ImpactDamageMultiplier: 1
 --- !u!1001 &6398481301932232081
 PrefabInstance:

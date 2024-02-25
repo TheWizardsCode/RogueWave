@@ -8,15 +8,15 @@ namespace RogueWave
     public class DestructibleController : MonoBehaviour
     {
         [SerializeField, Tooltip("The particle effects to replace the object with when it is destroyed. These effects will have their colour and emitter shape adjusted to match the object being destroyed.")]
-        GameObject[] m_ScaledDestructionParticles;
+        PooledObject[] m_PooledScaledDestructionParticles;
         [SerializeField, Tooltip("The VFX (e.g. smoke and fire) particle effects to spawn when the object is destroyed. These effects will not have their colour adjusted to match the object being destroyed, but they will be adjusted to match shape.")]
-        GameObject[] m_ScaledFXParticles;
+        PooledObject[] m_PooledScaledFXParticles;
         [SerializeField, Tooltip("Density of particles to spawn. The higher this value the more particles will spawn."), Range(0.5f, 100)]
         float m_ParticalDensity = 25;
         [SerializeField, Tooltip("Explosive force. The higher this value the more the particles will move away from the center of the destructable object."), Range(0f, 10f)]
         float m_ExplosiveForce = 3;
         [SerializeField, Tooltip("The particle effect to replace the object with when it is destroyed. These effects will be adjusted to match the obnject being destroyed.")]
-        GameObject[] m_UnscaledParticles;
+        PooledObject[] m_PooledUnscaledParticles;
 
         [Header("Fall Damage")]
         [SerializeField, Tooltip("A multiplier for fall damage taken by this object. 0 means no damage will be taken. This allows you can make the object more or less susceptible to breakage when falling.")]
@@ -39,7 +39,7 @@ namespace RogueWave
         {
             if (!isAlive)
             {
-                if (m_ScaledFXParticles != null ||  m_ScaledDestructionParticles != null)
+                if (m_PooledScaledFXParticles != null ||  m_PooledScaledDestructionParticles != null)
                 {
                     //OPTIMIZATION: cache on start
                     MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
@@ -58,25 +58,24 @@ namespace RogueWave
                     int boundsMultiplier = 2 * (int)(meshRenderers[0].bounds.extents.x + meshRenderers[0].bounds.extents.y + meshRenderers[0].bounds.extents.z);
                     //Debug.Log($"Bounds multiplier {boundsMultiplier}");
 
-                    if (m_ScaledDestructionParticles != null)
+                    if (m_PooledScaledDestructionParticles != null)
                     {
-                        SpawnScaledParticle(m_ScaledDestructionParticles, meshRenderers[0], boundsMultiplier, true);
+                        SpawnScaledParticle<PooledObject>(m_PooledScaledDestructionParticles, meshRenderers[0], boundsMultiplier, true);
                     }
 
-                    if (m_ScaledFXParticles != null)
+                    if (m_PooledScaledFXParticles != null)
                     {
-                        SpawnScaledParticle(m_ScaledFXParticles, meshRenderers[0], boundsMultiplier, false);
+                        SpawnScaledParticle<PooledObject>(m_PooledScaledFXParticles, meshRenderers[0], boundsMultiplier, false);
                     }
                 }
 
-                if (m_UnscaledParticles != null)
+                if (m_PooledUnscaledParticles != null)
                 {
                     //OPTIMIZATION: Use a pool system for the destruction particles
-                    for (int d = 0; d < m_UnscaledParticles.Length; d++)
+                    for (int d = 0; d < m_PooledUnscaledParticles.Length; d++)
                     {
-                        GameObject go = Instantiate(m_UnscaledParticles[d]);
-                        go.transform.position = transform.position;
-                        go.transform.localPosition = Vector3.zero;
+                       PooledObject pooledObject = PoolManager.GetPooledObject<PooledObject>(m_PooledUnscaledParticles[d], transform.position, Quaternion.identity);
+                       pooledObject.transform.localPosition = Vector3.zero;
 
                     }
                 }
@@ -85,15 +84,13 @@ namespace RogueWave
             }
         }
 
-        private void SpawnScaledParticle(GameObject[] particleSystems,  MeshRenderer meshRenderer, int boundsMultiplier, bool inheritColour)
+        private void SpawnScaledParticle<T>(PooledObject[] particleSystems,  MeshRenderer meshRenderer, int boundsMultiplier, bool inheritColour) where T : PooledObject
         {
             for (int d = 0; d < particleSystems.Length; d++)
             {
-                //OPTIMIZATION: Use Neo FPS Pool system
-                GameObject go = Instantiate(particleSystems[d]);
-                go.transform.position = transform.position;
+                T pooledObject = PoolManager.GetPooledObject<T>(particleSystems[d], transform.position, Quaternion.identity);
 
-                ParticleSystem[] ps = go.GetComponentsInChildren<ParticleSystem>();
+                ParticleSystem[] ps = pooledObject.GetComponentsInChildren<ParticleSystem>();
 
                 ParticleSystem.ShapeModule shape;
                 ParticleSystem.EmissionModule emission;
@@ -146,7 +143,7 @@ namespace RogueWave
                     }
                 }
 
-                Destroy(go, longestDuration);
+                pooledObject.ReturnToPool(longestDuration);
             }
         }
 

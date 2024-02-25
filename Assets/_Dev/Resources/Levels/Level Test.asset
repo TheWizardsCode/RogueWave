@@ -27,6 +27,8 @@ MonoBehaviour:
     weight: 0.789
   - tile: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
     weight: 0.258
+  - tile: {fileID: 11400000, guid: d97bb90dd900b6c4f8e46dfbf2812c7a, type: 2}
+    weight: 1
   enemySpawnChance: 0
   waves:
   - {fileID: 11400000, guid: d0bacb7e2cf2eaf43bd02ca3e6299354, type: 2}
@@ -34,4 +36,5 @@ MonoBehaviour:
   generateNewWaves: 0
   maxAlive: 200
   generateLevelOnSpawn: 1
-  prePlacedTiles: []
+  prePlacedTiles:
+  - {fileID: 11400000, guid: d97bb90dd900b6c4f8e46dfbf2812c7a, type: 2}
