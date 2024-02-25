@@ -93,7 +93,7 @@ namespace RogueWave
                 }
 
                 // Drop resources
-                if (Random.value <= resourcesDropChance)
+                if (Random.value <= resourcesDropChance && resourcesPrefab != null)
                 {
                     Vector3 pos = transform.position;
                     pos.y = 0;
