@@ -157,15 +157,7 @@ namespace RogueWave
             if (resourcesForNextNanobotLevel <= 0)
             {
                 LevelUp();
-
-                if (status != Status.Requesting && timeOfLastRewardOffer + timeBetweenRecipeOffers < Time.timeSinceLevelLoad)
-                {
-                    if (rewardCoroutine != null)
-                    {
-                        StopCoroutine(rewardCoroutine);
-                    }
-                    rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
-                }
+                rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
             }
 
             if (timeOfNextBuiild > Time.timeSinceLevelLoad)
@@ -261,7 +253,7 @@ namespace RogueWave
             if (recipeName == null)
             {
                 recipeName = defaultRecipeName;
-                Debug.LogError($"Recipe {currentOfferRecipe.DisplayName} (offer) does not have an audio clip for its name. Used default of `Unkown`.");
+                Debug.LogError($"Recipe {currentOfferRecipe.DisplayName} (offer) does not have an audio clip for its name. Used default name.");
             }
             yield return StartCoroutine(Announce(clip, recipeName));
 
@@ -320,6 +312,16 @@ namespace RogueWave
                     status = Status.Idle;
 
                     break;
+                }
+
+                // if the player does not want the recipe then we will offer another one in a few seconds
+                if (status != Status.Requesting && timeOfLastRewardOffer + timeBetweenRecipeOffers < Time.timeSinceLevelLoad)
+                {
+                    if (rewardCoroutine != null)
+                    {
+                        StopCoroutine(rewardCoroutine);
+                    }
+                    rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
                 }
 
                 yield return null;
