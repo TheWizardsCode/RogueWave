@@ -182,7 +182,7 @@ PrefabInstance:
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: levels.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 0b9628c45a935dd4695701360be1f27e, type: 2}
+      objectReference: {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: levels.Array.data[1]
       value: 
@@ -1482,6 +1482,66 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[0].count
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[1].count
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[2].count
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[3].count
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[4].count
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[5].count
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[6].count
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[0].prototype
+      value: 
+      objectReference: {fileID: -1879706516398249802, guid: d0d4fce4cdd4ddf4798a6c50afb74622, type: 3}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[1].prototype
+      value: 
+      objectReference: {fileID: -5221352478806724427, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[2].prototype
+      value: 
+      objectReference: {fileID: 4953653485023459597, guid: 994d0fb9fbd8ede4ea18d06abd1feb1b, type: 3}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[3].prototype
+      value: 
+      objectReference: {fileID: -5594314414105656951, guid: 615239656eb90aa4389b7e949717865e, type: 3}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[4].prototype
+      value: 
+      objectReference: {fileID: 8150638456927655937, guid: 2455b1de6657def4889bd7908ac7af0f, type: 3}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[5].prototype
+      value: 
+      objectReference: {fileID: 7906642412134118403, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
+    - target: {fileID: 114924728301143574, guid: f6e1a063164322a4597bc3b87612b035, type: 3}
+      propertyPath: m_ScenePools.Array.data[6].prototype
+      value: 
+      objectReference: {fileID: 8181000971539347722, guid: daefea69fa3e00549bd5b43e5fb26840, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

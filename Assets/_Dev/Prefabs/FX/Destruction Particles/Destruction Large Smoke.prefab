@@ -5020,6 +5020,7 @@ GameObject:
   - component: {fileID: 7175079605855161960}
   - component: {fileID: 1292947172530941603}
   - component: {fileID: 8002182946524933637}
+  - component: {fileID: -1879706516398249802}
   m_Layer: 0
   m_Name: Destruction Large Smoke
   m_TagString: Untagged
@@ -10019,3 +10020,15 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &-1879706516398249802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7343961097728468581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
