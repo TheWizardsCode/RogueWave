@@ -12,6 +12,8 @@ namespace RogueWave
     public class Spawner : MonoBehaviour
     {
         [Header("Spawn Behaviours")]
+        [SerializeField, Tooltip("Distance to player for this spawner to be activated. If this is set to 0 then it will always be active, if >0 then the spawner will only be active when the player is within this many units. If the player moves further away then the spawner will pause.")]
+        float activeRange = 0;
         [SerializeField, Tooltip("If true then the spawner will use the level definition defined in the Game Mode to determine the waves to spawn. If false then the spawner will spawn according to the wave definition below.")]
         bool useLevelDefinition = false;
         [SerializeField, HideIf("useLevelDefinition"), Tooltip("The level definition to use to determine the waves to spawn. Set 'Use Level Definition' to true to use the waves set in the level.")]
@@ -20,12 +22,12 @@ namespace RogueWave
         private float timeBetweenWaves = 5;
         [SerializeField, Tooltip("If true then the spawner will ignore the max alive setting in the level definition and will spawn as many enemies as it can.")]
         private bool ignoreMaxAlive = false;
-        [SerializeField, Tooltip("Distance to player for this spawner to be activated. If this is set to 0 then it will always be active, if >0 then the spawner will only be active when the player is within this many units. If the player moves further away then the spawner will pause.")]
-        float activeRange = 0;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
         [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]
         internal bool destroySpawnsOnDeath = true;
+        [SerializeField, Tooltip("If true then the spawner will loop through the waves defined in the level definition if all waves have completed.")]
+        internal bool loopWaves = false;
         
         [Header("Shield")]
         [SerializeField, Tooltip("Should this spawner generate a shield to protect itself?")]
@@ -196,10 +198,17 @@ namespace RogueWave
                 onAllWavesComplete?.Invoke();
                 if (!currentLevel.generateNewWaves)
                 {
-                    Debug.LogWarning("No more waves to spawn.");
-                    currentWave = null;
-                    StopCoroutine(SpawnWaves());
-                    return;
+                    if (loopWaves)
+                    {
+                        currentWaveIndex = 0;
+                    }
+                    else
+                    {
+                        //Debug.LogWarning("No more waves to spawn.");
+                        currentWave = null;
+                        StopCoroutine(SpawnWaves());
+                        return;
+                    }
                 }
                 currentWave = GenerateNewWave();
                 return;
@@ -243,6 +252,7 @@ namespace RogueWave
         {
             while (FpsSoloCharacter.localPlayerCharacter == null || currentLevel == null)
             {
+                currentLevel = RogueWaveGameMode.Instance.currentLevelDefinition;
                 yield return new WaitForSeconds(0.5f);
             }
 
