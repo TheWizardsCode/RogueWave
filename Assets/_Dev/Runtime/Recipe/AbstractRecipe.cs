@@ -19,6 +19,8 @@ namespace RogueWave
         Sprite icon;
         [SerializeField, Tooltip("The zero based level of this recipe. This is used to influence when the recipe should be offered to the player.")]
         int level = 1;
+        [SerializeField, Tooltip("The base weight of this recipe. This is used to influence when the recipe should be offered to the player if all prerequisites have been set. Other factors will affect the total weight, such as the number of complements already owned.")]
+        float baseWeight = 0.2f;
 
         [Header("Build")]
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
@@ -29,6 +31,8 @@ namespace RogueWave
         float cooldown = 10;
         [SerializeField, Tooltip("The recipes that must be built before this recipe can be built.")]
         AbstractRecipe[] dependencies = new AbstractRecipe[0];
+        [SerializeField, Tooltip("The recipes that complement this one. For each complimentary recipe the player already has this one will be given a higher chance of being offered.")]
+        AbstractRecipe[] complements = new AbstractRecipe[0];
         [SerializeField, Tooltip("If true, this recipe can be stacked, that is if the player can hold more than onve of these at a time. Weapons, for example, are not stackable while health boosts are.")]
         bool isStackable = false;
         [SerializeField, ShowIf("isStackable"), Tooltip("The maximum number of this recipe that can be held at once.")]
@@ -118,6 +122,27 @@ namespace RogueWave
         }
 
         public ParticleSystem PickupParticles => pickupParticles;
+
+        public float weight {
+            get
+            {
+                if (complements.Length == 0)
+                {
+                    return baseWeight;
+                }
+
+                int ownedComplements = 0;
+                foreach (IRecipe complement in complements)
+                {
+                    if (RogueLiteManager.runData.Contains(complement))
+                    {
+                        ownedComplements++;
+                    }
+                }
+
+                return (ownedComplements / complements.Length) + baseWeight;
+            }
+        }
 
         public virtual void Reset()
         {

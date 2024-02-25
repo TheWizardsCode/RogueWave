@@ -236,14 +236,14 @@ namespace RogueWave
         IEnumerator OfferInGameRewardRecipe()
         {
             timeOfLastRewardOffer = Time.timeSinceLevelLoad;
-            List<Offer> offers = RecipeManager.GetOffers(1, 0);
+            List<IRecipe> offers = RecipeManager.GetOffers(1, 0);
 
             if (offers.Count == 0)
             {
                 yield break;
             }
 
-            currentOfferRecipe = offers[0].recipe;
+            currentOfferRecipe = offers[0];
             status = Status.OfferingRecipe;
             yield return null;
 
@@ -261,7 +261,7 @@ namespace RogueWave
 
             while (true)
             {
-                // TODO: add this key to the NeoFPS input manager
+                // TODO: add this key to the NeoFPS input manager so that it is configurable
                 if (Input.GetKeyDown(KeyCode.B))
                 {
                     if (status == Status.Building) {
