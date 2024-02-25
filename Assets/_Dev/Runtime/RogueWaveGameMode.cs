@@ -243,17 +243,9 @@ namespace RogueWave
             if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
             {
                 WeaponPickupRecipe weaponRecipe = startingWeapon as WeaponPickupRecipe;
-                PassiveItemPickupRecipe passiveRecipe = startingWeapon as PassiveItemPickupRecipe;
                 if (weaponRecipe != null)
                 {
                     RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
-                }
-                if (passiveRecipe != null)
-                {
-                    PassiveWeapon passiveWeapon = Instantiate(passiveRecipe.pickup.itemPrefab);
-                    passiveWeapon.transform.SetParent(character.transform);
-                    passiveWeapon.transform.localPosition = new Vector3(0, 1.6f, 0);
-
                 }
             }
             ConfigureLoadout();

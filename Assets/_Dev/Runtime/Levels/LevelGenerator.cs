@@ -76,7 +76,7 @@ namespace RogueWave
                     {
                         isPlaced = true;
                         InstantiateTile(tile, x, z);
-                        Debug.Log($"Placed fixed tile {tile.name} at ({x}, {z})");
+                       // Debug.Log($"Placed fixed tile {tile.name} at ({x}, {z})");
                     }
                 }
 
