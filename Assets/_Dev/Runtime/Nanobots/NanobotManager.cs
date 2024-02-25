@@ -187,6 +187,12 @@ namespace RogueWave
                 return;
             }
 
+            // If we are in good shape then see if there's a new weapon we can build
+            if (TryWeaponRecipes())
+            {
+                return;
+            }
+
             // Health is the next priority, got to stay alive, but only build at this stage we should only need a small topup
             if (TryHealthRecipes(0.85f))
             {
