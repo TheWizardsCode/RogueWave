@@ -22,7 +22,19 @@ namespace RogueWave
         [SerializeField, Tooltip("A multiplier for fall damage taken by this object. 0 means no damage will be taken. This allows you can make the object more or less susceptible to breakage when falling.")]
         float m_ImpactDamageMultiplier = 1;
 
+        [Header("Rewards")]
+        [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
+        internal float resourcesDropChance = 0.5f;
+        [SerializeField, Tooltip("The resources this enemy drops when killed.")]
+        internal ResourcesPickup resourcesPrefab;
+
         private BasicHealthManager m_HealthManager;
+        private Renderer renderer;
+
+        private void Awake()
+        {
+            renderer = GetComponentInChildren<Renderer>();
+        }
 
         private void OnEnable()
         {
@@ -77,6 +89,22 @@ namespace RogueWave
                        PooledObject pooledObject = PoolManager.GetPooledObject<PooledObject>(m_PooledUnscaledParticles[d], transform.position, Quaternion.identity);
                        pooledObject.transform.localPosition = Vector3.zero;
 
+                    }
+                }
+
+                // Drop resources
+                if (Random.value <= resourcesDropChance)
+                {
+                    Vector3 pos = transform.position;
+                    pos.y = 0;
+                    ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
+                    if (renderer != null)
+                    {
+                        var resourcesRenderer = resources.GetComponentInChildren<Renderer>();
+                        if (resourcesRenderer != null)
+                        {
+                            resourcesRenderer.material = renderer.material;
+                        }
                     }
                 }
 
