@@ -1,10 +1,12 @@
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.ModularFirearms;
+using NeoFPS.SinglePlayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.TextCore.Text;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -50,6 +52,7 @@ namespace RogueWave
         private List<AmmunitionEffectUpgradeRecipe> ammoUpgradeRecipes = new List<AmmunitionEffectUpgradeRecipe>();
         private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
         private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
+        private List<PassiveItemPickupRecipe> passiveRecipes = new List<PassiveItemPickupRecipe>();
 
         internal int resourcesForNextNanobotLevel = 0;
 
@@ -64,6 +67,10 @@ namespace RogueWave
 
         public delegate void OnOfferChanged(IRecipe offer);
         public event OnOfferChanged onOfferChanged;
+
+
+        float earliestTimeOfNextItemSpawn = 0;
+        private Coroutine rewardCoroutine;
 
         public enum Status
         {
@@ -447,9 +454,6 @@ namespace RogueWave
             return false;
         }
 
-        float earliestTimeOfNextItemSpawn = 0;
-        private Coroutine rewardCoroutine;
-
         private bool TryItemRecipes()
         {
             if (earliestTimeOfNextItemSpawn > Time.timeSinceLevelLoad)
@@ -643,6 +647,13 @@ namespace RogueWave
             {
                 ammoUpgradeRecipes.Add(ammoUpgradeRecipe);
             }
+            else if (recipe is PassiveItemPickupRecipe passiveRecipe)
+            {
+                if (passiveRecipe.Apply(this))
+                {
+                    passiveRecipes.Add(passiveRecipe);
+                }
+            }
 #if UNITY_EDITOR
             else
             {
@@ -721,6 +732,11 @@ namespace RogueWave
                 itemRecipes[k] = itemRecipes[n];
                 itemRecipes[n] = value;
             }
+        }
+
+        internal int GetAppliedCount(PassiveItemPickupRecipe passiveItemPickupRecipe)
+        {
+            return passiveRecipes.FindAll(x => x == passiveItemPickupRecipe).Count;
         }
 
 #if UNITY_EDITOR
