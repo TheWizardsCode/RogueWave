@@ -356,15 +356,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e76b05cc21ca014d987bb58912978f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ScaledDestructionParticles:
-  - {fileID: 7343961097728468581, guid: 615239656eb90aa4389b7e949717865e, type: 3}
   m_PooledScaledDestructionParticles:
   - {fileID: -5594314414105656951, guid: 615239656eb90aa4389b7e949717865e, type: 3}
-  m_ScaledFXParticles:
-  - {fileID: 7343961097728468581, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_PooledScaledFXParticles:
   - {fileID: 7906642412134118403, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_ParticalDensity: 24.6
   m_ExplosiveForce: 4.46
-  m_UnscaledParticles: []
+  m_PooledUnscaledParticles: []
   m_ImpactDamageMultiplier: 1
+  resourcesDropChance: 0.5
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}

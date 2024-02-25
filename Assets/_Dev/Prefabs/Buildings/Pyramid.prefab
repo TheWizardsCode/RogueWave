@@ -67,18 +67,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e76b05cc21ca014d987bb58912978f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ScaledDestructionParticles:
-  - {fileID: 7343961097728468581, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
   m_PooledScaledDestructionParticles:
   - {fileID: -5221352478806724427, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
-  m_ScaledFXParticles:
-  - {fileID: 7343961097728468581, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_PooledScaledFXParticles:
   - {fileID: 7906642412134118403, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_ParticalDensity: 25.3
   m_ExplosiveForce: 5.05
-  m_UnscaledParticles: []
+  m_PooledUnscaledParticles: []
   m_ImpactDamageMultiplier: 1
+  resourcesDropChance: 0.5
+  resourcesPrefab: {fileID: 8288433013401571843, guid: e3b7aef0d1da71d468b7539e7641fa4e, type: 3}
 --- !u!1001 &8305505976554601566
 PrefabInstance:
   m_ObjectHideFlags: 0
