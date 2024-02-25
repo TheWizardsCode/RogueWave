@@ -12,9 +12,9 @@ namespace RogueWave
     public class Spawner : MonoBehaviour
     {
         [Header("Spawn Behaviours")]
-        [SerializeField, Tooltip("If true then the spawner will use the level definition to determine what to spawn, the leveldefinition must be set by calling `Initialize`. If false then the spawner will spawn according to the level definition below.")]
+        [SerializeField, Tooltip("If true then the spawner will use the level definition defined in the Game Mode to determine the waves to spawn. If false then the spawner will spawn according to the wave definition below.")]
         bool useLevelDefinition = false;
-        [SerializeField, ShowIf("useLevelDefinition"), Tooltip("The level definition to use for this spawner.")]
+        [SerializeField, HideIf("useLevelDefinition"), Tooltip("The level definition to use to determine the waves to spawn. Set 'Use Level Definition' to true to use the waves set in the level.")]
         LevelDefinition levelDefinition;
         [SerializeField, Tooltip("The time to wait between waves.")]
         private float timeBetweenWaves = 5;
@@ -113,11 +113,11 @@ namespace RogueWave
         {
             transform.localScale = new Vector3(spawnRadius * 2, spawnRadius * 2, spawnRadius * 2);
 
-            if (useLevelDefinition)
+            if (useLevelDefinition == false)
             {
                 if (levelDefinition == null)
                 {
-                    Debug.LogError("No level definition set for this spawner and it is set to not use the level definition. The spawner will not be active.");
+                    Debug.LogError($"{this} is set to use the level definition to define spawning waves. However, no Level Definition is available. The spawner will not be active.");
                     return;
                 }
                 currentLevel = levelDefinition;
