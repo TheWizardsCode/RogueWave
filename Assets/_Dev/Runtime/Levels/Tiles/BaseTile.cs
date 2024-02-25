@@ -31,7 +31,9 @@ namespace RogueWave
             if (spawnFurniture && furniturePrefabs.Length > 0 && Random.value < furnitureChance)
             {
                 GameObject tileContentPrefab = furniturePrefabs[Random.Range(0, furniturePrefabs.Length)];
-                Instantiate(tileContentPrefab, transform);
+                Transform furniture = Instantiate(tileContentPrefab, transform).transform;
+                furniture.localPosition = new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileHeight / 2, tileHeight / 2));
+                furniture.localRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             }
         }
 

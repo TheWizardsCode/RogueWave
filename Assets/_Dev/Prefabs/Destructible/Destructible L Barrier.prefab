@@ -203,18 +203,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce8b43c5b950394486e7a7c413c6fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ScaledDestructionParticles:
-  - {fileID: 7343961097728468581, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
   m_PooledScaledDestructionParticles:
   - {fileID: -5221352478806724427, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
-  m_ScaledFXParticles:
-  - {fileID: 7343961097728468581, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_PooledScaledFXParticles:
   - {fileID: 7906642412134118403, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_ParticalDensity: 9.5
   m_ExplosiveForce: 1.14
-  m_UnscaledParticles: []
+  m_PooledUnscaledParticles: []
   m_ImpactDamageMultiplier: 1
+  resourcesDropChance: 0.5
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
 --- !u!1 &5418531297486100606
 GameObject:
   m_ObjectHideFlags: 0
@@ -385,15 +383,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ce8b43c5b950394486e7a7c413c6fd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ScaledDestructionParticles:
-  - {fileID: 7343961097728468581, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
   m_PooledScaledDestructionParticles:
   - {fileID: -5221352478806724427, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
-  m_ScaledFXParticles:
-  - {fileID: 7343961097728468581, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_PooledScaledFXParticles:
   - {fileID: 7906642412134118403, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
   m_ParticalDensity: 9.5
   m_ExplosiveForce: 1.14
-  m_UnscaledParticles: []
+  m_PooledUnscaledParticles: []
   m_ImpactDamageMultiplier: 1
+  resourcesDropChance: 0.5
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
