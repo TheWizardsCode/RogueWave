@@ -36,6 +36,7 @@ namespace RogueWave
         /// </summary>
         public bool ShouldBuild { get; }
         bool CanOffer { get; }
+        float weight { get; }
 
         /// <summary>
         /// Called when this recipe has been built.

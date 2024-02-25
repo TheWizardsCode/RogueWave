@@ -65,16 +65,16 @@ namespace RogueWave
         /// <param name="quantity">The number of upgrades to offer.</param>
         /// <param name="requiredWeaponCount">The number of weapons that must be offered.</param>
         /// <returns>An array of recipes that can be offered to the player.</returns>
-        internal static List<Offer> GetOffers(int quantity, int requiredWeaponCount)
+        internal static List<IRecipe> GetOffers(int quantity, int requiredWeaponCount)
         {
             if (isInitialised == false)
             {
                 Initialise();
             }
 
-            List<Offer> offers = new List<Offer>();
+            List<IRecipe> offers = new List<IRecipe>();
 
-            // Always offer a weapon on the first run
+            // Are we required to offer a weapon?
             List<WeaponPickupRecipe> weaponCandidates = null;
             if (requiredWeaponCount > 0)
             {
@@ -86,7 +86,7 @@ namespace RogueWave
                     if (weaponCandidates[idx].ShouldBuild)
                     {
                         int weight = 1;
-                        offers.Add(new Offer(weaponCandidates[idx], weight));
+                        offers.Add(weaponCandidates[idx]);
                         quantity--;
                         requiredWeaponCount--;
                         break;
@@ -103,27 +103,27 @@ namespace RogueWave
             List<IRecipe> candidates = GetOfferCandidates<IRecipe>();
             if (weaponCandidates != null)
             {
-                candidates.RemoveAll(c => offers.Any(o => o.recipe.UniqueID == c.UniqueID));
+                candidates.RemoveAll(c => offers.Any(o => o.UniqueID == c.UniqueID));
+            }
+
+            WeightedRandom<IRecipe> weights = new WeightedRandom<IRecipe>();
+
+            foreach (IRecipe candidate in candidates)
+            {
+                // TODO: calculate weights based on the player's current state and the recipe's attributes.
+                weights.Add(candidate, candidate.weight);
             }
 
             for (int i = 0; i < quantity; i++)
             {
-                if (candidates.Count == 0)
+                if (weights.Count == 0)
                 {
                     break;
                 }
 
-                int index = Random.Range(0, candidates.Count);
-                int weight = 1;
-                Offer offer = new Offer(candidates[index], weight);
-                if (offers.Contains(offer))
-                {
-                    // We already have this recipe in the offers list, almost certainly because of the weapon preference above. Try again.
-                    i--;
-                    continue;
-                }
-                offers.Add(offer);
-                candidates.RemoveAt(index);
+                IRecipe recipe = weights.GetRandom();
+                offers.Add(recipe);
+                weights.Remove(recipe);
             }
 
             return offers;
@@ -132,9 +132,10 @@ namespace RogueWave
         /// <summary>
         /// Get a list of powerup recipes that can be offered to the player.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of possible offers. They have not yet been given weights.</returns>
         private static List<T> GetOfferCandidates<T>() where T : IRecipe
         {
+            // TODO: cache the results of this search. Invalidate the case when a new recipe is added to the NanobotManager.
 #if UNITY_EDITOR
             Debug.Log($"Getting offer candidates for {typeof(T)}." +
                 $"\nNanobot level: {RogueLiteManager.persistentData.currentNanobotLevel}" +
@@ -195,18 +196,6 @@ namespace RogueWave
             Debug.Log($"Candidates: {candidates.Count} - {listOfCandidates}");
 #endif
             return candidates;
-        }
-    }
-
-    internal class Offer
-    {
-        internal IRecipe recipe;
-        internal int weight;
-
-        public Offer(IRecipe recipe, int weight)
-        {
-            this.recipe = recipe;
-            this.weight = weight;
         }
     }
 }
