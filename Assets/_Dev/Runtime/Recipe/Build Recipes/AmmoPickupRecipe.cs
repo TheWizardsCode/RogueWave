@@ -38,6 +38,11 @@ namespace RogueWave
         {
             get
             {
+                if (inventory.selected == null)
+                {
+                    return 1;
+                }
+
                 SharedPoolAmmo sharedPoolAmmo = inventory.selected.GetComponent<SharedPoolAmmo>();
                 return ((pickup as InventoryItemPickup).GetItemPrefab() as FpsInventoryAmmo).quantity / ((float)ammo.maxQuantity - sharedPoolAmmo.currentAmmo);
             }
