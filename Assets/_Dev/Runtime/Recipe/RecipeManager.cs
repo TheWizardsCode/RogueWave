@@ -181,7 +181,7 @@ namespace RogueWave
 
                 // TODO: Remove some portion of the recipes that are not particularly useful for the player at this time
 #if UNITY_EDITOR
-                Debug.Log($"Candidate: {recipe}");
+                Debug.Log($"Offer candidate: {recipe}");
 #endif
 
                 candidates.Add((T)recipe);
@@ -191,9 +191,9 @@ namespace RogueWave
             string listOfCandidates = "";
             foreach (T candidate in candidates)
             {
-                listOfCandidates += candidate + ", ";
+                listOfCandidates += $"\t{candidate} with weight {candidate.weight}\n";
             }
-            Debug.Log($"Candidates: {candidates.Count} - {listOfCandidates}");
+            Debug.Log($"Offer candidates: {candidates.Count}\n{listOfCandidates}");
 #endif
             return candidates;
         }

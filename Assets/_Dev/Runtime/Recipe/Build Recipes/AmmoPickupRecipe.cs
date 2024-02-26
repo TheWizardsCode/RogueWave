@@ -32,6 +32,18 @@ namespace RogueWave
         }
 
         /// <summary>
+        /// Get the ammo amount as a percentage of the characters inventory space for this ammo.
+        /// </summary>
+        public float ammoAmountPerCent
+        {
+            get
+            {
+                SharedPoolAmmo sharedPoolAmmo = inventory.selected.GetComponent<SharedPoolAmmo>();
+                return ((pickup as InventoryItemPickup).GetItemPrefab() as FpsInventoryAmmo).quantity / ((float)ammo.maxQuantity - sharedPoolAmmo.currentAmmo);
+            }
+        }
+
+        /// <summary>
         /// Test if the player has a given amount of ammo, expressed as a percentage of the maximum.
         /// </summary>
         /// <param name="requiredAmmoAmount">A value between 0 and 1 which is a % of the maxQuantity of ammo the player can hold.</param>
