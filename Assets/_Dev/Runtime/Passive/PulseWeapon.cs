@@ -1,12 +1,14 @@
 using NaughtyAttributes;
 using NeoFPS;
 using System;
+using System.Collections;
 using UnityEngine;
 
 namespace RogueWave
 {
     public class PulseWeapon : PassiveWeapon
     {
+        [Header("Damage")]
         [SerializeField, Tooltip("The maximum area of the damage.")]
         float radius = 20f;
         [SerializeField, Tooltip("The damage applied to each enemy within the area of effect, each time the weapon fires.")]
@@ -14,18 +16,42 @@ namespace RogueWave
         [SerializeField, Layer, Tooltip("The layers that the weapon will damage.")]
         int layers;
 
+        [Header("Visuals")]
+        [SerializeField, Tooltip("The model to display when the weapon is active.")]
+        GameObject model;
+
+        MeshRenderer[] modelRenderers;
+
         Collider[] colliders = new Collider[50];
         private int layerMask;
 
         private void Awake()
         {
             layerMask = 1 << layers;
+            modelRenderers = model.GetComponentsInChildren<MeshRenderer>();
+            foreach (MeshRenderer renderer in modelRenderers)
+            {
+                renderer.enabled = false;
+            }
         }
 
         public override void Fire()
         {
-            Debug.Log("Fire");
             m_NextFireTime = Time.timeSinceLevelLoad + m_Cooldown;
+
+            StartCoroutine(Pulse());
+        }
+
+        IEnumerator Pulse() {
+            float duration = m_Cooldown / 2;
+            float timer = 0;
+            float height = radius;
+            model.transform.localScale = Vector3.zero;
+
+            foreach (MeshRenderer renderer in modelRenderers)
+            {
+                renderer.enabled = true;
+            }
 
             Array.Clear(colliders, 0, colliders.Length);
 
@@ -34,23 +60,36 @@ namespace RogueWave
             int count = Physics.OverlapSphereNonAlloc(transform.position, radius, colliders, layerMask);
             Physics.queriesHitTriggers = originalQueriesHitTriggers;
 
-            Debug.Log("Count: " + count);
-            
-            for (int i = 0;i < count; i++)
+            yield return null;
+
+            int i = 0;
+            while (timer < duration || i < count)
             {
-                Debug.Log($"Checking: {colliders[i]}");
-
-                IDamageHandler damageHandler = colliders[i].GetComponent<IDamageHandler>();
-
-                if (damageHandler != null)
+                if (i < count)
                 {
-                    Debug.Log($"Damage: {colliders[i]} for {damage}");
-                    damageHandler.AddDamage(damage);
+                    IDamageHandler damageHandler = colliders[i].GetComponent<IDamageHandler>();
+
+                    if (damageHandler != null)
+                    {
+                        damageHandler.AddDamage(damage);
+                    }
+
+                    i++;
                 }
-                else
-                {
-                    Debug.Log($"No damage handler found for {colliders[i]}");
-                }
+
+                float scale = Mathf.Lerp(1, radius, timer / duration);
+                model.transform.localScale = new Vector3(scale, height, scale);
+
+                timer += Time.deltaTime;
+             
+                yield return null;
+            }
+
+            yield return new WaitForSeconds(0.5f);
+
+            foreach (MeshRenderer renderer in modelRenderers)
+            {
+                renderer.enabled = false;
             }
         }
 
