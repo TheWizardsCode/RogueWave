@@ -17,10 +17,13 @@ MonoBehaviour:
   heroImage: {fileID: 0}
   icon: {fileID: 0}
   level: 0
+  baseWeight: 0.2
   isPowerUp: 0
   isConsumable: 1
   cooldown: 5
-  dependencies: []
+  dependencies:
+  - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
+  complements: []
   isStackable: 0
   maxStack: 1
   cost: 20
