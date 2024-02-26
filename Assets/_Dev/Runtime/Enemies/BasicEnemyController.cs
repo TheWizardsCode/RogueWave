@@ -409,6 +409,7 @@ namespace RogueWave
 
         private void Die()
         {
+            
             // Drop resources
             if (UnityEngine.Random.value <= config.resourcesDropChance)
             {

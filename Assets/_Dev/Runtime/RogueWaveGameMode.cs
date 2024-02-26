@@ -387,10 +387,6 @@ namespace RogueWave
                     {
                         RogueLiteManager.persistentData.WeaponBuildOrder.Add(_startingRecipes[i].uniqueID);
                     }
-                    else if (_startingRecipes[i] is PassiveItemPickupRecipe)
-                    {
-                        RogueLiteManager.persistentData.WeaponBuildOrder.Add(_startingRecipes[i].uniqueID);
-                    }
                 }
             }
 
