@@ -496,12 +496,33 @@ namespace RogueWave
         /// <returns></returns>
         private bool TryAmmoRecipes(float minimumAmmoAmount)
         {
+            AmmoPickupRecipe chosenRecipe = null;
+            float chosenAmount = 0;
             for (int i = 0; i < ammoRecipes.Count; i++)
             {
-                if (!ammoRecipes[i].HasAmount(minimumAmmoAmount))
+                if (ammoRecipes[i].HasAmount(minimumAmmoAmount))
                 {
-                    return TryRecipe(ammoRecipes[i]);
+                    continue;
                 }
+
+                if (RogueLiteManager.persistentData.currentResources >= ammoRecipes[i].Cost && ammoRecipes[i].ShouldBuild)
+                {
+                    float ammoAmount = Mathf.Min(1, ammoRecipes[i].ammoAmountPerCent);
+                    if (ammoAmount > chosenAmount)
+                    {
+                        chosenRecipe = ammoRecipes[i];
+                        chosenAmount = ammoAmount;
+                    } else if (ammoAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.Cost > ammoRecipes[i].Cost)))
+                    {
+                        chosenRecipe = ammoRecipes[i];
+                        chosenAmount = ammoAmount;
+                    }
+                }
+            }
+
+            if (chosenRecipe != null)
+            {
+                return TryRecipe(chosenRecipe);
             }
 
             return false;
