@@ -469,7 +469,7 @@ namespace RogueWave
                 return false;
             }
 
-            float approximateFrequency = 1000;
+            float approximateFrequency = 10;
             for (int i = 0; i < itemRecipes.Count; i++)
             {
                 // TODO: make a decision on whether to make a generic item in a more intelligent way
