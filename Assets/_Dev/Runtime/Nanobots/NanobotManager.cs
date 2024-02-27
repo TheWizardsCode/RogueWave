@@ -259,7 +259,7 @@ namespace RogueWave
             if (recipeName == null)
             {
                 recipeName = defaultRecipeName;
-                Debug.LogError($"Recipe {currentOfferRecipe.DisplayName} (offer) does not have an audio clip for its name. Used default name.");
+                Debug.LogWarning($"Recipe {currentOfferRecipe.DisplayName} (offer) does not have an audio clip for its name. Used default name.");
             }
             yield return StartCoroutine(Announce(clip, recipeName));
 
