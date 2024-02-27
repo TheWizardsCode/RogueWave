@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7b81f4165b0a6244b9fd646452c5eec, type: 3}
+  m_Name: RW Ammo 40mm HE Full Pickup Recipe
+  m_EditorClassIdentifier: 
+  displayName: Ammo 40mm HE x 2
+  description: TBD
+  heroImage: {fileID: 0}
+  icon: {fileID: 0}
+  level: 0
+  baseWeight: 0.2
+  isPowerUp: 0
+  isConsumable: 1
+  cooldown: 5
+  dependencies:
+  - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
+  complements: []
+  isStackable: 0
+  maxStack: 1
+  cost: 50
+  timeToBuild: 4
+  nameClips:
+  - {fileID: 8300000, guid: e712f2947c0da1f4b9004d269bdcd698, type: 3}
+  - {fileID: 8300000, guid: 2dc3aa3da76e2e54fb66956869aa08d4, type: 3}
+  - {fileID: 8300000, guid: 663b56041b223df40ae326ab6dc2c935, type: 3}
+  - {fileID: 8300000, guid: 3c407f2fc65ee684681ed74af444624b, type: 3}
+  - {fileID: 8300000, guid: 7d612dfae09030c40a1afcc6a698d16c, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: f696f412-14e4-4658-a425-36ab3df0d32b
+  pickup: {fileID: 114244782703139866, guid: 3ae63612519e4314e9e0a11fc3839836, type: 3}
+  ammo: {fileID: 11400000, guid: 0ae7b5f4e6c84ad49a61560a2e770f73, type: 2}
