@@ -33871,7 +33871,7 @@ AudioSource:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   spreadCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -33886,7 +33886,7 @@ AudioSource:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -33901,7 +33901,7 @@ AudioSource:
       outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
 --- !u!199 &199318098517973776
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -34246,7 +34246,7 @@ ParticleSystem:
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -34261,7 +34261,7 @@ ParticleSystem:
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
     startSizeY:
       serializedVersion: 2
       minMaxState: 3
@@ -34281,7 +34281,7 @@ ParticleSystem:
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -34296,7 +34296,7 @@ ParticleSystem:
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
     startSizeZ:
       serializedVersion: 2
       minMaxState: 3
@@ -34316,7 +34316,7 @@ ParticleSystem:
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
       minCurve:
         serializedVersion: 2
         m_Curve:
@@ -34331,7 +34331,7 @@ ParticleSystem:
           outWeight: 0.33333334
         m_PreInfinity: 2
         m_PostInfinity: 2
-        m_RotationOrder: 0
+        m_RotationOrder: 4
     startRotationX:
       serializedVersion: 2
       minMaxState: 0
@@ -38765,17 +38765,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1997189390711552}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 054b73f0b12d9934799af4bcdb0221f1, type: 3}
+  m_Script: {fileID: 11500000, guid: ec57e943dd3eb6545ad00cf59d3aa20c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_CollisionLayers:
     serializedVersion: 2
-    m_Bits: 26416129
+    m_Bits: 2173899777
   m_QueryTriggerColliders: 0
   m_Lifetime: 2
   m_PrintableName: Explosion
   m_DamageType: 4
   m_Radius: 3
+  applyOncePerHealthManager: 0
   m_ShakeStrength: 0.75
   m_ShakeInnerRadius: 5
   m_ShakeFalloffDistance: 7.5
@@ -38806,11 +38807,11 @@ MonoBehaviour:
     m_Keys: 
     m_Values: []
     m_GameObject: {fileID: 114179345394012056}
-  m_PrefabStrongID: -1977008044
+  m_PrefabStrongID: -1723234432
   expandChildObjects: 0
   expandNeoComponents: 0
   expandOtherComponents: 0
-  prefabGuid: 6cc8f6c6d77ce154f8922f69a74b1351
+  prefabGuid: db8adfb32c6dcf1498cf78f59fe9edb3
 --- !u!114 &114357810182857998
 MonoBehaviour:
   m_ObjectHideFlags: 0
