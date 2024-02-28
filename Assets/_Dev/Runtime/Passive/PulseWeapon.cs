@@ -65,7 +65,7 @@ namespace RogueWave
             int i = 0;
             while (timer < duration || i < count)
             {
-                if (i < count)
+                if (i < count && colliders[i] != null)
                 {
                     IDamageHandler damageHandler = colliders[i].GetComponent<IDamageHandler>();
 

@@ -87,7 +87,30 @@ MonoBehaviour:
     the player with explosive shells that are reasonably accurate.
   challengeRating: 2
   config: {fileID: 11400000, guid: f46ed6863cef21349831bec09843d1f5, type: 2}
+  requireLineOfSight: 1
+  viewDistance: 100
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 12781057
   sensor: {fileID: 1723859731166736551}
+  isMobile: 1
+  minSpeed: 4
+  maxSpeed: 6
+  rotationSpeed: 1
+  minimumHeight: 0
+  maximumHeight: 0
+  optimalDistanceFromPlayer: 50
+  maxWanderRange: 50
+  obstacleAvoidanceDistance: 10
+  seekDuration: 45
+  juicePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 2, z: 0}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 30
+  explosionDamageOnDeath: 20
+  explosionForceOnDeath: 15
+  resourcesDropChance: 0.55
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
