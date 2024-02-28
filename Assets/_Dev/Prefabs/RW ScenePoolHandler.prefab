@@ -26,12 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1529300802339104}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &114924728301143574
 MonoBehaviour:
@@ -46,7 +47,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Collections: []
-  m_ScenePools: []
+  m_ScenePools:
+  - prototype: {fileID: -5221352478806724427, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
+    count: 20
+  - prototype: {fileID: 4953653485023459597, guid: 994d0fb9fbd8ede4ea18d06abd1feb1b, type: 3}
+    count: 20
+  - prototype: {fileID: -5594314414105656951, guid: 615239656eb90aa4389b7e949717865e, type: 3}
+    count: 20
+  - prototype: {fileID: 8150638456927655937, guid: 2455b1de6657def4889bd7908ac7af0f, type: 3}
+    count: 20
+  - prototype: {fileID: -1879706516398249802, guid: d0d4fce4cdd4ddf4798a6c50afb74622, type: 3}
+    count: 20
+  - prototype: {fileID: 7906642412134118403, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
+    count: 20
+  - prototype: {fileID: 8181000971539347722, guid: daefea69fa3e00549bd5b43e5fb26840, type: 3}
+    count: 20
+  - prototype: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+    count: 20
+  - prototype: {fileID: 2842660081239373315, guid: f611472371d0b2340b10f3af6849e729, type: 3}
+    count: 20
+  - prototype: {fileID: 2842660081239373315, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+    count: 20
+  - prototype: {fileID: 2842660081239373315, guid: 625bbc10369bd19489370b95bcea084a, type: 3}
+    count: 20
+  - prototype: {fileID: 2842660081239373315, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+    count: 20
+  - prototype: {fileID: 114939672129748114, guid: f90d1bae48c85e8489dad2ebbe25b096, type: 3}
+    count: 20
+  - prototype: {fileID: 114570326930759748, guid: db8adfb32c6dcf1498cf78f59fe9edb3, type: 3}
+    count: 20
+  - prototype: {fileID: 114570326930759748, guid: 7fcf882d3c77c1945a6083746a0fc169, type: 3}
+    count: 20
 --- !u!114 &-2712721009675451842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,8 +117,8 @@ MonoBehaviour:
     m_Keys: 
     m_Values: []
     m_GameObject: {fileID: 114991474170580276}
-  m_PrefabStrongID: -685461143
+  m_PrefabStrongID: 200629537
   expandChildObjects: 0
   expandNeoComponents: 0
   expandOtherComponents: 0
-  prefabGuid: f6e1a063164322a4597bc3b87612b035
+  prefabGuid: f7b88495fe5ac614298a29479e714b85
