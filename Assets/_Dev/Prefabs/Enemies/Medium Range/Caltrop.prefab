@@ -131,7 +131,30 @@ MonoBehaviour:
     Whhen they are attacking they no longer need line of sight.
   challengeRating: 2
   config: {fileID: 11400000, guid: 4ab26df8c0ed22147837c917c65a1fe4, type: 2}
+  requireLineOfSight: 1
+  viewDistance: 76
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 12781057
   sensor: {fileID: 1967564365263936831}
+  isMobile: 1
+  minSpeed: 4
+  maxSpeed: 6
+  rotationSpeed: 2
+  minimumHeight: 0.5
+  maximumHeight: 40
+  optimalDistanceFromPlayer: 20
+  maxWanderRange: 150
+  obstacleAvoidanceDistance: 7
+  seekDuration: 35
+  juicePrefab: {fileID: 5327745311076098471, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+  juiceOffset: {x: 0, y: 1.25, z: 0}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 10
+  explosionDamageOnDeath: 35
+  explosionForceOnDeath: 15
+  resourcesDropChance: 0.9
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []

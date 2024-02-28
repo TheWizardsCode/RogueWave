@@ -26,6 +26,9 @@ namespace RogueWave
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player.")]
         float targetKillScore = 0.3f;
 
+        [Header("Squads")]
+
+
         [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]
         bool isDebug = false;
 

@@ -23,8 +23,10 @@ namespace RogueWave
         [Header("Movement")]
         [SerializeField, Tooltip("Is this enemy mobile?")]
         public bool isMobile = true;
-        [SerializeField, Tooltip("How fast the enemy moves."), ShowIf("isMobile")]
-        internal float speed = 5f;
+        [SerializeField, Tooltip("The minimum speed at which the enemy moves."), ShowIf("isMobile")]
+        internal float minSpeed = 4f;
+        [SerializeField, Tooltip("The maximum speed at which the enemy moves."), ShowIf("isMobile")]
+        internal float maxSpeed = 6f;
         [SerializeField, Tooltip("How fast the enemy rotates."), ShowIf("isMobile")]
         internal float rotationSpeed = 1f;
         [SerializeField, Tooltip("The minimum height the enemy will move to."), ShowIf("isMobile")]
@@ -39,7 +41,7 @@ namespace RogueWave
         [Header("Navigation")]
         [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), ShowIf("isMobile")]
         internal float obstacleAvoidanceDistance = 2f;
-
+        
         [Header("Seek Behaviour")]
         [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), ShowIf("isMobile")]
         internal float seekDuration = 7;
@@ -68,6 +70,12 @@ namespace RogueWave
         internal bool shouldWander
         {
             get { return maxWanderRange > 0; }
+        }
+
+        private void OnValidate()
+        {
+            if (minSpeed > maxSpeed)
+                minSpeed = maxSpeed;
         }
     }
 }

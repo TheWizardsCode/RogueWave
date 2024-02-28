@@ -57,7 +57,30 @@ MonoBehaviour:
     damaging nearby enemies.
   challengeRating: 1
   config: {fileID: 11400000, guid: 467ec3bae2686974892670f2ae0c43f9, type: 2}
+  requireLineOfSight: 1
+  viewDistance: 100
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 12781057
   sensor: {fileID: 6926119318600642585}
+  isMobile: 1
+  minSpeed: 4
+  maxSpeed: 6
+  rotationSpeed: 1.5
+  minimumHeight: 3
+  maximumHeight: 6
+  optimalDistanceFromPlayer: 20
+  maxWanderRange: 60
+  obstacleAvoidanceDistance: 6
+  seekDuration: 45
+  juicePrefab: {fileID: 5327745311076098471, guid: 84cf512226584ef4a99723c9e5e4bb21, type: 3}
+  juiceOffset: {x: 0, y: 1.5, z: 0}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 25
+  explosionDamageOnDeath: 50
+  explosionForceOnDeath: 40
+  resourcesDropChance: 0.7
+  resourcesPrefab: {fileID: 8288433013401571843, guid: e3b7aef0d1da71d468b7539e7641fa4e, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
