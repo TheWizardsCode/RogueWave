@@ -73,7 +73,30 @@ MonoBehaviour:
     shield generaotr(s) will need to be destroyed first.
   challengeRating: 1
   config: {fileID: 11400000, guid: 25dbf908baf78de4cb65c8df357f464f, type: 2}
+  requireLineOfSight: 0
+  viewDistance: 30
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 0
   sensor: {fileID: 0}
+  isMobile: 0
+  minSpeed: 4
+  maxSpeed: 6
+  rotationSpeed: 1
+  minimumHeight: 0.5
+  maximumHeight: 75
+  optimalDistanceFromPlayer: 0.2
+  maxWanderRange: 30
+  obstacleAvoidanceDistance: 2
+  seekDuration: 7
+  juicePrefab: {fileID: 5327745311076098471, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
+  juiceOffset: {x: 0, y: 0.5, z: 0}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 10
+  explosionForceOnDeath: 7
+  resourcesDropChance: 0
+  resourcesPrefab: {fileID: 0}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -509,13 +532,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeRange: 0
   useLevelDefinition: 1
   levelDefinition: {fileID: 0}
   timeBetweenWaves: 10
   ignoreMaxAlive: 0
-  activeRange: 0
   spawnRadius: 5
   destroySpawnsOnDeath: 1
+  loopWaves: 0
   hasShield: 1
   shieldGenerator: {fileID: 1313982842987553621}
   numShieldGenerators: 2
@@ -594,7 +618,30 @@ MonoBehaviour:
   description: Creates enemies to track you down and destroy you.
   challengeRating: 3
   config: {fileID: 11400000, guid: 1f4670c4f527f5947b8656984228421a, type: 2}
+  requireLineOfSight: 0
+  viewDistance: 30
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 0
   sensor: {fileID: 0}
+  isMobile: 0
+  minSpeed: 4
+  maxSpeed: 6
+  rotationSpeed: 0
+  minimumHeight: 5
+  maximumHeight: 25
+  optimalDistanceFromPlayer: 25
+  maxWanderRange: 30
+  obstacleAvoidanceDistance: 2
+  seekDuration: 7
+  juicePrefab: {fileID: 5327745311076098471, guid: 05ee104c9679f0f41bda212c0bb37ffc, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 15
+  explosionDamageOnDeath: 30
+  explosionForceOnDeath: 25
+  resourcesDropChance: 0.7
+  resourcesPrefab: {fileID: 8288433013401571843, guid: caf9459c819d25843b1b923efddbb709, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []

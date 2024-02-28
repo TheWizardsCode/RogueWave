@@ -82,11 +82,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735e4c1315dedbc4a869e8dc7e67a4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayName: Gem
-  description: Moves slowly towards the enemy in a direct line and attacks on contact.
+  displayName: Shielded Core
+  description: Flies low and uses a short range laser. The weapon doesn't do much
+    damage but these things have a habit of sneaking up behind you.
   challengeRating: 2
-  config: {fileID: 11400000, guid: fee7f40593d232f4c9e7efc46beb44e0, type: 2}
+  requireLineOfSight: 1
+  viewDistance: 100
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 2160264705
   sensor: {fileID: 8620451866325067554}
+  isMobile: 1
+  minSpeed: 2
+  maxSpeed: 6
+  rotationSpeed: 1
+  minimumHeight: 2.5
+  maximumHeight: 75
+  optimalDistanceFromPlayer: 5
+  maxWanderRange: 250
+  obstacleAvoidanceDistance: 10
+  seekDuration: 10
+  juicePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 1, z: 0}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 15
+  explosionDamageOnDeath: 30
+  explosionForceOnDeath: 15
+  resourcesDropChance: 0.8
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
