@@ -55,8 +55,30 @@ MonoBehaviour:
   description: The doughnut has sensors that mean it can detect and hunt down the
     player relentlessly. Fortunately it is not well armed.
   challengeRating: 1
-  config: {fileID: 11400000, guid: 599dc57cf7f44474bb380ac3dee348be, type: 2}
+  requireLineOfSight: 1
+  viewDistance: 40
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 2160166401
   sensor: {fileID: 3991244696875155355}
+  isMobile: 1
+  minSpeed: 4
+  maxSpeed: 6
+  rotationSpeed: 1
+  minimumHeight: 20
+  maximumHeight: 30
+  optimalDistanceFromPlayer: 45
+  maxWanderRange: 500
+  obstacleAvoidanceDistance: 10
+  seekDuration: 180
+  juicePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  shouldExplodeOnDeath: 0
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 20
+  explosionForceOnDeath: 15
+  resourcesDropChance: 0.1
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []

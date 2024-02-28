@@ -91,7 +91,7 @@ namespace RogueWave.Editor
         {
             if (enemyController != null)
             {
-                enemyController.config.isMobile = isMobile;
+                enemyController.isMobile = isMobile;
             }
         }
 
@@ -103,8 +103,8 @@ namespace RogueWave.Editor
             enemyController = GetComponentInChildren<BasicEnemyController>();
             if (enemyController != null)
             {
-                isMobile = enemyController.config.isMobile;
-                enemyController.config.isMobile = false;
+                isMobile = enemyController.isMobile;
+                enemyController.isMobile = false;
             }
 
             if (nameText != null)

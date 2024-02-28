@@ -3,10 +3,12 @@ using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -20,13 +22,64 @@ namespace RogueWave
         [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat.")]
         public int challengeRating = 1;
 
-        [SerializeField, Tooltip("The Enemy behaviour definition defines how this enemy will behave. The best way to start is to drag in an existing configuration and then save a copy using the button below. Then edit for your needs."), Expandable]
-        [Required("A configuration must be provided. This forms the base definition of the enemy. Higher level enemies will be generated from this base definition.")]
-        public EnemyBehaviourDefinition config = null;
-
-        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), Foldout("References")]
+        [Header("Senses")]
+        [SerializeField, Tooltip("If true, the enemy will only move towards or attack the player if they have line of sight. If false they will always seek out the player.")]
+        internal bool requireLineOfSight = true;
+        [SerializeField, Tooltip("The maximum distance the character can see"), ShowIf("requireLineOfSight")]
+        internal float viewDistance = 30f;
+        [SerializeField, Tooltip("The layers the character can see"), ShowIf("isMobile")]
+        internal LayerMask sensorMask = 0;
+        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider.")]
         Transform sensor;
 
+        [Header("Movement")]
+        [SerializeField, Tooltip("Is this enemy mobile?")]
+        public bool isMobile = true;
+        [SerializeField, Tooltip("The minimum speed at which the enemy moves."), ShowIf("isMobile")]
+        internal float minSpeed = 4f;
+        [SerializeField, Tooltip("The maximum speed at which the enemy moves."), ShowIf("isMobile")]
+        internal float maxSpeed = 6f;
+        [SerializeField, Tooltip("How fast the enemy rotates."), ShowIf("isMobile")]
+        internal float rotationSpeed = 1f;
+        [SerializeField, Tooltip("The minimum height the enemy will move to."), ShowIf("isMobile")]
+        internal float minimumHeight = 0.5f;
+        [SerializeField, Tooltip("The maximum height the enemy will move to."), ShowIf("isMobile")]
+        internal float maximumHeight = 75f;
+        [SerializeField, Tooltip("How close to the player will this enemy try to get?"), ShowIf("isMobile")]
+        internal float optimalDistanceFromPlayer = 0.2f;
+        [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. A value of zero means do not wander. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state."), ShowIf("isMobile")]
+        internal float maxWanderRange = 30f;
+
+        [Header("Navigation")]
+        [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), ShowIf("isMobile")]
+        internal float obstacleAvoidanceDistance = 2f;
+
+        [Header("Seek Behaviour")]
+        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), ShowIf("isMobile")]
+        internal float seekDuration = 7;
+
+        [Header("Juice")]
+        [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions.")]
+        [FormerlySerializedAs("deathParticlePrefab")]
+        internal ParticleSystem juicePrefab;
+        [SerializeField, Tooltip("The offset from the enemy's position to spawn the juice.")]
+        internal Vector3 juiceOffset = Vector3.zero;
+        [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed.")]
+        internal bool shouldExplodeOnDeath = false;
+        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The radius of the explosion when the enemy dies.")]
+        internal float deathExplosionRadius = 5f;
+        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The amount of damage the enemy does when it explodes on death.")]
+        internal float explosionDamageOnDeath = 20;
+        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The force of the explosion when the enemy dies.")]
+        internal float explosionForceOnDeath = 15;
+
+        [Header("Rewards")]
+        [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
+        internal float resourcesDropChance = 0.5f;
+        [SerializeField, Tooltip("The resources this enemy drops when killed.")]
+        internal ResourcesPickup resourcesPrefab;
+
+        [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when this enemy dies."), Foldout("Events")]
         public UnityEvent<BasicEnemyController> onDeath;
         [SerializeField, Tooltip("The event to trigger when this enemy is destroyed."), Foldout("Events")]
@@ -34,6 +87,14 @@ namespace RogueWave
 
         [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Debug")]
         bool isDebug;
+
+        internal float currentSpeed;
+
+        int maxFlockSize = 8;
+        Transform[] flockingGroup;
+        Collider[] flockingColliders;
+        float flockAvoidanceDistance = 10f;
+        float flockRadius = 40f;
 
         Transform _target;
         internal Transform Target
@@ -45,11 +106,17 @@ namespace RogueWave
                 return _target;
             }
         }
+
+        internal bool shouldWander
+        {
+            get { return maxWanderRange > 0; }
+        }
+
         internal virtual bool shouldAttack
         {
             get
             { 
-                if (config.requireLineOfSight && CanSeeTarget == false)
+                if (requireLineOfSight && CanSeeTarget == false)
                 {
                     return false;
                 }
@@ -65,7 +132,7 @@ namespace RogueWave
                 if (Target == null)
                     return false;
 
-                if (Vector3.Distance(Target.position, transform.position) <= config.viewDistance)
+                if (Vector3.Distance(Target.position, transform.position) <= viewDistance)
                 {
                     Vector3 rayTargetPosition = Target.position;
                     rayTargetPosition.y = Target.position.y + 0.8f; // TODO: Should use the seek targets
@@ -80,12 +147,12 @@ namespace RogueWave
                     }
 #endif
                     RaycastHit hit;
-                    if (Physics.Raycast(ray, out hit, config.viewDistance, config.sensorMask))
+                    if (Physics.Raycast(ray, out hit, viewDistance, sensorMask))
                     {
                         if (hit.transform == Target)
                         {
                             goalDestination = GetDestination(Target.position);
-                            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + config.seekDuration;
+                            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
                             return true;
                         }
 #if UNITY_EDITOR
@@ -105,7 +172,7 @@ namespace RogueWave
 #if UNITY_EDITOR
                 else if (isDebug)
                 {
-                    Debug.Log($"{name} cannot see the player as they are further than {config.viewDistance}m away.");
+                    Debug.Log($"{name} cannot see the player as they are further than {viewDistance}m away.");
                 }
 #endif
 
@@ -145,15 +212,15 @@ namespace RogueWave
             int tries = 0;
             for (tries = 0; tries < 4; tries++)
             {
-                newPosition = UnityEngine.Random.onUnitSphere * config.optimalDistanceFromPlayer;
+                newPosition = UnityEngine.Random.onUnitSphere * optimalDistanceFromPlayer;
                 newPosition += targetPosition;
-                if (newPosition.y >= config.minimumHeight)
+                if (newPosition.y >= minimumHeight)
                 {
                     break;
                 }
             }
 
-            newPosition.y = Mathf.Max(newPosition.y, config.minimumHeight);
+            newPosition.y = Mathf.Max(newPosition.y, minimumHeight);
             return newPosition;
         }
 
@@ -173,6 +240,9 @@ namespace RogueWave
         private void Start()
         {
             spawnPosition = transform.position;
+            currentSpeed = Random.Range(minSpeed, maxSpeed);
+            flockingGroup = new Transform[maxFlockSize];
+            flockingColliders = new Collider[maxFlockSize * 3];
         }
 
 
@@ -195,30 +265,30 @@ namespace RogueWave
 
         protected virtual void LateUpdate()
         {
-            if (config.isMobile == false)
+            if (isMobile == false)
             {
                 return;
             }
 
             if (Target == null)
             {
-                if (config.shouldWander)
+                if (shouldWander)
                 {
                     Wander();
                 }
                 return;
             }
 
-            if (config.requireLineOfSight == false)
+            if (requireLineOfSight == false)
             {
                 goalDestination = GetDestination(Target.position);
             }
 
             MoveAwayIfTooClose();
 
-            if (config.requireLineOfSight && CanSeeTarget == false)
+            if (requireLineOfSight && CanSeeTarget == false)
             {
-                if (config.shouldWander && Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
+                if (shouldWander && Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
                 {
                     Wander();
                 }
@@ -239,28 +309,54 @@ namespace RogueWave
         {
             float currentDistance = Vector3.Distance(transform.position, goalDestination);
 
-            if (currentDistance < config.optimalDistanceFromPlayer)
+            if (currentDistance < optimalDistanceFromPlayer)
             {
-                float distanceToMoveAway = config.optimalDistanceFromPlayer - currentDistance;
+                float distanceToMoveAway = optimalDistanceFromPlayer - currentDistance;
                 goalDestination = transform.position - (transform.forward * distanceToMoveAway);
             }
         }
 
+        
         internal virtual void MoveTowards(Vector3 destination, float speedMultiplier = 1)
         {
-            if (destination.y < config.minimumHeight)
+            Vector3 centerDirection = destination - transform.position;
+            Vector3 avoidanceDirection = Vector3.zero;
+            int flockSize = 0;
+
+            // OPTIMIZATON: AI Director should define flock groups, we shouldn't be doing overlap sphere checks every frame
+            Array.Clear(flockingGroup, 0, flockingGroup.Length);
+            Array.Clear(flockingColliders, 0, flockingColliders.Length);
+            int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, flockRadius, flockingColliders, LayerMask.GetMask("Enemy"));
+            for (int i = 0; i < colliderCount && flockSize < maxFlockSize; i++)
             {
-                destination.y = config.minimumHeight;
-            }
-            else if (destination.y > config.maximumHeight)
-            {
-                destination.y = config.maximumHeight;
+                if (flockingColliders[i].transform != transform && flockingGroup.Contains(flockingColliders[i].transform) == false)
+                {
+                    flockingGroup[flockSize] = flockingColliders[i].transform;
+                    centerDirection += flockingGroup[flockSize].position;
+
+                    if (Vector3.Distance(flockingGroup[flockSize].position, transform.position) < flockAvoidanceDistance)
+                    {
+                        avoidanceDirection += transform.position - flockingGroup[flockSize].position;
+                    }
+
+                    flockSize++;
+                }
             }
 
-            Quaternion targetRotation = AvoidanceRotation(destination);
+            centerDirection /= flockSize;
+            centerDirection = (centerDirection - transform.position).normalized;
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, config.rotationSpeed * Time.deltaTime);
-            transform.position += transform.forward * config.speed * speedMultiplier * Time.deltaTime;
+            if (destination.y < minimumHeight)
+            {
+                destination.y = minimumHeight;
+            }
+            else if (destination.y > maximumHeight)
+            {
+                destination.y = maximumHeight;
+            }
+
+            transform.rotation = Quaternion.Slerp(transform.rotation, AvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+            transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
 
             AdjustHeight(destination, speedMultiplier);
         }
@@ -269,17 +365,18 @@ namespace RogueWave
         /// Get a recommended rotation for the enemy to take in order to avoid the nearest obstacle.
         /// </summary>
         /// <param name="destination">The destination we are trying to reach.</param>
+        /// <param name="avoidanceDirection">The optimal direction we are trying to avoid other flock members.</param>
         /// <returns></returns>
-        private Quaternion AvoidanceRotation(Vector3 destination)
+        private Quaternion AvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
         {
             Vector3 directionToDestination = (destination - transform.position).normalized;
             float distanceToObstacle = 0;
             float turnAngle = 0;
-            float turnRate = config.obstacleAvoidanceDistance * 10;
+            float turnRate = obstacleAvoidanceDistance * 10;
 
             // Check for obstacle dead ahead
             Ray ray = new Ray(sensor.position, transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit forwardHit, config.obstacleAvoidanceDistance, config.sensorMask))
+            if (Physics.Raycast(ray, out RaycastHit forwardHit, obstacleAvoidanceDistance, sensorMask))
             {
                 if (forwardHit.collider.transform.root != Target)
                 {
@@ -288,7 +385,7 @@ namespace RogueWave
 #if UNITY_EDITOR
                     if (isDebug)
                     {
-                        Debug.DrawRay(sensor.position, ray.direction * config.obstacleAvoidanceDistance, Color.red, 2);
+                        Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
                     }
 #endif
                 }
@@ -298,7 +395,7 @@ namespace RogueWave
             if (distanceToObstacle == 0)
             {
                 ray.direction = Quaternion.AngleAxis(-turnRate, transform.transform.up) * transform.forward;
-                if (Physics.Raycast(ray, out RaycastHit leftForwardHit, config.obstacleAvoidanceDistance, config.sensorMask))
+                if (Physics.Raycast(ray, out RaycastHit leftForwardHit, obstacleAvoidanceDistance, sensorMask))
                 {
                     if (leftForwardHit.collider.transform.root != Target)
                     {
@@ -307,7 +404,7 @@ namespace RogueWave
 #if UNITY_EDITOR
                         if (isDebug)
                         {
-                            Debug.DrawRay(sensor.position, ray.direction * config.obstacleAvoidanceDistance, Color.red, 2);
+                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
                         }
 #endif
                     }
@@ -318,7 +415,7 @@ namespace RogueWave
             if (distanceToObstacle == 0)
             {
                 ray.direction = Quaternion.AngleAxis(turnRate, transform.transform.up) * transform.forward;
-                if (Physics.Raycast(ray, out RaycastHit rightForwardHit, config.obstacleAvoidanceDistance, config.sensorMask))
+                if (Physics.Raycast(ray, out RaycastHit rightForwardHit, obstacleAvoidanceDistance, sensorMask))
                 {
                     if (rightForwardHit.collider.transform.root != Target)
                     {
@@ -327,7 +424,7 @@ namespace RogueWave
 #if UNITY_EDITOR
                         if (isDebug)
                         {
-                            Debug.DrawRay(sensor.position, ray.direction * config.obstacleAvoidanceDistance, Color.red, 2);
+                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
                         }
 #endif
                     }
@@ -338,11 +435,12 @@ namespace RogueWave
             Quaternion targetRotation = Quaternion.identity;
             if (distanceToObstacle > 0) // turn to avoid obstacle
             {
-                targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (distanceToObstacle / config.obstacleAvoidanceDistance), 0);
+                targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
+                currentSpeed = Mathf.Max(minSpeed, currentSpeed * 0.5f * Time.deltaTime);
 #if UNITY_EDITOR
                 if (isDebug)
                 {
-                    Debug.Log($"Rotating {turnAngle * (distanceToObstacle / config.obstacleAvoidanceDistance)} degrees to avoid obstacle.");
+                    Debug.Log($"Rotating {turnAngle * (distanceToObstacle / obstacleAvoidanceDistance)} degrees to avoid obstacle.");
                 }
 #endif
             }
@@ -350,10 +448,9 @@ namespace RogueWave
             {
                 Vector3 directionToTarget = destination - transform.position;
                 directionToTarget.y = 0;
-                if (directionToTarget.magnitude > 0.5f)
-                {
-                    targetRotation = Quaternion.LookRotation(directionToTarget.normalized);
-                }
+                avoidanceDirection.y = 0;
+                targetRotation = Quaternion.LookRotation((directionToTarget + avoidanceDirection).normalized);
+                currentSpeed = Mathf.Max(maxSpeed, currentSpeed * 2f * Time.deltaTime);
             }
 
             return targetRotation;
@@ -364,7 +461,7 @@ namespace RogueWave
             float heightDifference = transform.position.y - destination.y;
             if ( heightDifference > 0.2f || heightDifference < -0.2f)
             {
-                float rate = config.speed * speedMultiplier * Time.deltaTime;
+                float rate = currentSpeed * speedMultiplier * Time.deltaTime;
                 if (destination.y > transform.position.y)
                 {
                     transform.position += Vector3.up * rate;
@@ -381,12 +478,12 @@ namespace RogueWave
         {
             if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
             {
-                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, config.maxWanderRange);
+                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, maxWanderRange);
 
                 do
                 {
-                    wanderDestination = spawnPosition + Random.insideUnitSphere * config.maxWanderRange;
-                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, config.maxWanderRange);
+                    wanderDestination = spawnPosition + Random.insideUnitSphere * maxWanderRange;
+                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, maxWanderRange);
                 } while (Physics.CheckSphere(wanderDestination, 1f));
 
                 goalDestination = wanderDestination;
@@ -411,11 +508,11 @@ namespace RogueWave
         {
             
             // Drop resources
-            if (UnityEngine.Random.value <= config.resourcesDropChance)
+            if (UnityEngine.Random.value <= resourcesDropChance)
             {
                 Vector3 pos = transform.position;
                 pos.y = 0;
-                ResourcesPickup resources = Instantiate(config.resourcesPrefab, pos, Quaternion.identity);
+                ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
                 if (parentRenderer != null)
                 {
                     var resourcesRenderer = resources.GetComponentInChildren<Renderer>();
@@ -439,50 +536,21 @@ namespace RogueWave
         internal void RequestAttack(Vector3 position)
         {
             goalDestination = GetDestination(position);
-            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + config.seekDuration;
+            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
             //Debug.Log($"{name} has been requested to attack {position}.");
         }
 
-#if UNITY_EDITOR
-        #region Inspector
-        [Button]
-        private void SaveCopyOfConfig()
+        private void OnDrawGizmosSelected()
         {
-            string defaultPath = AssetDatabase.GetAssetPath(config);
-            string directoryPath = Path.GetDirectoryName(defaultPath);
-
-            string path = EditorUtility.SaveFilePanel(
-                "Save Enemy Behaviour Definition",
-                directoryPath,
-                $"{transform.root.name} Enemy Behaviour Definition",
-                "asset"
-            );
-
-            if (path.Length != 0)
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, flockRadius);
+            for (int i = 0; i < maxFlockSize && flockingGroup[i] != null; i++)
             {
-                string relativePath = "Assets" + path.Substring(Application.dataPath.Length);
-
-                EnemyBehaviourDefinition newConfig = ScriptableObject.CreateInstance<EnemyBehaviourDefinition>();
-
-                FieldInfo[] fields = newConfig.GetType().GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                foreach (FieldInfo field in fields)
-                {
-                    if (field.IsPublic && !Attribute.IsDefined(field, typeof(System.NonSerializedAttribute)) ||
-                        Attribute.IsDefined(field, typeof(SerializeField)))
-                    {
-                        field.SetValue(newConfig, field.GetValue(config));
-                    }
-                }
-
-                AssetDatabase.CreateAsset(newConfig, relativePath);
-                config = newConfig;
-                AssetDatabase.SaveAssets();
+                Gizmos.DrawLine(transform.position, flockingGroup[i].position);
             }
-        }
-        #region Validatoin
-        #endregion
 
-        #endregion
-#endif
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, goalDestination);
+        }
     }
 }

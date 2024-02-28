@@ -85,8 +85,30 @@ MonoBehaviour:
   displayName: Gem
   description: Moves slowly towards the enemy in a direct line and attacks on contact.
   challengeRating: 1
-  config: {fileID: 11400000, guid: 08d6615386e39044d83abf95b1257611, type: 2}
+  requireLineOfSight: 1
+  viewDistance: 100
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 2160264705
   sensor: {fileID: 3468349145074774147}
+  isMobile: 1
+  minSpeed: 1
+  maxSpeed: 6
+  rotationSpeed: 1
+  minimumHeight: 0.5
+  maximumHeight: 75
+  optimalDistanceFromPlayer: 0.2
+  maxWanderRange: 75
+  obstacleAvoidanceDistance: 4
+  seekDuration: 30
+  juicePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 0.5, z: 0}
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 1
+  explosionDamageOnDeath: 3
+  explosionForceOnDeath: 5
+  resourcesDropChance: 0.95
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []

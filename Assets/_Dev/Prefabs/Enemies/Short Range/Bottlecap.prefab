@@ -82,11 +82,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735e4c1315dedbc4a869e8dc7e67a4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displayName: Gem
-  description: Moves slowly towards the enemy in a direct line and attacks on contact.
+  displayName: Bottlecap
+  description: Generally runs low along the ground. These things are reasonably fast
+    and can be a nuisance. But they need to get in very close to attack.
   challengeRating: 2
-  config: {fileID: 11400000, guid: 43f9ca3645d51bd4bac89412a30dc37d, type: 2}
+  requireLineOfSight: 1
+  viewDistance: 100
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 2160264705
   sensor: {fileID: 5256639003744301464}
+  isMobile: 1
+  minSpeed: 2
+  maxSpeed: 6
+  rotationSpeed: 1
+  minimumHeight: 0.5
+  maximumHeight: 75
+  optimalDistanceFromPlayer: 0.2
+  maxWanderRange: 30
+  obstacleAvoidanceDistance: 4
+  seekDuration: 20
+  juicePrefab: {fileID: 5327745311076098471, guid: 53c3b7ae87e9ea841b0f744c53ab6df5, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  shouldExplodeOnDeath: 0
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 20
+  explosionForceOnDeath: 15
+  resourcesDropChance: 0.9
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -458,7 +481,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1120541826775380849, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Radius
-      value: 1.25
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 1120541826775380849, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Center.y
