@@ -3,6 +3,7 @@ using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -88,6 +89,12 @@ namespace RogueWave
         bool isDebug;
 
         internal float currentSpeed;
+
+        int maxFlockSize = 8;
+        Transform[] flockingGroup;
+        Collider[] flockingColliders;
+        float flockAvoidanceDistance = 10f;
+        float flockRadius = 40f;
 
         Transform _target;
         internal Transform Target
@@ -234,6 +241,8 @@ namespace RogueWave
         {
             spawnPosition = transform.position;
             currentSpeed = Random.Range(minSpeed, maxSpeed);
+            flockingGroup = new Transform[maxFlockSize];
+            flockingColliders = new Collider[maxFlockSize * 3];
         }
 
 
@@ -307,8 +316,36 @@ namespace RogueWave
             }
         }
 
+        
         internal virtual void MoveTowards(Vector3 destination, float speedMultiplier = 1)
         {
+            Vector3 centerDirection = destination - transform.position;
+            Vector3 avoidanceDirection = Vector3.zero;
+            int flockSize = 0;
+
+            // OPTIMIZATON: AI Director should define flock groups, we shouldn't be doing overlap sphere checks every frame
+            Array.Clear(flockingGroup, 0, flockingGroup.Length);
+            Array.Clear(flockingColliders, 0, flockingColliders.Length);
+            int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, flockRadius, flockingColliders, LayerMask.GetMask("Enemy"));
+            for (int i = 0; i < colliderCount && flockSize < maxFlockSize; i++)
+            {
+                if (flockingColliders[i].transform != transform && flockingGroup.Contains(flockingColliders[i].transform) == false)
+                {
+                    flockingGroup[flockSize] = flockingColliders[i].transform;
+                    centerDirection += flockingGroup[flockSize].position;
+
+                    if (Vector3.Distance(flockingGroup[flockSize].position, transform.position) < flockAvoidanceDistance)
+                    {
+                        avoidanceDirection += transform.position - flockingGroup[flockSize].position;
+                    }
+
+                    flockSize++;
+                }
+            }
+
+            centerDirection /= flockSize;
+            centerDirection = (centerDirection - transform.position).normalized;
+
             if (destination.y < minimumHeight)
             {
                 destination.y = minimumHeight;
@@ -318,9 +355,7 @@ namespace RogueWave
                 destination.y = maximumHeight;
             }
 
-            Quaternion targetRotation = AvoidanceRotation(destination);
-
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, AvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
             transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
 
             AdjustHeight(destination, speedMultiplier);
@@ -330,8 +365,9 @@ namespace RogueWave
         /// Get a recommended rotation for the enemy to take in order to avoid the nearest obstacle.
         /// </summary>
         /// <param name="destination">The destination we are trying to reach.</param>
+        /// <param name="avoidanceDirection">The optimal direction we are trying to avoid other flock members.</param>
         /// <returns></returns>
-        private Quaternion AvoidanceRotation(Vector3 destination)
+        private Quaternion AvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
         {
             Vector3 directionToDestination = (destination - transform.position).normalized;
             float distanceToObstacle = 0;
@@ -400,6 +436,7 @@ namespace RogueWave
             if (distanceToObstacle > 0) // turn to avoid obstacle
             {
                 targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
+                currentSpeed = Mathf.Max(minSpeed, currentSpeed * 0.5f * Time.deltaTime);
 #if UNITY_EDITOR
                 if (isDebug)
                 {
@@ -411,10 +448,9 @@ namespace RogueWave
             {
                 Vector3 directionToTarget = destination - transform.position;
                 directionToTarget.y = 0;
-                if (directionToTarget.magnitude > 0.5f)
-                {
-                    targetRotation = Quaternion.LookRotation(directionToTarget.normalized);
-                }
+                avoidanceDirection.y = 0;
+                targetRotation = Quaternion.LookRotation((directionToTarget + avoidanceDirection).normalized);
+                currentSpeed = Mathf.Max(maxSpeed, currentSpeed * 2f * Time.deltaTime);
             }
 
             return targetRotation;
@@ -502,6 +538,19 @@ namespace RogueWave
             goalDestination = GetDestination(position);
             timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
             //Debug.Log($"{name} has been requested to attack {position}.");
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(transform.position, flockRadius);
+            for (int i = 0; i < maxFlockSize && flockingGroup[i] != null; i++)
+            {
+                Gizmos.DrawLine(transform.position, flockingGroup[i].position);
+            }
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawLine(transform.position, goalDestination);
         }
     }
 }

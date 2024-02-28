@@ -85,15 +85,14 @@ MonoBehaviour:
   displayName: Gem
   description: Moves slowly towards the enemy in a direct line and attacks on contact.
   challengeRating: 1
-  config: {fileID: 11400000, guid: 08d6615386e39044d83abf95b1257611, type: 2}
   requireLineOfSight: 1
   viewDistance: 100
   sensorMask:
     serializedVersion: 2
-    m_Bits: 12781057
+    m_Bits: 2160264705
   sensor: {fileID: 3468349145074774147}
   isMobile: 1
-  minSpeed: 4
+  minSpeed: 1
   maxSpeed: 6
   rotationSpeed: 1
   minimumHeight: 0.5
