@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1120541826775380849}
   - component: {fileID: 715693049552409892}
   m_Layer: 12
-  m_Name: Contact Weapon
+  m_Name: Proximity Weapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -68,7 +68,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageType: 1
   damagePerSecond: 20
-  damageDescription: Basic Contact
+  damageDescription: Proximity
   contactClip:
   - {fileID: 8300000, guid: 3213660c10924a31a150909b3d2beaa6, type: 3}
   - {fileID: 8300000, guid: 60fe6f5b200144b798f04fb9815a19d9, type: 3}

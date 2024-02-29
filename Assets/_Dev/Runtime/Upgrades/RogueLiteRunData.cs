@@ -21,7 +21,7 @@ namespace RogueWave
         public RogueLiteRunData()
         {
             Loadout.Clear();
-            m_RunRecipeData.Clear();
+            Recipes.Clear();
         }
 
         /// <summary>
@@ -43,6 +43,7 @@ namespace RogueWave
 
         private static List<IRecipe> m_RunRecipeData = new List<IRecipe>();
         public List<IRecipe> Recipes { get { return m_RunRecipeData; } }
+
         /// <summary>
         /// The recipes that will be available to the player in their NanobotManager when they start a level in a run.
         /// This will be reset on death.
@@ -50,7 +51,7 @@ namespace RogueWave
         /// <returns>True if the recipe is added, false if not added because already present.</returns> 
         public bool Add(IRecipe recipe)
         {
-            if (m_RunRecipeData.Contains(recipe))
+            if (Recipes.Contains(recipe))
             {
                 if (recipe.IsStackable == false)
                 {
@@ -65,7 +66,7 @@ namespace RogueWave
                 }
             }
 
-            m_RunRecipeData.Add(recipe);
+            Recipes.Add(recipe);
             isDirty = true;
             return true;
         }
@@ -82,7 +83,7 @@ namespace RogueWave
 
         internal bool Contains(IRecipe recipe)
         {
-            return m_RunRecipeData.Contains(recipe);
+            return Recipes.Contains(recipe);
         }
 
         // Add additional persistent data here
