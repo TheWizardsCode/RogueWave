@@ -234,7 +234,7 @@ namespace RogueWave
                 lastWave = currentLevel.waves[currentLevel.waves.Length - 1];
             }
             // collect all enemy prefabs from all waves and then randomly select from them
-            List<BasicEnemyController> enemyPrefabs = new List<BasicEnemyController>();
+            List<PooledObject> enemyPrefabs = new List<PooledObject>();
             for (int i = 0; i < currentLevel.waves.Length; i++)
             {
                 enemyPrefabs.AddRange(currentLevel.waves[i].EnemyPrefabs);
@@ -287,15 +287,15 @@ namespace RogueWave
         private void SpawnEnemy()
         {
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
-            var prefab = currentWave.GetNextEnemy();
+            PooledObject prefab = currentWave.GetNextEnemy();
             if (prefab == null)
             {
                 Debug.LogError("No enemy prefab found in wave definition.");
                 return;
             }
-            BasicEnemyController enemy = Instantiate(prefab, spawnPosition, Quaternion.identity);
+            BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prefab, spawnPosition, Quaternion.identity);
             enemy.onDeath.AddListener(OnEnemyDeath);
-            
+
             spawnedEnemies.Add(enemy);
             onEnemySpawned?.Invoke(enemy);
         }

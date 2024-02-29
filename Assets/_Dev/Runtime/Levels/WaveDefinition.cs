@@ -1,5 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using NaughtyAttributes;
+using NeoFPS;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -20,7 +20,8 @@ namespace RogueWave
         }
 
         [SerializeField, Tooltip("The enemy prefabs to spawn.")]
-        private BasicEnemyController[] enemyPrefabs;
+        private PooledObject[] pooledEnemyPrefabs;
+        public BasicEnemyController[] enemyPrefabs;
         [SerializeField, Range(1f, 99f), Tooltip("The number of seconds between enemy spawns. The number of enemies spawned each cycle is defined by spawnAmount.")]
         private float spawnRate = 5f;
         [SerializeField, Range(1, 99), Tooltip("The number of enemies to spawn every rate interval."), FormerlySerializedAs("spawnAmount")]
@@ -30,7 +31,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The order in which to spawn enemies.")] 
         private SpawnOrder spawnOrder = SpawnOrder.Random;
 
-        public BasicEnemyController[] EnemyPrefabs => enemyPrefabs;
+        public PooledObject[] EnemyPrefabs => pooledEnemyPrefabs;
         public float SpawnRate => spawnRate;
         public int SpawnAmount => numberToSpawn;
         public float WaveDuration => waveDuration;
@@ -43,24 +44,24 @@ namespace RogueWave
             currentEnemyIndex = 0;
         }
 
-        public void Init(BasicEnemyController[] enemyPrefabs, float spawnRate, float waveDuration, SpawnOrder spawnOrder)
+        public void Init(PooledObject[] enemyPrefabs, float spawnRate, float waveDuration, SpawnOrder spawnOrder)
         {
-            this.enemyPrefabs = enemyPrefabs;
+            this.pooledEnemyPrefabs = enemyPrefabs;
             this.spawnRate = spawnRate;
             this.waveDuration = waveDuration;
             this.spawnOrder = spawnOrder;
             Reset();
         }
 
-        public BasicEnemyController GetNextEnemy()
+        public PooledObject GetNextEnemy()
         {
-            if (enemyPrefabs.Length == 0)
+            if (pooledEnemyPrefabs.Length == 0)
                 return null;
 
             if (spawnOrder == SpawnOrder.Random)
-                return enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
+                return pooledEnemyPrefabs[Random.Range(0, pooledEnemyPrefabs.Length)];
 
-            return enemyPrefabs[currentEnemyIndex++ % enemyPrefabs.Length];
+            return pooledEnemyPrefabs[currentEnemyIndex++ % pooledEnemyPrefabs.Length];
         }
     }
 }

@@ -1,3 +1,4 @@
+using NeoFPS;
 using System;
 using System.Reflection;
 using UnityEngine;
@@ -58,7 +59,7 @@ namespace RogueWave
         /// </summary>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        internal BasicEnemyController GetRandomEnemy()
+        internal PooledObject GetRandomEnemy()
         {
             return waves[0].GetNextEnemy(); ;
         }

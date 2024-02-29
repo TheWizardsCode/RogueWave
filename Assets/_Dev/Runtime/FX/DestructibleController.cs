@@ -83,7 +83,6 @@ namespace RogueWave
 
                 if (m_PooledUnscaledParticles != null)
                 {
-                    //OPTIMIZATION: Use a pool system for the destruction particles
                     for (int d = 0; d < m_PooledUnscaledParticles.Length; d++)
                     {
                        PooledObject pooledObject = PoolManager.GetPooledObject<PooledObject>(m_PooledUnscaledParticles[d], transform.position, Quaternion.identity);

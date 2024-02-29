@@ -262,7 +262,7 @@ namespace RogueWave
                 {
                     if (Random.value < levelDefinition.enemySpawnChance)
                     {
-                        BasicEnemyController enemy = Instantiate(levelDefinition.GetRandomEnemy(), TileCoordinatesToWorldPosition(x, z), Quaternion.identity);
+                        BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(levelDefinition.GetRandomEnemy(), TileCoordinatesToWorldPosition(x, z), Quaternion.identity);
                     }
                 }
             }

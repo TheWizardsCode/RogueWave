@@ -193,13 +193,6 @@ namespace RogueWave
             }
         }
 
-        private void OnDestroy()
-        {
-            onDestroyed?.Invoke();
-
-            onDestroyed.RemoveAllListeners();
-        }
-
         /// <summary>
         /// Enemies should not go to exactly where the player is but rather somewhere that places them at an
         /// optimal position. This method will return such a position.
@@ -261,6 +254,11 @@ namespace RogueWave
             {
                 healthManager.onIsAliveChanged -= OnAliveIsChanged;
             }
+
+            healthManager.AddHealth(healthManager.healthMax);
+
+            onDestroyed?.Invoke();
+            onDestroyed.RemoveAllListeners();
         }
 
         protected virtual void LateUpdate()
@@ -502,7 +500,7 @@ namespace RogueWave
 
         private void Die()
         {
-            
+            Debug.Log($"{this} died.");
             // Drop resources
             if (UnityEngine.Random.value <= resourcesDropChance)
             {
@@ -521,7 +519,8 @@ namespace RogueWave
 
             onDeath?.Invoke(this);
 
-            Destroy(gameObject);
+            // OPTIMIZATION: cache PooledObject reference
+            GetComponent<PooledObject>().ReturnToPool();
         }
 
         /// <summary>
