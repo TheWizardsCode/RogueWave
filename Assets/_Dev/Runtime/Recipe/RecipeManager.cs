@@ -95,7 +95,7 @@ namespace RogueWave
 
                 if (offers.Count == 0)
                 {
-                    Debug.LogError("Failed to find a weapon to offer the player. This shouldn't happen since we should only force a weapon offer on first run and thus weapons should be available. Re-requesting offers with no required weapon.");
+                    // there aren't any weapons that can be offered to the player.
                     return GetOffers(quantity, 0);
                 }
             }

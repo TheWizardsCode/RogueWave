@@ -284,8 +284,6 @@ namespace RogueWave
                 goalDestination = GetDestination(Target.position);
             }
 
-            MoveAwayIfTooClose();
-
             if (requireLineOfSight && CanSeeTarget == false)
             {
                 if (shouldWander && Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
@@ -304,18 +302,6 @@ namespace RogueWave
                 MoveTowards(goalDestination);
             }
         }
-
-        protected void MoveAwayIfTooClose()
-        {
-            float currentDistance = Vector3.Distance(transform.position, goalDestination);
-
-            if (currentDistance < optimalDistanceFromPlayer)
-            {
-                float distanceToMoveAway = optimalDistanceFromPlayer - currentDistance;
-                goalDestination = transform.position - (transform.forward * distanceToMoveAway);
-            }
-        }
-
         
         internal virtual void MoveTowards(Vector3 destination, float speedMultiplier = 1)
         {
@@ -356,7 +342,17 @@ namespace RogueWave
             }
 
             transform.rotation = Quaternion.Slerp(transform.rotation, AvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
-            transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
+
+            float currentDistance = Mathf.Infinity;
+            if (FpsSoloCharacter.localPlayerCharacter != null)
+            {
+                currentDistance = Vector3.Distance(transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position);
+            }
+
+            if (currentDistance >= optimalDistanceFromPlayer)
+            {
+                transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
+            }
 
             AdjustHeight(destination, speedMultiplier);
         }

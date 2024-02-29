@@ -479,9 +479,13 @@ PrefabInstance:
       propertyPath: damagePerSecond
       value: 30
       objectReference: {fileID: 0}
+    - target: {fileID: 715693049552409892, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
+      propertyPath: damageDescription
+      value: Proximity
+      objectReference: {fileID: 0}
     - target: {fileID: 1120541826775380849, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Radius
-      value: 1.5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1120541826775380849, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Center.y
@@ -493,7 +497,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1881717928048593120, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Name
-      value: Contact Weapon
+      value: Proximity Weapon
       objectReference: {fileID: 0}
     - target: {fileID: 1881717928048593120, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Layer

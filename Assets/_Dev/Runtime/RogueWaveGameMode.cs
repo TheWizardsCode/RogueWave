@@ -26,6 +26,7 @@ namespace RogueWave
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
         private FpsSoloCharacter m_CharacterPrefab = null;
+        private float initialHealth = 30;
         [SerializeField, Tooltip("The recipes that will be available to the player at the start of each run, regardless of resources.")]
         private AbstractRecipe[] _startingRecipes;
 
@@ -259,6 +260,9 @@ namespace RogueWave
 
         protected override void OnCharacterSpawned(ICharacter character)
         {
+            BasicHealthManager healthManager = character.GetComponent<BasicHealthManager>();
+            healthManager.healthMax = initialHealth;
+
             IRecipe startingWeapon;
             if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
             {
@@ -281,26 +285,7 @@ namespace RogueWave
                 manager.Add(RogueLiteManager.runData.Recipes[i]);
             }
 
-            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
-            {
-                if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe))
-                {
-                    RogueLiteManager.runData.Add(recipe);
-                    manager.Add(recipe);
-
-                    WeaponPickupRecipe weaponRecipe = recipe as WeaponPickupRecipe;
-                    if (weaponRecipe != null)
-                    {
-                        if (weaponRecipe.ammoRecipe != null)
-                        {
-                            RogueLiteManager.runData.Add(recipe);
-                            manager.Add(weaponRecipe.ammoRecipe);
-                        }
-                    }
-                }
-            }
-
-            BasicHealthManager healthManager = character.GetComponent<BasicHealthManager>();
+            // since a recipe may have adjusted the max health, we need to reset the health to the new max
             healthManager.health = healthManager.healthMax;
         }
 
