@@ -22,6 +22,8 @@ namespace RogueWave
         private float resourcesPerLevelMultiplier = 1.5f;
         [SerializeField, Tooltip("The time between recipe offers from the home planet. Once a player has levelled up they will recieve an updated offer until they accept one. This is the freqency at which the offer will be changed.")]
         private float timeBetweenRecipeOffers = 10;
+        [SerializeField, Tooltip("How far away from the player will built pickup be spawned.")]
+        private float pickupSpawnDistance = 3;
 
         [Header("Feedbacks")]
         [SerializeField, Tooltip("The sound to play to indicate a new recipe is available from home planet. This will be played before the name of the recipe to tell the player that they can call it in if they want.")]
@@ -585,7 +587,7 @@ namespace RogueWave
                 // TODO Use the pool manager to create the item
                 GameObject go = Instantiate(itemRecipe.Item.gameObject);
 
-                Vector3 position = transform.position + (transform.forward * 5) + (transform.up * 1f);
+                Vector3 position = transform.position + (transform.forward * pickupSpawnDistance) + (transform.up * 1f);
                 int positionCheck = 0;
                 while (Physics.CheckSphere(position, 0.5f) || positionCheck > 10)
                 {
