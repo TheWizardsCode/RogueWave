@@ -60,8 +60,7 @@ namespace RogueWave
 
         [Header("Juice")]
         [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions.")]
-        [FormerlySerializedAs("deathParticlePrefab")]
-        internal ParticleSystem juicePrefab;
+        internal PooledObject deathJuicePrefab;
         [SerializeField, Tooltip("The offset from the enemy's position to spawn the juice.")]
         internal Vector3 juiceOffset = Vector3.zero;
         [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed.")]

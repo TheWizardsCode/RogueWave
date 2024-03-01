@@ -33,7 +33,7 @@ namespace RogueWave
         [SerializeField, Tooltip("Should this spawner generate a shield to protect itself?")]
         bool hasShield = true;
         [SerializeField, ShowIf("hasShield"), Tooltip("Shield generators are models that will orbit the spawner and create a shield. The player must destroy the generators to destroy the shield and thus get t othe spawner.")]
-        internal BasicHealthManager shieldGenerator;
+        PooledObject shieldGenerator;
         [SerializeField, ShowIf("hasShield"), Tooltip("How many generators this shield should have.")]
         internal int numShieldGenerators = 3;
         [SerializeField, ShowIf("hasShield"), Tooltip("The speed of the shield generators, in revolutions per minute.")]
@@ -58,11 +58,11 @@ namespace RogueWave
 
         private class ShieldGenerator
         {
-            public BasicHealthManager healthManager;
+            public IHealthManager healthManager;
             public GameObject gameObject;
             public Transform transform;
 
-            public ShieldGenerator (BasicHealthManager h)
+            public ShieldGenerator (IHealthManager h)
             {
                 healthManager = h;
                 gameObject = h.gameObject;
@@ -129,15 +129,12 @@ namespace RogueWave
 
             if (hasShield && shieldGenerator != null)
             {
-                RegisterShieldGenerator(shieldGenerator);
-                for (int i = 1; i < numShieldGenerators; ++i)
+                for (int i = 0; i < numShieldGenerators; ++i)
                 {
-                    var duplicate = Instantiate(shieldGenerator, shieldGenerator.transform.parent);
-                    duplicate.transform.localRotation = Quaternion.Euler(0f, 360f * i / numShieldGenerators, 0f);
-                    RegisterShieldGenerator(duplicate);
+                    IHealthManager generator = PoolManager.GetPooledObject<IHealthManager>(shieldGenerator, transform.position, Quaternion.Euler(0f, 360f * i / numShieldGenerators, 0f));
+                    generator.transform.localScale = Vector3.one * 8f;
+                    RegisterShieldGenerator(generator);
                 }
-
-                livingShieldGenerators = numShieldGenerators;
             }
 
             activeRangeSqr = activeRange * activeRange;
@@ -150,22 +147,19 @@ namespace RogueWave
             onDestroyed?.Invoke(this);
         }
 
-        void RegisterShieldGenerator(BasicHealthManager h)
+        void RegisterShieldGenerator(IHealthManager h)
         {
             var sg = new ShieldGenerator(h);
             shieldGenerators.Add(sg);
             h.onIsAliveChanged += OnShieldGeneratorIsAliveChanged;
+            livingShieldGenerators++;
         }
 
         private void OnShieldGeneratorIsAliveChanged(bool alive)
         {
             int oldLivingShieldGenerators = livingShieldGenerators;
 
-            if (alive)
-            {
-                ++livingShieldGenerators;
-            }
-            else
+            if (alive == false)
             {
                 --livingShieldGenerators;
             }

@@ -29,14 +29,14 @@ namespace RogueWave
 
         void OnDeath(BasicEnemyController controller)
         {
-            if (controller.juicePrefab == null)
+            if (controller.deathJuicePrefab == null)
             {
                 return;
             }
 
             // TODO use pool for juice Object
             Vector3 pos = transform.position + controller.juiceOffset;
-            ParticleSystem deathParticle = Instantiate(controller.juicePrefab, pos, Quaternion.identity);
+            ParticleSystem deathParticle = PoolManager.GetPooledObject<ParticleSystem>(controller.deathJuicePrefab, pos, Quaternion.identity);
             if (controller.parentRenderer != null)
             {
                 var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();
