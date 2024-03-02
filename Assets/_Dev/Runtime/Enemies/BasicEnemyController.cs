@@ -27,9 +27,9 @@ namespace RogueWave
         internal bool requireLineOfSight = true;
         [SerializeField, Tooltip("The maximum distance the character can see"), ShowIf("requireLineOfSight")]
         internal float viewDistance = 30f;
-        [SerializeField, Tooltip("The layers the character can see"), ShowIf("isMobile")]
+        [SerializeField, Tooltip("The layers the character can see"), ShowIf("requireLineOfSight")]
         internal LayerMask sensorMask = 0;
-        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider.")]
+        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), ShowIf("requireLineOfSight")]
         Transform sensor;
 
         [Header("Movement")]
@@ -59,10 +59,6 @@ namespace RogueWave
         internal float seekDuration = 7;
 
         [Header("Juice")]
-        [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions.")]
-        internal PooledObject deathJuicePrefab;
-        [SerializeField, Tooltip("The offset from the enemy's position to spawn the juice.")]
-        internal Vector3 juiceOffset = Vector3.zero;
         [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed.")]
         internal bool shouldExplodeOnDeath = false;
         [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The radius of the explosion when the enemy dies.")]
@@ -536,15 +532,21 @@ namespace RogueWave
 
         private void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(transform.position, flockRadius);
-            for (int i = 0; i < maxFlockSize && flockingGroup[i] != null; i++)
+            if (flockingGroup.Count() > 0)
             {
-                Gizmos.DrawLine(transform.position, flockingGroup[i].position);
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position, flockRadius);
+                for (int i = 0; i < maxFlockSize && flockingGroup[i] != null; i++)
+                {
+                    Gizmos.DrawLine(transform.position, flockingGroup[i].position);
+                }
             }
 
-            Gizmos.color = Color.blue;
-            Gizmos.DrawLine(transform.position, goalDestination);
+            if (goalDestination != Vector3.zero)
+            {
+                Gizmos.color = Color.blue;
+                Gizmos.DrawLine(transform.position, goalDestination);
+            }
         }
     }
 }

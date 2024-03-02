@@ -238,7 +238,6 @@ GameObject:
   - component: {fileID: 6134286060280689273}
   - component: {fileID: 6576056135945926902}
   - component: {fileID: 2142438204395784425}
-  - component: {fileID: -8418557012773986996}
   - component: {fileID: 8863506516404993791}
   - component: {fileID: 4880692556491869283}
   - component: {fileID: 8691472257596452135}
@@ -335,20 +334,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &-8418557012773986996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299311784649714057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c66edff86b6934292b17047252c5e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 19ef10ff5c507d642a2f9d52d7b0c218, type: 2}
-  droneSource: {fileID: 0}
 --- !u!114 &8863506516404993791
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,8 +365,6 @@ MonoBehaviour:
   maxWanderRange: 30
   obstacleAvoidanceDistance: 2
   seekDuration: 7
-  deathJuicePrefab: {fileID: 0}
-  juiceOffset: {x: 0, y: 0, z: 0}
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 15
   explosionDamageOnDeath: 30
@@ -503,6 +486,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 4880692556491869283}
+  _droneClip: {fileID: 0}
+  deathJuicePrefab: {fileID: 2524701439248955567, guid: ecf74d541dbf5cb40a417278326c0f1e, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  deathClips:
+  - {fileID: 8300000, guid: 29b8716f1852f9b41adc80f3fa1e206b, type: 3}
 --- !u!114 &-4364597518624483476
 MonoBehaviour:
   m_ObjectHideFlags: 0

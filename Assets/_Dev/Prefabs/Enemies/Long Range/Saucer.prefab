@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 1450764596457488462}
   - component: {fileID: 4070675553001932281}
   - component: {fileID: 5219187662690625511}
-  - component: {fileID: 3410746078879773002}
   - component: {fileID: 7054961101329663811}
   - component: {fileID: 7903795175863034719}
   - component: {fileID: 2046567764634707367}
@@ -104,9 +103,6 @@ MonoBehaviour:
   maxWanderRange: 75
   obstacleAvoidanceDistance: 10
   seekDuration: 50
-  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
-  juicePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
-  juiceOffset: {x: 0, y: 0, z: 0}
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 10
   explosionDamageOnDeath: 40
@@ -141,20 +137,6 @@ MonoBehaviour:
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &3410746078879773002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985948857531989657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c66edff86b6934292b17047252c5e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: b074c549fe6c4e7478c7be5f06d78d04, type: 2}
-  droneSource: {fileID: 7054961101329663811}
 --- !u!82 &7054961101329663811
 AudioSource:
   m_ObjectHideFlags: 0
@@ -308,6 +290,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 7054961101329663811}
+  _droneClip: {fileID: 0}
+  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  deathClips:
+  - {fileID: 8300000, guid: 33bbe4beab9fa6c4482604cc3d1f4ced, type: 3}
 --- !u!114 &2046567764634707367
 MonoBehaviour:
   m_ObjectHideFlags: 0

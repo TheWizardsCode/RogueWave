@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4070675553001932281}
   - component: {fileID: 5219187662690625511}
   - component: {fileID: 5570795577165164235}
-  - component: {fileID: 1130793805494448869}
   - component: {fileID: 6755938055751181905}
   - component: {fileID: -3253544322625595672}
   m_Layer: 31
@@ -72,9 +71,6 @@ MonoBehaviour:
   maxWanderRange: 75
   obstacleAvoidanceDistance: 5
   seekDuration: 30
-  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
-  juicePrefab: {fileID: 5327745311076098471, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
-  juiceOffset: {x: 0, y: 0, z: 0}
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 10
   explosionDamageOnDeath: 25
@@ -250,20 +246,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &1130793805494448869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985948857531989657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c66edff86b6934292b17047252c5e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 2ef1cd633368d0046a280cde4681dcbb, type: 2}
-  droneSource: {fileID: 5570795577165164235}
 --- !u!114 &6755938055751181905
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +258,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 5570795577165164235}
+  _droneClip: {fileID: 8300000, guid: ea744d978cea3a542b7a61cc08136dd4, type: 3}
+  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  deathClips:
+  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
+  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
+  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
+  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
+  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
 --- !u!114 &-3253544322625595672
 MonoBehaviour:
   m_ObjectHideFlags: 0
