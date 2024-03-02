@@ -91,7 +91,7 @@ namespace RogueWave
             RecipeIds.Add(recipe.UniqueID);
             if (recipe is WeaponPickupRecipe || recipe is ToolPickupRecipe)
             {
-                _weaponBuildOrderBackingField.Add(recipe.UniqueID);
+                WeaponBuildOrder.Insert(0, recipe.UniqueID);
             }
 
             isDirty = true;
