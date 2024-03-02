@@ -73,9 +73,6 @@ MonoBehaviour:
   maxWanderRange: 60
   obstacleAvoidanceDistance: 6
   seekDuration: 45
-  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
-  juicePrefab: {fileID: 5327745311076098471, guid: 84cf512226584ef4a99723c9e5e4bb21, type: 3}
-  juiceOffset: {x: 0, y: 1.5, z: 0}
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 25
   explosionDamageOnDeath: 50
@@ -277,6 +274,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 2463116733313490395}
+  _droneClip: {fileID: 8300000, guid: e8bcddab3fdc910488517e0f282bf4bc, type: 3}
+  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 1.5, z: 0}
+  deathClips:
+  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
+  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
+  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
+  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
+  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
 --- !u!114 &4805896124147963581
 MonoBehaviour:
   m_ObjectHideFlags: 0
