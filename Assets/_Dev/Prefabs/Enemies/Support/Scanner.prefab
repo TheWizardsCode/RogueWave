@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 1565113201411319522}
   - component: {fileID: 4449391905032569489}
   - component: {fileID: 5415787680099374018}
-  - component: {fileID: 4337732152716580310}
   - component: {fileID: 2131261758738502137}
   - component: {fileID: 4437746279418429034}
   - component: {fileID: 2167139020078676602}
@@ -106,20 +105,6 @@ MonoBehaviour:
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &4337732152716580310
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 244797647134910332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 99c66edff86b6934292b17047252c5e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: cbf5323e5a79dfa4c8fed345febe7579, type: 2}
-  droneSource: {fileID: 2131261758738502137}
 --- !u!82 &2131261758738502137
 AudioSource:
   m_ObjectHideFlags: 0
@@ -129,7 +114,7 @@ AudioSource:
   m_GameObject: {fileID: 244797647134910332}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243059815924327020, guid: a6f18d72e4ba7bb44a99c8b5e4d9703c, type: 2}
+  OutputAudioMixerGroup: {fileID: 243059815924327020, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1

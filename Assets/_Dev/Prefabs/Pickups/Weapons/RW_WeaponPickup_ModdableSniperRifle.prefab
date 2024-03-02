@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1651731687865070, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: m_Name
-      value: RogueWave WeaponPickup_ModdableSniperRifle
+      value: RW_WeaponPickup_ModdableSniperRifle
       objectReference: {fileID: 0}
     - target: {fileID: 1651731687865070, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: m_TagString
@@ -61,6 +61,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 82876191916558562, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 243059815924327020, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+    - target: {fileID: 82876191916558562, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: panLevelCustomCurve.m_RotationOrder
       value: 4
       objectReference: {fileID: 0}
@@ -68,6 +72,10 @@ PrefabInstance:
       propertyPath: reverbZoneMixCustomCurve.m_RotationOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 82932033517908518, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 243059815924327020, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
     - target: {fileID: 114353963506924802, guid: 70022aff82982684fb0ece54fe66f4e1, type: 3}
       propertyPath: prefabGuid
       value: 96201ef3dcedf0d40812ffbb86a169e0

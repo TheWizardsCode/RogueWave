@@ -8,7 +8,7 @@ using Random = UnityEngine.Random;
 
 namespace RogueWave.Editor
 {
-    public class BasicWeaponShowcase : MonoBehaviour
+    public class BasicObjectShowcase : MonoBehaviour
     {
         [SerializeField, Tooltip("The duration of the animation routine.")]
         float animationDuration = 5f;
