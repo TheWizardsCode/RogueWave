@@ -52,13 +52,6 @@ namespace RogueWave
             }
         }
 
-        public override void BuildFinished()
-        {
-            RogueLiteManager.runData.AddToLoadout(pickup.GetItemPrefab() as FpsInventoryItemBase);
-
-            base.BuildFinished();
-        }
-
         public override bool ShouldBuild
         {
             get

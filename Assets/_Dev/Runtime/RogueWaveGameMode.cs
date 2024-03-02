@@ -253,11 +253,6 @@ namespace RogueWave
             return m_LoadoutBuilder.GetLoadout();
         }
 
-        public void AddToLoadout(FpsInventoryItemBase item)
-        {
-            RogueLiteManager.runData.AddToLoadout(item);
-        }
-
         protected override void OnCharacterSpawned(ICharacter character)
         {
             BasicHealthManager healthManager = character.GetComponent<BasicHealthManager>();
