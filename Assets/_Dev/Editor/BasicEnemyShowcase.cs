@@ -29,8 +29,12 @@ namespace RogueWave.Editor
         private BasicEnemyController enemyController;
         private bool isMobile;
 
-        IEnumerator Start()
+        float currentAnimationDuration;
+
+        internal IEnumerator StartShowcase()
         {
+            currentAnimationDuration = 5f;
+
             Setup();
 
             StartCoroutine(Animate());
@@ -49,9 +53,9 @@ namespace RogueWave.Editor
         {
             yield return new WaitForSeconds(Random.Range(0, animationDuration * 0.2f));
 
-            while (animationDuration > 0)
+            while (currentAnimationDuration > 0)
             {
-                animationDuration -= Time.deltaTime;
+                currentAnimationDuration -= Time.deltaTime;
 
                 enemyController.transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
                 yield return null;
@@ -69,7 +73,7 @@ namespace RogueWave.Editor
 
             if (trigger != null)
             {
-                while (animationDuration > 0)
+                while (currentAnimationDuration > 0)
                 {
                     trigger.Press();
                     yield return new WaitForSeconds(0.2f);
@@ -79,7 +83,7 @@ namespace RogueWave.Editor
                 }
             } else if (laser != null)
             {
-                while (animationDuration > 0)
+                while (currentAnimationDuration > 0)
                 {
                     laser.state = EnemyLaser.State.Firing;
                     yield return new WaitForSeconds(0.8f + Random.Range(-0.1f, 0.1f));

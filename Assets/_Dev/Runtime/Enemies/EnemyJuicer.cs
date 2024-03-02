@@ -99,7 +99,6 @@ namespace RogueWave
         {
             // OPTIMIZATION Play only a limited number of death sounds within a certain time frame. Perhaps adding chorus or similar on subsequent calls
             NeoFpsAudioManager.PlayEffectAudioAtPosition(clip, position);
-
         }
 
         void OnDeath(BasicEnemyController controller)

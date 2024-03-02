@@ -80,8 +80,10 @@ namespace RogueWave
         [SerializeField, Tooltip("The event to trigger when this enemy is destroyed."), Foldout("Events")]
         public UnityEvent onDestroyed;
 
-        [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Debug")]
+        [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Editor Only")]
         bool isDebug;
+        [SerializeField, Tooltip("Include this enemy in the showcase video generation."), Foldout("Editor Only")]
+        public bool includeInShowcase = true;
 
         internal float currentSpeed;
 
@@ -495,9 +497,7 @@ namespace RogueWave
 
         private void Die()
         {
-            Debug.Log($"{this} died.");
-            // Drop resources
-            if (UnityEngine.Random.value <= resourcesDropChance)
+            if (Random.value <= resourcesDropChance)
             {
                 Vector3 pos = transform.position;
                 pos.y = 0;
@@ -532,7 +532,7 @@ namespace RogueWave
 
         private void OnDrawGizmosSelected()
         {
-            if (flockingGroup.Count() > 0)
+            if (flockingGroup != null && flockingGroup.Count() > 0)
             {
                 Gizmos.color = Color.green;
                 Gizmos.DrawWireSphere(transform.position, flockRadius);

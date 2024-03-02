@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1962489923670448, guid: 4d5ced316c05f1946a0549ae4baf6645, type: 3}
       propertyPath: m_Name
-      value: RogueWave WeaponPickup_AssaultRifle
+      value: RW_WeaponPickup_AssaultRifle
       objectReference: {fileID: 0}
     - target: {fileID: 1962489923670448, guid: 4d5ced316c05f1946a0549ae4baf6645, type: 3}
       propertyPath: m_TagString
@@ -60,6 +60,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 82669898020428534, guid: 4d5ced316c05f1946a0549ae4baf6645, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 243059815924327020, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+    - target: {fileID: 82801604617298722, guid: 4d5ced316c05f1946a0549ae4baf6645, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 243059815924327020, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
     - target: {fileID: 82801604617298722, guid: 4d5ced316c05f1946a0549ae4baf6645, type: 3}
       propertyPath: panLevelCustomCurve.m_RotationOrder
       value: 4
