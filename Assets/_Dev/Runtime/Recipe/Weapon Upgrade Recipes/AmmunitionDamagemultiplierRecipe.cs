@@ -1,3 +1,6 @@
+using NeoFPS;
+using NeoFPS.ModularFirearms;
+using NeoFPS.SinglePlayer;
 using UnityEngine;
 
 namespace RogueWave
@@ -12,9 +15,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The damage multiplier to apply to this ammo type.")]
         float multiplier = 1.1f;
 
-        internal override void Apply(RogueWaveBulletAmmoEffect ammoEffect)
+        internal override void Apply(RogueWaveBulletAmmoEffect effect)
         {
-            ammoEffect.damage *= multiplier;
+            effect.damage *= multiplier;
         }
 
 #if UNITY_EDITOR
