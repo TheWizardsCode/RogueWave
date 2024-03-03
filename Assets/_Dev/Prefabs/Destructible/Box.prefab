@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Surface:
-    m_Value: 7
+    m_Value: 1
 --- !u!54 &2984596624107808993
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -183,6 +183,8 @@ MonoBehaviour:
   m_ParticalDensity: 9.9
   m_ExplosiveForce: 0
   m_PooledUnscaledParticles: []
+  m_DestroyedSound:
+  - {fileID: 8300000, guid: 32b9f2ad10bfce84da3114a059c24821, type: 3}
   m_ImpactDamageMultiplier: 1.2
   resourcesDropChance: 0.7
   resourcesPrefab: {fileID: 8288433013401571843, guid: 1e3f10b1661d2824f9723d38774a1f76, type: 3}

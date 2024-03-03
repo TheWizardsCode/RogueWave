@@ -17,6 +17,8 @@ namespace RogueWave
         float m_ExplosiveForce = 3;
         [SerializeField, Tooltip("The particle effect to replace the object with when it is destroyed. These effects will be adjusted to match the obnject being destroyed.")]
         PooledObject[] m_PooledUnscaledParticles;
+        [SerializeField, Tooltip("Sound to play when the object is destroyed. One will be chosen at random from the available sounds here.")]
+        AudioClip[] m_DestroyedSound;
 
         [Header("Fall Damage")]
         [SerializeField, Tooltip("A multiplier for fall damage taken by this object. 0 means no damage will be taken. This allows you can make the object more or less susceptible to breakage when falling.")]
@@ -78,6 +80,15 @@ namespace RogueWave
                     if (m_PooledScaledFXParticles != null)
                     {
                         SpawnScaledParticle<PooledObject>(m_PooledScaledFXParticles, meshRenderers[0], boundsMultiplier, false);
+                    }
+
+                    if (m_DestroyedSound != null)
+                    {
+                        if (m_DestroyedSound.Length > 0)
+                        {
+                            int index = Random.Range(0, m_DestroyedSound.Length);
+                            NeoFpsAudioManager.PlayEffectAudioAtPosition(m_DestroyedSound[index], transform.position);
+                        }
                     }
                 }
 
