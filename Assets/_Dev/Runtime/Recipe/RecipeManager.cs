@@ -158,7 +158,7 @@ namespace RogueWave
                 if (RogueLiteManager.persistentData.currentNanobotLevel < recipe.Level)
                 {
 #if UNITY_EDITOR
-                    Debug.Log($"Skip: {recipe} is higher than the current nanobot level.");
+                    Debug.Log($"Skip: {recipe} level of {recipe.Level} is higher than the current nanobot level of {RogueLiteManager.persistentData.currentNanobotLevel}.");
 #endif
                     continue;
                 }

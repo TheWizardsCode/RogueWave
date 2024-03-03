@@ -1,8 +1,6 @@
-using NaughtyAttributes;
+using NeoFPS;
 using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
-using System;
-using UnityEditor;
 using UnityEngine;
 
 namespace RogueWave
@@ -15,7 +13,20 @@ namespace RogueWave
         [SerializeField, Tooltip("The ammunition type this upgrade applies to.")]
         internal SharedAmmoType ammoType;
 
-        internal abstract void Apply(RogueWaveBulletAmmoEffect ammoEffect);
+        internal virtual void Apply()
+        {
+            IInventoryItem[] items = FpsSoloCharacter.localPlayerCharacter.inventory.GetItems();
+            foreach (IInventoryItem item in items)
+            {
+                RogueWaveBulletAmmoEffect ammoEffect = item.GetComponent<RogueWaveBulletAmmoEffect>();
+                if (ammoEffect != null)
+                {
+                    Apply(ammoEffect);
+                }
+            }
+        }
+
+        internal abstract void Apply(RogueWaveBulletAmmoEffect effect);
 
 #if UNITY_EDITOR
         private void OnValidate()

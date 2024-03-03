@@ -159,6 +159,10 @@ namespace RogueWave
             if (resourcesForNextNanobotLevel <= 0)
             {
                 LevelUp();
+                if (rewardCoroutine != null)
+                {
+                    StopCoroutine(rewardCoroutine);
+                }
                 rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
             }
 
@@ -676,6 +680,7 @@ namespace RogueWave
             }
             else if (recipe is AmmunitionEffectUpgradeRecipe ammoUpgradeRecipe)
             {
+                ammoUpgradeRecipe.Apply();
                 ammoUpgradeRecipes.Add(ammoUpgradeRecipe);
             }
             else if (recipe is PassiveItemPickupRecipe passiveRecipe)

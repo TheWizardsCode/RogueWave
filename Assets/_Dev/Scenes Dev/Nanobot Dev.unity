@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4014,13 +4014,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4050552346493902172, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.9974257
+      objectReference: {fileID: 0}
+    - target: {fileID: 4050552346493902172, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.07170862
+      objectReference: {fileID: 0}
+    - target: {fileID: 4050552346493902172, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -8.224
+      objectReference: {fileID: 0}
     - target: {fileID: 5223561033937574973, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_Name
       value: Playground_Test_Game_Mode
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 55.8
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4028,23 +4040,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 111.6
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.73794895
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.6748566
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -4052,10 +4064,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 84.886
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: randomizePlayerSpawn
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
@@ -4066,6 +4082,10 @@ PrefabInstance:
       propertyPath: _startingRecipes.Array.data[3]
       value: 
       objectReference: {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipes.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: e5b9d9263de9c4e4cbba768dc79a01d4, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
