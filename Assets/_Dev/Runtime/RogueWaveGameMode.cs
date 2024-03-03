@@ -10,6 +10,8 @@ using NeoFPS.Constants;
 using NaughtyAttributes;
 using NeoFPS.Samples;
 using System.Collections.Generic;
+using System;
+using PlasticGui;
 
 namespace RogueWave
 {
@@ -255,6 +257,8 @@ namespace RogueWave
 
         protected override void OnCharacterSpawned(ICharacter character)
         {
+            character.onIsAliveChanged += OnCharacterIsAliveChanged;
+
             BasicHealthManager healthManager = character.GetComponent<BasicHealthManager>();
             healthManager.healthMax = initialHealth;
 
@@ -267,9 +271,8 @@ namespace RogueWave
                     RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
                 }
             }
-            ConfigureLoadout();
 
-            var loadout = m_LoadoutBuilder.GetLoadout();
+            var loadout = ConfigureLoadout();
             if (loadout != null)
                 character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
 
@@ -284,8 +287,18 @@ namespace RogueWave
             healthManager.health = healthManager.healthMax;
         }
 
+        private void OnCharacterIsAliveChanged(ICharacter character, bool alive)
+        {
+            if (alive == false)
+            {
+                RogueLiteManager.ResetPersistentData();
+                RogueLiteManager.ResetRunData();
+                character.onIsAliveChanged -= OnCharacterIsAliveChanged;
+            }
+        }
+
         #endregion
-        
+
         private void ConfigureRecipe(string recipeId)
         {
             if (RecipeManager.TryGetRecipeFor(recipeId, out IRecipe recipe) == false)
@@ -302,7 +315,7 @@ namespace RogueWave
             RogueLiteManager.runData.Add(recipe);
         }
 
-        private void ConfigureLoadout()
+        private FpsInventoryLoadout ConfigureLoadout()
         {
             for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)
             {
@@ -324,6 +337,8 @@ namespace RogueWave
                 }
                 m_LoadoutBuilder.slots[category].AddOption(item);
             }
+
+            return m_LoadoutBuilder.GetLoadout();
         }
 
         protected override IController GetPlayerControllerPrototype()
@@ -375,14 +390,27 @@ namespace RogueWave
                 levelGenerator.Generate(this);
             }
 
-            for (int i = 0; i < _startingRecipes.Length; i++)
+            if (RogueLiteManager.persistentData.runNumber == 1)
             {
-                ConfigureRecipe(_startingRecipes[i]);
-            }
+                for (int i = 0; i < _startingRecipes.Length; i++)
+                {
+                    ConfigureRecipe(_startingRecipes[i]);
+                }
 
-            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+                for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+                {
+                    ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
+                }
+            } else
             {
-                ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
+                // Ensure all ammo recipes are present
+                foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
+                {
+                    if (recipe is WeaponPickupRecipe)
+                    {
+                        ConfigureRecipe(recipe);
+                    }
+                }
             }
 
             return base.PreSpawnStep();

@@ -58,6 +58,8 @@ namespace RogueWave
         }
         public RogueLitePersistentData()
         {
+            currentNanobotLevel = 0;
+            currentGameLevel = 0;
             if (runNumber == 0) // this will be the players first run
             {
                 currentResources = 150;

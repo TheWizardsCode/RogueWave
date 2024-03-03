@@ -89,6 +89,7 @@ namespace RogueWave
         public static void ResetRunData()
         {
             m_RunData = new RogueLiteRunData();
+            persistentData.runNumber = 0;
         }
 
         public override bool IsValid()
