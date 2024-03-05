@@ -66,6 +66,14 @@ namespace RogueWave
                 }
             }
 
+            if (recipe is WeaponPickupRecipe weapon)
+            {
+                if (weapon.ammoRecipe != null)
+                {
+                    Add(weapon.ammoRecipe);
+                }
+            }
+
             Recipes.Add(recipe);
             isDirty = true;
             return true;

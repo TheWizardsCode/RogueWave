@@ -8,10 +8,6 @@ using NeoSaveGames.SceneManagement;
 using System.Collections;
 using NeoFPS.Constants;
 using NaughtyAttributes;
-using NeoFPS.Samples;
-using System.Collections.Generic;
-using System;
-using PlasticGui;
 
 namespace RogueWave
 {
@@ -291,7 +287,6 @@ namespace RogueWave
         {
             if (alive == false)
             {
-                RogueLiteManager.ResetPersistentData();
                 RogueLiteManager.ResetRunData();
                 character.onIsAliveChanged -= OnCharacterIsAliveChanged;
             }
