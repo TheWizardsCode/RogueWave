@@ -24,8 +24,8 @@ namespace RogueWave
         private bool m_buildItem = false;
         [SerializeField, Tooltip("The number of offers that should be shown to the plauer. This could be modified by the game situation.")]
         int m_NumberOfOffers = 3;
-        [SerializeField, Tooltip("The number of selections that can be made. This could be modified by the game situation.")]
-        int m_NumberOfSelections = 1;
+        [SerializeField, Tooltip("The maximum number of selections that can be purchased in a single trip to the store. This could be modified by the game situation.")]
+        int m_AllowedNumberOfPurchases = 3;
 
         [Header("Resources")]
         [SerializeField, Tooltip("The number of resources currently available to the player. If this is null then it is assumed that the resources should not be shown.")]
@@ -301,9 +301,7 @@ namespace RogueWave
             {
                 RogueLiteManager.persistentData.Add(offer);
                 RogueLiteManager.persistentData.currentResources -= offer.Cost;
-            } else
-            {
-                RogueLiteManager.runData.Add(offer);
+                RogueLiteManager.SaveProfile();
             }
 
             offers.RemoveAll(o => o == offer);
@@ -313,7 +311,7 @@ namespace RogueWave
                 StartCoroutine(nanobotManager.BuildRecipe(offer));
             }
 
-            if (m_SelectionCount == m_NumberOfSelections)
+            if (m_SelectionCount == m_AllowedNumberOfPurchases)
             {
                 QuitSelectionUI();
             }
