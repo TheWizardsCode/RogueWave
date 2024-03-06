@@ -144,7 +144,7 @@ namespace RogueWave
             foreach (IRecipe recipe in powerupRecipes.Values)
             {
 
-                if (RogueLiteManager.persistentData.currentResources < recipe.Cost)
+                if (RogueLiteManager.persistentData.currentResources < recipe.BuyCost)
                 {
 #if UNITY_EDITOR
                     Debug.Log($"Skip: {recipe} is too expensive for the player.");
