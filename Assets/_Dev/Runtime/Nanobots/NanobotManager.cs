@@ -401,14 +401,14 @@ namespace RogueWave
                     return false;
                 }
 
-                if (RogueLiteManager.persistentData.currentResources >= healthRecipes[i].Cost && healthRecipes[i].ShouldBuild)
+                if (RogueLiteManager.persistentData.currentResources >= healthRecipes[i].BuyCost && healthRecipes[i].ShouldBuild)
                 {
                     float healAmount = Mathf.Min(1, healthRecipes[i].healAmountPerCent);
                     if (healAmount > chosenAmount)
                     {
                         chosenRecipe = healthRecipes[i];
                         chosenAmount = healAmount;
-                    } else if (healAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.Cost > healthRecipes[i].Cost)))
+                    } else if (healAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.BuyCost > healthRecipes[i].BuyCost)))
                     {
                         chosenRecipe = healthRecipes[i];
                         chosenAmount = healAmount;
@@ -480,7 +480,7 @@ namespace RogueWave
             {
                 // TODO: make a decision on whether to make a generic item in a more intelligent way
                 // TODO: can we make tests that are dependent on the pickup, e.g. when the pickup is triggered it will only be picked up if needed 
-                if (RogueLiteManager.persistentData.currentResources < itemRecipes[i].Cost)
+                if (RogueLiteManager.persistentData.currentResources < itemRecipes[i].BuyCost)
                 {
                     continue;
                 }
@@ -511,14 +511,14 @@ namespace RogueWave
                     continue;
                 }
 
-                if (RogueLiteManager.persistentData.currentResources >= ammoRecipes[i].Cost && ammoRecipes[i].ShouldBuild)
+                if (RogueLiteManager.persistentData.currentResources >= ammoRecipes[i].BuyCost && ammoRecipes[i].ShouldBuild)
                 {
                     float ammoAmount = Mathf.Min(1, ammoRecipes[i].ammoAmountPerCent);
                     if (ammoAmount > chosenAmount)
                     {
                         chosenRecipe = ammoRecipes[i];
                         chosenAmount = ammoAmount;
-                    } else if (ammoAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.Cost > ammoRecipes[i].Cost)))
+                    } else if (ammoAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.BuyCost > ammoRecipes[i].BuyCost)))
                     {
                         chosenRecipe = ammoRecipes[i];
                         chosenAmount = ammoAmount;
@@ -542,7 +542,7 @@ namespace RogueWave
                 return false;
             }
 
-            if (RogueLiteManager.persistentData.currentResources < recipe.Cost) 
+            if (RogueLiteManager.persistentData.currentResources < recipe.BuildCost) 
             {
                 return false;
             }
@@ -565,7 +565,7 @@ namespace RogueWave
             }
 #endif
             status = Status.Building;
-            resources -= recipe.Cost;
+            resources -= recipe.BuildCost;
 
             if (recipe.BuildStartedClip != null)
             {

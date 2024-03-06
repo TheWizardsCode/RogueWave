@@ -190,7 +190,7 @@ namespace RogueWave
                     for (int i = numberOfOffers - 1; i >= 0; i--)
                     {
                         IRecipe offer = offers[i];
-                        if (RogueLiteManager.persistentData.currentResources < offer.Cost)
+                        if (RogueLiteManager.persistentData.currentResources < offer.BuyCost)
                         {
                             continue;
                         }
@@ -239,7 +239,7 @@ namespace RogueWave
                         string selectionButtonText;
                         if (m_MakePersistentSelections)
                         {
-                            selectionButtonText = $"Buy {offer.DisplayName} for {offer.Cost} resources";
+                            selectionButtonText = $"Buy {offer.DisplayName} for {offer.BuyCost} resources";
                         }
                         else
                         {
@@ -296,7 +296,7 @@ namespace RogueWave
             if (m_MakePersistentSelections)
             {
                 RogueLiteManager.persistentData.Add(offer);
-                RogueLiteManager.persistentData.currentResources -= offer.Cost;
+                RogueLiteManager.persistentData.currentResources -= offer.BuyCost;
                 RogueLiteManager.SaveProfile();
             }
 

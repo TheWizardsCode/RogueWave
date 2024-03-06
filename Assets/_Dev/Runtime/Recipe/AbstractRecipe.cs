@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using System;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -37,8 +38,11 @@ namespace RogueWave
         bool isStackable = false;
         [SerializeField, ShowIf("isStackable"), Tooltip("The maximum number of this recipe that can be held at once.")]
         int maxStack = 1;
-        [SerializeField, Tooltip("The resources required to build this ammo type.")]
-        int cost = 10;
+        [SerializeField, Tooltip("The resources required to buy this recipe. If the recipe is for a built item then there will be an additional cost to build it (see 'buildCost'), if it is an immediate upgrade then this is the only cost incurred.")]
+        [FormerlySerializedAs("cost")]
+        int buyCost = 500;
+        [SerializeField, Tooltip("The resources required to build this recipe. It must first be bought, see 'buyCost'")]
+        int buildCost = 50;
         [SerializeField, Tooltip("The time it takes to build this recipe.")]
         float timeToBuild = 5;
 
@@ -74,7 +78,9 @@ namespace RogueWave
 
         public int MaxStack => maxStack;
 
-        public int Cost => cost;
+        public int BuyCost => buyCost;
+
+        public int BuildCost => buildCost;
 
         public float TimeToBuild => timeToBuild;
 
@@ -213,6 +219,14 @@ namespace RogueWave
         protected void GenerateID()
         {
             uniqueID = Guid.NewGuid().ToString();
+            EditorUtility.SetDirty(this);
+            AssetDatabase.SaveAssets();
+        }
+
+        [Button("Set Build cost to 10% of buy cost")]
+        protected void SetBuildCost()
+        {
+            buildCost = Mathf.RoundToInt(buyCost * 0.1f);
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
         }

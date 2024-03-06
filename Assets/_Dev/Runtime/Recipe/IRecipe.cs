@@ -16,7 +16,8 @@ namespace RogueWave
         public bool IsConsumable { get; }
         public bool IsStackable { get; }
         public int MaxStack { get; }
-        public int Cost { get; }
+        public int BuyCost { get; }
+        public int BuildCost { get; }
         public float TimeToBuild { get; }
         public AudioClip NameClip { get; }
         public AudioClip BuildStartedClip { get; }
