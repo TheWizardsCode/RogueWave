@@ -99,14 +99,14 @@ namespace RogueWave
 #if UNITY_EDITOR
                 if (isDebug)
                 {
-                    Debug.Log($"currentKillScore is {currentKillscore}, targetKillScore is {targetKillScore}");
+                    Debug.Log($"AIDirector: CurrentKillScore is {currentKillscore}, targetKillScore is {targetKillScore}");
                 }
 #endif
                 if (enemies.Count > 0 && currentKillscore < targetKillScore)
                 {
                     totalChallengeRating = 0;
                     int orderedEnemies = 0;
-                    while ((totalChallengeRating / timeSlice) < targetKillScore * 1.5f && orderedEnemies < enemies.Count)
+                    while (orderedEnemies < enemies.Count && totalChallengeRating < (RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * 10)
                     {
                         orderedEnemies++;
                         BasicEnemyController randomEnemy = enemies[Random.Range(0, enemies.Count)];

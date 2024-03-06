@@ -6,8 +6,8 @@ namespace RogueWave
 {
     public class EnemyDissolve : MonoBehaviour
     {
-        [SerializeField, Tooltip("")]
-        private float m_DissolveTime = 0.5f;
+        [SerializeField, Tooltip("The time, in seconds, to become fully visible.")]
+        private float m_DissolveTime = 1f;
 
         const string k_ShaderParameter_Dissolve = "_Dissolve";
 
@@ -43,6 +43,9 @@ namespace RogueWave
 
                 m_PropertyBlock.SetFloat(k_ShaderParameter_Dissolve, m_Dissolve);
                 m_Renderer.SetPropertyBlock(m_PropertyBlock, 0);
+            } else
+            {
+                Destroy(this);
             }
         }
     }

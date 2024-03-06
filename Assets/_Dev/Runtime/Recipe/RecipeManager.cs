@@ -1,6 +1,4 @@
-﻿using NeoFPS.SinglePlayer;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -85,7 +83,6 @@ namespace RogueWave
                 {
                     if (weaponCandidates[idx].ShouldBuild)
                     {
-                        int weight = 1;
                         offers.Add(weaponCandidates[idx]);
                         quantity--;
                         requiredWeaponCount--;
@@ -179,7 +176,6 @@ namespace RogueWave
                     continue;
                 }
 
-                // TODO: Remove some portion of the recipes that are not particularly useful for the player at this time
 #if UNITY_EDITOR
                 Debug.Log($"Offer candidate: {recipe}");
 #endif

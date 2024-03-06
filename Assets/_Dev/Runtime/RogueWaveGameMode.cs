@@ -307,7 +307,10 @@ namespace RogueWave
 
         private void ConfigureRecipe(IRecipe recipe)
         {
-            RogueLiteManager.runData.Add(recipe);
+            if (RogueLiteManager.runData.Recipes.Contains(recipe) == false)
+            {
+                RogueLiteManager.runData.Recipes.Add(recipe);
+            }
         }
 
         private FpsInventoryLoadout ConfigureLoadout()
@@ -385,27 +388,14 @@ namespace RogueWave
                 levelGenerator.Generate(this);
             }
 
-            if (RogueLiteManager.persistentData.runNumber == 1)
+            for (int i = 0; i < _startingRecipes.Length; i++)
             {
-                for (int i = 0; i < _startingRecipes.Length; i++)
-                {
-                    ConfigureRecipe(_startingRecipes[i]);
-                }
+                ConfigureRecipe(_startingRecipes[i]);
+            }
 
-                for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
-                {
-                    ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
-                }
-            } else
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
-                // Ensure all ammo recipes are present
-                foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
-                {
-                    if (recipe is WeaponPickupRecipe)
-                    {
-                        ConfigureRecipe(recipe);
-                    }
-                }
+                ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
             }
 
             return base.PreSpawnStep();

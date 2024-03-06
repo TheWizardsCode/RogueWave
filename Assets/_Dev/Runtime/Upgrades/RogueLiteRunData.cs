@@ -66,6 +66,8 @@ namespace RogueWave
                 }
             }
 
+            recipe.Reset();
+
             if (recipe is WeaponPickupRecipe weapon)
             {
                 if (weapon.ammoRecipe != null)

@@ -290,10 +290,6 @@ namespace RogueWave
             if (nanobotManager != null)
             {
                 RogueLiteManager.runData.Add(offer);
-                if (m_MakePersistentSelections)
-                {
-                    RogueLiteManager.persistentData.Add(offer);
-                }
                 nanobotManager.Add(offer);
             }
 

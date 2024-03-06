@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS;
+using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
 using System;
 using System.IO;
@@ -47,8 +48,6 @@ namespace RogueWave
         internal float maximumHeight = 75f;
         [SerializeField, Tooltip("How close to the player will this enemy try to get?"), ShowIf("isMobile")]
         internal float optimalDistanceFromPlayer = 0.2f;
-        [SerializeField, Tooltip("The maximum distance the enemy will wander from their spawn point. A value of zero means do not wander. The enemy will move further away than this when they are chasing the player but will return to within this range if they go back to a wandering state."), ShowIf("isMobile")]
-        internal float maxWanderRange = 30f;
 
         [Header("Navigation")]
         [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), ShowIf("isMobile")]
@@ -57,6 +56,8 @@ namespace RogueWave
         [Header("Seek Behaviour")]
         [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), ShowIf("isMobile")]
         internal float seekDuration = 7;
+        [SerializeField, Tooltip("How far the enemy will go from their spawn point when attacking the player. If the enemy goes further than this then they will return to their spawn point to 'recharge'. Then they will resume their normal behaviour."), ShowIf("isMobile")]
+        internal float seekDistance = 30;
 
         [Header("Juice")]
         [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed.")]
@@ -106,7 +107,9 @@ namespace RogueWave
 
         internal bool shouldWander
         {
-            get { return maxWanderRange > 0; }
+            get { 
+                return seekDistance > 0 && Time.timeSinceLevelLoad > timeOfNextWanderPositionChange; 
+            }
         }
 
         internal virtual bool shouldAttack
@@ -149,7 +152,6 @@ namespace RogueWave
                         if (hit.transform == Target)
                         {
                             goalDestination = GetDestination(Target.position);
-                            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
                             return true;
                         }
 #if UNITY_EDITOR
@@ -218,10 +220,14 @@ namespace RogueWave
         internal Vector3 goalDestination = Vector3.zero;
         Vector3 wanderDestination = Vector3.zero;
         float timeOfNextWanderPositionChange = 0;
+        private bool underOrders;
         private BasicHealthManager healthManager;
+        private float sqrSeekDistance;
+        private bool isRecharging;
 
         private void Awake()
         {
+            sqrSeekDistance = seekDistance * seekDistance;
 #if ! UNITY_EDITOR
             isDebug = false;
 #endif
@@ -279,22 +285,54 @@ namespace RogueWave
                 goalDestination = GetDestination(Target.position);
             }
 
-            if (requireLineOfSight && CanSeeTarget == false)
+            if ((requireLineOfSight && CanSeeTarget == false) || underOrders)
             {
-                if (shouldWander && Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
+                if (shouldWander)
                 {
                     Wander();
                 }
-                else
+                else if (underOrders || (isRecharging == false && Vector3.SqrMagnitude(goalDestination - transform.position) < sqrSeekDistance))
                 {
                     MoveTowards(goalDestination);
+                }
+                else
+                {
+                    if (Vector3.SqrMagnitude(spawnPosition - transform.position) > 15f)
+                    {
+                        MoveTowards(spawnPosition);
+                        isRecharging = true;
+                    }
+                    else
+                    {
+                        isRecharging = false;
+                    }
                 }
 
                 return;
             }
-            else
+            else if (isRecharging == false && Vector3.SqrMagnitude(goalDestination - transform.position) < sqrSeekDistance)
             {
                 MoveTowards(goalDestination);
+            }
+            else
+            {
+                if (Vector3.SqrMagnitude(spawnPosition - transform.position) > 15f)
+                {
+                    MoveTowards(spawnPosition);
+                    isRecharging = true;
+                }
+                else
+                {
+                    if (shouldWander)
+                    {
+                        Wander();
+                    }
+                    else
+                    {
+                        timeOfNextWanderPositionChange = 0;
+                    }
+                    isRecharging = false;
+                }
             }
         }
         
@@ -469,12 +507,12 @@ namespace RogueWave
         {
             if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
             {
-                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, maxWanderRange);
+                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, seekDistance);
 
                 do
                 {
-                    wanderDestination = spawnPosition + Random.insideUnitSphere * maxWanderRange;
-                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, maxWanderRange);
+                    wanderDestination = spawnPosition + Random.insideUnitSphere * seekDistance;
+                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, seekDistance);
                 } while (Physics.CheckSphere(wanderDestination, 1f));
 
                 goalDestination = wanderDestination;
@@ -527,6 +565,7 @@ namespace RogueWave
         {
             goalDestination = GetDestination(position);
             timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
+            underOrders = true;
             //Debug.Log($"{name} has been requested to attack {position}.");
         }
 

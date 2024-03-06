@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8708317608558643922}
   - component: {fileID: 5417177395203266835}
   - component: {fileID: 1491279167302845719}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 5821324281263399632}
   - component: {fileID: 9185031380887923411}
   - component: {fileID: 3867444494997843232}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: Destructible Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -209,6 +209,7 @@ MonoBehaviour:
   m_ParticalDensity: 9.5
   m_ExplosiveForce: 1.14
   m_PooledUnscaledParticles: []
+  m_DestroyedSound: []
   m_ImpactDamageMultiplier: 1
   resourcesDropChance: 0.85
   resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}

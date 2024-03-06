@@ -99,9 +99,9 @@ MonoBehaviour:
   minimumHeight: 2.5
   maximumHeight: 75
   optimalDistanceFromPlayer: 5
-  maxWanderRange: 250
   obstacleAvoidanceDistance: 10
   seekDuration: 10
+  seekDistance: 75
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 15
   explosionDamageOnDeath: 30
@@ -115,6 +115,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   isDebug: 0
+  includeInShowcase: 1
 --- !u!114 &4830127741829248690
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -14,17 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottomLeftBoundary: {x: 0, y: 0, z: 0}
   topRightBoundary: {x: 1, y: 1, z: 1}
-  weight: 0.243
   tilePrefab: {fileID: 2542797727158204644, guid: ea74d1849bfa7d34bb2310ef112e8f27, type: 3}
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000}
     weight: 0.557
   - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.545
+    weight: 0.693
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
     weight: 0.809
   - tileDefinition: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
     weight: 0.704
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    weight: 0.831
   xNegativeConstraints:
   - tileDefinition: {fileID: 11400000}
     weight: 0.564
