@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bottomLeftBoundary: {x: 0, y: 0, z: 0}
   topRightBoundary: {x: 1, y: 1, z: 1}
-  weight: 0.5
   tilePrefab: {fileID: -643772105435015575, guid: 646ed8d4dd198bb49881ec6ff095f93e, type: 3}
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
@@ -22,25 +21,33 @@ MonoBehaviour:
   - tileDefinition: {fileID: 11400000}
     weight: 0.79
   - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.794
+    weight: 0.312
+  - tileDefinition: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
+    weight: 0.671
   xNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.331
+    weight: 0.327
   - tileDefinition: {fileID: 11400000}
-    weight: 0.782
+    weight: 0.79
   - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.782
+    weight: 0.312
+  - tileDefinition: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
+    weight: 0.671
   zPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
     weight: 0.327
   - tileDefinition: {fileID: 11400000}
     weight: 0.79
   - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.794
+    weight: 0.312
+  - tileDefinition: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
+    weight: 0.671
   zNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
     weight: 0.327
   - tileDefinition: {fileID: 11400000}
     weight: 0.79
   - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.794
+    weight: 0.312
+  - tileDefinition: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
+    weight: 0.671

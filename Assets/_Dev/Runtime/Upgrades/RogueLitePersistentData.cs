@@ -91,11 +91,16 @@ namespace RogueWave
             }
 
             RecipeIds.Add(recipe.UniqueID);
-            if (recipe is WeaponPickupRecipe || recipe is ToolPickupRecipe)
+            if (recipe is WeaponPickupRecipe weapon)
             {
                 if (WeaponBuildOrder.Contains(recipe.UniqueID) == false)
                 {
                     WeaponBuildOrder.Insert(0, recipe.UniqueID);
+                }
+
+                if (weapon.ammoRecipe != null)
+                {
+                    Add(weapon.ammoRecipe);
                 }
             }
 

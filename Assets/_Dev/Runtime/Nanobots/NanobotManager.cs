@@ -134,6 +134,10 @@ namespace RogueWave
             {
                 ammoRecipe.Reset();
             }
+            foreach (var ammoRecipe in ammoUpgradeRecipes)
+            {
+                ammoRecipe.Reset();
+            }
             foreach (var toolRecipe in toolRecipes)
             {
                 toolRecipe.Reset();
@@ -141,10 +145,6 @@ namespace RogueWave
             foreach (var itemRecipe in itemRecipes)
             {
                 itemRecipe.Reset();
-            }
-            foreach (var ammoRecipe in ammoUpgradeRecipes)
-            {
-                ammoRecipe.Reset();
             }
         }
 
