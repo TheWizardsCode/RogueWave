@@ -47,6 +47,7 @@ namespace RogueWave
         [SerializeField, Tooltip("Turn on debug features for the Nanobot Manager"), Foldout("Debug")]
         bool isDebug = false;
 
+        private List<ArmourPickupRecipe> armourRecipes = new List<ArmourPickupRecipe>();
         private List<HealthPickupRecipe> healthRecipes = new List<HealthPickupRecipe>();
         private List<ShieldPickupRecipe> shieldRecipes = new List<ShieldPickupRecipe>();
         private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
@@ -193,6 +194,12 @@ namespace RogueWave
                 return;
             }
 
+            // Prioritize building armour if the player does not have armour or is low on armour
+            if (TryArmourRecipes(0.4f))
+            {
+                return;
+            }
+
             // If we are in good shape then see if there's a new weapon we can build
             if (TryWeaponRecipes())
             {
@@ -218,7 +225,13 @@ namespace RogueWave
             }
 
             // Prioritize building shield if the player does not have a shield or there is some damage to the shiled
-            if (TryShieldRecipes(0.9f))
+            if (TryShieldRecipes(0.8f))
+            {
+                return;
+            }
+
+            // Prioritize building armour if the player does not have full armour
+            if (TryArmourRecipes(0.9f))
             {
                 return;
             }
@@ -440,6 +453,22 @@ namespace RogueWave
             return false;
         }
 
+        private bool TryArmourRecipes(float minimumArmourAmount)
+        {
+            for (int i = 0; i < armourRecipes.Count; i++)
+            {
+                if (!armourRecipes[i].HasAmount(minimumArmourAmount))
+                {
+                    if (TryRecipe(armourRecipes[i]))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private bool TryWeaponRecipes()
         {
             // Build weapons in the build order first
@@ -650,6 +679,10 @@ namespace RogueWave
             {
                 ammoRecipes.Add(ammo);
             }
+            else if(recipe is ArmourPickupRecipe armour && !armourRecipes.Contains(armour))
+            {
+                armourRecipes.Add(armour);
+            }
             else if (recipe is HealthPickupRecipe health && !healthRecipes.Contains(health))
             {
                 healthRecipes.Add(health);
@@ -693,7 +726,7 @@ namespace RogueWave
 #if UNITY_EDITOR
             else
             {
-                Debug.LogWarning($"Either {recipe.GetType().Name} is an unkown recipe type or we tried to add it a second time.");
+                Debug.LogWarning($"Either {recipe.DisplayName} ({recipe.GetType().Name}) is an unkown recipe type or we tried to add it a second time.");
             }
 #endif
         }

@@ -74,7 +74,7 @@ namespace RogueWave
 
         public bool IsConsumable => isConsumable;
 
-        public bool IsStackable => maxStack > 1;
+        public bool IsStackable => isStackable;
 
         public int MaxStack => maxStack;
 
