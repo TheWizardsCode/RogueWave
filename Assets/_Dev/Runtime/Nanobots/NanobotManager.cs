@@ -1,12 +1,10 @@
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.ModularFirearms;
-using NeoFPS.SinglePlayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.TextCore.Text;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -57,6 +55,7 @@ namespace RogueWave
         private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
         private List<PassiveItemPickupRecipe> passiveRecipes = new List<PassiveItemPickupRecipe>();
 
+        private int numInGameRewards = 3;
         internal int resourcesForNextNanobotLevel = 0;
 
         public delegate void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel);
@@ -68,22 +67,22 @@ namespace RogueWave
         public delegate void OnStatusChanged(Status status);
         public event OnStatusChanged onStatusChanged;
 
-        public delegate void OnOfferChanged(IRecipe offer);
+        public delegate void OnOfferChanged(IRecipe[] offers);
         public event OnOfferChanged onOfferChanged;
-
 
         float earliestTimeOfNextItemSpawn = 0;
         private Coroutine rewardCoroutine;
 
         public enum Status
         {
-            Idle,
+            Collecting,
             OfferingRecipe,
             RequestQueued,
             Requesting,
             RequestRecieved,
             Building
         }
+
         Status _status;
         public Status status
         {
@@ -100,27 +99,30 @@ namespace RogueWave
             }
         }
 
-        IRecipe _currentOffer;
-        public IRecipe currentOfferRecipe
+        IRecipe[] _currentOffers;
+        public IRecipe[] currentOfferRecipes
         {
-            get { return _currentOffer; }
+            get { return _currentOffers; }
             set
             {
-                if (_currentOffer == value)
+                if (_currentOffers == value)
                     return;
 
-                _currentOffer = value;
+                _currentOffers = value;
 
                 if (onOfferChanged != null)
-                    onOfferChanged(_currentOffer);
+                    onOfferChanged(_currentOffers);
             }
         }
+        
         private float timeOfLastRewardOffer = 0;
 
         private float timeOfNextBuiild = 0;
 
         private void Start()
         {
+            currentOfferRecipes = new IRecipe[numInGameRewards];
+
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
 
             foreach (var healthRecipe in healthRecipes)
@@ -151,7 +153,7 @@ namespace RogueWave
 
         private void Update()
         {
-            if (status != Status.Idle)
+            if (status != Status.Collecting)
             {
                 return;
             }
@@ -261,33 +263,45 @@ namespace RogueWave
         IEnumerator OfferInGameRewardRecipe()
         {
             timeOfLastRewardOffer = Time.timeSinceLevelLoad;
-            List<IRecipe> offers = RecipeManager.GetOffers(1, 0);
+            List<IRecipe> offers = RecipeManager.GetOffers(numInGameRewards, 0);
 
             if (offers.Count == 0)
             {
                 yield break;
             }
 
-            currentOfferRecipe = offers[0];
+            currentOfferRecipes = offers.ToArray();
             status = Status.OfferingRecipe;
             yield return null;
 
             // Announce a recipe is available
             AudioClip clip = recipeRequestPrefix[Random.Range(0, recipeRequestPrefix.Length)];
-            AudioClip recipeName = currentOfferRecipe.NameClip;
+            AudioClip recipeName = currentOfferRecipes[0].NameClip;
             if (recipeName == null)
             {
                 recipeName = defaultRecipeName;
-                Debug.LogWarning($"Recipe {currentOfferRecipe.DisplayName} (offer) does not have an audio clip for its name. Used default name.");
+                Debug.LogWarning($"Recipe {currentOfferRecipes[0].DisplayName} (offer) does not have an audio clip for its name. Used default name.");
             }
-            yield return StartCoroutine(Announce(clip, recipeName));
+            StartCoroutine(Announce(clip, recipeName));
 
-            status = Status.Idle;
+            status = Status.OfferingRecipe;
 
             while (true)
             {
-                // TODO: add this key to the NeoFPS input manager so that it is configurable
-                if (Input.GetKeyDown(KeyCode.B))
+                int i = int.MaxValue;
+                // TODO: add these keys to the NeoFPS input manager so that it is configurable
+                if (Input.GetKey(KeyCode.B))
+                {
+                    i = 0;
+                } else if (Input.GetKey(KeyCode.N))
+                {
+                    i = 1;
+                } else if (Input.GetKey(KeyCode.M))
+                {
+                    i = 2;
+                }
+
+                if (i < int.MaxValue)
                 {
                     if (status == Status.Building) {
                         status = Status.RequestQueued;
@@ -303,7 +317,7 @@ namespace RogueWave
                     yield return new WaitForSeconds(2);
 
                     status = Status.Requesting;
-                    timeOfNextBuiild = Time.timeSinceLevelLoad + currentOfferRecipe.TimeToBuild + 5f;
+                    timeOfNextBuiild = Time.timeSinceLevelLoad + currentOfferRecipes[i].TimeToBuild + 5f;
 
                     // Announce request made
                     clip = recipeRequested[Random.Range(0, recipeRequested.Length)];
@@ -316,13 +330,13 @@ namespace RogueWave
                         yield return Announce(clip, recipeName);
                     }
 
-                    yield return new WaitForSeconds(currentOfferRecipe.TimeToBuild);
+                    yield return new WaitForSeconds(currentOfferRecipes[i].TimeToBuild);
 
                     // Announce request recieved
                     status = Status.RequestRecieved;
                     clip = recipeRecievedPrefix[Random.Range(0, recipeRecievedPrefix.Length)];
                     Announce(clip);
-                    if (currentOfferRecipe.TimeToBuild > 5)
+                    if (currentOfferRecipes[0].TimeToBuild > 5)
                     {
                         yield return Announce(clip);
                     }
@@ -331,10 +345,10 @@ namespace RogueWave
                         yield return Announce(clip, recipeName);
                     }
 
-                    RogueLiteManager.runData.Add(currentOfferRecipe);
-                    Add(currentOfferRecipe);
+                    RogueLiteManager.runData.Add(currentOfferRecipes[i]);
+                    Add(currentOfferRecipes[i]);
 
-                    status = Status.Idle;
+                    status = Status.Collecting;
 
                     break;
                 }
@@ -658,7 +672,7 @@ namespace RogueWave
 
             recipe.BuildFinished();
 
-            status = Status.Idle;
+            status = Status.Collecting;
             timeOfNextBuiild = Time.timeSinceLevelLoad + buildingCooldown;
         }
 

@@ -210,7 +210,6 @@ namespace RogueWave
             nextTimeAvailable = Time.timeSinceLevelLoad + cooldown;
         }
 
-
         [SerializeField, Tooltip("DO NOT CHANGE THIS. Unless you know what you are doing"), BoxGroup("Internal"), ReadOnly]
         internal string uniqueID;
 

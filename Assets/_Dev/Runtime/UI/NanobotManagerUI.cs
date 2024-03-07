@@ -1,8 +1,6 @@
 using NeoFPS;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 using static RogueWave.NanobotManager;
 
@@ -10,12 +8,21 @@ namespace RogueWave
 {
     public class NanobotManagerUI : PlayerCharacterHudBase
     {
-        [SerializeField, Tooltip("Image element for displaying the icon of the recipe currently being offered.")]
-        private Image recipeIcon = null;
-        [SerializeField, Tooltip("Text box for displaying the current status of the nanobots.")]
+        [SerializeField, Tooltip("Image elements for displaying the icon of the recipe currently being offered.")]
+        [FormerlySerializedAs("recipeIcons")]
+        private Image[] offerIcon = null;
+        [SerializeField, Tooltip("Text boxes for displaying the name of the recipe currently being offered.")]
+        private Text[] offerText = null;
+        [SerializeField, Tooltip("Text boxes for displaying the current status of the nanobots.")]
         private Text statusText = null;
 
         private NanobotManager nanobotManager;
+
+        protected override void Start()
+        {
+            OnStatusChanged(Status.Collecting);
+            base.Start();
+        }
 
         public override void OnPlayerCharacterChanged(ICharacter character)
         {
@@ -37,8 +44,7 @@ namespace RogueWave
             if (nanobotManager != null)
             {
                 nanobotManager.onOfferChanged += OnOfferChanged;
-                OnOfferChanged(nanobotManager.currentOfferRecipe);
-                statusText.text = string.Empty;
+                OnOfferChanged(nanobotManager.currentOfferRecipes);
 
                 nanobotManager.onStatusChanged += OnStatusChanged;
                 OnStatusChanged(nanobotManager.status);
@@ -50,33 +56,76 @@ namespace RogueWave
             }
         }
 
-        private void OnOfferChanged(IRecipe currentOffer)
+        private void OnOfferChanged(IRecipe[] currentOffers)
         {
-            if (currentOffer != null)
+            for (int i = 0; i < offerIcon.Length; i++)
             {
-                recipeIcon.sprite = currentOffer.Icon;
-            }
-            else
-            {
-                recipeIcon.sprite = null;
+                if (currentOffers == null)
+                {
+                    offerIcon[i].sprite = null;
+                } 
+                else if (i < currentOffers.Length && currentOffers[i] != null)
+                {
+                    if (currentOffers[i].Icon != null)
+                    {
+                        offerIcon[i].sprite = currentOffers[i].Icon;
+                    } else
+                    {
+                        if (currentOffers[i].HeroImage == null)
+                        {
+                            Debug.LogWarning("No icon or hero image for recipe " + currentOffers[i].DisplayName);
+                            offerIcon[i].sprite = null;
+                            continue;
+                        }
+                        else
+                        {
+                            offerIcon[i].sprite = Sprite.Create(currentOffers[i].HeroImage,
+                                new Rect(0.0f, 0.0f, currentOffers[i].HeroImage.width,
+                                currentOffers[i].HeroImage.height),
+                                new Vector2(0.5f, 0.5f),
+                                currentOffers[i].HeroImage.width / 50.0f);
+                        }
+                    }
+                    offerText[i].text = currentOffers[i].DisplayName;
+                }
+                else
+                {
+                    offerIcon[i].sprite = null;
+                }
             }
         }
 
         private void OnStatusChanged(Status status)
         {
-            switch (status) {
+            bool showStatus = true;
+            switch (status)
+            {
+                case Status.Collecting:
+                    statusText.text = "Collect Resources";
+                    break;
                 case Status.OfferingRecipe:
-                    statusText.text = $"Offering {nanobotManager.currentOfferRecipe.DisplayName}";
+                    statusText.text = "Offering";
+                    showStatus = false;
                     break;
                 case Status.RequestQueued:
-                    statusText.text = $"Queued: {nanobotManager.currentOfferRecipe.DisplayName}";
+                    statusText.text = "Queued";
                     break;
                 case Status.Requesting:
-                    statusText.text = $"Requesting {nanobotManager.currentOfferRecipe.DisplayName}";
+                    statusText.text = "Requesting";
                     break;
                 case Status.RequestRecieved:
-                    statusText.text = $"Waiting";
+                    statusText.text = "Recieved";
                     break;
+                case Status.Building:
+                    statusText.text = "Waiting";
+                    break;
+            }
+
+            statusText.enabled = showStatus;
+            for (int i = 0; i < offerText.Length; i++)
+            {
+                offerText[i].gameObject.SetActive(!showStatus);
+                offerIcon[i].gameObject.SetActive(!showStatus);
             }
         }
     }
