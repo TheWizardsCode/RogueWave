@@ -11,6 +11,8 @@ namespace RogueWave
 {
     public class NanobotManager : MonoBehaviour
     {
+        enum voiceDescriptionLevel { Silent, Low, Medium, High }
+
         [Header("Building")]
         [SerializeField, Tooltip("Cooldown between recipe builds.")]
         private float buildingCooldown = 4;
@@ -24,6 +26,8 @@ namespace RogueWave
         private float pickupSpawnDistance = 3;
 
         [Header("Feedbacks")]
+        [SerializeField, Tooltip("Define how 'chatty' the nanobots are. This will affect how often and in what level of detail they announce things to the player.")]
+        private voiceDescriptionLevel voiceDescription = voiceDescriptionLevel.High;
         [SerializeField, Tooltip("The sound to play to indicate a new recipe is available from home planet. This will be played before the name of the recipe to tell the player that they can call it in if they want.")]
         private AudioClip[] recipeRequestPrefix;
         [SerializeField, Tooltip("The sound to play to indicate a recipe has been requested.")]
@@ -276,13 +280,19 @@ namespace RogueWave
 
             // Announce a recipe is available
             AudioClip clip = recipeRequestPrefix[Random.Range(0, recipeRequestPrefix.Length)];
-            AudioClip recipeName = currentOfferRecipes[0].NameClip;
-            if (recipeName == null)
-            {
-                recipeName = defaultRecipeName;
-                Debug.LogWarning($"Recipe {currentOfferRecipes[0].DisplayName} (offer) does not have an audio clip for its name. Used default name.");
+            AudioClip[] recipeNames = new AudioClip[currentOfferRecipes.Length];
+            for (int i = 0; i < currentOfferRecipes.Length; i++) {
+                if (currentOfferRecipes[i].NameClip == null)
+                {
+                    recipeNames[i] = defaultRecipeName;
+                    Debug.LogWarning($"Recipe {currentOfferRecipes[i].DisplayName} (offer) does not have an audio clip for its name. Used default name.");
+                }
+                else
+                {
+                    recipeNames[i] = currentOfferRecipes[i].NameClip;
+                }   
             }
-            StartCoroutine(Announce(clip, recipeName));
+            StartCoroutine(Announce(clip, recipeNames));
 
             status = Status.OfferingRecipe;
 
@@ -325,10 +335,6 @@ namespace RogueWave
                     {
                         yield return Announce(clip);
                     }
-                    else
-                    {
-                        yield return Announce(clip, recipeName);
-                    }
 
                     yield return new WaitForSeconds(currentOfferRecipes[i].TimeToBuild);
 
@@ -339,10 +345,6 @@ namespace RogueWave
                     if (currentOfferRecipes[0].TimeToBuild > 5)
                     {
                         yield return Announce(clip);
-                    }
-                    else
-                    {
-                        yield return Announce(clip, recipeName);
                     }
 
                     RogueLiteManager.runData.Add(currentOfferRecipes[i]);
@@ -380,7 +382,12 @@ namespace RogueWave
         /// <param name="mainClip">The main clip to play</param>
         private IEnumerator Announce(AudioClip mainClip)
         {
-            yield return Announce(mainClip, null);
+            if (voiceDescription == voiceDescriptionLevel.Silent)
+            {
+                yield break;
+            }
+
+            yield return Announce(mainClip, new AudioClip[] { });
         }
 
         /// <summary>
@@ -390,19 +397,36 @@ namespace RogueWave
         /// <param name="recipeName">OPTIONAL: if not null then this recipe name clip will be announced after the main clip</param>
         private IEnumerator Announce(AudioClip mainClip, AudioClip recipeName)
         {
+            yield return Announce(mainClip, recipeName == null ? null : new AudioClip[] { recipeName });
+        }
+
+        /// <summary>
+        /// Make an announcement to the player. This will play the clip at the position of the nanobot manager.
+        /// </summary>
+        /// <param name="mainClip">The main clip to play</param>
+        /// <param name="recipeName">OPTIONAL: if not null then these recipe name clips will be announced after the main clip</param>
+        private IEnumerator Announce(AudioClip mainClip, AudioClip[] recipeNames)
+        {
+            if (voiceDescription == voiceDescriptionLevel.Silent)
+            {
+                yield break;
+            }
+
             //Debug.Log($"Announcing {mainClip.name} with recipe name {recipeName?.name}");
 
             NeoFpsAudioManager.PlayEffectAudioAtPosition(mainClip, transform.position, 1);
             yield return new WaitForSeconds(mainClip.length);
 
-            if (recipeName == null)
+            if (recipeNames == null || recipeNames.Length == 0 || voiceDescription < voiceDescriptionLevel.Medium)
             {
                 yield break;
             }
 
-            NeoFpsAudioManager.PlayEffectAudioAtPosition(recipeName, transform.position, 1);
-
-            yield return new WaitForSeconds(recipeName.length);
+            foreach (AudioClip recipeName in recipeNames)
+            {
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(recipeName, transform.position, 1);
+                yield return new WaitForSeconds(recipeName.length + 0.3f);
+            }
         }
 
         private int GetRequiredResourcesForNextNanobotLevel()
@@ -428,7 +452,7 @@ namespace RogueWave
                     return false;
                 }
 
-                if (RogueLiteManager.persistentData.currentResources >= healthRecipes[i].BuyCost && healthRecipes[i].ShouldBuild)
+                if (RogueLiteManager.persistentData.currentResources >= healthRecipes[i].BuildCost && healthRecipes[i].ShouldBuild)
                 {
                     float healAmount = Mathf.Min(1, healthRecipes[i].healAmountPerCent);
                     if (healAmount > chosenAmount)
@@ -523,7 +547,7 @@ namespace RogueWave
             {
                 // TODO: make a decision on whether to make a generic item in a more intelligent way
                 // TODO: can we make tests that are dependent on the pickup, e.g. when the pickup is triggered it will only be picked up if needed 
-                if (RogueLiteManager.persistentData.currentResources < itemRecipes[i].BuyCost)
+                if (RogueLiteManager.persistentData.currentResources < itemRecipes[i].BuildCost)
                 {
                     continue;
                 }
@@ -554,14 +578,14 @@ namespace RogueWave
                     continue;
                 }
 
-                if (RogueLiteManager.persistentData.currentResources >= ammoRecipes[i].BuyCost && ammoRecipes[i].ShouldBuild)
+                if (RogueLiteManager.persistentData.currentResources >= ammoRecipes[i].BuildCost && ammoRecipes[i].ShouldBuild)
                 {
                     float ammoAmount = Mathf.Min(1, ammoRecipes[i].ammoAmountPerCent);
                     if (ammoAmount > chosenAmount)
                     {
                         chosenRecipe = ammoRecipes[i];
                         chosenAmount = ammoAmount;
-                    } else if (ammoAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.BuyCost > ammoRecipes[i].BuyCost)))
+                    } else if (ammoAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.BuildCost > ammoRecipes[i].BuyCost)))
                     {
                         chosenRecipe = ammoRecipes[i];
                         chosenAmount = ammoAmount;
@@ -612,7 +636,7 @@ namespace RogueWave
 
             if (recipe.BuildStartedClip != null)
             {
-                yield return Announce(recipe.BuildStartedClip, null);
+                yield return Announce(recipe.BuildStartedClip);
             } else
             {
                 AudioClip recipeName = recipe.NameClip;
@@ -658,7 +682,7 @@ namespace RogueWave
 
                 if (recipe.BuildCompleteClip != null)
                 {
-                    yield return Announce(recipe.BuildCompleteClip, null);
+                    yield return Announce(recipe.BuildCompleteClip);
                 }
                 else
                 {
