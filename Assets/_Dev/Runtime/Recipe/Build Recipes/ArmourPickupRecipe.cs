@@ -1,6 +1,5 @@
 ﻿using NeoFPS;
 using NeoFPS.SinglePlayer;
-using NeoFPSEditor.Hub.Pages;
 using UnityEngine;
 
 namespace RogueWave

@@ -186,11 +186,6 @@ namespace RogueWave
                     return false;
                 }
 
-                if (ShouldBuild == false)
-                {
-                    return false;
-                }
-
                 foreach (IRecipe dependency in dependencies)
                 {
                     if (RogueLiteManager.runData.Contains(dependency) == false && RogueLiteManager.persistentData.Contains(dependency) == false)

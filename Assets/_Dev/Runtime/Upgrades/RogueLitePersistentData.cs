@@ -95,7 +95,14 @@ namespace RogueWave
             {
                 if (WeaponBuildOrder.Contains(recipe.UniqueID) == false)
                 {
-                    WeaponBuildOrder.Insert(0, recipe.UniqueID);
+                    if (weapon.overridePrimaryWeapon)
+                    {
+                        WeaponBuildOrder.Insert(0, recipe.UniqueID);
+                    }
+                    else
+                    {
+                        WeaponBuildOrder.Insert(1, recipe.UniqueID);
+                    }
                 }
 
                 if (weapon.ammoRecipe != null)

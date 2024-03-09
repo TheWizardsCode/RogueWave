@@ -81,7 +81,6 @@ namespace RogueWave
         {
             Collecting,
             OfferingRecipe,
-            RequestQueued,
             Requesting,
             RequestRecieved,
             Building
@@ -157,7 +156,7 @@ namespace RogueWave
 
         private void Update()
         {
-            if (status != Status.Collecting)
+            if (status == Status.Building)
             {
                 return;
             }
@@ -166,11 +165,6 @@ namespace RogueWave
             if (resourcesForNextNanobotLevel <= 0)
             {
                 LevelUp();
-                if (rewardCoroutine != null)
-                {
-                    StopCoroutine(rewardCoroutine);
-                }
-                rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
             }
 
             if (timeOfNextBuiild > Time.timeSinceLevelLoad)
@@ -313,19 +307,6 @@ namespace RogueWave
 
                 if (i < int.MaxValue)
                 {
-                    if (status == Status.Building) {
-                        status = Status.RequestQueued;
-                        clip = recipeRequestQueued[Random.Range(0, recipeRequestQueued.Length)];
-                        yield return Announce(clip);
-                        
-                        while (status == Status.Building)
-                        {
-                            yield return new WaitForSeconds(1);
-                        }
-                    }
-
-                    yield return new WaitForSeconds(2);
-
                     status = Status.Requesting;
                     timeOfNextBuiild = Time.timeSinceLevelLoad + currentOfferRecipes[i].TimeToBuild + 5f;
 
@@ -371,9 +352,15 @@ namespace RogueWave
 
         private void LevelUp()
         {
-            resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             RogueLiteManager.persistentData.currentNanobotLevel++;
+            resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             onNanobotLevelUp?.Invoke();
+
+            if (rewardCoroutine != null)
+            {
+                StopCoroutine(rewardCoroutine);
+            }
+            rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
         }
 
         /// <summary>
@@ -526,7 +513,7 @@ namespace RogueWave
             foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
             {
                 WeaponPickupRecipe weapon = recipe as WeaponPickupRecipe;
-                if (weapon != null && weapon.InInventory == false)
+                if (weapon != null && RogueLiteManager.persistentData.RecipeIds.Contains(weapon.uniqueID) == false && weapon.InInventory == false)
                 {
                     return TryRecipe(weapon);
                 }
