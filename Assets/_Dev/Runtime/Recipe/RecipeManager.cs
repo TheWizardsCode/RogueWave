@@ -16,6 +16,8 @@ namespace RogueWave
             AbstractRecipe[] itemRecipes = Resources.LoadAll<AbstractRecipe>("Recipes");
             foreach (AbstractRecipe recipe in itemRecipes)
             {
+                recipe.Reset();
+
                 if (allRecipes.ContainsKey(recipe.UniqueID))
                 {
                     Debug.LogError($"Duplicate recipe found for GUID {recipe.UniqueID} the two recipes are {recipe} and {allRecipes[recipe.uniqueID]}. This shouldn't happen.");
@@ -147,7 +149,7 @@ namespace RogueWave
                 if (RogueLiteManager.persistentData.currentResources < recipe.BuyCost)
                 {
 #if UNITY_EDITOR
-                    Debug.Log($"Skip: {recipe} is too expensive for the player.");
+                    Debug.Log($"Skip: {recipe} is too expensive for the player at a cost of {recipe.BuyCost}.");
 #endif
                     continue;
                 }

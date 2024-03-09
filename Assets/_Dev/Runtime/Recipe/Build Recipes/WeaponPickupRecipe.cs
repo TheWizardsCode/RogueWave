@@ -9,6 +9,8 @@ namespace RogueWave
     public class WeaponPickupRecipe : ItemRecipe<InventoryItemPickup>
     {
         [Header("Weapon")]
+        [SerializeField, Tooltip("If true then the weapon will be put to the top of the loadout build order when purchased, otherwise it will be put in the second slot.")]
+        internal bool overridePrimaryWeapon = false;
         [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]
         internal AmmoPickupRecipe ammoRecipe;
 

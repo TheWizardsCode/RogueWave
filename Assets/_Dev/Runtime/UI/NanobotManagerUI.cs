@@ -91,6 +91,7 @@ namespace RogueWave
                 else
                 {
                     offerIcon[i].sprite = null;
+                    offerText[i].text = string.Empty;
                 }
             }
         }
@@ -107,9 +108,6 @@ namespace RogueWave
                     statusText.text = "Offering";
                     showStatus = false;
                     break;
-                case Status.RequestQueued:
-                    statusText.text = "Queued";
-                    break;
                 case Status.Requesting:
                     statusText.text = "Requesting";
                     break;
@@ -117,15 +115,22 @@ namespace RogueWave
                     statusText.text = "Recieved";
                     break;
                 case Status.Building:
-                    statusText.text = "Waiting";
                     break;
             }
 
             statusText.enabled = showStatus;
             for (int i = 0; i < offerText.Length; i++)
             {
-                offerText[i].gameObject.SetActive(!showStatus);
-                offerIcon[i].gameObject.SetActive(!showStatus);
+                if (string.IsNullOrEmpty(offerText[i].text))
+                {
+                    offerText[i].gameObject.SetActive(false);
+                    offerIcon[i].gameObject.SetActive(false);
+                } else
+                {
+                    offerText[i].gameObject.SetActive(!showStatus);
+                    offerIcon[i].gameObject.SetActive(!showStatus);
+                }
+                
             }
         }
     }
