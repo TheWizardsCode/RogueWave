@@ -132,10 +132,7 @@ namespace RogueWave
         public float weight {
             get
             {
-                if (complements.Length == 0)
-                {
-                    return baseWeight;
-                }
+                float adjustedWeight = baseWeight;
 
                 int ownedComplements = 0;
                 foreach (IRecipe complement in complements)
@@ -145,8 +142,20 @@ namespace RogueWave
                         ownedComplements++;
                     }
                 }
+                if (ownedComplements > 0)
+                {
+                    adjustedWeight += (ownedComplements / complements.Length);
+                }
 
-                return (ownedComplements / complements.Length) + baseWeight;
+                if (IsStackable)
+                {
+                    if (RogueLiteManager.runData.Contains(this))
+                    {
+                        adjustedWeight *= 1.1f;
+                    }
+                }
+
+                return adjustedWeight;
             }
         }
 
@@ -181,7 +190,14 @@ namespace RogueWave
         {
             get
             {
-                if (RogueLiteManager.runData.Contains(this) || RogueLiteManager.persistentData.Contains(this))
+                if (IsStackable)
+                {
+                    if (RogueLiteManager.runData.GetCount(this) >= MaxStack || RogueLiteManager.persistentData.GetCount(this) >= MaxStack)
+                    {
+                        return false;
+                    }
+                } 
+                else if (RogueLiteManager.runData.Contains(this) || RogueLiteManager.persistentData.Contains(this))
                 {
                     return false;
                 }
