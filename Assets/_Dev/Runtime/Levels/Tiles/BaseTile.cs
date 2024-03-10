@@ -16,7 +16,7 @@ namespace RogueWave
         [Header("Tile Content")]
         [SerializeField, Tooltip("Spawn furniture on the tile. If true, the tile will be populated with furniture.")]
         private bool spawnFurniture = false;
-        [SerializeField, ShowIf("spawnFurniture"), Tooltip("The base chance for furniture to be present on this tile.")]
+        [SerializeField, Range(0, 1f), ShowIf("spawnFurniture"), Tooltip("The base chance for furniture to be present on this tile.")]
         private float furnitureChance = 0.25f;
         [SerializeField, ShowIf("spawnFurniture"), Tooltip("Prefabs that may be spawned on this tile. Only one of these, selected at random, will be generated.")]
         private GameObject[] furniturePrefabs = null;

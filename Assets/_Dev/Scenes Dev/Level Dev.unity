@@ -264,8 +264,17 @@ PrefabInstance:
       propertyPath: _startingRecipes.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: dd3c4d7b7c579954a93dd79c7e99b95a, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: m_SpawnZones.spawnZones.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: m_SpawnZones.spawnZones.Array.data[0].m_SpawnPoints.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 8684738436908811697, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
