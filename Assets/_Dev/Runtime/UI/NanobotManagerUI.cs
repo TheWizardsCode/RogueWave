@@ -114,8 +114,6 @@ namespace RogueWave
                 case Status.RequestRecieved:
                     statusText.text = "Recieved";
                     break;
-                case Status.Building:
-                    break;
             }
 
             statusText.enabled = showStatus;

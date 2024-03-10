@@ -82,8 +82,7 @@ namespace RogueWave
             Collecting,
             OfferingRecipe,
             Requesting,
-            RequestRecieved,
-            Building
+            RequestRecieved
         }
 
         Status _status;
@@ -121,6 +120,7 @@ namespace RogueWave
         private float timeOfLastRewardOffer = 0;
 
         private float timeOfNextBuiild = 0;
+        private bool isBuilding;
 
         private void Start()
         {
@@ -156,7 +156,7 @@ namespace RogueWave
 
         private void Update()
         {
-            if (status == Status.Building)
+            if (isBuilding)
             {
                 return;
             }
@@ -169,10 +169,6 @@ namespace RogueWave
 
             if (timeOfNextBuiild > Time.timeSinceLevelLoad)
             {
-                return;
-            }
-
-            if (status == Status.OfferingRecipe || status == Status.Requesting) {
                 return;
             }
 
@@ -618,7 +614,7 @@ namespace RogueWave
                 Debug.Log($"Building {recipe.DisplayName}");
             }
 #endif
-            status = Status.Building;
+            isBuilding = true;
             resources -= recipe.BuildCost;
 
             if (recipe.BuildStartedClip != null)
@@ -683,7 +679,7 @@ namespace RogueWave
 
             recipe.BuildFinished();
 
-            status = Status.Collecting;
+            isBuilding = false;
             timeOfNextBuiild = Time.timeSinceLevelLoad + buildingCooldown;
         }
 
