@@ -272,7 +272,7 @@ namespace RogueWave
                 string startRunButtonText = "Back to the Action";
                 if (FpsSoloCharacter.localPlayerCharacter == null)
                 {
-                    startRunButtonText = "Enter Combat";
+                    startRunButtonText = "Configure Loadout";
                 }
 
                 if (GUILayout.Button(startRunButtonText, startRunButtonStyle, GUILayout.Height(targetHeight)))
