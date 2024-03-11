@@ -190,10 +190,14 @@ namespace RogueWave
                 {
                     if (RogueLiteManager.runData.Contains(dependency) == false && RogueLiteManager.persistentData.Contains(dependency) == false)
                     {
+#if UNITY_EDITOR
                         Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot build.");
+#endif
                         return false;
                     }
+#if UNITY_EDITOR
                     Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can build.");
+#endif
                 }
 
                 return true;

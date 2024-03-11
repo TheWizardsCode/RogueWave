@@ -409,7 +409,7 @@ namespace RogueWave
             {
                 if (recipeName == null)
                 {
-                    Debug.LogWarning("Attempting to announce a null recipe name {recipeName} on {this.name}.");
+                    Debug.LogWarning($"Attempting to announce a null recipe name {recipeName} on {this.name}.");
                     continue;
                 }
                 else
