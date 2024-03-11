@@ -290,13 +290,13 @@ namespace RogueWave
             {
                 int i = int.MaxValue;
                 // TODO: add these keys to the NeoFPS input manager so that it is configurable
-                if (Input.GetKey(KeyCode.B))
+                if (currentOfferRecipes.Length >= 1 && Input.GetKey(KeyCode.B))
                 {
                     i = 0;
-                } else if (Input.GetKey(KeyCode.N))
+                } else if (currentOfferRecipes.Length >= 2 && Input.GetKey(KeyCode.N))
                 {
                     i = 1;
-                } else if (Input.GetKey(KeyCode.M))
+                } else if (currentOfferRecipes.Length >= 3 && Input.GetKey(KeyCode.M))
                 {
                     i = 2;
                 }
@@ -407,8 +407,16 @@ namespace RogueWave
 
             foreach (AudioClip recipeName in recipeNames)
             {
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(recipeName, transform.position, 1);
-                yield return new WaitForSeconds(recipeName.length + 0.3f);
+                if (recipeName == null)
+                {
+                    Debug.LogWarning("Attempting to announce a null recipe name {recipeName} on {this.name}.");
+                    continue;
+                }
+                else
+                {
+                    NeoFpsAudioManager.PlayEffectAudioAtPosition(recipeName, transform.position, 1);
+                    yield return new WaitForSeconds(recipeName.length + 0.3f);
+                }
             }
         }
 
