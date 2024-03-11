@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 3957620431239229239}
   - component: {fileID: 905963099382226170}
   - component: {fileID: 2767766673360794206}
+  - component: {fileID: 5084602469823726245}
   m_Layer: 0
   m_Name: RW_Game_Mode
   m_TagString: Untagged
@@ -189,6 +190,18 @@ MonoBehaviour:
   timeSlice: 25
   targetKillScore: 0.3
   isDebug: 0
+--- !u!114 &5084602469823726245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5223561033937574973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0
