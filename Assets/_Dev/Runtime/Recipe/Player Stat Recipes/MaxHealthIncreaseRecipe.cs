@@ -8,6 +8,7 @@ namespace RogueWave {
     [CreateAssetMenu(fileName = "Max Health Recipe", menuName = "Rogue Wave/Recipe/Maximum Health Recipe", order = 10)]
     public class MaxHealthIncreaseRecipe : BaseStatRecipe
     {
+        [Header("Stat Modifier")]
         [SerializeField, Tooltip("The amount to add to the current MaxHealth of the player.")]
         int AdditionalMaxHealth = 20;
 
