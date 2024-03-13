@@ -15,14 +15,14 @@ namespace RogueWave
         [SerializeField, Tooltip("The range of the magnet.")]
         internal float range = 5;
         [SerializeField, Tooltip("The speed at which the magnet attracts pickups.")]
-        internal float speed = 2;
+        internal float speed = 7;
         [SerializeField, Tooltip("How often the magnet scans for pickups.")]
         private float frequencyOfScans = 0.5f;
 
         List<Transform> targets = new List<Transform>();
         float timeOfNextScan = 0;
 
-        private void Update()
+          private void Update()
         {
             if (targets.Count > 0)
             {
@@ -30,7 +30,12 @@ namespace RogueWave
                 foreach (var target in targets)
                 {
                     Vector3 direction = transform.position - target.position;
-                    target.Translate(direction.normalized * speed * Time.deltaTime);
+                    float distance = direction.magnitude;
+                    if (distance != 0)
+                    {
+                        float adjustedSpeed = Mathf.Max(1f, speed * (1 + (range - distance) / range));
+                        target.Translate(direction * (adjustedSpeed * Time.deltaTime / distance));
+                    }
                 }
             }
 
@@ -44,7 +49,7 @@ namespace RogueWave
                         continue;
                     }
 
-                    if (targets.Contains(pickup.transform) == false)
+                    if (!targets.Contains(pickup.transform))
                     {
                         targets.Add(pickup.transform);
                     }
