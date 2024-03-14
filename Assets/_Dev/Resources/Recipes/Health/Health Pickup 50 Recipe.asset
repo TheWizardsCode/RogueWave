@@ -20,12 +20,14 @@ MonoBehaviour:
   baseWeight: 0.2
   isPowerUp: 1
   isConsumable: 1
-  cooldown: 4
-  dependencies: []
+  cooldown: 7
+  dependencies:
+  - {fileID: 11400000, guid: 67d1e236b8c6aac458028d1b6d4f6ff5, type: 2}
   complements: []
   isStackable: 0
   maxStack: 1
-  cost: 300
+  buyCost: 300
+  buildCost: 50
   timeToBuild: 14
   nameClips:
   - {fileID: 8300000, guid: e28726b61f481fc42914a78570095a9f, type: 3}

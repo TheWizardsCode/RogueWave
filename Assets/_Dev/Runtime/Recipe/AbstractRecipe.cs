@@ -9,7 +9,7 @@ namespace RogueWave
 {
     public abstract class AbstractRecipe : ScriptableObject, IRecipe
     {
-        [Header("Metadata")]
+        [Header("Description")]
         [SerializeField, Tooltip("The name of this recipe. Used in the UI for the player.")]
         string displayName = "TBD";
         [SerializeField, TextArea(1, 4), Tooltip("A short description of this recipe helping the player understand what it is.")]
@@ -18,10 +18,20 @@ namespace RogueWave
         Texture2D heroImage;
         [SerializeField, Tooltip("A sprite to use as the icon for this recipe."), ShowAssetPreview]
         Sprite icon;
+
+        [Header("Selection Criteria")]
         [SerializeField, Tooltip("The zero based level of this recipe. This is used to influence when the recipe should be offered to the player.")]
         int level = 1;
         [SerializeField, Tooltip("The base weight of this recipe. This is used to influence when the recipe should be offered to the player if all prerequisites have been set. Other factors will affect the total weight, such as the number of complements already owned.")]
         float baseWeight = 0.2f;
+        [SerializeField, Tooltip("The recipes that must be built before this recipe can be built.")]
+        AbstractRecipe[] dependencies = new AbstractRecipe[0];
+        [SerializeField, Tooltip("The recipes that complement this one. For each complimentary recipe the player already has this one will be given a higher chance of being offered.")]
+        AbstractRecipe[] complements = new AbstractRecipe[0];
+        [SerializeField, Tooltip("The resources required to buy this recipe. If the recipe is for a built item then there will be an additional cost to build it (see 'buildCost'), if it is an immediate upgrade then this is the only cost incurred.")]
+        [FormerlySerializedAs("cost")]
+        int buyCost = 500;
+
 
         [Header("Build")]
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
@@ -30,17 +40,10 @@ namespace RogueWave
         bool isConsumable = false;
         [SerializeField, Tooltip("The cooldown time for this recipe (in seconds). If the nanobots have built this recipe, they cannot build it again until this time has passed.")]
         float cooldown = 10;
-        [SerializeField, Tooltip("The recipes that must be built before this recipe can be built.")]
-        AbstractRecipe[] dependencies = new AbstractRecipe[0];
-        [SerializeField, Tooltip("The recipes that complement this one. For each complimentary recipe the player already has this one will be given a higher chance of being offered.")]
-        AbstractRecipe[] complements = new AbstractRecipe[0];
         [SerializeField, Tooltip("If true, this recipe can be stacked, that is if the player can hold more than onve of these at a time. Weapons, for example, are not stackable while health boosts are.")]
         bool isStackable = false;
         [SerializeField, ShowIf("isStackable"), Tooltip("The maximum number of this recipe that can be held at once.")]
         int maxStack = 1;
-        [SerializeField, Tooltip("The resources required to buy this recipe. If the recipe is for a built item then there will be an additional cost to build it (see 'buildCost'), if it is an immediate upgrade then this is the only cost incurred.")]
-        [FormerlySerializedAs("cost")]
-        int buyCost = 500;
         [SerializeField, Tooltip("The resources required to build this recipe. It must first be bought, see 'buyCost'")]
         int buildCost = 50;
         [SerializeField, Tooltip("The time it takes to build this recipe.")]
@@ -206,10 +209,14 @@ namespace RogueWave
                 {
                     if (RogueLiteManager.runData.Contains(dependency) == false && RogueLiteManager.persistentData.Contains(dependency) == false)
                     {
+#if UNITY_EDITOR
                         Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot build.");
+#endif
                         return false;
                     }
+#if UNITY_EDITOR
                     Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can build.");
+#endif
                 }
 
                 return true;

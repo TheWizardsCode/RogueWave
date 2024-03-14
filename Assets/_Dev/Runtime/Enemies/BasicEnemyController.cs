@@ -478,7 +478,11 @@ namespace RogueWave
                 Vector3 directionToTarget = destination - transform.position;
                 directionToTarget.y = 0;
                 avoidanceDirection.y = 0;
-                targetRotation = Quaternion.LookRotation((directionToTarget + avoidanceDirection).normalized);
+                Vector3 direction = (directionToTarget + avoidanceDirection).normalized;
+                if (direction != Vector3.zero)
+                {
+                    targetRotation = Quaternion.LookRotation(direction);
+                }
                 currentSpeed = Mathf.Max(maxSpeed, currentSpeed * 2f * Time.deltaTime);
             }
 

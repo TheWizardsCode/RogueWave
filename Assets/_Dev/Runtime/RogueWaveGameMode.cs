@@ -139,7 +139,6 @@ namespace RogueWave
         protected override void DelayedDeathAction()
         {
             RogueLiteManager.ResetRunData();
-            RogueLiteManager.persistentData.currentNanobotLevel = 0;
 
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
