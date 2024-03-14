@@ -81,7 +81,21 @@ namespace RogueWave
 
         public int MaxStack => maxStack;
 
-        public int BuyCost => buyCost;
+        public int BuyCost {
+            get
+            {
+                
+                if (IsStackable)
+                {
+                    int ownedCopies = RogueLiteManager.runData.GetCount(this);
+                    return Mathf.RoundToInt(buyCost * (1 + (ownedCopies * 0.1f)));
+                }
+                else
+                {
+                    return buyCost;
+                }
+            }
+        }
 
         public int BuildCost => buildCost;
 
@@ -147,15 +161,13 @@ namespace RogueWave
                 }
                 if (ownedComplements > 0)
                 {
-                    adjustedWeight += (ownedComplements / complements.Length);
+                    adjustedWeight += ownedComplements * 0.05f;
                 }
 
                 if (IsStackable)
                 {
-                    if (RogueLiteManager.runData.Contains(this))
-                    {
-                        adjustedWeight *= 1.1f;
-                    }
+                    int count = RogueLiteManager.runData.GetCount(this);
+                    adjustedWeight *= 1 + (count * 0.05f);
                 }
 
                 return adjustedWeight;

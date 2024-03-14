@@ -180,7 +180,7 @@ namespace RogueWave
                 }
 
 #if UNITY_EDITOR
-                Debug.Log($"Offer candidate: {recipe}");
+                Debug.Log($"Offer candidate: {recipe}, cost is {recipe.BuyCost} and weight is {recipe.weight}.");
 #endif
 
                 candidates.Add((T)recipe);
@@ -190,7 +190,7 @@ namespace RogueWave
             string listOfCandidates = "";
             foreach (T candidate in candidates)
             {
-                listOfCandidates += $"\t{candidate} with weight {candidate.weight}\n";
+                listOfCandidates += $"\t{candidate} with weight {candidate.weight} and cost of {candidate.BuyCost}.\n";
             }
             Debug.Log($"Offer candidates: {candidates.Count}\n{listOfCandidates}");
 #endif
