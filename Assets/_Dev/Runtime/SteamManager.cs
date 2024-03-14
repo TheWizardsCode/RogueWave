@@ -17,7 +17,7 @@ using NeoFPS.SinglePlayer;
 using NeoFPS;
 #endif
 
-namespace RogeWave
+namespace RogueWave
 {
 	//
 	// The SteamManager provides a base implementation of Steamworks.NET on which you can build upon.
