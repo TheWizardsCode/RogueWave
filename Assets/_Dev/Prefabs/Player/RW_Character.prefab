@@ -2713,9 +2713,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   buildingCooldown: 5
   baseResourcesPerLevel: 100
-  resourcesPerLevelMultiplier: 1.2
-  timeBetweenRecipeOffers: 60
-  pickupSpawnDistance: 3
+  resourcesPerLevelMultiplier: 1.1
+  timeBetweenRecipeOffers: 120
+  pickupSpawnDistance: 2
   voiceDescription: 3
   recipeRequestPrefix:
   - {fileID: 8300000, guid: 070e760ddfb02be44a7bb06d05054646, type: 3}
@@ -2796,7 +2796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   range: 10
-  speed: 5
+  speed: 7
   frequencyOfScans: 0.5
 --- !u!114 &7136947164496695666
 MonoBehaviour:

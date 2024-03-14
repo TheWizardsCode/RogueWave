@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level 3
   m_EditorClassIdentifier: 
   seed: 0
-  size: {x: 8, y: 8}
+  size: {x: 10, y: 10}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   availableTiles:
@@ -31,7 +31,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 01a2adc2928cc0a4bb94dc1d6469b265, type: 2}
   waveWait: 5
   generateNewWaves: 0
-  maxAlive: 200
+  maxAlive: 100
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: 81887eb3a9196564fa5e365286f704f0, type: 2}

@@ -269,7 +269,7 @@ namespace RogueWave
         }
 
         /// <summary>
-        /// Tests to see is a tile is valid at a defined position.
+        /// Tests to see if a tile is valid at a defined position.
         /// </summary>
         /// <param name="x">The x coordinate for the location of the tile.</param>
         /// <param name="y">The y coordination for the location of the tile.</param>
@@ -293,10 +293,12 @@ namespace RogueWave
                     {
                         isValid = false;
 
-                        //if (!isValid) 
+#if UNITY_EDITOR
+                        //if (!isValid)
                         //{
                         //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the x positive tile is {otherTile}.");
                         //}
+#endif
                     }
                 }
             }
@@ -314,10 +316,13 @@ namespace RogueWave
                     if (candidate == null)
                     {
                         isValid = false;
+
+#if UNITY_EDITOR
                         //if (!isValid)
                         //{
                         //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the x negative tile is {otherTile}.");
                         //}
+#endif
                     }
                 }
             }
@@ -335,10 +340,13 @@ namespace RogueWave
                     if (candidate == null)
                     {
                         isValid = false;
+
+#if UNITY_EDITOR
                         //if (!isValid)
                         //{
                         //    Debug.Log($"{tile} is not valid for ({x}, {y}) because the y positive tile is {otherTile}.");
                         //}
+#endif
                     }
                 }
             }
@@ -356,10 +364,13 @@ namespace RogueWave
                     if (candidate == null)
                     {
                         isValid = false;
+
+#if UNITY_EDITOR
                         //if (!isValid)
                         //{
                         //    Debug.Log($"{tile.name} is not valid for ({x}, {y}) because the y negative tile is {otherTile.name}.");
                         //}
+#endif
                     }
                 }
             }
