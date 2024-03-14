@@ -45,12 +45,12 @@ namespace RogeWave
 			}
 		}
 
-		protected bool m_bInitialized = false;
+		protected bool m_IsInitialized = false;
 		public static bool Initialized
 		{
 			get
 			{
-				return Instance.m_bInitialized;
+				return Instance.m_IsInitialized;
 			}
 		}
 
@@ -144,8 +144,8 @@ namespace RogeWave
 			// [*] Your App ID is not completely set up, i.e. in Release State: Unavailable, or it's missing default packages.
 			// Valve's documentation for this is located here:
 			// https://partner.steamgames.com/doc/sdk/api#initialization_and_shutdown
-			m_bInitialized = SteamAPI.Init();
-			if (!m_bInitialized)
+			m_IsInitialized = SteamAPI.Init();
+			if (!m_IsInitialized)
 			{
 				Debug.LogError("[Steamworks.NET] SteamAPI_Init() failed. Refer to Valve's documentation or the comment above this line for more information.", this);
 
@@ -172,7 +172,7 @@ namespace RogeWave
 				s_instance = this;
 			}
 
-			if (!m_bInitialized)
+			if (!m_IsInitialized)
 			{
 				return;
 			}
@@ -200,7 +200,7 @@ namespace RogeWave
 
 			s_instance = null;
 
-			if (!m_bInitialized)
+			if (!m_IsInitialized)
 			{
 				return;
 			}
@@ -210,7 +210,7 @@ namespace RogeWave
 
 		protected virtual void Update()
 		{
-			if (!m_bInitialized)
+			if (!m_IsInitialized)
 			{
 				return;
 			}
