@@ -54,6 +54,19 @@ namespace RogueWave
 
         internal Vector2 lotSize = new Vector2(25f, 25f);
 
+        internal float Duration
+        {
+            get
+            {
+                float duration = 0;
+                foreach (var wave in waves)
+                {
+                    duration += wave.WaveDuration;
+                }
+                return duration;
+            }
+        }
+
         /// <summary>
         /// Get a random enemy from the first wave defined in this level.
         /// </summary>

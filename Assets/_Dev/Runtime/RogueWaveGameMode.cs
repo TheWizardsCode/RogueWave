@@ -8,6 +8,7 @@ using NeoSaveGames.SceneManagement;
 using System.Collections;
 using NeoFPS.Constants;
 using NaughtyAttributes;
+using RogueWave.UI;
 
 namespace RogueWave
 {
@@ -35,7 +36,10 @@ namespace RogueWave
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
 
+        LevelProgressBar levelProgressBar;
+
         private int spawnersRemaining = 0;
+        private float timeInLevel;
 
         private static RogueWaveGameMode _instance;
         public static RogueWaveGameMode Instance
@@ -45,6 +49,11 @@ namespace RogueWave
                 if (_instance == null)
                 {
                     _instance = FindObjectOfType<RogueWaveGameMode>();
+
+                    if (_instance == null)
+                    {
+                        Debug.LogError("No RogueWaveGameMode found in the scene. Please add one to the scene.");
+                    }
                 }
                 return _instance;
             }
@@ -94,6 +103,12 @@ namespace RogueWave
             levelGenerator = GetComponentInChildren<LevelGenerator>();
             levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
 
+            levelProgressBar = FindObjectOfType<LevelProgressBar>(true);
+            if (levelProgressBar == null)
+            {
+                Debug.LogError("No LevelProgressBar found in the scene. Please add one to the scene.");
+            }
+
             base.Awake();
         }
 
@@ -110,6 +125,9 @@ namespace RogueWave
             {
                 return;
             }
+
+            timeInLevel += Time.deltaTime;
+            levelProgressBar.Value = timeInLevel;
         }
         #endregion
 
@@ -252,6 +270,15 @@ namespace RogueWave
 
         protected override void OnCharacterSpawned(ICharacter character)
         {
+            // Configure the Level Progress Bar
+            levelProgressBar.gameObject.SetActive(true);
+            levelProgressBar.MaxValue = currentLevelDefinition.Duration;
+            levelProgressBar.MinValue = 0;
+            levelProgressBar.Value = 0;
+            levelProgressBar.levelDefinition = currentLevelDefinition;
+            timeInLevel = 0;
+
+            // Configure the character
             character.onIsAliveChanged += OnCharacterIsAliveChanged;
 
             BasicHealthManager healthManager = character.GetComponent<BasicHealthManager>();
@@ -367,6 +394,8 @@ namespace RogueWave
         #region Pre Spawn
         protected override bool PreSpawnStep()
         {
+            levelProgressBar.gameObject.SetActive(false);
+
             RogueLiteManager.runData.Loadout.Clear();
 
             RogueLiteManager.persistentData.runNumber++;

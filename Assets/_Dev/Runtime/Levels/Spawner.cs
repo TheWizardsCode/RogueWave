@@ -235,7 +235,7 @@ namespace RogueWave
             }
             newWave.Init(
                 enemyPrefabs.ToArray(),
-                Mathf.Max(lastWave.SpawnRate - 0.1f, 0.1f), // faster!
+                Mathf.Max(lastWave.SpawnEventFrequency - 0.1f, 0.1f), // faster!
                 lastWave.WaveDuration + Random.Range(1f, 5f), // longer!
                 WaveDefinition.SpawnOrder.Random
             );
@@ -247,26 +247,25 @@ namespace RogueWave
             while (FpsSoloCharacter.localPlayerCharacter == null || currentLevel == null)
             {
                 currentLevel = RogueWaveGameMode.Instance.currentLevelDefinition;
-                yield return new WaitForSeconds(0.5f);
+                yield return null;
             }
-
 
             NextWave();
             while (currentWave != null)
             {
                 float waveStart = Time.time;
-                WaitForSeconds waitForSpawnRate = new WaitForSeconds(currentWave.SpawnRate);
-                while (Time.time - waveStart < currentWave.WaveDuration && (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
+                WaitForSeconds waitForSpawn = new WaitForSeconds(currentWave.SpawnEventFrequency);
+                while (Time.time - waveStart < currentWave.WaveDuration - currentWave.SpawnEventFrequency && (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
                 {
-                    yield return waitForSpawnRate;
+                    yield return waitForSpawn;
 
                     for (int i = 0; i < currentWave.SpawnAmount; i++)
                     {
                         if (activeRange == 0 || Vector3.SqrMagnitude(FpsSoloCharacter.localPlayerCharacter.transform.position - transform.position) <= activeRangeSqr)
                         {
                             SpawnEnemy();
-                            while (ignoreMaxAlive == false && currentLevel.maxAlive != 0 && spawnedEnemies.Count >= currentLevel.maxAlive) {
-                                yield return waitForSpawnRate;
+                            while (Time.time - waveStart < currentWave.WaveDuration && ignoreMaxAlive == false && currentLevel.maxAlive != 0 && spawnedEnemies.Count >= currentLevel.maxAlive) {
+                                yield return waitForSpawn;
                             }
                             yield return null;
                         }
