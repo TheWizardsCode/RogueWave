@@ -396,25 +396,17 @@ namespace RogueWave
             {
                 InstantiateTile(possibleTiles[0], x, y);
             }
-            // We have more than one candidate, pick one at random
+            // We have more than one candidate, pick one using the weighted random method
             else
             {
-                float totalChance = 0;
+                WeightedRandom<TileDefinition> weights = new WeightedRandom<TileDefinition>();
+
                 foreach (TileDefinition candidate in possibleTiles)
                 {
-                    totalChance += candidate.weight;
+                    weights.Add(candidate, candidate.weight);
                 }
 
-                float random = Random.Range(0, totalChance);
-                foreach (TileDefinition candidate in possibleTiles)
-                {
-                    totalChance -= candidate.weight;
-                    if (random >= totalChance)
-                    {
-                        InstantiateTile(candidate, x, y);
-                        break;
-                    }
-                }
+                InstantiateTile(weights.GetRandom(), x, y);
             }
         }
 

@@ -80,6 +80,7 @@ namespace RogueWave
             {
                 weaponCandidates = GetOfferCandidates<WeaponPickupRecipe>();
 
+                // TODO: Use the weights to select the best weapon to offer
                 int idx = Random.Range(0, weaponCandidates.Count);
                 for (int i = 0; i < weaponCandidates.Count; i++)
                 {
