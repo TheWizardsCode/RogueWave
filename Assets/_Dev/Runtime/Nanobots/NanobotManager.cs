@@ -62,6 +62,12 @@ namespace RogueWave
         private int numInGameRewards = 3;
         internal int resourcesForNextNanobotLevel = 0;
 
+        public delegate void OnRequestSent(IRecipe recipe);
+        public event OnRequestSent onRequestSent;
+
+        public delegate void OnBuildStarted(IRecipe recipe);
+        public event OnBuildStarted onBuildStarted;
+
         public delegate void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel);
         public event OnResourcesChanged onResourcesChanged;
 
@@ -311,10 +317,12 @@ namespace RogueWave
                     clip = recipeRequested[Random.Range(0, recipeRequested.Length)];
                     if (Time.timeSinceLevelLoad - timeOfLastRewardOffer > 5)
                     {
-                        yield return Announce(clip);
+                        StartCoroutine(Announce(clip));
                     }
 
+                    onRequestSent?.Invoke(currentOfferRecipes[i]);
                     yield return new WaitForSeconds(currentOfferRecipes[i].TimeToBuild);
+
 
                     // Announce request recieved
                     status = Status.RequestRecieved;
@@ -628,7 +636,7 @@ namespace RogueWave
 
             if (recipe.BuildStartedClip != null)
             {
-                yield return Announce(recipe.BuildStartedClip);
+                StartCoroutine(Announce(recipe.BuildStartedClip));
             } else
             {
                 AudioClip recipeName = recipe.NameClip;
@@ -638,11 +646,11 @@ namespace RogueWave
                     Debug.LogError($"Recipe {recipe.DisplayName} ({recipe}) does not have an audio clip for its name. Used default of `Unkown`.");
                 }
 
-                yield return Announce(buildStartedClips[Random.Range(0, buildStartedClips.Length)], recipeName);
+                StartCoroutine(Announce(buildStartedClips[Random.Range(0, buildStartedClips.Length)], recipeName));
             }
 
+            onBuildStarted?.Invoke(recipe);
             yield return new WaitForSeconds(recipe.TimeToBuild);
-
 
             IItemRecipe itemRecipe = recipe as IItemRecipe;
             if (itemRecipe != null)
