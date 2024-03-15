@@ -1,5 +1,8 @@
 using NeoFPS;
 using RogueWave.UI;
+using System;
+using System.Collections;
+using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -14,6 +17,10 @@ namespace RogueWave
         private Image[] offerIcon = null;
         [SerializeField, Tooltip("Text boxes for displaying the name of the recipe currently being offered.")]
         private Text[] offerText = null;
+        [SerializeField, Tooltip("The icon for current build, if any.")]
+        private Image buildAndRequestIcon;
+        [SerializeField, Tooltip("The progress meter to show the current build progress, if any.")]
+        private ProgressBar buildAndRequetProgressBar;
         [SerializeField, Tooltip("Text boxes for displaying the current status of the nanobots.")]
         private Text statusText = null;
         [SerializeField, Tooltip("The progress bar for the next level of nanobot.")]
@@ -31,6 +38,8 @@ namespace RogueWave
         {
             if (nanobotManager != null)
             {
+                nanobotManager.onRequestSent -= OnRequestSent;
+                nanobotManager.onBuildStarted -= OnBuildStarted;
                 nanobotManager.onResourcesChanged -= OnResourcesChanged;
                 nanobotManager.onStatusChanged -= OnStatusChanged;
                 nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
@@ -43,6 +52,8 @@ namespace RogueWave
         {
             if (nanobotManager != null)
             {
+                nanobotManager.onRequestSent += OnRequestSent;
+                nanobotManager.onBuildStarted += OnBuildStarted;
                 nanobotManager.onResourcesChanged += OnResourcesChanged;
                 nanobotManager.onStatusChanged -= OnStatusChanged;
                 nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
@@ -82,6 +93,35 @@ namespace RogueWave
         {
             nanobotLevelProgressBar.MaxValue = resourceForNextLevel;
             nanobotLevelProgressBar.Value = 0;
+        }
+
+        protected virtual void OnBuildStarted(IRecipe recipe)
+        {
+            StartCoroutine(BuildOrRequestProgressCo(recipe));
+        }
+
+        protected virtual void OnRequestSent(IRecipe recipe)
+        {
+            StartCoroutine(BuildOrRequestProgressCo(recipe));
+        }
+
+        private IEnumerator BuildOrRequestProgressCo(IRecipe recipe)
+        {
+            buildAndRequestIcon.sprite = recipe.Icon;
+
+            buildAndRequetProgressBar.MaxValue = recipe.TimeToBuild;
+            buildAndRequetProgressBar.Value = 0;
+
+            float buildTime = recipe.TimeToBuild;
+            while (buildTime > 0)
+            {
+                buildAndRequetProgressBar.Value += Time.deltaTime;
+                buildTime -= Time.deltaTime;
+                yield return null;
+            }
+
+            buildAndRequestIcon.sprite = null;
+            buildAndRequetProgressBar.Value = 0;
         }
 
         protected virtual void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel)
