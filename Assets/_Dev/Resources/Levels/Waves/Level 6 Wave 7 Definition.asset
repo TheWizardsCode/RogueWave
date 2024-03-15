@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05fde312255415440b722ae6c2cc41ea, type: 3}
   m_Name: Level 6 Wave 7 Definition
   m_EditorClassIdentifier: 
-  pooledEnemyPrefabs:
-  - {fileID: -3253544322625595672, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
-  - {fileID: 2046567764634707367, guid: 9df54c08e26d9e64583aefeb1cd720b7, type: 3}
-  enemyPrefabs:
-  - {fileID: 4070675553001932281, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
-  - {fileID: 4070675553001932281, guid: 9df54c08e26d9e64583aefeb1cd720b7, type: 3}
-  spawnRate: 4.5
+  enemies:
+  - pooledEnemyPrefab: {fileID: -3253544322625595672, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
+    baseWeight: 0.5
+  - pooledEnemyPrefab: {fileID: 2046567764634707367, guid: 9df54c08e26d9e64583aefeb1cd720b7, type: 3}
+    baseWeight: 0.36
+  spawnEventFrequency: 4.5
   numberToSpawn: 4
   waveDuration: 10
   spawnOrder: 0

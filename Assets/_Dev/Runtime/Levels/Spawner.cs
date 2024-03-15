@@ -228,16 +228,16 @@ namespace RogueWave
                 lastWave = currentLevel.waves[currentLevel.waves.Length - 1];
             }
             // collect all enemy prefabs from all waves and then randomly select from them
-            List<PooledObject> enemyPrefabs = new List<PooledObject>();
+            List<EnemySpawnConfiguration> spawnConfig = new List<EnemySpawnConfiguration>();
             for (int i = 0; i < currentLevel.waves.Length; i++)
             {
-                enemyPrefabs.AddRange(currentLevel.waves[i].EnemyPrefabs);
+                spawnConfig.AddRange(currentLevel.waves[i].enemies);
             }
             newWave.Init(
-                enemyPrefabs.ToArray(),
+                spawnConfig.ToArray(),
                 Mathf.Max(lastWave.SpawnEventFrequency - 0.1f, 0.1f), // faster!
                 lastWave.WaveDuration + Random.Range(1f, 5f), // longer!
-                WaveDefinition.SpawnOrder.Random
+                WaveDefinition.SpawnOrder.WeightedRandom
             );
             return newWave;
         }

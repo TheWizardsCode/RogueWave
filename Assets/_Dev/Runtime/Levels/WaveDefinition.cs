@@ -1,7 +1,9 @@
 using NaughtyAttributes;
 using NeoFPS;
+using System;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace RogueWave
 {
@@ -15,13 +17,12 @@ namespace RogueWave
     {
         public enum SpawnOrder
         {
-            Random,
+            WeightedRandom,
             Sequential
         }
 
         [SerializeField, Tooltip("The enemy prefabs to spawn.")]
-        private PooledObject[] pooledEnemyPrefabs;
-        public BasicEnemyController[] enemyPrefabs;
+        internal EnemySpawnConfiguration[] enemies;
         [SerializeField, Range(1f, 99f), Tooltip("The time between spawn events."), FormerlySerializedAs("spawnRate")]
         private float spawnEventFrequency = 5f;
         [SerializeField, Range(1, 99), Tooltip("The number of enemies to spawn during a spawn event."), FormerlySerializedAs("spawnAmount")]
@@ -29,24 +30,30 @@ namespace RogueWave
         [SerializeField, Tooltip("The duration of this wave in seconds. The spawner will continue to spawn enemies for this many seconds.")]
         private float waveDuration = 10f;
         [SerializeField, Tooltip("The order in which to spawn enemies.")] 
-        private SpawnOrder spawnOrder = SpawnOrder.Random;
+        private SpawnOrder spawnOrder = SpawnOrder.WeightedRandom;
 
-        public PooledObject[] EnemyPrefabs => pooledEnemyPrefabs;
+        public EnemySpawnConfiguration[] Enemies => enemies;
         public float SpawnEventFrequency => spawnEventFrequency;
         public int SpawnAmount => numberToSpawn;
         public float WaveDuration => waveDuration;
         public SpawnOrder Order => spawnOrder;
 
         private int currentEnemyIndex = 0;
+        private WeightedRandom<EnemySpawnConfiguration> weightedEnemies;
 
         public void Reset()
         {
             currentEnemyIndex = 0;
+            weightedEnemies = new WeightedRandom<EnemySpawnConfiguration>();
+            foreach (var enemy in enemies)
+            {
+                weightedEnemies.Add(enemy, enemy.baseWeight);
+            }
         }
 
-        public void Init(PooledObject[] enemyPrefabs, float spawnRate, float waveDuration, SpawnOrder spawnOrder)
+        public void Init(EnemySpawnConfiguration[] enemies, float spawnRate, float waveDuration, SpawnOrder spawnOrder)
         {
-            this.pooledEnemyPrefabs = enemyPrefabs;
+            this.enemies = enemies;
             this.spawnEventFrequency = spawnRate;
             this.waveDuration = waveDuration;
             this.spawnOrder = spawnOrder;
@@ -55,13 +62,28 @@ namespace RogueWave
 
         public PooledObject GetNextEnemy()
         {
-            if (pooledEnemyPrefabs.Length == 0)
-                return null;
+            if (weightedEnemies == null)
+            {
+                Reset();
+            }
 
-            if (spawnOrder == SpawnOrder.Random)
-                return pooledEnemyPrefabs[Random.Range(0, pooledEnemyPrefabs.Length)];
-
-            return pooledEnemyPrefabs[currentEnemyIndex++ % pooledEnemyPrefabs.Length];
+            if (spawnOrder == SpawnOrder.WeightedRandom)
+            {
+                return weightedEnemies.GetRandom().pooledEnemyPrefab;
+            }
+            else
+            {
+                return enemies[currentEnemyIndex++ % enemies.Length].pooledEnemyPrefab;
+            }
         }
+    }
+
+    [Serializable]
+    public class EnemySpawnConfiguration
+    {
+        [SerializeField, Tooltip("The enemy prefab to spawn.")]
+        internal PooledObject pooledEnemyPrefab;
+        [SerializeField, Range(0.01f, 1f), Tooltip("The weight of this enemy in the spawn pool. The higher the weight, the more likely it is to be spawned.")]
+        internal float baseWeight = 0.5f;
     }
 }
