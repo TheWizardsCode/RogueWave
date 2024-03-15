@@ -65,7 +65,7 @@ namespace RogueWave
         public delegate void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel);
         public event OnResourcesChanged onResourcesChanged;
 
-        public delegate void OnNanobotLevelUp();
+        public delegate void OnNanobotLevelUp(int level, int resourcesForNextLevel);
         public event OnNanobotLevelUp onNanobotLevelUp;
 
         public delegate void OnStatusChanged(Status status);
@@ -127,6 +127,7 @@ namespace RogueWave
             currentOfferRecipes = new IRecipe[numInGameRewards];
 
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
+            onResourcesChanged?.Invoke(0, 0, resourcesForNextNanobotLevel);
 
             foreach (var healthRecipe in healthRecipes)
             {
@@ -350,7 +351,7 @@ namespace RogueWave
         {
             RogueLiteManager.persistentData.currentNanobotLevel++;
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
-            onNanobotLevelUp?.Invoke();
+            onNanobotLevelUp?.Invoke(RogueLiteManager.persistentData.currentNanobotLevel, resourcesForNextNanobotLevel);
 
             if (rewardCoroutine != null)
             {
@@ -789,47 +790,8 @@ namespace RogueWave
 
         public void CollectResources(int amount)
         {
-            resources += amount;
             resourcesForNextNanobotLevel -= amount;
-        }
-
-        private void ShuffleWeaponRecipes()
-        {
-            int n = weaponRecipes.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = Random.Range(0, n + 1);
-                WeaponPickupRecipe value = weaponRecipes[k];
-                weaponRecipes[k] = weaponRecipes[n];
-                weaponRecipes[n] = value;
-            }
-        }
-
-        private void ShuffleToolRecipes()
-        {
-            int n = toolRecipes.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = Random.Range(0, n + 1);
-                ToolPickupRecipe value = toolRecipes[k];
-                toolRecipes[k] = toolRecipes[n];
-                toolRecipes[n] = value;
-            }
-        }
-
-        private void ShuffleItemRecipes()
-        {
-            int n = itemRecipes.Count;
-            while (n > 1)
-            {
-                n--;
-                int k = Random.Range(0, n + 1);
-                GenericItemPickupRecipe value = itemRecipes[k];
-                itemRecipes[k] = itemRecipes[n];
-                itemRecipes[n] = value;
-            }
+            resources += amount;
         }
 
         internal int GetAppliedCount(PassiveItemPickupRecipe passiveItemPickupRecipe)
