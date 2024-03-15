@@ -1,4 +1,5 @@
 using NeoFPS;
+using RogueWave.UI;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
@@ -15,6 +16,8 @@ namespace RogueWave
         private Text[] offerText = null;
         [SerializeField, Tooltip("Text boxes for displaying the current status of the nanobots.")]
         private Text statusText = null;
+        [SerializeField, Tooltip("The progress bar for the next level of nanobot.")]
+        private ProgressBar nanobotLevelProgressBar = null;
 
         private NanobotManager nanobotManager;
 
@@ -24,11 +27,25 @@ namespace RogueWave
             base.Start();
         }
 
+        protected override void OnDestroy()
+        {
+            if (nanobotManager != null)
+            {
+                nanobotManager.onResourcesChanged -= OnResourcesChanged;
+                nanobotManager.onStatusChanged -= OnStatusChanged;
+                nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
+                nanobotManager.onOfferChanged -= OnOfferChanged;
+            }
+            base.OnDestroy();
+        }
+
         public override void OnPlayerCharacterChanged(ICharacter character)
         {
             if (nanobotManager != null)
             {
+                nanobotManager.onResourcesChanged += OnResourcesChanged;
                 nanobotManager.onStatusChanged -= OnStatusChanged;
+                nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
                 nanobotManager.onOfferChanged -= OnOfferChanged;
             }
 
@@ -48,11 +65,37 @@ namespace RogueWave
 
                 nanobotManager.onStatusChanged += OnStatusChanged;
                 OnStatusChanged(nanobotManager.status);
+
+                nanobotManager.onNanobotLevelUp += OnNanobotLevelUp;
+
                 gameObject.SetActive(true);
+
+
             }
             else
             {
                 gameObject.SetActive(false);
+            }
+        }
+
+        private void OnNanobotLevelUp(int level, int resourceForNextLevel)
+        {
+            nanobotLevelProgressBar.MaxValue = resourceForNextLevel;
+            nanobotLevelProgressBar.Value = 0;
+        }
+
+        protected virtual void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel)
+        {   
+            if (from <= to)
+            {
+                if (resourcesUntilNextLevel > 0)
+                {
+                    nanobotLevelProgressBar.Value = (int)(nanobotLevelProgressBar.MaxValue - resourcesUntilNextLevel);
+                }
+                else
+                {
+                    nanobotLevelProgressBar.Value = nanobotLevelProgressBar.MaxValue;
+                }
             }
         }
 

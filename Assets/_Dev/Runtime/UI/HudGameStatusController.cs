@@ -1,8 +1,7 @@
 ﻿using NeoFPS;
-using System;
+using RogueWave.UI;
 using UnityEngine;
 using UnityEngine.UI;
-using static NeoFPS.HealthDelegates;
 
 namespace RogueWave
 {
@@ -12,8 +11,6 @@ namespace RogueWave
         private RectTransform m_ResourcesUI = null;
 		[SerializeField, Tooltip("The text readout for the current characters resources.")]
 		private Text m_ResourcesText = null;
-        [SerializeField, Tooltip("The text readout for the required resources for the next level up.")]
-        private Text m_LevelUpResourcesText = null;
         [SerializeField, Tooltip("The text readout for the number of remaining spawners.")]
         private Text m_SpawnersText = null;
         [SerializeField, Tooltip("The text readout for the number of remaining enemies.")]
@@ -108,7 +105,7 @@ namespace RogueWave
             if (nanobotManager != null)
             {
                 nanobotManager.onNanobotLevelUp += OnNanobotLevelUp;
-                OnNanobotLevelUp();
+                OnNanobotLevelUp(RogueLiteManager.persistentData.currentNanobotLevel, 150);
 
                 nanobotManager.onResourcesChanged += OnResourcesChanged;
                 OnResourcesChanged(0f, nanobotManager.resources, nanobotManager.resources);
@@ -126,23 +123,17 @@ namespace RogueWave
             }
         }
 
-        protected void OnNanobotLevelUp()
+        protected void OnNanobotLevelUp(int level, int resourcesForNextLevel)
         {
             if (m_NanobotLevelNumberText != null)
             {
-                m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
+                m_NanobotLevelNumberText.text = (level + 1).ToString();
             }
         }
 
 		protected virtual void OnResourcesChanged (float from, float to, float resourcesUntilNextLevel)
         {
             m_ResourcesText.text = ((int)to).ToString ();
-            int needed = (int)resourcesUntilNextLevel;
-            if (needed < 0)
-            {
-                needed = 0;
-            }
-            m_LevelUpResourcesText.text = needed.ToString();
         }
     }
 }
