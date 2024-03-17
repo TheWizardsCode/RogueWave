@@ -3,6 +3,11 @@ using UnityEngine;
 
 namespace RogueWave
 {
+    /// <summary>
+    /// Create an arbitrary collection of items with associated weights. When GetRandom() is called, 
+    /// the items are returned with a probability based on their weight.
+    /// </summary>
+    /// <typeparam name="T">The type of entries allows in the collection</typeparam>
     public class WeightedRandom<T>
     {
         private struct Entry
