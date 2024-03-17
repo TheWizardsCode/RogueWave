@@ -15,6 +15,8 @@ using Steamworks;
 using NeoFPS;
 using System;
 using UnityEditor.PackageManager;
+using RogueWave;
+using NeoFPS.SinglePlayer;
 #endif
 
 namespace WizardsCode.GameStats
@@ -23,10 +25,15 @@ namespace WizardsCode.GameStats
     // The StatsManager is responsible for managing the Stats and Achievements. Both locally and on Steam.
     //
     [DisallowMultipleComponent]
-    public class GameStatsManager : MonoBehaviour
+    [RequireComponent(typeof(IPlayerCharacterWatcher))]
+    public class GameStatsManager : MonoBehaviour, IPlayerCharacterSubscriber
     {
-        [SerializeField, Tooltip("The game stats that will be collected.")]
-        private GameStat[] m_Stats;
+        [SerializeField, Tooltip("The count of succesful runs in the game.")]
+        private GameStat m_VictoryCount;
+        [SerializeField, Tooltip("The count of deaths in the game.")]
+        private GameStat m_DeathCount;
+        [SerializeField, Tooltip("The miscelaneous game stats that will be collected.")]
+        private GameStat[] m_MiscStats;
 
         [Header("Stat Database Settings")]
         [SerializeField, Tooltip("The Steam App ID for the game.")]
@@ -34,8 +41,11 @@ namespace WizardsCode.GameStats
         [SerializeField, Tooltip("The frequency with which stats are stored to Steam.")]
         private float m_FrequencyOfStatStore = 60;
 
+        private RogueWaveGameMode m_GameMode;
+
         private static bool isDirty;
         private float m_TimeToNextStatStore = 0;
+        private IPlayerCharacterWatcher m_Watcher;
 
         public static GameStatsManager Instance { get; private set; }
 
@@ -50,6 +60,14 @@ namespace WizardsCode.GameStats
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
+            m_Watcher = GetComponentInParent<IPlayerCharacterWatcher>();
+            if (m_Watcher == null)
+            {
+                Debug.LogError("GameStatsManager require a component that implements IPlayerCharacterWatcher", gameObject);
+                return;
+            }
+            m_Watcher.AttachSubscriber(this);
+
             try
             {
                 SteamClient.Init(m_SteamAppId, true);
@@ -61,6 +79,24 @@ namespace WizardsCode.GameStats
             }
         }
 
+        private void OnEnable()
+        {
+            RogueWaveGameMode.onVictory += OnVictory;
+        }
+
+        private void OnIsAliveChanged(ICharacter character, bool alive)
+        {
+            if (!alive)
+            {
+                IncrementCounter(m_DeathCount);
+            }
+        }
+
+        private void OnVictory()
+        {
+            IncrementCounter(m_VictoryCount);
+        }
+
         private void OnDisable()
         {
             if (isDirty)
@@ -68,6 +104,9 @@ namespace WizardsCode.GameStats
                 SteamUserStats.StoreStats();
             }
             SteamClient.Shutdown();
+
+            RogueWaveGameMode.onVictory -= OnVictory;
+            FpsSoloCharacter.localPlayerCharacter.onIsAliveChanged -= OnIsAliveChanged;
         }
 
         private void Update()
@@ -95,6 +134,20 @@ namespace WizardsCode.GameStats
             isDirty = true;
         }
 
+        private ICharacter m_Character;
+        public void OnPlayerCharacterChanged(ICharacter character)
+        {
+            if (character == null || m_Character == character)
+                return;
+
+            if (m_Character != null)
+                m_Character.onIsAliveChanged -= OnIsAliveChanged;
+
+            m_Character = character;
+            m_Character.onIsAliveChanged += OnIsAliveChanged;
+        }
+
+        #region EDITOR_ONLY
 #if UNITY_EDITOR
         [Button("Reset Stats and Achievements")]
         private void ResetStats()
@@ -117,8 +170,8 @@ namespace WizardsCode.GameStats
         private void DumpStats()
         {
             if (Application.isPlaying)
-            {
-                foreach (GameStat stat in m_Stats)
+            {   
+                foreach (GameStat stat in m_MiscStats)
                 {
                     if (stat.Key != null)
                     {
@@ -133,6 +186,9 @@ namespace WizardsCode.GameStats
                         }
                     }
                 }
+
+                Debug.Log($"Victory Count = {SteamUserStats.GetStatInt(m_VictoryCount.Key)}");
+                Debug.Log($"Deaths Count = {SteamUserStats.GetStatInt(m_DeathCount.Key)}");
             }
             else
             {
@@ -140,5 +196,6 @@ namespace WizardsCode.GameStats
             }
         }
 #endif
+        #endregion
     }
 }
