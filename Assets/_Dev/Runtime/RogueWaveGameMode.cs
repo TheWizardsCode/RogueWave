@@ -9,6 +9,8 @@ using System.Collections;
 using NeoFPS.Constants;
 using NaughtyAttributes;
 using RogueWave.UI;
+using Steamworks;
+using WizardsCode.GameStats;
 
 namespace RogueWave
 {
@@ -32,6 +34,10 @@ namespace RogueWave
         [Header("Level Management")]
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
         LevelDefinition[] levels;
+
+        [Header("Game Stats and Achievements")]
+        [SerializeField, Tooltip("The count of games started."), Foldout("Stats")]
+        private GameStat m_GamesStartedStat;
 
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
@@ -110,6 +116,11 @@ namespace RogueWave
             }
 
             base.Awake();
+        }
+
+        private void Start()
+        {
+            GameStatsManager.IncrementCounter(m_GamesStartedStat);
         }
 
         protected override void OnDestroy()

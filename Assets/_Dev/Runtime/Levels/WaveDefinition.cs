@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using NeoFPS;
 using System;
 using UnityEngine;
@@ -41,11 +40,11 @@ namespace RogueWave
         private int currentEnemyIndex = 0;
         private WeightedRandom<EnemySpawnConfiguration> weightedEnemies;
 
-        public void Reset()
+        public void Init()
         {
             currentEnemyIndex = 0;
             weightedEnemies = new WeightedRandom<EnemySpawnConfiguration>();
-            foreach (var enemy in enemies)
+            foreach (EnemySpawnConfiguration enemy in enemies)
             {
                 weightedEnemies.Add(enemy, enemy.baseWeight);
             }
@@ -57,14 +56,14 @@ namespace RogueWave
             this.spawnEventFrequency = spawnRate;
             this.waveDuration = waveDuration;
             this.spawnOrder = spawnOrder;
-            Reset();
+            Init();
         }
 
         public PooledObject GetNextEnemy()
         {
             if (weightedEnemies == null)
             {
-                Reset();
+                Init();
             }
 
             if (spawnOrder == SpawnOrder.WeightedRandom)
@@ -74,6 +73,21 @@ namespace RogueWave
             else
             {
                 return enemies[currentEnemyIndex++ % enemies.Length].pooledEnemyPrefab;
+            }
+        }
+
+        private void OnValidate()
+        {
+            foreach (var enemy in enemies)
+            {
+                if (enemy.baseWeight == 0)
+                {
+                    enemy.baseWeight = 0.5f;
+                }
+                if (enemy.baseWeight < 0.01f)
+                {
+                    enemy.baseWeight = 0.01f;
+                }
             }
         }
     }

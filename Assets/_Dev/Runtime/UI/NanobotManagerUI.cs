@@ -1,8 +1,6 @@
 using NeoFPS;
 using RogueWave.UI;
-using System;
 using System.Collections;
-using UnityEditor.Build.Reporting;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;

@@ -209,7 +209,7 @@ namespace RogueWave
             }
             //Debug.Log($"Starting wave {currentWaveIndex + 1} of {waves.Length}...");
             currentWave = currentLevel.waves[currentWaveIndex];
-            currentWave.Reset();
+            currentWave.Init();
 
             if (waveStartSound != null)
             {
