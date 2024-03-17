@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace WizardsCode.GameStats
 {
-    [CreateAssetMenu(fileName = "New GameStat", menuName = "Wizards Code/Stats/Game Stat", order = 1)]
+    [CreateAssetMenu(fileName = "New GameStat", menuName = "Rogue Wave/Stats/Game Stat", order = 1)]
     public class GameStat : ScriptableObject
     {
         public enum StatType
