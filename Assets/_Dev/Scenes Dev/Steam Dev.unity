@@ -386,6 +386,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: m_GamesStartedStat
+      value: 
+      objectReference: {fileID: 11400000, guid: f0ba7b52cdac1494fbd7326ef9e5d1f0, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1677,18 +1681,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5773993234807199052, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
-      propertyPath: steamAppId
-      value: 2895630
-      objectReference: {fileID: 0}
-    - target: {fileID: 5773993234807199052, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
-      propertyPath: m_StatKeys.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5773993234807199052, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
-      propertyPath: m_StatKeys.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: f0ba7b52cdac1494fbd7326ef9e5d1f0, type: 2}
     - target: {fileID: 8339059454815938398, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
       propertyPath: m_Name
       value: Game Stats Manager
