@@ -28,12 +28,17 @@ namespace WizardsCode.GameStats
     [RequireComponent(typeof(IPlayerCharacterWatcher))]
     public class GameStatsManager : MonoBehaviour, IPlayerCharacterSubscriber
     {
+        [Header("Player Performance")]
         [SerializeField, Tooltip("The count of succesful runs in the game.")]
         private GameStat m_VictoryCount;
         [SerializeField, Tooltip("The count of deaths in the game.")]
         private GameStat m_DeathCount;
-        [SerializeField, Tooltip("The miscelaneous game stats that will be collected.")]
-        private GameStat[] m_MiscStats;
+
+        [Header("Nanobot Stats")]
+        [SerializeField, Tooltip("The count of resources collected in the game.")]
+        private GameStat m_ResourcesCollected;
+        [SerializeField, Tooltip("The count of resources spent in the game.")]
+        private GameStat m_ResourcesSpent;
 
         [Header("Stat Database Settings")]
         [SerializeField, Tooltip("The Steam App ID for the game.")]
@@ -70,8 +75,14 @@ namespace WizardsCode.GameStats
 
             try
             {
-                SteamClient.Init(m_SteamAppId, true);
-                Debug.Log("Steam ID: " + SteamClient.SteamId);
+                SteamClient.Init(m_SteamAppId, false); // false = manual callbacks (recommended in manual in the case of Unity)
+                Debug.Log($"Steam ID: {SteamClient.SteamId} ({SteamClient.Name})");
+
+                Debug.Log("Friends:");
+                foreach (var player in SteamFriends.GetFriends())
+                {
+                    Debug.Log($"Steam ID: {player.Id} ({player.Name}) {player.Relationship}");
+                }
             }
             catch (Exception e)
             {
@@ -106,7 +117,8 @@ namespace WizardsCode.GameStats
             SteamClient.Shutdown();
 
             RogueWaveGameMode.onVictory -= OnVictory;
-            FpsSoloCharacter.localPlayerCharacter.onIsAliveChanged -= OnIsAliveChanged;
+            if (FpsSoloCharacter.localPlayerCharacter != null)
+                FpsSoloCharacter.localPlayerCharacter.onIsAliveChanged -= OnIsAliveChanged;
         }
 
         private void Update()
@@ -130,21 +142,55 @@ namespace WizardsCode.GameStats
         /// <param name="stat"></param>
         internal static void IncrementCounter(GameStat stat)
         {
-            SteamUserStats.AddStat(stat.Key, 1);
+            IncrementCounter(stat, 1);
+        }
+
+        /// <summary>
+        /// Increments an integer counter by a set amount.
+        /// </summary>
+        /// <param name="stat"></param>
+        internal static void IncrementCounter(GameStat stat, int amount)
+        {
+            if (!SteamClient.IsValid)
+                return;
+
+            SteamUserStats.AddStat(stat.Key, amount);
             isDirty = true;
         }
 
         private ICharacter m_Character;
+        private NanobotManager m_NanobotManager;
         public void OnPlayerCharacterChanged(ICharacter character)
         {
             if (character == null || m_Character == character)
                 return;
 
             if (m_Character != null)
+            {
                 m_Character.onIsAliveChanged -= OnIsAliveChanged;
+                m_NanobotManager.onResourcesChanged -= OnResourcesChanged;
+            }
 
             m_Character = character;
             m_Character.onIsAliveChanged += OnIsAliveChanged;
+
+            m_NanobotManager = character.GetComponent<NanobotManager>();
+            m_NanobotManager.onResourcesChanged += OnResourcesChanged;
+        }
+
+        private void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel)
+        {
+            if (!SteamClient.IsValid)
+                return;
+
+            if (from < to)
+            {
+                IncrementCounter(m_ResourcesCollected, Mathf.RoundToInt(to - from));
+            }
+            else if (from > to)
+            {
+                IncrementCounter(m_ResourcesSpent, Mathf.RoundToInt(from - to));
+            }
         }
 
         #region EDITOR_ONLY
@@ -170,8 +216,10 @@ namespace WizardsCode.GameStats
         private void DumpStats()
         {
             if (Application.isPlaying)
-            {   
-                foreach (GameStat stat in m_MiscStats)
+            {
+                GameStat[] gameStats = Resources.LoadAll<GameStat>("");
+
+                foreach (GameStat stat in gameStats)
                 {
                     if (stat.Key != null)
                     {
@@ -186,9 +234,6 @@ namespace WizardsCode.GameStats
                         }
                     }
                 }
-
-                Debug.Log($"Victory Count = {SteamUserStats.GetStatInt(m_VictoryCount.Key)}");
-                Debug.Log($"Deaths Count = {SteamUserStats.GetStatInt(m_DeathCount.Key)}");
             }
             else
             {
