@@ -17,6 +17,10 @@ using NeoFPS.SinglePlayer;
 #if UNITY_EDITOR
 using UnityEditor;
 using Steamworks;
+using UnityEngine.SceneManagement;
+using Unity.VisualScripting.YamlDotNet.Core;
+using System.Collections.Generic;
+using NeoSaveGames;
 #endif
 
 namespace WizardsCode.GameStats
@@ -44,6 +48,10 @@ namespace WizardsCode.GameStats
         [SerializeField, Expandable, Tooltip("The count of resources spent in the game.")]
         private GameStat m_ResourcesSpent;
 
+        [Header("Enemy Stats")]
+        [SerializeField, Expandable, Tooltip("The count of spanwers destroyed.")]
+        private GameStat m_SpawnersDestroyed;
+
 #if ENABLE_STEAMWORKS
         [Header("Steam Settings")]
         [SerializeField, Tooltip("The Steam App ID for the game.")]
@@ -54,10 +62,14 @@ namespace WizardsCode.GameStats
         private float m_TimeToNextSteamStatStore = 0;
 #endif
 
+        private ICharacter m_Character;
+        private NanobotManager m_NanobotManager;
         private RogueWaveGameMode m_GameMode;
 
         private static bool isDirty;
         private IPlayerCharacterWatcher m_Watcher;
+
+        private List<Spawner> m_Spawners = new List<Spawner>();
 
         public static GameStatsManager Instance { get; private set; }
 
@@ -99,9 +111,65 @@ namespace WizardsCode.GameStats
 #endif
         }
 
+        private void Start()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            m_GameMode = FindObjectOfType<RogueWaveGameMode>();
+            if (m_GameMode != null)
+            {
+                m_GameMode.levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
+                m_GameMode.levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
+            }
+        }
+
+        private void OnSpawnerCreated(Spawner spawner)
+        {
+            m_Spawners.Add(spawner);
+            spawner.onDestroyed.AddListener(OnSpawnerDestroyed);
+        }
+
+        private void OnSpawnerDestroyed(Spawner spawner)
+        {
+            IncrementCounter(m_SpawnersDestroyed);
+            spawner.onDestroyed.RemoveListener(OnSpawnerDestroyed);
+            m_Spawners.Remove(spawner);
+        }
+
         private void OnEnable()
         {
             RogueWaveGameMode.onVictory += OnVictory;
+        }
+
+        private void OnDisable()
+        {
+            RogueWaveGameMode.onVictory -= OnVictory;
+
+            foreach (Spawner spawner in m_Spawners)
+            {
+                spawner.onDestroyed.RemoveListener(OnSpawnerDestroyed);
+            }
+
+            RogueWaveGameMode.onVictory -= OnVictory;
+            if (FpsSoloCharacter.localPlayerCharacter != null)
+                FpsSoloCharacter.localPlayerCharacter.onIsAliveChanged -= OnIsAliveChanged;
+#if ENABLE_STEAMWORKS
+            if (isDirty)
+            {
+                SteamUserStats.StoreStats();
+            }
+            SteamClient.Shutdown();
+#endif
+
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnDestroy()
+        {
+            m_GameMode?.levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
         }
 
         private void OnIsAliveChanged(ICharacter character, bool alive)
@@ -115,21 +183,6 @@ namespace WizardsCode.GameStats
         private void OnVictory()
         {
             IncrementCounter(m_VictoryCount);
-        }
-
-        private void OnDisable()
-        {
-#if ENABLE_STEAMWORKS
-            if (isDirty)
-            {
-                SteamUserStats.StoreStats();
-            }
-            SteamClient.Shutdown();
-#endif
-
-            RogueWaveGameMode.onVictory -= OnVictory;
-            if (FpsSoloCharacter.localPlayerCharacter != null)
-                FpsSoloCharacter.localPlayerCharacter.onIsAliveChanged -= OnIsAliveChanged;
         }
 
         private void Update()
@@ -175,8 +228,6 @@ namespace WizardsCode.GameStats
 #endif
         }
 
-        private ICharacter m_Character;
-        private NanobotManager m_NanobotManager;
         public void OnPlayerCharacterChanged(ICharacter character)
         {
             if (character == null || m_Character == character)
