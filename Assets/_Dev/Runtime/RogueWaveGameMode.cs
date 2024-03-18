@@ -43,24 +43,6 @@ namespace RogueWave
         private int spawnersRemaining = 0;
         private float timeInLevel;
 
-        private static RogueWaveGameMode _instance;
-        public static RogueWaveGameMode Instance
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<RogueWaveGameMode>();
-
-                    if (_instance == null)
-                    {
-                        Debug.LogError("No RogueWaveGameMode found in the scene. Please add one to the scene.");
-                    }
-                }
-                return _instance;
-            }
-        }
-
         LevelGenerator _levelGenerator;
         internal LevelGenerator levelGenerator
         {
@@ -93,15 +75,6 @@ namespace RogueWave
         #region Unity Life-cycle
         protected override void Awake()
         {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
-
             levelGenerator = GetComponentInChildren<LevelGenerator>();
             levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
 

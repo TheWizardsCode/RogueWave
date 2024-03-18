@@ -85,6 +85,7 @@ namespace RogueWave
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
         private AudioSource audioSource;
+        private RogueWaveGameMode m_GameMode;
 
         private void Awake()
         {
@@ -138,6 +139,11 @@ namespace RogueWave
             }
 
             activeRangeSqr = activeRange * activeRange;
+        }
+
+        private void OnEnable()
+        {
+            m_GameMode = GameObject.FindObjectOfType<RogueWaveGameMode>();
         }
 
         private void OnDestroy()
@@ -246,7 +252,7 @@ namespace RogueWave
         {
             while (FpsSoloCharacter.localPlayerCharacter == null || currentLevel == null)
             {
-                currentLevel = RogueWaveGameMode.Instance.currentLevelDefinition;
+                currentLevel = m_GameMode.currentLevelDefinition;
                 yield return null;
             }
 

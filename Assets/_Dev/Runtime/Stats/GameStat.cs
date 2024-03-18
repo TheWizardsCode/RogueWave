@@ -16,6 +16,8 @@ namespace WizardsCode.GameStats
         string m_Key;
         [SerializeField, Tooltip("The type of stat.")]
         StatType m_StatType;
+        [SerializeField, OnValueChanged("OnDefaultValueChangedCallback"), Tooltip("The default value of the stat.")]
+        float m_DefaultValue = 0;
 
         [ShowNonSerializedField]
         int m_intValue;
@@ -88,6 +90,18 @@ namespace WizardsCode.GameStats
         internal void Increment(float amount)
         {
             m_floatValue += amount;
+        }
+
+        private void OnDefaultValueChangedCallback()
+        {
+           switch (m_StatType)
+            {
+                case StatType.Int:
+                    m_DefaultValue = Mathf.RoundToInt(m_DefaultValue);
+                    break;
+                case StatType.Float:
+                    break;
+            }
         }
     }
 }
