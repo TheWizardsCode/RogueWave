@@ -25,14 +25,14 @@ MonoBehaviour:
     syncWithPlayerSettings: 0
   _releaseTypeList:
     releaseTypes:
-    - typeName: DeveloperTest
+    - typeName: DeveloperTest_NoSteamWorks
       bundleIdentifier: com.Wizards-Code.RogueWave
       companyName: Wizards Code
       productName: RogueWave
       syncAppNameWithProduct: 1
       appBuildName: RogueWave
       buildOptions: 1
-      customDefines: 
+      customDefines: STEAMWORKS_DISABLED
       sceneList:
         releaseScenes:
         - fileGUID: 1c5ac81b33c25354493cf5509cdec7a9
@@ -43,14 +43,14 @@ MonoBehaviour:
           sceneActive: 1
         - fileGUID: 220a728d3c0961149be17e591ae889be
           sceneActive: 1
-    - typeName: Release
+    - typeName: Release_NoSteamWorks
       bundleIdentifier: com.Wizards-Code.RogueWave
       companyName: Wizards Code
       productName: RogueWave
       syncAppNameWithProduct: 1
       appBuildName: RogueWave
       buildOptions: 0
-      customDefines: 
+      customDefines: STEAMWORKS_DISABLED
       sceneList:
         releaseScenes:
         - fileGUID: 1c5ac81b33c25354493cf5509cdec7a9
@@ -67,78 +67,78 @@ MonoBehaviour:
     - {fileID: 1933041726888299612}
   _projectConfigurations:
     configSet:
-      _Buckets: ffffffffffffffff0b0000000f000000ffffffffffffffff0500000000000000ffffffff0c000000020000000d00000006000000010000000700000009000000ffffffff
-      _HashCodes: 2020f900f62b2e010c2f1e4a341a640b7c7f7531da33933159e57304d0f5da17f7e46342878a7279510e9f5943fd646d7bbca86c134e5c09fe3787562d6dfd4800000000
-      _Next: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff0300000004000000080000000a0000000e00000000000000
+      _Buckets: 0b000000ffffffff04000000ffffffff0c0000000d00000009000000ffffffffffffffffffffffffffffffff070000000e000000ffffffff0f0000000600000005000000
+      _HashCodes: 7cf2e821cabe90148c2d7b57bc0e1311e43c587782c6780aaf8df663c0023f5ee14b961e9d662b1b2bd6e40d0193b97e293dc30d85a1052eb838366dc7a9d60a00000000
+      _Next: ffffffffffffffffffffffffffffffff00000000ffffffffffffffffffffffff02000000ffffffffffffffff03000000080000000a00000001000000ffffffff00000000
       _Count: 16
       _Version: 16
       _FreeList: -1
       _FreeCount: 0
       _Keys:
-      - DeveloperTest/PC/Windows x64 (App)/Mono
-      - DeveloperTest/PC/Windows x64 (App)
-      - DeveloperTest/PC
-      - DeveloperTest/Linux/Linux x64/Mono/Steam Deck
-      - DeveloperTest/Linux/Linux x64/Mono
-      - DeveloperTest/Linux/Linux x64
-      - DeveloperTest/Linux
-      - DeveloperTest
-      - Release/PC/Windows x64 (App)/Mono
-      - Release/PC/Windows x64 (App)
-      - Release/PC
-      - Release/Linux/Linux x64/Mono/Steam Deck
-      - Release/Linux/Linux x64/Mono
-      - Release/Linux/Linux x64
-      - Release/Linux
-      - Release
+      - DeveloperTest_NoSteamWorks/PC/Windows x64 (App)/Mono
+      - DeveloperTest_NoSteamWorks/PC/Windows x64 (App)
+      - DeveloperTest_NoSteamWorks/PC
+      - DeveloperTest_NoSteamWorks/Linux/Linux x64/Mono/Steam Deck
+      - DeveloperTest_NoSteamWorks/Linux/Linux x64/Mono
+      - DeveloperTest_NoSteamWorks/Linux/Linux x64
+      - DeveloperTest_NoSteamWorks/Linux
+      - DeveloperTest_NoSteamWorks
+      - Release_NoSteamWorks/PC/Windows x64 (App)/Mono
+      - Release_NoSteamWorks/PC/Windows x64 (App)
+      - Release_NoSteamWorks/PC
+      - Release_NoSteamWorks/Linux/Linux x64/Mono/Steam Deck
+      - Release_NoSteamWorks/Linux/Linux x64/Mono
+      - Release_NoSteamWorks/Linux/Linux x64
+      - Release_NoSteamWorks/Linux
+      - Release_NoSteamWorks
       - 
       _Values:
       - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:
-        - DeveloperTest/PC/Windows x64 (App)/Mono
+        - DeveloperTest_NoSteamWorks/PC/Windows x64 (App)/Mono
       - enabled: 1
         childKeys:
-        - DeveloperTest/PC/Windows x64 (App)
-      - enabled: 0
+        - DeveloperTest_NoSteamWorks/PC/Windows x64 (App)
+      - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:
-        - DeveloperTest/Linux/Linux x64/Mono/Steam Deck
+        - DeveloperTest_NoSteamWorks/Linux/Linux x64/Mono/Steam Deck
       - enabled: 1
         childKeys:
-        - DeveloperTest/Linux/Linux x64/Mono
+        - DeveloperTest_NoSteamWorks/Linux/Linux x64/Mono
       - enabled: 1
         childKeys:
-        - DeveloperTest/Linux/Linux x64
+        - DeveloperTest_NoSteamWorks/Linux/Linux x64
       - enabled: 1
         childKeys:
-        - DeveloperTest/PC
-        - DeveloperTest/Linux
-      - enabled: 0
+        - DeveloperTest_NoSteamWorks/PC
+        - DeveloperTest_NoSteamWorks/Linux
+      - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:
-        - Release/PC/Windows x64 (App)/Mono
+        - Release_NoSteamWorks/PC/Windows x64 (App)/Mono
       - enabled: 1
         childKeys:
-        - Release/PC/Windows x64 (App)
-      - enabled: 0
+        - Release_NoSteamWorks/PC/Windows x64 (App)
+      - enabled: 1
         childKeys: []
       - enabled: 1
         childKeys:
-        - Release/Linux/Linux x64/Mono/Steam Deck
+        - Release_NoSteamWorks/Linux/Linux x64/Mono/Steam Deck
       - enabled: 1
         childKeys:
-        - Release/Linux/Linux x64/Mono
+        - Release_NoSteamWorks/Linux/Linux x64/Mono
       - enabled: 1
         childKeys:
-        - Release/Linux/Linux x64
+        - Release_NoSteamWorks/Linux/Linux x64
       - enabled: 1
         childKeys:
-        - Release/PC
-        - Release/Linux
+        - Release_NoSteamWorks/PC
+        - Release_NoSteamWorks/Linux
       - enabled: 1
         childKeys: []
     showViewOptions: 0
@@ -174,7 +174,7 @@ MonoBehaviour:
     clauses:
     - type: 0
       comparison: 0
-      test: RELEASE
+      test: RELEASE_NOSTEAM
   pathToButlerExe: C:\Users\ross\OneDrive\bin\Butler\butler.exe
   nameOfItchUser: WizardsCode
   nameOfItchGame: rogue-wave
