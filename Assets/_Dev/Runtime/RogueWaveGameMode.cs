@@ -89,7 +89,7 @@ namespace RogueWave
 
         protected override void OnDestroy()
         {
-            levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
+            levelGenerator.onSpawnerCreated.RemoveAllListeners();
 
             base.OnDestroy();
         }
