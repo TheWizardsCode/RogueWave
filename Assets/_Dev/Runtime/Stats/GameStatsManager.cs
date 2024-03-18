@@ -21,6 +21,7 @@ using RogueWave;
 using NeoFPS.SinglePlayer;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
+using Steamworks.Data;
 
 namespace WizardsCode.GameStats
 {
@@ -48,6 +49,8 @@ namespace WizardsCode.GameStats
         [SerializeField, Expandable, Foldout("Enemies"), Tooltip("The count of spanwers destroyed.")]
         private GameStat m_SpawnersDestroyed;
 
+        private Achievement[] m_Achievements;
+
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]
         private uint m_SteamAppId = 0;
@@ -66,18 +69,11 @@ namespace WizardsCode.GameStats
 
         private List<Spawner> m_Spawners = new List<Spawner>();
 
-        public static GameStatsManager Instance { get; private set; }
-
         private void Awake()
         {
-            if (Instance != null)
-            {
-                Destroy(gameObject);
-                return;
-            }
-
-            Instance = this;
             DontDestroyOnLoad(gameObject);
+
+            m_Achievements = Resources.LoadAll<Achievement>("");
 
             m_Watcher = GetComponentInParent<IPlayerCharacterWatcher>();
             if (m_Watcher == null)
@@ -175,11 +171,6 @@ namespace WizardsCode.GameStats
             }
         }
 
-        private void OnVictory()
-        {
-            IncrementCounter(m_VictoryCount);
-        }
-
         private void Update()
         {
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
@@ -197,11 +188,16 @@ namespace WizardsCode.GameStats
 #endif
         }
 
+        private void OnVictory()
+        {
+            IncrementCounter(m_VictoryCount);
+        }
+
         /// <summary>
         /// Increments an integer counter by 1.
         /// </summary>
         /// <param name="stat"></param>
-        internal static void IncrementCounter(GameStat stat)
+        internal void IncrementCounter(GameStat stat)
         {
             IncrementCounter(stat, 1);
         }
@@ -210,9 +206,10 @@ namespace WizardsCode.GameStats
         /// Increments an integer counter by a set amount.
         /// </summary>
         /// <param name="stat"></param>
-        internal static void IncrementCounter(GameStat stat, int amount)
+        internal void IncrementCounter(GameStat stat, int amount)
         {
-            stat.Increment(amount);
+            int value = stat.Increment(amount);
+            CheckAchievements(stat, value);
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
             if (!SteamClient.IsValid)
@@ -221,6 +218,22 @@ namespace WizardsCode.GameStats
             SteamUserStats.AddStat(stat.Key, amount);
             isDirty = true;
 #endif
+        }
+
+        private void CheckAchievements(GameStat stat, int value)
+        {
+            // OPTIMIZATION: This could be optimized by only checking achievements that are related to the stat that has changed. i.e. sort the achievements into a dictionary by stat and only check the relevant ones.
+            // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
+            foreach (Achievement achievement in m_Achievements)
+            {
+                if (!achievement.IsUnlocked && achievement.Stat == stat)
+                {
+                    if (value >= achievement.TargetValue)
+                    {
+                        achievement.Unlock();
+                    }
+                }
+            }
         }
 
         public void OnPlayerCharacterChanged(ICharacter character)
@@ -268,6 +281,12 @@ namespace WizardsCode.GameStats
                     stat.Reset();
                 }
 
+                Achievement[] achievements = Resources.LoadAll<Achievement>("");
+                foreach (Achievement achievement in achievements)
+                {
+                    achievement.Reset();
+                }
+
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
                 ResetSteamStats();
 #endif
@@ -280,7 +299,7 @@ namespace WizardsCode.GameStats
         }
 
         [Button("Dump Stats and Achievements to Console")]
-        private void DumpStats()
+        private void DumpStatsAndAchievements()
         {
             if (Application.isPlaying)
             {
@@ -303,6 +322,17 @@ namespace WizardsCode.GameStats
                         DumpSteamStat(stat);
 #endif
                     }
+                }
+
+                Achievement[] achievements = Resources.LoadAll<Achievement>("");
+                foreach (Achievement achievement in m_Achievements)
+                {
+                    string status = achievement.IsUnlocked ? "Unlocked" : "Locked";
+                    Debug.Log($"Scriptable Object: {achievement.name} = {status}");
+
+#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+                    DumpSteamAchievement(achievement);
+#endif
                 }
             }
             else
@@ -348,6 +378,21 @@ namespace WizardsCode.GameStats
                     Debug.Log($"Steam: {stat.Key} = {SteamUserStats.GetStatFloat(stat.Key)}");
                     break;
             }
+        }
+
+        private void DumpSteamAchievement(Achievement achievement)
+        {
+            foreach (Steamworks.Data.Achievement steamAchievement in SteamUserStats.Achievements)
+            {
+                if (steamAchievement.Identifier == achievement.Key)
+                {
+                    string state = steamAchievement.State ? "Unlocked" : "Locked";
+                    Debug.Log($"Steam: {achievement.name} = {state}");
+                    return;
+                }
+            }
+
+            Debug.LogError($"Steam: {achievement.name} = Not found");
         }
 #else
         [Button("Enable Steamworks")]
