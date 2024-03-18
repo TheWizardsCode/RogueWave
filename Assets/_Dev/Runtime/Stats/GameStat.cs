@@ -78,18 +78,22 @@ namespace WizardsCode.GameStats
         /// Increments an integer value by a set amount.
         /// </summary>
         /// <param name="amount">The amoun to increment the stat.</param>
-        internal void Increment(int amount)
+        /// <returns>The new value of the stat.</returns>
+        internal int Increment(int amount)
         {
             m_intValue += amount;
+            return m_intValue;
         }
 
         /// <summary>
         /// Increments an float value by a set amount.
         /// </summary>
         /// <param name="amount">The amoun to increment the stat.</param>
-        internal void Increment(float amount)
+        /// <returns>The new value of the stat.</returns>
+        internal float Increment(float amount)
         {
             m_floatValue += amount;
+            return m_floatValue;
         }
 
         private void OnDefaultValueChangedCallback()
