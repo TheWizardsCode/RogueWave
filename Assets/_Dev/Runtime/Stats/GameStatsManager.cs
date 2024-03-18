@@ -16,7 +16,6 @@ using NeoFPS.SinglePlayer;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using Steamworks;
 #endif
 
 namespace WizardsCode.GameStats
