@@ -5,51 +5,58 @@
 //
 // Version: 1.0.13
 
-#if !(UNITY_STANDALONE_WIN || UNITY_STANDALONE_LINUX || UNITY_STANDALONE_OSX || STEAMWORKS_WIN || STEAMWORKS_LIN_OSX)
-#define DISABLESTEAMWORKS
-#endif
-
 using UnityEngine;using NaughtyAttributes;
-#if !DISABLESTEAMWORKS
+#if ENABLE_STEAMWORKS
 using Steamworks;
+#endif
 using NeoFPS;
 using System;
-using UnityEditor.PackageManager;
 using RogueWave;
 using NeoFPS.SinglePlayer;
+
+#if UNITY_EDITOR
+using UnityEditor;
+using Steamworks;
 #endif
 
 namespace WizardsCode.GameStats
 {
-	    //
-    // The StatsManager is responsible for managing the Stats and Achievements. Both locally and on Steam.
+	//
+    // The GameStatsManager is responsible for managing player Stats and Achievements, as well as
+    // game telemetry.
+    // 
+    // It is designed to work with Steamworks.NET and the Facepunch.Steamworks library for builds that will be distributed on Steam.
+    // By default SteamWorks support is disabled. To enable it, define the symbol "ENABLE_STEAMWORKS" in the project settings for the Steam enabled builds.
     //
     [DisallowMultipleComponent]
     [RequireComponent(typeof(IPlayerCharacterWatcher))]
     public class GameStatsManager : MonoBehaviour, IPlayerCharacterSubscriber
     {
         [Header("Player Performance")]
-        [SerializeField, Tooltip("The count of succesful runs in the game.")]
+        [SerializeField, Expandable, Tooltip("The count of succesful runs in the game.")]
         private GameStat m_VictoryCount;
-        [SerializeField, Tooltip("The count of deaths in the game.")]
+        [SerializeField, Expandable, Tooltip("The count of deaths in the game.")]
         private GameStat m_DeathCount;
 
         [Header("Nanobot Stats")]
-        [SerializeField, Tooltip("The count of resources collected in the game.")]
+        [SerializeField, Expandable, Tooltip("The count of resources collected in the game.")]
         private GameStat m_ResourcesCollected;
-        [SerializeField, Tooltip("The count of resources spent in the game.")]
+        [SerializeField, Expandable, Tooltip("The count of resources spent in the game.")]
         private GameStat m_ResourcesSpent;
 
-        [Header("Stat Database Settings")]
+#if ENABLE_STEAMWORKS
+        [Header("Steam Settings")]
         [SerializeField, Tooltip("The Steam App ID for the game.")]
         private uint m_SteamAppId = 0;
         [SerializeField, Tooltip("The frequency with which stats are stored to Steam.")]
-        private float m_FrequencyOfStatStore = 60;
+        private float m_FrequencyOfSteamStatStore = 60;
+
+        private float m_TimeToNextSteamStatStore = 0;
+#endif
 
         private RogueWaveGameMode m_GameMode;
 
         private static bool isDirty;
-        private float m_TimeToNextStatStore = 0;
         private IPlayerCharacterWatcher m_Watcher;
 
         public static GameStatsManager Instance { get; private set; }
@@ -73,6 +80,7 @@ namespace WizardsCode.GameStats
             }
             m_Watcher.AttachSubscriber(this);
 
+#if ENABLE_STEAMWORKS
             try
             {
                 SteamClient.Init(m_SteamAppId, false); // false = manual callbacks (recommended in manual in the case of Unity)
@@ -88,6 +96,7 @@ namespace WizardsCode.GameStats
             {
                 Debug.LogError("Steamworks failed to initialize: " + e.Message);
             }
+#endif
         }
 
         private void OnEnable()
@@ -110,11 +119,13 @@ namespace WizardsCode.GameStats
 
         private void OnDisable()
         {
+#if ENABLE_STEAMWORKS
             if (isDirty)
             {
                 SteamUserStats.StoreStats();
             }
             SteamClient.Shutdown();
+#endif
 
             RogueWaveGameMode.onVictory -= OnVictory;
             if (FpsSoloCharacter.localPlayerCharacter != null)
@@ -123,17 +134,19 @@ namespace WizardsCode.GameStats
 
         private void Update()
         {
-            m_TimeToNextStatStore -= Time.deltaTime;
-            if (isDirty && m_TimeToNextStatStore > 0)
+#if ENABLE_STEAMWORKS
+            m_TimeToNextSteamStatStore -= Time.deltaTime;
+            if (isDirty && m_TimeToNextSteamStatStore > 0)
             {
                 if (SteamUserStats.StoreStats())
                 {
                     isDirty = false;
-                    m_TimeToNextStatStore = m_FrequencyOfStatStore;
+                    m_TimeToNextSteamStatStore = m_FrequencyOfSteamStatStore;
                 }
             }
 
             SteamClient.RunCallbacks();
+#endif
         }
 
         /// <summary>
@@ -151,11 +164,15 @@ namespace WizardsCode.GameStats
         /// <param name="stat"></param>
         internal static void IncrementCounter(GameStat stat, int amount)
         {
+            stat.Increment(amount);
+
+#if ENABLE_STEAMWORKS
             if (!SteamClient.IsValid)
                 return;
 
             SteamUserStats.AddStat(stat.Key, amount);
             isDirty = true;
+#endif
         }
 
         private ICharacter m_Character;
@@ -180,9 +197,6 @@ namespace WizardsCode.GameStats
 
         private void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel)
         {
-            if (!SteamClient.IsValid)
-                return;
-
             if (from < to)
             {
                 IncrementCounter(m_ResourcesCollected, Mathf.RoundToInt(to - from));
@@ -195,20 +209,27 @@ namespace WizardsCode.GameStats
 
         #region EDITOR_ONLY
 #if UNITY_EDITOR
+        #region ScriptableObjects
         [Button("Reset Stats and Achievements")]
         private void ResetStats()
         {
             if (Application.isPlaying)
             {
-                SteamUserStats.ResetAll(true); // true = wipe achivements too
-                SteamUserStats.StoreStats();
-                SteamUserStats.RequestCurrentStats();
 
-                Debug.Log("Stats and achievements reset.");
+                GameStat[] gameStats = Resources.LoadAll<GameStat>("");
+                foreach (GameStat stat in gameStats)
+                {
+                    stat.Reset();
+                }
+
+#if ENABLE_STEAMWORKS
+                ResetSteamStats();
+#endif
+                    Debug.Log("Stats and achievements reset.");
             }
             else
             {
-                Debug.LogError("You can only reset stats and achievements in play mode.");
+                Debug.LogError("You can only reset Steam stats and achievements in play mode.");
             }
         }
 
@@ -226,12 +247,15 @@ namespace WizardsCode.GameStats
                         switch (stat.Type)
                         {
                             case GameStat.StatType.Int:
-                                Debug.Log($"{stat.Key} = {SteamUserStats.GetStatInt(stat.Key)}");
+                                Debug.Log($"Scriptable Object: {stat.Key} = {stat.GetIntValue()}");
                                 break;
                             case GameStat.StatType.Float:
-                                Debug.Log($"{stat.Key} = {SteamUserStats.GetStatFloat(stat.Key)}");
+                                Debug.Log($"Scriptable Object: {stat.Key} = {stat.GetFloatValue()}");
                                 break;
                         }
+#if ENABLE_STEAMWORKS
+                        DumpSteamStat(stat);
+#endif
                     }
                 }
             }
@@ -240,7 +264,57 @@ namespace WizardsCode.GameStats
                 Debug.LogError("You can only dump stats and achievements in play mode.");
             }
         }
-#endif
         #endregion
-    }
+
+#if ENABLE_STEAMWORKS
+        #region Steamworks
+        [Button("Disable Steamworks")]
+        private void DisableSteamworks()
+        {
+            // Remove the ENABLE_STEAMWORKS symbol to the project settings
+            PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);
+            defines = defines.Length > 0 ? Array.FindAll(defines, s => s != "ENABLE_STEAMWORKS") : new string[] { };
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
+            AssetDatabase.Refresh();
+        }
+
+        private void ResetSteamStats()
+        {
+            SteamUserStats.ResetAll(true); // true = wipe achivements too
+            SteamUserStats.StoreStats();
+            SteamUserStats.RequestCurrentStats();
+
+            Debug.Log("Steam Stats and achievements reset.");
+        }
+
+        private void DumpSteamStat(GameStat stat)
+        {
+            switch (stat.Type)
+            {
+                case GameStat.StatType.Int:
+                    Debug.Log($"Steam: {stat.Key} = {SteamUserStats.GetStatInt(stat.Key)}");
+                    break;
+                case GameStat.StatType.Float:
+                    Debug.Log($"Steam: {stat.Key} = {SteamUserStats.GetStatFloat(stat.Key)}");
+                    break;
+            }
+        }
+        #endregion
+#else
+        #region NoSteamworks
+        [Button("Enable Steamworks")]
+        private void EnableSteamworks()
+        {
+            // Add the ENABLE_STEAMWORKS symbol to the project settings
+            PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);
+            Array.Resize(ref defines, defines.Length + 1);
+            defines[defines.Length - 1] = "ENABLE_STEAMWORKS";
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
+            AssetDatabase.Refresh();
+        }
+        #endregion
+#endif
+#endif
+            #endregion
+        }
 }
