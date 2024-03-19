@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using WizardsCode.GameStats;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -44,6 +45,12 @@ namespace RogueWave
         ParticleSystem defaultPickupParticlePrefab;
         [SerializeField, Tooltip("The default audio clip to play when a recipe name is needed, but the recipe does not have a name clip. This should never be used in practice.")]
         AudioClip defaultRecipeName;
+
+
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of resources collected in the game.")]
+        private GameStat m_ResourcesCollected;
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of resources spent in the game.")]
+        private GameStat m_ResourcesSpent;
 
         [Header("Debug")]
         [SerializeField, Tooltip("Turn on debug features for the Nanobot Manager"), Foldout("Debug")]
@@ -789,8 +796,19 @@ namespace RogueWave
                 if (RogueLiteManager.persistentData.currentResources == value)
                     return;
 
+                float from = RogueLiteManager.persistentData.currentResources;
+
+                if (from < value)
+                {
+                    m_ResourcesCollected.Increment(Mathf.RoundToInt(value - from));
+                }
+                else if (from > value)
+                {
+                    m_ResourcesSpent.Increment(Mathf.RoundToInt(from - value));
+                }
+
                 if (onResourcesChanged != null)
-                    onResourcesChanged(RogueLiteManager.persistentData.currentResources, value, resourcesForNextNanobotLevel);
+                    onResourcesChanged(from, value, resourcesForNextNanobotLevel);
 
                 RogueLiteManager.persistentData.currentResources = value;
             }

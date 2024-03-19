@@ -1,15 +1,11 @@
 using NaughtyAttributes;
 using NeoFPS;
-using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
 using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using WizardsCode.GameStats;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -80,6 +76,12 @@ namespace RogueWave
         public UnityEvent<BasicEnemyController> onDeath;
         [SerializeField, Tooltip("The event to trigger when this enemy is destroyed."), Foldout("Events")]
         public UnityEvent onDestroyed;
+
+        // Game Stats
+        [SerializeField, Tooltip("The GameStat to increment when an enemy is spawned."), Foldout("Game Stats")]
+        internal GameStat enemySpawnedStat;
+        [SerializeField, Tooltip("The GameStat to increment when an enemy is killed."), Foldout("Game Stats")]
+        internal GameStat enemyKillsStat;
 
         [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Editor Only")]
         bool isDebug;
@@ -224,10 +226,12 @@ namespace RogueWave
         private BasicHealthManager healthManager;
         private float sqrSeekDistance;
         private bool isRecharging;
+        private bool fromPool;
 
         private void Awake()
         {
             sqrSeekDistance = seekDistance * seekDistance;
+
 #if ! UNITY_EDITOR
             isDebug = false;
 #endif
@@ -244,6 +248,15 @@ namespace RogueWave
 
         private void OnEnable()
         {
+            if (enemySpawnedStat != null && fromPool)
+            {
+                enemySpawnedStat.Increment();
+            } 
+            else
+            {
+                fromPool = true;
+            }
+
             healthManager = GetComponent<BasicHealthManager>();
             if (healthManager != null)
             {
@@ -555,6 +568,11 @@ namespace RogueWave
             }
 
             onDeath?.Invoke(this);
+
+            if (enemyKillsStat != null)
+            {
+                enemyKillsStat.Increment();
+            }
 
             // OPTIMIZATION: cache PooledObject reference
             GetComponent<PooledObject>().ReturnToPool();

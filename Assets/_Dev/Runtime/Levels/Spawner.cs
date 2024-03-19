@@ -146,7 +146,7 @@ namespace RogueWave
             m_GameMode = GameObject.FindObjectOfType<RogueWaveGameMode>();
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             StopAllCoroutines();
 
