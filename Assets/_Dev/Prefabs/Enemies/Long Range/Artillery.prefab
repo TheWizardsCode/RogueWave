@@ -99,9 +99,9 @@ MonoBehaviour:
   minimumHeight: 0
   maximumHeight: 0
   optimalDistanceFromPlayer: 50
-  maxWanderRange: 50
   obstacleAvoidanceDistance: 10
   seekDuration: 45
+  seekDistance: 30
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 30
   explosionDamageOnDeath: 20
@@ -114,6 +114,8 @@ MonoBehaviour:
   onDestroyed:
     m_PersistentCalls:
       m_Calls: []
+  enemySpawnedStat: {fileID: 11400000, guid: 6bb7104be6fbaee45bc9540fd8943b06, type: 2}
+  enemyKillsStat: {fileID: 11400000, guid: 86043e26fe7a4564f91093790836a74c, type: 2}
   isDebug: 0
   includeInShowcase: 1
 --- !u!114 &8117743476493717414

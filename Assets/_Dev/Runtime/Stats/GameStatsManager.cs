@@ -19,36 +19,20 @@ using NeoFPS;
 using System;
 using RogueWave;
 using NeoFPS.SinglePlayer;
-using UnityEngine.SceneManagement;
 using System.Collections.Generic;
-using Steamworks.Data;
 
 namespace WizardsCode.GameStats
 {
     //
-    // The GameStatsManager is responsible for managing player Stats and Achievements, as well as
+    // The GameStatsManager is a singleton responsible for managing player Stats and Achievements, as well as
     // game telemetry.
     // 
     // It is designed to work with Steamworks.NET and the Facepunch.Steamworks library for builds that will be distributed on Steam.
     // By default SteamWorks support is disabled. To enable it, define the symbol "STEAMWORKS_ENABLED" in the project settings for the Steam enabled builds, and ensure "STEAMWORKS_DISABLED" is not set (disabled will take precedent if both are set).
     //
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(IPlayerCharacterWatcher))]
-    public class GameStatsManager : MonoBehaviour, IPlayerCharacterSubscriber
+    public class GameStatsManager : MonoBehaviour
     {
-        [SerializeField, Expandable, Foldout("Player Performance"), Tooltip("The count of succesful runs in the game.")]
-        private GameStat m_VictoryCount;
-        [SerializeField, Expandable, Foldout("Player Performance"), Tooltip("The count of deaths in the game.")]
-        private GameStat m_DeathCount;
-
-        [SerializeField, Expandable, Foldout("Nanobots"), Tooltip("The count of resources collected in the game.")]
-        private GameStat m_ResourcesCollected;
-        [SerializeField, Expandable, Foldout("Nanobots"), Tooltip("The count of resources spent in the game.")]
-        private GameStat m_ResourcesSpent;
-
-        [SerializeField, Expandable, Foldout("Enemies"), Tooltip("The count of spanwers destroyed.")]
-        private GameStat m_SpawnersDestroyed;
-
         private Achievement[] m_Achievements;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
@@ -60,28 +44,27 @@ namespace WizardsCode.GameStats
         private float m_TimeToNextSteamStatStore = 0;
 #endif
 
-        private ICharacter m_Character;
-        private NanobotManager m_NanobotManager;
-        private RogueWaveGameMode m_GameMode;
-
-        private static bool isDirty;
-        private IPlayerCharacterWatcher m_Watcher;
+        internal static bool isDirty;
 
         private List<Spawner> m_Spawners = new List<Spawner>();
 
+        public static GameStatsManager Instance { get; private set; }
+
         private void Awake()
         {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+
             DontDestroyOnLoad(gameObject);
 
             m_Achievements = Resources.LoadAll<Achievement>("");
-
-            m_Watcher = GetComponentInParent<IPlayerCharacterWatcher>();
-            if (m_Watcher == null)
-            {
-                Debug.LogError("GameStatsManager require a component that implements IPlayerCharacterWatcher", gameObject);
-                return;
-            }
-            m_Watcher.AttachSubscriber(this);
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
             try
@@ -102,51 +85,8 @@ namespace WizardsCode.GameStats
 #endif
         }
 
-        private void Start()
-        {
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-
-        private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-        {
-            m_GameMode = FindObjectOfType<RogueWaveGameMode>();
-            if (m_GameMode != null)
-            {
-                m_GameMode.levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
-                m_GameMode.levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
-            }
-        }
-
-        private void OnSpawnerCreated(Spawner spawner)
-        {
-            m_Spawners.Add(spawner);
-            spawner.onDestroyed.AddListener(OnSpawnerDestroyed);
-        }
-
-        private void OnSpawnerDestroyed(Spawner spawner)
-        {
-            IncrementCounter(m_SpawnersDestroyed);
-            spawner.onDestroyed.RemoveListener(OnSpawnerDestroyed);
-            m_Spawners.Remove(spawner);
-        }
-
-        private void OnEnable()
-        {
-            RogueWaveGameMode.onVictory += OnVictory;
-        }
-
         private void OnDisable()
         {
-            RogueWaveGameMode.onVictory -= OnVictory;
-
-            foreach (Spawner spawner in m_Spawners)
-            {
-                spawner.onDestroyed.RemoveListener(OnSpawnerDestroyed);
-            }
-
-            RogueWaveGameMode.onVictory -= OnVictory;
-            if (FpsSoloCharacter.localPlayerCharacter != null)
-                FpsSoloCharacter.localPlayerCharacter.onIsAliveChanged -= OnIsAliveChanged;
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
             if (isDirty)
             {
@@ -154,21 +94,6 @@ namespace WizardsCode.GameStats
             }
             SteamClient.Shutdown();
 #endif
-
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-
-        private void OnDestroy()
-        {
-            m_GameMode?.levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
-        }
-
-        private void OnIsAliveChanged(ICharacter character, bool alive)
-        {
-            if (!alive)
-            {
-                IncrementCounter(m_DeathCount);
-            }
         }
 
         private void Update()
@@ -186,11 +111,6 @@ namespace WizardsCode.GameStats
 
             SteamClient.RunCallbacks();
 #endif
-        }
-
-        private void OnVictory()
-        {
-            IncrementCounter(m_VictoryCount);
         }
 
         /// <summary>
@@ -220,7 +140,7 @@ namespace WizardsCode.GameStats
 #endif
         }
 
-        private void CheckAchievements(GameStat stat, int value)
+        internal void CheckAchievements(GameStat stat, int value)
         {
             // OPTIMIZATION: This could be optimized by only checking achievements that are related to the stat that has changed. i.e. sort the achievements into a dictionary by stat and only check the relevant ones.
             // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
@@ -236,33 +156,19 @@ namespace WizardsCode.GameStats
             }
         }
 
-        public void OnPlayerCharacterChanged(ICharacter character)
+        internal void CheckAchievements(GameStat stat, float value)
         {
-            if (character == null || m_Character == character)
-                return;
-
-            if (m_Character != null)
+            // OPTIMIZATION: This could be optimized by only checking achievements that are related to the stat that has changed. i.e. sort the achievements into a dictionary by stat and only check the relevant ones.
+            // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
+            foreach (Achievement achievement in m_Achievements)
             {
-                m_Character.onIsAliveChanged -= OnIsAliveChanged;
-                m_NanobotManager.onResourcesChanged -= OnResourcesChanged;
-            }
-
-            m_Character = character;
-            m_Character.onIsAliveChanged += OnIsAliveChanged;
-
-            m_NanobotManager = character.GetComponent<NanobotManager>();
-            m_NanobotManager.onResourcesChanged += OnResourcesChanged;
-        }
-
-        private void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel)
-        {
-            if (from < to)
-            {
-                IncrementCounter(m_ResourcesCollected, Mathf.RoundToInt(to - from));
-            }
-            else if (from > to)
-            {
-                IncrementCounter(m_ResourcesSpent, Mathf.RoundToInt(from - to));
+                if (!achievement.IsUnlocked && achievement.Stat == stat)
+                {
+                    if (value >= achievement.TargetValue)
+                    {
+                        achievement.Unlock();
+                    }
+                }
             }
         }
 

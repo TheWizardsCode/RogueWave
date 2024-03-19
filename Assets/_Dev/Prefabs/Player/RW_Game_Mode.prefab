@@ -112,6 +112,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e3174ef1a025c9140a82781959567ad6, type: 2}
   - {fileID: 11400000, guid: 1f3fab56f97b5904e89b12b386585fff, type: 2}
   - {fileID: 11400000, guid: 0b9628c45a935dd4695701360be1f27e, type: 2}
+  m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
+  m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
   _isDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
@@ -202,6 +204,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_ResourcesCollected: {fileID: 0}
+  m_ResourcesSpent: {fileID: 0}
+  m_SteamAppId: 0
+  m_FrequencyOfSteamStatStore: 60
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0

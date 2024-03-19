@@ -1,5 +1,9 @@
 using NaughtyAttributes;
+using Steamworks.Data;
+using Steamworks;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
+using System;
 
 namespace WizardsCode.GameStats
 {
@@ -79,9 +83,22 @@ namespace WizardsCode.GameStats
         /// </summary>
         /// <param name="amount">The amoun to increment the stat.</param>
         /// <returns>The new value of the stat.</returns>
-        internal int Increment(int amount)
+        internal int Increment(int amount = 1)
         {
+            if (Type == StatType.Float)
+            {
+                throw new ArgumentException("Asking to increment an int value on a float stat. Use Increment(float amount) instead");
+            }
+            
             m_intValue += amount;
+            GameStatsManager.isDirty = true;
+
+            GameStatsManager.Instance.CheckAchievements(this, m_intValue);
+
+#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+            SteamUserStats.AddStat(Key, amount);
+#endif
+
             return m_intValue;
         }
 
@@ -92,7 +109,20 @@ namespace WizardsCode.GameStats
         /// <returns>The new value of the stat.</returns>
         internal float Increment(float amount)
         {
+            if (Type == StatType.Int)
+            {
+                throw new ArgumentException("Asking to increment a float value on a int stat. Use Increment(int amount) instead");
+            }
+
             m_floatValue += amount;
+            GameStatsManager.isDirty = true;
+
+            GameStatsManager.Instance.CheckAchievements(this, m_floatValue);
+
+#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+            SteamUserStats.AddStat(Key, amount);
+#endif
+
             return m_floatValue;
         }
 

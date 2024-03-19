@@ -35,6 +35,12 @@ namespace RogueWave
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
         LevelDefinition[] levels;
 
+
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
+        private GameStat m_VictoryCount;
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of deaths in the game.")]
+        private GameStat m_DeathCount;
+
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
 
@@ -144,6 +150,8 @@ namespace RogueWave
         private IEnumerator DelayedVictoryCoroutine(float delay)
         {
             onVictory?.Invoke();
+
+            m_VictoryCount.Increment();
 
             // Temporary magnet buff to pull in victory rewards
             MagnetController magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
@@ -290,6 +298,9 @@ namespace RogueWave
             {
                 RogueLiteManager.ResetRunData();
                 character.onIsAliveChanged -= OnCharacterIsAliveChanged;
+
+
+                m_DeathCount.Increment();
             }
         }
 
