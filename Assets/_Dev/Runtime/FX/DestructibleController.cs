@@ -1,6 +1,8 @@
 using UnityEngine;
 using NeoFPS;
 using UnityEngine.Serialization;
+using WizardsCode.GameStats;
+using NaughtyAttributes;
 
 namespace RogueWave
 {
@@ -30,12 +32,16 @@ namespace RogueWave
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
         internal ResourcesPickup resourcesPrefab;
 
+        // Game Stats
+        [SerializeField, Tooltip("The GameStat to increment when this destructible is destroyed."), Foldout("Game Stats")]
+        internal GameStat destructibleDestroyed;
+
         private BasicHealthManager m_HealthManager;
-        private Renderer renderer;
+        private Renderer modelRenderer;
 
         private void Awake()
         {
-            renderer = GetComponentInChildren<Renderer>();
+            modelRenderer = GetComponentInChildren<Renderer>();
         }
 
         private void OnEnable()
@@ -53,6 +59,11 @@ namespace RogueWave
         {
             if (!isAlive)
             {
+                if (destructibleDestroyed != null)
+                {
+                    destructibleDestroyed.Increment();
+                }
+
                 if (m_PooledScaledFXParticles != null ||  m_PooledScaledDestructionParticles != null)
                 {
                     //OPTIMIZATION: cache on start
@@ -108,12 +119,12 @@ namespace RogueWave
                     Vector3 pos = transform.position;
                     pos.y = 0;
                     ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
-                    if (renderer != null)
+                    if (modelRenderer != null)
                     {
                         var resourcesRenderer = resources.GetComponentInChildren<Renderer>();
                         if (resourcesRenderer != null)
                         {
-                            resourcesRenderer.material = renderer.material;
+                            resourcesRenderer.material = modelRenderer.material;
                         }
                     }
                 }
