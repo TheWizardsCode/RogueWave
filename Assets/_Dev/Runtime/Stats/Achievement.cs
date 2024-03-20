@@ -26,7 +26,7 @@ namespace WizardsCode.GameStats
 
         bool m_IsUnlocked = false;
 
-        public string Key => m_Key;
+        public string key => m_Key;
         public string displayName => m_DisplayName;
         public string description => m_Description;
         public Sprite icon => m_Icon;

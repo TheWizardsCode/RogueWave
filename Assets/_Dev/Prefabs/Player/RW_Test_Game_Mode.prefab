@@ -99,19 +99,18 @@ MonoBehaviour:
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: -2446305894394526636, guid: 3ff6e92f43d79ed4d9afc6a3afdacc58, type: 3}
   m_VictoryDuration: 5
-  randomizePlayerSpawn: 1
+  randomizePlayerSpawn: 0
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   _startingRecipes:
   - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
   - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
   - {fileID: 11400000, guid: 22e1bf5280e270b46a7e8df0dcca53e8, type: 2}
-  - {fileID: 11400000, guid: 23a0325c8bb6a334d8082e5c163e5408, type: 2}
-  - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
-  - {fileID: 11400000, guid: 54f96e0540cf6bb41a06fdbff74ac37e, type: 2}
+  - {fileID: 11400000, guid: 3f74a6743cf4d9e45b231c97899f5d7a, type: 2}
+  - {fileID: 11400000, guid: a783ac2fff4fc1a4eab90aecf9e305a1, type: 2}
   levels:
+  - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
   - {fileID: 11400000, guid: 9457e0dad7ab5b54c86fa3439b0cdff4, type: 2}
-  - {fileID: 11400000, guid: 907167b1f8785814e92140b33b99a787, type: 2}
   - {fileID: 11400000, guid: 71f08f8f638277e4393b4a3ff75c5dc3, type: 2}
   - {fileID: 11400000, guid: e3174ef1a025c9140a82781959567ad6, type: 2}
   - {fileID: 11400000, guid: 1f3fab56f97b5904e89b12b386585fff, type: 2}
@@ -119,6 +118,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
   m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
+  m_TimePlayedStat: {fileID: 11400000, guid: cd470668f69eda34db38f3129ed8601f, type: 2}
   _isDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}

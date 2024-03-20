@@ -1,4 +1,4 @@
-// The SteamManager is designed to work with Steamworks.NET
+﻿// The SteamManager is designed to work with Steamworks.NET
 // This file is released into the public domain.
 // Where that dedication is not recognized you are granted a perpetual,
 // irrevocable license to copy and modify this file as you see fit.
@@ -15,11 +15,11 @@ using Steamworks;
 
 using UnityEngine;
 using NaughtyAttributes;
-using NeoFPS;
 using System;
 using RogueWave;
-using NeoFPS.SinglePlayer;
 using System.Collections.Generic;
+using System.Text;
+using Lumpn.Discord;
 
 namespace WizardsCode.GameStats
 {
@@ -33,6 +33,9 @@ namespace WizardsCode.GameStats
     [DisallowMultipleComponent]
     public class GameStatsManager : MonoBehaviour
     {
+        [SerializeField, Tooltip("The URL of the webhook to send stats and achievements to.")]
+        WebhookData webhookData;
+
         private Achievement[] m_Achievements;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
@@ -47,6 +50,8 @@ namespace WizardsCode.GameStats
         internal static bool isDirty;
 
         private List<Spawner> m_Spawners = new List<Spawner>();
+        private float startTime;
+        private float endTime;
 
         public static GameStatsManager Instance { get; private set; }
         public static Action<Achievement> OnAchievementUnlocked { get; internal set; }
@@ -97,8 +102,75 @@ namespace WizardsCode.GameStats
 #endif
         }
 
+        internal void SendDataToWebhook() 
+        {
+            if (webhookData == null)
+            {
+                return;
+            }
+
+            Webhook webhook = webhookData.CreateWebhook();
+            StartCoroutine(webhook.Send(GetDataAsMarkdown()));
+        }
+
+        private string GetDataAsMarkdown()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("## Machine Stats\n");
+
+            sb.Append($"UNIQUE_DEVICE_ID = {SystemInfo.deviceUniqueIdentifier}");
+            sb.Append($"OS = {SystemInfo.operatingSystem}\n");
+            sb.Append($"CPU = {SystemInfo.processorType}\n");
+            sb.Append($"GPU = {SystemInfo.graphicsDeviceName}\n");
+            sb.Append($"RAM = {SystemInfo.systemMemorySize} MB\n");
+            sb.Append($"DEVICE_MODEL: {SystemInfo.deviceModel}\n");
+            sb.Append($"DEVICE_TYPE: {SystemInfo.deviceType}\n");
+            sb.Append($"GRAPHICS_API: {SystemInfo.graphicsDeviceType}\n");
+            sb.Append($"SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n");
+
+            sb.Append("## Player Stats\n");
+
+            // send a summary of the stats and achevements to a webhook
+            // OPTIMIZATION: This could be optimized by only sending the stats and achievements that have changed since the last time this was called.
+            // OPTIMIZATION: This could be further optimized by only sending the stats and achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to send.
+            foreach (GameStat stat in Resources.LoadAll<GameStat>(""))
+            {
+                if (stat.key != null)
+                {
+                    switch (stat.type)
+                    {
+                        case GameStat.StatType.Int:
+                            sb.Append($"{stat.key} = {stat.GetIntValue()}\n");
+                            break;
+                        case GameStat.StatType.Float:
+                            sb.Append($"{stat.key} = {stat.GetFloatValue()}\n");
+                            break;
+                    }
+                }
+            }
+
+            sb.Append("## Achievements\n");
+
+            foreach (Achievement achievement in m_Achievements)
+            {
+                string status = achievement.isUnlocked ? "Unlocked" : "Locked";
+                sb.Append($"{achievement.key} is {status}\n");
+            }
+
+            return sb.ToString();
+        }
+
         private void Update()
         {
+            if (startTime == 0)
+            {
+                startTime = Time.time;
+            } else
+            {
+                endTime = Time.time;
+            }
+
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
             m_TimeToNextSteamStatStore -= Time.deltaTime;
             if (isDirty && m_TimeToNextSteamStatStore > 0)
@@ -136,7 +208,7 @@ namespace WizardsCode.GameStats
             if (!SteamClient.IsValid)
                 return;
 
-            SteamUserStats.AddStat(stat.Key, amount);
+            SteamUserStats.AddStat(stat.key, amount);
             isDirty = true;
 #endif
         }
@@ -220,15 +292,15 @@ namespace WizardsCode.GameStats
 
                 foreach (GameStat stat in gameStats)
                 {
-                    if (stat.Key != null)
+                    if (stat.key != null)
                     {
-                        switch (stat.Type)
+                        switch (stat.type)
                         {
                             case GameStat.StatType.Int:
-                                Debug.Log($"Scriptable Object: {stat.Key} = {stat.GetIntValue()}");
+                                Debug.Log($"Scriptable Object: {stat.key} = {stat.GetIntValue()}");
                                 break;
                             case GameStat.StatType.Float:
-                                Debug.Log($"Scriptable Object: {stat.Key} = {stat.GetFloatValue()}");
+                                Debug.Log($"Scriptable Object: {stat.key} = {stat.GetFloatValue()}");
                                 break;
                         }
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
@@ -241,7 +313,7 @@ namespace WizardsCode.GameStats
                 foreach (Achievement achievement in m_Achievements)
                 {
                     string status = achievement.isUnlocked ? "Unlocked" : "Locked";
-                    Debug.Log($"Scriptable Object: {achievement.name} = {status}");
+                    Debug.Log($"Scriptable Object: {achievement.key} = {status}");
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
                     DumpSteamAchievement(achievement);
@@ -282,13 +354,13 @@ namespace WizardsCode.GameStats
 
         private void DumpSteamStat(GameStat stat)
         {
-            switch (stat.Type)
+            switch (stat.type)
             {
                 case GameStat.StatType.Int:
-                    Debug.Log($"Steam: {stat.Key} = {SteamUserStats.GetStatInt(stat.Key)}");
+                    Debug.Log($"Steam: {stat.key} = {SteamUserStats.GetStatInt(stat.key)}");
                     break;
                 case GameStat.StatType.Float:
-                    Debug.Log($"Steam: {stat.Key} = {SteamUserStats.GetStatFloat(stat.Key)}");
+                    Debug.Log($"Steam: {stat.key} = {SteamUserStats.GetStatFloat(stat.key)}");
                     break;
             }
         }
@@ -297,10 +369,10 @@ namespace WizardsCode.GameStats
         {
             foreach (Steamworks.Data.Achievement steamAchievement in SteamUserStats.Achievements)
             {
-                if (steamAchievement.Identifier == achievement.Key)
+                if (steamAchievement.Identifier == achievement.key)
                 {
                     string state = steamAchievement.State ? "Unlocked" : "Locked";
-                    Debug.Log($"Steam: {achievement.name} = {state}");
+                    Debug.Log($"Steam: {achievement.key} = {state}");
                     return;
                 }
             }

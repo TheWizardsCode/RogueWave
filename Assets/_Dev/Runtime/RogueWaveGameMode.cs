@@ -11,6 +11,7 @@ using NaughtyAttributes;
 using RogueWave.UI;
 using Steamworks;
 using WizardsCode.GameStats;
+using Codice.Client.BaseCommands;
 
 namespace RogueWave
 {
@@ -35,11 +36,13 @@ namespace RogueWave
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
         LevelDefinition[] levels;
 
-
+        // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
         private GameStat m_VictoryCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of deaths in the game.")]
         private GameStat m_DeathCount;
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The time player stat for recording how long a player has been inside runs.")]
+        private GameStat m_TimePlayedStat;
 
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
@@ -137,6 +140,8 @@ namespace RogueWave
 
         protected override void DelayedDeathAction()
         {
+            SendData();
+
             RogueLiteManager.ResetRunData();
 
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
@@ -151,13 +156,12 @@ namespace RogueWave
         {
             onVictory?.Invoke();
 
-            m_VictoryCount.Increment();
-
             // Temporary magnet buff to pull in victory rewards
             MagnetController magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
             float originalRange = 0;
             float originalSpeed = 0;
-            if (magnet != null) {
+            if (magnet != null)
+            {
                 originalRange = magnet.range;
                 originalSpeed = magnet.speed;
                 magnet.range = 100;
@@ -183,8 +187,26 @@ namespace RogueWave
 
             RogueLiteManager.persistentData.currentGameLevel++;
 
+            if (m_VictoryCount != null)
+            {
+                m_VictoryCount.Increment();
+            }
+
+            SendData();
+
             if (inGame)
                 DelayedVictoryAction();
+        }
+
+        private void SendData()
+        {
+            float timePlayed = Time.time - startTime;
+            if (m_TimePlayedStat != null)
+            {
+                m_TimePlayedStat.Increment(timePlayed);
+            }
+
+            GameStatsManager.Instance.SendDataToWebhook();
         }
 
         #endregion
@@ -235,6 +257,7 @@ namespace RogueWave
 
         [SerializeField, HideInInspector]
         private LoadoutBuilderData m_LoadoutBuilder = new LoadoutBuilderData();
+        private float startTime;
 
         public int numLoadoutBuilderSlots
         {
@@ -290,6 +313,8 @@ namespace RogueWave
 
             // since a recipe may have adjusted the max health, we need to reset the health to the new max
             healthManager.health = healthManager.healthMax;
+
+            startTime = Time.time;
         }
 
         private void OnCharacterIsAliveChanged(ICharacter character, bool alive)

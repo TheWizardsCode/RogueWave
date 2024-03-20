@@ -28,8 +28,8 @@ namespace WizardsCode.GameStats
         [ShowNonSerializedField]
         float m_floatValue;
 
-        public string Key => m_Key;
-        public StatType Type => m_StatType;
+        public string key => m_Key;
+        public StatType type => m_StatType;
 
         internal void Reset()
         {
@@ -85,7 +85,7 @@ namespace WizardsCode.GameStats
         /// <returns>The new value of the stat.</returns>
         internal int Increment(int amount = 1)
         {
-            if (Type == StatType.Float)
+            if (type == StatType.Float)
             {
                 throw new ArgumentException("Asking to increment an int value on a float stat. Use Increment(float amount) instead");
             }
@@ -96,7 +96,7 @@ namespace WizardsCode.GameStats
             GameStatsManager.Instance.CheckAchievements(this, m_intValue);
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-            SteamUserStats.AddStat(Key, amount);
+            SteamUserStats.AddStat(key, amount);
 #endif
 
             return m_intValue;
@@ -109,7 +109,7 @@ namespace WizardsCode.GameStats
         /// <returns>The new value of the stat.</returns>
         internal float Increment(float amount)
         {
-            if (Type == StatType.Int)
+            if (type == StatType.Int)
             {
                 throw new ArgumentException("Asking to increment a float value on a int stat. Use Increment(int amount) instead");
             }
@@ -120,7 +120,7 @@ namespace WizardsCode.GameStats
             GameStatsManager.Instance.CheckAchievements(this, m_floatValue);
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-            SteamUserStats.AddStat(Key, amount);
+            SteamUserStats.AddStat(key, amount);
 #endif
 
             return m_floatValue;
