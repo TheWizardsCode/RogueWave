@@ -47,10 +47,13 @@ namespace RogueWave
         AudioClip defaultRecipeName;
 
 
+        // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of resources collected in the game.")]
         private GameStat m_ResourcesCollected;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of resources spent in the game.")]
         private GameStat m_ResourcesSpent;
+        [SerializeField, Tooltip("The GameStat to increment when a recipe is called in during a run."), Foldout("Game Stats")]
+        internal GameStat m_RecipesCalledInStat;
 
         [Header("Debug")]
         [SerializeField, Tooltip("Turn on debug features for the Nanobot Manager"), Foldout("Debug")]
@@ -341,6 +344,12 @@ namespace RogueWave
                     }
 
                     RogueLiteManager.runData.Add(currentOfferRecipes[i]);
+
+                    if (m_RecipesCalledInStat)
+                    {
+                        m_RecipesCalledInStat.Increment();
+                    }
+
                     Add(currentOfferRecipes[i]);
 
                     status = Status.Collecting;
