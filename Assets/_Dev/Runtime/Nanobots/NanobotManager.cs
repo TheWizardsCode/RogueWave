@@ -54,6 +54,8 @@ namespace RogueWave
         private GameStat m_ResourcesSpent;
         [SerializeField, Tooltip("The GameStat to increment when a recipe is called in during a run."), Foldout("Game Stats")]
         internal GameStat m_RecipesCalledInStat;
+        [SerializeField, Tooltip("The GameStat to store the maximum nanobot level the player has attained."), Foldout("Game Stats")]
+        internal GameStat m_MaxNanobotLevelStat;
 
         [Header("Debug")]
         [SerializeField, Tooltip("Turn on debug features for the Nanobot Manager"), Foldout("Debug")]
@@ -374,6 +376,7 @@ namespace RogueWave
         private void LevelUp()
         {
             RogueLiteManager.persistentData.currentNanobotLevel++;
+
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             onNanobotLevelUp?.Invoke(RogueLiteManager.persistentData.currentNanobotLevel, resourcesForNextNanobotLevel);
 
@@ -382,6 +385,11 @@ namespace RogueWave
                 StopCoroutine(rewardCoroutine);
             }
             rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
+
+            if (m_MaxNanobotLevelStat != null && m_MaxNanobotLevelStat.GetIntValue() < RogueLiteManager.persistentData.currentNanobotLevel)
+            {
+                m_MaxNanobotLevelStat.Increment();
+            }
         }
 
         /// <summary>
