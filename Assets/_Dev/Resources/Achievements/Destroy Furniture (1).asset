@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 693fe29a27bd30e4f827291b5782a126, type: 3}
+  m_Name: Destroy Furniture (1)
+  m_EditorClassIdentifier: 
+  m_Key: DESTRUCTIBLE_FURNITURE_1
+  m_DispayName: It breaks!
+  m_Description: Destroy a part of the environment
+  m_StatToTrack: {fileID: 11400000, guid: 0863d8c1db6c8c042bcae75ad8ba3677, type: 2}
+  m_TargetValue: 1

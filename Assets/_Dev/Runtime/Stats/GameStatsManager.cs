@@ -49,6 +49,7 @@ namespace WizardsCode.GameStats
         private List<Spawner> m_Spawners = new List<Spawner>();
 
         public static GameStatsManager Instance { get; private set; }
+        public static Action<Achievement> OnAchievementUnlocked { get; internal set; }
 
         private void Awake()
         {
@@ -146,11 +147,11 @@ namespace WizardsCode.GameStats
             // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
             foreach (Achievement achievement in m_Achievements)
             {
-                if (!achievement.IsUnlocked && achievement.Stat == stat)
+                if (!achievement.isUnlocked && achievement.stat == stat)
                 {
-                    if (value >= achievement.TargetValue)
+                    if (value >= achievement.targetValue)
                     {
-                        achievement.Unlock();
+                        UnlockAchievement(achievement);
                     }
                 }
             }
@@ -162,14 +163,20 @@ namespace WizardsCode.GameStats
             // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
             foreach (Achievement achievement in m_Achievements)
             {
-                if (!achievement.IsUnlocked && achievement.Stat == stat)
+                if (!achievement.isUnlocked && achievement.stat == stat)
                 {
-                    if (value >= achievement.TargetValue)
+                    if (value >= achievement.targetValue)
                     {
-                        achievement.Unlock();
+                        UnlockAchievement(achievement);
                     }
                 }
             }
+        }
+
+        private static void UnlockAchievement(Achievement achievement)
+        {
+            achievement.Unlock();
+            OnAchievementUnlocked?.Invoke(achievement);
         }
 
         #region EDITOR_ONLY
@@ -233,7 +240,7 @@ namespace WizardsCode.GameStats
                 Achievement[] achievements = Resources.LoadAll<Achievement>("");
                 foreach (Achievement achievement in m_Achievements)
                 {
-                    string status = achievement.IsUnlocked ? "Unlocked" : "Locked";
+                    string status = achievement.isUnlocked ? "Unlocked" : "Locked";
                     Debug.Log($"Scriptable Object: {achievement.name} = {status}");
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
