@@ -306,6 +306,11 @@ namespace RogueWave
 
         public void OnAliveIsChanged(bool isAlive)
         {
+            if (!gameObject.activeSelf)
+            {
+                return;
+            }
+
             if (isAlive)
             {
                 StartCoroutine(SpawnWaves());
