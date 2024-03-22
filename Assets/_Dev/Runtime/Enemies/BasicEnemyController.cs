@@ -29,6 +29,14 @@ namespace RogueWave
         [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), ShowIf("requireLineOfSight")]
         Transform sensor;
 
+        [Header("Animation")]
+        [SerializeField, Tooltip("The head of the enemy. If set then this object will be rotated to face the player.")]
+        Transform head;
+        [SerializeField, Tooltip("The speed at which the head will rotate to face the plaeer."), Range(0, 10)]
+        float headRotationSpeed = 2;
+        [SerializeField, Tooltip("The maximum rotation of the head either side of forward."), Range(0, 180)]
+        float maxHeadRotation = 75;
+
         [Header("Movement")]
         [SerializeField, Tooltip("Is this enemy mobile?")]
         public bool isMobile = true;
@@ -292,6 +300,14 @@ namespace RogueWave
                 }
                 return;
             }
+
+            if (head != null)
+            {
+                Vector3 direction = Target.position - head.position;
+                Quaternion targetRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                head.rotation = Quaternion.Slerp(head.rotation, targetRotation, headRotationSpeed * Time.deltaTime);
+            }
+
 
             if (requireLineOfSight == false)
             {
