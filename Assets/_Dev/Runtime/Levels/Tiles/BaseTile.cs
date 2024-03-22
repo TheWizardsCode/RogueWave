@@ -52,8 +52,10 @@ namespace RogueWave
             ground.AddComponent<MeshCollider>();
         }
 
-        public void Generate(int x, int y, BaseTile[,] tiles)
+        public void Generate(int x, int y, BaseTile[,] tiles, Vector2 lotSize)
         {
+            tileWidth = lotSize.x;
+            tileHeight = lotSize.y;
             GenerateGround(x, y, tiles);
             GenerateTileContent(x, y, tiles);
         }
