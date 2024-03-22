@@ -22,8 +22,6 @@ namespace RogueWave
         float m_VictoryDuration = 5f;
 
         [Header("Character")]
-        [SerializeField, Tooltip("If true, the player will spawn at a random spawn point. If false, the player will spawn at the first spawn point in the scene.")]
-        internal bool randomizePlayerSpawn = true;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The player prefab to instantiate if none exists.")]
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
