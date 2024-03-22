@@ -19,8 +19,8 @@ namespace RogueWave
         private GameObject levelRoot;
         internal static LevelDefinition levelDefinition;
         BaseTile[,] tiles;
-        private int xSize => levelDefinition.size.x;
-        private int ySize => levelDefinition.size.y;
+        private int xSize => levelDefinition.mapSize.x;
+        private int ySize => levelDefinition.mapSize.y;
 
         /// <summary>
         /// Generate a level.
@@ -41,7 +41,7 @@ namespace RogueWave
                 Random.InitState(levelDefinition.seed);
             }
 
-            tiles = new BaseTile[levelDefinition.size.x, levelDefinition.size.y];
+            tiles = new BaseTile[levelDefinition.mapSize.x, levelDefinition.mapSize.y];
 
             levelRoot = new GameObject("Level");
             
@@ -153,7 +153,7 @@ namespace RogueWave
                 {
                     if (tiles[x, y] != null)
                     {
-                        tiles[x, y].Generate(x, y, tiles);
+                        tiles[x, y].Generate(x, y, tiles, levelDefinition.lotSize);
 
                         if (tiles[x, y] is SpawnerTile)
                         {

@@ -2,6 +2,7 @@ using NeoFPS;
 using System;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RogueWave
 {
@@ -16,8 +17,10 @@ namespace RogueWave
         [Header("Size and Layout")]
         [SerializeField, Tooltip("The seed to use for the level generation. If this is set to <= 0 then a random seed will be used.")]
         internal int seed = 0;
-        [SerializeField, Tooltip("The size of the level in tiles.")]
-        internal Vector2Int size = new Vector2Int(20, 20);
+        [SerializeField, Tooltip("The size of the lot to generate the level in. This is used to determine the size of the level geometry. Each tile should fill this space.")]
+        internal Vector2 lotSize = new Vector2(50f, 50f);
+        [SerializeField, Tooltip("The size of the level in tiles."), FormerlySerializedAs("size")]
+        internal Vector2Int mapSize = new Vector2Int(20, 20);
 
         [Header("Tile Types")]
         [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles.")]
@@ -45,14 +48,11 @@ namespace RogueWave
         [SerializeField, Tooltip("The tiles to place in the level before any other generation is done. This is useful for things such as placing the player start position and objective tiles..")]
         public TileDefinition[] prePlacedTiles;
 
-
         public WaveDefinition[] Waves => waves;
 
         public float WaveWait => waveWait;
 
         public bool GenerateNewWaves => generateNewWaves;
-
-        internal Vector2 lotSize = new Vector2(25f, 25f);
 
         internal float Duration
         {
@@ -79,7 +79,8 @@ namespace RogueWave
     }
 
     [Serializable]
-    class AvailableTile {
+    class AvailableTile
+    {
         [SerializeField, Tooltip("The tile definition for this tile, this describes when and where the tile can be placed.")]
         public TileDefinition tile;
         [SerializeField, Range(0.01f, 1f), Tooltip("The weight to use when selecting this tile. The higher the weight the more likely it is to be selected.")]
