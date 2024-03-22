@@ -49,8 +49,6 @@ namespace RogueWave
 
             PlaceFixedTiles();
 
-            PlacePlayerSpawn();
-
             WaveFunctionCollapse();
             
             GenerateTileContent();
@@ -80,9 +78,25 @@ namespace RogueWave
                     }
                 }
 
+                // If we failed to place the tile then we should try every location to see if we can place it
+                if (isPlaced == false) { 
+                    for (int x = 0; x < xSize; x++)
+                    {
+                        for (int y = 0; y < ySize; y++)
+                        {
+                            if (tiles[x, y] == null && IsValidTileFor(x, y, tile))
+                            {
+                                isPlaced = true;
+                                InstantiateTile(tile, x, y);
+                                Debug.Log($"Placed fixed tile {tile.name} at ({x}, {y})");
+                            }
+                        }
+                    }   
+                }
+
                 if (isPlaced == false)
                 {
-                    Debug.LogError($"Failed to instantiate pre placed tile {tile.name} after {tries} tries.");
+                    Debug.LogError($"Failed to instantiate pre placed tile {tile.name}.");
                 }
             }
         }
@@ -97,40 +111,6 @@ namespace RogueWave
                         InstantiateTile(levelDefinition.wallTileDefinition, x, y);
                     }
                 }
-            }
-        }
-
-        private void PlacePlayerSpawn()
-        {
-            RogueWaveGameMode spawn = FindObjectOfType<RogueWaveGameMode>();
-            int x, y;
-            int tries = 0;
-            bool isPlaced = false;
-
-            while (isPlaced == false && tries < 50)
-            {
-                tries++;
-                if (((RogueWaveGameMode)FpsGameMode.current).randomizePlayerSpawn)
-                {
-                    x = Random.Range(1, xSize - 1);
-                    y = Random.Range(1, ySize - 1);
-                }
-                else
-                {
-                    x = WorldPositionToTileCoordinates(spawn.transform.position).x;
-                    y = WorldPositionToTileCoordinates(spawn.transform.position).y;
-                }
-
-                if (tiles[x, y] == null) {
-                    InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
-                    spawn.transform.position = TileCoordinatesToWorldPosition(x, y);
-                    isPlaced = true;
-                }
-            }
-
-            if (isPlaced == false)
-            {
-                Debug.LogError($"Failed to place player spawn after {tries} tries.");
             }
         }
 
@@ -287,7 +267,11 @@ namespace RogueWave
                 if (otherTile != null)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.XNegative).FirstOrDefault(t => t == tile);
-                    //TileDefinition candidate = tile.GetTileCandidates(TileDefinition.Direction.XPositive).FirstOrDefault(t => t == otherTile);
+
+                    if (candidate == null)
+                    {
+                        candidate = tile.GetTileCandidates(TileDefinition.Direction.XPositive).FirstOrDefault(t => t == otherTile);
+                    }
 
                     if (candidate == null)
                     {
@@ -311,7 +295,11 @@ namespace RogueWave
                 if (otherTile != null)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.XPositive).FirstOrDefault(t => t == tile);
-                    //TileDefinition candidate = tile.GetTileCandidates(TileDefinition.Direction.XNegative).FirstOrDefault(t => t == otherTile);
+                    
+                    if (candidate == null)
+                    {
+                        candidate = tile.GetTileCandidates(TileDefinition.Direction.XNegative).FirstOrDefault(t => t == otherTile);
+                    }
 
                     if (candidate == null)
                     {
@@ -335,7 +323,11 @@ namespace RogueWave
                 if (otherTile != null)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.YNegative).FirstOrDefault(t => t == tile);
-                    //TileDefinition candidate = tile.GetTileCandidates(TileDefinition.Direction.YPositive).FirstOrDefault(t => t == otherTile);
+
+                    if (candidate == null)
+                    {
+                        candidate = tile.GetTileCandidates(TileDefinition.Direction.YPositive).FirstOrDefault(t => t == otherTile);
+                    }
 
                     if (candidate == null)
                     {
@@ -359,7 +351,11 @@ namespace RogueWave
                 if (otherTile != null)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.YPositive).FirstOrDefault(t => t == tile);
-                    //TileDefinition candidate = tile.GetTileCandidates(TileDefinition.Direction.YNegative).FirstOrDefault(t => t == otherTile);
+
+                    if (candidate == null)
+                    {
+                        candidate = tile.GetTileCandidates(TileDefinition.Direction.YNegative).FirstOrDefault(t => t == otherTile);
+                    }
 
                     if (candidate == null)
                     {

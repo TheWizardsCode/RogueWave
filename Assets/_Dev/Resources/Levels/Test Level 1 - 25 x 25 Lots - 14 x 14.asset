@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Level Test
+  m_Name: Test Level 1 - 25 x 25 Lots - 14 x 14
   m_EditorClassIdentifier: 
   seed: 0
-  size: {x: 14, y: 14}
+  lotSize: {x: 25, y: 25}
+  mapSize: {x: 14, y: 14}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   availableTiles:
