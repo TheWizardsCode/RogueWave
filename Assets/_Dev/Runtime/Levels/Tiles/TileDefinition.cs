@@ -19,26 +19,21 @@ namespace RogueWave
             YNegative
         }
 
-        [Header("Constraints")]
-        [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
-            "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the bottome left of the allowed areas for this tile will be at (10, 0, 10).")]
-        internal Vector3 bottomLeftBoundary = Vector3.zero;
-        [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
-            "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the top right of the allowed areas for this tile will be at (10, 0, 10).")]
-        internal Vector3 topRightBoundary = Vector3.one;
-
         [SerializeField, Tooltip("The tile prefab to spawn for this tile type.")]
         BaseTile tilePrefab;
 
+        [SerializeField, Tooltip("The constraints that define the placement of this tile.")]
+        internal TileConstraint constraints;
+
         [Header("Connections")]
         [SerializeField, Tooltip("The constraints that define neighbours to the x positive edge.")]
-        internal List<TileConstraint> xPositiveConstraints = new List<TileConstraint>();
+        internal List<TileNeighbour> xPositiveConstraints = new List<TileNeighbour>();
         [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
-        internal List<TileConstraint> xNegativeConstraints = new List<TileConstraint>();
+        internal List<TileNeighbour> xNegativeConstraints = new List<TileNeighbour>();
         [SerializeField, Tooltip("The constraints that define neighbours to the y positive edge.")]
-        internal List<TileConstraint> zPositiveConstraints = new List<TileConstraint>();
+        internal List<TileNeighbour> zPositiveConstraints = new List<TileNeighbour>();
         [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
-        internal List<TileConstraint> zNegativeConstraints = new List<TileConstraint>();
+        internal List<TileNeighbour> zNegativeConstraints = new List<TileNeighbour>();
 
         internal float weight { get; set; }
 
@@ -72,19 +67,6 @@ namespace RogueWave
                 default:
                     return null;
             }
-        }
-
-        internal bool CanPlace(Vector3Int tileCoords, int xSize, int ySize)
-        {
-            // if the tile is outside the bounds of the level then it cannot be placed.
-            if (tileCoords.x < bottomLeftBoundary.x * xSize || tileCoords.x > topRightBoundary.x * xSize
-                || tileCoords.y < bottomLeftBoundary.y * ySize || tileCoords.y > topRightBoundary.y * ySize
-                || tileCoords.z < bottomLeftBoundary.z * ySize || tileCoords.z > topRightBoundary.z * ySize)
-            {
-                    return false;
-            }
-
-            return true;
         }
 
         /// <summary>
@@ -126,26 +108,53 @@ namespace RogueWave
         {
             if (xNegativeConstraints.Count == 0)
             {
-                xNegativeConstraints = xPositiveConstraints.Select(c => new TileConstraint { tileDefinition = c.tileDefinition, weight = c.weight }).ToList();
+                xNegativeConstraints = xPositiveConstraints.Select(c => new TileNeighbour { tileDefinition = c.tileDefinition, constraints = c.constraints }).ToList();
             }
             if (zPositiveConstraints.Count == 0)
             {
-                zPositiveConstraints = xPositiveConstraints.Select(c => new TileConstraint { tileDefinition = c.tileDefinition, weight = c.weight }).ToList();
+                zPositiveConstraints = xPositiveConstraints.Select(c => new TileNeighbour { tileDefinition = c.tileDefinition, constraints = c.constraints }).ToList();
             }
             if (zNegativeConstraints.Count == 0)
             {
-                zNegativeConstraints = xPositiveConstraints.Select(c => new TileConstraint { tileDefinition = c.tileDefinition, weight = c.weight }).ToList();
+                zNegativeConstraints = xPositiveConstraints.Select(c => new TileNeighbour { tileDefinition = c.tileDefinition, constraints = c.constraints }).ToList();
             }
         }
 #endif
     }
 
     [Serializable]
+    internal class TileNeighbour
+    {
+        [SerializeField, Tooltip("The definition of the tile described.")]
+        internal TileDefinition tileDefinition;
+        [SerializeField, Tooltip("The constraints that define the placement of this tile.")]
+        internal TileConstraint constraints;
+    }
+
+    [Serializable]
     internal class TileConstraint
     {
-        [SerializeField, Tooltip("The definition of the tile described in this constraint.")]
-        internal TileDefinition tileDefinition;
+        [Header("Constraints")]
+        [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
+            "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the bottome left of the allowed areas for this tile will be at (10, 0, 10).")]
+        internal Vector3 bottomLeftBoundary = Vector3.zero;
+        [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
+            "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the top right of the allowed areas for this tile will be at (10, 0, 10).")]
+        internal Vector3 topRightBoundary = Vector3.one;
         [SerializeField, Range(0.01f, 1f), Tooltip("The liklihood of this tile definition being selected. If a random number is <= this value and other constraints match then this will be a candidate.")]
         internal float weight = 0.8f;
+
+        internal bool IsValidLocatoin(Vector3Int tileCoords, int xSize, int ySize)
+        {
+            // if the tile is outside the bounds of the level then it cannot be placed.
+            if (tileCoords.x < bottomLeftBoundary.x * xSize || tileCoords.x > topRightBoundary.x * xSize
+                || tileCoords.y < bottomLeftBoundary.y * ySize || tileCoords.y > topRightBoundary.y * ySize
+                || tileCoords.z < bottomLeftBoundary.z * ySize || tileCoords.z > topRightBoundary.z * ySize)
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

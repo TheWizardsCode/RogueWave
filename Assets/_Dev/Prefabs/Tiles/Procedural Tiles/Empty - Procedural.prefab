@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2002441999730550479}
   - component: {fileID: 2542797727158204644}
   m_Layer: 0
-  m_Name: Path Dead End W
+  m_Name: Empty - Procedural
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,14 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 2654456790820855860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fdf8c640284aa64a96cb1e341f6da13, type: 3}
+  m_Script: {fileID: 11500000, guid: c0025f752f0112d4bbace262f632e3ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMaterial: {fileID: 2100000, guid: 0ead724ef0fc783499a904ba6e25cff0, type: 2}
-  spawnFurniture: 1
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
+  spawnFurniture: 0
   furnitureChance: 0.25
   furniturePrefabs:
-  - {fileID: 7985948857531989657, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
-  - {fileID: 7985948857531989657, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
-  - {fileID: 7985948857531989657, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
-  - {fileID: 8038197323659428586, guid: 3746b354cbd2ebf48bc933b85f6205b9, type: 3}
+  - {fileID: 8518581964156992259, guid: 09792b8529cd27a47bddaa704230b1b2, type: 3}
+  - {fileID: 5251306681189694610, guid: 695fa7aecc2927b47be39cafc52a91ee, type: 3}
+  tileLevelDefinition: {fileID: 11400000, guid: 60a4bd11657394b408e897f64a4ea4b4, type: 2}

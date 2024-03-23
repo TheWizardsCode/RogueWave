@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using NeoFPS;
 using System;
 using System.Reflection;
@@ -21,10 +22,12 @@ namespace RogueWave
         internal Vector2 lotSize = new Vector2(50f, 50f);
         [SerializeField, Tooltip("The size of the level in tiles."), FormerlySerializedAs("size")]
         internal Vector2Int mapSize = new Vector2Int(20, 20);
+        [SerializeField, Tooltip("If true then the entire level will be enclosed by a wall.")]
+        internal bool encloseLevel = true;
+        [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles."), ShowIf("encloseLevel")]
+        internal TileDefinition wallTileDefinition;
 
         [Header("Tile Types")]
-        [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles.")]
-        internal TileDefinition wallTileDefinition;
         [SerializeField, Tooltip("The tile to use for empty tiles. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined.")]
         internal TileDefinition emptyTileDefinition;
         [SerializeField, Tooltip("The tile definitions to use for this level. If a tile is defined in the tile constraints but does not appear in this list it will not be used. This allows level definitions to be reused in different ways.")]
@@ -45,7 +48,7 @@ namespace RogueWave
         [Header("Level Generation")]
         [SerializeField, Tooltip("Should a level geometry be auto generated on start? If false it is expected that the scene will already contain the level geometry.")]
         public bool generateLevelOnSpawn = true;
-        [SerializeField, Tooltip("The tiles to place in the level before any other generation is done. This is useful for things such as placing the player start position and objective tiles..")]
+        [SerializeField, Tooltip("The tiles to place in the level before any other generation is done. This is useful for things such as placing the player start position and objective tiles.."), Expandable]
         public TileDefinition[] prePlacedTiles;
 
         public WaveDefinition[] Waves => waves;

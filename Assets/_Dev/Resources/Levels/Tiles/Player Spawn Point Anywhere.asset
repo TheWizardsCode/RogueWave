@@ -12,18 +12,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
   m_Name: Player Spawn Point Anywhere
   m_EditorClassIdentifier: 
-  bottomLeftBoundary: {x: 0, y: 0, z: 0}
-  topRightBoundary: {x: 1, y: 1, z: 1}
   tilePrefab: {fileID: 2542797727158204644, guid: 730b5b2aab3d5524a917c0156edcd76e, type: 3}
+  constraints:
+    bottomLeftBoundary: {x: 0, y: 0, z: 0}
+    topRightBoundary: {x: 0.5, y: 1, z: 0.5}
+    weight: 0.8
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-    weight: 0.168
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.8
   xNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-    weight: 0.168
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.8
   zPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-    weight: 0.168
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.8
   zNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-    weight: 0.168
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.8

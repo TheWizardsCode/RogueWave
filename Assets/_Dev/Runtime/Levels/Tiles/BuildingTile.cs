@@ -14,6 +14,7 @@ namespace RogueWave
             base.GenerateTileContent(x, y, tiles);
 
             GameObject buildingPrefab = buildingPrefabs[Random.Range(0, buildingPrefabs.Length)];
+            buildingPrefab.transform.localPosition = contentOffset;
             Instantiate(buildingPrefab, transform);
         }
     }

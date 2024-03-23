@@ -69,20 +69,22 @@ namespace RogueWave
 
             if (ShouldConnect(yPositive))
             {
-                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight, structureHeight);
+                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight / 2, structureHeight);
                 draft.name = "Flow Structure";
                 draft.Move(new Vector3(0, 0, tileHeight / 4));
                 compoundDraft.Add(draft);
             }
+
             if (ShouldConnect(yNegative))
             {
-                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight, structureHeight);
+                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight / 2, structureHeight);
                 draft.Move(new Vector3(0, 0, -tileHeight / 4));
                 draft.name = "Flow Structure";
                 compoundDraft.Add(draft);
             }
 
             compoundDraft.MergeDraftsWithTheSameName();
+            compoundDraft.Move(contentOffset);
             meshFilter.mesh = compoundDraft.ToMeshDraft().ToMesh();
 
             contentObject.AddComponent<MeshCollider>().sharedMesh = meshFilter.mesh;

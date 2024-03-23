@@ -31,7 +31,7 @@ namespace RogueWave
         private AbstractRecipe[] _startingRecipes;
 
         [Header("Level Management")]
-        [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
+        [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level."), Expandable]
         LevelDefinition[] levels;
 
         // Game Stats
@@ -422,7 +422,7 @@ namespace RogueWave
 
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
-                levelGenerator.Generate(this);
+                levelGenerator.Generate(currentLevelDefinition);
             }
 
             for (int i = 0; i < _startingRecipes.Length; i++)
