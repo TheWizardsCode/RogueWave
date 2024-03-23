@@ -26,7 +26,7 @@ namespace RogueWave
 
         public TileDefinition tileDefinition { get; internal set; }
 
-        internal virtual void GenerateTileContent(int x, int y, BaseTile[,] tiles)
+        internal virtual void GenerateTileContent(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             if (spawnFurniture && furniturePrefabs.Length > 0 && Random.value < furnitureChance)
             {
@@ -37,7 +37,7 @@ namespace RogueWave
             }
         }
 
-        protected virtual void GenerateGround(int x, int y, BaseTile[,] tiles)
+        protected virtual void GenerateGround(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             GameObject ground = new GameObject("Ground");
             ground.transform.SetParent(transform);
@@ -56,8 +56,8 @@ namespace RogueWave
             this.levelGenerator = levelGenerator;
             tileWidth = levelGenerator.levelDefinition.lotSize.x;
             tileHeight = levelGenerator.levelDefinition.lotSize.y;
-            GenerateGround(x, y, tiles);
-            GenerateTileContent(x, y, tiles);
+            GenerateGround(x, y, tiles, levelGenerator);
+            GenerateTileContent(x, y, tiles, levelGenerator);
         }
 
         public Vector3 contentOffset => new Vector3(tileWidth / 2, 0, tileHeight / 2);

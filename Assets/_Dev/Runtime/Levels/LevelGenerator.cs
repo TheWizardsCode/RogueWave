@@ -17,8 +17,10 @@ namespace RogueWave
         public UnityEvent<Spawner> onSpawnerCreated;
 
         internal Transform root;
-        internal LevelDefinition levelDefinition;
+        internal WfcDefinition levelDefinition;
         BaseTile[,] tiles;
+        internal LevelGenerator parentGenerator;
+
         private int xSize => levelDefinition.mapSize.x;
         private int ySize => levelDefinition.mapSize.y;
 
@@ -26,7 +28,7 @@ namespace RogueWave
         /// Generate a level.
         /// </summary>
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
-        internal void Generate(LevelDefinition levelDefinition)
+        internal void Generate(WfcDefinition levelDefinition)
         {
             Generate(levelDefinition, new Vector3((levelDefinition.mapSize.x / 2) * levelDefinition.lotSize.x, 0 , (levelDefinition.mapSize.y / 2) * levelDefinition.lotSize.y));
         }
@@ -36,7 +38,7 @@ namespace RogueWave
         /// </summary>
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
-        internal void Generate(LevelDefinition levelDefinition, Vector3 baseCoords)
+        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords)
         {
             if (root != null)
                 Clear();
@@ -52,7 +54,7 @@ namespace RogueWave
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
         /// <param name="root">The transform that this level will be parented to.</param>
-        internal void Generate(LevelDefinition levelDefinition, Vector3 baseCoords, Transform root)
+        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root)
         {
             this.levelDefinition = levelDefinition;
             this.root = root;

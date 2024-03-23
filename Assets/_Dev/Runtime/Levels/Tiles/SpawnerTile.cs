@@ -8,7 +8,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The spawner to use for this tile.")]
         internal PooledObject spawnerPrefab;
 
-        internal override void GenerateTileContent(int x, int y, BaseTile[,] tiles)
+        internal override void GenerateTileContent(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             Vector3 position = new Vector3(0, 5, 0) + contentOffset;
             Spawner spawner = PoolManager.GetPooledObject<Spawner>(spawnerPrefab, position, Quaternion.identity);
