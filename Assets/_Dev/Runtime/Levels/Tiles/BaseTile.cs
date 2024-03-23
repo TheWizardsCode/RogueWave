@@ -20,7 +20,7 @@ namespace RogueWave
         private float furnitureChance = 0.25f;
         [SerializeField, ShowIf("spawnFurniture"), Tooltip("Prefabs that may be spawned on this tile. Only one of these, selected at random, will be generated.")]
         private GameObject[] furniturePrefabs = null;
-
+        protected LevelGenerator levelGenerator;
         protected float tileWidth = 25f;
         protected float tileHeight = 25f;
 
@@ -32,7 +32,7 @@ namespace RogueWave
             {
                 GameObject tileContentPrefab = furniturePrefabs[Random.Range(0, furniturePrefabs.Length)];
                 Transform furniture = Instantiate(tileContentPrefab, transform).transform;
-                furniture.localPosition = new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileHeight / 2, tileHeight / 2));
+                furniture.localPosition = new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileHeight / 2, tileHeight / 2)) + contentOffset;
                 furniture.localRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             }
         }
@@ -45,19 +45,21 @@ namespace RogueWave
 
             MeshDraft draft = MeshDraft.Plane(tileWidth, tileHeight);
             draft.name = "Ground";
-            draft.Move(new Vector3(-tileWidth / 2, 0, -tileHeight / 2));
 
             ground.AddComponent<MeshFilter>().mesh = draft.ToMesh();
             ground.AddComponent<MeshRenderer>().material = groundMaterial;
             ground.AddComponent<MeshCollider>();
         }
 
-        public void Generate(int x, int y, BaseTile[,] tiles, Vector2 lotSize)
+        public void Generate(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
-            tileWidth = lotSize.x;
-            tileHeight = lotSize.y;
+            this.levelGenerator = levelGenerator;
+            tileWidth = levelGenerator.levelDefinition.lotSize.x;
+            tileHeight = levelGenerator.levelDefinition.lotSize.y;
             GenerateGround(x, y, tiles);
             GenerateTileContent(x, y, tiles);
         }
+
+        public Vector3 contentOffset => new Vector3(tileWidth / 2, 0, tileHeight / 2);
     }
 }

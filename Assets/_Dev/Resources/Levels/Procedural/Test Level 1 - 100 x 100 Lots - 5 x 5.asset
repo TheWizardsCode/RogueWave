@@ -10,30 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Level 3
+  m_Name: Test Level 1 - 100 x 100 Lots - 5 x 5
   m_EditorClassIdentifier: 
   seed: 0
-  lotSize: {x: 25, y: 25}
-  mapSize: {x: 10, y: 10}
+  lotSize: {x: 100, y: 100}
+  mapSize: {x: 5, y: 5}
+  encloseLevel: 1
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-  emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
+  emptyTileDefinition: {fileID: 11400000, guid: 9ed6656cc88dbc740a8ac53c95c8e5a0, type: 2}
   availableTiles:
-  - tile: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.792
   - tile: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
-    weight: 0.468
-  - tile: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.679
-  - tile: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.258
-  enemySpawnChance: 0.1
+    weight: 0
+  - tile: {fileID: 11400000, guid: 097b8d717f316c349b1b5a7d91b7a654, type: 2}
+    weight: 0
+  enemySpawnChance: 0
   waves:
-  - {fileID: 11400000, guid: d4b0e437136e476478ae4b38450caeb5, type: 2}
-  - {fileID: 11400000, guid: 01a2adc2928cc0a4bb94dc1d6469b265, type: 2}
+  - {fileID: 11400000, guid: bcc18c73d27157f4ab2b2842e1cf7563, type: 2}
   waveWait: 5
   generateNewWaves: 0
-  maxAlive: 100
+  maxAlive: 200
   generateLevelOnSpawn: 1
   prePlacedTiles:
-  - {fileID: 11400000, guid: 81887eb3a9196564fa5e365286f704f0, type: 2}
   - {fileID: 11400000, guid: d06759628af557e42b3babe3e8f4909e, type: 2}
