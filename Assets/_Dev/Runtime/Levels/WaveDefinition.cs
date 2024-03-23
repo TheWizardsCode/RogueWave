@@ -9,7 +9,7 @@ namespace RogueWave
     /// <summary>
     /// Defines a single wave of enemies to spawn. Each level is madde of one or more waves.
     /// </summary>
-    /// <seealso cref="LevelDefinition"/>
+    /// <seealso cref="WfcDefinition"/>
     /// <see cref="Spawner"/>
     [CreateAssetMenu(fileName = "WaveDefinition", menuName = "Rogue Wave/Wave Definition", order = 201)]
     public class WaveDefinition : ScriptableObject

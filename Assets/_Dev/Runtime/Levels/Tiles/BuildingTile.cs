@@ -9,9 +9,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The building prefabs that can be placed on this tile.")]
         internal GameObject[] buildingPrefabs;
 
-        internal override void GenerateTileContent(int x, int y, BaseTile[,] tiles)
+        internal override void GenerateTileContent(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
-            base.GenerateTileContent(x, y, tiles);
+            base.GenerateTileContent(x, y, tiles, levelGenerator);
 
             GameObject buildingPrefab = buildingPrefabs[Random.Range(0, buildingPrefabs.Length)];
             buildingPrefab.transform.localPosition = contentOffset;

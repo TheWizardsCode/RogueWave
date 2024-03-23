@@ -13,14 +13,14 @@ namespace RogueWave.UI
         Image waveIconPrototype;
 
         RectTransform progressBarContainer;
-        private LevelDefinition _levelDefinition;
+        private WfcDefinition _levelDefinition;
 
         private void Awake()
         {
             progressBarContainer = GetComponent<RectTransform>();    
         }
 
-        internal LevelDefinition levelDefinition
+        internal WfcDefinition levelDefinition
         {
             get { return _levelDefinition; }
             set

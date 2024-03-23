@@ -32,7 +32,7 @@ namespace RogueWave
 
         [Header("Level Management")]
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level."), Expandable]
-        LevelDefinition[] levels;
+        WfcDefinition[] levels;
 
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
@@ -69,7 +69,7 @@ namespace RogueWave
             }
         }
 
-        public LevelDefinition currentLevelDefinition
+        public WfcDefinition currentLevelDefinition
         {
             get { 
                 if (levels.Length <= RogueLiteManager.persistentData.currentGameLevel)

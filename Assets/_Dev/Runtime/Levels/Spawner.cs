@@ -17,7 +17,7 @@ namespace RogueWave
         [SerializeField, Tooltip("If true then the spawner will use the level definition defined in the Game Mode to determine the waves to spawn. If false then the spawner will spawn according to the wave definition below.")]
         bool useLevelDefinition = false;
         [SerializeField, HideIf("useLevelDefinition"), Tooltip("The level definition to use to determine the waves to spawn. Set 'Use Level Definition' to true to use the waves set in the level.")]
-        LevelDefinition levelDefinition;
+        WfcDefinition levelDefinition;
         [SerializeField, Tooltip("The time to wait between waves.")]
         private float timeBetweenWaves = 5;
         [SerializeField, Tooltip("If true then the spawner will ignore the max alive setting in the level definition and will spawn as many enemies as it can.")]
@@ -77,7 +77,7 @@ namespace RogueWave
             }
         }
 
-        private LevelDefinition currentLevel;
+        private WfcDefinition currentLevel;
         private int currentWaveIndex = -1;
         private WaveDefinition currentWave;
 
@@ -334,7 +334,7 @@ namespace RogueWave
         /// Configure this spawner accoring to a level definition.
         /// </summary>
         /// <param name="currentLevelDefinition"></param>
-        internal void Initialize(LevelDefinition currentLevelDefinition)
+        internal void Initialize(WfcDefinition currentLevelDefinition)
         {
             currentLevel = currentLevelDefinition;
         }

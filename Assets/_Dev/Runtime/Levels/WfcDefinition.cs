@@ -8,12 +8,11 @@ using UnityEngine.Serialization;
 namespace RogueWave
 {
     /// <summary>
-    /// Defines a single level in the game. If the player survives a level they increase in experience.
-    /// Each level consists of one or more waves of enemies to spawn.
+    /// Defines how the Wave Function Collapse is to be applied. This is used to desribe both the level and tile layouts of the game.
     /// </summary>
     /// <seealso cref="WaveDefinition"/>
-    [CreateAssetMenu(fileName = "LevelDefinition", menuName = "Rogue Wave/Level Definition", order = 200)]
-    public class LevelDefinition : ScriptableObject
+    [CreateAssetMenu(fileName = "New WFC Definition", menuName = "Rogue Wave/WFC Definition", order = 200)]
+    public class WfcDefinition : ScriptableObject
     {
         [Header("Size and Layout")]
         [SerializeField, Tooltip("The seed to use for the level generation. If this is set to <= 0 then a random seed will be used.")]
@@ -24,13 +23,13 @@ namespace RogueWave
         internal Vector2Int mapSize = new Vector2Int(20, 20);
         [SerializeField, Tooltip("If true then the entire level will be enclosed by a wall.")]
         internal bool encloseLevel = true;
-        [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles."), ShowIf("encloseLevel")]
+        [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles."), ShowIf("encloseLevel"), Expandable]
         internal TileDefinition wallTileDefinition;
 
         [Header("Tile Types")]
-        [SerializeField, Tooltip("The tile to use for empty tiles. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined.")]
+        [SerializeField, Tooltip("The tile to use for empty tiles. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined."), Expandable]
         internal TileDefinition emptyTileDefinition;
-        [SerializeField, Tooltip("The tile definitions to use for this level. If a tile is defined in the tile constraints but does not appear in this list it will not be used. This allows level definitions to be reused in different ways.")]
+        [SerializeField, Tooltip("The tile definitions to use for this level/tile. If a tile is defined in the tile constraints but does not appear in this list it will not be used. This allows level definitions to be reused in different ways.")]
         internal AvailableTile[] availableTiles;
 
         [Header("Enemies")]
@@ -84,7 +83,7 @@ namespace RogueWave
     [Serializable]
     class AvailableTile
     {
-        [SerializeField, Tooltip("The tile definition for this tile, this describes when and where the tile can be placed.")]
+        [SerializeField, Tooltip("The tile definition for this tile, this describes when and where the tile can be placed."), Expandable]
         public TileDefinition tile;
         [SerializeField, Range(0.01f, 1f), Tooltip("The weight to use when selecting this tile. The higher the weight the more likely it is to be selected.")]
         internal float weight;

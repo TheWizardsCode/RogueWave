@@ -30,7 +30,7 @@ namespace RogueWave
         /// <param name="x">The x coordinate of the location of this tile.</param>
         /// <param name="z">The z coordinate of the location of this tile.</param>
         /// <param name="tiles">The map of tiles.</param>
-        internal override void GenerateTileContent(int x, int z, BaseTile[,] tiles)
+        internal override void GenerateTileContent(int x, int z, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             MeshFilter meshFilter;
             if (contentObject == null)
@@ -89,7 +89,7 @@ namespace RogueWave
 
             contentObject.AddComponent<MeshCollider>().sharedMesh = meshFilter.mesh;
 
-            base.GenerateTileContent(x, z, tiles);
+            base.GenerateTileContent(x, z, tiles, levelGenerator);
         }
 
         private bool ShouldConnect(BaseTile otherTile)
