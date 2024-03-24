@@ -15,6 +15,7 @@ namespace RogueWave
 
             GameObject buildingPrefab = buildingPrefabs[Random.Range(0, buildingPrefabs.Length)];
             buildingPrefab.transform.localPosition = contentOffset;
+            buildingPrefab.transform.localRotation = Quaternion.Euler(0, Random.Range(0, 4) * 90, 0);
             Instantiate(buildingPrefab, transform);
         }
     }

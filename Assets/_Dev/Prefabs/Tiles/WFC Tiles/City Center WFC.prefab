@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2002441999730550479}
   - component: {fileID: 2542797727158204644}
   m_Layer: 0
-  m_Name: City Center - Procedural
+  m_Name: City Center WFC
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,9 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
-  spawnFurniture: 0
+  spawnFurniture: 1
   furnitureChance: 0.25
   furniturePrefabs:
   - {fileID: 8518581964156992259, guid: 09792b8529cd27a47bddaa704230b1b2, type: 3}
   - {fileID: 5251306681189694610, guid: 695fa7aecc2927b47be39cafc52a91ee, type: 3}
-  wfcDefinition: {fileID: 11400000, guid: bb7ed0e901ba6a049b1334cae5fd7a5c, type: 2}
+  wfcDefinition: {fileID: 11400000, guid: 33e3ba4e5b6d1904397f44cecb2ba927, type: 2}
