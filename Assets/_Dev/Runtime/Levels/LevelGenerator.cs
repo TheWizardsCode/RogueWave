@@ -30,7 +30,8 @@ namespace RogueWave
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         internal void Generate(WfcDefinition levelDefinition)
         {
-            Generate(levelDefinition, new Vector3((levelDefinition.mapSize.x / 2) * levelDefinition.lotSize.x, 0 , (levelDefinition.mapSize.y / 2) * levelDefinition.lotSize.y));
+            //Generate(levelDefinition, new Vector3((levelDefinition.mapSize.x / 2) * levelDefinition.lotSize.x, 0 , (levelDefinition.mapSize.y / 2) * levelDefinition.lotSize.y));
+            Generate(levelDefinition, Vector3.zero);
         }
 
         /// <summary>
@@ -78,7 +79,18 @@ namespace RogueWave
 
             GenerateTileContent();
 
-            GenerateEnemies();
+            PpositionSceneCamera();
+        }
+
+        private void PpositionSceneCamera()
+        {
+            Camera sceneCamera = Camera.main;
+            float height = Mathf.Max(levelDefinition.mapSize.x * levelDefinition.lotSize.x, levelDefinition.mapSize.y * levelDefinition.lotSize.y) ;
+            if (sceneCamera != null)
+            {
+                sceneCamera.transform.position = new Vector3(levelDefinition.mapSize.x * levelDefinition.lotSize.x / 2, height, levelDefinition.mapSize.y * levelDefinition.lotSize.y / 2);
+                sceneCamera.transform.rotation = Quaternion.Euler(90, 0, 0);
+            }
         }
 
         private void PlaceFixedTiles()
@@ -146,7 +158,7 @@ namespace RogueWave
             }
         }
 
-        internal Vector3 TileCoordinatesToLocalPosition(int x, int y)
+        internal Vector3 TileCoordinatesToWorldPosition(int x, int y)
         {
             return new Vector3(x * levelDefinition.lotSize.x, 0, y * levelDefinition.lotSize.y);
         }
@@ -228,7 +240,7 @@ namespace RogueWave
                             }
                         }
 
-                        Debug.Log($"Tile at ({x}, {y}) has {candidates.Count} possible candidates.");
+                        // Debug.Log($"Tile at ({x}, {y}) has {candidates.Count} possible candidates.");
 
 
                         // TODO convert this to an exlude list rather than include list
@@ -305,20 +317,6 @@ namespace RogueWave
                     if (tiles[x, y] == null)
                     {
                         InstantiateTile(levelDefinition.defaultTileDefinition, x, y);
-                    }
-                }
-            }
-        }
-
-        public void GenerateEnemies()
-        {
-            for (int x = 1; x < xSize - 1; x++)
-            {
-                for (int z = 1; z < ySize - 1; z++)
-                {
-                    if (Random.value < levelDefinition.enemySpawnChance)
-                    {
-                        BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(levelDefinition.GetRandomEnemy(), TileCoordinatesToLocalPosition(x, z), Quaternion.identity);
                     }
                 }
             }
@@ -537,7 +535,7 @@ namespace RogueWave
         {
             BaseTile tile = tileDefinition.GetTileObject(root.transform);
             tile.name = $"{tileDefinition.name} ({x}. {y})";
-            tile.transform.localPosition = TileCoordinatesToLocalPosition(x, y);
+            tile.transform.localPosition = TileCoordinatesToWorldPosition(x, y);
             
             //Debug.Log($"Instantiating tile of type {tile.tileDefinition} at ({x}, {y}) of {root}");
 
