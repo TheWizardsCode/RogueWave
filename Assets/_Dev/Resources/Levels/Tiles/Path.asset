@@ -12,58 +12,133 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
   m_Name: Path
   m_EditorClassIdentifier: 
-  bottomLeftBoundary: {x: 0, y: 0, z: 0}
-  topRightBoundary: {x: 1, y: 1, z: 1}
   tilePrefab: {fileID: -643772105435015575, guid: e5d8c881c68629b4384b45d36fb0eb67, type: 3}
+  enemySpawnChance: 0.091
+  constraints:
+    bottomLeftBoundary: {x: 0, y: 0, z: 0}
+    topRightBoundary: {x: 1, y: 1, z: 1}
+    weight: 0.5
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.244
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000}
-    weight: 0.934
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.533
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.558
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
-    weight: 0.716
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
-    weight: 0.394
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   xNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.244
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000}
-    weight: 0.934
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.533
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.558
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
-    weight: 0.716
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
-    weight: 0.394
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   zPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.244
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000}
-    weight: 0.934
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.533
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.558
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
-    weight: 0.716
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
-    weight: 0.394
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   zNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.244
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000}
-    weight: 0.934
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.533
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.558
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
-    weight: 0.716
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
   - tileDefinition: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
-    weight: 0.394
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.5
