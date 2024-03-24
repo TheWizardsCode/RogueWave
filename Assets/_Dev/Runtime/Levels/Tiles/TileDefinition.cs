@@ -22,6 +22,10 @@ namespace RogueWave
         [SerializeField, Tooltip("The tile prefab to spawn for this tile type.")]
         BaseTile tilePrefab;
 
+        [Header("Enemies")]
+        [SerializeField, Range(0f, 1f), Tooltip("The chance of an enemy spawning in any given tile. These are only spawned on level creation. They are not spawned while the level is being played. For that you need spawners.")]
+        internal float enemySpawnChance = 0f;
+
         [SerializeField, Tooltip("The constraints that define the placement of this tile.")]
         internal TileConstraint constraints;
 

@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26c1c124768b98e4a809f57c15a59fa1, type: 3}
+  m_Name: NeoFPSConstants
+  m_EditorClassIdentifier: 
+  m_TargetDirectory: Assets/NeoFPS/Constants
+  m_EditorDirectory: Assets/NeoFPS/Constants/Editor
+  m_TemplateByteConstant: {fileID: 4900000, guid: be03ffa69d360164897fcad5bbd10b61,
+    type: 3}
+  m_TemplateByteConstantDrawer: {fileID: 4900000, guid: afec609471ec01145bc5f41e4776b891,
+    type: 3}
+  m_TemplateIntConstant: {fileID: 4900000, guid: 9cf4f24aea2e81e4390ccb551d36d107,
+    type: 3}
+  m_TemplateIntConstantDrawer: {fileID: 4900000, guid: afec609471ec01145bc5f41e4776b891,
+    type: 3}
+  m_TemplateUIntConstant: {fileID: 4900000, guid: be03ffa69d360164897fcad5bbd10b61,
+    type: 3}
+  m_TemplateUIntConstantDrawer: {fileID: 4900000, guid: afec609471ec01145bc5f41e4776b891,
+    type: 3}
+  m_TemplateShortConstant: {fileID: 4900000, guid: 9cf4f24aea2e81e4390ccb551d36d107,
+    type: 3}
+  m_TemplateShortConstantDrawer: {fileID: 4900000, guid: afec609471ec01145bc5f41e4776b891,
+    type: 3}
+  m_TemplateUShortConstant: {fileID: 4900000, guid: be03ffa69d360164897fcad5bbd10b61,
+    type: 3}
+  m_TemplateUShortConstantDrawer: {fileID: 4900000, guid: afec609471ec01145bc5f41e4776b891,
+    type: 3}
+  m_Constants:
+  - className: FpsCharacterAudio
+    classNamespace: NeoFPS.Constants
+    baseType: 1
+    constants:
+    - Undefined
+    - Oof
+    - Pain
+    - Collapse
+    - BoneBreak
+    - Negative
+  - className: FpsCharacterAudioSource
+    classNamespace: NeoFPS.Constants
+    baseType: 1
+    constants:
+    - Head
+    - Body
+    - Feet
+  - className: FpsSurfaceMaterial
+    classNamespace: NeoFPS.Constants
+    baseType: 0
+    constants:
+    - Default
+    - Concrete
+    - Stone
+    - Dirt
+    - Grass
+    - Gravel
+    - Wood
+    - Plastic
+    - Gadget
+    - Flesh
+    - MetalSolid
+    - MetalHollowLight
+    - MetalHollowHeavy
+    - Treadplate
+    - Glass
+    - GlassBottle
+    - TinCan
+    - PaintTin
+  - className: FpsCrosshair
+    classNamespace: NeoFPS.Constants
+    baseType: 0
+    constants:
+    - Default
+    - None
+  - className: FpsSwappableCategory
+    classNamespace: NeoFPS.Constants
+    baseType: 1
+    constants:
+    - Firearm
+    - Melee
+    - Thrown
