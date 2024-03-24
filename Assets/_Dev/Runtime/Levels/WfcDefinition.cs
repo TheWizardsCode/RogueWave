@@ -73,6 +73,11 @@ namespace RogueWave
         /// <exception cref="NotImplementedException"></exception>
         internal PooledObject GetRandomEnemy()
         {
+            if (waves.Length == 0)
+            {
+                Debug.LogWarning($"No waves defined in {this}. Either turn of enemy generation or add a wave definition.");
+                return null;
+            }
             return waves[0].GetNextEnemy(); ;
         }
     }

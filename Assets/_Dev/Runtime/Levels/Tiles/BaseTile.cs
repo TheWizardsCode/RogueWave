@@ -57,7 +57,13 @@ namespace RogueWave
         {
             if (tiles[x, y].tileDefinition.enemySpawnChance > 0 && Random.value < tiles[x, y].tileDefinition.enemySpawnChance)
             {
-                BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(levelGenerator.levelDefinition.GetRandomEnemy());
+                PooledObject prototype = levelGenerator.levelDefinition.GetRandomEnemy();
+                if (prototype == null)
+                {
+                    return;
+                }
+
+                BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prototype);
                 enemy.transform.position = levelGenerator.TileCoordinatesToWorldPosition(x, y) + new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileHeight / 2, tileHeight / 2)) + contentOffset;
             }
         }
