@@ -23,14 +23,13 @@ namespace RogueWave
         internal Vector2Int mapSize = new Vector2Int(20, 20);
         [SerializeField, Tooltip("If true then the entire level will be enclosed by a wall.")]
         internal bool encloseLevel = true;
-        [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles."), ShowIf("encloseLevel"), Expandable]
-        internal TileDefinition wallTileDefinition;
 
         [Header("Tile Types")]
-        [SerializeField, Tooltip("The tile to use for empty tiles. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined."), Expandable]
-        internal TileDefinition emptyTileDefinition;
-        [SerializeField, Tooltip("The tile definitions to use for this level/tile. If a tile is defined in the tile constraints but does not appear in this list it will not be used. This allows level definitions to be reused in different ways.")]
-        internal AvailableTile[] availableTiles;
+        [SerializeField, Tooltip("The tile to use for tiles that do not have a valid tile based on their surroundings. In general it shouldn't be used in the level at all. It is here as a fallback in case the level is not well defined."), Expandable]
+        [FormerlySerializedAs("emptyTileDefinition")]
+        internal TileDefinition defaultTileDefinition;
+        [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles."), ShowIf("encloseLevel"), Expandable]
+        internal TileDefinition wallTileDefinition;
 
         [Header("Enemies")]
         [SerializeField, Range(0f, 1f), Tooltip("The chance of an enemy spawning in any given tile. These are only spawned on level creation. They are not spawned while the level is being played. For that you need spawners.")]
@@ -77,34 +76,6 @@ namespace RogueWave
         internal PooledObject GetRandomEnemy()
         {
             return waves[0].GetNextEnemy(); ;
-        }
-    }
-
-    [Serializable]
-    class AvailableTile
-    {
-        [SerializeField, Tooltip("The tile definition for this tile, this describes when and where the tile can be placed."), Expandable]
-        public TileDefinition tile;
-        [SerializeField, Range(0.01f, 1f), Tooltip("The weight to use when selecting this tile. The higher the weight the more likely it is to be selected.")]
-        internal float weight;
-
-        public AvailableTile(TileDefinition tile, float weight)
-        {
-            this.tile = tile;
-            this.weight = weight;
-        }
-
-        internal TileDefinition InstantiateTile()
-        {
-            TileDefinition instance = ScriptableObject.CreateInstance<TileDefinition>();
-            foreach (var field in typeof(TileDefinition).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance))
-            {
-                field.SetValue(instance, field.GetValue(tile));
-            }
-
-            instance.name = tile.name;
-            instance.weight = weight;
-            return instance;
         }
     }
 }

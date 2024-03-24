@@ -190,22 +190,65 @@ namespace RogueWave
                 {
                     if (tiles[x, y] == null)
                     {
-                        List<TileDefinition> candidates = new List<TileDefinition>();
-
-                        foreach (AvailableTile candidate in levelDefinition.availableTiles)
+                        HashSet<TileDefinition> candidates = new HashSet<TileDefinition>();
+                        // Get possible candidates for x positive direction
+                        if (x + 1 < xSize)
                         {
-                            if (IsValidTileFor(x, y, candidate.tile))
+                            TileDefinition neighbour = tiles[x + 1, y]?.tileDefinition;
+                            if (neighbour != null)
                             {
-                                candidates.Add(candidate.InstantiateTile());
-
-                                if (candidates.Count > lowestEntropy)
-                                {
-                                    break;
-                                }
+                                candidates.UnionWith(neighbour.GetTileCandidates(TileDefinition.Direction.XNegative));
+                            }
+                        }
+                        // Get possible candidates for x negative direction
+                        if (x - 1 >= 0)
+                        {
+                            TileDefinition neighbour = tiles[x - 1, y]?.tileDefinition;
+                            if (neighbour != null)
+                            {
+                                candidates.UnionWith(neighbour.GetTileCandidates(TileDefinition.Direction.XPositive));
+                            }
+                        }
+                        // Get possible candidates for y positive direction
+                        if (y + 1 < ySize)
+                        {
+                            TileDefinition neighbour = tiles[x, y + 1]?.tileDefinition;
+                            if (neighbour != null)
+                            {
+                                candidates.UnionWith(neighbour.GetTileCandidates(TileDefinition.Direction.YNegative));
+                            }
+                        }
+                        // Get possible candidates for y negative direction
+                        if (y - 1 >= 0)
+                        {
+                            TileDefinition neighbour = tiles[x, y - 1]?.tileDefinition;
+                            if (neighbour != null)
+                            {
+                                candidates.UnionWith(neighbour.GetTileCandidates(TileDefinition.Direction.YPositive));
                             }
                         }
 
-                        candidatesForTilesYetToCollapse[x, y] = candidates;
+                        Debug.Log($"Tile at ({x}, {y}) has {candidates.Count} possible candidates.");
+
+
+                        // TODO convert this to an exlude list rather than include list
+                        //foreach (AvailableTile candidate in levelDefinition.availableTiles)
+                        //{
+                        //    if (IsValidTileFor(x, y, candidate.tile))
+                        //    {
+                        //        candidates.Add(candidate.InstantiateTile());
+
+                        //        if (candidates.Count > lowestEntropy)
+                        //        {
+                        //            break;
+                        //        }
+                        //    } else
+                        //    {
+                        //          Debug.Log($"Available Tile {candidate.tile.name} is not valid for ({x}, {y})");
+                        //    }
+                        //}
+
+                        candidatesForTilesYetToCollapse[x, y] = candidates.ToList<TileDefinition>();
                         uncollapsedTiles++;
 
                         if (candidatesForTilesYetToCollapse[x, y].Count == 0)
@@ -261,7 +304,7 @@ namespace RogueWave
                 {
                     if (tiles[x, y] == null)
                     {
-                        InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
+                        InstantiateTile(levelDefinition.defaultTileDefinition, x, y);
                     }
                 }
             }
@@ -419,7 +462,7 @@ namespace RogueWave
             if (possibleTiles.Count == 0)
             {
                 Debug.LogWarning($"No valid tile for {x}, {y}. Defaulting to a empty. We shouldn't get to this stage with no candidate.");
-                InstantiateTile(levelDefinition.emptyTileDefinition, x, y);
+                InstantiateTile(levelDefinition.defaultTileDefinition, x, y);
             }
             // if there is only one candidate then we can place that tile
             else if (possibleTiles.Count == 1)
@@ -433,7 +476,57 @@ namespace RogueWave
 
                 foreach (TileDefinition candidate in possibleTiles)
                 {
-                    weights.Add(candidate, candidate.weight);
+                    float weight = 0f;
+                    if (x < xSize - 1)
+                    {
+                        TileDefinition neighbour = tiles[x + 1, y]?.tileDefinition;
+                        if (neighbour != null)
+                        {
+                            TileNeighbour reciprocalNeighbour = neighbour.xNegativeConstraints.Find(neighbour => neighbour.tileDefinition == candidate);
+                            if (reciprocalNeighbour != null)
+                            {
+                                weight += (float)reciprocalNeighbour.constraints.weight;
+                            }
+                        }
+                    }
+                    if (x > 0)
+                    {
+                        TileDefinition neighbour = tiles[x - 1, y]?.tileDefinition;
+                        if (neighbour != null)
+                        {
+                            TileNeighbour reciprocalNeighbour = neighbour.xPositiveConstraints.Find(neighbour => neighbour.tileDefinition == candidate);
+                            if (reciprocalNeighbour != null)
+                            {
+                                weight += (float)reciprocalNeighbour.constraints.weight;
+                            }
+                        }
+                    }
+                    if (y < ySize - 1)
+                    {
+                        TileDefinition neighbour = tiles[x, y + 1]?.tileDefinition;
+                        if (neighbour != null)
+                        {
+                            TileNeighbour reciprocalNeighbour = neighbour.zNegativeConstraints.Find(neighbour => neighbour.tileDefinition == candidate);
+                            if (reciprocalNeighbour != null)
+                            {
+                                weight += (float)reciprocalNeighbour.constraints.weight;
+                            }
+                        }
+                    }
+                    if (y > 0)
+                    {
+                        TileDefinition neighbour = tiles[x, y - 1]?.tileDefinition;
+                        if (neighbour != null)
+                        {
+                            TileNeighbour reciprocalNeighbour = neighbour.zPositiveConstraints.Find(neighbour => neighbour.tileDefinition == candidate);
+                            if (reciprocalNeighbour != null)
+                            {
+                                weight += (float)reciprocalNeighbour.constraints.weight;
+                            }
+                        }
+                    }
+
+                    weights.Add(candidate, weight);
                 }
 
                 InstantiateTile(weights.GetRandom(), x, y);
@@ -446,7 +539,7 @@ namespace RogueWave
             tile.name = $"{tileDefinition.name} ({x}. {y})";
             tile.transform.localPosition = TileCoordinatesToLocalPosition(x, y);
             
-            // Debug.Log($"Instantiating tile of type {tile.tileDefinition} at ({x}, {y}) of {root}");
+            //Debug.Log($"Instantiating tile of type {tile.tileDefinition} at ({x}, {y}) of {root}");
 
             tiles[x, y] = tile;
         }

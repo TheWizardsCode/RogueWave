@@ -35,8 +35,6 @@ namespace RogueWave
         [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
         internal List<TileNeighbour> zNegativeConstraints = new List<TileNeighbour>();
 
-        internal float weight { get; set; }
-
         internal BaseTile GetTileObject(Transform root)
         {
             GameObject go = Instantiate(tilePrefab.gameObject, root);
@@ -104,6 +102,13 @@ namespace RogueWave
 
 #if UNITY_EDITOR
         [Button]
+        private void ClearAllExceptXDirection()
+        {
+            xNegativeConstraints.Clear();
+            zPositiveConstraints.Clear();
+            zNegativeConstraints.Clear();
+        }
+        [Button]
         private void CopyXPositiveToEmptyConstraints()
         {
             if (xNegativeConstraints.Count == 0)
@@ -142,7 +147,14 @@ namespace RogueWave
             "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the top right of the allowed areas for this tile will be at (10, 0, 10).")]
         internal Vector3 topRightBoundary = Vector3.one;
         [SerializeField, Range(0.01f, 1f), Tooltip("The liklihood of this tile definition being selected. If a random number is <= this value and other constraints match then this will be a candidate.")]
-        internal float weight = 0.8f;
+        internal float weight = 0.5f;
+
+        internal TileConstraint()
+        {
+            bottomLeftBoundary = Vector3.zero;
+            topRightBoundary = Vector3.one;
+            weight = 0.5f;
+        }
 
         internal bool IsValidLocatoin(Vector3Int tileCoords, int xSize, int ySize)
         {
