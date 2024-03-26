@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.ModularFirearms;
+using NeoFPS.SinglePlayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -175,7 +176,7 @@ namespace RogueWave
 
         private void Update()
         {
-            if (isBuilding)
+            if (isBuilding || !FpsSoloCharacter.localPlayerCharacter.isAlive)
             {
                 return;
             }

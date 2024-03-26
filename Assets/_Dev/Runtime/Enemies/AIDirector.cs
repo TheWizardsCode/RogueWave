@@ -1,7 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
