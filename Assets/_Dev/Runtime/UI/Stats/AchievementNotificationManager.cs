@@ -16,9 +16,14 @@ namespace WizardsCode.GameStats
         Queue<AchievementNotification> notificationsQueue = new Queue<AchievementNotification>();
         AchievementNotification currentNotification;
 
-        private void Start()
+        private void Enable()
         {
             GameStatsManager.OnAchievementUnlocked += OnAchievementUnlocked;
+        }
+
+        private void OnDisable()
+        {
+            GameStatsManager.OnAchievementUnlocked -= OnAchievementUnlocked;
         }
 
         private void OnAchievementUnlocked(Achievement achievement)
