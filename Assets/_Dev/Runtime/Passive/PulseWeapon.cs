@@ -3,22 +3,12 @@ using NeoFPS;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RogueWave
 {
     public class PulseWeapon : PassiveWeapon
     {
-        [Header("Damage")]
-        [SerializeField, Tooltip("The maximum area of the damage.")]
-        float radius = 20f;
-        [SerializeField, Tooltip("The damage applied to each enemy within the area of effect, each time the weapon fires.")]
-        float damage = 50f;
-        [SerializeField, Layer, Tooltip("The layers that the weapon will damage.")]
-        int layers;
-
-        [Header("Visuals")]
-        [SerializeField, Tooltip("The model to display when the weapon is active.")]
-        GameObject model;
 
         MeshRenderer[] modelRenderers;
 
@@ -45,7 +35,7 @@ namespace RogueWave
         IEnumerator Pulse() {
             float duration = m_Cooldown / 2;
             float timer = 0;
-            float height = radius;
+            float height = range;
             model.transform.localScale = Vector3.zero;
 
             foreach (MeshRenderer renderer in modelRenderers)
@@ -57,7 +47,7 @@ namespace RogueWave
 
             bool originalQueriesHitTriggers = Physics.queriesHitTriggers;
             Physics.queriesHitTriggers = false;
-            int count = Physics.OverlapSphereNonAlloc(transform.position, radius, colliders, layerMask);
+            int count = Physics.OverlapSphereNonAlloc(transform.position, range, colliders, layerMask);
             Physics.queriesHitTriggers = originalQueriesHitTriggers;
 
             yield return null;
@@ -77,7 +67,7 @@ namespace RogueWave
                     i++;
                 }
 
-                float scale = Mathf.Lerp(1, radius, timer / duration);
+                float scale = Mathf.Lerp(1, range, timer / duration);
                 model.transform.localScale = new Vector3(scale, height, scale);
 
                 timer += Time.deltaTime;
@@ -96,7 +86,7 @@ namespace RogueWave
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(transform.position, radius);
+            Gizmos.DrawWireSphere(transform.position, range);
         }   
     }
 }

@@ -1,7 +1,9 @@
+using NaughtyAttributes;
 using NeoFPS.ModularFirearms;
 using NeoFPS.WieldableTools;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace RogueWave
 {
@@ -10,6 +12,19 @@ namespace RogueWave
     /// </summary>
     public class PassiveWeapon : MonoBehaviour
     {
+        [Header("Damage")]
+        [SerializeField, Tooltip("The maximum area of the damage.")]
+        [FormerlySerializedAs("radius")]
+        internal float range = 20f;
+        [SerializeField, Tooltip("The damage applied to each enemy within the area of effect, each time the weapon fires.")]
+        internal float damage = 50f;
+        [SerializeField, Layer, Tooltip("The layers that the weapon will damage.")]
+        internal int layers;
+
+        [Header("Visuals")]
+        [SerializeField, Tooltip("The model to display when the weapon is active.")]
+        internal GameObject model;
+
         [SerializeField, Tooltip("Cooldown between trigger pulls, in game seconds.")]
         internal float m_Cooldown = 5f;
 
