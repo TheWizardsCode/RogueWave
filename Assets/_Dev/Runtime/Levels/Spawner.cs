@@ -1,9 +1,9 @@
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
-using NeoSaveGames;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -58,7 +58,6 @@ namespace RogueWave
 
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
         List<ShieldGenerator> shieldGenerators = new List<ShieldGenerator>();
-        BasicHealthManager healthManager;
 
         private class ShieldGenerator
         {
@@ -93,13 +92,27 @@ namespace RogueWave
 
         private void Awake()
         {
-            gameMode = FindObjectOfType<RogueWaveGameMode>();
             audioSource = GetComponent<AudioSource>();
-            healthManager = GetComponent<BasicHealthManager>();
+
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
+            gameMode.RegisterSpawner(this);
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
 
             healthManager.onIsAliveChanged += OnAliveIsChanged;
+        }
 
-            gameMode.RegisterSpawner(this);
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            StopAllCoroutines();
+            healthManager.onIsAliveChanged -= OnAliveIsChanged;
+
+            onSpawnerDestroyed?.Invoke(this);
         }
 
         private void Update()
@@ -149,14 +162,6 @@ namespace RogueWave
             }
 
             activeRangeSqr = activeRange * activeRange;
-        }
-
-        private void OnDisable()
-        {
-            StopAllCoroutines();
-            healthManager.onIsAliveChanged -= OnAliveIsChanged;
-
-            onSpawnerDestroyed?.Invoke(this);
         }
 
         void RegisterShieldGenerator(IHealthManager h)

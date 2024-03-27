@@ -73,6 +73,7 @@ namespace RogueWave
         {
             gameMode = FindObjectOfType<RogueWaveGameMode>();
             gameMode.onSpawnerCreated.AddListener(OnSpawnerCreated);
+            gameMode.onEnemySpawned.AddListener(OnEnemySpawned);
         }
 
         private void Update()
@@ -125,11 +126,26 @@ namespace RogueWave
             }
         }
 
+        private void OnDestroy()
+        {
+            gameMode.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
+            gameMode.onEnemySpawned.RemoveListener(OnEnemySpawned);
+
+            foreach (Spawner spawner in spawners)
+            {
+                spawner.onSpawnerDestroyed.RemoveListener(OnSpawnerDestroyed);
+            }
+
+            foreach (BasicEnemyController enemy in enemies)
+            {
+                enemy.onDeath.RemoveListener(OnEnemyDeath);
+            }
+        }
+
         private void OnSpawnerCreated(Spawner spawner)
         {
             spawners.Add(spawner);
             spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
-            spawner.onEnemySpawned.AddListener(OnEnemySpawned);
         }
 
         private void OnSpawnerDestroyed(Spawner spawner)
@@ -147,6 +163,7 @@ namespace RogueWave
         private void OnEnemyDeath(BasicEnemyController enemy)
         {
             killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = enemy.challengeRating, enemyName = enemy.name, location = enemy.transform.position });
+            enemy.onDeath.RemoveListener(OnEnemyDeath);
             enemies.Remove(enemy);
         }
 

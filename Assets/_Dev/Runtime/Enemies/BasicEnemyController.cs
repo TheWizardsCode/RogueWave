@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
+using NeoSaveGames;
 using System;
 using System.Linq;
 using UnityEngine;
@@ -231,11 +232,12 @@ namespace RogueWave
         Vector3 wanderDestination = Vector3.zero;
         float timeOfNextWanderPositionChange = 0;
         private bool underOrders;
-        private BasicHealthManager healthManager;
+        internal BasicHealthManager healthManager;
         private float sqrSeekDistance;
         private PooledObject pooledObject;
         private bool isRecharging;
         private bool fromPool;
+        private RogueWaveGameMode gameMode;
 
         private void Awake()
         {
@@ -256,11 +258,12 @@ namespace RogueWave
         }
 
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
-            if (enemySpawnedStat != null && fromPool)
+            if (enemySpawnedStat != null && fromPool) // note that if the enemy is not pooled this means it is not counted. Handy for Spawners, but beware if you add other non-pooled enemies.
             {
                 enemySpawnedStat.Increment();
+                gameMode.RegisterEnemy(this);
             } 
             else
             {
@@ -272,9 +275,11 @@ namespace RogueWave
             {
                 healthManager.onIsAliveChanged += OnAliveIsChanged;
             }
+
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (healthManager != null)
             {
