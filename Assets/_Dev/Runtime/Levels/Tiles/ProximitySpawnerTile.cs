@@ -17,7 +17,6 @@ namespace RogueWave
             Spawner spawner = Instantiate(spawnerPrefab, building);
             spawner.spawnRadius = 2;
             spawner.transform.localPosition = new Vector3(0, 1.5f, 0);
-            spawner.GetComponent<IHealthManager>().onIsAliveChanged += spawner.OnAliveIsChanged;
         }
     }
 }

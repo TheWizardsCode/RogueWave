@@ -274,6 +274,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: Proximity Spawner
+  description: A small spawner that operates when the player is nearby.
+  challengeRating: 2
+  requireLineOfSight: 0
+  viewDistance: 30
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 0
+  sensor: {fileID: 0}
+  head: {fileID: 0}
+  headRotationSpeed: 2
+  maxHeadRotation: 75
+  isMobile: 0
+  minSpeed: 4
+  maxSpeed: 6
+  rotationSpeed: 1
+  minimumHeight: 0.5
+  maximumHeight: 75
+  optimalDistanceFromPlayer: 0.2
+  obstacleAvoidanceDistance: 2
+  seekDuration: 7
+  seekDistance: 30
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 20
+  explosionForceOnDeath: 15
+  resourcesDropChance: 0.5
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  enemySpawnedStat: {fileID: 0}
+  enemyKillsStat: {fileID: 0}
+  isDebug: 0
+  includeInShowcase: 1
+  isBossSpawner: 0
   activeRange: 15
   useLevelDefinition: 1
   levelDefinition: {fileID: 11400000, guid: cf6d5deadf17029458bd608468ddd2e9, type: 2}

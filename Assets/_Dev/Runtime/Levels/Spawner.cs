@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
+using NeoSaveGames;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,9 +10,11 @@ using UnityEngine.Events;
 namespace RogueWave
 {
     [RequireComponent(typeof(AudioSource))]
-    public class Spawner : MonoBehaviour
+    public class Spawner : BasicEnemyController
     {
         [Header("Spawn Behaviours")]
+        [SerializeField, Tooltip("If this is set to true then this is a boss spawner. Boss spawners must all be destroyed before the level can be completed.")]
+        internal bool isBossSpawner = false;
         [SerializeField, Tooltip("Distance to player for this spawner to be activated. If this is set to 0 then it will always be active, if >0 then the spawner will only be active when the player is within this many units. If the player moves further away then the spawner will pause.")]
         float activeRange = 0;
         [SerializeField, Tooltip("If true then the spawner will use the level definition defined in the Game Mode to determine the waves to spawn. If false then the spawner will spawn according to the wave definition below.")]
@@ -47,7 +50,7 @@ namespace RogueWave
 
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
-        public UnityEvent<Spawner> onDestroyed;
+        public UnityEvent<Spawner> onSpawnerDestroyed;
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned.")]
         public UnityEvent<BasicEnemyController> onEnemySpawned;
         [SerializeField, Tooltip("The event to trigger when all waves are complete.")]
@@ -55,6 +58,7 @@ namespace RogueWave
 
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
         List<ShieldGenerator> shieldGenerators = new List<ShieldGenerator>();
+        BasicHealthManager healthManager;
 
         private class ShieldGenerator
         {
@@ -85,11 +89,17 @@ namespace RogueWave
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
         private AudioSource audioSource;
-        private RogueWaveGameMode m_GameMode;
+        private RogueWaveGameMode gameMode;
 
         private void Awake()
         {
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
             audioSource = GetComponent<AudioSource>();
+            healthManager = GetComponent<BasicHealthManager>();
+
+            healthManager.onIsAliveChanged += OnAliveIsChanged;
+
+            gameMode.RegisterSpawner(this);
         }
 
         private void Update()
@@ -141,16 +151,12 @@ namespace RogueWave
             activeRangeSqr = activeRange * activeRange;
         }
 
-        private void OnEnable()
-        {
-            m_GameMode = GameObject.FindObjectOfType<RogueWaveGameMode>();
-        }
-
         private void OnDisable()
         {
             StopAllCoroutines();
+            healthManager.onIsAliveChanged -= OnAliveIsChanged;
 
-            onDestroyed?.Invoke(this);
+            onSpawnerDestroyed?.Invoke(this);
         }
 
         void RegisterShieldGenerator(IHealthManager h)
@@ -252,7 +258,7 @@ namespace RogueWave
         {
             while (FpsSoloCharacter.localPlayerCharacter == null || currentLevel == null)
             {
-                currentLevel = m_GameMode.currentLevelDefinition;
+                currentLevel = gameMode.currentLevelDefinition;
                 yield return null;
             }
 

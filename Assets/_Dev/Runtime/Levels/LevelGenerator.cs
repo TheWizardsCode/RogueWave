@@ -12,10 +12,6 @@ namespace RogueWave
 {
     public class LevelGenerator : MonoBehaviour
     {
-        [Header("Events")]
-        [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
-        public UnityEvent<Spawner> onSpawnerCreated;
-
         internal Transform root;
         internal WfcDefinition levelDefinition;
         BaseTile[,] tiles;
@@ -177,11 +173,6 @@ namespace RogueWave
                     if (tiles[x, y] != null)
                     {
                         tiles[x, y].Generate(x, y, tiles, this);
-
-                        if (tiles[x, y] is SpawnerTile)
-                        {
-                            onSpawnerCreated.Invoke(tiles[x, y].GetComponentInChildren<Spawner>());
-                        }
                     }
                 }
             }

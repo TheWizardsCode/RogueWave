@@ -238,10 +238,8 @@ GameObject:
   - component: {fileID: 6134286060280689273}
   - component: {fileID: 6576056135945926902}
   - component: {fileID: 2142438204395784425}
-  - component: {fileID: 8863506516404993791}
   - component: {fileID: 4880692556491869283}
   - component: {fileID: 8691472257596452135}
-  - component: {fileID: -4364597518624483476}
   m_Layer: 31
   m_Name: Spawner Basic Level 3 Shielded
   m_TagString: AI
@@ -278,6 +276,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: Shielded Spawner
+  description: Creates enemies to track you down and destroy you.
+  challengeRating: 3
+  requireLineOfSight: 0
+  viewDistance: 30
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 0
+  sensor: {fileID: 0}
+  head: {fileID: 0}
+  headRotationSpeed: 2
+  maxHeadRotation: 75
+  isMobile: 0
+  minSpeed: 4
+  maxSpeed: 6
+  rotationSpeed: 1
+  minimumHeight: 0.5
+  maximumHeight: 75
+  optimalDistanceFromPlayer: 0.2
+  obstacleAvoidanceDistance: 2
+  seekDuration: 7
+  seekDistance: 30
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 15
+  explosionDamageOnDeath: 30
+  explosionForceOnDeath: 25
+  resourcesDropChance: 0.7
+  resourcesPrefab: {fileID: 8288433013401571843, guid: caf9459c819d25843b1b923efddbb709, type: 3}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  enemySpawnedStat: {fileID: 0}
+  enemyKillsStat: {fileID: 0}
+  isDebug: 0
+  includeInShowcase: 1
+  isBossSpawner: 1
   activeRange: 0
   useLevelDefinition: 1
   levelDefinition: {fileID: 0}
@@ -321,66 +358,7 @@ MonoBehaviour:
       m_Calls: []
   m_OnIsAliveChanged:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 8863506516404993791}
-        m_TargetAssemblyTypeName: Playground.BasicEnemyController, playground
-        m_MethodName: OnAliveIsChanged
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
---- !u!114 &8863506516404993791
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299311784649714057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 735e4c1315dedbc4a869e8dc7e67a4e4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  displayName: Shielded Spawner
-  description: Creates enemies to track you down and destroy you.
-  challengeRating: 3
-  requireLineOfSight: 0
-  viewDistance: 30
-  sensorMask:
-    serializedVersion: 2
-    m_Bits: 0
-  sensor: {fileID: 0}
-  isMobile: 0
-  minSpeed: 4
-  maxSpeed: 6
-  rotationSpeed: 0
-  minimumHeight: 5
-  maximumHeight: 25
-  optimalDistanceFromPlayer: 25
-  obstacleAvoidanceDistance: 2
-  seekDuration: 7
-  seekDistance: 30
-  shouldExplodeOnDeath: 1
-  deathExplosionRadius: 15
-  explosionDamageOnDeath: 30
-  explosionForceOnDeath: 25
-  resourcesDropChance: 0.7
-  resourcesPrefab: {fileID: 8288433013401571843, guid: caf9459c819d25843b1b923efddbb709, type: 3}
-  onDeath:
-    m_PersistentCalls:
       m_Calls: []
-  onDestroyed:
-    m_PersistentCalls:
-      m_Calls: []
-  enemySpawnedStat: {fileID: 11400000, guid: f7ba2303ecb37cf42822c8034fc5db2c, type: 2}
-  enemyKillsStat: {fileID: 11400000, guid: cad908daa7c443e489d72947ed5124d8, type: 2}
-  isDebug: 0
-  includeInShowcase: 0
 --- !u!82 &4880692556491869283
 AudioSource:
   m_ObjectHideFlags: 0
@@ -495,18 +473,6 @@ MonoBehaviour:
   juiceOffset: {x: 0, y: 0, z: 0}
   deathClips:
   - {fileID: 8300000, guid: 29b8716f1852f9b41adc80f3fa1e206b, type: 3}
---- !u!114 &-4364597518624483476
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299311784649714057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8487198492372542588
 GameObject:
   m_ObjectHideFlags: 0
