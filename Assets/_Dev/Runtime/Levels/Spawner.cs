@@ -294,20 +294,22 @@ namespace RogueWave
             }
         }
 
-        private void SpawnEnemy()
+        internal BasicEnemyController SpawnEnemy()
         {
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
             PooledObject prefab = currentWave.GetNextEnemy();
             if (prefab == null)
             {
                 Debug.LogError("No enemy prefab found in wave definition.");
-                return;
+                return null;
             }
             BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prefab, spawnPosition, Quaternion.identity);
             enemy.onDeath.AddListener(OnEnemyDeath);
 
             spawnedEnemies.Add(enemy);
             onEnemySpawned?.Invoke(enemy);
+
+            return enemy;
         }
 
         private void OnEnemyDeath(BasicEnemyController enemy)
@@ -351,7 +353,7 @@ namespace RogueWave
         }
 
         /// <summary>
-        /// The spawner will attempt to spawn the given scanner prefab.
+        /// The spawner will attempt to spawn the given enemy prefab.
         /// </summary>
         /// <param name="scannerPrefab"></param>
         internal void RequestSpawn(BasicEnemyController enemyPrefab)

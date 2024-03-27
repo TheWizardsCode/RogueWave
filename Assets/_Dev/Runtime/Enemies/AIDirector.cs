@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
 using System.Collections.Generic;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
@@ -24,6 +25,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The target kill score, which is the total challenge rating of all the enemies killed in the last `timeSlice`, divided by the `timeslice`. " +
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player.")]
         float targetKillScore = 0.3f;
+        [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player.")]
+        float difficultyMultiplier = 6.0f;
 
         [Header("Squads")]
 
@@ -104,11 +107,12 @@ namespace RogueWave
                     Debug.Log($"AIDirector: CurrentKillScore is {currentKillscore}, targetKillScore is {targetKillScore}");
                 }
 #endif
+                float difficultyChallengeRating = (RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier;
                 if (enemies.Count > 0 && currentKillscore < targetKillScore)
                 {
                     totalChallengeRating = 0;
                     int orderedEnemies = 0;
-                    while (orderedEnemies < enemies.Count && totalChallengeRating < (RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * 10)
+                    while (orderedEnemies < enemies.Count && totalChallengeRating < difficultyChallengeRating)
                     {
                         orderedEnemies++;
                         BasicEnemyController randomEnemy = enemies[Random.Range(0, enemies.Count)];
@@ -121,8 +125,39 @@ namespace RogueWave
                         Debug.Log($"AIDirector: Sent {orderedEnemies} of {enemies.Count} enemies with a total challenge rating of {totalChallengeRating} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                     }
 #endif
-
                 }
+
+                Spawner[] nearestSpawners = null;
+                if (spawners.Count > 3) {
+                    nearestSpawners = new Spawner[3];
+                    List<Spawner> sortedSpawners = new List<Spawner>(spawners);
+                    sortedSpawners.Sort((a, b) => Vector3.Distance(a.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position).CompareTo(Vector3.Distance(b.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position)));
+                    for (int i = 0; i < 3; i++)
+                    {
+                        nearestSpawners[i] = sortedSpawners[i];
+                    }
+                }
+                else if (spawners.Count > 0)
+                {
+                    nearestSpawners = spawners.ToArray();
+                } 
+                else
+                {
+                    return;
+                }
+
+                totalChallengeRating = 0;
+                while (totalChallengeRating < difficultyChallengeRating / 2)
+                {
+                    BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy();
+                    totalChallengeRating += randomEnemy.challengeRating;
+                }
+#if UNITY_EDITOR
+                if (isDebug)
+                {
+                    Debug.Log($"AIDirector: Spawned an additional enemies with a total challenge rating of {totalChallengeRating} from spawners near the player.");
+                }
+#endif
             }
         }
 
