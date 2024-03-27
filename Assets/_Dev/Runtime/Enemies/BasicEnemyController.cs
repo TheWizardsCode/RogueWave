@@ -79,7 +79,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
         internal ResourcesPickup resourcesPrefab;
 
-        [Header("Events")]
+        [Header("Core Events")]
         [SerializeField, Tooltip("The event to trigger when this enemy dies."), Foldout("Events")]
         public UnityEvent<BasicEnemyController> onDeath;
         [SerializeField, Tooltip("The event to trigger when this enemy is destroyed."), Foldout("Events")]
@@ -233,12 +233,14 @@ namespace RogueWave
         private bool underOrders;
         private BasicHealthManager healthManager;
         private float sqrSeekDistance;
+        private PooledObject pooledObject;
         private bool isRecharging;
         private bool fromPool;
 
         private void Awake()
         {
             sqrSeekDistance = seekDistance * seekDistance;
+            pooledObject = GetComponent<PooledObject>();
 
 #if ! UNITY_EDITOR
             isDebug = false;
@@ -591,7 +593,14 @@ namespace RogueWave
             }
 
             // OPTIMIZATION: cache PooledObject reference
-            GetComponent<PooledObject>().ReturnToPool();
+            if (pooledObject != null)
+            {
+                pooledObject.ReturnToPool();
+            } else
+            {
+                Destroy(gameObject);
+            }
+            
         }
 
         /// <summary>

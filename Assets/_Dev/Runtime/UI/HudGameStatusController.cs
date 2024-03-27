@@ -33,25 +33,38 @@ namespace RogueWave
             gameMode = FindObjectOfType<RogueWaveGameMode>();
             if (gameMode != null)
             {
-                gameMode.levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
+                gameMode.onSpawnerCreated.AddListener(OnSpawnerCreated);
             }
+        }
+
+        private void OnDisable()
+        {
+            gameMode.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
         }
 
         private void OnSpawnerCreated(Spawner spawner)
         {
-            spawnersCount++;
+            if (spawner.isBossSpawner)
+            {
+                spawnersCount++;
+            }
+
             if (m_SpawnersText != null)
             {
                 m_SpawnersText.text = spawnersCount.ToString();
             }
 
-            spawner.onDestroyed.AddListener(OnSpawnerDestroyed);
+            spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
             spawner.onEnemySpawned.AddListener(OnEnemySpawned);
         }
 
         private void OnSpawnerDestroyed(Spawner spawner)
         {
-            spawnersCount--;
+            if (spawner.isBossSpawner)
+            {
+                spawnersCount--;
+            }
+
             if (m_SpawnersText != null)
             {
                 m_SpawnersText.text = spawnersCount.ToString();

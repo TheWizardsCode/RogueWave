@@ -40,6 +40,7 @@ namespace RogueWave
         float timeOfNextTimeSlice = 0;
         float currentKillscore = 0; // the current value of the total challenge rating of enemies killed in the last timeSlice
         private BasicEnemyController enemyController;
+        private RogueWaveGameMode gameMode;
 
         /// <summary>
         /// Returns the suspected location of the player based on the reports made by the enemies.
@@ -70,7 +71,8 @@ namespace RogueWave
 
         protected void Awake()
         {
-            levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
+            gameMode.onSpawnerCreated.AddListener(OnSpawnerCreated);
         }
 
         private void Update()
@@ -126,15 +128,14 @@ namespace RogueWave
         private void OnSpawnerCreated(Spawner spawner)
         {
             spawners.Add(spawner);
-            spawner.onDestroyed.AddListener(OnSpawnerDestroyed);
+            spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
             spawner.onEnemySpawned.AddListener(OnEnemySpawned);
         }
 
         private void OnSpawnerDestroyed(Spawner spawner)
         {
             spawners.Remove(spawner);
-            // OPTIMIZATION: don't use getcomponent here
-            killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = spawner.GetComponent<BasicEnemyController>().challengeRating, enemyName = spawner.name, location = spawner.transform.position });
+            killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = spawner.challengeRating, enemyName = spawner.name, location = spawner.transform.position });
         }
 
         private void OnEnemySpawned(BasicEnemyController enemy)

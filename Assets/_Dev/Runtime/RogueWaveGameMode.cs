@@ -12,6 +12,8 @@ using RogueWave.UI;
 using Steamworks;
 using WizardsCode.GameStats;
 using Codice.Client.BaseCommands;
+using System;
+using System.Collections.Generic;
 
 namespace RogueWave
 {
@@ -42,12 +44,16 @@ namespace RogueWave
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The time player stat for recording how long a player has been inside runs.")]
         private GameStat m_TimePlayedStat;
 
+        [Header("Events")]
+        [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
+        public UnityEvent<Spawner> onSpawnerCreated;
+
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
 
         LevelProgressBar levelProgressBar;
 
-        private int spawnersRemaining = 0;
+        private int bossSpawnersRemaining = 0;
         private float timeInLevel;
 
         LevelGenerator _levelGenerator;
@@ -61,10 +67,6 @@ namespace RogueWave
             }
             private set
             {
-                if (_levelGenerator != null && _levelGenerator != value)
-                {
-                    _levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
-                }
                 _levelGenerator = value;
             }
         }
@@ -83,7 +85,6 @@ namespace RogueWave
         protected override void Awake()
         {
             levelGenerator = GetComponentInChildren<LevelGenerator>();
-            levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
 
             levelProgressBar = FindObjectOfType<LevelProgressBar>(true);
             if (levelProgressBar == null)
@@ -96,8 +97,6 @@ namespace RogueWave
 
         protected override void OnDestroy()
         {
-            levelGenerator.onSpawnerCreated.RemoveAllListeners();
-
             base.OnDestroy();
         }
 
@@ -122,8 +121,8 @@ namespace RogueWave
 
         internal void OnSpawnerCreated(Spawner spawner)
         {
-            spawnersRemaining++;
-            spawner.onDestroyed.AddListener(OnSpawnerDestroyed);
+            bossSpawnersRemaining++;
+            spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
         }
 
         internal void OnSpawnerDestroyed(Spawner spawner)
@@ -133,9 +132,15 @@ namespace RogueWave
                 return;
             }
 
-            spawnersRemaining--;
+            spawner.onSpawnerDestroyed.RemoveListener(OnSpawnerDestroyed);
+            spawners.Remove(spawner);
 
-            if (!_isDebug && spawnersRemaining == 0 && m_VictoryCoroutine == null)
+            if (spawner.isBossSpawner)
+            {
+                bossSpawnersRemaining--;
+            }
+
+            if (bossSpawnersRemaining == 0 && m_VictoryCoroutine == null)
             {
                 m_VictoryCoroutine = StartCoroutine(DelayedVictoryCoroutine(m_VictoryDuration));
             }
@@ -261,6 +266,7 @@ namespace RogueWave
         [SerializeField, HideInInspector]
         private LoadoutBuilderData m_LoadoutBuilder = new LoadoutBuilderData();
         private float startTime;
+        private List<Spawner> spawners = new List<Spawner>();
 
         public int numLoadoutBuilderSlots
         {
@@ -441,6 +447,24 @@ namespace RogueWave
             }
 
             return base.PreSpawnStep();
+        }
+
+        internal void RegisterSpawner(Spawner spawner)
+        {
+            if (spawners.Contains(spawner))
+            {
+                return;
+            }
+
+            if (spawner.isBossSpawner)
+            {
+                bossSpawnersRemaining++;
+            }
+
+            spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
+
+            spawners.Add(spawner);
+            onSpawnerCreated?.Invoke(spawner);
         }
 
         #endregion

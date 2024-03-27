@@ -79,6 +79,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   sensor: {fileID: 0}
+  head: {fileID: 0}
+  headRotationSpeed: 2
+  maxHeadRotation: 75
   isMobile: 0
   minSpeed: 4
   maxSpeed: 6
@@ -93,8 +96,8 @@ MonoBehaviour:
   deathExplosionRadius: 5
   explosionDamageOnDeath: 10
   explosionForceOnDeath: 7
-  resourcesDropChance: 0
-  resourcesPrefab: {fileID: 0}
+  resourcesDropChance: 0.5
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -117,6 +120,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 1
 --- !u!1 &3351190687941056451
 GameObject:
   m_ObjectHideFlags: 0
