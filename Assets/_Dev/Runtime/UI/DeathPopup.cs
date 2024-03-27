@@ -17,23 +17,38 @@ namespace RogueWave.UI
         private CanvasGroup canvasGroup = null;
         private ICharacter character = null;
         private float originalVolume;
+        private bool inVictoryRoutine;
 
         protected override void Awake()
         {
             base.Awake();
             canvasGroup = GetComponent<CanvasGroup>();
             canvasGroup.alpha = 0f;
+            inVictoryRoutine = false;
+        }
+
+        private void OnEnable()
+        {
+            RogueWaveGameMode.onVictory += OnVictory;
+            inVictoryRoutine = false;
         }
 
         protected override void OnDestroy()
         {
             base.OnDestroy();
 
+            RogueWaveGameMode.onVictory -= OnVictory;
+
             if (character != null)
                 character.onIsAliveChanged -= OnIsAliveChanged;
 
             NeoFpsAudioManager.masterGroup.audioMixer.SetFloat("MasterVolume", originalVolume);
             NeoFpsAudioManager.masterGroup.audioMixer.SetFloat("LowPassCutoff",22000f);
+        }
+
+        private void OnVictory()
+        {
+            inVictoryRoutine = true;
         }
 
         public override void OnPlayerCharacterChanged(ICharacter character)
@@ -54,7 +69,7 @@ namespace RogueWave.UI
 
         void OnIsAliveChanged(ICharacter character, bool alive)
         {
-            if (alive)
+            if (inVictoryRoutine || alive)
             {
                 return;
             }

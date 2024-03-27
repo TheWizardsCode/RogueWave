@@ -140,6 +140,23 @@ namespace RogueWave
 
         private float timeOfNextBuiild = 0;
         private bool isBuilding;
+        private bool inVictoryRoutine;
+
+        private void OnEnable()
+        {
+            RogueWaveGameMode.onVictory += OnVictory;
+            inVictoryRoutine = false;
+        }
+
+        private void OnDestroy()
+        {
+            RogueWaveGameMode.onVictory -= OnVictory;
+        }
+
+        private void OnVictory()
+        {
+            inVictoryRoutine = true;
+        }
 
         private void Start()
         {
@@ -176,7 +193,7 @@ namespace RogueWave
 
         private void Update()
         {
-            if (isBuilding || !FpsSoloCharacter.localPlayerCharacter.isAlive)
+            if (inVictoryRoutine || isBuilding || !FpsSoloCharacter.localPlayerCharacter.isAlive)
             {
                 return;
             }

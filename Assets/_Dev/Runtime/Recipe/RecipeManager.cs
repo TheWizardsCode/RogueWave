@@ -150,7 +150,7 @@ namespace RogueWave
                 if (RogueLiteManager.persistentData.currentResources < recipe.BuyCost)
                 {
 #if UNITY_EDITOR
-                    Debug.Log($"Skip: {recipe} is too expensive for the player at a cost of {recipe.BuyCost}.");
+                    //Debug.Log($"Skip: {recipe} is too expensive for the player at a cost of {recipe.BuyCost}.");
 #endif
                     continue;
                 }
@@ -158,7 +158,7 @@ namespace RogueWave
                 if (RogueLiteManager.persistentData.currentNanobotLevel < recipe.Level)
                 {
 #if UNITY_EDITOR
-                    Debug.Log($"Skip: {recipe} level of {recipe.Level} is higher than the current nanobot level of {RogueLiteManager.persistentData.currentNanobotLevel}.");
+                    //Debug.Log($"Skip: {recipe} level of {recipe.Level} is higher than the current nanobot level of {RogueLiteManager.persistentData.currentNanobotLevel}.");
 #endif
                     continue;
                 }
@@ -166,7 +166,7 @@ namespace RogueWave
                 if (recipe is not T)
                 {
 #if UNITY_EDITOR
-                    Debug.Log($"Skip: {recipe} is not of type {typeof(T)}.");
+                    //Debug.Log($"Skip: {recipe} is not of type {typeof(T)}.");
 #endif
                     continue;
                 } 
@@ -174,13 +174,13 @@ namespace RogueWave
                 if (recipe.CanOffer == false)
                 {
 #if UNITY_EDITOR
-                    Debug.Log($"Skip: {recipe} is not available for offer.");
+                    //Debug.Log($"Skip: {recipe} is not available for offer.");
 #endif
                     continue;
                 }
 
 #if UNITY_EDITOR
-                Debug.Log($"Offer candidate: {recipe}, cost is {recipe.BuyCost} and weight is {recipe.weight}.");
+                //Debug.Log($"Offer candidate: {recipe}, cost is {recipe.BuyCost} and weight is {recipe.weight}.");
 #endif
 
                 candidates.Add((T)recipe);
@@ -192,7 +192,7 @@ namespace RogueWave
             {
                 listOfCandidates += $"\t{candidate} with weight {candidate.weight} and cost of {candidate.BuyCost}.\n";
             }
-            Debug.Log($"Offer candidates: {candidates.Count}\n{listOfCandidates}");
+            //Debug.Log($"Offer candidates: {candidates.Count}\n{listOfCandidates}");
 #endif
             return candidates;
         }
