@@ -40,6 +40,8 @@ AudioMixerController:
     name: EffectsVolume
   - guid: cab5056e62d834942b3ad1677e991323
     name: MasterVolume
+  - guid: 889c9a73dfc55184492fd832b030e487
+    name: LowPassCutoff
   - guid: 45be6d47b81fcf34b80616984ea1be84
     name: MusicVolume
   m_AudioMixerGroupViews:
@@ -100,8 +102,10 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 013cb8767b96277418982160171648cf
   m_FloatValues:
+    889c9a73dfc55184492fd832b030e487: 22000
     45be6d47b81fcf34b80616984ea1be84: -17.938717
     e7d61c9cfa965d0438829f09570c3607: 0
+    1399e04e802bd3b48b956bafcee905f3: 1
     cab5056e62d834942b3ad1677e991323: 0.23288241
   m_TransitionOverrides: {}
 --- !u!243 &243059815924327020

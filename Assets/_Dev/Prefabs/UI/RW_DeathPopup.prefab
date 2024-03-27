@@ -65,7 +65,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300da57a903e76743977e79e9f6236f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeDuration: 0.5
+  fadeDuration: 1.5
+  deathPopupClip:
+  - {fileID: 8300000, guid: f7316f096add84a4cb165dffd85fabe1, type: 3}
+  - {fileID: 8300000, guid: 990056631b1a5ae45affd2ed51a48af7, type: 3}
+  - {fileID: 8300000, guid: 8d8914cec4ab83d458057b9af9572962, type: 3}
+  - {fileID: 8300000, guid: a5d6af5deab848c4598ac97f241355d3, type: 3}
+  - {fileID: 8300000, guid: 072caf6b45b4f4d4bbdbbc97aa3d7121, type: 3}
+  - {fileID: 8300000, guid: ae681f4ae81c1594da2520fa00fe17ee, type: 3}
+  - {fileID: 8300000, guid: d184d1640c477154e9780e7e33df0935, type: 3}
+  - {fileID: 8300000, guid: dde6da6fc62ffe2468d5b252ff1ed03c, type: 3}
+  - {fileID: 8300000, guid: 9281c3419cade1b4381df4c1eb7dbc41, type: 3}
+  - {fileID: 8300000, guid: 9f91eb60bedc38e4e8af0a1a40677eca, type: 3}
+  - {fileID: 8300000, guid: dac89aaab5d170d46b73fa7e124f9f89, type: 3}
 --- !u!222 &3252592088634289508
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -152,7 +164,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Nanotransfer
+  m_Text: Evacuating
 --- !u!1 &1568719355690590
 GameObject:
   m_ObjectHideFlags: 0

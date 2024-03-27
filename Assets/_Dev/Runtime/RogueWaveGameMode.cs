@@ -128,6 +128,11 @@ namespace RogueWave
 
         internal void OnSpawnerDestroyed(Spawner spawner)
         {
+            if (FpsSoloCharacter.localPlayerCharacter != null && FpsSoloCharacter.localPlayerCharacter.isAlive == false)
+            {
+                return;
+            }
+
             spawnersRemaining--;
 
             if (!_isDebug && spawnersRemaining == 0 && m_VictoryCoroutine == null)
