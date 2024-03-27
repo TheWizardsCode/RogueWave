@@ -47,16 +47,29 @@ namespace RogueWave
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
         public UnityEvent<Spawner> onSpawnerCreated;
+        [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
+        public UnityEvent<BasicEnemyController> onEnemySpawned;
 
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
 
         LevelProgressBar levelProgressBar;
 
-        private int bossSpawnersRemaining = 0;
+        int m_BossSpawnersRemaining = 0;
+        protected int bossSpawnersRemaining
+        {
+            get { return m_BossSpawnersRemaining; }
+            private set
+            {
+                m_BossSpawnersRemaining = value;
+                updateHUD();
+            }
+        }
         private float timeInLevel;
 
         LevelGenerator _levelGenerator;
+        private HudGameStatusController statusHud;
+
         internal LevelGenerator levelGenerator
         {
             get
@@ -84,6 +97,7 @@ namespace RogueWave
         #region Unity Life-cycle
         protected override void Awake()
         {
+            statusHud = FindObjectOfType<HudGameStatusController>();
             levelGenerator = GetComponentInChildren<LevelGenerator>();
 
             levelProgressBar = FindObjectOfType<LevelProgressBar>(true);
@@ -267,6 +281,17 @@ namespace RogueWave
         private LoadoutBuilderData m_LoadoutBuilder = new LoadoutBuilderData();
         private float startTime;
         private List<Spawner> spawners = new List<Spawner>();
+        int m_BasicEnemiesCount = 0;
+        internal int basicEnemiesCount
+        {
+            get { return m_BasicEnemiesCount; }
+            private set {
+                m_BasicEnemiesCount = value;
+                updateHUD();
+            }
+        }
+
+        internal int bossSpawnerCount => bossSpawnersRemaining;
 
         public int numLoadoutBuilderSlots
         {
@@ -465,6 +490,25 @@ namespace RogueWave
 
             spawners.Add(spawner);
             onSpawnerCreated?.Invoke(spawner);
+        }
+
+        internal void RegisterEnemy(BasicEnemyController enemy)
+        {
+            enemy.onDeath.AddListener(OnEnemyDeath);
+            basicEnemiesCount++;
+            onEnemySpawned?.Invoke(enemy);
+        }
+
+        private void OnEnemyDeath(BasicEnemyController enemy)
+        {
+            enemy.onDeath.RemoveListener(OnEnemyDeath);
+            basicEnemiesCount--;
+        }
+
+        private void updateHUD()
+        {
+            statusHud.UpdateEnemyCount(basicEnemiesCount);
+            statusHud.UpdateSpawnerCount(bossSpawnerCount);
         }
 
         #endregion
