@@ -44,9 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c187386a2187f4fac5475fff8f1275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSpawnerCreated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5223561033937574973
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +57,6 @@ GameObject:
   - component: {fileID: 3957620431239229239}
   - component: {fileID: 905963099382226170}
   - component: {fileID: 2767766673360794206}
-  - component: {fileID: 5084602469823726245}
   m_Layer: 0
   m_Name: RW_Game_Mode
   m_TagString: Untagged
@@ -113,6 +109,12 @@ MonoBehaviour:
   m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
   m_TimePlayedStat: {fileID: 11400000, guid: cd470668f69eda34db38f3129ed8601f, type: 2}
+  onSpawnerCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemySpawned:
+    m_PersistentCalls:
+      m_Calls: []
   _isDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
@@ -190,22 +192,8 @@ MonoBehaviour:
   scannerPrefab: {fileID: 4437746279418429034, guid: bf1c25210103bed4bb9378c859bef582, type: 3}
   timeSlice: 25
   targetKillScore: 0.3
+  difficultyMultiplier: 5
   isDebug: 0
---- !u!114 &5084602469823726245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5223561033937574973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  webhookData: {fileID: 0}
-  m_SteamAppId: 0
-  m_FrequencyOfSteamStatStore: 60
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0

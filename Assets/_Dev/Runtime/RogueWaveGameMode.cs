@@ -511,6 +511,11 @@ namespace RogueWave
             statusHud.UpdateSpawnerCount(bossSpawnerCount);
         }
 
+        internal WaveDefinition GetEnemyWaveFromBossSpawner()
+        {
+            return spawners[0].currentWave;
+        }
+
         #endregion
     }
 }

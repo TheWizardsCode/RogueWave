@@ -3,6 +3,7 @@ using NeoFPS;
 using NeoFPS.SinglePlayer;
 using NeoSaveGames.SceneManagement;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -47,6 +48,7 @@ namespace RogueWave
         private Texture2D optionsBackground;
         private Texture2D acquiredBackground;
         private int m_SelectionCount;
+        List<IRecipe> permanentRecipes = new List<IRecipe>();
 
         private NanobotManager nanobotManager {
             get
@@ -101,19 +103,38 @@ namespace RogueWave
             ActionButtonsGUI(10, buttonHeight);
 
             float heightOffset = buttonHeight * 1.5f;
-            float cardHeight = Screen.height * 0.55f;
+            float cardHeight = Screen.height * 0.40f;
             OfferCardsGUI(numberOfOffers, heightOffset, cardHeight);
 
-            float statsHeight = Screen.height * 0.3f;
-            CurrentUpgradesGUI(buttonHeight + cardHeight + 50, statsHeight);
+            float upgradesHeight = Screen.height * 0.2f;
+            RunUpgradesGUI(buttonHeight + cardHeight + 50, upgradesHeight);
+            PermanentUpgradesGUI(buttonHeight + cardHeight + upgradesHeight + 100, upgradesHeight);
         }
 
-        private void CurrentUpgradesGUI(float heightOffset, float targetHeight)
+        private void PermanentUpgradesGUI(float heightOffset, float targetHeight)
         {
-            List<string> displayed = new List<string>();
+            IRecipe recipe;
+            permanentRecipes.Clear();
+            foreach (string id in RogueLiteManager.persistentData.RecipeIds)
+            {
+                if (RecipeManager.TryGetRecipeFor(id, out recipe))
+                {
+                    permanentRecipes.Add(recipe);
+                }
+            }
 
+            UpgradesGUI("Current Permanent Upgrades", permanentRecipes, heightOffset, targetHeight);
+        }
+
+        private void RunUpgradesGUI(float heightOffset, float targetHeight)
+        {
+            UpgradesGUI("Current Run Upgrades", RogueLiteManager.runData.Recipes.Except(permanentRecipes).ToList(), heightOffset, targetHeight);
+        }
+
+        private void UpgradesGUI(string label, List<IRecipe> recipes, float heightOffset, float targetHeight)
+        {
             float targetWidth = Screen.width * 0.9f;
-            float imageWidth = targetWidth * 0.1f;
+            float imageWidth = targetWidth * 0.06f;
             float imageHeight = imageWidth;
 
             GUIStyle sectionBoxStyle = new GUIStyle(GUI.skin.box);
@@ -124,41 +145,31 @@ namespace RogueWave
                 GUIStyle headingStyle = new GUIStyle(GUI.skin.label);
                 headingStyle.fontSize = 25;
 
-                GUILayout.Label("Current Permanent Upgrades", headingStyle);
+                GUILayout.Label(label, headingStyle);
 
                 GUILayout.BeginHorizontal(GUILayout.Width(targetWidth), GUILayout.Height(targetHeight - headingStyle.lineHeight));
                 {
                     GUILayout.FlexibleSpace();
 
-                    foreach (string id in RogueLiteManager.persistentData.RecipeIds)
+                    foreach (IRecipe recipe in recipes)
                     {
-                        if (displayed.Contains(id))
+                        GUILayout.BeginVertical();
                         {
-                            continue;
-                        }
-                        displayed.Add(id);
+                            GUILayout.FlexibleSpace();
 
-                        IRecipe recipe;
-                        if (RecipeManager.TryGetRecipeFor(id, out recipe))
-                        {
-                            GUILayout.BeginVertical();
+                            GUILayout.Box(recipe.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+                            if (recipe.IsStackable)
                             {
-                                GUILayout.FlexibleSpace();
-
-                                GUILayout.Box(recipe.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
-                                if (recipe.IsStackable)
-                                {
-                                    GUILayout.Label($"{recipe.DisplayName} ({RogueLiteManager.persistentData.GetCount(recipe)} of {recipe.MaxStack})");
-                                }
-                                else
-                                {
-                                    GUILayout.Label(recipe.DisplayName);
-                                }
-
-                                GUILayout.FlexibleSpace();
+                                GUILayout.Label($"{recipe.DisplayName} ({RogueLiteManager.persistentData.GetCount(recipe)} of {recipe.MaxStack})");
                             }
-                            GUILayout.EndVertical();
+                            else
+                            {
+                                GUILayout.Label(recipe.DisplayName);
+                            }
+
+                            GUILayout.FlexibleSpace();
                         }
+                        GUILayout.EndVertical();
                     }
 
                     GUILayout.FlexibleSpace();
