@@ -123,15 +123,15 @@ namespace RogueWave
                 }
             }
 
-            UpgradesGUI("Current Permanent Upgrades", permanentRecipes, heightOffset, targetHeight);
+            UpgradesGUI("Current Permanent Upgrades", permanentRecipes, heightOffset, targetHeight, false);
         }
 
         private void RunUpgradesGUI(float heightOffset, float targetHeight)
         {
-            UpgradesGUI("Current Run Upgrades", RogueLiteManager.runData.Recipes.Except(permanentRecipes).ToList(), heightOffset, targetHeight);
+            UpgradesGUI("Current Run Upgrades", RogueLiteManager.runData.Recipes.Except(permanentRecipes).ToList(), heightOffset, targetHeight, true);
         }
 
-        private void UpgradesGUI(string label, List<IRecipe> recipes, float heightOffset, float targetHeight)
+        private void UpgradesGUI(string label, List<IRecipe> recipes, float heightOffset, float targetHeight, bool offerUpgrade)
         {
             float targetWidth = Screen.width * 0.9f;
             float imageWidth = targetWidth * 0.06f;
@@ -157,19 +157,51 @@ namespace RogueWave
                         {
                             GUILayout.FlexibleSpace();
 
-                            GUILayout.Box(recipe.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
-                            if (recipe.IsStackable)
+                            GUILayout.BeginHorizontal();
                             {
-                                GUILayout.Label($"{recipe.DisplayName} ({RogueLiteManager.persistentData.GetCount(recipe)} of {recipe.MaxStack})");
+                                GUILayout.FlexibleSpace();
+
+                                GUILayout.Box(recipe.HeroImage, GUILayout.Width(imageWidth), GUILayout.Height(imageHeight));
+                                GUILayout.FlexibleSpace();
                             }
-                            else
+                            GUILayout.EndHorizontal();
+
+                            GUILayout.BeginHorizontal();
                             {
-                                GUILayout.Label(recipe.DisplayName);
+                                GUILayout.FlexibleSpace();
+
+                                if (recipe.IsStackable)
+                                {
+                                    GUILayout.Label($"{recipe.DisplayName} ({RogueLiteManager.persistentData.GetCount(recipe)} of {recipe.MaxStack})");
+                                }
+                                else
+                                {
+                                    GUILayout.Label(recipe.DisplayName);
+                                }
+
+                                GUILayout.FlexibleSpace();
                             }
+                            GUILayout.EndHorizontal();
+
+                            GUILayout.BeginHorizontal();
+                            {
+                                GUILayout.FlexibleSpace();
+
+                                if (offerUpgrade && GUILayout.Button($"Make Permanent for {recipe.BuyCost}"))
+                                {
+                                    RogueLiteManager.persistentData.Add(recipe);
+                                    RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
+                                    RogueLiteManager.persistentData.isDirty = true;
+                                }
+
+                                GUILayout.FlexibleSpace();
+                            }
+                            GUILayout.EndHorizontal();
 
                             GUILayout.FlexibleSpace();
                         }
                         GUILayout.EndVertical();
+
                     }
 
                     GUILayout.FlexibleSpace();
