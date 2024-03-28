@@ -44,9 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c187386a2187f4fac5475fff8f1275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSpawnerCreated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5223561033937574973
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,7 +96,6 @@ MonoBehaviour:
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: -2446305894394526636, guid: 3ff6e92f43d79ed4d9afc6a3afdacc58, type: 3}
   m_VictoryDuration: 5
-  randomizePlayerSpawn: 0
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   _startingRecipes:
@@ -119,6 +115,12 @@ MonoBehaviour:
   m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
   m_TimePlayedStat: {fileID: 11400000, guid: cd470668f69eda34db38f3129ed8601f, type: 2}
+  onSpawnerCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemySpawned:
+    m_PersistentCalls:
+      m_Calls: []
   _isDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
@@ -199,6 +201,7 @@ MonoBehaviour:
   scannerPrefab: {fileID: 4437746279418429034, guid: bf1c25210103bed4bb9378c859bef582, type: 3}
   timeSlice: 10
   targetKillScore: 1
+  difficultyMultiplier: 5
   isDebug: 1
 --- !u!1 &6495454180581363533
 GameObject:

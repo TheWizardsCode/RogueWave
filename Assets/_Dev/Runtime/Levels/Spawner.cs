@@ -82,7 +82,7 @@ namespace RogueWave
 
         private WfcDefinition currentLevel;
         private int currentWaveIndex = -1;
-        private WaveDefinition currentWave;
+        internal WaveDefinition currentWave;
 
 
         private int livingShieldGenerators = 0;
@@ -297,7 +297,13 @@ namespace RogueWave
         internal BasicEnemyController SpawnEnemy()
         {
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
+            if (currentWave == null)
+            {
+                currentWave = gameMode.GetEnemyWaveFromBossSpawner();
+            }
+
             PooledObject prefab = currentWave.GetNextEnemy();
+
             if (prefab == null)
             {
                 Debug.LogError("No enemy prefab found in wave definition.");
