@@ -119,7 +119,7 @@ namespace WizardsCode.GameStats
 
             sb.Append("## Machine Stats\n");
 
-            sb.Append($"UNIQUE_DEVICE_ID = {SystemInfo.deviceUniqueIdentifier}");
+            sb.Append($"UNIQUE_DEVICE_ID = {SystemInfo.deviceUniqueIdentifier}\n");
             sb.Append($"OS = {SystemInfo.operatingSystem}\n");
             sb.Append($"CPU = {SystemInfo.processorType}\n");
             sb.Append($"GPU = {SystemInfo.graphicsDeviceName}\n");
