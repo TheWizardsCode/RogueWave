@@ -83,6 +83,7 @@ namespace RogueWave
         private WfcDefinition currentLevel;
         private int currentWaveIndex = -1;
         internal WaveDefinition currentWave;
+        internal WaveDefinition lastWave => currentLevel.waves[currentLevel.waves.Length - 1];
 
 
         private int livingShieldGenerators = 0;

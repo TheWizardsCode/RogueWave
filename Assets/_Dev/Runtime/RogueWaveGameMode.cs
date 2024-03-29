@@ -9,10 +9,7 @@ using System.Collections;
 using NeoFPS.Constants;
 using NaughtyAttributes;
 using RogueWave.UI;
-using Steamworks;
 using WizardsCode.GameStats;
-using Codice.Client.BaseCommands;
-using System;
 using System.Collections.Generic;
 
 namespace RogueWave
@@ -365,7 +362,7 @@ namespace RogueWave
 
         #endregion
 
-        private void ConfigureRecipe(string recipeId)
+        private void ConfigureRecipeForRun(string recipeId)
         {
             if (RecipeManager.TryGetRecipeFor(recipeId, out IRecipe recipe) == false)
             {
@@ -373,12 +370,12 @@ namespace RogueWave
                 return;
             }
 
-            ConfigureRecipe(recipe);
+            ConfigureRecipeForRun(recipe);
         }
 
-        private void ConfigureRecipe(IRecipe recipe)
+        private void ConfigureRecipeForRun(IRecipe recipe)
         {
-            if (RogueLiteManager.runData.Recipes.Contains(recipe) == false)
+            if (recipe.IsStackable || RogueLiteManager.runData.Recipes.Contains(recipe) == false)
             {
                 RogueLiteManager.runData.Recipes.Add(recipe);
             }
@@ -463,12 +460,12 @@ namespace RogueWave
 
             for (int i = 0; i < _startingRecipes.Length; i++)
             {
-                ConfigureRecipe(_startingRecipes[i]);
+                ConfigureRecipeForRun(_startingRecipes[i]);
             }
 
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
-                ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
+                ConfigureRecipeForRun(RogueLiteManager.persistentData.RecipeIds[i]);
             }
 
             return base.PreSpawnStep();
@@ -513,7 +510,12 @@ namespace RogueWave
 
         internal WaveDefinition GetEnemyWaveFromBossSpawner()
         {
-            return spawners[0].currentWave;
+            WaveDefinition wave = spawners[0].currentWave;
+            if (wave == null)
+            {
+                wave = spawners[0].lastWave;
+            }
+            return wave;
         }
 
         #endregion
