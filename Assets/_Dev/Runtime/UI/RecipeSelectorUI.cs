@@ -172,7 +172,7 @@ namespace RogueWave
 
                                 if (recipe.IsStackable)
                                 {
-                                    GUILayout.Label($"{recipe.DisplayName} ({RogueLiteManager.persistentData.GetCount(recipe)} of {recipe.MaxStack})");
+                                    GUILayout.Label($"{recipe.DisplayName} ({recipes.Count(r => r == recipe)} of {recipe.MaxStack})");
                                 }
                                 else
                                 {
