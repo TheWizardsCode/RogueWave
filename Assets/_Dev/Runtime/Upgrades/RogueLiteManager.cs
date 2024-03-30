@@ -18,7 +18,7 @@ namespace RogueWave
         }
 
 #if UNITY_EDITOR
-        [UnityEditor.MenuItem("Tools/Playground/Explore To Profiles Folder", priority = 0)]
+        [UnityEditor.MenuItem("Tools/Rogue Wave/Explore To Profiles Folder", priority = 0)]
         static void ExploreToProfilesFolder()
         {
             string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
