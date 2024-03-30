@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace RogueWave
 {
@@ -11,11 +12,27 @@ namespace RogueWave
         // Can NOT(!) serialize UnityEngine.Object references or non-serializable types like dictionary
         // Remember to set isDirty = true when changing a value
 
-        internal int runNumber = 0;
-        internal int currentGameLevel = 0; // The currentl level of the game, this advances each time the player completes all waves in a level.
-        internal int currentNanobotLevel = 0; // The current level of the nanobots, this advances each time the player gahters enough resources to level up.
+        [SerializeField] internal int m_RunNumber = 0;
+        public int runNumber
+        {
+            get { return m_RunNumber; }
+            set { m_RunNumber = value; }
+        }
 
-        int m_CurrentResources = 0; // The current resources of the player, the player gains resources by destroying enemies and loses resources by dying
+        [SerializeField] internal int m_CurrentGameLevel = 0; // The currentl level of the game, this advances each time the player completes all waves in a level.abl
+        public int currentGameLevel {
+            get { return m_CurrentGameLevel; }
+            set { m_CurrentGameLevel = value; }
+        }
+
+        [SerializeField] internal int m_CurrentNanobotLevel = 0; // The current level of the nanobots, this advances each time the player gahters enough resources to level up.
+        public int currentNanobotLevel
+        {
+            get { return m_CurrentNanobotLevel; }
+            set { m_CurrentNanobotLevel = value; }
+        }
+
+        [SerializeField] int m_CurrentResources = 0; // The current resources of the player, the player gains resources by destroying enemies and loses resources by dying
         public int currentResources
         {
             get { return m_CurrentResources; }
@@ -60,7 +77,7 @@ namespace RogueWave
         {
             currentNanobotLevel = 0;
             currentGameLevel = 0;
-            if (runNumber == 0) // this will be the players first run
+            if (runNumber == 0 && currentResources < 150) // this will be the players first run
             {
                 currentResources = 150;
             }

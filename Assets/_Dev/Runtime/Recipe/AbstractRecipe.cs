@@ -164,10 +164,10 @@ namespace RogueWave
                     adjustedWeight += ownedComplements * 0.05f;
                 }
 
-                if (IsStackable)
-                {
-                    int count = RogueLiteManager.runData.GetCount(this);
-                    adjustedWeight *= 1 + (count * 0.05f);
+                int count = RogueLiteManager.runData.GetCount(this);
+                if (IsStackable && count > 0)
+                {   
+                    adjustedWeight *= 1.1f + ((float)count/maxStack);
                 }
 
                 return adjustedWeight;
