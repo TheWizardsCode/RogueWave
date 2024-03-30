@@ -151,7 +151,8 @@ namespace RogueWave
                 {
                     GUILayout.FlexibleSpace();
 
-                    foreach (IRecipe recipe in recipes)
+                    HashSet<IRecipe> uniqueRecipes = new HashSet<IRecipe>(recipes);
+                    foreach (IRecipe recipe in uniqueRecipes)
                     {
                         GUILayout.BeginVertical();
                         {

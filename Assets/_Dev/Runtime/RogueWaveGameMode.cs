@@ -438,6 +438,16 @@ namespace RogueWave
         {
             levelProgressBar.gameObject.SetActive(false);
 
+            // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            {
+                RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe permanentRecipe);
+                if (RogueLiteManager.runData.Recipes.Contains(permanentRecipe))
+                {
+                    RogueLiteManager.runData.Recipes.Remove(permanentRecipe);
+                }
+            }
+
             RogueLiteManager.runData.Loadout.Clear();
 
             RogueLiteManager.persistentData.runNumber++;
