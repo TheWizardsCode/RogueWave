@@ -145,6 +145,7 @@ namespace RogueWave
         private void OnEnable()
         {
             RogueWaveGameMode.onVictory += OnVictory;
+            resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             inVictoryRoutine = false;
         }
 

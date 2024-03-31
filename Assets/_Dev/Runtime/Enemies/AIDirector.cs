@@ -19,8 +19,8 @@ namespace RogueWave
         float maximumTimeBetweenReports = 30;
         [Required, SerializeField, Tooltip("The Scanner prefab that will be spawned when the AI director detects that the player has not been reported for a while.")]
         ScannerController scannerPrefab;
-        [SerializeField, Tooltip("The length of a time slice. The AI director will evaluate the current state of play every timeSlice seconds. Based on this evluation the AI will issue orders to the Enemies.")]
-        float timeSlice = 25f;
+        [SerializeField, Tooltip("The length of a time slice. The AI director will evaluate the current state of play every timeSlice seconds. Based on this evaluation the AI will issue orders to the Enemies.")]
+        float timeSlice = 50f;
         [SerializeField, Tooltip("The target kill score, which is the total challenge rating of all the enemies killed in the last `timeSlice`, divided by the `timeslice`. " +
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player.")]
         float targetKillScore = 0.3f;

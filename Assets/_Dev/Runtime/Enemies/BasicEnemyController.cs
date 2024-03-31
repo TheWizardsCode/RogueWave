@@ -57,6 +57,8 @@ namespace RogueWave
         [Header("Navigation")]
         [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), ShowIf("isMobile")]
         internal float obstacleAvoidanceDistance = 2f;
+        [SerializeField, Tooltip("The distance the enemy needs to be from a target destination for it to be considered as arrived. This is important as large enemies, or ones with a slow trun speed might have difficulty getting to the precise target location. This can result in circular motion around the destination."), ShowIf("isMobile")]
+        internal float arrivalDistance = 1.5f;
 
         [Header("Seek Behaviour")]
         [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), ShowIf("isMobile")]
@@ -234,15 +236,19 @@ namespace RogueWave
         private bool underOrders;
         internal BasicHealthManager healthManager;
         private float sqrSeekDistance;
+        private float sqrArriveDistance;
         private PooledObject pooledObject;
         private bool isRecharging;
         private bool fromPool;
-        private RogueWaveGameMode gameMode;
+        internal RogueWaveGameMode gameMode;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             sqrSeekDistance = seekDistance * seekDistance;
+            sqrArriveDistance = arrivalDistance * arrivalDistance;
             pooledObject = GetComponent<PooledObject>();
+
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
 
 #if ! UNITY_EDITOR
             isDebug = false;
@@ -275,8 +281,6 @@ namespace RogueWave
             {
                 healthManager.onIsAliveChanged += OnAliveIsChanged;
             }
-
-            gameMode = FindObjectOfType<RogueWaveGameMode>();
         }
 
         protected virtual void OnDisable()
@@ -312,7 +316,8 @@ namespace RogueWave
             {
                 Vector3 direction = Target.position - head.position;
                 Quaternion targetRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
-                head.rotation = Quaternion.Slerp(head.rotation, targetRotation, headRotationSpeed * Time.deltaTime);
+                float clampedRotation = Mathf.Clamp(head.rotation.eulerAngles.y, -maxHeadRotation, maxHeadRotation);
+                head.rotation = Quaternion.Euler(head.rotation.eulerAngles.x, clampedRotation, head.rotation.eulerAngles.z);
             }
 
 
@@ -326,8 +331,11 @@ namespace RogueWave
                 if (shouldWander)
                 {
                     Wander();
+                    return;
                 }
-                else if (underOrders || (isRecharging == false && Vector3.SqrMagnitude(goalDestination - transform.position) < sqrSeekDistance))
+
+                float sqrDistance = Vector3.SqrMagnitude(goalDestination - transform.position);
+                if (underOrders || (isRecharging == false && sqrDistance < sqrSeekDistance && sqrDistance > sqrArriveDistance))
                 {
                     MoveTowards(goalDestination);
                 }
