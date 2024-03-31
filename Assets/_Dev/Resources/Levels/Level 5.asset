@@ -18,14 +18,13 @@ MonoBehaviour:
   encloseLevel: 1
   defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-  enemySpawnChance: 0.2
   waves:
   - {fileID: 11400000, guid: 3ce55440cfc43c9498b1edc2258d3d3d, type: 2}
   - {fileID: 11400000, guid: bf5c1e4567024a146aac6ee175c3337b, type: 2}
   - {fileID: 11400000, guid: 8933f491b5b58ba46a400d479a36370b, type: 2}
   waveWait: 5
   generateNewWaves: 0
-  maxAlive: 100
+  maxAlive: 80
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}

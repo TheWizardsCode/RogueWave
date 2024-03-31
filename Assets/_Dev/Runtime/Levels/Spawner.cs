@@ -294,8 +294,17 @@ namespace RogueWave
             }
         }
 
+        /// <summary>
+        /// If the spawner is not ignoring the max alive setting in the level definition, then this will spawn an enemy if the max alive count has not been reached.
+        /// </summary>
+        /// <returns>The enemy spawned, null if current maxAlive is hit and we are not ignoring maxalive, or if an enemy cannot be spawned for some other reason.</returns>
         internal BasicEnemyController SpawnEnemy()
         {
+            if (ignoreMaxAlive && (currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
+            {
+                return null;
+            }
+
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
             if (currentWave == null)
             {
