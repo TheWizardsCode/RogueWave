@@ -16,19 +16,13 @@ MonoBehaviour:
   lotSize: {x: 25, y: 25}
   mapSize: {x: 8, y: 8}
   encloseLevel: 1
+  defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-  emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  availableTiles:
-  - tile: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.789
-  - tile: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
-    weight: 0.468
-  enemySpawnChance: 0
   waves:
   - {fileID: 11400000, guid: f51a760483f0a594cbf7f8f10a11fdd7, type: 2}
   waveWait: 5
   generateNewWaves: 0
-  maxAlive: 100
+  maxAlive: 60
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: 7432d555d7bbbc545ba8968d3c49d34b, type: 2}
