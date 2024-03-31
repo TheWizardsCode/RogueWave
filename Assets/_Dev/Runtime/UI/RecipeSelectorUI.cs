@@ -184,20 +184,30 @@ namespace RogueWave
                             }
                             GUILayout.EndHorizontal();
 
-                            GUILayout.BeginHorizontal();
+                            if (offerUpgrade)
                             {
-                                GUILayout.FlexibleSpace();
-
-                                if (offerUpgrade && GUILayout.Button($"Make Permanent for {recipe.BuyCost}"))
+                                GUILayout.BeginHorizontal();
                                 {
-                                    RogueLiteManager.persistentData.Add(recipe);
-                                    RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
-                                    RogueLiteManager.persistentData.isDirty = true;
-                                }
+                                    GUILayout.FlexibleSpace();
 
-                                GUILayout.FlexibleSpace();
+                                    if (recipe.BuyCost <= RogueLiteManager.persistentData.currentResources)
+                                    {
+                                        if (GUILayout.Button($"Make Permanent for {recipe.BuyCost}"))
+                                        {
+                                            RogueLiteManager.persistentData.Add(recipe);
+                                            RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
+                                            RogueLiteManager.persistentData.isDirty = true;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        GUILayout.Label($"{recipe.BuyCost} to make permanent.");
+                                    }
+
+                                    GUILayout.FlexibleSpace();
+                                }
+                                GUILayout.EndHorizontal();
                             }
-                            GUILayout.EndHorizontal();
 
                             GUILayout.FlexibleSpace();
                         }

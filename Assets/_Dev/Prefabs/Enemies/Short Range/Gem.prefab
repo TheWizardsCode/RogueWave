@@ -91,6 +91,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 3468349145074774147}
+  head: {fileID: 0}
+  headRotationSpeed: 2
+  maxHeadRotation: 75
   isMobile: 1
   minSpeed: 1
   maxSpeed: 6
@@ -313,6 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 1
 --- !u!1001 &146371711493947339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -462,7 +466,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 324eb03c118da784a8221564f9ef26f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DissolveTime: 1
+  m_DissolveTime: 1.5
 --- !u!1001 &5032170605116415703
 PrefabInstance:
   m_ObjectHideFlags: 0

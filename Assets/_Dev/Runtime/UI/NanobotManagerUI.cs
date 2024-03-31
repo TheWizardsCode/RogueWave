@@ -77,9 +77,9 @@ namespace RogueWave
 
                 nanobotManager.onNanobotLevelUp += OnNanobotLevelUp;
 
+                nanobotLevelProgressBar.MaxValue = nanobotManager.resourcesForNextNanobotLevel;
+
                 gameObject.SetActive(true);
-
-
             }
             else
             {

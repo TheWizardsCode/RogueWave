@@ -9,7 +9,7 @@ namespace Playground
         [SerializeField, Tooltip("The wieldable category.")]
         private FpsSwappableCategory m_Category = FpsSwappableCategory.Passive;
 
-        public new FpsSwappableCategory category
+        public FpsSwappableCategory category
         {
             get { return m_Category; }
         }

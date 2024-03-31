@@ -44,7 +44,7 @@ namespace RogueWave
         [SerializeField, ShowIf("hasShield"), Tooltip("The model and collider that will represent the shield.")]
         internal Collider shieldCollider;
 
-        [Header("Feel")]
+        [Header("Juice")]
         [SerializeField, Tooltip("The sound to play when a new spawning wave is starting.")]
         AudioClip waveStartSound;
 
@@ -89,13 +89,12 @@ namespace RogueWave
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
         private AudioSource audioSource;
-        private RogueWaveGameMode gameMode;
 
-        private void Awake()
+        protected override void Awake()
         {
-            audioSource = GetComponent<AudioSource>();
+            base.Awake();
 
-            gameMode = FindObjectOfType<RogueWaveGameMode>();
+            audioSource = GetComponent<AudioSource>();
             gameMode.RegisterSpawner(this);
         }
 
