@@ -194,6 +194,7 @@ namespace RogueWave
                                     {
                                         if (GUILayout.Button($"Make Permanent for {recipe.BuyCost}"))
                                         {
+                                            RogueLiteManager.runData.Remove(recipe);
                                             RogueLiteManager.persistentData.Add(recipe);
                                             RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
                                             RogueLiteManager.persistentData.isDirty = true;

@@ -448,21 +448,21 @@ namespace RogueWave
                 }
             }
 
-            RogueLiteManager.runData.Loadout.Clear();
-
             RogueLiteManager.persistentData.runNumber++;
 
-            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
+            List<IRecipe> recipes = new List<IRecipe>();
+            recipes.AddRange(_startingRecipes);
+            recipes.AddRange(RogueLiteManager.runData.Recipes);
+
+            RogueLiteManager.runData.Loadout.Clear(); 
+            for (int i = 0; i < recipes.Count; i++)
             {
-                for (int i = 0; i < _startingRecipes.Length; i++)
+                if (recipes[i] is WeaponPickupRecipe)
                 {
-                    if (_startingRecipes[i] is WeaponPickupRecipe)
-                    {
-                        RogueLiteManager.persistentData.WeaponBuildOrder.Add(_startingRecipes[i].uniqueID);
-                    }
+                    RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipes[i].UniqueID);
                 }
             }
-
+            
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
                 levelGenerator.Generate(currentLevelDefinition);
