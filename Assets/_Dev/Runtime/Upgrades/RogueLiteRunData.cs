@@ -81,6 +81,12 @@ namespace RogueWave
             return true;
         }
 
+        internal void Remove(IRecipe recipe)
+        {
+            Recipes.Remove(recipe);
+            isDirty = true;
+        }
+
         /// <summary>
         /// Get the number of instances of a supplied recipe that are in the player's current recipe collection.
         /// </summary>

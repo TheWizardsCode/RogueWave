@@ -15,6 +15,8 @@ namespace RogueWave
         [Header("Spawn Behaviours")]
         [SerializeField, Tooltip("If this is set to true then this is a boss spawner. Boss spawners must all be destroyed before the level can be completed.")]
         internal bool isBossSpawner = false;
+        [SerializeField, Tooltip("If true then the spawner will ignore the max alive setting in the level definition and will spawn as many enemies as it can.")]
+        private bool ignoreMaxAlive = false;
         [SerializeField, Tooltip("Distance to player for this spawner to be activated. If this is set to 0 then it will always be active, if >0 then the spawner will only be active when the player is within this many units. If the player moves further away then the spawner will pause.")]
         float activeRange = 0;
         [SerializeField, Tooltip("If true then the spawner will use the level definition defined in the Game Mode to determine the waves to spawn. If false then the spawner will spawn according to the wave definition below.")]
@@ -23,8 +25,6 @@ namespace RogueWave
         WfcDefinition levelDefinition;
         [SerializeField, Tooltip("The time to wait between waves.")]
         private float timeBetweenWaves = 5;
-        [SerializeField, Tooltip("If true then the spawner will ignore the max alive setting in the level definition and will spawn as many enemies as it can.")]
-        private bool ignoreMaxAlive = false;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
         [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]

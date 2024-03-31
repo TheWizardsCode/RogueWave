@@ -152,7 +152,13 @@ namespace RogueWave
                 while (remainingChallengeRating > 0)
                 {
                     BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy();
-                    remainingChallengeRating -= randomEnemy.challengeRating;
+                    if (randomEnemy != null)
+                    {
+                        remainingChallengeRating -= randomEnemy.challengeRating;
+                    } else
+                    {
+                        break;
+                    }
                 }
             }
         }
