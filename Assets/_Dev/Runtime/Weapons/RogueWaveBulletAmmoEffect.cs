@@ -2,6 +2,7 @@ using NeoFPS;
 using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RogueWave
@@ -78,7 +79,11 @@ namespace RogueWave
             {
                 if (!appliedRecipeIDs.Contains(recipe.uniqueID))
                 {
-                    recipe.Apply(this);
+                    int count = availableRecipes.Count(r => r.uniqueID == recipe.uniqueID);
+                    while (count-- > 0)
+                    {
+                        recipe.Apply(this);
+                    }
                     appliedRecipeIDs.Add(recipe.uniqueID);
                 }
             }

@@ -135,7 +135,7 @@ namespace RogueWave
         /// <returns>A list of possible offers. They have not yet been given weights.</returns>
         private static List<T> GetOfferCandidates<T>() where T : IRecipe
         {
-            // TODO: cache the results of this search. Invalidate the case when a new recipe is added to the NanobotManager.
+            // TODO: cache the results of this search. Invalidate the cache when a new recipe is added to the NanobotManager.
 #if UNITY_EDITOR
             Debug.Log($"Getting offer candidates for {typeof(T)}." +
                 $"\nNanobot level: {RogueLiteManager.persistentData.currentNanobotLevel}" +
