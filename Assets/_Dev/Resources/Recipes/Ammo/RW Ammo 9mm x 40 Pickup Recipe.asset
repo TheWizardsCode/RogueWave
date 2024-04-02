@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Ammo 9mm x 40
   description: TBD
-  heroImage: {fileID: 2800000, guid: 4205a5f7002391b47b22b33a850cbeba, type: 3}
+  heroImage: {fileID: 21300000, guid: 4205a5f7002391b47b22b33a850cbeba, type: 3}
   icon: {fileID: 21300000, guid: 5bcb172642da8714681404a7c215ac69, type: 3}
   level: 0
   baseWeight: 0.2
-  isPowerUp: 0
-  isConsumable: 1
-  cooldown: 0
   dependencies:
   - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
   complements: []
+  buyCost: 50
+  isPowerUp: 0
+  isConsumable: 1
+  cooldown: 0
   isStackable: 0
   maxStack: 1
-  buyCost: 50
   buildCost: 20
   timeToBuild: 2.5
   nameClips:

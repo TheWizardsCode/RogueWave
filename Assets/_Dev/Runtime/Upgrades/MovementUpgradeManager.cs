@@ -319,7 +319,7 @@ namespace RogueWave
             // Apply all the recipe upgrades we have
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
-                if (RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe) == false)
+                if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe recipe) == false)
                 {
                     Debug.LogError($"Attempt to configure a recipe with ID {RogueLiteManager.persistentData.RecipeIds[i]} but no such recipe can be found. Ignoring this recipe.");
                     return;

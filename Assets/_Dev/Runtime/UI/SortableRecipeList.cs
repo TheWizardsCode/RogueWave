@@ -17,7 +17,7 @@ namespace RogueWave
             foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
             {
                 IRecipe recipe;
-                if (RecipeManager.TryGetRecipeFor(id, out recipe))
+                if (RecipeManager.TryGetRecipe(id, out recipe))
                 {
                     labels.Add(InstantiateRecipeElement(recipe.DisplayName, index));
                     index++;

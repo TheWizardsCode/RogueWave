@@ -8,7 +8,7 @@ namespace RogueWave
         public string UniqueID { get; }
         public string DisplayName { get; }
         public string Description { get; }
-        public Texture2D HeroImage { get; }
+        public Sprite HeroImage { get; }
         public int Level { get; }
 
         public Sprite Icon { get; }

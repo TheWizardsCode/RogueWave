@@ -11,6 +11,7 @@ using NaughtyAttributes;
 using RogueWave.UI;
 using WizardsCode.GameStats;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace RogueWave
 {
@@ -322,7 +323,7 @@ namespace RogueWave
             healthManager.healthMax = initialHealth;
 
             IRecipe startingWeapon;
-            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
+            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
             {
                 WeaponPickupRecipe weaponRecipe = startingWeapon as WeaponPickupRecipe;
                 if (weaponRecipe != null)
@@ -364,7 +365,7 @@ namespace RogueWave
 
         private void ConfigureRecipeForRun(string recipeId)
         {
-            if (RecipeManager.TryGetRecipeFor(recipeId, out IRecipe recipe) == false)
+            if (RecipeManager.TryGetRecipe(recipeId, out IRecipe recipe) == false)
             {
                 Debug.LogError($"Attempt to configure a recipe with ID {recipeId} but no such recipe can be found. Ignoring this recipe.");
                 return;
@@ -441,7 +442,7 @@ namespace RogueWave
             // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
-                RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe permanentRecipe);
+                RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe permanentRecipe);
                 if (RogueLiteManager.runData.Recipes.Contains(permanentRecipe))
                 {
                     RogueLiteManager.runData.Recipes.Remove(permanentRecipe);

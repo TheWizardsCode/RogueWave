@@ -57,7 +57,7 @@ namespace RogueWave
                 foreach (string id in RecipeIds)
                 {
                     IRecipe recipe;
-                    if (RecipeManager.TryGetRecipeFor(id, out recipe)
+                    if (RecipeManager.TryGetRecipe(id, out recipe)
                         && (recipe is WeaponPickupRecipe || recipe is ToolPickupRecipe))
                     {
                         _weaponBuildOrderBackingField.Add(id);
