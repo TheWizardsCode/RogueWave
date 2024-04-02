@@ -45,19 +45,27 @@ namespace RogueWave.UI
                 {
                     gameObject.SetActive(true);
                 }
+            }
+        }
 
-                switch (cardType)
-                {
-                    case RecipeCardType.Offer:
-                        SetupOfferCard();
-                        break;
-                    case RecipeCardType.AcquiredPermanentMini:
-                        SetupPermenantlyAcquiredCard();
-                        break;
-                    case RecipeCardType.AcquiredTemporaryMini:
-                        SetupAcquiredCard();
-                        break;
-                }
+        private void OnGUI()
+        {
+            if (recipe == null)
+            {
+                return;
+            }
+
+            switch (cardType)
+            {
+                case RecipeCardType.Offer:
+                    SetupOfferCard();
+                    break;
+                case RecipeCardType.AcquiredPermanentMini:
+                    SetupPermenantlyAcquiredCard();
+                    break;
+                case RecipeCardType.AcquiredTemporaryMini:
+                    SetupAcquiredCard();
+                    break;
             }
         }
 
