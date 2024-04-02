@@ -59,6 +59,11 @@ namespace RogueWave.UI
         {
             if (offers == null || offers.Count == 0)
             {
+                foreach (Transform child in transform)
+                {
+                    Destroy(child.gameObject);
+                }
+
                 noOffersMessage.gameObject.SetActive(true);
                 return;
             }
