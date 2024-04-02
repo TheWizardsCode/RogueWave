@@ -15,7 +15,7 @@ namespace RogueWave
         [SerializeField, TextArea(1, 4), Tooltip("A short description of this recipe helping the player understand what it is.")]
         string description = "TBD";
         [SerializeField, Tooltip("An image to use as the hero image for this recipe."), ShowAssetPreview]
-        Texture2D heroImage;
+        Sprite heroImage;
         [SerializeField, Tooltip("A sprite to use as the icon for this recipe."), ShowAssetPreview]
         Sprite icon;
 
@@ -67,7 +67,7 @@ namespace RogueWave
 
         public string Description => description;
 
-        public Texture2D HeroImage => heroImage;
+        public Sprite HeroImage => heroImage;
 
         public Sprite Icon => icon;
 

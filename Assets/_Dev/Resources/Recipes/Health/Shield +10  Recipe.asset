@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Shield Strength +10%
   description: Increase the strength of the shields by 10% points.
-  heroImage: {fileID: 2800000, guid: 9f9f6db80fc796d438b8242d0eb5306e, type: 3}
+  heroImage: {fileID: 21300000, guid: 9f9f6db80fc796d438b8242d0eb5306e, type: 3}
   icon: {fileID: 21300000, guid: f5137d686cfb690419066cf5e2d155ad, type: 3}
   level: 3
   baseWeight: 0.4
-  isPowerUp: 1
-  isConsumable: 1
-  cooldown: 10
   dependencies:
   - {fileID: 11400000, guid: 23f23a2febaa4e84689ae70c6270a724, type: 2}
   complements: []
+  buyCost: 1000
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 10
   isStackable: 1
   maxStack: 5
-  buyCost: 1000
   buildCost: 100
   timeToBuild: 0
   nameClips:

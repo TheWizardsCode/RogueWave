@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: 556mm 40
   description: TBD
-  heroImage: {fileID: 2800000, guid: 08781622173673744acebb6253998337, type: 3}
+  heroImage: {fileID: 21300000, guid: 08781622173673744acebb6253998337, type: 3}
   icon: {fileID: 21300000, guid: 895dc5d5a6cda434e845d157a7a00a99, type: 3}
   level: 0
   baseWeight: 0.2
-  isPowerUp: 0
-  isConsumable: 1
-  cooldown: 0
   dependencies:
   - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
   complements: []
+  buyCost: 50
+  isPowerUp: 0
+  isConsumable: 1
+  cooldown: 0
   isStackable: 0
   maxStack: 1
-  buyCost: 50
   buildCost: 25
   timeToBuild: 3
   nameClips:

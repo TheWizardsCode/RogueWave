@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Assault Rifle
   description: 'A versatile weapon for short and medium range combat. '
-  heroImage: {fileID: 2800000, guid: beca349231cd2f740b9d405ffdb04ae5, type: 3}
+  heroImage: {fileID: 21300000, guid: beca349231cd2f740b9d405ffdb04ae5, type: 3}
   icon: {fileID: 21300000, guid: f70f9ab6386a2dc43a3a66695ef2146e, type: 3}
   level: 1
   baseWeight: 0.7
-  isPowerUp: 1
-  isConsumable: 1
-  cooldown: 45
   dependencies: []
   complements:
   - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
+  buyCost: 300
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 45
   isStackable: 0
   maxStack: 1
-  buyCost: 300
   buildCost: 50
   timeToBuild: 10
   nameClips:

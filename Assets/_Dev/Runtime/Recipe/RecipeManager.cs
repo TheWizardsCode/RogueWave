@@ -40,7 +40,7 @@ namespace RogueWave
         /// <param name="GUID"></param>
         /// <param name="recipe">The recipe return value if it exists in the collection of reciped.</param>
         /// <returns></returns>
-        internal static bool TryGetRecipeFor(string GUID, out IRecipe recipe)
+        internal static bool TryGetRecipe(string GUID, out IRecipe recipe)
         {
             if (isInitialised == false)
             {

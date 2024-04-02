@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Ammo 762 Full
   description: A full mag of 762 ammo. Commonly used in Sniper rifles.
-  heroImage: {fileID: 2800000, guid: 8afa6d9d52b9bf64baf67a269462725b, type: 3}
+  heroImage: {fileID: 21300000, guid: 8afa6d9d52b9bf64baf67a269462725b, type: 3}
   icon: {fileID: 21300000, guid: 13699d13c4894924ea6fb01bb1db1942, type: 3}
   level: 1
   baseWeight: 0.4
-  isPowerUp: 1
-  isConsumable: 1
-  cooldown: 1
   dependencies:
   - {fileID: 11400000, guid: 63db726cd6cb7e14eaf506d41ab93140, type: 2}
   complements: []
+  buyCost: 250
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 1
   isStackable: 0
   maxStack: 1
-  buyCost: 250
   buildCost: 50
   timeToBuild: 4.5
   nameClips:

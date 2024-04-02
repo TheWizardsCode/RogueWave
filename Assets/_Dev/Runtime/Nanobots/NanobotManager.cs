@@ -556,7 +556,7 @@ namespace RogueWave
             foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
             {
                 IRecipe weapon;
-                if (RecipeManager.TryGetRecipeFor(id, out weapon))
+                if (RecipeManager.TryGetRecipe(id, out weapon))
                 {
                     if (((WeaponPickupRecipe)weapon).InInventory == false)
                     {

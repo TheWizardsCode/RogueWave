@@ -36,7 +36,7 @@ namespace RogueWave
             foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
             {
                 IRecipe recipe;
-                if (RecipeManager.TryGetRecipeFor(id, out recipe))
+                if (RecipeManager.TryGetRecipe(id, out recipe))
                 {
                     builds.Add(InstantiateBuildElement(recipe, index));
                     index++;
@@ -46,7 +46,7 @@ namespace RogueWave
             foreach (string id in RogueLiteManager.persistentData.RecipeIds)
             {
                 IRecipe recipe;
-                if (RecipeManager.TryGetRecipeFor(id, out recipe)
+                if (RecipeManager.TryGetRecipe(id, out recipe)
                     && recipe is WeaponPickupRecipe
                     && RogueLiteManager.persistentData.WeaponBuildOrder.Contains(id) == false)
                 {
