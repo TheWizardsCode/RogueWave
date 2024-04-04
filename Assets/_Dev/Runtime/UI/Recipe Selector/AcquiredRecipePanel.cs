@@ -33,14 +33,15 @@ namespace RogueWave.UI
                     break;
             }
 
-            if (recipes.Count != transform.childCount)
+            IEnumerable<IRecipe> recipesDistinct = recipes.Distinct();
+            if (recipesDistinct.Count() != transform.childCount)
             {
                 for (int i = transform.childCount - 1; i >= 0; i--)
                 {
-                    Destroy(transform.GetChild(i).gameObject);
+                    DestroyImmediate(transform.GetChild(i).gameObject);
                 }
 
-                foreach (IRecipe recipe in recipes.Distinct())
+                foreach (IRecipe recipe in recipesDistinct)
                 {
                     RecipeCard card = Instantiate(recipeCardPrototype, transform);
                     if (recipe.IsStackable)
