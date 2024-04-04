@@ -144,6 +144,10 @@ namespace RogueWave
 
         internal bool Contains(IRecipe recipe)
         {
+            if (recipe == null)
+            {
+                return false;
+            }
             return RecipeIds.Contains(recipe.UniqueID);
         }
 

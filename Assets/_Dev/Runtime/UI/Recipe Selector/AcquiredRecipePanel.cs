@@ -35,9 +35,9 @@ namespace RogueWave.UI
 
             if (recipes.Count != transform.childCount)
             {
-                foreach (Transform child in transform)
+                for (int i = transform.childCount - 1; i >= 0; i--)
                 {
-                    Destroy(child.gameObject);
+                    Destroy(transform.GetChild(i).gameObject);
                 }
 
                 foreach (IRecipe recipe in recipes.Distinct())
