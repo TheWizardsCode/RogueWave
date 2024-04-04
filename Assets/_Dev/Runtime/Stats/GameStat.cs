@@ -1,10 +1,18 @@
 using NaughtyAttributes;
-using Steamworks;
 using UnityEngine;
 using System;
 
 namespace WizardsCode.GameStats
 {
+    /// <summary>
+    /// A Game Stat is a single stat that can be tracked by the GameStatsManager.
+    /// 
+    /// Create as many instances of this class as you need to track the stats you want to track.
+    /// Calle the SetValue, Increment, or other helper methods to change the value of the stat.
+    /// 
+    /// The GameStatsManager will automatically save and load the stats to and from PlayerPrefs and, if enabled, SteamWorks.
+    /// 
+    /// </summary>
     [CreateAssetMenu(fileName = "New GameStat", menuName = "Rogue Wave/Stats/Game Stat", order = 1)]
     public class GameStat : ScriptableObject
     {

@@ -131,12 +131,6 @@ namespace RogueWave
 
         public static event UnityAction onVictory;
 
-        internal void OnSpawnerCreated(Spawner spawner)
-        {
-            bossSpawnersRemaining++;
-            spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
-        }
-
         internal void OnSpawnerDestroyed(Spawner spawner)
         {
             if (FpsSoloCharacter.localPlayerCharacter != null && FpsSoloCharacter.localPlayerCharacter.isAlive == false)
