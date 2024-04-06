@@ -194,7 +194,7 @@ namespace RogueWave
 
         private void Update()
         {
-            if (inVictoryRoutine || isBuilding || !FpsSoloCharacter.localPlayerCharacter.isAlive)
+            if (!FpsSoloCharacter.localPlayerCharacter.isAlive)
             {
                 return;
             }
@@ -203,6 +203,11 @@ namespace RogueWave
             if (resourcesForNextNanobotLevel <= 0)
             {
                 LevelUp();
+            }
+
+            if (inVictoryRoutine || isBuilding)
+            {
+                return;
             }
 
             if (timeOfNextBuiild > Time.timeSinceLevelLoad)
