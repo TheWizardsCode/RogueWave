@@ -359,10 +359,7 @@ namespace RogueWave
                     status = Status.RequestRecieved;
                     clip = recipeRecievedPrefix[Random.Range(0, recipeRecievedPrefix.Length)];
                     Announce(clip);
-                    if (currentOfferRecipes[0].TimeToBuild > 5)
-                    {
-                        yield return Announce(clip);
-                    }
+                    yield return Announce(clip);
 
                     RogueLiteManager.runData.Add(currentOfferRecipes[i]);
 
