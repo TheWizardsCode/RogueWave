@@ -1,5 +1,75 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3045032423430552816
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8861127548659448186}
+  - component: {fileID: 1679335479540704989}
+  - component: {fileID: 6775892780466660303}
+  m_Layer: 31
+  m_Name: Antenna
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8861127548659448186
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3045032423430552816}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 702586752710481769}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!136 &1679335479540704989
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3045032423430552816}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 4
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6775892780466660303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3045032423430552816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba672449e0da655428ca4e3b031f6b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Multiplier: 2
+  m_Critical: 1
 --- !u!1 &7582998024597225886
 GameObject:
   m_ObjectHideFlags: 0
@@ -41,7 +111,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1450764596457488462}
   - component: {fileID: 5219187662690625511}
-  - component: {fileID: 5391398547824553434}
   - component: {fileID: -6177641379027551643}
   - component: {fileID: 4676414208784409485}
   - component: {fileID: 3297794374706640729}
@@ -92,27 +161,6 @@ MonoBehaviour:
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!135 &5391398547824553434
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985948857531989657}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 1.6
-  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &-6177641379027551643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,6 +195,7 @@ MonoBehaviour:
   maximumHeight: 40
   optimalDistanceFromPlayer: 20
   obstacleAvoidanceDistance: 7
+  arrivalDistance: 1.5
   seekDuration: 35
   seekDistance: 100
   shouldExplodeOnDeath: 1
@@ -352,6 +401,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 1450764596457488462}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0
       objectReference: {fileID: 0}
@@ -405,7 +466,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8861127548659448186}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
       insertIndex: -1
@@ -419,6 +483,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8980006000628114506}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7162009728398284537}
   m_SourcePrefab: {fileID: 100100000, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
 --- !u!1 &183458193413000659 stripped
 GameObject:
@@ -488,6 +555,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DissolveTime: 1.5
+--- !u!65 &7162009728398284537
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183458193413000659}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 2.0629137, y: 2.155551, z: 0.75953484}
+  m_Center: {x: -0.058450103, y: -0.022735715, z: -0.012245774}
 --- !u!4 &702586752710481769 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 2b47c2cff6601204aa0cf3e3b90116f1, type: 3}
