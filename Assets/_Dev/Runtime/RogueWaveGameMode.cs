@@ -432,6 +432,7 @@ namespace RogueWave
         protected override bool PreSpawnStep()
         {
             levelProgressBar.gameObject.SetActive(false);
+            RogueLiteManager.persistentData.runNumber++;
 
             // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
@@ -443,7 +444,16 @@ namespace RogueWave
                 }
             }
 
-            RogueLiteManager.persistentData.runNumber++;
+            // If the character died then the weapon build order may have weapons that were in the rundata and need to be removed.
+            for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0 ; i--)
+            {
+                if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[i], out IRecipe weapon)) {
+                    if (!RogueLiteManager.runData.Recipes.Contains(weapon))
+                    {
+                        RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(i);
+                    }
+                }
+            }
 
             List<IRecipe> recipes = new List<IRecipe>();
             recipes.AddRange(_startingRecipes);
@@ -452,7 +462,7 @@ namespace RogueWave
             RogueLiteManager.runData.Loadout.Clear(); 
             for (int i = 0; i < recipes.Count; i++)
             {
-                if (recipes[i] is WeaponPickupRecipe)
+                if (recipes[i] is WeaponPickupRecipe && !RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipes[i].UniqueID))
                 {
                     RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipes[i].UniqueID);
                 }
