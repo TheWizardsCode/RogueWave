@@ -448,7 +448,7 @@ namespace RogueWave
             for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0 ; i--)
             {
                 if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[i], out IRecipe weapon)) {
-                    if (!RogueLiteManager.runData.Recipes.Contains(weapon))
+                    if (!RogueLiteManager.persistentData.Contains(weapon))
                     {
                         RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(i);
                     }

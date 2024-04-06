@@ -7,15 +7,22 @@ using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 using System.Security.Permissions;
+using log4net.Core;
 
 namespace RogueWave.UI
 {
     public class HubController : MonoBehaviour
     {
-        [SerializeField, Tooltip("The number of resources currently available to the player. If this is null then it is assumed that the resources should not be shown.")]
-        private Text m_ResourcesText = null;
         [SerializeField, Tooltip("The scene to load when entering combat from this scene."), Scene]
         string m_CombatScene = string.Empty;
+
+        [Header("UI Elements")]
+        [SerializeField, Tooltip("The number of resources currently available to the player. If this is null then it is assumed that the resources should not be shown.")]
+        private Text m_ResourcesText = null;
+        [SerializeField, Tooltip("The text readout for the current game level number.")]
+        private TMPro.TMP_Text m_GameLevelNumberText = null;
+        [SerializeField, Tooltip("The text readout for the current players Nanobot level number.")]
+        private TMPro.TMP_Text m_NanobotLevelNumberText = null;
 
         internal static List<IRecipe> permanentRecipes = new List<IRecipe>();
         internal static List<IRecipe> temporaryRecipes = new List<IRecipe>();
@@ -25,6 +32,16 @@ namespace RogueWave.UI
             if (m_ResourcesText != null)
             {
                 m_ResourcesText.text = RogueLiteManager.persistentData.currentResources.ToString();
+            }
+
+            if (m_GameLevelNumberText != null)
+            {
+                m_GameLevelNumberText.text = (RogueLiteManager.persistentData.currentGameLevel + 1).ToString();
+            }
+
+            if (m_NanobotLevelNumberText != null)
+            {
+                m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
             }
 
             permanentRecipes.Clear();
