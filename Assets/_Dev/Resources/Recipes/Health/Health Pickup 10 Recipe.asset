@@ -16,9 +16,10 @@ MonoBehaviour:
   description: Bandage up some of those flesh wounds.
   heroImage: {fileID: 21300000, guid: 37d7c21f57ea47949ac7074a41c8bba3, type: 3}
   icon: {fileID: 21300000, guid: 84eeed9f4d6630c48b646f1abfb9a084, type: 3}
-  level: 0
+  level: 3
   baseWeight: 0.2
-  dependencies: []
+  dependencies:
+  - {fileID: 11400000, guid: 54f96e0540cf6bb41a06fdbff74ac37e, type: 2}
   complements: []
   buyCost: 75
   isPowerUp: 1
@@ -26,7 +27,7 @@ MonoBehaviour:
   cooldown: 4
   isStackable: 0
   maxStack: 1
-  buildCost: 30
+  buildCost: 50
   timeToBuild: 5
   nameClips:
   - {fileID: 8300000, guid: 89967dc181ad044438d2e71d9b8b1ed0, type: 3}

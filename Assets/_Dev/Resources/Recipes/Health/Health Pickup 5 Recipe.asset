@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9173466c2b1873b46a6dc2bb3df303bb, type: 3}
+  m_Name: Health Pickup 5 Recipe
+  m_EditorClassIdentifier: 
+  displayName: Health 5
+  description: Take away some of the hurt.
+  heroImage: {fileID: 21300000, guid: fbc9485f7d2a0774c8f52a2f848af5ad, type: 3}
+  icon: {fileID: 21300000, guid: e77c85fa3c6598b4a96046c5e1bf3f5e, type: 3}
+  level: 0
+  baseWeight: 0.2
+  dependencies: []
+  complements: []
+  buyCost: 30
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 2
+  isStackable: 0
+  maxStack: 1
+  buildCost: 2
+  timeToBuild: 2
+  nameClips:
+  - {fileID: 8300000, guid: d67945ee9483704479f83eee5bf0eeb7, type: 3}
+  - {fileID: 8300000, guid: ab28e9346e0b22146b3e11acc35b2f75, type: 3}
+  - {fileID: 8300000, guid: 7c95dc1578de4744ca0ef0d3f5b0947b, type: 3}
+  - {fileID: 8300000, guid: c41cb1ee1b3177546b432286ad92c2b1, type: 3}
+  - {fileID: 8300000, guid: 887522f414ac3ca4a99ab2d8f7c4d65d, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 877ed019-2280-498c-bc61-e113987700f1
+  pickup: {fileID: 114608595035019784, guid: 07dff97a969c00743824edf4557db1a6, type: 3}
