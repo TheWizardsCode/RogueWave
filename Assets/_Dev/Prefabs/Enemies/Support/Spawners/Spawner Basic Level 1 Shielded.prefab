@@ -296,14 +296,15 @@ MonoBehaviour:
   maximumHeight: 75
   optimalDistanceFromPlayer: 0.2
   obstacleAvoidanceDistance: 2
+  arrivalDistance: 1.5
   seekDuration: 7
   seekDistance: 30
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 15
   explosionDamageOnDeath: 30
   explosionForceOnDeath: 25
-  resourcesDropChance: 0.7
-  resourcesPrefab: {fileID: 8288433013401571843, guid: caf9459c819d25843b1b923efddbb709, type: 3}
+  resourcesDropChance: 1
+  resourcesPrefab: {fileID: 8288433013401571843, guid: c5e67adb717297b479a13c4672a13627, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -315,11 +316,11 @@ MonoBehaviour:
   isDebug: 0
   includeInShowcase: 1
   isBossSpawner: 1
+  ignoreMaxAlive: 0
   activeRange: 0
   useLevelDefinition: 1
   levelDefinition: {fileID: 0}
   timeBetweenWaves: 10
-  ignoreMaxAlive: 0
   spawnRadius: 5
   destroySpawnsOnDeath: 1
   loopWaves: 0
@@ -329,7 +330,7 @@ MonoBehaviour:
   shieldGeneratorRPM: 22.5
   shieldCollider: {fileID: 1768168615545587999}
   waveStartSound: {fileID: 8300000, guid: a31a162329454e24488754023b89ff41, type: 3}
-  onDestroyed:
+  onSpawnerDestroyed:
     m_PersistentCalls:
       m_Calls: []
   onEnemySpawned:
