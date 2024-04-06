@@ -92,8 +92,9 @@ namespace WizardsCode.csv
                     {
                         isUpdating = false;
                         recipe = ScriptableObject.CreateInstance<T>();
-                        EditorUtility.SetDirty(recipe);
                     }
+
+                    EditorUtility.SetDirty(recipe);
 
                     List<FieldInfo> fields = GetSerializeFields(recipe);
                     for (int i = 0; i < fields.Count; i++)

@@ -23,6 +23,21 @@ namespace RogueWave
 
         private NanobotManager nanobotManager = null;
 
+        protected override void Start()
+        {
+            base.Start();
+
+            if (m_GameLevelNumberText != null)
+            {
+                m_GameLevelNumberText.text = (RogueLiteManager.persistentData.currentGameLevel + 1).ToString();
+            }
+
+            if (m_NanobotLevelNumberText != null)
+            {
+                m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
+            }
+        }
+
         internal void UpdateSpawnerCount(int count)
         {
             if (m_SpawnersText != null)
