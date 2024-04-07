@@ -279,6 +279,7 @@ namespace RogueWave
             healthManager = GetComponent<BasicHealthManager>();
             if (healthManager != null)
             {
+                healthManager.AddHealth(healthManager.healthMax);
                 healthManager.onIsAliveChanged += OnAliveIsChanged;
             }
         }
@@ -289,8 +290,6 @@ namespace RogueWave
             {
                 healthManager.onIsAliveChanged -= OnAliveIsChanged;
             }
-
-            healthManager.AddHealth(healthManager.healthMax);
 
             onDestroyed?.Invoke();
             onDestroyed.RemoveAllListeners();

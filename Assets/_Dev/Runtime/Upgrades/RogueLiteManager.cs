@@ -165,6 +165,7 @@ namespace RogueWave
         {
             currentProfile = profileName;
             ResetPersistentData();
+            ResetRunData();
             persistentData.isDirty = true;
         }
 

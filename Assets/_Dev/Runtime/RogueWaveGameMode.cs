@@ -360,7 +360,14 @@ namespace RogueWave
 
             foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
             {
-                log.AppendLine($"Recipe: {recipe.DisplayName}, ");
+                log.Append($"Recipe: {recipe.DisplayName}");
+                if (RogueLiteManager.persistentData.RecipeIds.Contains(recipe.UniqueID))
+                {
+                    log.Append(" (Permanent), ");
+                } else
+                {
+                    log.Append(" (Temporary), ");
+                }
             }
 
             IInventoryItem[] loadout = FpsSoloCharacter.localPlayerCharacter.GetComponent<IInventory>().GetItems();
