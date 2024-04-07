@@ -20,6 +20,8 @@ using RogueWave;
 using System.Collections.Generic;
 using System.Text;
 using Lumpn.Discord;
+using RogeWave;
+using System.Collections;
 
 namespace WizardsCode.GameStats
 {
@@ -109,31 +111,46 @@ namespace WizardsCode.GameStats
                 return;
             }
 
-            Webhook webhook = webhookData.CreateWebhook();
-            StartCoroutine(webhook.Send(GetDataAsMarkdown()));
+            string[] chunks = GetDataAsYAML();
+            StartCoroutine(SendDataToWebhookCoroutine(chunks));
         }
 
-        private string GetDataAsMarkdown()
+        IEnumerator SendDataToWebhookCoroutine(string[] chunks)
         {
+            Webhook webhook = webhookData.CreateWebhook();
+            foreach (string chunk in chunks)
+            {
+                StartCoroutine(webhook.Send($"```yaml\n{chunk}```"));
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        private string[] GetDataAsYAML()
+        {// send a summary of the stats and achevements to a webhook
+         // OPTIMIZATION: This could be optimized by only sending the stats and achievements that have changed since the last time this was called.
+         // OPTIMIZATION: This could be further optimized by only sending the stats and achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to send.
+
+            List<string> chunks = new List<string>();
+
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Machine Stats:");
 
-            sb.Append("## Machine Stats\n");
+            sb.AppendLine($"  - UNIQUE_DEVICE_ID_HASH: {SystemInfo.deviceUniqueIdentifier.GetHashCode()}"); // Use a hash of the device ID to avoid sending the actual device ID which could be used to track a user.
+            sb.AppendLine($"  - OS: {SystemInfo.operatingSystem}");
+            sb.AppendLine($"  - CPU: {SystemInfo.processorType}");
+            sb.AppendLine($"  - GPU: {SystemInfo.graphicsDeviceName}");
+            sb.AppendLine($"  - RAM: {SystemInfo.systemMemorySize} MB");
+            sb.AppendLine($"  - DEVICE_MODEL: {SystemInfo.deviceModel}");
+            sb.AppendLine($"  - DEVICE_TYPE: {SystemInfo.deviceType}");
+            sb.AppendLine($"  - GRAPHICS_API: {SystemInfo.graphicsDeviceType}");
+            sb.AppendLine($"  - SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}");
+            chunks.Add(sb.ToString());
 
-            sb.Append($"UNIQUE_DEVICE_ID = {SystemInfo.deviceUniqueIdentifier}\n");
-            sb.Append($"OS = {SystemInfo.operatingSystem}\n");
-            sb.Append($"CPU = {SystemInfo.processorType}\n");
-            sb.Append($"GPU = {SystemInfo.graphicsDeviceName}\n");
-            sb.Append($"RAM = {SystemInfo.systemMemorySize} MB\n");
-            sb.Append($"DEVICE_MODEL: {SystemInfo.deviceModel}\n");
-            sb.Append($"DEVICE_TYPE: {SystemInfo.deviceType}\n");
-            sb.Append($"GRAPHICS_API: {SystemInfo.graphicsDeviceType}\n");
-            sb.Append($"SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}\n");
+            chunks.Add(GameLog.Instance.ToYAML());
 
-            sb.Append("## Player Stats\n");
+            sb.Clear();
 
-            // send a summary of the stats and achevements to a webhook
-            // OPTIMIZATION: This could be optimized by only sending the stats and achievements that have changed since the last time this was called.
-            // OPTIMIZATION: This could be further optimized by only sending the stats and achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to send.
+            sb.AppendLine("Player Stats:");
             foreach (GameStat stat in Resources.LoadAll<GameStat>(""))
             {
                 if (stat.key != null)
@@ -141,24 +158,27 @@ namespace WizardsCode.GameStats
                     switch (stat.type)
                     {
                         case GameStat.StatType.Int:
-                            sb.Append($"{stat.key} = {stat.GetIntValue()}\n");
+                            sb.Append($"  - {stat.key}: {stat.GetIntValue()}\n");
                             break;
                         case GameStat.StatType.Float:
-                            sb.Append($"{stat.key} = {stat.GetFloatValue()}\n");
+                            sb.Append($"  - {stat.key}: {stat.GetFloatValue()}\n");
                             break;
                     }
                 }
             }
+            chunks.Add(sb.ToString());
 
-            sb.Append("## Achievements\n");
-
+            sb.Clear();
+            sb.AppendLine("Achievements:");
             foreach (Achievement achievement in m_Achievements)
             {
                 string status = achievement.isUnlocked ? "Unlocked" : "Locked";
-                sb.Append($"{achievement.key} is {status}\n");
+                sb.AppendLine($"  - {achievement.key}: {status}");
             }
 
-            return sb.ToString();
+            chunks.Add(sb.ToString());
+
+            return chunks.ToArray();
         }
 
         private void Update()

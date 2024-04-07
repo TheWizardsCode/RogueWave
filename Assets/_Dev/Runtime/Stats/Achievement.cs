@@ -1,3 +1,5 @@
+using RogeWave;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -25,6 +27,7 @@ namespace WizardsCode.GameStats
         float m_TargetValue;
 
         bool m_IsUnlocked = false;
+        DateTime m_TimeOfUnlock;
 
         public string key => m_Key;
         public string displayName => m_DisplayName;
@@ -33,7 +36,8 @@ namespace WizardsCode.GameStats
         public GameStat stat => m_StatToTrack;
         public float targetValue => m_TargetValue;
         public bool isUnlocked => m_IsUnlocked;
-
+        public DateTime timeOfUnlock => m_TimeOfUnlock;
+        
         internal void Reset()
         {
             m_IsUnlocked = false;
@@ -41,7 +45,8 @@ namespace WizardsCode.GameStats
 
         internal void Unlock() {
             m_IsUnlocked = true;
-            Debug.Log($"Achievement {displayName} unlocked!");
+            m_TimeOfUnlock = DateTime.Now;
+            GameLog.Instance.Info($"Achievement {displayName} unlocked!");
         }
     }
 }

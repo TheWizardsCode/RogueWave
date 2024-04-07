@@ -12,6 +12,8 @@ using RogueWave.UI;
 using WizardsCode.GameStats;
 using System.Collections.Generic;
 using System.Linq;
+using RogeWave;
+using System.Text;
 
 namespace RogueWave
 {
@@ -154,7 +156,10 @@ namespace RogueWave
 
         protected override void DelayedDeathAction()
         {
-            SendData();
+            LogGameState("Death");
+
+            SaveGameData();
+            GameLog.Instance.ClearLog();
 
             RogueLiteManager.ResetRunData();
 
@@ -163,11 +168,18 @@ namespace RogueWave
 
         void DelayedVictoryAction()
         {
+            SaveGameData();
+            GameLog.Instance.ClearLog();
+
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
 
         private IEnumerator DelayedVictoryCoroutine(float delay)
         {
+            LogGameState("Run completed");
+
+            yield return null;
+
             onVictory?.Invoke();
 
             // Temporary magnet buff to pull in victory rewards
@@ -206,13 +218,11 @@ namespace RogueWave
                 m_VictoryCount.Increment();
             }
 
-            SendData();
-
             if (inGame)
                 DelayedVictoryAction();
         }
 
-        private void SendData()
+        private void SaveGameData()
         {
             float timePlayed = Time.time - startTime;
             if (m_TimePlayedStat != null)
@@ -326,10 +336,9 @@ namespace RogueWave
                 }
             }
 
-            var loadout = ConfigureLoadout();
+            FpsInventoryLoadout loadout = ConfigureLoadout();
             if (loadout != null)
                 character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
-
             // Add nanobot recipes
             NanobotManager manager = character.GetComponent<NanobotManager>();
             for (int i = 0; i < RogueLiteManager.runData.Recipes.Count; i++)
@@ -341,6 +350,41 @@ namespace RogueWave
             healthManager.health = healthManager.healthMax;
 
             startTime = Time.time;
+
+            LogGameState("Character Spawned");
+        }
+
+        private void LogGameState(string eventName)
+        {
+            StringBuilder log = new StringBuilder($"{eventName}, ");
+
+            foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
+            {
+                log.AppendLine($"Recipe: {recipe.DisplayName}, ");
+            }
+
+            IInventoryItem[] loadout = FpsSoloCharacter.localPlayerCharacter.GetComponent<IInventory>().GetItems();
+            foreach (var item in loadout)
+            {
+                log.Append($"Inventory Item: {item.name}, ");
+            }
+
+            foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
+            {
+                if (RecipeManager.TryGetRecipe(id, out IRecipe recipe))
+                {
+                    log.AppendLine($"Weapon Build Order: {recipe.DisplayName}, ");
+                }
+            }
+
+            log.Append($"Resources: {RogueLiteManager.persistentData.currentResources}, ");
+            log.Append($"Nanobot Level: {RogueLiteManager.persistentData.currentNanobotLevel}, ");
+            log.Append($"Game Level: {RogueLiteManager.persistentData.currentGameLevel}, ");
+            log.Append($"Run Number: {RogueLiteManager.persistentData.runNumber}, ");
+            
+            log.Append($"Health: {FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>().healthMax}, ");
+            
+            GameLog.Instance.Info(log.ToString());
         }
 
         private void OnCharacterIsAliveChanged(ICharacter character, bool alive)
