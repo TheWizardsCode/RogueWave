@@ -6,6 +6,7 @@ using UnityEngine;
 using NeoSaveGames.SceneManagement;
 using NaughtyAttributes;
 using System;
+using RogeWave;
 
 namespace RogueWave.UI
 {
@@ -102,6 +103,8 @@ namespace RogueWave.UI
             RogueLiteManager.SaveProfile();
             
             offers.RemoveAll(o => o == offer);
+
+            GameLog.Instance.Info($"Bought {offer}.");
         }
     }
 }

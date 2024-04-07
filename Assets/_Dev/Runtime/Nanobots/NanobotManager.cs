@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
+using RogeWave;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -324,6 +325,8 @@ namespace RogueWave
                 {
                     recipeNames[i] = currentOfferRecipes[i].NameClip;
                 }   
+
+                GameLog.Instance.Info($"Offering in-run recipe reward {currentOfferRecipes[i].DisplayName}");
             }
             StartCoroutine(Announce(clip, recipeNames));
 
@@ -350,6 +353,7 @@ namespace RogueWave
                     timeOfNextBuiild = Time.timeSinceLevelLoad + currentOfferRecipes[i].TimeToBuild + 5f;
 
                     // Announce request made
+                    GameLog.Instance.Info($"Requesting in-run recipe reward {currentOfferRecipes[i].DisplayName}");
                     clip = recipeRequested[Random.Range(0, recipeRequested.Length)];
                     if (Time.timeSinceLevelLoad - timeOfLastRewardOffer > 5)
                     {
@@ -405,12 +409,18 @@ namespace RogueWave
             {
                 StopCoroutine(rewardCoroutine);
             }
-            rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
+
+            if (!inVictoryRoutine)
+            {
+                rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
+            }
 
             if (m_MaxNanobotLevelStat != null && m_MaxNanobotLevelStat.GetIntValue() < RogueLiteManager.persistentData.currentNanobotLevel)
             {
                 m_MaxNanobotLevelStat.Increment();
             }
+
+            GameLog.Instance.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
         }
 
         /// <summary>
@@ -670,12 +680,6 @@ namespace RogueWave
 
         internal IEnumerator BuildRecipe(IRecipe recipe)
         {
-#if UNITY_EDITOR
-            if (isDebug)
-            {
-                Debug.Log($"Building {recipe.DisplayName}");
-            }
-#endif
             isBuilding = true;
             resources -= recipe.BuildCost;
 
@@ -693,6 +697,8 @@ namespace RogueWave
 
                 StartCoroutine(Announce(buildStartedClips[Random.Range(0, buildStartedClips.Length)], recipeName));
             }
+
+            GameLog.Instance.Info($"Building {recipe.DisplayName}");
 
             onBuildStarted?.Invoke(recipe);
             yield return new WaitForSeconds(recipe.TimeToBuild);
