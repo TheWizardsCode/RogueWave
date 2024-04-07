@@ -90,6 +90,7 @@ MonoBehaviour:
   maximumHeight: 75
   optimalDistanceFromPlayer: 0.2
   obstacleAvoidanceDistance: 2
+  arrivalDistance: 1.5
   seekDuration: 7
   seekDistance: 30
   shouldExplodeOnDeath: 1
@@ -120,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OnOverflow: 1
+  m_OnOverflow: 0
 --- !u!1 &3351190687941056451
 GameObject:
   m_ObjectHideFlags: 0

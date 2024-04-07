@@ -1,8 +1,6 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace RogeWave
@@ -134,17 +132,17 @@ namespace RogeWave
             StringBuilder yaml = new StringBuilder();
             if (error.Length > 0)
             {
-                yaml.AppendLine("- LogErrors:");
+                yaml.AppendLine("LogErrors:");
                 yaml.Append(error.ToString());
             }
 
             if (warning.Length > 0)
             {
-                yaml.AppendLine("- LogWarnings:");
+                yaml.AppendLine("LogWarnings:");
                 yaml.Append(warning.ToString());
             }
 
-            yaml.AppendLine("- LogInfo:");
+            yaml.AppendLine("LogInfo:");
             yaml.Append(info.ToString());
 
             return yaml.ToString();

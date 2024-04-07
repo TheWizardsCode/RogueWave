@@ -20,7 +20,7 @@ namespace WizardsCode.csv
             return $"Assets/{relativeDataDirectoryPath}/{type}/{fileName}.csv";
         }
 
-        [MenuItem("Tools/Rogue Wave/Export All Recipes to CSV", priority = 100)]
+        [MenuItem("Tools/Rogue Wave/Data/Export All Recipes to CSV", priority = 100)]
         static void ExportRecipeCSV()
         {
             string dataType = "Recipes";
@@ -41,7 +41,7 @@ namespace WizardsCode.csv
             }
         }
 
-        [MenuItem("Tools/Rogue Wave/Import All Recipes from CSV", priority = 200)]
+        [MenuItem("Tools/Rogue Wave/Data/Destructive/Import All Recipes from CSV", priority = 200)]
         static void ImportRecipeCSV()
         {
             string dataType = "Recipes";

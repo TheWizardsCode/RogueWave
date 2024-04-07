@@ -120,8 +120,30 @@ namespace WizardsCode.GameStats
             Webhook webhook = webhookData.CreateWebhook();
             foreach (string chunk in chunks)
             {
-                StartCoroutine(webhook.Send($"```yaml\n{chunk}```"));
-                yield return new WaitForSeconds(0.5f);
+                if (chunk.Length > 2000)
+                {
+                    Debug.LogWarning("Data chunk too large to send to webhook. Data will be split across messages. Need a proper way to get the logs.");
+                    string[] lines = chunk.Split('\n');
+                    StringBuilder sb = new StringBuilder();
+                    foreach (string line in lines)
+                    {
+                        if (sb.Length > 1800 && line.Trim().StartsWith('-'))
+                        {
+                            StartCoroutine(webhook.Send($"```yaml\n# Partial\n{sb}```"));
+                            yield return new WaitForSeconds(0.5f);
+                            sb.Clear();
+                        }
+                        sb.AppendLine(line);
+                    }
+
+                    StartCoroutine(webhook.Send($"```yaml\n# Partial (Last)\n{sb}```"));
+                    yield return new WaitForSeconds(0.5f);
+                }
+                else
+                {
+                    StartCoroutine(webhook.Send($"```yaml\n{chunk}```"));
+                    yield return new WaitForSeconds(0.5f);
+                }
             }
         }
 
@@ -274,24 +296,31 @@ namespace WizardsCode.GameStats
         #region EDITOR_ONLY
 #if UNITY_EDITOR
         #region ScriptableObjects
-        [Button("Reset Stats and Achievements")]
-        private void ResetStats()
+
+        [MenuItem("Tools/Rogue Wave/Data/Destructive/Reset Stats and Achievements")]
+        private static void ResetLocalStatsAndAchievements()
+        {
+            GameStat[] gameStats = Resources.LoadAll<GameStat>("");
+            foreach (GameStat stat in gameStats)
+            {
+                stat.Reset();
+            }
+
+            Achievement[] achievements = Resources.LoadAll<Achievement>("");
+            foreach (Achievement achievement in achievements)
+            {
+                achievement.Reset();
+            }
+
+            Debug.Log("Stats and achievements reset.");
+        }
+
+        [Button("Reset Stats and Achievements (Play mode only)")]
+        private static void ResetStats()
         {
             if (Application.isPlaying)
             {
-
-                GameStat[] gameStats = Resources.LoadAll<GameStat>("");
-                foreach (GameStat stat in gameStats)
-                {
-                    stat.Reset();
-                }
-
-                Achievement[] achievements = Resources.LoadAll<Achievement>("");
-                foreach (Achievement achievement in achievements)
-                {
-                    achievement.Reset();
-                }
-
+                ResetLocalStatsAndAchievements();
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
                 ResetSteamStats();
 #endif

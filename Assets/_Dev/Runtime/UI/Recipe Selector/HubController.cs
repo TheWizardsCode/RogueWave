@@ -6,8 +6,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
-using System.Security.Permissions;
-using log4net.Core;
 
 namespace RogueWave.UI
 {
