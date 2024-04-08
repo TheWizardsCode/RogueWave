@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NeoFPS.Constants;
 using ProceduralToolkit;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
@@ -9,9 +10,9 @@ namespace RogueWave.Procedural
     [CreateAssetMenu(menuName = "Rogue Wave/Buildings/Procedural Facade Planner", order = 1)]
     public class ProceduralFacadePlanner : FacadePlanner
     {
-        [SerializeField, Tooltip("The chance that windows will be present in the building. This is an all or nothing chance, that is there will be or won't be windows."), Range(0f, 1f)]
+        [SerializeField, Tooltip("The chance that windows will be present on any given facade and floor of the building."), Range(0f, 1f)]
         float chanceOfWindows = 0f;
-        [SerializeField, Tooltip("The chance that balconies will be present on the building. This is an all or nothing chance, that is there will be or won't be balconies."), Range(0f, 1f)]
+        [SerializeField, Tooltip("The chance that balconies will be present on any given facade of the building."), Range(0f, 1f)]
         float chanceOfBalconies = 0f;
 
         private const float socleHeight = 1;

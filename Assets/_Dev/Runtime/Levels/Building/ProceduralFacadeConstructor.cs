@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using NeoFPS.Constants;
 using ProceduralToolkit;
 using ProceduralToolkit.Buildings;
 using UnityEngine;
@@ -8,6 +9,11 @@ namespace RogueWave.Procedural
     [CreateAssetMenu(menuName = "Rogue Wave/Buildings/Procedural Facade Constructor", order = 3)]
     public class ProceduralFacadeConstructor : FacadeConstructor
     {
+        [SerializeField, Tooltip("The surface material for this building.")]
+        internal FpsSurfaceMaterial surface = FpsSurfaceMaterial.Concrete;
+        [SerializeField, Tooltip("The colour range for the walls for this building. Upon generation a random selection will be made from this gradient.")]
+        public Gradient wallGradient = default;
+
         [SerializeField]
         private RendererProperties rendererProperties = null;
         [SerializeField]
@@ -16,6 +22,25 @@ namespace RogueWave.Procedural
         private Material roofMaterial = null;
         [SerializeField]
         private Material wallMaterial = null;
+
+        private Palette m_palette;
+
+        internal Palette palette
+        {
+            get
+            {
+                if (m_palette == null)
+                {
+                    m_palette = new Palette();
+                }
+                float gradientValue = Random.value;
+                m_palette.wallColor = wallGradient.Evaluate(gradientValue);
+                m_palette.glassColor = wallGradient.Evaluate(gradientValue * 0.5f);
+                m_palette.frameColor = wallGradient.Evaluate(gradientValue * 0.56f);
+
+                return m_palette;
+            }
+        }
 
         public override void Construct(List<Vector2> foundationPolygon, List<ILayout> layouts, Transform parentTransform)
         {

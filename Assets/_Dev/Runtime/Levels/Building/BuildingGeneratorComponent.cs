@@ -17,8 +17,6 @@ namespace RogueWave.Procedural
         private PolygonAsset[] foundationPolygon = null;
         [SerializeField, Tooltip("The number of floors the building will have."), MinMaxSlider(2, 50)]
         private Vector2Int floors = new Vector2Int(2, 50);
-        [SerializeField, Tooltip("The surface material for this building.")]
-        private FpsSurfaceMaterial surface = FpsSurfaceMaterial.Concrete;
         [SerializeField, Tooltip("The parent for the building generated.")]
         private Transform parent = null;
 
@@ -26,7 +24,7 @@ namespace RogueWave.Procedural
         [SerializeField, FormerlySerializedAs("facadePlanningStrategy"), Expandable]
         private FacadePlanner facadePlanner = null;
         [SerializeField, FormerlySerializedAs("facadeConstructionStrategy"), Expandable]
-        private FacadeConstructor facadeConstructor = null;
+        private ProceduralFacadeConstructor facadeConstructor = null;
         [SerializeField, FormerlySerializedAs("roofPlanningStrategy"), Expandable]
         private RoofPlanner roofPlanner = null;
         [SerializeField, FormerlySerializedAs("roofConstructionStrategy"), Expandable]
@@ -53,6 +51,7 @@ namespace RogueWave.Procedural
             generator.SetFacadeConstructor(facadeConstructor);
             generator.SetRoofPlanner(roofPlanner);
             generator.SetRoofConstructor(roofConstructor);
+            config.palette = facadeConstructor.palette;
             Transform building = generator.Generate(foundations.vertices, config, parent);
 
             for (int i = parent.childCount - 1; i >= 0; i--)
@@ -69,7 +68,7 @@ namespace RogueWave.Procedural
         {
             building.gameObject.AddComponent<BasicDamageHandler>();
             BuildingSurface surface = building.gameObject.AddComponent<BuildingSurface>();
-            surface.Surface = this.surface;
+            surface.Surface = facadeConstructor.surface;
         }
 
         void CreateColliders(Transform model)

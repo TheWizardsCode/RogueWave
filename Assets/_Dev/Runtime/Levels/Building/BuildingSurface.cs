@@ -1,7 +1,6 @@
 using NeoFPS;
 using NeoFPS.Constants;
-using System.Collections;
-using System.Collections.Generic;
+using ProceduralToolkit.Buildings;
 using UnityEngine;
 
 namespace RogueWave
@@ -10,6 +9,8 @@ namespace RogueWave
     {
         [SerializeField, Tooltip("The surface material for this building.")]
         private FpsSurfaceMaterial m_Surface = FpsSurfaceMaterial.Default;
+        [SerializeField, Tooltip("The colour pallette to use for buildings using this surfae type.")]
+        private Palette pallete = new Palette();
 
         internal FpsSurfaceMaterial Surface {
             get { return m_Surface; }
