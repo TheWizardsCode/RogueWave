@@ -361,9 +361,14 @@ namespace WizardsCode.GameStats
                 Achievement[] achievements = Resources.LoadAll<Achievement>("");
                 foreach (Achievement achievement in m_Achievements)
                 {
-                    string status = achievement.isUnlocked ? "Unlocked" : "Locked";
-                    Debug.Log($"Scriptable Object: {achievement.key} = {status}");
-
+                    if (achievement.isUnlocked)
+                    {
+                        Debug.Log($"Scriptable Object: {achievement.key} = unlocked at {achievement.timeOfUnlock}");
+                    }
+                    else
+                    {
+                        Debug.Log($"Scriptable Object: {achievement.key} = locked");
+                    }
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
                     DumpSteamAchievement(achievement);
 #endif
