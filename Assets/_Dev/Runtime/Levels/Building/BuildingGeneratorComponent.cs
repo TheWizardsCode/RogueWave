@@ -15,8 +15,8 @@ namespace RogueWave.Procedural
         private bool generateOnAwake = true;
         [SerializeField, Expandable]
         private PolygonAsset[] foundationPolygon = null;
-        [SerializeField, Tooltip("The number of floors the building will have."), MinMaxSlider(2, 50)]
-        private Vector2Int floors = new Vector2Int(2, 50);
+        [SerializeField, Tooltip("The number of minimum and maximum number of floors the building will have."), MinMaxSlider(2, 50)]
+        internal Vector2Int floors = new Vector2Int(2, 50);
         [SerializeField, Tooltip("The parent for the building generated.")]
         private Transform parent = null;
 
@@ -32,7 +32,10 @@ namespace RogueWave.Procedural
 
         private void Awake()
         {
-            Generate();
+            if (generateOnAwake)
+            {
+                Generate();
+            }
         }
 
         public Transform Generate()

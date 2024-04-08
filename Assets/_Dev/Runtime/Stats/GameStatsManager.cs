@@ -22,6 +22,7 @@ using System.Text;
 using Lumpn.Discord;
 using RogeWave;
 using System.Collections;
+using UnityEngine.Serialization;
 
 namespace WizardsCode.GameStats
 {
@@ -35,8 +36,11 @@ namespace WizardsCode.GameStats
     [DisallowMultipleComponent]
     public class GameStatsManager : MonoBehaviour
     {
-        [SerializeField, Tooltip("The URL of the webhook to send stats and achievements to.")]
-        WebhookData webhookData;
+        [SerializeField, Tooltip("The URL of the webhook to send player stats and achievements to.")]
+        [FormerlySerializedAs("webhookData")]
+        WebhookData playerDataWebhook;
+        [SerializeField, Tooltip("The URL of the webhook to send developer stats and achievements to.")]
+        WebhookData developerDataWebhook;
 
         private Achievement[] m_Achievements;
 
@@ -106,7 +110,7 @@ namespace WizardsCode.GameStats
 
         internal void SendDataToWebhook() 
         {
-            if (webhookData == null)
+            if (playerDataWebhook == null)
             {
                 return;
             }
@@ -117,7 +121,7 @@ namespace WizardsCode.GameStats
 
         IEnumerator SendDataToWebhookCoroutine(string[] chunks)
         {
-            Webhook webhook = webhookData.CreateWebhook();
+            Webhook webhook = playerDataWebhook.CreateWebhook();
             foreach (string chunk in chunks)
             {
                 if (chunk.Length > 2000)

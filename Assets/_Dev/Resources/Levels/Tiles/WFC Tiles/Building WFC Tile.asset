@@ -10,74 +10,55 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Buildings Tall WFC Tile
+  m_Name: Building WFC Tile
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 2542797727158204644, guid: 5c79b88c7971f0f47a4bc5b6de6e4748, type: 3}
+  tilePrefab: {fileID: 2542797727158204644, guid: ebf490784cf0f5d429d7fa4ffe12e85d, type: 3}
+  enemySpawnChance: 0
   constraints:
     bottomLeftBoundary: {x: 0, y: 0, z: 0}
     topRightBoundary: {x: 1, y: 1, z: 1}
-    weight: 0.8
+    weight: 0.5
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.097
-  - tileDefinition: {fileID: 11400000, guid: 89190b414140bee4b86ac3a2c6ccbbf8, type: 2}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.321
+      weight: 0.231
   - tileDefinition: {fileID: 11400000}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.838
+      weight: 0.962
   xNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.097
-  - tileDefinition: {fileID: 11400000, guid: 89190b414140bee4b86ac3a2c6ccbbf8, type: 2}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.321
+      weight: 0.231
   - tileDefinition: {fileID: 11400000}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.838
+      weight: 0.962
   zPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.097
-  - tileDefinition: {fileID: 11400000, guid: 89190b414140bee4b86ac3a2c6ccbbf8, type: 2}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.321
+      weight: 0.231
   - tileDefinition: {fileID: 11400000}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.838
+      weight: 0.962
   zNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.097
-  - tileDefinition: {fileID: 11400000, guid: 89190b414140bee4b86ac3a2c6ccbbf8, type: 2}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.321
+      weight: 0.231
   - tileDefinition: {fileID: 11400000}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.838
+      weight: 0.962

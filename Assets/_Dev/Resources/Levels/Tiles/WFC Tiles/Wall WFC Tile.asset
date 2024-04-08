@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Wall WFC Tile
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: -643772105435015575, guid: 646ed8d4dd198bb49881ec6ff095f93e, type: 3}
+  enemySpawnChance: 0
   constraints:
     bottomLeftBoundary: {x: 0, y: 0, z: 0}
     topRightBoundary: {x: 1, y: 1, z: 1}
@@ -23,7 +24,7 @@ MonoBehaviour:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
       weight: 0.267
-  - tileDefinition: {fileID: 11400000, guid: 9e36498425aa56c4f8811ca8ebb75540, type: 2}
+  - tileDefinition: {fileID: 11400000, guid: 89190b414140bee4b86ac3a2c6ccbbf8, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}

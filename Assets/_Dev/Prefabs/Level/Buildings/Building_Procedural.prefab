@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: -4896698830879436201}
   - component: {fileID: 4010140340731626382}
   m_Layer: 0
-  m_Name: Building_Procedural_Low
+  m_Name: Building_Procedural
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -129,7 +129,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2335470377363790966, guid: 8d69b129d7dee024b80c28eac8817dde, type: 3}
       propertyPath: floors.y
-      value: 7
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2335470377363790966, guid: 8d69b129d7dee024b80c28eac8817dde, type: 3}
+      propertyPath: generateOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7198491973930863953, guid: 8d69b129d7dee024b80c28eac8817dde, type: 3}
       propertyPath: m_Name
