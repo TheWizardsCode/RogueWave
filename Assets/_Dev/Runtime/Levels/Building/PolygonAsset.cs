@@ -14,9 +14,9 @@ namespace RogueWave.Procedural
         [SerializeField, Tooltip("Randomize the number of sides of the polygon."), ShowIf("autoGenerate")]
         internal bool randomizeSides = false;
         [SerializeField, Tooltip("The number of sides of the polygon."), MinValue(3), MaxValue(15), ShowIf("autoGenerate")]
-        int sides = 6;
+        internal int sides = 6;
         [SerializeField, Tooltip("The size of each side in the foundations polygon."), MinMaxSlider(5, 20)]
-        private Vector2Int sideLength = new Vector2Int(5, 20);
+        internal Vector2Int facadeLength = new Vector2Int(7, 20);
         [SerializeField, Tooltip("If true, the polygon will be a star shape. Star shapes move alternatve vertices in towards the center."), ShowIf("autoGenerate")]
         bool isStar = false;
         [SerializeField, Tooltip("The vertices of the polygon."), HideIf("autoGenerate")]
@@ -66,15 +66,14 @@ namespace RogueWave.Procedural
             }
 
             isStar = Random.value >= 0.5f;
-            OnValidate();
+            vertices = GenerateShape(sides, Random.Range(facadeLength.x, facadeLength.y), isStar);
         }
 
         private void OnValidate()
         {
-
             if (autoGenerate)
             {
-                vertices = GenerateShape(sides, Random.Range(sideLength.x, sideLength.y), isStar);
+                vertices = GenerateShape(sides, Random.Range(facadeLength.x, facadeLength.y), isStar);
             }
         }
     }

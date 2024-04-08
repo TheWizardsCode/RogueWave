@@ -25,19 +25,26 @@ namespace RogueWave
             BuildingGeneratorComponent generator = building.GetComponentInChildren<BuildingGeneratorComponent>();
             if (generator != null)
             {
-                if (!adjustFloorsBasedOnDistance)
-                {
-                    float widthDistancePercentage = 1 - (Mathf.Abs(x - (tiles.GetLength(0) / 2.0f)) / tiles.GetLength(0));
-                    float heightDistancePercentage = 1 - (Mathf.Abs(y - (tiles.GetLength(1) / 2.0f)) / tiles.GetLength(1));
+                ConfigureFloors(x, y, tiles, generator);
 
-                    int minFloors = Mathf.RoundToInt(generator.floors.y * widthDistancePercentage * heightDistancePercentage);
-                    int maxFloors = Mathf.RoundToInt(generator.floors.y * widthDistancePercentage * heightDistancePercentage);
-
-                    generator.floors = new Vector2Int(Mathf.Max(minFloors, generator.floors.x), Mathf.Min(minFloors, generator.floors.y));
-                    // Debug.Log($"Building at {x} ({widthDistancePercentage}%), {y} ({heightDistancePercentage}%) had floors range of {generator.floors}");
-                }
-
+                float lengthMultiplier = generator.foundationsPolygon.sides > 6 ? Random.Range(0.6f, 0.7f) : Random.Range(0.7f, 0.9f);
+                generator.foundationsPolygon.facadeLength = new Vector2Int(Mathf.RoundToInt(tileWidth * lengthMultiplier), Mathf.RoundToInt(tileHeight * lengthMultiplier));
                 generator.Generate();
+            }
+        }
+
+        private void ConfigureFloors(int x, int y, BaseTile[,] tiles, BuildingGeneratorComponent generator)
+        {
+            if (!adjustFloorsBasedOnDistance)
+            {
+                float widthDistancePercentage = 1 - (Mathf.Abs(x - (tiles.GetLength(0) / 2.0f)) / tiles.GetLength(0));
+                float heightDistancePercentage = 1 - (Mathf.Abs(y - (tiles.GetLength(1) / 2.0f)) / tiles.GetLength(1));
+
+                int minFloors = Mathf.RoundToInt(generator.floors.y * widthDistancePercentage * heightDistancePercentage);
+                int maxFloors = Mathf.RoundToInt(generator.floors.y * widthDistancePercentage * heightDistancePercentage);
+
+                generator.floors = new Vector2Int(Mathf.Max(minFloors, generator.floors.x), Mathf.Min(minFloors, generator.floors.y));
+                // Debug.Log($"Building at {x} ({widthDistancePercentage}%), {y} ({heightDistancePercentage}%) had floors range of {generator.floors}");
             }
         }
     }
