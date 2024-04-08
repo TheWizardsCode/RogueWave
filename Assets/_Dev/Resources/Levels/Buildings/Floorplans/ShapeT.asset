@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9253d7ec0bc5ca4a9359e7d3f7c82d6, type: 3}
+  m_Name: ShapeT
+  m_EditorClassIdentifier: 
+  autoGenerate: 0
+  randomizeSides: 0
+  sides: 6
+  sideLength: {x: 5, y: 20}
+  isStar: 0
+  vertices:
+  - {x: 5, y: -10}
+  - {x: -5, y: -10}
+  - {x: -5, y: -5}
+  - {x: -10, y: -5}
+  - {x: -10, y: 10}
+  - {x: 10, y: 10}
+  - {x: 10, y: -5}
+  - {x: 5, y: -5}
