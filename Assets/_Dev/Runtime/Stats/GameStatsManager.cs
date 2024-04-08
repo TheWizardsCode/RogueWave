@@ -62,6 +62,18 @@ namespace WizardsCode.GameStats
         public static GameStatsManager Instance { get; private set; }
         public static Action<Achievement> OnAchievementUnlocked { get; internal set; }
 
+        WebhookData activeWebhook
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return developerDataWebhook;
+#else
+                return playerDataWebhook;  
+#endif
+            }
+        }
+
         private void Awake()
         {
             if (Instance == null)
@@ -110,7 +122,7 @@ namespace WizardsCode.GameStats
 
         internal void SendDataToWebhook() 
         {
-            if (playerDataWebhook == null)
+            if (activeWebhook == null)
             {
                 return;
             }
@@ -121,7 +133,7 @@ namespace WizardsCode.GameStats
 
         IEnumerator SendDataToWebhookCoroutine(string[] chunks)
         {
-            Webhook webhook = playerDataWebhook.CreateWebhook();
+            Webhook webhook = activeWebhook.CreateWebhook();
             foreach (string chunk in chunks)
             {
                 if (chunk.Length > 2000)
@@ -453,6 +465,6 @@ namespace WizardsCode.GameStats
         }
 #endif
 #endif
-        #endregion
+#endregion
     }
 }
