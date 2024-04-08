@@ -15,30 +15,13 @@ MonoBehaviour:
   seed: 0
   lotSize: {x: 25, y: 25}
   mapSize: {x: 14, y: 14}
+  encloseLevel: 1
+  defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
-  emptyTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-  availableTiles:
-  - tile: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
-    weight: 0.243
-  - tile: {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
-    weight: 0.468
-  - tile: {fileID: 11400000, guid: 95eb4a8cf40ae1d4f9790b81e56ffd66, type: 2}
-    weight: 0.679
-  - tile: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    weight: 0.789
-  - tile: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
-    weight: 0.258
-  - tile: {fileID: 11400000, guid: d97bb90dd900b6c4f8e46dfbf2812c7a, type: 2}
-    weight: 0.624
-  - tile: {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
-    weight: 0.682
-  enemySpawnChance: 0
-  waves:
-  - {fileID: 11400000, guid: bcc18c73d27157f4ab2b2842e1cf7563, type: 2}
+  waves: []
   waveWait: 5
   generateNewWaves: 0
   maxAlive: 200
   generateLevelOnSpawn: 1
   prePlacedTiles:
-  - {fileID: 11400000, guid: d97bb90dd900b6c4f8e46dfbf2812c7a, type: 2}
-  - {fileID: 11400000, guid: 0bd0f9ccb564c704085a742a493ae657, type: 2}
+  - {fileID: 11400000, guid: d06759628af557e42b3babe3e8f4909e, type: 2}
