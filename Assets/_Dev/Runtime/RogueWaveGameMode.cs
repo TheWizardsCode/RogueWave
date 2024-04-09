@@ -50,6 +50,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
         public UnityEvent<BasicEnemyController> onEnemySpawned;
 
+        // Debug
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
 

@@ -28,8 +28,6 @@ namespace RogueWave
         [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player.")]
         float difficultyMultiplier = 7f;
 
-        [Header("Squads")]
-
 
         [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]
         bool isDebug = false;

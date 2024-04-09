@@ -1,3 +1,4 @@
+using Codice.Client.BaseCommands;
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
@@ -13,6 +14,8 @@ namespace RogueWave
 {
     public class BasicEnemyController : MonoBehaviour
     {
+        internal enum SquadRole { Fodder, /* Heavy, Sniper, Medic, Scout, Leader,*/ None }
+
         [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
         public string displayName = "TBD";
         [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI.")]
@@ -66,6 +69,10 @@ namespace RogueWave
         [SerializeField, Tooltip("How far the enemy will go from their spawn point when attacking the player. If the enemy goes further than this then they will return to their spawn point to 'recharge'. Then they will resume their normal behaviour."), ShowIf("isMobile")]
         internal float seekDistance = 30;
 
+        [Header("SquadBehaviour")]
+        [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy.")]
+        internal SquadRole squadRole = SquadRole.Fodder;
+
         [Header("Juice")]
         [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed.")]
         internal bool shouldExplodeOnDeath = false;
@@ -102,7 +109,7 @@ namespace RogueWave
         internal float currentSpeed;
 
         int maxFlockSize = 8;
-        Transform[] flockingGroup;
+        BasicEnemyController[] flockingGroup;
         Collider[] flockingColliders;
         float flockAvoidanceDistance = 10f;
         float flockRadius = 40f;
@@ -215,17 +222,19 @@ namespace RogueWave
         {
             Vector3 newPosition = new Vector3();
             int tries = 0;
-            for (tries = 0; tries < 4; tries++)
+            do
             {
+                tries++;
                 newPosition = UnityEngine.Random.onUnitSphere * optimalDistanceFromPlayer;
                 newPosition += targetPosition;
-                if (newPosition.y >= minimumHeight)
-                {
-                    break;
-                }
+                newPosition.y = Mathf.Max(newPosition.y, minimumHeight);
+            } while (Physics.CheckSphere(newPosition, 1f) && tries < 50);
+
+            if (tries == 50)
+            {
+                newPosition = targetPosition;
             }
 
-            newPosition.y = Mathf.Max(newPosition.y, minimumHeight);
             return newPosition;
         }
 
@@ -259,7 +268,7 @@ namespace RogueWave
         {
             spawnPosition = transform.position;
             currentSpeed = Random.Range(minSpeed, maxSpeed);
-            flockingGroup = new Transform[maxFlockSize];
+            flockingGroup = new BasicEnemyController[maxFlockSize];
             flockingColliders = new Collider[maxFlockSize * 3];
         }
 
@@ -391,22 +400,27 @@ namespace RogueWave
             int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, flockRadius, flockingColliders, LayerMask.GetMask("Enemy"));
             for (int i = 0; i < colliderCount && flockSize < maxFlockSize; i++)
             {
-                if (flockingColliders[i].transform != transform && flockingGroup.Contains(flockingColliders[i].transform) == false)
+                BasicEnemyController enemy = flockingColliders[i].GetComponentInParent<BasicEnemyController>();
+                if (enemy != null && enemy != this && enemy.squadRole != SquadRole.None && flockingGroup.Contains(enemy) == false)
                 {
-                    flockingGroup[flockSize] = flockingColliders[i].transform;
-                    centerDirection += flockingGroup[flockSize].position;
+                    flockingGroup[flockSize] = enemy;
+                    centerDirection += enemy.transform.position;
 
-                    if (Vector3.Distance(flockingGroup[flockSize].position, transform.position) < flockAvoidanceDistance)
+                    if (Vector3.Distance(enemy.transform.position, transform.position) < flockAvoidanceDistance)
                     {
-                        avoidanceDirection += transform.position - flockingGroup[flockSize].position;
+                        avoidanceDirection += transform.position - enemy.transform.position;
                     }
 
                     flockSize++;
                 }
             }
 
-            centerDirection /= flockSize;
-            centerDirection = (centerDirection - transform.position).normalized;
+            if (flockSize > 0)
+            {
+                // TODO: centreDirection is never used!
+                centerDirection /= flockSize;
+                centerDirection = (centerDirection - transform.position).normalized;
+            }
 
             if (destination.y < minimumHeight)
             {
@@ -441,7 +455,6 @@ namespace RogueWave
         /// <returns></returns>
         private Quaternion AvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
         {
-            Vector3 directionToDestination = (destination - transform.position).normalized;
             float distanceToObstacle = 0;
             float turnAngle = 0;
             float turnRate = obstacleAvoidanceDistance * 10;
@@ -554,13 +567,16 @@ namespace RogueWave
         {
             if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
             {
-                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, seekDistance);
+                isRecharging = false;
+                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(2, 5);
 
+                int tries = 0;
                 do
                 {
+                    tries++;
                     wanderDestination = spawnPosition + Random.insideUnitSphere * seekDistance;
-                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, seekDistance);
-                } while (Physics.CheckSphere(wanderDestination, 1f));
+                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, maximumHeight);
+                } while (Physics.CheckSphere(wanderDestination, 1f) && tries < 50);
 
                 goalDestination = wanderDestination;
 
@@ -636,7 +652,7 @@ namespace RogueWave
                 Gizmos.DrawWireSphere(transform.position, flockRadius);
                 for (int i = 0; i < maxFlockSize && flockingGroup[i] != null; i++)
                 {
-                    Gizmos.DrawLine(transform.position, flockingGroup[i].position);
+                    Gizmos.DrawLine(transform.position, flockingGroup[i].transform.position);
                 }
             }
 

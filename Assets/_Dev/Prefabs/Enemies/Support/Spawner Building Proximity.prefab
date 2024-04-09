@@ -294,8 +294,10 @@ MonoBehaviour:
   maximumHeight: 75
   optimalDistanceFromPlayer: 0.2
   obstacleAvoidanceDistance: 2
+  arrivalDistance: 1.5
   seekDuration: 7
   seekDistance: 30
+  squadRole: 1
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 5
   explosionDamageOnDeath: 20
@@ -313,11 +315,11 @@ MonoBehaviour:
   isDebug: 0
   includeInShowcase: 1
   isBossSpawner: 0
+  ignoreMaxAlive: 1
   activeRange: 15
   useLevelDefinition: 1
   levelDefinition: {fileID: 11400000, guid: cf6d5deadf17029458bd608468ddd2e9, type: 2}
   timeBetweenWaves: 3
-  ignoreMaxAlive: 1
   spawnRadius: 5
   destroySpawnsOnDeath: 0
   loopWaves: 1
@@ -327,7 +329,7 @@ MonoBehaviour:
   shieldGeneratorRPM: 22.5
   shieldCollider: {fileID: 0}
   waveStartSound: {fileID: 0}
-  onDestroyed:
+  onSpawnerDestroyed:
     m_PersistentCalls:
       m_Calls: []
   onEnemySpawned:

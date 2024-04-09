@@ -75,10 +75,10 @@ namespace RogueWave
 
             GenerateTileContent();
 
-            PpositionSceneCamera();
+            PositionSceneCamera();
         }
 
-        private void PpositionSceneCamera()
+        private void PositionSceneCamera()
         {
             Camera sceneCamera = Camera.main;
             float height = Mathf.Max(levelDefinition.mapSize.x * levelDefinition.lotSize.x, levelDefinition.mapSize.y * levelDefinition.lotSize.y) ;
