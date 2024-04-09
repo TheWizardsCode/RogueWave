@@ -159,7 +159,7 @@ namespace RogueWave
             LogGameState("Death");
 
             SaveGameData();
-            GameLog.Instance.ClearLog();
+            GameLog.ClearLog();
 
             RogueLiteManager.ResetRunData();
 
@@ -169,7 +169,7 @@ namespace RogueWave
         void DelayedVictoryAction()
         {
             SaveGameData();
-            GameLog.Instance.ClearLog();
+            GameLog.ClearLog();
 
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
@@ -391,7 +391,7 @@ namespace RogueWave
             
             log.Append($"Health: {FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>().healthMax}, ");
             
-            GameLog.Instance.Info(log.ToString());
+            GameLog.Info(log.ToString());
         }
 
         private void OnCharacterIsAliveChanged(ICharacter character, bool alive)

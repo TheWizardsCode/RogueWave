@@ -113,7 +113,7 @@ namespace RogueWave.UI
             
             offers.RemoveAll(o => o == offer);
 
-            GameLog.Instance.Info($"Bought {offer}.");
+            GameLog.Info($"Bought {offer}.");
         }
     }
 }

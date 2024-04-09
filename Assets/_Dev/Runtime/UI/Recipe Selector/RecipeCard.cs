@@ -131,7 +131,7 @@ namespace RogueWave.UI
 
             RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
 
-            GameLog.Instance.Info($"Made {recipe} permanent.");
+            GameLog.Info($"Made {recipe} permanent.");
         }
     }
 }

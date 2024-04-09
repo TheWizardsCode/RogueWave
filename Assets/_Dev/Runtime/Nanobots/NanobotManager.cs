@@ -326,7 +326,7 @@ namespace RogueWave
                     recipeNames[i] = currentOfferRecipes[i].NameClip;
                 }   
 
-                GameLog.Instance.Info($"Offering in-run recipe reward {currentOfferRecipes[i].DisplayName}");
+                GameLog.Info($"Offering in-run recipe reward {currentOfferRecipes[i].DisplayName}");
             }
             StartCoroutine(Announce(clip, recipeNames));
 
@@ -353,7 +353,7 @@ namespace RogueWave
                     timeOfNextBuiild = Time.timeSinceLevelLoad + currentOfferRecipes[i].TimeToBuild + 5f;
 
                     // Announce request made
-                    GameLog.Instance.Info($"Requesting in-run recipe reward {currentOfferRecipes[i].DisplayName}");
+                    GameLog.Info($"Requesting in-run recipe reward {currentOfferRecipes[i].DisplayName}");
                     clip = recipeRequested[Random.Range(0, recipeRequested.Length)];
                     if (Time.timeSinceLevelLoad - timeOfLastRewardOffer > 5)
                     {
@@ -420,7 +420,7 @@ namespace RogueWave
                 m_MaxNanobotLevelStat.Increment();
             }
 
-            GameLog.Instance.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
+            GameLog.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
         }
 
         /// <summary>
@@ -698,7 +698,7 @@ namespace RogueWave
                 StartCoroutine(Announce(buildStartedClips[Random.Range(0, buildStartedClips.Length)], recipeName));
             }
 
-            GameLog.Instance.Info($"Building {recipe.DisplayName}");
+            GameLog.Info($"Building {recipe.DisplayName}");
 
             onBuildStarted?.Invoke(recipe);
             yield return new WaitForSeconds(recipe.TimeToBuild);

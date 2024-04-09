@@ -184,7 +184,7 @@ namespace WizardsCode.GameStats
             sb.AppendLine($"  - SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}");
             chunks.Add(sb.ToString());
 
-            chunks.Add(GameLog.Instance.ToYAML());
+            chunks.Add(GameLog.ToYAML());
 
             sb.Clear();
 

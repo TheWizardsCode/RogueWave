@@ -46,7 +46,7 @@ namespace WizardsCode.GameStats
         internal void Unlock() {
             m_IsUnlocked = true;
             m_TimeOfUnlock = DateTime.Now;
-            GameLog.Instance.Info($"Achievement {displayName} unlocked!");
+            GameLog.Info($"Achievement {displayName} unlocked!");
         }
     }
 }

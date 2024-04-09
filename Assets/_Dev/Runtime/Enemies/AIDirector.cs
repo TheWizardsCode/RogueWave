@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
+using RogeWave;
 using System.Collections.Generic;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
@@ -100,12 +101,6 @@ namespace RogueWave
                 }
                 currentKillscore = totalChallengeRating / timeSlice;
 
-#if UNITY_EDITOR
-                if (isDebug)
-                {
-                    Debug.Log($"AIDirector: CurrentKillScore is {currentKillscore}, targetKillScore is {targetKillScore}");
-                }
-#endif
                 float remainingChallengeRating = (RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier;
                 if (enemies.Count > 0 && currentKillscore < targetKillScore)
                 {
@@ -117,12 +112,12 @@ namespace RogueWave
                         remainingChallengeRating -= randomEnemy.challengeRating;
                         randomEnemy.RequestAttack(suspectedTargetLocation);
                     }
-#if UNITY_EDITOR
-                    if (isDebug)
-                    {
-                        Debug.Log($"AIDirector: Sending enemies with a total challenge rating of {totalChallengeRating} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
-                    }
-#endif
+
+                    GameLog.Info($"AIDirector: Sending enemies with a total challenge rating of {totalChallengeRating} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                } 
+                else
+                {
+                    GameLog.Info($"AIDirector: The currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                 }
 
                 if (remainingChallengeRating <= 0)
