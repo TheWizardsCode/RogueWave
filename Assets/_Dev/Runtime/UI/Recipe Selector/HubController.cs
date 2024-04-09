@@ -1,7 +1,6 @@
 using NeoFPS.SinglePlayer;
 using NeoFPS;
 using NeoSaveGames.SceneManagement;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;

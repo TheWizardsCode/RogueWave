@@ -82,10 +82,19 @@ namespace RogueWave.UI
 
                 foreach (IRecipe recipe in offers)
                 {
-                    RecipeCard recipeCard = Instantiate(recipeCardPrototype, transform);
-                    recipeCard.recipe = recipe;
-                    recipeCard.gameObject.SetActive(true);
-                    recipeCard.selectionButton.onClick.AddListener(() => Select(recipeCard.recipe));
+                    RecipeCard card = Instantiate(recipeCardPrototype, transform);
+                    card.recipe = recipe;
+
+                    if (recipe.IsStackable)
+                    {
+                        card.stackSize = HubController.permanentRecipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
+                        card.stackSize += HubController.temporaryRecipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
+                        card.stackSize++;
+                    }
+
+                    card.selectionButton.onClick.AddListener(() => Select(card.recipe));
+
+                    card.gameObject.SetActive(true);
                 }
             }
         }

@@ -46,7 +46,8 @@ namespace RogueWave.UI
                     RecipeCard card = Instantiate(recipeCardPrototype, transform);
                     if (recipe.IsStackable)
                     {
-                        card.stackSize = recipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
+                        card.stackSize = HubController.permanentRecipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
+                        card.stackSize += HubController.temporaryRecipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
                     }
                     switch (acquisitionType)
                     {
