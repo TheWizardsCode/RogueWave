@@ -18,11 +18,15 @@ namespace RogueWave
         protected void Update()
         {
             if (FpsSoloCharacter.localPlayerCharacter == null)
-                return;
+                base.Update();
 
             if (shouldAttack)
             {
                 MoveTowards(Target.position, attackSpeedMultiplier);
+            }
+            else
+            {
+                base.Update();
             }
         }
 

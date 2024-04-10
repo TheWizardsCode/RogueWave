@@ -97,14 +97,17 @@ MonoBehaviour:
   isMobile: 1
   minSpeed: 1
   maxSpeed: 6
+  acceleration: 10
   rotationSpeed: 1
   minimumHeight: 0.5
-  maximumHeight: 75
+  maximumHeight: 10
   optimalDistanceFromPlayer: 0.2
+  destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 4
   arrivalDistance: 1.5
   seekDuration: 30
   seekDistance: 100
+  squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 1
   explosionDamageOnDeath: 3

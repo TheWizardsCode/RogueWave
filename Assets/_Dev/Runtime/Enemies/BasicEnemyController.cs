@@ -5,9 +5,11 @@ using NeoFPS.SinglePlayer;
 using NeoSaveGames;
 using System;
 using System.Linq;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Events;
 using WizardsCode.GameStats;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -48,6 +50,8 @@ namespace RogueWave
         internal float minSpeed = 4f;
         [SerializeField, Tooltip("The maximum speed at which the enemy moves."), ShowIf("isMobile")]
         internal float maxSpeed = 6f;
+        [SerializeField, Tooltip("The rate at which the enemy accelerates to its maximum speed."), ShowIf("isMobile")]
+        internal float acceleration = 10f;
         [SerializeField, Tooltip("How fast the enemy rotates."), ShowIf("isMobile")]
         internal float rotationSpeed = 1f;
         [SerializeField, Tooltip("The minimum height the enemy will move to."), ShowIf("isMobile")]
@@ -56,6 +60,8 @@ namespace RogueWave
         internal float maximumHeight = 75f;
         [SerializeField, Tooltip("How close to the player will this enemy try to get?"), ShowIf("isMobile")]
         internal float optimalDistanceFromPlayer = 0.2f;
+        [SerializeField, Tooltip("How often the destination will be updated."), ShowIf("isMobile")]
+        private float destinationUpdateFrequency = 2f;
 
         [Header("Navigation")]
         [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), ShowIf("isMobile")]
@@ -64,8 +70,6 @@ namespace RogueWave
         internal float arrivalDistance = 1.5f;
 
         [Header("Seek Behaviour")]
-        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), ShowIf("isMobile")]
-        internal float seekDuration = 7;
         [SerializeField, Tooltip("How far the enemy will go from their spawn point when attacking the player. If the enemy goes further than this then they will return to their spawn point to 'recharge'. Then they will resume their normal behaviour."), ShowIf("isMobile")]
         internal float seekDistance = 30;
 
@@ -125,10 +129,10 @@ namespace RogueWave
             }
         }
 
-        internal bool shouldWander
+        internal bool shouldUpdateDestination
         {
             get { 
-                return seekDistance > 0 && Time.timeSinceLevelLoad > timeOfNextWanderPositionChange; 
+                return seekDistance > 0 && Time.timeSinceLevelLoad > timeOfNextDestinationChange; 
             }
         }
 
@@ -171,7 +175,6 @@ namespace RogueWave
                     {
                         if (hit.transform == Target)
                         {
-                            goalDestination = GetDestination(Target.position);
                             return true;
                         }
 #if UNITY_EDITOR
@@ -188,12 +191,6 @@ namespace RogueWave
                     }
 #endif
                 }
-#if UNITY_EDITOR
-                else if (isDebug)
-                {
-                    Debug.Log($"{name} cannot see the player as they are further than {viewDistance}m away.");
-                }
-#endif
 
                 return false;
             }
@@ -220,12 +217,17 @@ namespace RogueWave
         /// <returns>A position near the player that places the enemy at an optimal position to attack from.</returns>
         public Vector3 GetDestination(Vector3 targetPosition)
         {
+            if (timeOfNextDestinationChange > Time.timeSinceLevelLoad)
+            {
+                return goalDestination;
+            }
+
             Vector3 newPosition = new Vector3();
             int tries = 0;
             do
             {
                 tries++;
-                newPosition = UnityEngine.Random.onUnitSphere * optimalDistanceFromPlayer;
+                newPosition = Random.onUnitSphere * optimalDistanceFromPlayer;
                 newPosition += targetPosition;
                 newPosition.y = Mathf.Max(newPosition.y, minimumHeight);
             } while (Physics.CheckSphere(newPosition, 1f) && tries < 50);
@@ -235,17 +237,20 @@ namespace RogueWave
                 newPosition = targetPosition;
             }
 
+            timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
+
             return newPosition;
         }
 
         Vector3 spawnPosition = Vector3.zero;
         internal Vector3 goalDestination = Vector3.zero;
         Vector3 wanderDestination = Vector3.zero;
-        float timeOfNextWanderPositionChange = 0;
+        float timeOfNextDestinationChange = 0;
         private bool underOrders;
         internal BasicHealthManager healthManager;
         private float sqrSeekDistance;
-        private float sqrArriveDistance;
+        private float sqrArrivalDistance;
+        private float sqrOptimalDistanceFromPlayer;
         private PooledObject pooledObject;
         private bool isRecharging;
         private bool fromPool;
@@ -254,7 +259,8 @@ namespace RogueWave
         protected virtual void Awake()
         {
             sqrSeekDistance = seekDistance * seekDistance;
-            sqrArriveDistance = arrivalDistance * arrivalDistance;
+            sqrArrivalDistance = arrivalDistance * arrivalDistance;
+            sqrOptimalDistanceFromPlayer = optimalDistanceFromPlayer * optimalDistanceFromPlayer;
             pooledObject = GetComponent<PooledObject>();
 
             gameMode = FindObjectOfType<RogueWaveGameMode>();
@@ -304,22 +310,101 @@ namespace RogueWave
             onDestroyed.RemoveAllListeners();
         }
 
-        protected virtual void LateUpdate()
+        protected virtual void Update()
         {
             if (isMobile == false)
             {
                 return;
             }
 
+            bool timeToUpdate = shouldUpdateDestination;
+
             if (Target == null)
             {
-                if (shouldWander)
+                if (timeToUpdate)
                 {
                     Wander();
                 }
                 return;
             }
 
+            // First update the destination if required
+            if (Time.frameCount % 5 == 0) {
+                // if line of sight is not required then update the destination at the appropriate time
+                if (!requireLineOfSight && timeToUpdate)
+                {
+                    goalDestination = GetDestination(Target.position);
+                }
+                // else if the enemy is under orders then move to the ordered destination
+                else if (underOrders)
+                {
+                    // Just follow the orders
+                }
+                // else if the enemy is recharging then move to the spawn position
+                else if (isRecharging)
+                {
+                    if (timeToUpdate)
+                    {
+                        isRecharging = false;
+                    }
+                }
+                // else if the enemy can see the player and the current destination is > 2x the optimal distance to the player then update the destination at the appropriate time
+                else if (timeToUpdate && CanSeeTarget)
+                {
+                    if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrOptimalDistanceFromPlayer * 2)
+                    {
+                        goalDestination = GetDestination(Target.position);
+                    }
+                }
+                // time for a wander
+                else if (timeToUpdate)
+                {
+                    if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrSeekDistance)
+                    {
+                        isRecharging = true;
+                        goalDestination = spawnPosition;
+                    } else
+                    {
+                        Wander();
+                    }
+                }
+
+                currentSpeed = Mathf.Min(maxSpeed, currentSpeed + Time.deltaTime * acceleration);
+
+                RotateHead();
+            }
+            
+            // Second move towards the destination if it is still appropriate
+            // if the distance to the goal destination is within the seek distance and outside the arrive distance then move towards the goal destination
+            float distanceToGoal = Vector3.SqrMagnitude(goalDestination - transform.position); 
+            if (distanceToGoal < sqrSeekDistance && distanceToGoal > sqrArrivalDistance)
+            {
+                if (underOrders)
+                {
+                    MoveTowards(goalDestination, 1.5f);
+                }
+                else
+                {
+                    MoveTowards(goalDestination);
+                }
+            }
+            // else if the distance to the goalDestination is < arrive distance then slow down, eventually stopping
+            else if (distanceToGoal < sqrArrivalDistance)
+            {
+                underOrders = false;
+                currentSpeed = 0;
+            }
+            // else move towards the spawn position
+            else
+            {
+                goalDestination = GetDestination(spawnPosition);
+                MoveTowards(goalDestination);
+                isRecharging = true;
+            }
+        }
+
+        private void RotateHead()
+        {
             if (head != null)
             {
                 Vector3 direction = Target.position - head.position;
@@ -327,67 +412,8 @@ namespace RogueWave
                 float clampedRotation = Mathf.Clamp(head.rotation.eulerAngles.y, -maxHeadRotation, maxHeadRotation);
                 head.rotation = Quaternion.Euler(head.rotation.eulerAngles.x, clampedRotation, head.rotation.eulerAngles.z);
             }
-
-
-            if (requireLineOfSight == false)
-            {
-                goalDestination = GetDestination(Target.position);
-            }
-
-            if ((requireLineOfSight && CanSeeTarget == false) || underOrders)
-            {
-                if (shouldWander)
-                {
-                    Wander();
-                    return;
-                }
-
-                float sqrDistance = Vector3.SqrMagnitude(goalDestination - transform.position);
-                if (underOrders || (isRecharging == false && sqrDistance < sqrSeekDistance && sqrDistance > sqrArriveDistance))
-                {
-                    MoveTowards(goalDestination);
-                }
-                else
-                {
-                    if (Vector3.SqrMagnitude(spawnPosition - transform.position) > 15f)
-                    {
-                        MoveTowards(spawnPosition);
-                        isRecharging = true;
-                    }
-                    else
-                    {
-                        isRecharging = false;
-                    }
-                }
-
-                return;
-            }
-            else if (isRecharging == false && Vector3.SqrMagnitude(goalDestination - transform.position) < sqrSeekDistance)
-            {
-                MoveTowards(goalDestination);
-            }
-            else
-            {
-                if (Vector3.SqrMagnitude(spawnPosition - transform.position) > 15f)
-                {
-                    MoveTowards(spawnPosition);
-                    isRecharging = true;
-                }
-                else
-                {
-                    if (shouldWander)
-                    {
-                        Wander();
-                    }
-                    else
-                    {
-                        timeOfNextWanderPositionChange = 0;
-                    }
-                    isRecharging = false;
-                }
-            }
         }
-        
+
         internal virtual void MoveTowards(Vector3 destination, float speedMultiplier = 1)
         {
             Vector3 centerDirection = destination - transform.position;
@@ -431,19 +457,20 @@ namespace RogueWave
                 destination.y = maximumHeight;
             }
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, AvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+            Vector3 directionToTarget = (destination - transform.position).normalized;
+            float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
 
-            float currentDistance = Mathf.Infinity;
-            if (FpsSoloCharacter.localPlayerCharacter != null)
+            if (dotProduct > 0)
             {
-                currentDistance = Vector3.Distance(transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, ObstacleAvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
             }
 
-            if (currentDistance >= optimalDistanceFromPlayer)
-            {
-                transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
-            }
-
+            transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
+            
             AdjustHeight(destination, speedMultiplier);
         }
 
@@ -453,10 +480,11 @@ namespace RogueWave
         /// <param name="destination">The destination we are trying to reach.</param>
         /// <param name="avoidanceDirection">The optimal direction we are trying to avoid other flock members.</param>
         /// <returns></returns>
-        private Quaternion AvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
+        private Quaternion ObstacleAvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
         {
             float distanceToObstacle = 0;
             float turnAngle = 0;
+            float verticalAngle = 0;
             float turnRate = obstacleAvoidanceDistance * 10;
 
             // Check for obstacle dead ahead
@@ -467,17 +495,11 @@ namespace RogueWave
                 {
                     distanceToObstacle = forwardHit.distance;
                     turnAngle = 90;
-#if UNITY_EDITOR
-                    if (isDebug)
-                    {
-                        Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
-                    }
-#endif
                 }
             }
 
             // check for obstacle to the left
-            if (distanceToObstacle == 0)
+            if (turnAngle == 0)
             {
                 ray.direction = Quaternion.AngleAxis(-turnRate, transform.transform.up) * transform.forward;
                 if (Physics.Raycast(ray, out RaycastHit leftForwardHit, obstacleAvoidanceDistance, sensorMask))
@@ -486,18 +508,12 @@ namespace RogueWave
                     {
                         distanceToObstacle = leftForwardHit.distance;
                         turnAngle = 45;
-#if UNITY_EDITOR
-                        if (isDebug)
-                        {
-                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
-                        }
-#endif
                     }
                 }
             }
 
             // Check for obstacle to the right
-            if (distanceToObstacle == 0)
+            if (turnAngle == 0)
             {
                 ray.direction = Quaternion.AngleAxis(turnRate, transform.transform.up) * transform.forward;
                 if (Physics.Raycast(ray, out RaycastHit rightForwardHit, obstacleAvoidanceDistance, sensorMask))
@@ -506,26 +522,35 @@ namespace RogueWave
                     {
                         distanceToObstacle = rightForwardHit.distance;
                         turnAngle = -45;
-#if UNITY_EDITOR
-                        if (isDebug)
-                        {
-                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
-                        }
-#endif
                     }
                 }
             }
+
+#if UNITY_EDITOR
+            if (isDebug) { 
+                if (distanceToObstacle > 0)
+                {
+                    Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                }
+            }
+#endif
 
             // Calculate avoidance rotation
             Quaternion targetRotation = Quaternion.identity;
             if (distanceToObstacle > 0) // turn to avoid obstacle
             {
-                targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
-                currentSpeed = Mathf.Max(minSpeed, currentSpeed * 0.5f * Time.deltaTime);
+                targetRotation = transform.rotation * Quaternion.Euler(verticalAngle * (distanceToObstacle / obstacleAvoidanceDistance), turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
+                if (distanceToObstacle < 1f)
+                {
+                    currentSpeed = 0.1f;
+                }
 #if UNITY_EDITOR
                 if (isDebug)
                 {
-                    Debug.Log($"Rotating {turnAngle * (distanceToObstacle / obstacleAvoidanceDistance)} degrees to avoid obstacle.");
+                    if (turnAngle != 0)
+                    {
+                        Debug.Log($"Rotating {turnAngle * (distanceToObstacle / obstacleAvoidanceDistance)} degrees on the Y axis to avoid an obstacle.");
+                    }
                 }
 #endif
             }
@@ -539,7 +564,6 @@ namespace RogueWave
                 {
                     targetRotation = Quaternion.LookRotation(direction);
                 }
-                currentSpeed = Mathf.Max(maxSpeed, currentSpeed * 2f * Time.deltaTime);
             }
 
             return targetRotation;
@@ -547,35 +571,126 @@ namespace RogueWave
 
         private void AdjustHeight(Vector3 destination, float speedMultiplier)
         {
-            float heightDifference = transform.position.y - destination.y;
-            if ( heightDifference > 0.2f || heightDifference < -0.2f)
+            float distanceToObstacle = 0;
+            float testingAngle = 12;
+            float verticalAngle = 0;
+
+            // check for obstacle to the above/in front
+            Ray ray = new Ray(sensor.position, Quaternion.AngleAxis(-testingAngle, transform.transform.right) * transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit forwardUpHit, obstacleAvoidanceDistance, sensorMask))
             {
-                float rate = currentSpeed * speedMultiplier * Time.deltaTime;
-                if (destination.y > transform.position.y)
+                if (forwardUpHit.collider.transform.root != Target)
                 {
-                    transform.position += Vector3.up * rate;
+                    distanceToObstacle = forwardUpHit.distance;
+                    verticalAngle = -45;
+
+#if UNITY_EDITOR
+                    if (isDebug) {
+                        if (distanceToObstacle > 0)
+                        {
+                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                        }
+                    }
+#endif
                 }
+#if UNITY_EDITOR
                 else
                 {
-                    transform.position -= Vector3.up * rate;
+                    Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.green, 2);
                 }
+#endif
+            }
 
+            // check for obstacle to the below/in front
+            ray.direction = Quaternion.AngleAxis(testingAngle, transform.transform.right) * transform.forward;
+            if (Physics.Raycast(ray, out RaycastHit forwardDownHit, obstacleAvoidanceDistance, sensorMask))
+            {
+                // TODO: Don't hard code the ground tag
+                if (forwardDownHit.collider.transform.root != Target && !forwardDownHit.collider.CompareTag("Ground"))
+                {
+                    distanceToObstacle = forwardDownHit.distance;
+                    verticalAngle = 45;
+
+#if UNITY_EDITOR
+                    if (isDebug && distanceToObstacle > 0)
+                    {
+                        Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                    }
+#endif
+                }
+#if UNITY_EDITOR
+                else
+                {
+                    Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.green, 2);
+                }
+#endif
+            }
+
+            float rate = maxSpeed * speedMultiplier * Time.deltaTime;
+            if (distanceToObstacle > 0)
+            {
+                // Try to get over or under the obstacle
+                if (verticalAngle == 0)
+                {
+                    transform.position += Vector3.up * rate;
+#if UNITY_EDITOR
+                    if (isDebug)
+                    {
+                        Debug.Log("Obstacle is above and below in front, moving up in an atttempt to get over it.");
+                    }
+#endif
+                }
+                if (verticalAngle < 0)
+                {
+                    transform.position -= Vector3.up * rate;
+#if UNITY_EDITOR
+                    if (isDebug)
+                    {
+                        Debug.Log($"Moving down to avoid an obstacle.");
+                    }
+#endif
+                }
+                else if (verticalAngle > 0)
+                {
+                    transform.position += Vector3.up * rate;
+#if UNITY_EDITOR
+                    if (isDebug)
+                    {
+                        Debug.Log($"Moving up to avoid an obstacle.");
+                    }              
+#endif
+                }
+            } else
+            {
+                // No obstacle so adjust height to match destination
+                float heightDifference = transform.position.y - destination.y;
+                if (heightDifference > 0.2f || heightDifference < -0.2f)
+                {
+                    if (destination.y > transform.position.y)
+                    {
+                        transform.position += Vector3.up * rate;
+                    }
+                    else
+                    {
+                        transform.position -= Vector3.up * rate;
+                    }
+                }
             }
         }
 
         protected void Wander()
         {
-            if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
+            if (Time.timeSinceLevelLoad > timeOfNextDestinationChange)
             {
                 isRecharging = false;
-                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(2, 5);
+                timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
 
                 int tries = 0;
                 do
                 {
                     tries++;
                     wanderDestination = spawnPosition + Random.insideUnitSphere * seekDistance;
-                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, maximumHeight);
+                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, minimumHeight, maximumHeight);
                 } while (Physics.CheckSphere(wanderDestination, 1f) && tries < 50);
 
                 goalDestination = wanderDestination;
@@ -639,7 +754,7 @@ namespace RogueWave
         internal void RequestAttack(Vector3 position)
         {
             goalDestination = GetDestination(position);
-            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
+            timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
             underOrders = true;
             //Debug.Log($"{name} has been requested to attack {position}.");
         }
