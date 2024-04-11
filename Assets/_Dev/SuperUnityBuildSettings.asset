@@ -43,6 +43,8 @@ MonoBehaviour:
           sceneActive: 1
         - fileGUID: 220a728d3c0961149be17e591ae889be
           sceneActive: 1
+        - fileGUID: f28dd97162b09e64fbd292eb2f1cbcc5
+          sceneActive: 1
     - typeName: Release_NoSteamWorks
       bundleIdentifier: com.Wizards-Code.RogueWave
       companyName: Wizards Code
@@ -60,6 +62,8 @@ MonoBehaviour:
         - fileGUID: bb58b10c0d3b40b489fcc89256f23cd5
           sceneActive: 1
         - fileGUID: 220a728d3c0961149be17e591ae889be
+          sceneActive: 1
+        - fileGUID: f28dd97162b09e64fbd292eb2f1cbcc5
           sceneActive: 1
   _platformList:
     platforms:
@@ -109,7 +113,7 @@ MonoBehaviour:
       - enabled: 1
         childKeys:
         - DeveloperTest_NoSteamWorks/Linux/Linux x64/Mono
-      - enabled: 1
+      - enabled: 0
         childKeys:
         - DeveloperTest_NoSteamWorks/Linux/Linux x64
       - enabled: 1
@@ -135,7 +139,7 @@ MonoBehaviour:
       - enabled: 1
         childKeys:
         - Release_NoSteamWorks/Linux/Linux x64
-      - enabled: 1
+      - enabled: 0
         childKeys:
         - Release_NoSteamWorks/PC
         - Release_NoSteamWorks/Linux

@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using NeoFPS;
 using System;
 using System.Collections;
@@ -26,8 +27,8 @@ namespace RogueWave
         }
 #endif
 
-        [SerializeField, Tooltip("Name of the Hub Scene to load between levels. This is where the player gets to buy permanent upgrades for their character.")]
-        private string m_HubScene = "Playground_HubScene";
+        [SerializeField, Tooltip("Name of the Hub Scene to load between levels. This is where the player gets to buy permanent upgrades for their character."), Scene]
+        private string m_HubScene = "RogueWave_HubScene";
 
         const string k_Extension = "profileData";
         const string k_Subfolder = "Profiles";

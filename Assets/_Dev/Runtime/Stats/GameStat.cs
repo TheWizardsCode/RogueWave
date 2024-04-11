@@ -24,10 +24,15 @@ namespace WizardsCode.GameStats
 
         [SerializeField, Tooltip("The key to use to store this stat in the GameStatsManager.")]
         string m_Key;
+        [SerializeField, Tooltip("The name of the stat as displayed in the UI.")]
+        string m_displayName;
         [SerializeField, Tooltip("The type of stat.")]
         StatType m_StatType;
         [SerializeField, OnValueChanged("OnDefaultValueChangedCallback"), Tooltip("The default value of the stat.")]
         float m_DefaultValue = 0;
+        [SerializeField, Tooltip("The formatting string to use when displaying a string representation of the stat.")]
+        string m_FormatString = "00000";
+        
 
         [ShowNonSerializedField]
         int m_intValue;
@@ -36,6 +41,18 @@ namespace WizardsCode.GameStats
 
         public string key => m_Key;
         public StatType type => m_StatType;
+
+        public string displayName
+        {
+            get { 
+                if (string.IsNullOrEmpty(m_displayName))
+                {
+                    return m_Key;
+                }
+                return m_displayName; 
+            }
+            set { m_displayName = value; }
+        }
 
         internal void Reset()
         {
@@ -82,6 +99,17 @@ namespace WizardsCode.GameStats
                 return m_intValue;
             }
             return m_floatValue;
+        }
+
+        public string GetValueAsString()
+        {
+            if (m_StatType == StatType.Int)
+            {
+                return m_intValue.ToString(m_FormatString);
+            } else
+            {
+                return m_floatValue.ToString(m_FormatString);
+            }
         }
 
         /// <summary>

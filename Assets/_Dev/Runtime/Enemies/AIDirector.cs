@@ -115,7 +115,7 @@ namespace RogueWave
                 } 
                 else
                 {
-                    GameLog.Info($"AIDirector: The currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                    GameLog.Info($"AIDirector: The current Kill Score is {currentKillscore} (targetKillScore is {targetKillScore}).");
                 }
 
                 if (remainingChallengeRating <= 0)

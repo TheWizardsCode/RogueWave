@@ -36,6 +36,8 @@ namespace WizardsCode.GameStats
     [DisallowMultipleComponent]
     public class GameStatsManager : MonoBehaviour
     {
+        [SerializeField, Tooltip("The scene to load when displaying stats for the player."), Scene]
+        private string m_StatsScene = "RogueWave_StatsScene";
         [SerializeField, Tooltip("The URL of the webhook to send player stats and achievements to.")]
         [FormerlySerializedAs("webhookData")]
         WebhookData playerDataWebhook;
@@ -62,6 +64,14 @@ namespace WizardsCode.GameStats
         public static GameStatsManager Instance { get; private set; }
         public static Action<Achievement> OnAchievementUnlocked { get; internal set; }
 
+        public static string statsScene
+        {
+            get
+            {
+                return Instance.m_StatsScene;
+            }
+        }
+
         WebhookData activeWebhook
         {
             get
@@ -74,12 +84,27 @@ namespace WizardsCode.GameStats
             }
         }
 
+        public List<Achievement> unlockedAchievements
+        {
+            get
+            {
+                List<Achievement> unlocked = new List<Achievement>();
+                foreach (Achievement achievement in m_Achievements)
+                {
+                    if (achievement.isUnlocked)
+                    {
+                        unlocked.Add(achievement);
+                    }
+                }
+                return unlocked;
+            }
+        }
+
         private void Awake()
         {
             if (Instance == null)
             {
                 Instance = this;
-                DontDestroyOnLoad(gameObject);
             }
             else
             {
@@ -149,7 +174,7 @@ namespace WizardsCode.GameStats
                             yield return new WaitForSeconds(0.5f);
                             sb.Clear();
                         }
-                        sb.AppendLine(line);
+                        sb.Append(line);
                     }
 
                     StartCoroutine(webhook.Send($"```yaml\n# Partial (Last)\n{sb}```"));
@@ -332,7 +357,7 @@ namespace WizardsCode.GameStats
         }
 
         [Button("Reset Stats and Achievements (Play mode only)")]
-        private static void ResetStats()
+        internal static void ResetStats()
         {
             if (Application.isPlaying)
             {

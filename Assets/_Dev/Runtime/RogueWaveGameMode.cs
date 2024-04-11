@@ -164,7 +164,7 @@ namespace RogueWave
 
             RogueLiteManager.ResetRunData();
 
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            NeoSceneManager.LoadScene(GameStatsManager.statsScene);
         }
 
         void DelayedVictoryAction()
