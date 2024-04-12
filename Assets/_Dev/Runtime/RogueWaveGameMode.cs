@@ -9,8 +9,11 @@ using System.Collections;
 using NeoFPS.Constants;
 using NaughtyAttributes;
 using RogueWave.UI;
-using Steamworks;
 using WizardsCode.GameStats;
+using System.Collections.Generic;
+using System.Linq;
+using RogeWave;
+using System.Text;
 
 namespace RogueWave
 {
@@ -21,8 +24,6 @@ namespace RogueWave
         float m_VictoryDuration = 5f;
 
         [Header("Character")]
-        [SerializeField, Tooltip("If true, the player will spawn at a random spawn point. If false, the player will spawn at the first spawn point in the scene.")]
-        internal bool randomizePlayerSpawn = true;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The player prefab to instantiate if none exists.")]
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
@@ -32,36 +33,44 @@ namespace RogueWave
         private AbstractRecipe[] _startingRecipes;
 
         [Header("Level Management")]
-        [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level.")]
-        LevelDefinition[] levels;
+        [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level."), Expandable]
+        WfcDefinition[] levels;
 
+        // Game Stats
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
+        private GameStat m_VictoryCount;
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of deaths in the game.")]
+        private GameStat m_DeathCount;
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The time player stat for recording how long a player has been inside runs.")]
+        private GameStat m_TimePlayedStat;
+
+        [Header("Events")]
+        [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
+        public UnityEvent<Spawner> onSpawnerCreated;
+        [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
+        public UnityEvent<BasicEnemyController> onEnemySpawned;
+
+        // Debug
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
         private bool _isDebug = false;
 
         LevelProgressBar levelProgressBar;
 
-        private int spawnersRemaining = 0;
-        private float timeInLevel;
-
-        private static RogueWaveGameMode _instance;
-        public static RogueWaveGameMode Instance
+        int m_BossSpawnersRemaining = 0;
+        protected int bossSpawnersRemaining
         {
-            get
+            get { return m_BossSpawnersRemaining; }
+            private set
             {
-                if (_instance == null)
-                {
-                    _instance = FindObjectOfType<RogueWaveGameMode>();
-
-                    if (_instance == null)
-                    {
-                        Debug.LogError("No RogueWaveGameMode found in the scene. Please add one to the scene.");
-                    }
-                }
-                return _instance;
+                m_BossSpawnersRemaining = value;
+                updateHUD();
             }
         }
+        private float timeInLevel;
 
         LevelGenerator _levelGenerator;
+        private HudGameStatusController statusHud;
+
         internal LevelGenerator levelGenerator
         {
             get
@@ -72,15 +81,11 @@ namespace RogueWave
             }
             private set
             {
-                if (_levelGenerator != null && _levelGenerator != value)
-                {
-                    _levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
-                }
                 _levelGenerator = value;
             }
         }
 
-        public LevelDefinition currentLevelDefinition
+        public WfcDefinition currentLevelDefinition
         {
             get { 
                 if (levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
@@ -93,17 +98,8 @@ namespace RogueWave
         #region Unity Life-cycle
         protected override void Awake()
         {
-            if (_instance != null && _instance != this)
-            {
-                Destroy(this.gameObject);
-            }
-            else
-            {
-                _instance = this;
-            }
-
+            statusHud = FindObjectOfType<HudGameStatusController>();
             levelGenerator = GetComponentInChildren<LevelGenerator>();
-            levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
 
             levelProgressBar = FindObjectOfType<LevelProgressBar>(true);
             if (levelProgressBar == null)
@@ -116,8 +112,6 @@ namespace RogueWave
 
         protected override void OnDestroy()
         {
-            levelGenerator.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
-
             base.OnDestroy();
         }
 
@@ -140,17 +134,22 @@ namespace RogueWave
 
         public static event UnityAction onVictory;
 
-        internal void OnSpawnerCreated(Spawner spawner)
-        {
-            spawnersRemaining++;
-            spawner.onDestroyed.AddListener(OnSpawnerDestroyed);
-        }
-
         internal void OnSpawnerDestroyed(Spawner spawner)
         {
-            spawnersRemaining--;
+            if (FpsSoloCharacter.localPlayerCharacter != null && FpsSoloCharacter.localPlayerCharacter.isAlive == false)
+            {
+                return;
+            }
 
-            if (!_isDebug && spawnersRemaining == 0 && m_VictoryCoroutine == null)
+            spawner.onSpawnerDestroyed.RemoveListener(OnSpawnerDestroyed);
+            spawners.Remove(spawner);
+
+            if (spawner.isBossSpawner)
+            {
+                bossSpawnersRemaining--;
+            }
+
+            if (bossSpawnersRemaining == 0 && m_VictoryCoroutine == null)
             {
                 m_VictoryCoroutine = StartCoroutine(DelayedVictoryCoroutine(m_VictoryDuration));
             }
@@ -158,25 +157,38 @@ namespace RogueWave
 
         protected override void DelayedDeathAction()
         {
+            LogGameState("Death");
+
+            SaveGameData();
+            GameLog.ClearLog();
+
             RogueLiteManager.ResetRunData();
 
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            NeoSceneManager.LoadScene(GameStatsManager.statsScene);
         }
 
         void DelayedVictoryAction()
         {
+            SaveGameData();
+            GameLog.ClearLog();
+
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
 
         private IEnumerator DelayedVictoryCoroutine(float delay)
         {
+            LogGameState("Run completed");
+
+            yield return null;
+
             onVictory?.Invoke();
 
             // Temporary magnet buff to pull in victory rewards
             MagnetController magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
             float originalRange = 0;
             float originalSpeed = 0;
-            if (magnet != null) {
+            if (magnet != null)
+            {
                 originalRange = magnet.range;
                 originalSpeed = magnet.speed;
                 magnet.range = 100;
@@ -202,8 +214,24 @@ namespace RogueWave
 
             RogueLiteManager.persistentData.currentGameLevel++;
 
+            if (m_VictoryCount != null)
+            {
+                m_VictoryCount.Increment();
+            }
+
             if (inGame)
                 DelayedVictoryAction();
+        }
+
+        private void SaveGameData()
+        {
+            float timePlayed = Time.time - startTime;
+            if (m_TimePlayedStat != null)
+            {
+                m_TimePlayedStat.Increment(timePlayed);
+            }
+
+            GameStatsManager.Instance.SendDataToWebhook();
         }
 
         #endregion
@@ -254,6 +282,19 @@ namespace RogueWave
 
         [SerializeField, HideInInspector]
         private LoadoutBuilderData m_LoadoutBuilder = new LoadoutBuilderData();
+        private float startTime;
+        private List<Spawner> spawners = new List<Spawner>();
+        int m_BasicEnemiesCount = 0;
+        internal int basicEnemiesCount
+        {
+            get { return m_BasicEnemiesCount; }
+            private set {
+                m_BasicEnemiesCount = value;
+                updateHUD();
+            }
+        }
+
+        internal int bossSpawnerCount => bossSpawnersRemaining;
 
         public int numLoadoutBuilderSlots
         {
@@ -287,7 +328,7 @@ namespace RogueWave
             healthManager.healthMax = initialHealth;
 
             IRecipe startingWeapon;
-            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipeFor(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
+            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
             {
                 WeaponPickupRecipe weaponRecipe = startingWeapon as WeaponPickupRecipe;
                 if (weaponRecipe != null)
@@ -296,10 +337,9 @@ namespace RogueWave
                 }
             }
 
-            var loadout = ConfigureLoadout();
+            FpsInventoryLoadout loadout = ConfigureLoadout();
             if (loadout != null)
                 character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
-
             // Add nanobot recipes
             NanobotManager manager = character.GetComponent<NanobotManager>();
             for (int i = 0; i < RogueLiteManager.runData.Recipes.Count; i++)
@@ -309,6 +349,50 @@ namespace RogueWave
 
             // since a recipe may have adjusted the max health, we need to reset the health to the new max
             healthManager.health = healthManager.healthMax;
+
+            startTime = Time.time;
+
+            LogGameState("Character Spawned");
+        }
+
+        private void LogGameState(string eventName)
+        {
+            StringBuilder log = new StringBuilder($"{eventName}, ");
+
+            foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
+            {
+                log.Append($"Recipe: {recipe.DisplayName}");
+                if (RogueLiteManager.persistentData.RecipeIds.Contains(recipe.UniqueID))
+                {
+                    log.Append(" (Permanent), ");
+                } else
+                {
+                    log.Append(" (Temporary), ");
+                }
+            }
+
+            IInventoryItem[] loadout = FpsSoloCharacter.localPlayerCharacter.GetComponent<IInventory>().GetItems();
+            foreach (var item in loadout)
+            {
+                log.Append($"Inventory Item: {item.name}, ");
+            }
+
+            foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
+            {
+                if (RecipeManager.TryGetRecipe(id, out IRecipe recipe))
+                {
+                    log.AppendLine($"Weapon Build Order: {recipe.DisplayName}, ");
+                }
+            }
+
+            log.Append($"Resources: {RogueLiteManager.persistentData.currentResources}, ");
+            log.Append($"Nanobot Level: {RogueLiteManager.persistentData.currentNanobotLevel}, ");
+            log.Append($"Game Level: {RogueLiteManager.persistentData.currentGameLevel}, ");
+            log.Append($"Run Number: {RogueLiteManager.persistentData.runNumber}, ");
+            
+            log.Append($"Health: {FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>().healthMax}, ");
+            
+            GameLog.Info(log.ToString());
         }
 
         private void OnCharacterIsAliveChanged(ICharacter character, bool alive)
@@ -317,25 +401,28 @@ namespace RogueWave
             {
                 RogueLiteManager.ResetRunData();
                 character.onIsAliveChanged -= OnCharacterIsAliveChanged;
+
+
+                m_DeathCount.Increment();
             }
         }
 
         #endregion
 
-        private void ConfigureRecipe(string recipeId)
+        private void ConfigureRecipeForRun(string recipeId)
         {
-            if (RecipeManager.TryGetRecipeFor(recipeId, out IRecipe recipe) == false)
+            if (RecipeManager.TryGetRecipe(recipeId, out IRecipe recipe) == false)
             {
                 Debug.LogError($"Attempt to configure a recipe with ID {recipeId} but no such recipe can be found. Ignoring this recipe.");
                 return;
             }
 
-            ConfigureRecipe(recipe);
+            ConfigureRecipeForRun(recipe);
         }
 
-        private void ConfigureRecipe(IRecipe recipe)
+        private void ConfigureRecipeForRun(IRecipe recipe)
         {
-            if (RogueLiteManager.runData.Recipes.Contains(recipe) == false)
+            if (recipe.IsStackable || RogueLiteManager.runData.Recipes.Contains(recipe) == false)
             {
                 RogueLiteManager.runData.Recipes.Add(recipe);
             }
@@ -397,38 +484,105 @@ namespace RogueWave
         protected override bool PreSpawnStep()
         {
             levelProgressBar.gameObject.SetActive(false);
-
-            RogueLiteManager.runData.Loadout.Clear();
-
             RogueLiteManager.persistentData.runNumber++;
 
-            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
+            // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
-                for (int i = 0; i < _startingRecipes.Length; i++)
+                RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe permanentRecipe);
+                if (RogueLiteManager.runData.Recipes.Contains(permanentRecipe))
                 {
-                    if (_startingRecipes[i] is WeaponPickupRecipe)
+                    RogueLiteManager.runData.Recipes.Remove(permanentRecipe);
+                }
+            }
+
+            // If the character died then the weapon build order may have weapons that were in the rundata and need to be removed.
+            for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0 ; i--)
+            {
+                if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[i], out IRecipe weapon)) {
+                    if (!RogueLiteManager.persistentData.Contains(weapon))
                     {
-                        RogueLiteManager.persistentData.WeaponBuildOrder.Add(_startingRecipes[i].uniqueID);
+                        RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(i);
                     }
                 }
             }
 
+            List<IRecipe> recipes = new List<IRecipe>();
+            recipes.AddRange(_startingRecipes);
+            recipes.AddRange(RogueLiteManager.runData.Recipes);
+
+            RogueLiteManager.runData.Loadout.Clear(); 
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                if (recipes[i] is WeaponPickupRecipe && !RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipes[i].UniqueID))
+                {
+                    RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipes[i].UniqueID);
+                }
+            }
+            
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
-                levelGenerator.Generate(this);
+                levelGenerator.Generate(currentLevelDefinition);
             }
 
             for (int i = 0; i < _startingRecipes.Length; i++)
             {
-                ConfigureRecipe(_startingRecipes[i]);
+                ConfigureRecipeForRun(_startingRecipes[i]);
             }
 
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
-                ConfigureRecipe(RogueLiteManager.persistentData.RecipeIds[i]);
+                ConfigureRecipeForRun(RogueLiteManager.persistentData.RecipeIds[i]);
             }
 
             return base.PreSpawnStep();
+        }
+
+        internal void RegisterSpawner(Spawner spawner)
+        {
+            if (spawners.Contains(spawner))
+            {
+                return;
+            }
+
+            if (spawner.isBossSpawner)
+            {
+                bossSpawnersRemaining++;
+            }
+
+            spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
+
+            spawners.Add(spawner);
+            onSpawnerCreated?.Invoke(spawner);
+        }
+
+        internal void RegisterEnemy(BasicEnemyController enemy)
+        {
+            enemy.onDeath.AddListener(OnEnemyDeath);
+            basicEnemiesCount++;
+            onEnemySpawned?.Invoke(enemy);
+        }
+
+        private void OnEnemyDeath(BasicEnemyController enemy)
+        {
+            enemy.onDeath.RemoveListener(OnEnemyDeath);
+            basicEnemiesCount--;
+        }
+
+        private void updateHUD()
+        {
+            statusHud.UpdateEnemyCount(basicEnemiesCount);
+            statusHud.UpdateSpawnerCount(bossSpawnerCount);
+        }
+
+        internal WaveDefinition GetEnemyWaveFromBossSpawner()
+        {
+            WaveDefinition wave = spawners[0].currentWave;
+            if (wave == null)
+            {
+                wave = spawners[0].lastWave;
+            }
+            return wave;
         }
 
         #endregion

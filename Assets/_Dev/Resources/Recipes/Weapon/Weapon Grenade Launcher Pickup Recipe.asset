@@ -14,18 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Grenade Launcher
   description: Great for clearing out areas, but not very accurate.
-  heroImage: {fileID: 2800000, guid: 852100ab4af025e478056c3839ca3d25, type: 3}
+  heroImage: {fileID: 21300000, guid: 852100ab4af025e478056c3839ca3d25, type: 3}
   icon: {fileID: 21300000, guid: 4789cb2160360a047b3c8ceca69b0273, type: 3}
   level: 3
-  baseWeight: 0.4
+  baseWeight: 0.5
+  dependencies: []
+  complements: []
+  buyCost: 400
   isPowerUp: 1
   isConsumable: 1
   cooldown: 45
-  dependencies: []
-  complements: []
   isStackable: 0
   maxStack: 1
-  cost: 400
+  buildCost: 50
   timeToBuild: 10
   nameClips:
   - {fileID: 8300000, guid: ed2739f9ce15f7c4d8c638baaa921bd1, type: 3}
@@ -38,4 +39,5 @@ MonoBehaviour:
   pickupParticles: {fileID: 1974278376555586578, guid: 0427728751d38304f91a55cf7ed15373, type: 3}
   uniqueID: 8b58f8ac-d90e-4973-bee7-f2c70d2d16e3
   pickup: {fileID: 5528889644727189625, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+  overridePrimaryWeapon: 0
   ammoRecipe: {fileID: 11400000, guid: 8b52b568428411a48939cecc08f13b34, type: 2}

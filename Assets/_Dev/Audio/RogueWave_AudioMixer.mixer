@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!244 &-3589148046919689445
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 4f4dd718d7928754e88709040e447f1d
+  m_EffectName: Lowpass
+  m_MixLevel: 4fe733afc490c5646bdb8174632ee002
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: 889c9a73dfc55184492fd832b030e487
+  - m_ParameterName: Resonance
+    m_GUID: 1399e04e802bd3b48b956bafcee905f3
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
 --- !u!241 &24100000
 AudioMixerController:
   m_ObjectHideFlags: 0
@@ -22,6 +40,8 @@ AudioMixerController:
     name: EffectsVolume
   - guid: cab5056e62d834942b3ad1677e991323
     name: MasterVolume
+  - guid: 889c9a73dfc55184492fd832b030e487
+    name: LowPassCutoff
   - guid: 45be6d47b81fcf34b80616984ea1be84
     name: MusicVolume
   m_AudioMixerGroupViews:
@@ -53,6 +73,7 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 24400004}
+  - {fileID: -3589148046919689445}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -81,8 +102,10 @@ AudioMixerSnapshotController:
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: 013cb8767b96277418982160171648cf
   m_FloatValues:
+    889c9a73dfc55184492fd832b030e487: 22000
     45be6d47b81fcf34b80616984ea1be84: -17.938717
     e7d61c9cfa965d0438829f09570c3607: 0
+    1399e04e802bd3b48b956bafcee905f3: 1
     cab5056e62d834942b3ad1677e991323: 0.23288241
   m_TransitionOverrides: {}
 --- !u!243 &243059815924327020
@@ -91,7 +114,7 @@ AudioMixerGroupController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Spatial Effects Yo
+  m_Name: Spatial Effects
   m_AudioMixer: {fileID: 24100000}
   m_GroupID: a260fc87b09cc244682b6a17393f27da
   m_Children: []

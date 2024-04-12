@@ -1,0 +1,64 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
+  m_Name: Wall WFC Tile
+  m_EditorClassIdentifier: 
+  tilePrefab: {fileID: -643772105435015575, guid: 646ed8d4dd198bb49881ec6ff095f93e, type: 3}
+  enemySpawnChance: 0
+  constraints:
+    bottomLeftBoundary: {x: 0, y: 0, z: 0}
+    topRightBoundary: {x: 1, y: 1, z: 1}
+    weight: 0.5
+  xPositiveConstraints:
+  - tileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.267
+  - tileDefinition: {fileID: 11400000, guid: 89190b414140bee4b86ac3a2c6ccbbf8, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.723
+  xNegativeConstraints:
+  - tileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.267
+  - tileDefinition: {fileID: 11400000, guid: 9e36498425aa56c4f8811ca8ebb75540, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.723
+  zPositiveConstraints:
+  - tileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.267
+  - tileDefinition: {fileID: 11400000, guid: 9e36498425aa56c4f8811ca8ebb75540, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.723
+  zNegativeConstraints:
+  - tileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.267
+  - tileDefinition: {fileID: 11400000, guid: 9e36498425aa56c4f8811ca8ebb75540, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.723

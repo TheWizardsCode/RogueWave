@@ -34,7 +34,6 @@ Transform:
   m_Children:
   - {fileID: 8278835334471467533}
   - {fileID: 9116207738075545286}
-  - {fileID: 1442629194260554073}
   m_Father: {fileID: 6134286060280689273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!23 &3279353296584564737
@@ -116,117 +115,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Multiplier: 1
   m_Critical: 0
---- !u!1 &3203945097326499287
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1442629194260554073}
-  - component: {fileID: 4897065453226415121}
-  - component: {fileID: 5268795853535200986}
-  m_Layer: 31
-  m_Name: Point Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1442629194260554073
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3203945097326499287}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 6901972063412320817}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!108 &4897065453226415121
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3203945097326499287}
-  m_Enabled: 1
-  serializedVersion: 10
-  m_Type: 2
-  m_Shape: 0
-  m_Color: {r: 0.4292453, g: 1, b: 0.9597012, a: 1}
-  m_Intensity: 2
-  m_Range: 0.75
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 1
-  m_Flare: {fileID: 12100000, guid: a9978597f8aedc64f81468e1258face6, type: 2}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 0
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_UseViewFrustumForShadowCasterCull: 1
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
---- !u!123 &5268795853535200986
-LensFlare:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3203945097326499287}
-  m_Enabled: 1
-  m_Flare: {fileID: 12100000, guid: a9978597f8aedc64f81468e1258face6, type: 2}
-  m_Color: {r: 0.6179246, g: 1, b: 0.93637764, a: 0}
-  m_Brightness: 1
-  m_FadeSpeed: 3
-  m_IgnoreLayers:
-    serializedVersion: 2
-    m_Bits: 268434742
-  m_Directional: 0
 --- !u!1 &5299311784649714057
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,11 +162,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  displayName: Proximity Spawner
+  description: A small spawner that operates when the player is nearby.
+  challengeRating: 4
+  requireLineOfSight: 0
+  viewDistance: 30
+  sensorMask:
+    serializedVersion: 2
+    m_Bits: 0
+  sensor: {fileID: 0}
+  head: {fileID: 0}
+  headRotationSpeed: 2
+  maxHeadRotation: 75
+  isMobile: 0
+  minSpeed: 4
+  maxSpeed: 6
+  acceleration: 10
+  rotationSpeed: 1
+  minimumHeight: 0.5
+  maximumHeight: 75
+  optimalDistanceFromPlayer: 0.2
+  destinationUpdateFrequency: 2
+  obstacleAvoidanceDistance: 2
+  arrivalDistance: 1.5
+  seekDistance: 30
+  squadRole: 1
+  shouldExplodeOnDeath: 1
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 20
+  explosionForceOnDeath: 15
+  resourcesDropChance: 0.5
+  resourcesPrefab: {fileID: 8288433013401571843, guid: e3b7aef0d1da71d468b7539e7641fa4e, type: 3}
+  onDeath:
+    m_PersistentCalls:
+      m_Calls: []
+  onDestroyed:
+    m_PersistentCalls:
+      m_Calls: []
+  enemySpawnedStat: {fileID: 0}
+  enemyKillsStat: {fileID: 0}
+  isDebug: 0
+  includeInShowcase: 1
+  isBossSpawner: 0
+  ignoreMaxAlive: 1
   activeRange: 15
   useLevelDefinition: 1
-  levelDefinition: {fileID: 11400000, guid: cf6d5deadf17029458bd608468ddd2e9, type: 2}
+  levelDefinition: {fileID: 0}
   timeBetweenWaves: 3
-  ignoreMaxAlive: 1
   spawnRadius: 5
   destroySpawnsOnDeath: 0
   loopWaves: 1
@@ -288,7 +218,7 @@ MonoBehaviour:
   shieldGeneratorRPM: 22.5
   shieldCollider: {fileID: 0}
   waveStartSound: {fileID: 0}
-  onDestroyed:
+  onSpawnerDestroyed:
     m_PersistentCalls:
       m_Calls: []
   onEnemySpawned:

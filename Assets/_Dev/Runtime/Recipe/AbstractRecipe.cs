@@ -15,7 +15,7 @@ namespace RogueWave
         [SerializeField, TextArea(1, 4), Tooltip("A short description of this recipe helping the player understand what it is.")]
         string description = "TBD";
         [SerializeField, Tooltip("An image to use as the hero image for this recipe."), ShowAssetPreview]
-        Texture2D heroImage;
+        Sprite heroImage;
         [SerializeField, Tooltip("A sprite to use as the icon for this recipe."), ShowAssetPreview]
         Sprite icon;
 
@@ -67,7 +67,7 @@ namespace RogueWave
 
         public string Description => description;
 
-        public Texture2D HeroImage => heroImage;
+        public Sprite HeroImage => heroImage;
 
         public Sprite Icon => icon;
 
@@ -164,10 +164,10 @@ namespace RogueWave
                     adjustedWeight += ownedComplements * 0.05f;
                 }
 
-                if (IsStackable)
-                {
-                    int count = RogueLiteManager.runData.GetCount(this);
-                    adjustedWeight *= 1 + (count * 0.05f);
+                int count = RogueLiteManager.runData.GetCount(this);
+                if (IsStackable && count > 0)
+                {   
+                    adjustedWeight *= 1.1f + ((float)count/maxStack);
                 }
 
                 return adjustedWeight;
@@ -214,6 +214,9 @@ namespace RogueWave
                 } 
                 else if (RogueLiteManager.runData.Contains(this) || RogueLiteManager.persistentData.Contains(this))
                 {
+#if UNITY_EDITOR
+                    Debug.Log($"Either runData or persistentData already contains {this}. Cannot offer.");
+#endif
                     return false;
                 }
 
@@ -222,12 +225,12 @@ namespace RogueWave
                     if (RogueLiteManager.runData.Contains(dependency) == false && RogueLiteManager.persistentData.Contains(dependency) == false)
                     {
 #if UNITY_EDITOR
-                        Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot build.");
+                        Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot offer.");
 #endif
                         return false;
                     }
 #if UNITY_EDITOR
-                    Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can build.");
+                    Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can offer.");
 #endif
                 }
 

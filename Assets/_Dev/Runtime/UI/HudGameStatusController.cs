@@ -1,5 +1,6 @@
 ﻿using NeoFPS;
 using RogueWave.UI;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -20,61 +21,36 @@ namespace RogueWave
         [SerializeField, Tooltip("The text readout for the current players Nanobot level number.")]
         private TMPro.TMP_Text m_NanobotLevelNumberText = null;
 
-        private RogueWaveGameMode gameMode = null;
         private NanobotManager nanobotManager = null;
 
-        int spawnersCount = 0;
-        private int enemiesCount;
-
-        protected override void Awake()
+        protected override void Start()
         {
-            base.Awake();
+            base.Start();
 
-            gameMode = FindObjectOfType<RogueWaveGameMode>();
-            if (gameMode != null)
+            if (m_GameLevelNumberText != null)
             {
-                gameMode.levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
+                m_GameLevelNumberText.text = (RogueLiteManager.persistentData.currentGameLevel + 1).ToString();
+            }
+
+            if (m_NanobotLevelNumberText != null)
+            {
+                m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
             }
         }
 
-        private void OnSpawnerCreated(Spawner spawner)
+        internal void UpdateSpawnerCount(int count)
         {
-            spawnersCount++;
             if (m_SpawnersText != null)
             {
-                m_SpawnersText.text = spawnersCount.ToString();
-            }
-
-            spawner.onDestroyed.AddListener(OnSpawnerDestroyed);
-            spawner.onEnemySpawned.AddListener(OnEnemySpawned);
-        }
-
-        private void OnSpawnerDestroyed(Spawner spawner)
-        {
-            spawnersCount--;
-            if (m_SpawnersText != null)
-            {
-                m_SpawnersText.text = spawnersCount.ToString();
+                m_SpawnersText.text = count.ToString();
             }
         }
 
-        private void OnEnemySpawned(BasicEnemyController enemy)
+        internal void UpdateEnemyCount(int count)
         {
-            enemiesCount++;
             if (m_EnemiesText != null)
             {
-                m_EnemiesText.text = enemiesCount.ToString();
-            }
-
-            enemy.onDestroyed.AddListener(OnEnemyDestroyed);
-        }
-
-        private void OnEnemyDestroyed()
-        {
-            enemiesCount--;
-            if (m_EnemiesText != null)
-            {
-                m_EnemiesText.text = enemiesCount.ToString();
+                m_EnemiesText.text = count.ToString();
             }
         }
 

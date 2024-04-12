@@ -1,7 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
+using RogeWave;
 using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
@@ -20,13 +20,13 @@ namespace RogueWave
         float maximumTimeBetweenReports = 30;
         [Required, SerializeField, Tooltip("The Scanner prefab that will be spawned when the AI director detects that the player has not been reported for a while.")]
         ScannerController scannerPrefab;
-        [SerializeField, Tooltip("The length of a time slice. The AI director will evaluate the current state of play every timeSlice seconds. Based on this evluation the AI will issue orders to the Enemies.")]
-        float timeSlice = 25f;
+        [SerializeField, Tooltip("The length of a time slice. The AI director will evaluate the current state of play every timeSlice seconds. Based on this evaluation the AI will issue orders to the Enemies.")]
+        float timeSlice = 50f;
         [SerializeField, Tooltip("The target kill score, which is the total challenge rating of all the enemies killed in the last `timeSlice`, divided by the `timeslice`. " +
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player.")]
         float targetKillScore = 0.3f;
-
-        [Header("Squads")]
+        [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player.")]
+        float difficultyMultiplier = 7f;
 
 
         [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]
@@ -41,6 +41,7 @@ namespace RogueWave
         float timeOfNextTimeSlice = 0;
         float currentKillscore = 0; // the current value of the total challenge rating of enemies killed in the last timeSlice
         private BasicEnemyController enemyController;
+        private RogueWaveGameMode gameMode;
 
         /// <summary>
         /// Returns the suspected location of the player based on the reports made by the enemies.
@@ -71,7 +72,9 @@ namespace RogueWave
 
         protected void Awake()
         {
-            levelGenerator.onSpawnerCreated.AddListener(OnSpawnerCreated);
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
+            gameMode.onSpawnerCreated.AddListener(OnSpawnerCreated);
+            gameMode.onEnemySpawned.AddListener(OnEnemySpawned);
         }
 
         private void Update()
@@ -96,46 +99,89 @@ namespace RogueWave
                 }
                 currentKillscore = totalChallengeRating / timeSlice;
 
-#if UNITY_EDITOR
-                if (isDebug)
-                {
-                    Debug.Log($"AIDirector: CurrentKillScore is {currentKillscore}, targetKillScore is {targetKillScore}");
-                }
-#endif
+                float remainingChallengeRating = (RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier;
                 if (enemies.Count > 0 && currentKillscore < targetKillScore)
                 {
-                    totalChallengeRating = 0;
                     int orderedEnemies = 0;
-                    while (orderedEnemies < enemies.Count && totalChallengeRating < (RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * 10)
+                    while (orderedEnemies < enemies.Count && remainingChallengeRating > 0)
                     {
                         orderedEnemies++;
                         BasicEnemyController randomEnemy = enemies[Random.Range(0, enemies.Count)];
-                        totalChallengeRating += randomEnemy.challengeRating;
+                        remainingChallengeRating -= randomEnemy.challengeRating;
                         randomEnemy.RequestAttack(suspectedTargetLocation);
                     }
-#if UNITY_EDITOR
-                    if (isDebug)
-                    {
-                        Debug.Log($"AIDirector: Sent {orderedEnemies} of {enemies.Count} enemies with a total challenge rating of {totalChallengeRating} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
-                    }
-#endif
 
+                    GameLog.Info($"AIDirector: Sending enemies with a total challenge rating of {totalChallengeRating} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                } 
+                else
+                {
+                    GameLog.Info($"AIDirector: The current Kill Score is {currentKillscore} (targetKillScore is {targetKillScore}).");
                 }
+
+                if (remainingChallengeRating <= 0)
+                {
+                    return;
+                }
+
+                Spawner[] nearestSpawners = null;
+                if (spawners.Count > 3) {
+                    nearestSpawners = new Spawner[3];
+                    List<Spawner> sortedSpawners = new List<Spawner>(spawners);
+                    sortedSpawners.Sort((a, b) => Vector3.Distance(a.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position).CompareTo(Vector3.Distance(b.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position)));
+                    for (int i = 0; i < 3; i++)
+                    {
+                        nearestSpawners[i] = sortedSpawners[i];
+                    }
+                }
+                else if (spawners.Count > 0)
+                {
+                    nearestSpawners = spawners.ToArray();
+                } 
+                else
+                {
+                    return;
+                }
+
+                while (remainingChallengeRating > 0)
+                {
+                    BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy();
+                    if (randomEnemy != null)
+                    {
+                        remainingChallengeRating -= randomEnemy.challengeRating;
+                    } else
+                    {
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void OnDestroy()
+        {
+            gameMode.onSpawnerCreated.RemoveListener(OnSpawnerCreated);
+            gameMode.onEnemySpawned.RemoveListener(OnEnemySpawned);
+
+            foreach (Spawner spawner in spawners)
+            {
+                spawner.onSpawnerDestroyed.RemoveListener(OnSpawnerDestroyed);
+            }
+
+            foreach (BasicEnemyController enemy in enemies)
+            {
+                enemy.onDeath.RemoveListener(OnEnemyDeath);
             }
         }
 
         private void OnSpawnerCreated(Spawner spawner)
         {
             spawners.Add(spawner);
-            spawner.onDestroyed.AddListener(OnSpawnerDestroyed);
-            spawner.onEnemySpawned.AddListener(OnEnemySpawned);
+            spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
         }
 
         private void OnSpawnerDestroyed(Spawner spawner)
         {
             spawners.Remove(spawner);
-            // OPTIMIZATION: don't use getcomponent here
-            killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = spawner.GetComponent<BasicEnemyController>().challengeRating, enemyName = spawner.name, location = spawner.transform.position });
+            killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = spawner.challengeRating, enemyName = spawner.name, location = spawner.transform.position });
         }
 
         private void OnEnemySpawned(BasicEnemyController enemy)
@@ -147,6 +193,7 @@ namespace RogueWave
         private void OnEnemyDeath(BasicEnemyController enemy)
         {
             killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = enemy.challengeRating, enemyName = enemy.name, location = enemy.transform.position });
+            enemy.onDeath.RemoveListener(OnEnemyDeath);
             enemies.Remove(enemy);
         }
 

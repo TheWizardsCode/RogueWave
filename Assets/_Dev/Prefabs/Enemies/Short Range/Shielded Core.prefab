@@ -92,16 +92,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 8620451866325067554}
+  head: {fileID: 0}
+  headRotationSpeed: 2
+  maxHeadRotation: 75
   isMobile: 1
   minSpeed: 2
   maxSpeed: 6
+  acceleration: 10
   rotationSpeed: 1
   minimumHeight: 2.5
-  maximumHeight: 75
+  maximumHeight: 15
   optimalDistanceFromPlayer: 5
+  destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 10
-  seekDuration: 10
+  arrivalDistance: 1.5
+  seekDuration: 25
   seekDistance: 75
+  squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 15
   explosionDamageOnDeath: 30
@@ -114,6 +121,8 @@ MonoBehaviour:
   onDestroyed:
     m_PersistentCalls:
       m_Calls: []
+  enemySpawnedStat: {fileID: 11400000, guid: 6bb7104be6fbaee45bc9540fd8943b06, type: 2}
+  enemyKillsStat: {fileID: 11400000, guid: 86043e26fe7a4564f91093790836a74c, type: 2}
   isDebug: 0
   includeInShowcase: 1
 --- !u!114 &4830127741829248690
@@ -312,6 +321,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 0
 --- !u!1001 &1864288036028586345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -458,6 +468,26 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 31
       objectReference: {fileID: 0}
+    - target: {fileID: -3272106112100924687, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -3272106112100924687, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -3272106112100924687, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: -3272106112100924687, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2571118854743697038, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6bd2ddfa38a698d47b3c522c9f7933d4, type: 2}
     - target: {fileID: 919132149155446097, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
       propertyPath: m_Name
       value: Model
@@ -482,6 +512,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -5117700066308340382, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
       insertIndex: -1
       addedObject: {fileID: 2679239866255855043}
+    - targetCorrespondingSourceObject: {fileID: -5117700066308340382, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2428879681075054124}
   m_SourcePrefab: {fileID: 100100000, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
 --- !u!4 &1929768930565551317 stripped
 Transform:
@@ -556,3 +589,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: {x: 0, y: 100, z: 0}
+--- !u!114 &2428879681075054124
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2717664010336884316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324eb03c118da784a8221564f9ef26f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DissolveTime: 1.5

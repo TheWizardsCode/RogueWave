@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7198491973930863953
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1416075305955597731}
+  - component: {fileID: 2335470377363790966}
+  m_Layer: 0
+  m_Name: BuildingGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &1416075305955597731
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198491973930863953}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.094465256, y: -0.9045826, z: 0.27426338, w: 0.31238803}
+  m_LocalPosition: {x: 58.68579, y: 85.737366, z: 75.04382}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 2047799219072644281}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 33.725, y: -141.887, z: 0.031}
+--- !u!114 &2335470377363790966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7198491973930863953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0352d91154cfe843b56e101dce8b4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  generateOnAwake: 0
+  foundationPolygons:
+  - {fileID: 11400000, guid: ddafba8a2d487844f871f88e4aca43b0, type: 2}
+  - {fileID: 11400000, guid: a540d7a1fdf3a9d49a66617d16c65196, type: 2}
+  - {fileID: 11400000, guid: 4db065a1516b4fa4b8371342a9e31dd1, type: 2}
+  - {fileID: 11400000, guid: fdb382f0363bae845801de5407f0da12, type: 2}
+  - {fileID: 11400000, guid: 98289bb0a89df1549a30e83e5b3fb788, type: 2}
+  - {fileID: 11400000, guid: 62ddd43b0d0d5054899f4c920f3ccd96, type: 2}
+  - {fileID: 11400000, guid: e899eeac1b29be24f90f3eceefef3765, type: 2}
+  - {fileID: 11400000, guid: 7596ae514788f7c49b60625818ef3a75, type: 2}
+  floors: {x: 2, y: 30}
+  parent: {fileID: 2047799219072644281}
+  facadePlanner: {fileID: 11400000, guid: c977cc8568bc7114f800c7db915b5ee8, type: 2}
+  facadeConstructor: {fileID: 11400000, guid: 9662c59503204e64289e7d0e4027eff2, type: 2}
+  roofPlanner: {fileID: 11400000, guid: 4ef7227c02ad17045971dc0e36c02e4d, type: 2}
+  roofConstructor: {fileID: 11400000, guid: ab7b9cde866fae145b8705411c8c023b, type: 2}
+--- !u!1 &7924377034143457265
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2047799219072644281}
+  m_Layer: 0
+  m_Name: Model (Foundations enerated by Cross (RogueWave.Procedural.PolygonAsset))
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 2147483647
+  m_IsActive: 1
+--- !u!4 &2047799219072644281
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7924377034143457265}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1416075305955597731}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

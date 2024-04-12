@@ -44,9 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c187386a2187f4fac5475fff8f1275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  onSpawnerCreated:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!1 &5223561033937574973
 GameObject:
   m_ObjectHideFlags: 0
@@ -60,7 +57,6 @@ GameObject:
   - component: {fileID: 3957620431239229239}
   - component: {fileID: 905963099382226170}
   - component: {fileID: 2767766673360794206}
-  - component: {fileID: 5084602469823726245}
   m_Layer: 0
   m_Name: RW_Game_Mode
   m_TagString: Untagged
@@ -82,7 +78,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3021623268426482257}
-  - {fileID: 4050552346493902172}
   - {fileID: 6262499156547862416}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -101,7 +96,6 @@ MonoBehaviour:
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: -2446305894394526636, guid: 3ff6e92f43d79ed4d9afc6a3afdacc58, type: 3}
   m_VictoryDuration: 5
-  randomizePlayerSpawn: 1
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   _startingRecipes: []
@@ -112,6 +106,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e3174ef1a025c9140a82781959567ad6, type: 2}
   - {fileID: 11400000, guid: 1f3fab56f97b5904e89b12b386585fff, type: 2}
   - {fileID: 11400000, guid: 0b9628c45a935dd4695701360be1f27e, type: 2}
+  m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
+  m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
+  m_TimePlayedStat: {fileID: 11400000, guid: cd470668f69eda34db38f3129ed8601f, type: 2}
+  onSpawnerCreated:
+    m_PersistentCalls:
+      m_Calls: []
+  onEnemySpawned:
+    m_PersistentCalls:
+      m_Calls: []
   _isDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
@@ -187,21 +190,10 @@ MonoBehaviour:
   levelGenerator: {fileID: 3423411428560200973}
   maximumTimeBetweenReports: 30
   scannerPrefab: {fileID: 4437746279418429034, guid: bf1c25210103bed4bb9378c859bef582, type: 3}
-  timeSlice: 25
+  timeSlice: 50
   targetKillScore: 0.3
+  difficultyMultiplier: 7
   isDebug: 0
---- !u!114 &5084602469823726245
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5223561033937574973}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0
@@ -339,60 +331,3 @@ MonoBehaviour:
   expandNeoComponents: 0
   expandOtherComponents: 0
   prefabGuid: 3f2b5cc90618dbb46b29cd834ae94c12
---- !u!1 &8684738436908811697
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4050552346493902172}
-  - component: {fileID: 3978362903455526049}
-  m_Layer: 0
-  m_Name: PlayerSpawn
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4050552346493902172
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8684738436908811697}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.9393216, z: -0, w: 0.34303805}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5226446580903751955}
-  m_LocalEulerAnglesHint: {x: 0, y: -139.876, z: 0}
---- !u!114 &3978362903455526049
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8684738436908811697}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecba0a4bec55ef14ea52ab5cd9f2a237, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RegisterOnAwake: 1
-  m_ReuseDelay: 0
-  m_OverlapTest: 0
-  m_BlockingLayers:
-    serializedVersion: 2
-    m_Bits: 8403457
-  m_BoundsHeight: 2.5
-  m_BoundsHorizontal: 1
-  m_ReorientGravity: 0
-  m_OnSpawn:
-    m_PersistentCalls:
-      m_Calls: []
-  group: {fileID: 0}

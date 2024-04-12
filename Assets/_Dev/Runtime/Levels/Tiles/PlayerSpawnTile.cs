@@ -7,11 +7,17 @@ namespace RogueWave
 {
     public class PlayerSpawnTile : BaseTile
     {
-        internal override void GenerateTileContent(int x, int y, BaseTile[,] tiles)
+        internal override void GenerateTileContent(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
-            SpawnPoint spawnPoint = gameObject.AddComponent<SpawnPoint>();
+            GameObject spawn = new GameObject("Player Spawn Point");
+            spawn.transform.parent = this.transform;
 
-            base.GenerateTileContent(x, y, tiles);
+            SpawnPoint spawnPoint = spawn.AddComponent<SpawnPoint>();
+            spawnPoint.transform.localPosition = new Vector3(Random.Range(10, tileWidth - 10), 0, Random.Range(10, tileHeight - 10));
+
+            SpawnManager.AddSpawnPoint(spawnPoint);
+
+            base.GenerateTileContent(x, y, tiles, levelGenerator);
         }
     }
 }

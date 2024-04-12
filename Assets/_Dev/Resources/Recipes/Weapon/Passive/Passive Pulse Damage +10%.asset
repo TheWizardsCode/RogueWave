@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45c9647589ddd646ab4be34481c3372, type: 3}
+  m_Name: Passive Pulse Damage +10%
+  m_EditorClassIdentifier: 
+  displayName: Increase Pulse Weapon Damage (10%)
+  description: Increase the passive pulse weapons damage by 10%.
+  heroImage: {fileID: 21300000, guid: 10d305d400e030040ae1020520cc7af5, type: 3}
+  icon: {fileID: 21300000, guid: 1daf48e6fc7ccae45bb6709a8c1ea5a0, type: 3}
+  level: 5
+  baseWeight: 0.4
+  dependencies:
+  - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
+  complements: []
+  buyCost: 750
+  isPowerUp: 1
+  isConsumable: 0
+  cooldown: 30
+  isStackable: 1
+  maxStack: 10
+  buildCost: 75
+  timeToBuild: 5
+  nameClips: []
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 903c7691-4d41-4c48-912c-9cd1281c537b
+  passiveWeapon: {fileID: -8490178041935154496, guid: 23e8e9e0bcfac2449ac6732b3d7b1091, type: 3}
+  rangeMultiplier: 1
+  damageMultiplier: 1.1

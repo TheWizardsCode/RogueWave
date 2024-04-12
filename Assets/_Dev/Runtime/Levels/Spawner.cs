@@ -3,25 +3,28 @@ using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System.Collections;
 using System.Collections.Generic;
+using System.Transactions;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace RogueWave
 {
     [RequireComponent(typeof(AudioSource))]
-    public class Spawner : MonoBehaviour
+    public class Spawner : BasicEnemyController
     {
         [Header("Spawn Behaviours")]
+        [SerializeField, Tooltip("If this is set to true then this is a boss spawner. Boss spawners must all be destroyed before the level can be completed.")]
+        internal bool isBossSpawner = false;
+        [SerializeField, Tooltip("If true then the spawner will ignore the max alive setting in the level definition and will spawn as many enemies as it can.")]
+        private bool ignoreMaxAlive = false;
         [SerializeField, Tooltip("Distance to player for this spawner to be activated. If this is set to 0 then it will always be active, if >0 then the spawner will only be active when the player is within this many units. If the player moves further away then the spawner will pause.")]
         float activeRange = 0;
         [SerializeField, Tooltip("If true then the spawner will use the level definition defined in the Game Mode to determine the waves to spawn. If false then the spawner will spawn according to the wave definition below.")]
         bool useLevelDefinition = false;
         [SerializeField, HideIf("useLevelDefinition"), Tooltip("The level definition to use to determine the waves to spawn. Set 'Use Level Definition' to true to use the waves set in the level.")]
-        LevelDefinition levelDefinition;
+        WfcDefinition levelDefinition;
         [SerializeField, Tooltip("The time to wait between waves.")]
         private float timeBetweenWaves = 5;
-        [SerializeField, Tooltip("If true then the spawner will ignore the max alive setting in the level definition and will spawn as many enemies as it can.")]
-        private bool ignoreMaxAlive = false;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
         [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]
@@ -41,13 +44,13 @@ namespace RogueWave
         [SerializeField, ShowIf("hasShield"), Tooltip("The model and collider that will represent the shield.")]
         internal Collider shieldCollider;
 
-        [Header("Feel")]
+        [Header("Juice")]
         [SerializeField, Tooltip("The sound to play when a new spawning wave is starting.")]
         AudioClip waveStartSound;
 
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when this spawner is destroyed.")]
-        public UnityEvent<Spawner> onDestroyed;
+        public UnityEvent<Spawner> onSpawnerDestroyed;
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned.")]
         public UnityEvent<BasicEnemyController> onEnemySpawned;
         [SerializeField, Tooltip("The event to trigger when all waves are complete.")]
@@ -77,18 +80,39 @@ namespace RogueWave
             }
         }
 
-        private LevelDefinition currentLevel;
+        private WfcDefinition currentLevel;
         private int currentWaveIndex = -1;
-        private WaveDefinition currentWave;
+        internal WaveDefinition currentWave;
+        internal WaveDefinition lastWave => currentLevel.waves[currentLevel.waves.Length - 1];
 
 
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
         private AudioSource audioSource;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             audioSource = GetComponent<AudioSource>();
+            gameMode.RegisterSpawner(this);
+        }
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+
+            healthManager.onIsAliveChanged += OnAliveIsChanged;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+
+            StopAllCoroutines();
+            healthManager.onIsAliveChanged -= OnAliveIsChanged;
+
+            onSpawnerDestroyed?.Invoke(this);
         }
 
         private void Update()
@@ -138,13 +162,6 @@ namespace RogueWave
             }
 
             activeRangeSqr = activeRange * activeRange;
-        }
-
-        private void OnDestroy()
-        {
-            StopAllCoroutines();
-
-            onDestroyed?.Invoke(this);
         }
 
         void RegisterShieldGenerator(IHealthManager h)
@@ -246,7 +263,7 @@ namespace RogueWave
         {
             while (FpsSoloCharacter.localPlayerCharacter == null || currentLevel == null)
             {
-                currentLevel = RogueWaveGameMode.Instance.currentLevelDefinition;
+                currentLevel = gameMode.currentLevelDefinition;
                 yield return null;
             }
 
@@ -277,20 +294,37 @@ namespace RogueWave
             }
         }
 
-        private void SpawnEnemy()
+        /// <summary>
+        /// If the spawner is not ignoring the max alive setting in the level definition, then this will spawn an enemy if the max alive count has not been reached.
+        /// </summary>
+        /// <returns>The enemy spawned, null if current maxAlive is hit and we are not ignoring maxalive, or if an enemy cannot be spawned for some other reason.</returns>
+        internal BasicEnemyController SpawnEnemy()
         {
+            if (ignoreMaxAlive && (currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
+            {
+                return null;
+            }
+
             Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
+            if (currentWave == null)
+            {
+                currentWave = gameMode.GetEnemyWaveFromBossSpawner();
+            }
+
             PooledObject prefab = currentWave.GetNextEnemy();
+
             if (prefab == null)
             {
                 Debug.LogError("No enemy prefab found in wave definition.");
-                return;
+                return null;
             }
             BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prefab, spawnPosition, Quaternion.identity);
             enemy.onDeath.AddListener(OnEnemyDeath);
 
             spawnedEnemies.Add(enemy);
             onEnemySpawned?.Invoke(enemy);
+
+            return enemy;
         }
 
         private void OnEnemyDeath(BasicEnemyController enemy)
@@ -300,6 +334,11 @@ namespace RogueWave
 
         public void OnAliveIsChanged(bool isAlive)
         {
+            if (!gameObject.activeSelf)
+            {
+                return;
+            }
+
             if (isAlive)
             {
                 StartCoroutine(SpawnWaves());
@@ -323,13 +362,13 @@ namespace RogueWave
         /// Configure this spawner accoring to a level definition.
         /// </summary>
         /// <param name="currentLevelDefinition"></param>
-        internal void Initialize(LevelDefinition currentLevelDefinition)
+        internal void Initialize(WfcDefinition currentLevelDefinition)
         {
             currentLevel = currentLevelDefinition;
         }
 
         /// <summary>
-        /// The spawner will attempt to spawn the given scanner prefab.
+        /// The spawner will attempt to spawn the given enemy prefab.
         /// </summary>
         /// <param name="scannerPrefab"></param>
         internal void RequestSpawn(BasicEnemyController enemyPrefab)

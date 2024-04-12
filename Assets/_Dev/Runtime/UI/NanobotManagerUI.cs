@@ -77,9 +77,9 @@ namespace RogueWave
 
                 nanobotManager.onNanobotLevelUp += OnNanobotLevelUp;
 
+                nanobotLevelProgressBar.MaxValue = nanobotManager.resourcesForNextNanobotLevel;
+
                 gameObject.SetActive(true);
-
-
             }
             else
             {
@@ -160,11 +160,7 @@ namespace RogueWave
                         }
                         else
                         {
-                            offerIcon[i].sprite = Sprite.Create(currentOffers[i].HeroImage,
-                                new Rect(0.0f, 0.0f, currentOffers[i].HeroImage.width,
-                                currentOffers[i].HeroImage.height),
-                                new Vector2(0.5f, 0.5f),
-                                currentOffers[i].HeroImage.width / 50.0f);
+                            offerIcon[i].sprite = currentOffers[i].HeroImage;
                         }
                     }
                     offerText[i].text = currentOffers[i].DisplayName;

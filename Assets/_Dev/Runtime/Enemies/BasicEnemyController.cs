@@ -1,21 +1,23 @@
+using Codice.Client.BaseCommands;
 using NaughtyAttributes;
 using NeoFPS;
-using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
+using NeoSaveGames;
 using System;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using UnityEditor;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using WizardsCode.GameStats;
+using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
 {
     public class BasicEnemyController : MonoBehaviour
     {
+        internal enum SquadRole { Fodder, /* Heavy, Sniper, Medic, Scout, Leader,*/ None }
+
         [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
         public string displayName = "TBD";
         [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI.")]
@@ -33,6 +35,14 @@ namespace RogueWave
         [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), ShowIf("requireLineOfSight")]
         Transform sensor;
 
+        [Header("Animation")]
+        [SerializeField, Tooltip("The head of the enemy. If set then this object will be rotated to face the player.")]
+        Transform head;
+        [SerializeField, Tooltip("The speed at which the head will rotate to face the plaeer."), Range(0, 10)]
+        float headRotationSpeed = 2;
+        [SerializeField, Tooltip("The maximum rotation of the head either side of forward."), Range(0, 180)]
+        float maxHeadRotation = 75;
+
         [Header("Movement")]
         [SerializeField, Tooltip("Is this enemy mobile?")]
         public bool isMobile = true;
@@ -40,6 +50,8 @@ namespace RogueWave
         internal float minSpeed = 4f;
         [SerializeField, Tooltip("The maximum speed at which the enemy moves."), ShowIf("isMobile")]
         internal float maxSpeed = 6f;
+        [SerializeField, Tooltip("The rate at which the enemy accelerates to its maximum speed."), ShowIf("isMobile")]
+        internal float acceleration = 10f;
         [SerializeField, Tooltip("How fast the enemy rotates."), ShowIf("isMobile")]
         internal float rotationSpeed = 1f;
         [SerializeField, Tooltip("The minimum height the enemy will move to."), ShowIf("isMobile")]
@@ -48,16 +60,22 @@ namespace RogueWave
         internal float maximumHeight = 75f;
         [SerializeField, Tooltip("How close to the player will this enemy try to get?"), ShowIf("isMobile")]
         internal float optimalDistanceFromPlayer = 0.2f;
+        [SerializeField, Tooltip("How often the destination will be updated."), ShowIf("isMobile")]
+        private float destinationUpdateFrequency = 2f;
 
         [Header("Navigation")]
         [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by."), ShowIf("isMobile")]
         internal float obstacleAvoidanceDistance = 2f;
+        [SerializeField, Tooltip("The distance the enemy needs to be from a target destination for it to be considered as arrived. This is important as large enemies, or ones with a slow trun speed might have difficulty getting to the precise target location. This can result in circular motion around the destination."), ShowIf("isMobile")]
+        internal float arrivalDistance = 1.5f;
 
         [Header("Seek Behaviour")]
-        [SerializeField, Tooltip("How long the enemy will seek out the player for after losing sight of them."), ShowIf("isMobile")]
-        internal float seekDuration = 7;
         [SerializeField, Tooltip("How far the enemy will go from their spawn point when attacking the player. If the enemy goes further than this then they will return to their spawn point to 'recharge'. Then they will resume their normal behaviour."), ShowIf("isMobile")]
         internal float seekDistance = 30;
+
+        [Header("SquadBehaviour")]
+        [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy.")]
+        internal SquadRole squadRole = SquadRole.Fodder;
 
         [Header("Juice")]
         [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed.")]
@@ -75,11 +93,17 @@ namespace RogueWave
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
         internal ResourcesPickup resourcesPrefab;
 
-        [Header("Events")]
+        [Header("Core Events")]
         [SerializeField, Tooltip("The event to trigger when this enemy dies."), Foldout("Events")]
         public UnityEvent<BasicEnemyController> onDeath;
         [SerializeField, Tooltip("The event to trigger when this enemy is destroyed."), Foldout("Events")]
         public UnityEvent onDestroyed;
+
+        // Game Stats
+        [SerializeField, Tooltip("The GameStat to increment when an enemy is spawned."), Foldout("Game Stats")]
+        internal GameStat enemySpawnedStat;
+        [SerializeField, Tooltip("The GameStat to increment when an enemy is killed."), Foldout("Game Stats")]
+        internal GameStat enemyKillsStat;
 
         [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Editor Only")]
         bool isDebug;
@@ -89,7 +113,7 @@ namespace RogueWave
         internal float currentSpeed;
 
         int maxFlockSize = 8;
-        Transform[] flockingGroup;
+        BasicEnemyController[] flockingGroup;
         Collider[] flockingColliders;
         float flockAvoidanceDistance = 10f;
         float flockRadius = 40f;
@@ -105,10 +129,10 @@ namespace RogueWave
             }
         }
 
-        internal bool shouldWander
+        internal bool shouldUpdateDestination
         {
             get { 
-                return seekDistance > 0 && Time.timeSinceLevelLoad > timeOfNextWanderPositionChange; 
+                return seekDistance > 0 && Time.timeSinceLevelLoad > timeOfNextDestinationChange; 
             }
         }
 
@@ -151,7 +175,6 @@ namespace RogueWave
                     {
                         if (hit.transform == Target)
                         {
-                            goalDestination = GetDestination(Target.position);
                             return true;
                         }
 #if UNITY_EDITOR
@@ -168,12 +191,6 @@ namespace RogueWave
                     }
 #endif
                 }
-#if UNITY_EDITOR
-                else if (isDebug)
-                {
-                    Debug.Log($"{name} cannot see the player as they are further than {viewDistance}m away.");
-                }
-#endif
 
                 return false;
             }
@@ -200,34 +217,54 @@ namespace RogueWave
         /// <returns>A position near the player that places the enemy at an optimal position to attack from.</returns>
         public Vector3 GetDestination(Vector3 targetPosition)
         {
-            Vector3 newPosition = new Vector3();
-            int tries = 0;
-            for (tries = 0; tries < 4; tries++)
+            if (timeOfNextDestinationChange > Time.timeSinceLevelLoad)
             {
-                newPosition = UnityEngine.Random.onUnitSphere * optimalDistanceFromPlayer;
-                newPosition += targetPosition;
-                if (newPosition.y >= minimumHeight)
-                {
-                    break;
-                }
+                return goalDestination;
             }
 
-            newPosition.y = Mathf.Max(newPosition.y, minimumHeight);
+            Vector3 newPosition = new Vector3();
+            int tries = 0;
+            do
+            {
+                tries++;
+                newPosition = Random.onUnitSphere * optimalDistanceFromPlayer;
+                newPosition += targetPosition;
+                newPosition.y = Mathf.Max(newPosition.y, minimumHeight);
+            } while (Physics.CheckSphere(newPosition, 1f) && tries < 50);
+
+            if (tries == 50)
+            {
+                newPosition = targetPosition;
+            }
+
+            timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
+
             return newPosition;
         }
 
         Vector3 spawnPosition = Vector3.zero;
         internal Vector3 goalDestination = Vector3.zero;
         Vector3 wanderDestination = Vector3.zero;
-        float timeOfNextWanderPositionChange = 0;
+        float timeOfNextDestinationChange = 0;
         private bool underOrders;
-        private BasicHealthManager healthManager;
+        internal BasicHealthManager healthManager;
         private float sqrSeekDistance;
+        private float sqrArrivalDistance;
+        private float sqrOptimalDistanceFromPlayer;
+        private PooledObject pooledObject;
         private bool isRecharging;
+        private bool fromPool;
+        internal RogueWaveGameMode gameMode;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             sqrSeekDistance = seekDistance * seekDistance;
+            sqrArrivalDistance = arrivalDistance * arrivalDistance;
+            sqrOptimalDistanceFromPlayer = optimalDistanceFromPlayer * optimalDistanceFromPlayer;
+            pooledObject = GetComponent<PooledObject>();
+
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
+
 #if ! UNITY_EDITOR
             isDebug = false;
 #endif
@@ -237,105 +274,146 @@ namespace RogueWave
         {
             spawnPosition = transform.position;
             currentSpeed = Random.Range(minSpeed, maxSpeed);
-            flockingGroup = new Transform[maxFlockSize];
+            flockingGroup = new BasicEnemyController[maxFlockSize];
             flockingColliders = new Collider[maxFlockSize * 3];
         }
 
 
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
+            if (enemySpawnedStat != null && fromPool) // note that if the enemy is not pooled this means it is not counted. Handy for Spawners, but beware if you add other non-pooled enemies.
+            {
+                enemySpawnedStat.Increment();
+                gameMode.RegisterEnemy(this);
+            } 
+            else
+            {
+                fromPool = true;
+            }
+
             healthManager = GetComponent<BasicHealthManager>();
             if (healthManager != null)
             {
+                healthManager.AddHealth(healthManager.healthMax);
                 healthManager.onIsAliveChanged += OnAliveIsChanged;
             }
         }
 
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (healthManager != null)
             {
                 healthManager.onIsAliveChanged -= OnAliveIsChanged;
             }
 
-            healthManager.AddHealth(healthManager.healthMax);
-
             onDestroyed?.Invoke();
             onDestroyed.RemoveAllListeners();
         }
 
-        protected virtual void LateUpdate()
+        protected virtual void Update()
         {
             if (isMobile == false)
             {
                 return;
             }
 
+            bool timeToUpdate = shouldUpdateDestination;
+
             if (Target == null)
             {
-                if (shouldWander)
+                if (timeToUpdate)
                 {
                     Wander();
                 }
                 return;
             }
 
-            if (requireLineOfSight == false)
-            {
-                goalDestination = GetDestination(Target.position);
-            }
-
-            if ((requireLineOfSight && CanSeeTarget == false) || underOrders)
-            {
-                if (shouldWander)
+            // First update the destination if required
+            if (Time.frameCount % 5 == 0) {
+                // if line of sight is not required then update the destination at the appropriate time
+                if (!requireLineOfSight && timeToUpdate)
                 {
-                    Wander();
+                    goalDestination = GetDestination(Target.position);
                 }
-                else if (underOrders || (isRecharging == false && Vector3.SqrMagnitude(goalDestination - transform.position) < sqrSeekDistance))
+                // else if the enemy is under orders then move to the ordered destination
+                else if (underOrders)
                 {
-                    MoveTowards(goalDestination);
+                    // Just follow the orders
                 }
-                else
+                // else if the enemy is recharging then move to the spawn position
+                else if (isRecharging)
                 {
-                    if (Vector3.SqrMagnitude(spawnPosition - transform.position) > 15f)
-                    {
-                        MoveTowards(spawnPosition);
-                        isRecharging = true;
-                    }
-                    else
+                    if (timeToUpdate)
                     {
                         isRecharging = false;
                     }
                 }
-
-                return;
-            }
-            else if (isRecharging == false && Vector3.SqrMagnitude(goalDestination - transform.position) < sqrSeekDistance)
-            {
-                MoveTowards(goalDestination);
-            }
-            else
-            {
-                if (Vector3.SqrMagnitude(spawnPosition - transform.position) > 15f)
+                // else if the enemy can see the player and the current destination is > 2x the optimal distance to the player then update the destination at the appropriate time
+                else if (timeToUpdate && CanSeeTarget)
                 {
-                    MoveTowards(spawnPosition);
-                    isRecharging = true;
+                    if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrOptimalDistanceFromPlayer * 2)
+                    {
+                        goalDestination = GetDestination(Target.position);
+                    }
                 }
-                else
+                // time for a wander
+                else if (timeToUpdate)
                 {
-                    if (shouldWander)
+                    if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrSeekDistance)
+                    {
+                        isRecharging = true;
+                        goalDestination = spawnPosition;
+                    } else
                     {
                         Wander();
                     }
-                    else
-                    {
-                        timeOfNextWanderPositionChange = 0;
-                    }
-                    isRecharging = false;
+                }
+
+                currentSpeed = Mathf.Min(maxSpeed, currentSpeed + Time.deltaTime * acceleration);
+
+                RotateHead();
+            }
+            
+            // Second move towards the destination if it is still appropriate
+            // if the distance to the goal destination is within the seek distance and outside the arrive distance then move towards the goal destination
+            float distanceToGoal = Vector3.SqrMagnitude(goalDestination - transform.position); 
+            if (distanceToGoal < sqrSeekDistance && distanceToGoal > sqrArrivalDistance)
+            {
+                if (underOrders)
+                {
+                    MoveTowards(goalDestination, 1.5f);
+                }
+                else
+                {
+                    MoveTowards(goalDestination);
                 }
             }
+            // else if the distance to the goalDestination is < arrive distance then slow down, eventually stopping
+            else if (distanceToGoal < sqrArrivalDistance)
+            {
+                underOrders = false;
+                currentSpeed = 0;
+            }
+            // else move towards the spawn position
+            else
+            {
+                goalDestination = GetDestination(spawnPosition);
+                MoveTowards(goalDestination);
+                isRecharging = true;
+            }
         }
-        
+
+        private void RotateHead()
+        {
+            if (head != null)
+            {
+                Vector3 direction = Target.position - head.position;
+                Quaternion targetRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+                float clampedRotation = Mathf.Clamp(head.rotation.eulerAngles.y, -maxHeadRotation, maxHeadRotation);
+                head.rotation = Quaternion.Euler(head.rotation.eulerAngles.x, clampedRotation, head.rotation.eulerAngles.z);
+            }
+        }
+
         internal virtual void MoveTowards(Vector3 destination, float speedMultiplier = 1)
         {
             Vector3 centerDirection = destination - transform.position;
@@ -348,22 +426,27 @@ namespace RogueWave
             int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, flockRadius, flockingColliders, LayerMask.GetMask("Enemy"));
             for (int i = 0; i < colliderCount && flockSize < maxFlockSize; i++)
             {
-                if (flockingColliders[i].transform != transform && flockingGroup.Contains(flockingColliders[i].transform) == false)
+                BasicEnemyController enemy = flockingColliders[i].GetComponentInParent<BasicEnemyController>();
+                if (enemy != null && enemy != this && enemy.squadRole != SquadRole.None && flockingGroup.Contains(enemy) == false)
                 {
-                    flockingGroup[flockSize] = flockingColliders[i].transform;
-                    centerDirection += flockingGroup[flockSize].position;
+                    flockingGroup[flockSize] = enemy;
+                    centerDirection += enemy.transform.position;
 
-                    if (Vector3.Distance(flockingGroup[flockSize].position, transform.position) < flockAvoidanceDistance)
+                    if (Vector3.Distance(enemy.transform.position, transform.position) < flockAvoidanceDistance)
                     {
-                        avoidanceDirection += transform.position - flockingGroup[flockSize].position;
+                        avoidanceDirection += transform.position - enemy.transform.position;
                     }
 
                     flockSize++;
                 }
             }
 
-            centerDirection /= flockSize;
-            centerDirection = (centerDirection - transform.position).normalized;
+            if (flockSize > 0)
+            {
+                // TODO: centreDirection is never used!
+                centerDirection /= flockSize;
+                centerDirection = (centerDirection - transform.position).normalized;
+            }
 
             if (destination.y < minimumHeight)
             {
@@ -374,19 +457,20 @@ namespace RogueWave
                 destination.y = maximumHeight;
             }
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, AvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+            Vector3 directionToTarget = (destination - transform.position).normalized;
+            float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
 
-            float currentDistance = Mathf.Infinity;
-            if (FpsSoloCharacter.localPlayerCharacter != null)
+            if (dotProduct > 0)
             {
-                currentDistance = Vector3.Distance(transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position);
+                transform.rotation = Quaternion.Slerp(transform.rotation, ObstacleAvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+            }
+            else
+            {
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
             }
 
-            if (currentDistance >= optimalDistanceFromPlayer)
-            {
-                transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
-            }
-
+            transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
+            
             AdjustHeight(destination, speedMultiplier);
         }
 
@@ -396,11 +480,11 @@ namespace RogueWave
         /// <param name="destination">The destination we are trying to reach.</param>
         /// <param name="avoidanceDirection">The optimal direction we are trying to avoid other flock members.</param>
         /// <returns></returns>
-        private Quaternion AvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
+        private Quaternion ObstacleAvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
         {
-            Vector3 directionToDestination = (destination - transform.position).normalized;
             float distanceToObstacle = 0;
             float turnAngle = 0;
+            float verticalAngle = 0;
             float turnRate = obstacleAvoidanceDistance * 10;
 
             // Check for obstacle dead ahead
@@ -411,17 +495,11 @@ namespace RogueWave
                 {
                     distanceToObstacle = forwardHit.distance;
                     turnAngle = 90;
-#if UNITY_EDITOR
-                    if (isDebug)
-                    {
-                        Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
-                    }
-#endif
                 }
             }
 
             // check for obstacle to the left
-            if (distanceToObstacle == 0)
+            if (turnAngle == 0)
             {
                 ray.direction = Quaternion.AngleAxis(-turnRate, transform.transform.up) * transform.forward;
                 if (Physics.Raycast(ray, out RaycastHit leftForwardHit, obstacleAvoidanceDistance, sensorMask))
@@ -430,18 +508,12 @@ namespace RogueWave
                     {
                         distanceToObstacle = leftForwardHit.distance;
                         turnAngle = 45;
-#if UNITY_EDITOR
-                        if (isDebug)
-                        {
-                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
-                        }
-#endif
                     }
                 }
             }
 
             // Check for obstacle to the right
-            if (distanceToObstacle == 0)
+            if (turnAngle == 0)
             {
                 ray.direction = Quaternion.AngleAxis(turnRate, transform.transform.up) * transform.forward;
                 if (Physics.Raycast(ray, out RaycastHit rightForwardHit, obstacleAvoidanceDistance, sensorMask))
@@ -450,26 +522,35 @@ namespace RogueWave
                     {
                         distanceToObstacle = rightForwardHit.distance;
                         turnAngle = -45;
-#if UNITY_EDITOR
-                        if (isDebug)
-                        {
-                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
-                        }
-#endif
                     }
                 }
             }
+
+#if UNITY_EDITOR
+            if (isDebug) { 
+                if (distanceToObstacle > 0)
+                {
+                    Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                }
+            }
+#endif
 
             // Calculate avoidance rotation
             Quaternion targetRotation = Quaternion.identity;
             if (distanceToObstacle > 0) // turn to avoid obstacle
             {
-                targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
-                currentSpeed = Mathf.Max(minSpeed, currentSpeed * 0.5f * Time.deltaTime);
+                targetRotation = transform.rotation * Quaternion.Euler(verticalAngle * (distanceToObstacle / obstacleAvoidanceDistance), turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
+                if (distanceToObstacle < 1f)
+                {
+                    currentSpeed = 0.1f;
+                }
 #if UNITY_EDITOR
                 if (isDebug)
                 {
-                    Debug.Log($"Rotating {turnAngle * (distanceToObstacle / obstacleAvoidanceDistance)} degrees to avoid obstacle.");
+                    if (turnAngle != 0)
+                    {
+                        Debug.Log($"Rotating {turnAngle * (distanceToObstacle / obstacleAvoidanceDistance)} degrees on the Y axis to avoid an obstacle.");
+                    }
                 }
 #endif
             }
@@ -483,7 +564,6 @@ namespace RogueWave
                 {
                     targetRotation = Quaternion.LookRotation(direction);
                 }
-                currentSpeed = Mathf.Max(maxSpeed, currentSpeed * 2f * Time.deltaTime);
             }
 
             return targetRotation;
@@ -491,33 +571,127 @@ namespace RogueWave
 
         private void AdjustHeight(Vector3 destination, float speedMultiplier)
         {
-            float heightDifference = transform.position.y - destination.y;
-            if ( heightDifference > 0.2f || heightDifference < -0.2f)
+            float distanceToObstacle = 0;
+            float testingAngle = 12;
+            float verticalAngle = 0;
+
+            // check for obstacle to the above/in front
+            Ray ray = new Ray(sensor.position, Quaternion.AngleAxis(-testingAngle, transform.transform.right) * transform.forward);
+            if (Physics.Raycast(ray, out RaycastHit forwardUpHit, obstacleAvoidanceDistance, sensorMask))
             {
-                float rate = currentSpeed * speedMultiplier * Time.deltaTime;
-                if (destination.y > transform.position.y)
+                if (forwardUpHit.collider.transform.root != Target)
                 {
-                    transform.position += Vector3.up * rate;
+                    distanceToObstacle = forwardUpHit.distance;
+                    verticalAngle = -45;
+
+#if UNITY_EDITOR
+                    if (isDebug) {
+                        if (distanceToObstacle > 0)
+                        {
+                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                        }
+                    }
+#endif
                 }
+#if UNITY_EDITOR
                 else
                 {
-                    transform.position -= Vector3.up * rate;
+                    Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.green, 2);
                 }
+#endif
+            }
 
+            // check for obstacle to the below/in front
+            ray.direction = Quaternion.AngleAxis(testingAngle, transform.transform.right) * transform.forward;
+            if (Physics.Raycast(ray, out RaycastHit forwardDownHit, obstacleAvoidanceDistance, sensorMask))
+            {
+                // TODO: Don't hard code the ground tag
+                if (forwardDownHit.collider.transform.root != Target && !forwardDownHit.collider.CompareTag("Ground"))
+                {
+                    distanceToObstacle = forwardDownHit.distance;
+                    verticalAngle = 45;
+
+#if UNITY_EDITOR
+                    if (isDebug && distanceToObstacle > 0)
+                    {
+                        Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                    }
+#endif
+                }
+#if UNITY_EDITOR
+                else
+                {
+                    Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.green, 2);
+                }
+#endif
+            }
+
+            float rate = maxSpeed * speedMultiplier * Time.deltaTime;
+            if (distanceToObstacle > 0)
+            {
+                // Try to get over or under the obstacle
+                if (verticalAngle == 0)
+                {
+                    transform.position += Vector3.up * rate;
+#if UNITY_EDITOR
+                    if (isDebug)
+                    {
+                        Debug.Log("Obstacle is above and below in front, moving up in an atttempt to get over it.");
+                    }
+#endif
+                }
+                if (verticalAngle < 0)
+                {
+                    transform.position -= Vector3.up * rate;
+#if UNITY_EDITOR
+                    if (isDebug)
+                    {
+                        Debug.Log($"Moving down to avoid an obstacle.");
+                    }
+#endif
+                }
+                else if (verticalAngle > 0)
+                {
+                    transform.position += Vector3.up * rate;
+#if UNITY_EDITOR
+                    if (isDebug)
+                    {
+                        Debug.Log($"Moving up to avoid an obstacle.");
+                    }              
+#endif
+                }
+            } else
+            {
+                // No obstacle so adjust height to match destination
+                float heightDifference = transform.position.y - destination.y;
+                if (heightDifference > 0.2f || heightDifference < -0.2f)
+                {
+                    if (destination.y > transform.position.y)
+                    {
+                        transform.position += Vector3.up * rate;
+                    }
+                    else
+                    {
+                        transform.position -= Vector3.up * rate;
+                    }
+                }
             }
         }
 
         protected void Wander()
         {
-            if (Time.timeSinceLevelLoad > timeOfNextWanderPositionChange)
+            if (Time.timeSinceLevelLoad > timeOfNextDestinationChange)
             {
-                timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + Random.Range(10f, seekDistance);
+                isRecharging = false;
+                timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
 
+                int tries = 0;
                 do
                 {
+                    tries++;
                     wanderDestination = spawnPosition + Random.insideUnitSphere * seekDistance;
-                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, 1, seekDistance);
-                } while (Physics.CheckSphere(wanderDestination, 1f));
+                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, minimumHeight, maximumHeight);
+                } while (Physics.CheckSphere(wanderDestination, 1f) && tries < 50);
 
                 goalDestination = wanderDestination;
 
@@ -556,8 +730,20 @@ namespace RogueWave
 
             onDeath?.Invoke(this);
 
+            if (enemyKillsStat != null)
+            {
+                enemyKillsStat.Increment();
+            }
+
             // OPTIMIZATION: cache PooledObject reference
-            GetComponent<PooledObject>().ReturnToPool();
+            if (pooledObject != null)
+            {
+                pooledObject.ReturnToPool();
+            } else
+            {
+                Destroy(gameObject);
+            }
+            
         }
 
         /// <summary>
@@ -568,7 +754,7 @@ namespace RogueWave
         internal void RequestAttack(Vector3 position)
         {
             goalDestination = GetDestination(position);
-            timeOfNextWanderPositionChange = Time.timeSinceLevelLoad + seekDuration;
+            timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
             underOrders = true;
             //Debug.Log($"{name} has been requested to attack {position}.");
         }
@@ -581,7 +767,7 @@ namespace RogueWave
                 Gizmos.DrawWireSphere(transform.position, flockRadius);
                 for (int i = 0; i < maxFlockSize && flockingGroup[i] != null; i++)
                 {
-                    Gizmos.DrawLine(transform.position, flockingGroup[i].position);
+                    Gizmos.DrawLine(transform.position, flockingGroup[i].transform.position);
                 }
             }
 

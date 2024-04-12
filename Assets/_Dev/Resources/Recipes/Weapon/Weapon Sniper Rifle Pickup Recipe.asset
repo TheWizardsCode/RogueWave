@@ -14,19 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Sniper
   description: Slow, but deadly at a long range.
-  heroImage: {fileID: 2800000, guid: 30fc29adafac3594c887476d5e4fbb75, type: 3}
+  heroImage: {fileID: 21300000, guid: 30fc29adafac3594c887476d5e4fbb75, type: 3}
   icon: {fileID: 21300000, guid: 6ef06d6049c0dcd428644a341d2f4ce2, type: 3}
-  level: 3
+  level: 6
   baseWeight: 0.4
-  isPowerUp: 1
-  isConsumable: 1
-  cooldown: 45
   dependencies: []
   complements:
   - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
+  buyCost: 1000
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 45
   isStackable: 0
   maxStack: 1
-  cost: 1000
+  buildCost: 50
   timeToBuild: 5
   nameClips:
   - {fileID: 8300000, guid: e363761ab5a8371459f3d7e800b48313, type: 3}
@@ -39,4 +40,5 @@ MonoBehaviour:
   pickupParticles: {fileID: 0}
   uniqueID: 4a5e4b35-74ef-4bba-a66c-d288c3fa9b79
   pickup: {fileID: 4675663663359441973, guid: 96201ef3dcedf0d40812ffbb86a169e0, type: 3}
+  overridePrimaryWeapon: 0
   ammoRecipe: {fileID: 11400000, guid: 63db726cd6cb7e14eaf506d41ab93140, type: 2}

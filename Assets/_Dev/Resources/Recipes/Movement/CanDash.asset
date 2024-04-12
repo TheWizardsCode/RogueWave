@@ -14,18 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Dash
   description: Provide a momentary burst of speed to get out of sticky situations.
-  heroImage: {fileID: 2800000, guid: 657e13fe61ed75c498674dbc565efd4e, type: 3}
+  heroImage: {fileID: 21300000, guid: 657e13fe61ed75c498674dbc565efd4e, type: 3}
   icon: {fileID: 21300000, guid: a0a7bc5cbbfb8994c95ffc7f72d2c620, type: 3}
   level: 1
   baseWeight: 0.3
+  dependencies: []
+  complements: []
+  buyCost: 1000
   isPowerUp: 1
   isConsumable: 0
   cooldown: 10
-  dependencies: []
-  complements: []
   isStackable: 0
   maxStack: 1
-  cost: 1000
+  buildCost: 50
   timeToBuild: 5
   nameClips:
   - {fileID: 8300000, guid: b054f2239d2cd054ab2206cdaaf690f1, type: 3}

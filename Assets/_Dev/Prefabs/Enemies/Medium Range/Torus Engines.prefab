@@ -62,16 +62,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 6926119318600642585}
+  head: {fileID: 0}
+  headRotationSpeed: 2
+  maxHeadRotation: 75
   isMobile: 1
   minSpeed: 1
   maxSpeed: 6
+  acceleration: 10
   rotationSpeed: 1.5
   minimumHeight: 3
-  maximumHeight: 6
+  maximumHeight: 10
   optimalDistanceFromPlayer: 20
+  destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 6
+  arrivalDistance: 1.5
   seekDuration: 45
   seekDistance: 50
+  squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 25
   explosionDamageOnDeath: 50
@@ -84,6 +91,8 @@ MonoBehaviour:
   onDestroyed:
     m_PersistentCalls:
       m_Calls: []
+  enemySpawnedStat: {fileID: 11400000, guid: 6bb7104be6fbaee45bc9540fd8943b06, type: 2}
+  enemyKillsStat: {fileID: 11400000, guid: 86043e26fe7a4564f91093790836a74c, type: 2}
   isDebug: 0
   includeInShowcase: 1
 --- !u!114 &869951294456908153
@@ -282,6 +291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 0
 --- !u!1 &8708557156916421003
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +371,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 0740c023dc155e041aa63aa12cff45bb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: afcf101812da1574eb666c8621f164e1, type: 2}
     - target: {fileID: 919132149155446097, guid: 0740c023dc155e041aa63aa12cff45bb, type: 3}
       propertyPath: m_Name
       value: wideTorusNodes
@@ -382,6 +396,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0740c023dc155e041aa63aa12cff45bb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7040441048478168590}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0740c023dc155e041aa63aa12cff45bb, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5803542168483360176}
   m_SourcePrefab: {fileID: 100100000, guid: 0740c023dc155e041aa63aa12cff45bb, type: 3}
 --- !u!1 &3795164449348712382 stripped
 GameObject:
@@ -438,6 +455,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Surface:
     m_Value: 12
+--- !u!114 &5803542168483360176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3795164449348712382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 324eb03c118da784a8221564f9ef26f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_DissolveTime: 2.5
 --- !u!4 &4602944184149519620 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0740c023dc155e041aa63aa12cff45bb, type: 3}

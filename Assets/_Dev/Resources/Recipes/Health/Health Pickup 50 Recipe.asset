@@ -14,19 +14,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Adrenaline Shot
   description: This could bring you back from the brink.
-  heroImage: {fileID: 2800000, guid: 1ee0273cdc1bb8747ab6a013612aabd4, type: 3}
+  heroImage: {fileID: 21300000, guid: 1ee0273cdc1bb8747ab6a013612aabd4, type: 3}
   icon: {fileID: 21300000, guid: 2c5f49689475b5448820854eb9123260, type: 3}
-  level: 3
+  level: 7
   baseWeight: 0.2
+  dependencies:
+  - {fileID: 11400000, guid: 54f96e0540cf6bb41a06fdbff74ac37e, type: 2}
+  complements: []
+  buyCost: 300
   isPowerUp: 1
   isConsumable: 1
   cooldown: 7
-  dependencies:
-  - {fileID: 11400000, guid: 67d1e236b8c6aac458028d1b6d4f6ff5, type: 2}
-  complements: []
   isStackable: 0
   maxStack: 1
-  buyCost: 300
   buildCost: 50
   timeToBuild: 14
   nameClips:

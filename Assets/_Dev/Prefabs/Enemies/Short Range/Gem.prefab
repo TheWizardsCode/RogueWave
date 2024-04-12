@@ -91,16 +91,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 3468349145074774147}
+  head: {fileID: 0}
+  headRotationSpeed: 2
+  maxHeadRotation: 75
   isMobile: 1
   minSpeed: 1
   maxSpeed: 6
+  acceleration: 10
   rotationSpeed: 1
   minimumHeight: 0.5
-  maximumHeight: 75
+  maximumHeight: 10
   optimalDistanceFromPlayer: 0.2
+  destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 4
+  arrivalDistance: 1.5
   seekDuration: 30
   seekDistance: 100
+  squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 1
   explosionDamageOnDeath: 3
@@ -113,6 +120,8 @@ MonoBehaviour:
   onDestroyed:
     m_PersistentCalls:
       m_Calls: []
+  enemySpawnedStat: {fileID: 11400000, guid: 6bb7104be6fbaee45bc9540fd8943b06, type: 2}
+  enemyKillsStat: {fileID: 11400000, guid: 86043e26fe7a4564f91093790836a74c, type: 2}
   isDebug: 0
   includeInShowcase: 1
 --- !u!114 &5219187662690625511
@@ -311,6 +320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 0
 --- !u!1001 &146371711493947339
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -460,7 +470,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 324eb03c118da784a8221564f9ef26f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_DissolveTime: 1
+  m_DissolveTime: 1.5
 --- !u!1001 &5032170605116415703
 PrefabInstance:
   m_ObjectHideFlags: 0

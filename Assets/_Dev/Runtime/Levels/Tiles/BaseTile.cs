@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using NeoFPS;
 using ProceduralToolkit;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -21,23 +22,24 @@ namespace RogueWave
         [SerializeField, ShowIf("spawnFurniture"), Tooltip("Prefabs that may be spawned on this tile. Only one of these, selected at random, will be generated.")]
         private GameObject[] furniturePrefabs = null;
 
+        protected LevelGenerator levelGenerator;
         protected float tileWidth = 25f;
         protected float tileHeight = 25f;
 
         public TileDefinition tileDefinition { get; internal set; }
 
-        internal virtual void GenerateTileContent(int x, int y, BaseTile[,] tiles)
+        internal virtual void GenerateTileContent(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             if (spawnFurniture && furniturePrefabs.Length > 0 && Random.value < furnitureChance)
             {
                 GameObject tileContentPrefab = furniturePrefabs[Random.Range(0, furniturePrefabs.Length)];
                 Transform furniture = Instantiate(tileContentPrefab, transform).transform;
-                furniture.localPosition = new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileHeight / 2, tileHeight / 2));
+                furniture.localPosition = new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileHeight / 2, tileHeight / 2)) + contentOffset;
                 furniture.localRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
             }
         }
 
-        protected virtual void GenerateGround(int x, int y, BaseTile[,] tiles)
+        protected virtual void GenerateGround(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             GameObject ground = new GameObject("Ground");
             ground.transform.SetParent(transform);
@@ -45,17 +47,40 @@ namespace RogueWave
 
             MeshDraft draft = MeshDraft.Plane(tileWidth, tileHeight);
             draft.name = "Ground";
-            draft.Move(new Vector3(-tileWidth / 2, 0, -tileHeight / 2));
 
             ground.AddComponent<MeshFilter>().mesh = draft.ToMesh();
             ground.AddComponent<MeshRenderer>().material = groundMaterial;
             ground.AddComponent<MeshCollider>();
+
+            // TODO: Don't hard code the ground tag
+            ground.tag = "Ground";
         }
 
-        public void Generate(int x, int y, BaseTile[,] tiles)
+        protected virtual void GenerateEnemies(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
-            GenerateGround(x, y, tiles);
-            GenerateTileContent(x, y, tiles);
+            if (tiles[x, y].tileDefinition.enemySpawnChance > 0 && Random.value < tiles[x, y].tileDefinition.enemySpawnChance)
+            {
+                PooledObject prototype = levelGenerator.levelDefinition.GetRandomEnemy();
+                if (prototype == null)
+                {
+                    return;
+                }
+
+                BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prototype);
+                enemy.transform.position = levelGenerator.TileCoordinatesToWorldPosition(x, y) + new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileHeight / 2, tileHeight / 2)) + contentOffset;
+            }
         }
+
+        public void Generate(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
+        {
+            this.levelGenerator = levelGenerator;
+            tileWidth = levelGenerator.levelDefinition.lotSize.x;
+            tileHeight = levelGenerator.levelDefinition.lotSize.y;
+            GenerateGround(x, y, tiles, levelGenerator);
+            GenerateTileContent(x, y, tiles, levelGenerator);
+            GenerateEnemies(x, y, tiles, levelGenerator);
+        }
+
+        public Vector3 contentOffset => new Vector3(tileWidth / 2, 0, tileHeight / 2);
     }
 }

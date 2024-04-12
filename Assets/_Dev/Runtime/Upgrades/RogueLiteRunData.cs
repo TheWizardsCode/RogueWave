@@ -70,6 +70,19 @@ namespace RogueWave
 
             if (recipe is WeaponPickupRecipe weapon)
             {
+                // REFACTOR: this code is a duplicate of code in the persistent data class
+                if (RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipe.UniqueID) == false)
+                {
+                    if (weapon.overridePrimaryWeapon)
+                    {
+                        RogueLiteManager.persistentData.WeaponBuildOrder.Insert(0, recipe.UniqueID);
+                    }
+                    else
+                    {
+                        RogueLiteManager.persistentData.WeaponBuildOrder.Insert(1, recipe.UniqueID);
+                    }
+                }
+
                 if (weapon.ammoRecipe != null)
                 {
                     Add(weapon.ammoRecipe);
@@ -79,6 +92,12 @@ namespace RogueWave
             Recipes.Add(recipe);
             isDirty = true;
             return true;
+        }
+
+        internal void Remove(IRecipe recipe)
+        {
+            Recipes.Remove(recipe);
+            isDirty = true;
         }
 
         /// <summary>

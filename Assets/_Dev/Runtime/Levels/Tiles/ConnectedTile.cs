@@ -30,7 +30,7 @@ namespace RogueWave
         /// <param name="x">The x coordinate of the location of this tile.</param>
         /// <param name="z">The z coordinate of the location of this tile.</param>
         /// <param name="tiles">The map of tiles.</param>
-        internal override void GenerateTileContent(int x, int z, BaseTile[,] tiles)
+        internal override void GenerateTileContent(int x, int z, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             MeshFilter meshFilter;
             if (contentObject == null)
@@ -69,25 +69,27 @@ namespace RogueWave
 
             if (ShouldConnect(yPositive))
             {
-                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight, structureHeight);
+                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight / 2, structureHeight);
                 draft.name = "Flow Structure";
                 draft.Move(new Vector3(0, 0, tileHeight / 4));
                 compoundDraft.Add(draft);
             }
+
             if (ShouldConnect(yNegative))
             {
-                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight, structureHeight);
+                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight / 2, structureHeight);
                 draft.Move(new Vector3(0, 0, -tileHeight / 4));
                 draft.name = "Flow Structure";
                 compoundDraft.Add(draft);
             }
 
             compoundDraft.MergeDraftsWithTheSameName();
+            compoundDraft.Move(contentOffset);
             meshFilter.mesh = compoundDraft.ToMeshDraft().ToMesh();
 
             contentObject.AddComponent<MeshCollider>().sharedMesh = meshFilter.mesh;
 
-            base.GenerateTileContent(x, z, tiles);
+            base.GenerateTileContent(x, z, tiles, levelGenerator);
         }
 
         private bool ShouldConnect(BaseTile otherTile)

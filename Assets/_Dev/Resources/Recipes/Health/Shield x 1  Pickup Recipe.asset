@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: Shield x 1
   description: Restore 1 unity of shield.
-  heroImage: {fileID: 2800000, guid: 484b7cf010b39f34fa92bee369bc7455, type: 3}
+  heroImage: {fileID: 21300000, guid: 484b7cf010b39f34fa92bee369bc7455, type: 3}
   icon: {fileID: 21300000, guid: a2e054c3f1ba5a34798b2d79c836e7e6, type: 3}
-  level: 3
+  level: 4
   baseWeight: 0.5
+  dependencies: []
+  complements: []
+  buyCost: 1000
   isPowerUp: 1
   isConsumable: 1
   cooldown: 45
-  dependencies: []
-  complements: []
   isStackable: 0
   maxStack: 1
-  buyCost: 1000
   buildCost: 100
   timeToBuild: 3
   nameClips:
