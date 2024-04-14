@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using UnityEngine;
 using System;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 {
     /// <summary>
     /// A Game Stat is a single stat that can be tracked by the GameStatsManager.

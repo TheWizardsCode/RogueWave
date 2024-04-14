@@ -1,7 +1,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 {
     public class AchievementNotification : MonoBehaviour
     {

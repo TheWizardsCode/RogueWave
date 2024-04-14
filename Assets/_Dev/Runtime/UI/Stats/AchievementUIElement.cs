@@ -1,9 +1,10 @@
+using RosgueWave.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace WizardsCode.GameStats {
-    public class AchievementUIElement : MonoBehaviour
+namespace RogueWave.GameStats {
+    public class AchievementUIElement : RogueWaveUIElement
     {
         [SerializeField, Tooltip("The label to display the achievement name.")]
         TextMeshProUGUI m_label;

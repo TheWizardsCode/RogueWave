@@ -38,7 +38,7 @@ namespace RogueWave
         private void OnClickCreateProfile()
         {
             RogueLiteManager.CreateNewProfile(m_InputField.text);
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.instance.reconstructionScene);
         }
 	}
 }

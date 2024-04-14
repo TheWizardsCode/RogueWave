@@ -1,10 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using RosgueWave.UI;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 {
-    public class StatUIElement : MonoBehaviour
+    public class StatUIElement : RogueWaveUIElement
     {
         public TMPro.TextMeshProUGUI label;
         public TMPro.TextMeshProUGUI value;

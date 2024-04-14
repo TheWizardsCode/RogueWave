@@ -45,6 +45,20 @@ namespace RogueWave
 
         public List<string> RecipeIds = new List<string>();
         public List<string> _weaponBuildOrderBackingField = new List<string>(); // this is public to ensure it is serialized. TODO: write a custom serialiser for this class to avoid this
+
+        [SerializeField] int m_tutorialStep = 0;
+        internal int tutorialNextStep
+        {
+            get { return m_tutorialStep; }
+            set {
+                if (m_tutorialStep != value)
+                {
+                    m_tutorialStep = value;
+                    isDirty = true;
+                }
+            }
+        }
+
         internal List<string> WeaponBuildOrder
         {
             get

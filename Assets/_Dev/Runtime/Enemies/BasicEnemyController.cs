@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net;
 using UnityEngine;
 using UnityEngine.Events;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 using Random = UnityEngine.Random;
 

@@ -24,7 +24,7 @@ using RogeWave;
 using System.Collections;
 using UnityEngine.Serialization;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 {
     //
     // The GameStatsManager is a singleton responsible for managing player Stats and Achievements, as well as

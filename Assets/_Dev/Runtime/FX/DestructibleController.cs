@@ -1,7 +1,7 @@
 using UnityEngine;
 using NeoFPS;
 using UnityEngine.Serialization;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 using NaughtyAttributes;
 
 namespace RogueWave

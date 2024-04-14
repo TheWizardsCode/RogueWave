@@ -4,9 +4,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 {
     [CreateAssetMenu(fileName = "New Achievement", menuName = "Rogue Wave/Stats/Achievement")]
     public class Achievement : ScriptableObject

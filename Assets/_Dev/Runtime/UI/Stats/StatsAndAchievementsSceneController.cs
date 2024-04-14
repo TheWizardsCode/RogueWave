@@ -1,3 +1,4 @@
+using NeoSaveGames.SceneManagement;
 using RogueWave;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 { 
     public class StatsAndAchievementsSceneController : MonoBehaviour
     {
@@ -89,7 +90,7 @@ namespace WizardsCode.GameStats
 
         public static void LoadHubScene()
         {
-            SceneManager.LoadScene(RogueLiteManager.hubScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
     }
 }

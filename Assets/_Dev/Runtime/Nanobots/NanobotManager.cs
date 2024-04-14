@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 using Random = UnityEngine.Random;
 
 namespace RogueWave

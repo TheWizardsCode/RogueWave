@@ -133,8 +133,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1308045484779794, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_Name
-      value: Playground_MainMenu
+      value: RogueWave_MainMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 82965899555046156, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 24684d0ba95ac3e4691991b9814b05c2, type: 3}
     - target: {fileID: 224016894759943796, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -405,6 +409,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5773993234807199052, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
+      propertyPath: m_StatsScene
+      value: RogueWave_MainMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 5773993234807199052, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
       propertyPath: developerDataWebhook
       value: 
       objectReference: {fileID: 11400000, guid: ff12768206a0ee941a0bd56005f55112, type: 2}
@@ -627,11 +635,158 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 11e216d6ca10f7f4b87b20cce3500b39, type: 3}
   fadeDuration: 2
   pauseDuration: 3
+--- !u!1 &1866998861
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1866998863}
+  - component: {fileID: 1866998862}
+  - component: {fileID: 1866998864}
+  m_Layer: 0
+  m_Name: Tutorial Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1866998862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866998861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eebd5a9c686195a4d98e957f64f78c9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreen: RogueWave_LoadingScene
+  tutorialSteps:
+  - {fileID: 11400000, guid: 939eb0d265062f84c88770c17c1517d4, type: 2}
+  - {fileID: 11400000, guid: 97c57642bbe97f84790dbf8194b09940, type: 2}
+  - {fileID: 11400000, guid: 14737746f21bb7e4db406df1d6c42d9f, type: 2}
+--- !u!4 &1866998863
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866998861}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 728.2208, y: 1114.4435, z: 139.29887}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &1866998864
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1866998861}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243651810819452942, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 742674689}
+  - {fileID: 1866998863}
   - {fileID: 130888108}
   - {fileID: 746006279}
   - {fileID: 1613145712}

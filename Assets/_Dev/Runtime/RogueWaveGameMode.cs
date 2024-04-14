@@ -9,7 +9,7 @@ using System.Collections;
 using NeoFPS.Constants;
 using NaughtyAttributes;
 using RogueWave.UI;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 using System.Collections.Generic;
 using System.Linq;
 using RogeWave;
@@ -164,7 +164,7 @@ namespace RogueWave
 
             RogueLiteManager.ResetRunData();
 
-            NeoSceneManager.LoadScene(GameStatsManager.statsScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.instance.reconstructionScene);
         }
 
         void DelayedVictoryAction()
