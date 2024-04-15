@@ -2712,8 +2712,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingCooldown: 5
-  baseResourcesPerLevel: 100
-  resourcesPerLevelMultiplier: 1.1
+  resourcesForLevel:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 100
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 99
+      value: 100000
+      inSlope: 2018.1818
+      outSlope: 2018.1818
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   timeBetweenRecipeOffers: 120
   pickupSpawnDistance: 2
   voiceDescription: 3
@@ -2799,9 +2821,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6ad94cdc6d29eb4d827be9d04a30fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  range: 10
+  range: 20
   speed: 7
-  frequencyOfScans: 0.5
+  frequencyOfScans: 0.75
 --- !u!114 &7136947164496695666
 MonoBehaviour:
   m_ObjectHideFlags: 0

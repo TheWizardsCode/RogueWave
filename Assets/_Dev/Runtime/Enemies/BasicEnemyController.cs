@@ -70,6 +70,8 @@ namespace RogueWave
         internal float arrivalDistance = 1.5f;
 
         [Header("Seek Behaviour")]
+        [SerializeField, Tooltip("If true the enemy will return to their spawn point when they go beyond their seek distance."), ShowIf("isMobile")]
+        internal bool returnToSpawner = false;
         [SerializeField, Tooltip("How far the enemy will go from their spawn point when attacking the player. If the enemy goes further than this then they will return to their spawn point to 'recharge'. Then they will resume their normal behaviour."), ShowIf("isMobile")]
         internal float seekDistance = 30;
 
@@ -100,9 +102,9 @@ namespace RogueWave
         public UnityEvent onDestroyed;
 
         // Game Stats
-        [SerializeField, Tooltip("The GameStat to increment when an enemy is spawned."), Foldout("Game Stats")]
+        [SerializeField, Tooltip("The GameStat to increment when an enemy is spawned."), Foldout("Game Stats"), Required]
         internal GameStat enemySpawnedStat;
-        [SerializeField, Tooltip("The GameStat to increment when an enemy is killed."), Foldout("Game Stats")]
+        [SerializeField, Tooltip("The GameStat to increment when an enemy is killed."), Foldout("Game Stats"), Required]
         internal GameStat enemyKillsStat;
 
         [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Editor Only")]
@@ -255,6 +257,7 @@ namespace RogueWave
         private bool isRecharging;
         private bool fromPool;
         internal RogueWaveGameMode gameMode;
+        private bool isPooled = false;
 
         protected virtual void Awake()
         {
@@ -281,7 +284,13 @@ namespace RogueWave
 
         protected virtual void OnEnable()
         {
-            if (enemySpawnedStat != null && fromPool) // note that if the enemy is not pooled this means it is not counted. Handy for Spawners, but beware if you add other non-pooled enemies.
+            PooledObject pooledObject = GetComponent<PooledObject>();
+            if (pooledObject != null)
+            {
+                isPooled = true;
+            }
+
+            if (enemySpawnedStat != null && (!isPooled || fromPool)) // note that if the enemy is not pooled this means it is not counted. Handy for Spawners, but beware if you add other non-pooled enemies.
             {
                 enemySpawnedStat.Increment();
                 gameMode.RegisterEnemy(this);
@@ -361,8 +370,15 @@ namespace RogueWave
                 {
                     if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrSeekDistance)
                     {
-                        isRecharging = true;
-                        goalDestination = spawnPosition;
+                        if (returnToSpawner)
+                        {
+                            isRecharging = true;
+                            goalDestination = spawnPosition;
+                        }
+                        else
+                        {
+                            Wander();
+                        }
                     } else
                     {
                         Wander();
@@ -397,9 +413,15 @@ namespace RogueWave
             // else move towards the spawn position
             else
             {
-                goalDestination = GetDestination(spawnPosition);
-                MoveTowards(goalDestination);
-                isRecharging = true;
+                if (returnToSpawner)
+                {
+                    goalDestination = GetDestination(spawnPosition);
+                    MoveTowards(goalDestination);
+                    isRecharging = true;
+                } else
+                {
+                    Wander();
+                }
             }
         }
 

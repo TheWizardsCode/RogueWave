@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS;
+using RogueWave.GameStats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -175,6 +176,7 @@ namespace RogueWave
             currentProfile = profileName;
             ResetPersistentData();
             ResetRunData();
+            GameStatsManager.ResetStats();
             persistentData.isDirty = true;
         }
 

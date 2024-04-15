@@ -336,8 +336,10 @@ namespace RogueWave.GameStats
 
         #region EDITOR_ONLY
 #if UNITY_EDITOR
-        #region ScriptableObjects
-
+        [HorizontalLine(color: EColor.Blue)]
+        [SerializeField]
+        bool showDebug = false;
+        
         [MenuItem("Tools/Rogue Wave/Data/Destructive/Reset Stats and Achievements")]
         private static void ResetLocalStatsAndAchievements()
         {
@@ -356,7 +358,7 @@ namespace RogueWave.GameStats
             Debug.Log("Stats and achievements reset.");
         }
 
-        [Button("Reset Stats and Achievements (Play mode only)")]
+        [Button("Reset Stats and Achievements (Play mode only)"), ShowIf("showDebug")]
         internal static void ResetStats()
         {
             if (Application.isPlaying)
@@ -373,7 +375,7 @@ namespace RogueWave.GameStats
             }
         }
 
-        [Button("Dump Stats and Achievements to Console")]
+        [Button("Dump Stats and Achievements to Console"), ShowIf("showDebug")]
         private void DumpStatsAndAchievements()
         {
             if (Application.isPlaying)
@@ -420,7 +422,6 @@ namespace RogueWave.GameStats
                 Debug.LogError("You can only dump stats and achievements in play mode.");
             }
         }
-        #endregion
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [Button("Disable Steamworks")]
@@ -475,7 +476,7 @@ namespace RogueWave.GameStats
             Debug.LogError($"Steam: {achievement.name} = Not found");
         }
 #else
-        [Button("Enable Steamworks")]
+        [Button("Enable Steamworks"), ShowIf("showDebug")]
         private void EnableSteamworks()
         {
             PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);
