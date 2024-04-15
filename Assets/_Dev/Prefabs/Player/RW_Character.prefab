@@ -2712,6 +2712,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingCooldown: 5
+  baseResourcesPerLevel: 100
+  resourcesPerLevelMultiplier: 1.5
   resourcesForLevel:
     serializedVersion: 2
     m_Curve:
@@ -2726,9 +2728,9 @@ MonoBehaviour:
       outWeight: 0
     - serializedVersion: 3
       time: 99
-      value: 100000
-      inSlope: 2018.1818
-      outSlope: 2018.1818
+      value: 50000
+      inSlope: 1008.0808
+      outSlope: 1008.0808
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -2736,7 +2738,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  timeBetweenRecipeOffers: 120
+  timeBetweenRecipeOffers: 20
   pickupSpawnDistance: 2
   voiceDescription: 3
   recipeRequestPrefix:

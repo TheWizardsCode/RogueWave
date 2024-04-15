@@ -115,7 +115,7 @@ MonoBehaviour:
   onEnemySpawned:
     m_PersistentCalls:
       m_Calls: []
-  _isDebug: 0
+  showDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
     spawnZones: []
@@ -190,8 +190,31 @@ MonoBehaviour:
   levelGenerator: {fileID: 3423411428560200973}
   maximumTimeBetweenReports: 30
   scannerPrefab: {fileID: 4437746279418429034, guid: bf1c25210103bed4bb9378c859bef582, type: 3}
-  timeSlice: 50
-  targetKillScore: 0.3
+  timeSlice: 25
+  targetSkillScoreByLevel:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 99
+      value: 10
+      inSlope: 0.1959596
+      outSlope: 0.1959596
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   difficultyMultiplier: 7
   isDebug: 0
 --- !u!1 &6495454180581363533
