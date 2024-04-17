@@ -12,6 +12,10 @@ namespace RogueWave
     /// </summary>
     public class PassiveWeapon : MonoBehaviour
     {
+        [Header("Firing")]
+        [SerializeField, Tooltip("Cooldown between trigger pulls, in game seconds.")]
+        internal float m_Cooldown = 5f;
+
         [Header("Damage")]
         [SerializeField, Tooltip("The maximum area of the damage.")]
         [FormerlySerializedAs("radius")]
@@ -25,15 +29,20 @@ namespace RogueWave
         [SerializeField, Tooltip("The model to display when the weapon is active.")]
         internal GameObject model;
 
-        [SerializeField, Tooltip("Cooldown between trigger pulls, in game seconds.")]
-        internal float m_Cooldown = 5f;
+        [Header("Audio")]
+        [SerializeField, Tooltip("The audio clip to play when the weapon fires.")]
+        internal AudioClip[] fireAudioClip = default;
+        [SerializeField, Tooltip("The default audio clip to play when the weapon hits a target.")]
+        internal AudioClip[] hitAudioClip = default;
 
         internal float m_NextFireTime = 0;
         ModularFirearm m_Firearm;
+        AudioSource m_AudioSource;
 
-        private void Awake()
+        internal virtual void Awake()
         {
             m_Firearm = GetComponent<ModularFirearm>();
+            m_AudioSource = GetComponent<AudioSource>();
         }
 
         public virtual bool isValid
@@ -51,9 +60,28 @@ namespace RogueWave
 
         public virtual void Fire()
         {
+            PlayFireSFX();
+
             m_NextFireTime = Time.timeSinceLevelLoad + m_Cooldown;
 
-            m_Firearm.trigger.Press();
+            if (m_Firearm != null)
+            {
+                m_Firearm.trigger.Press();
+            }
+        }
+
+        internal void PlayFireSFX()
+        {
+            if (fireAudioClip.Length == 0)
+            {
+                return;
+            }
+
+            if (m_AudioSource != null && fireAudioClip.Length > 0)
+            {
+                m_AudioSource.clip = fireAudioClip[Random.Range(0, fireAudioClip.Length)];
+                m_AudioSource.Play();
+            }
         }
     }
 }

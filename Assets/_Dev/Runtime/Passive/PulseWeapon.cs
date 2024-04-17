@@ -9,51 +9,40 @@ namespace RogueWave
 {
     public class PulseWeapon : PassiveWeapon
     {
-
-        MeshRenderer[] modelRenderers;
+        [Header("Pulse")]
+        float m_pulseDuration = 1.5f;
 
         Collider[] colliders = new Collider[50];
         private int layerMask;
-
-        private void Awake()
+        private Material material;
+        
+        internal override void Awake()
         {
+            base.Awake();
             layerMask = 1 << layers;
-            modelRenderers = model.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer renderer in modelRenderers)
-            {
-                renderer.enabled = false;
-            }
+            material = model.GetComponent<Renderer>().material;
         }
 
         public override void Fire()
         {
-            m_NextFireTime = Time.timeSinceLevelLoad + m_Cooldown;
+            base.Fire();
 
             StartCoroutine(Pulse());
         }
 
         IEnumerator Pulse() {
-            float duration = m_Cooldown / 2;
             float timer = 0;
-            float height = range;
-            model.transform.localScale = Vector3.zero;
-
-            foreach (MeshRenderer renderer in modelRenderers)
-            {
-                renderer.enabled = true;
-            }
 
             Array.Clear(colliders, 0, colliders.Length);
-
             bool originalQueriesHitTriggers = Physics.queriesHitTriggers;
             Physics.queriesHitTriggers = false;
-            int count = Physics.OverlapSphereNonAlloc(transform.position, range, colliders, layerMask);
+            int count = Physics.OverlapSphereNonAlloc(transform.position, range * 2, colliders, layerMask);
             Physics.queriesHitTriggers = originalQueriesHitTriggers;
 
             yield return null;
 
             int i = 0;
-            while (timer < duration || i < count)
+            while (timer < m_pulseDuration || i < count)
             {
                 if (i < count && colliders[i] != null)
                 {
@@ -62,24 +51,24 @@ namespace RogueWave
                     if (damageHandler != null)
                     {
                         damageHandler.AddDamage(damage);
+                        if (hitAudioClip.Length > 0)
+                        {
+                            NeoFpsAudioManager.PlayEffectAudioAtPosition(hitAudioClip[UnityEngine.Random.Range(0, hitAudioClip.Length)], colliders[i].transform.position);
+                        }
                     }
 
                     i++;
                 }
 
-                float scale = Mathf.Lerp(1, range, timer / duration);
-                model.transform.localScale = new Vector3(scale, height, scale);
+                float scale = Mathf.Lerp(0f, 1, timer / m_pulseDuration);
+                model.GetComponent<Renderer>().material.SetFloat("_Size", scale);
 
                 timer += Time.deltaTime;
              
                 yield return null;
-            }
 
-            yield return new WaitForSeconds(0.5f);
 
-            foreach (MeshRenderer renderer in modelRenderers)
-            {
-                renderer.enabled = false;
+                model.GetComponent<Renderer>().material.SetFloat("_Size", 0f);
             }
         }
 
