@@ -26,7 +26,7 @@ namespace RogueWave
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player."), CurveRange(0, 0.3f, 99, 10, EColor.Red)]
         private AnimationCurve targetSkillScoreByLevel;
         [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player.")]
-        float difficultyMultiplier = 7f;
+        float difficultyMultiplier = 5f;
 
 
         [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]
@@ -101,30 +101,35 @@ namespace RogueWave
 
                 float targetKillScore = targetSkillScoreByLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel);
 
-                float remainingChallengeRating = (RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier;
+                int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier);
+                int challengeRatingSent = 0;
+                int orderedEnemies = 0;
                 if (enemies.Count > 0 && currentKillscore < targetKillScore)
                 {
-                    int orderedEnemies = 0;
-                    while (orderedEnemies < enemies.Count && remainingChallengeRating > 0)
+                    GameLog.Info($"AIDirector: Sending enemies with a total challenge rating of {challengeRatingToSend} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
+
+                    while (orderedEnemies < enemies.Count 
+                        && (orderedEnemies < 4 || enemies.Count >= levelGenerator.levelDefinition.maxAlive) 
+                        && challengeRatingSent < challengeRatingToSend)
                     {
                         orderedEnemies++;
                         BasicEnemyController randomEnemy = enemies[Random.Range(0, enemies.Count)];
-                        remainingChallengeRating -= randomEnemy.challengeRating;
+                        challengeRatingSent += randomEnemy.challengeRating;
                         randomEnemy.RequestAttack(suspectedTargetLocation);
                     }
-
-                    GameLog.Info($"AIDirector: Sending enemies with a total challenge rating of {totalChallengeRating} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                 } 
                 else
                 {
                     GameLog.Info($"AIDirector: The current Kill Score is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                    return;
                 }
 
-                if (remainingChallengeRating <= 0)
+                if (challengeRatingSent <= 0)
                 {
                     return;
                 }
 
+                // Select the nearest 3 spawners to the player
                 Spawner[] nearestSpawners = null;
                 if (spawners.Count > 3) {
                     nearestSpawners = new Spawner[3];
@@ -144,12 +149,13 @@ namespace RogueWave
                     return;
                 }
 
-                while (remainingChallengeRating > 0)
+                // Send remaining enemies from the nearest spawners to the player
+                while (challengeRatingSent < challengeRatingToSend)
                 {
                     BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy();
                     if (randomEnemy != null)
                     {
-                        remainingChallengeRating -= randomEnemy.challengeRating;
+                        challengeRatingSent += randomEnemy.challengeRating;
                     } else
                     {
                         break;
