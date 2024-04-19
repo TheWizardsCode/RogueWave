@@ -36,11 +36,13 @@ namespace RogueWave
         internal AudioClip[] hitAudioClip = default;
 
         internal float m_NextFireTime = 0;
+        internal int layerMask;
         ModularFirearm m_Firearm;
         AudioSource m_AudioSource;
 
         internal virtual void Awake()
         {
+            layerMask = 1 << layers;
             m_Firearm = GetComponent<ModularFirearm>();
             m_AudioSource = GetComponent<AudioSource>();
         }
@@ -50,7 +52,7 @@ namespace RogueWave
             get { return m_NextFireTime < Time.timeSinceLevelLoad; }
         }
 
-        protected void Update()
+        protected virtual void Update()
         {
             if (isValid)
             {
@@ -68,6 +70,12 @@ namespace RogueWave
             {
                 m_Firearm.trigger.Press();
             }
+#if UNITY_EDITOR
+            else if (this.GetType() == typeof(PassiveWeapon))
+            {
+                Debug.LogError($"{this.name} is equipped but there is no ModularFirearm component and no override of the `Fire` method.");
+            }
+#endif
         }
 
         internal void PlayFireSFX()

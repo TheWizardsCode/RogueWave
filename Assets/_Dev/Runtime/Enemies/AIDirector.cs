@@ -26,7 +26,7 @@ namespace RogueWave
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player."), CurveRange(0, 0.3f, 99, 10, EColor.Red)]
         private AnimationCurve targetSkillScoreByLevel;
         [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player.")]
-        float difficultyMultiplier = 5f;
+        float difficultyMultiplier = 4f;
 
 
         [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]

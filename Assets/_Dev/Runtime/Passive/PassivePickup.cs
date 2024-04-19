@@ -9,6 +9,8 @@ namespace RogueWave
     {
         [SerializeField, Tooltip("The inventory item prefab to give to the character.")]
         internal PassiveWeapon itemPrefab = null;
+        [SerializeField, Tooltip("The inventory item recipe to give to the character.")]
+        internal PassiveItemPickupRecipe recipe = null;
 
         [SerializeField, Tooltip("The display mesh of the pickup. This should not be the same game object as this, so that if this is disabled the pickup will still respawn if required.")]
         private GameObject m_DisplayMesh = null;
@@ -17,7 +19,14 @@ namespace RogueWave
         {
             base.Trigger(character);
 
-            Debug.LogError($"TODO: Pickup the passive item {itemPrefab}");
+            NanobotManager nanobotManager = character.GetComponent<NanobotManager>();
+            if (nanobotManager != null)
+            {
+                RogueLiteManager.runData.Add(recipe);
+                nanobotManager.Add(recipe);
+            }
+
+            Destroy(gameObject);
         }
 
     }

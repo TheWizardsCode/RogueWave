@@ -75,7 +75,7 @@ MonoBehaviour:
   destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 5
   arrivalDistance: 1.5
-  seekDuration: 60
+  returnToSpawner: 0
   seekDistance: 100
   squadRole: 0
   shouldExplodeOnDeath: 1
@@ -348,7 +348,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1881717928048593120, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6817774594015439600, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_LocalPosition.x

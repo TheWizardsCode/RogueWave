@@ -115,7 +115,7 @@ namespace RogueWave
             onSpawnerDestroyed?.Invoke(this);
         }
 
-        private void Update()
+        protected override void Update()
         {
             if (hasShield == false)
             {

@@ -13,13 +13,11 @@ namespace RogueWave
         float m_pulseDuration = 1.5f;
 
         Collider[] colliders = new Collider[50];
-        private int layerMask;
         private Material material;
         
         internal override void Awake()
         {
             base.Awake();
-            layerMask = 1 << layers;
             material = model.GetComponent<Renderer>().material;
         }
 

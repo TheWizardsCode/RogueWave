@@ -196,8 +196,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: m_CharacterPrefab
+      value: 
+      objectReference: {fileID: 4053288922990363585, guid: 5e4ebb97d6451ad49a6870bb5fc35188, type: 3}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: _startingRecipes.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: _startingRecipes.Array.data[4]
@@ -1679,6 +1683,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Playground Pickup Passive Pulse
       objectReference: {fileID: 0}
+    - target: {fileID: 633833043486375824, guid: b0da73c1229f3a249bdd550c7a216e80, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8815487965186717452, guid: b0da73c1229f3a249bdd550c7a216e80, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1908,6 +1916,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1889322757073503592, guid: ed475afa1ebe2fd4ebb8339510f51790, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8815487965186717452, guid: ed475afa1ebe2fd4ebb8339510f51790, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2047,13 +2059,14 @@ MonoBehaviour:
   m_Prefabs: []
   m_Assets: []
   m_SceneObjects:
-    m_Keys: 5b44ffee58bcb3f8e17027155688850a0936dd19
+    m_Keys: 5b44ffee58bcb3f8e17027155688850a0936dd1979e23073
     m_Values:
     - {fileID: 1499062552}
     - {fileID: 1927856119}
     - {fileID: 574660092}
     - {fileID: 1022992450}
     - {fileID: 1827100401}
+    - {fileID: 1897195425}
     m_Scene: {fileID: 1495074640}
   m_DisplayName: Demo Facility
   m_ThumbnailTexture: {fileID: 2800000, guid: 4250822b9dc66db46b187c45e73ea610, type: 3}
@@ -2182,6 +2195,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 421f12c4cc2c4614f9e0616ef942cf44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1897195425 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5742398532480003285, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+  m_PrefabInstance: {fileID: 5192036671517703277}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421f12c4cc2c4614f9e0616ef942cf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1927856119 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8693156697227748603, guid: b0da73c1229f3a249bdd550c7a216e80, type: 3}
@@ -2193,6 +2217,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 421f12c4cc2c4614f9e0616ef942cf44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &5192036671517703277
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 90.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 122.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5516566346634359925, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571220741189490753, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
+      propertyPath: m_Name
+      value: Passive Destruction Beam Puckup
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f00c1d612ec922f43956da7d5235888e, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -2211,3 +2292,4 @@ SceneRoots:
   - {fileID: 860049752}
   - {fileID: 1028720167}
   - {fileID: 1216120917}
+  - {fileID: 5192036671517703277}
