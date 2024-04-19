@@ -2,6 +2,7 @@
 using RogueWave.Tutorial;
 using System;
 using System.Collections;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -10,9 +11,11 @@ namespace RogueWave.UI
 {
     public class RW_LoadingScreen : MonoBehaviour
     {
-        [Header("Visduals")]
+        [Header("Visuals")]
         [SerializeField, Tooltip("The UI Element to display the hero image.")]
         private Image m_HeroImage = null;
+        [SerializeField, Tooltip("The UI Element to display the story text if any is available.")]
+        private TextMeshProUGUI m_StoryText = null;
 
         [Header("Hints")]
         [SerializeField, Tooltip("The UI text for the hints")]
@@ -27,7 +30,7 @@ namespace RogueWave.UI
         private GameObject m_SaveWarningObject = null;
 
         [Header("Audio Listener")]
-        [SerializeField, Tooltip("The audio listener for the loading screen (disable when activating the main scene)")]
+        [SerializeField, Tooltip("The audio listener for the loading screen (disabled when activating the main scene)")]
         private AudioListener m_AudioListener = null;
 
         private void Start()
@@ -46,14 +49,16 @@ namespace RogueWave.UI
             {
                 ShowHint(loadingScreenDataIndex);
                 ShowHeroImage(loadingScreenDataIndex);
+                m_StoryText.gameObject.SetActive(false);
             }
 
             TutorialManager tutorialManager = GameObject.FindObjectOfType<TutorialManager>();
             if (tutorialManager.currentlyActiveStep.loadingScreenHeroImage != null)
             {
                 ShowHeroImage(tutorialManager.currentlyActiveStep.loadingScreenHeroImage);
+                m_StoryText.text = tutorialManager.currentlyActiveStep.script;
+                m_StoryText.gameObject.SetActive(true);
             }
-
 
             NeoSceneManager.preSceneActivation += PreSceneActivation;
             NeoSceneManager.onSceneLoadProgress += OnSceneLoadProgress;
