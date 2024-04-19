@@ -28,7 +28,8 @@ namespace RogueWave
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
         private FpsSoloCharacter m_CharacterPrefab = null;
-        private float initialHealth = 30;
+        [SerializeField, Tooltip("The initial health of the player character.")]
+        private float initialHealth = 40;
         [SerializeField, Tooltip("The recipes that will be available to the player at the start of each run, regardless of resources.")]
         private AbstractRecipe[] _startingRecipes;
 

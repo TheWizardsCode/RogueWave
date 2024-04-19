@@ -43,7 +43,7 @@ namespace RogueWave
         public void FireBeams(int beamCount)
         {
             float angleStep = 360f / beamCount;
-            float startAngle = 0f;
+            float startAngle = 25f;
 
             for (int i = 0; i < beamCount; i++)
             {
