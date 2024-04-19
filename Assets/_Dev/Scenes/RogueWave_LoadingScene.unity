@@ -155,11 +155,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 990623994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 40}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 30, y: 40}
   m_SizeDelta: {x: 800, y: 240}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &339703289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,7 +187,7 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 246
-    m_Alignment: 7
+    m_Alignment: 6
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -235,11 +235,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 990623994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 1}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -80}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: -220, y: 0}
   m_SizeDelta: {x: 800, y: 120}
-  m_Pivot: {x: 0.5, y: 1}
+  m_Pivot: {x: 0, y: 1}
 --- !u!114 &500655114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 523842603}
   - component: {fileID: 523842602}
   - component: {fileID: 523842601}
-  - component: {fileID: 523842600}
+  - component: {fileID: 523842604}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -301,29 +301,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &523842600
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 523842599}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2df03844f811de44f9d6574e89f4ed2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_HintText: {fileID: 339703289}
-  m_HintObject: {fileID: 339703287}
-  m_Hints:
-  - If you want to change between toggle sprint/crouch and hold to sprint/crouch
-    then you can rebind the keys from the options menu
-  - Some weapons have alternate firing modes which you can select with the "Switch
-    Modes" input
-  - You can quicksave the game at any point or use the save option from the in-game
-    menu to bookmark important points in the game
-  m_SaveWarningObject: {fileID: 966770203}
-  m_AudioListener: {fileID: 1384751630}
 --- !u!114 &523842601
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -384,6 +361,7 @@ RectTransform:
   m_Children:
   - {fileID: 858960589}
   - {fileID: 990623994}
+  - {fileID: 1497159851}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -391,6 +369,40 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &523842604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 523842599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93c7870fde3871849a7e7bccbf24e1a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HeroImage: {fileID: 1497159852}
+  m_HintText: {fileID: 339703289}
+  m_HintObject: {fileID: 339703287}
+  m_Hints:
+  - If you want to change between toggle sprint/crouch and hold to sprint/crouch
+    then you can rebind the keys from the options menu
+  - Some weapons have alternate firing modes which you can select with the "Switch
+    Modes" input
+  - You can quicksave the game at any point or use the save option from the in-game
+    menu to bookmark important points in the game
+  m_LoadingScreenData:
+  - heroImage: {fileID: 21300000, guid: 2162901062068734580404dbef558f25, type: 3}
+    hint: If you want to change between toggle sprint/crouch and hold to sprint/crouch
+      then you can rebind the keys from the options menu
+  - heroImage: {fileID: 21300000, guid: 2ca0b787730aaf34c902b5993c8509dc, type: 3}
+    hint: Some weapons have alternate firing modes which you can select with the
+      "Switch Modes" input
+  - heroImage: {fileID: 21300000, guid: 2b454c3b9bd2ef640b54108fbcd2e946, type: 3}
+    hint: You can quicksave the game at any point or use the save option from the
+      in-game menu to bookmark important points in the game
+  m_SaveWarningObject: {fileID: 966770203}
+  m_AudioListener: {fileID: 1384751630}
 --- !u!1001 &823332387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -399,13 +411,29 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 990623994}
     m_Modifications:
+    - target: {fileID: 224120203203114408, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 224120203203114408, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224201318294416176, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 224201318294416176, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 16
+      objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_RootOrder
@@ -413,27 +441,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 40
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 40
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_LocalPosition.x
@@ -465,11 +493,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 400
       objectReference: {fileID: 0}
     - target: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -32
+      value: -60
+      objectReference: {fileID: 0}
+    - target: {fileID: 224548854594553638, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224548854594553638, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 224848371936167706, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: 224848371936167706, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 24
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -598,11 +642,11 @@ RectTransform:
   - {fileID: 1958910499}
   m_Father: {fileID: 990623994}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 300, y: 10}
   m_SizeDelta: {x: 100, y: 100}
-  m_Pivot: {x: 0.5, y: 0}
+  m_Pivot: {x: 0, y: 0}
 --- !u!1 &990623993
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,7 +695,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 990623993}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -888,6 +932,81 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1497159850
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1497159851}
+  - component: {fileID: 1497159853}
+  - component: {fileID: 1497159852}
+  m_Layer: 5
+  m_Name: Hero Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1497159851
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497159850}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 523842603}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -80, y: 0}
+  m_SizeDelta: {x: 1024, y: 573}
+  m_Pivot: {x: 1, y: 0.5}
+--- !u!114 &1497159852
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497159850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 2ca0b787730aaf34c902b5993c8509dc, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1497159853
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497159850}
+  m_CullTransparentMesh: 1
 --- !u!224 &1504980447 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 224417058364793628, guid: 0c27210cd500c8c4f96cb4faa45c3bb4, type: 3}

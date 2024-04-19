@@ -1,14 +1,8 @@
 using NaughtyAttributes;
-using NeoFPS.CharacterMotion.Behaviours;
 using NeoSaveGames.SceneManagement;
-using RogueWave;
 using RosgueWave.UI;
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using UnityEditor.SceneManagement;
-using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -25,7 +19,7 @@ namespace RogueWave.Tutorial
 
         int[] sceneLoadCounts;
         AudioSource audioSource;
-        TutorialStep currentlyActiveStep;
+        internal TutorialStep currentlyActiveStep;
 
         private void Awake()
         {

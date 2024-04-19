@@ -24,6 +24,8 @@ namespace RogueWave.Tutorial
         internal float loadingScreenDuration = 0;
 
         [Header("Visuals")]
+        [SerializeField, Tooltip("The hero image for the loading screen when this tutorial step is started.")]
+        internal Sprite loadingScreenHeroImage;
         [SerializeField, Tooltip("The script that will be displayed when delivering this part of the tutorial."), TextArea(5, 20)]
         internal string script;
 
