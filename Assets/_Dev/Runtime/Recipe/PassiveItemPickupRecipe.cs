@@ -8,6 +8,8 @@ namespace RogueWave
     [CreateAssetMenu(fileName = "Passive Item Pickup Recipe", menuName = "Rogue Wave/Recipe/Passive Item Pickup", order = 106)]
     public class PassiveItemPickupRecipe : ItemRecipe<PassivePickup>
     {
+        public override string Category => "Passive Item";
+
         /// <summary>
         /// Apply this recipe if there is not too many applied already.
         /// </summary>

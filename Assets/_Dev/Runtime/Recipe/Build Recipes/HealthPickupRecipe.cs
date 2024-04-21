@@ -9,6 +9,8 @@ namespace RogueWave
     [CreateAssetMenu(fileName = "Health Pickup Recipe", menuName = "Rogue Wave/Recipe/Health Pickup", order = 115)]
     public class HealthPickupRecipe : ItemRecipe<HealthPickup>
     {
+        public override string Category => "Health";
+
         [NonSerialized]
         private BasicHealthManager _healthManager;
         private BasicHealthManager healthManager

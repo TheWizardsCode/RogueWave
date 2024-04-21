@@ -20,6 +20,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The amount to add to the post-multiplication additive value for the stat. For example if the current post-multiplier additive is 0.5 and this value is 0.1 then the new value will be 0.6.")]
         float additionalPostMultiplyAdd = 0f;
 
+        public override string Category => "Movement";
+
         [Button("Apply Float Modifier (works in game only)")]
         internal override void Apply()
         {

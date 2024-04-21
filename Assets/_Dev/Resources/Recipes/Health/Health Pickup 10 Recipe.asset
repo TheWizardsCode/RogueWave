@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9173466c2b1873b46a6dc2bb3df303bb, type: 3}
   m_Name: Health Pickup 10 Recipe
   m_EditorClassIdentifier: 
-  displayName: Health 10
+  displayName: Bandages
   description: Bandage up some of those flesh wounds.
   heroImage: {fileID: 21300000, guid: 37d7c21f57ea47949ac7074a41c8bba3, type: 3}
   icon: {fileID: 21300000, guid: 84eeed9f4d6630c48b646f1abfb9a084, type: 3}
@@ -29,18 +29,8 @@ MonoBehaviour:
   maxStack: 1
   buildCost: 50
   timeToBuild: 5
-  nameClips:
-  - {fileID: 8300000, guid: 89967dc181ad044438d2e71d9b8b1ed0, type: 3}
-  - {fileID: 8300000, guid: ac60d6c35a686214981bc70b76cb3154, type: 3}
-  - {fileID: 8300000, guid: 702fd7e65e4256748a990daf373054c3, type: 3}
-  - {fileID: 8300000, guid: 1b9a0f4fee56c5c469ce92ef54604636, type: 3}
-  - {fileID: 8300000, guid: aa3532eba6d1d964bab3b87c40f75f5d, type: 3}
-  buildStartedClips:
-  - {fileID: 8300000, guid: 372f2124f27024844996c0e57dbb7ed8, type: 3}
-  - {fileID: 8300000, guid: 9047ca4bae75c5a46a72037c49edad6f, type: 3}
-  - {fileID: 8300000, guid: fa3f06f5135079946baf7c4ee4cc6a34, type: 3}
-  - {fileID: 8300000, guid: 11cf4eb6106dba949b786e07912e5d83, type: 3}
-  - {fileID: 8300000, guid: 1171f7fc64454484394425d1adddc62a, type: 3}
+  nameClips: []
+  buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
   uniqueID: e1ab5fee-77d9-48b5-bec3-fee65852a9b3

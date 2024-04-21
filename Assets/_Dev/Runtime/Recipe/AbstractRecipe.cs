@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using PlasticGui;
 using System;
 using UnityEditor;
 using UnityEngine;
@@ -51,7 +52,7 @@ namespace RogueWave
 
         [Header("Feedback")]
         [SerializeField, Tooltip("The sound to play when an announcer needs to provide a name for this recipe.")]
-        AudioClip[] nameClips = new AudioClip[0];
+        public AudioClip[] nameClips = new AudioClip[0];
         [SerializeField, Tooltip("The sound to play when the build is started. If there are no sounds here then a default will be used.")]
         AudioClip[] buildStartedClips = new AudioClip[0];
         [SerializeField, Tooltip("The sound to play when the build is complete. If there are no sounds here then a default will be used.")]
@@ -70,6 +71,8 @@ namespace RogueWave
         public Sprite HeroImage => heroImage;
 
         public Sprite Icon => icon;
+
+        public virtual string Category => "Miscellaneous";
 
         public int Level => level;
 

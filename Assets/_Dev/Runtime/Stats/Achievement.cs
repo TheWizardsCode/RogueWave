@@ -17,6 +17,8 @@ namespace RogueWave.GameStats
         string m_DisplayName;
         [SerializeField, Tooltip("The description of the achievement as used in the User Interface.")]
         string m_Description;
+        [SerializeField, Tooltip("The hero image for the achievement.")]
+        Sprite m_HeroImage;
         [SerializeField, Tooltip("The icon to use for the achievement.")]
         Sprite m_Icon;
 

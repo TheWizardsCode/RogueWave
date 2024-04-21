@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b81f4165b0a6244b9fd646452c5eec, type: 3}
   m_Name: RW Ammo 9mm x 40 Pickup Recipe
   m_EditorClassIdentifier: 
-  displayName: Ammo 9mm x 40
+  displayName: Ammo 9mm (40 pack)
   description: TBD
   heroImage: {fileID: 21300000, guid: 4205a5f7002391b47b22b33a850cbeba, type: 3}
   icon: {fileID: 21300000, guid: 5bcb172642da8714681404a7c215ac69, type: 3}
@@ -29,12 +29,7 @@ MonoBehaviour:
   maxStack: 1
   buildCost: 20
   timeToBuild: 2.5
-  nameClips:
-  - {fileID: 8300000, guid: db39fe0b86caeec4b987b7c0b0df57a5, type: 3}
-  - {fileID: 8300000, guid: 584909db7df7ec14b99611cf2db29642, type: 3}
-  - {fileID: 8300000, guid: 7713945cb64266c4586b0d8a3149d7ec, type: 3}
-  - {fileID: 8300000, guid: a7597162abda57f42a1a8511aa1a3e31, type: 3}
-  - {fileID: 8300000, guid: d1003b25599c5724b902ff9d74d28c89, type: 3}
+  nameClips: []
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}

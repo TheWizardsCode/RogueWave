@@ -12,6 +12,8 @@ namespace RogueWave
         [SerializeField, Tooltip("A multiplier for the magnets strength, the stronger a magnet the more force it can exert on objects.")]
         float strengthMultiplier = 1.00f;
 
+        public override string Category => "Magnet Stat";
+
         internal override void Apply()
         {
             MagnetController magnetController = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();

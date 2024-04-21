@@ -20,6 +20,8 @@ namespace RogueWave
         [FormerlySerializedAs("item")]
         internal T pickup;
 
+        public override string Category => "Item";
+
         public Component Item => pickup;
     }
 }
