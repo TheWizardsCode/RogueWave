@@ -39,25 +39,23 @@ namespace RogueWave.UI
             bool firstRun = (m_HintObject == null) || PlayerPrefs.GetInt("loading.first", 1) == 1;
             PlayerPrefs.SetInt("loading.first", 0);
 
-            int loadingScreenDataIndex = Random.Range(0, m_LoadingScreenData.Length);
-
             if (firstRun)
             {
                 ShowSaveWarning();
             }
-            else
-            {
-                ShowHint(loadingScreenDataIndex);
-                ShowHeroImage(loadingScreenDataIndex);
-                m_StoryText.gameObject.SetActive(false);
-            }
 
             TutorialManager tutorialManager = GameObject.FindObjectOfType<TutorialManager>();
-            if (tutorialManager.currentlyActiveStep.loadingScreenHeroImage != null)
+            if (tutorialManager.currentlyActiveStep != null)
             {
                 ShowHeroImage(tutorialManager.currentlyActiveStep.loadingScreenHeroImage);
                 m_StoryText.text = tutorialManager.currentlyActiveStep.script;
                 m_StoryText.gameObject.SetActive(true);
+            } else
+            {
+                int loadingScreenDataIndex = Random.Range(0, m_LoadingScreenData.Length);
+                ShowHint(loadingScreenDataIndex);
+                ShowHeroImage(loadingScreenDataIndex);
+                m_StoryText.gameObject.SetActive(false);
             }
 
             NeoSceneManager.preSceneActivation += PreSceneActivation;
@@ -71,6 +69,7 @@ namespace RogueWave.UI
         protected void OnDestroy()
         {
             NeoSceneManager.preSceneActivation -= PreSceneActivation;
+            NeoSceneManager.onSceneLoadProgress -= OnSceneLoadProgress;
         }
 
         void PreSceneActivation()

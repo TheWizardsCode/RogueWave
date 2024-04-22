@@ -55,6 +55,7 @@ namespace RogueWave.Tutorial
         {
             if (RogueLiteManager.persistentData.tutorialNextStep >= tutorialSteps.Length)
             {
+                currentlyActiveStep = null;
                 return;
             }
 

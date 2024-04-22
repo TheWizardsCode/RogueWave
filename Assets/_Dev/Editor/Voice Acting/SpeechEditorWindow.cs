@@ -107,7 +107,31 @@ namespace WizardsCode.Speech
             List<AbstractRecipe> voiced = new List<AbstractRecipe>();
 
             GUILayout.Space(10);
+            
+            GUILayout.BeginHorizontal();
             GUILayout.Label("Unvoiced Recipes", EditorStyles.boldLabel);
+            if (Application.isPlaying)
+            {
+                if (GUILayout.Button($"Generate All Unvoiced Name Voicelines", GUILayout.Width(300), GUILayout.Height(40)))
+                {
+                    foreach (AbstractRecipe recipe in allRecipes)
+                    {
+                        if (recipe.nameClips.Length == 0)
+                        {
+                            textToConvert = recipe.DisplayName;
+                            filename = recipe.DisplayName;
+                            category = recipe.Category;
+
+                            List<AudioClip> clips = await GenerateNanobotVoicelines();
+                            recipe.nameClips = clips.ToArray();
+                            EditorUtility.SetDirty(recipe);
+                            AssetDatabase.SaveAssets();
+                        }
+                    }
+                }
+            }
+            GUILayout.EndHorizontal();
+
             foreach (AbstractRecipe recipe in allRecipes)
             {
                 GUILayout.BeginHorizontal();
@@ -153,13 +177,28 @@ namespace WizardsCode.Speech
                     EditorGUIUtility.PingObject(recipe);
                     Selection.activeObject = recipe;
                 }
-                if (GUILayout.Button($"Play {recipe.nameClips.Length} Name Clips", GUILayout.Width(200)))
+
+                if (!Application.isPlaying)
                 {
-                    audioSource.outputAudioMixerGroup = null;
-                    foreach (AudioClip clip in recipe.nameClips)
+                    if (GUILayout.Button($"Delete All", GUILayout.Width(80)))
                     {
-                        audioSource.PlayOneShot(clip);
-                        await Task.Delay((int)(clip.length + 0.35f) * 1000);
+                        foreach (AudioClip clip in recipe.nameClips)
+                        {
+                            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(clip));
+                        }
+                        recipe.nameClips = new AudioClip[0];
+                        EditorUtility.SetDirty(recipe);
+                        AssetDatabase.SaveAssets();
+                    }
+
+                    if (GUILayout.Button($"Play {recipe.nameClips.Length} Name Clips", GUILayout.Width(200)))
+                    {
+                        audioSource.outputAudioMixerGroup = null;
+                        foreach (AudioClip clip in recipe.nameClips)
+                        {
+                            audioSource.PlayOneShot(clip);
+                            await Task.Delay((int)(clip.length + 0.35f) * 1000);
+                        }
                     }
                 }
                 GUILayout.EndHorizontal();
