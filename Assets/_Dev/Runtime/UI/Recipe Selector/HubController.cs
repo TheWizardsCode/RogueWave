@@ -20,9 +20,21 @@ namespace RogueWave.UI
         private TMPro.TMP_Text m_GameLevelNumberText = null;
         [SerializeField, Tooltip("The text readout for the current players Nanobot level number.")]
         private TMPro.TMP_Text m_NanobotLevelNumberText = null;
+        [SerializeField, Tooltip("The button to move the player to the next screen on the way into combat.")]
+        private Button m_ContinueButton = null;
 
         internal static List<IRecipe> permanentRecipes = new List<IRecipe>();
         internal static List<IRecipe> temporaryRecipes = new List<IRecipe>();
+
+        private void OnEnable()
+        {
+            m_ContinueButton.onClick.AddListener(QuitSelectionUI);
+        }
+
+        private void OnDisable()
+        {
+            m_ContinueButton.onClick.RemoveListener(QuitSelectionUI);
+        }
 
         private void OnGUI()
         {
@@ -53,6 +65,16 @@ namespace RogueWave.UI
             temporaryRecipes.Clear();
             temporaryRecipes.AddRange(RogueLiteManager.runData.Recipes);
             temporaryRecipes.RemoveAll(recipe => permanentRecipes.Contains(recipe));
+
+            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
+            {
+                m_ContinueButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Build a Weapon";
+                m_ContinueButton.interactable = false;
+            } else
+            {
+                m_ContinueButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Continue to Loadout Builder";
+                m_ContinueButton.interactable = true;
+            }
         }
 
         public void QuitSelectionUI()
