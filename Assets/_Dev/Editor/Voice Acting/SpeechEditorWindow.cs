@@ -3,9 +3,11 @@ using ElevenLabs.Voices;
 using RogueWave;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Recorder;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Audio;
 using WizardsCode.Audio;
@@ -15,6 +17,7 @@ namespace WizardsCode.Speech
 
     public class SpeechEditorWindow : EditorWindow
     {
+        private const string AudioProcessingScene = "Assets/_Dev/Scenes Dev/AudioProcessing Dev.unity";
         private AudioMixerGroup audioMixerGroup;
         private string textToConvert = string.Empty;
         private string filename;
@@ -27,6 +30,14 @@ namespace WizardsCode.Speech
         private int processingVariations = 3;
 
         private Vector2 recipesScrollPosition;
+        private List<Voice> activeVoices = new List<Voice>();
+        private static readonly string[] validVoiceIds = new string[] { 
+            "0OefQs8ayzWKjplwJXyS", "DlaNkMyM2qrZzkFpbsiS", "hCPg2NoW9AOhketGMBJn", 
+            "mZzkFQAy1TG9QaiFuPbO", "Ro9jY4KmiusRPxvR7JCw", "FA6HhUjVbervLw2rNl8M", 
+            "H1JjD7OHmS3KIOu5PDkI", "fYrvlfwSjfNxUmSH1Ikk", "y6p0SvBlfEe2MH4XN7BP",
+            "j9jfwdrw7BRfcR43Qohk"
+        };
+        private string originalScene;
 
         [MenuItem("Tools/Wizards Code/Speech")]
         public static void ShowWindow()
@@ -75,10 +86,21 @@ namespace WizardsCode.Speech
 
             if (!EditorApplication.isPlaying)
             {
-                EditorGUILayout.HelpBox("Please enter play mode to process audio.", MessageType.Warning);
-                if (GUILayout.Button("Enter Play Mode", GUILayout.Height(80)))
+                EditorGUILayout.HelpBox("Use the below button to start the audio processing engine.", MessageType.Warning);
+                if (GUILayout.Button("Start the Engine", GUILayout.Height(80)))
                 {
-                    EditorApplication.isPlaying = true;
+                    originalScene = EditorSceneManager.GetActiveScene().path;
+                    if (originalScene == AudioProcessingScene)
+                    {
+                        EditorApplication.isPlaying = true;
+                    }
+                    else
+                    {
+                        EditorApplication.playModeStateChanged += PlayModeStateChanged;
+                        EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+                        EditorSceneManager.OpenScene(AudioProcessingScene);
+                        EditorApplication.isPlaying = true;
+                    }
                 }
             }
             else if (string.IsNullOrEmpty(textToConvert) || string.IsNullOrEmpty(filename))
@@ -99,6 +121,18 @@ namespace WizardsCode.Speech
 
             OnRecipeListGUI();
         }
+
+        
+        void PlayModeStateChanged(PlayModeStateChange state)
+        {
+            if (state == PlayModeStateChange.ExitingPlayMode && !string.IsNullOrEmpty(originalScene))
+            {
+                EditorSceneManager.OpenScene(originalScene);
+                EditorApplication.playModeStateChanged -= PlayModeStateChanged;
+                originalScene = string.Empty;
+            }
+        }
+
 
         private async void OnRecipeListGUI()
         {
@@ -214,14 +248,17 @@ namespace WizardsCode.Speech
             audioSource.outputAudioMixerGroup = audioMixerGroup;
 
             ElevenLabsClient api = new ElevenLabsClient();
-            IReadOnlyList<Voice> allVoices = await api.VoicesEndpoint.GetAllVoicesAsync();
+            if (activeVoices == null || activeVoices.Count == 0)
+            {
+                await GetAllValidVoices(api);
+            }
 
             for (int i = 0; i < voicelineVariations; i++)
             {
                 Debug.Log($"Generating voice line {i + 1} of {voicelineVariations}");
 
                 VoiceSettings defaultVoiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
-                Voice voice = allVoices[Random.Range(0, allVoices.Count)];
+                Voice voice = activeVoices[Random.Range(0, activeVoices.Count)];
                 VoiceClip voiceClip = await api.TextToSpeechEndpoint.TextToSpeechAsync(textToConvert, voice, defaultVoiceSettings);
 
                 string relativePath = GetRelativeFilepathWithoutExtensionForUnprocessedFile(i);
@@ -238,6 +275,17 @@ namespace WizardsCode.Speech
             Debug.Log("Completed recording.");
 
             return clips;
+        }
+
+        private async Task GetAllValidVoices(ElevenLabsClient api)
+        {
+            foreach (string id in validVoiceIds)
+            {
+                Voice voice = await api.VoicesEndpoint.GetVoiceAsync(id);
+                activeVoices.Add(voice);
+            }
+
+            Debug.Log($"Loaded {activeVoices.Count} voices.");
         }
 
         private async Task<List<AudioClip>> StartRecording()
