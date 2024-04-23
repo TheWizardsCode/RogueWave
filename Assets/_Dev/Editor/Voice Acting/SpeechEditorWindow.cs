@@ -74,6 +74,8 @@ namespace WizardsCode.Speech
 
             filename = EditorGUILayout.TextField("Audio clip name", filename);
 
+            
+
             category = EditorGUILayout.TextField("Category", category);
 
             GUILayout.Label("Text to Convert to Speech:", EditorStyles.boldLabel);
@@ -152,9 +154,7 @@ namespace WizardsCode.Speech
                     {
                         if (recipe.nameClips.Length == 0)
                         {
-                            textToConvert = recipe.DisplayName;
-                            filename = recipe.DisplayName;
-                            category = recipe.Category;
+                            SetVoiceFields(recipe);
 
                             List<AudioClip> clips = await GenerateNanobotVoicelines();
                             recipe.nameClips = clips.ToArray();
@@ -176,7 +176,7 @@ namespace WizardsCode.Speech
                 {
                     if (GUILayout.Button(recipe.DisplayName, EditorStyles.label))
                     {
-                        EditorGUIUtility.PingObject(recipe);
+                        SetVoiceFields(recipe);
                         Selection.activeObject = recipe;
                     }
                     if (Application.isPlaying)
@@ -184,10 +184,8 @@ namespace WizardsCode.Speech
                         if (GUILayout.Button($"Generate {voicelineVariations * processingVariations} Name Voicelines", GUILayout.Width(200)))
                         {
                             Selection.activeObject = recipe;
-                            textToConvert = recipe.DisplayName;
-                            filename = recipe.DisplayName;
-                            category = recipe.Category;
-                            
+                            SetVoiceFields(recipe);
+
                             EditorApplication.delayCall += async () =>
                             {
                                 List<AudioClip> clips = await GenerateNanobotVoicelines();
@@ -239,6 +237,13 @@ namespace WizardsCode.Speech
             }
 
             EditorGUILayout.EndScrollView();
+        }
+
+        private void SetVoiceFields(AbstractRecipe recipe)
+        {
+            textToConvert = recipe.AnnouncerVoicelineForName;
+            filename = recipe.DisplayName;
+            category = recipe.Category;
         }
 
         private async Task<List<AudioClip>> GenerateNanobotVoicelines()
@@ -311,7 +316,7 @@ namespace WizardsCode.Speech
                 {
                     Debug.Log($"Processing variation {y + 1} of {processingVariations} for {i + 1} of {voicelineVariations} voicelines.");
 
-                    audioSource.pitch = 0.9f + (y * pitchStep);
+                    audioSource.pitch = 0.95f + (y * pitchStep);
                     audioSource.clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/{GetRelativeFilepathWithoutExtensionForUnprocessedFile(i)}.wav");
                     audioSource.clip.LoadAudioData();
                     while (audioSource.clip.loadState == AudioDataLoadState.Loading)

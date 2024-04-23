@@ -7,6 +7,7 @@ namespace RogueWave
     {
         public string UniqueID { get; }
         public string DisplayName { get; }
+        public string AnnouncerVoicelineForName { get; }
         public string Description { get; }
         public Sprite HeroImage { get; }
         public string Category { get; }

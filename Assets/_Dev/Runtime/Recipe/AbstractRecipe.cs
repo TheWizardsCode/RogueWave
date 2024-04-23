@@ -13,6 +13,8 @@ namespace RogueWave
         [Header("Description")]
         [SerializeField, Tooltip("The name of this recipe. Used in the UI for the player.")]
         string displayName = "TBD";
+        [SerializeField, Tooltip("Text to use for the voiceline when the announcer needs to provide a name for this recipe. If left blank the name field will be used.")]
+        string announcerVoicelineForName = string.Empty;
         [SerializeField, TextArea(1, 4), Tooltip("A short description of this recipe helping the player understand what it is.")]
         string description = "TBD";
         [SerializeField, Tooltip("An image to use as the hero image for this recipe."), ShowAssetPreview]
@@ -65,6 +67,20 @@ namespace RogueWave
         public string UniqueID => uniqueID;
 
         public string DisplayName => displayName;
+
+        public string AnnouncerVoicelineForName {
+            get
+            {
+                if (string.IsNullOrEmpty(announcerVoicelineForName))
+                {
+                    return DisplayName;
+                }
+                else
+                {
+                    return announcerVoicelineForName;
+                }
+            }
+        }
 
         public string Description => description;
 

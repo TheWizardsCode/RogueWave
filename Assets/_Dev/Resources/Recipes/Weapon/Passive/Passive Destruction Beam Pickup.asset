@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310c037ba028285498c7d93c2b490b79, type: 3}
   m_Name: Passive Destruction Beam Pickup
   m_EditorClassIdentifier: 
-  displayName: Destruction Beam
+  displayName: Destructor Beam
+  announcerVoicelineForName: Destructor Beam.
   description: Fires a number of Nanobot beams out from the player doing damage to
     enemies they hit.
   heroImage: {fileID: 21300000, guid: 6d27076fe6d31be41adc4857b58c1207, type: 3}
@@ -30,15 +31,18 @@ MonoBehaviour:
   buildCost: 250
   timeToBuild: 5
   nameClips:
-  - {fileID: 8300000, guid: cc778a1aa4bc03a4ebcb0c3b37ce1fe4, type: 3}
-  - {fileID: 8300000, guid: 85061ba788c6d8745b769776ecab870f, type: 3}
-  - {fileID: 8300000, guid: 5f250112ab76b2c4eb4ce5a0fdd0ae57, type: 3}
-  - {fileID: 8300000, guid: 951aeed458eb0e84295505f7aa8618f8, type: 3}
-  - {fileID: 8300000, guid: 7298ebeec2379a44e8508749ca115f18, type: 3}
-  - {fileID: 8300000, guid: b24bef306c3d41942a6c32da74734a37, type: 3}
-  - {fileID: 8300000, guid: ce26e16c0301d4848ab9d448688ae39c, type: 3}
-  - {fileID: 8300000, guid: f44039066bfbc8c49992a88d828cd764, type: 3}
-  - {fileID: 8300000, guid: cadc13d9440e8f446ab82ac78b1fd89b, type: 3}
+  - {fileID: 8300000, guid: 52fc48b1066d322448a6ed9d09175518, type: 3}
+  - {fileID: 8300000, guid: 9c7a19a521b95bb4f90eacf28109ac32, type: 3}
+  - {fileID: 8300000, guid: 1a8a553460b7edb418d78c34b2cb50d0, type: 3}
+  - {fileID: 8300000, guid: 16daa183ac20cdc4ca7601c5a33351b5, type: 3}
+  - {fileID: 8300000, guid: 835ef897161c61e4e810d00ae6f86f4f, type: 3}
+  - {fileID: 8300000, guid: 91c0f1919f861af4cb9a26f31123d3b0, type: 3}
+  - {fileID: 8300000, guid: dfae627c040830a489220e50f0328e8d, type: 3}
+  - {fileID: 8300000, guid: d76b092bf91e5b34e9facc8c20b52a71, type: 3}
+  - {fileID: 8300000, guid: 53bfce92bfe9add4290efc8907002ca1, type: 3}
+  - {fileID: 8300000, guid: 5acfd58291dddbf4fa28729ad6d92112, type: 3}
+  - {fileID: 8300000, guid: 689d9bf0b0fc4d0408f1d980a146e3d1, type: 3}
+  - {fileID: 8300000, guid: 86bc60ec9c9ce8d41a76c3915f37f8fa, type: 3}
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
