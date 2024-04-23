@@ -19,15 +19,16 @@ MonoBehaviour:
   icon: {fileID: 21300000, guid: c36b767fba4ac564d9a69a845e9d9866, type: 3}
   level: 1
   baseWeight: 0.4
-  dependencies: []
+  dependencies:
+  - {fileID: 11400000, guid: 2bb6578e93cd0ff4d8601129a6c6fdda, type: 2}
   complements: []
-  buyCost: 400
+  buyCost: 500
   isPowerUp: 1
   isConsumable: 1
   cooldown: 10
   isStackable: 0
   maxStack: 5
-  buildCost: 150
+  buildCost: 70
   timeToBuild: 6
   nameClips:
   - {fileID: 8300000, guid: 016bb4ee712400e468781dcada0cb0a8, type: 3}

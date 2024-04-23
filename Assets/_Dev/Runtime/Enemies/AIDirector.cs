@@ -119,6 +119,8 @@ namespace RogueWave
                         challengeRatingSent += randomEnemy.challengeRating;
                         randomEnemy.RequestAttack(suspectedTargetLocation);
                     }
+
+                    GameLog.Info($"AIDirector: Sending enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                 } 
                 else
                 {
@@ -128,7 +130,6 @@ namespace RogueWave
 
                 if (challengeRatingSent <= 0)
                 {
-                    GameLog.Info($"AIDirector: Sending enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                     return;
                 }
 
@@ -155,7 +156,7 @@ namespace RogueWave
                 // Send remaining enemies from the nearest spawners to the player
                 int challengeRatingSpawned = 0;
                 while (challengeRatingSpawned + challengeRatingSent < challengeRatingToSend
-                        && enemies.Count <= levelGenerator.levelDefinition.maxAlive * (difficultyMultiplier / 10))
+                        && enemies.Count <= levelGenerator.levelDefinition.maxAlive + difficultyMultiplier)
                 {
                     BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy();
                     if (randomEnemy != null)

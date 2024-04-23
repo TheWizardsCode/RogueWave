@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1aad701decc23e74f8b83257b0f3a75b, type: 3}
+  m_Name: Armour Body x 5 Pickup Recipe 1
+  m_EditorClassIdentifier: 
+  displayName: Body Armour 5
+  announcerVoicelineForName: Body Armour, Small
+  description: Increase body armour by 5 units.
+  heroImage: {fileID: 21300000, guid: a15f0b92214eaf64f8acfb5bb31ea611, type: 3}
+  icon: {fileID: 21300000, guid: fe63b10a4a3a57348a4551c43bd1299b, type: 3}
+  level: 1
+  baseWeight: 0.4
+  dependencies: []
+  complements: []
+  buyCost: 250
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 10
+  isStackable: 0
+  maxStack: 5
+  buildCost: 35
+  timeToBuild: 6
+  nameClips:
+  - {fileID: 8300000, guid: 13e8033d71381ca40b9a75230e05def0, type: 3}
+  - {fileID: 8300000, guid: 5f97cfa12f4c90b41a97a1a777c38c79, type: 3}
+  - {fileID: 8300000, guid: 50b547e0e55173d439e623cff376844f, type: 3}
+  - {fileID: 8300000, guid: 3b982294dff19ab4795c52db1c830b4a, type: 3}
+  - {fileID: 8300000, guid: a3ae871d2d2262746a559ce3ca8c308e, type: 3}
+  - {fileID: 8300000, guid: 03a8dd20dc99e9b41a38d54eb2909b65, type: 3}
+  - {fileID: 8300000, guid: 24c2bdfb56d7b7747a0471012b500073, type: 3}
+  - {fileID: 8300000, guid: 96377c535b500bd4da63fe62f3be7557, type: 3}
+  - {fileID: 8300000, guid: d425fe1c51fdd054c8723cd666ba82ae, type: 3}
+  - {fileID: 8300000, guid: c4253eeadde8c504bb79fe7165ff301b, type: 3}
+  - {fileID: 8300000, guid: 0b1cb1d2faffd0042a63f4746175c288, type: 3}
+  - {fileID: 8300000, guid: 18a96703eff67ef4988b1e87320f5c11, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 1cb5b2d1-6c83-4be7-ba99-ccae8cc5e8a9
+  pickup: {fileID: 505966138466652811, guid: 21bed546992cc164bbf729d28fe48e0e, type: 3}
+  m_InventoryID: 353087605
