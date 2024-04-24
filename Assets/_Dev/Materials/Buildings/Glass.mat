@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Glass
-  m_Shader: {fileID: 4800000, guid: 40dd86119e3f8e74d8f7d84425c926aa, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 5697c47dc998fa748a281ddf3c85ba0d, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -25,7 +25,9 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
-    - _Metallic: 0.3
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
+    - _Metallic: 0.315
     - _Smoothness: 1
     m_Colors: []
   m_BuildTextureStacks: []
