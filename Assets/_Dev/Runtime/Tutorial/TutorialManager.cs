@@ -48,7 +48,7 @@ namespace RogueWave.Tutorial
                 return;
             }
 
-            StartCoroutine(ExecuteSeceneLoadedStep());
+            StartCoroutine(ExecuteSceneLoadedStep());
         }
 
         private void OnSceneLoadRequested(int sceneIndex, string sceneName)
@@ -74,9 +74,13 @@ namespace RogueWave.Tutorial
             }
         }
 
-        private IEnumerator ExecuteSeceneLoadedStep()
+        private IEnumerator ExecuteSceneLoadedStep()
         {
-            float endTime = Time.time + currentlyActiveStep.sceneClip.length + 0.75f;
+            float endTime = Time.time;
+            if (currentlyActiveStep.sceneClip != null)
+            {
+                endTime += currentlyActiveStep.sceneClip.length + 0.75f;
+            }
 
             if (currentlyActiveStep.sceneClip == null)
             {

@@ -23,6 +23,7 @@ using Lumpn.Discord;
 using RogeWave;
 using System.Collections;
 using UnityEngine.Serialization;
+using RogueWave.Editor;
 
 namespace RogueWave.GameStats
 {
@@ -208,6 +209,22 @@ namespace RogueWave.GameStats
             sb.AppendLine($"  - GRAPHICS_API: {SystemInfo.graphicsDeviceType}");
             sb.AppendLine($"  - SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}");
             chunks.Add(sb.ToString());
+
+            sb.AppendLine("Performance Stats:");
+            FPSCounter fps = FindObjectOfType<FPSCounter>();
+            if (fps != null)
+            {
+                sb.AppendLine($"  - AVERAGE_FPS: {fps.averageFPS}");
+                sb.AppendLine($"  - MIN_FPS: {fps.minFPS}");
+                sb.AppendLine($"  - MAX_FPS: {fps.maxFPS}");
+            }
+            else
+            {
+                sb.AppendLine("No FPS Counter found.");
+            }
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
 
             chunks.Add(GameLog.ToYAML());
 
