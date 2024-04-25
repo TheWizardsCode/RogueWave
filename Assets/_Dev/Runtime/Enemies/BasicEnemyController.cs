@@ -75,6 +75,20 @@ namespace RogueWave
         [SerializeField, Tooltip("How far the enemy will go from their spawn point when attacking the player. If the enemy goes further than this then they will return to their spawn point to 'recharge'. Then they will resume their normal behaviour."), ShowIf("isMobile")]
         internal float seekDistance = 30;
 
+        [Header("Defensive Behaviour")]
+        [SerializeField, Tooltip("If true then this enemy will spawn defensive units when it takes damage.")]
+        internal bool spawnOnDamageEnabled = false;
+        [SerializeField, Tooltip("If true defensive units will be spawned around the attacking unit. If false they will be spawned around this unit."), ShowIf("spawnOnDamageEnabled")]
+        internal bool spawnOnDamageAroundAttacker = false;
+        [SerializeField, Tooltip("The distance from the spawn point (damage source or this unit) that defensive units will be spawned. they will always spawn between the damage source and this enemy."), ShowIf("spawnOnDamageEnabled")]
+        internal float spawnOnDamageDistance = 10;
+        [SerializeField, Tooltip("Prototype to use to spawn defensive units when this enemy takes damage. This might be, for example, new enemies that will attack the thing doing damage."), ShowIf("spawnOnDamageEnabled")]
+        internal PooledObject[] spawnOnDamagePrototypes;
+        [SerializeField, Tooltip("The amount of damage the enemy must take before spawning defensive units."), ShowIf("spawnOnDamageEnabled")]
+        internal float spawnOnDamageThreshold = 10;
+        [SerializeField, Tooltip("The number of defensive units to spawn when this enemy takes damage."), ShowIf("spawnOnDamageEnabled")]
+        internal int spawnOnDamageCount = 3;
+
         [Header("SquadBehaviour")]
         [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy.")]
         internal SquadRole squadRole = SquadRole.Fodder;
@@ -305,6 +319,7 @@ namespace RogueWave
             {
                 healthManager.AddHealth(healthManager.healthMax);
                 healthManager.onIsAliveChanged += OnAliveIsChanged;
+                healthManager.onHealthChanged += OnHealthChanged;
             }
         }
 
@@ -313,6 +328,7 @@ namespace RogueWave
             if (healthManager != null)
             {
                 healthManager.onIsAliveChanged -= OnAliveIsChanged;
+                healthManager.onHealthChanged -= OnHealthChanged;
             }
 
             onDestroyed?.Invoke();
@@ -725,6 +741,47 @@ namespace RogueWave
             }
 
             MoveTowards(wanderDestination);
+        }
+
+        private void OnHealthChanged(float from, float to, bool critical, IDamageSource source)
+        {
+            if (spawnOnDamageEnabled == false)
+            {
+                return;
+            }
+
+            if (from - to >= spawnOnDamageThreshold)
+            {
+                for (int i = 0; i < spawnOnDamageCount; i++)
+                {
+                    PooledObject prototype = spawnOnDamagePrototypes[Random.Range(0, spawnOnDamagePrototypes.Length)];
+
+                    Vector3 pos;
+                    if (spawnOnDamageAroundAttacker)
+                    {
+                        pos = source.damageSourceTransform.position + (source.damageSourceTransform.forward * spawnOnDamageDistance);
+                    }
+                    else
+                    {
+                        pos = transform.position - (source.damageSourceTransform.forward * spawnOnDamageDistance);
+                    }
+
+                    pos += Random.insideUnitSphere;
+                    pos.y = 1.5f;
+                    BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prototype, pos, Quaternion.identity);
+                    enemy.RequestAttack(Target.position);
+
+                    // add a line renderer to the spawned enemy from this enemy
+                    LineRenderer line = enemy.gameObject.AddComponent<LineRenderer>();
+                    line.startWidth = 0.03f;
+                    line.endWidth = 0.2f;
+                    line.material = new Material(Shader.Find("Unlit/Color"));
+                    line.material.color = Color.blue;
+                    line.SetPosition(0, transform.position);
+                    line.SetPosition(1, enemy.transform.position);
+                    Destroy(line, 0.15f);
+                }
+            }
         }
 
         public void OnAliveIsChanged(bool isAlive)

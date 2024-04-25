@@ -45,7 +45,7 @@ namespace RogueWave.GameStats
         [SerializeField, Tooltip("The URL of the webhook to send developer stats and achievements to.")]
         WebhookData developerDataWebhook;
 
-        private Achievement[] m_Achievements;
+        private Achievement[] m_Achievements = new Achievement[0];
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]
@@ -62,7 +62,25 @@ namespace RogueWave.GameStats
         private float startTime;
         private float endTime;
 
-        public static GameStatsManager Instance { get; private set; }
+        private static GameStatsManager m_Instance;
+        public static GameStatsManager Instance {
+            get
+            {
+                if (m_Instance == null)
+                {
+                    m_Instance = FindFirstObjectByType<GameStatsManager>();
+                    if (m_Instance == null)
+                    {
+                        m_Instance = new GameObject("Game Stat Manager").AddComponent<GameStatsManager>();
+                    }
+
+                    DontDestroyOnLoad(m_Instance.gameObject);
+                }
+
+                return m_Instance;
+            }
+        }
+
         public static Action<Achievement> OnAchievementUnlocked { get; internal set; }
 
         public static string statsScene
@@ -103,15 +121,6 @@ namespace RogueWave.GameStats
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-
             DontDestroyOnLoad(gameObject);
 
             m_Achievements = Resources.LoadAll<Achievement>("");

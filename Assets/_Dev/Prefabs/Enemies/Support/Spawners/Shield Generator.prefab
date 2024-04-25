@@ -85,14 +85,23 @@ MonoBehaviour:
   isMobile: 0
   minSpeed: 4
   maxSpeed: 6
+  acceleration: 10
   rotationSpeed: 1
   minimumHeight: 0.5
   maximumHeight: 75
   optimalDistanceFromPlayer: 0.2
+  destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 2
   arrivalDistance: 1.5
-  seekDuration: 7
+  returnToSpawner: 0
   seekDistance: 30
+  spawnOnDamageEnabled: 1
+  spawnOnDamageAroundAttacker: 1
+  spawnOnDamageDistance: 5
+  spawnOnDamagePrototypes:
+  - {fileID: 2912749275857454484, guid: e27c6e9bdf229c44083a8aa474b34b60, type: 3}
+  spawnOnDamageThreshold: 10
+  spawnOnDamageCount: 3
   squadRole: 1
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 5
