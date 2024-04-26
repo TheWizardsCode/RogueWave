@@ -176,7 +176,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 500
+  MaxDistance: 200
   Pan2D: 0
   rolloffMode: 0
   BypassEffects: 0
@@ -211,7 +211,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -264,7 +264,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSource: {fileID: 5621733812786306976}
-  _droneClip: {fileID: 0}
+  _droneClip: {fileID: 8300000, guid: 34da95bec3586ad4596c012acb578b93, type: 3}
+  droneVolume: 0.508
   deathJuicePrefab: {fileID: 114570326930759748, guid: 7fcf882d3c77c1945a6083746a0fc169, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
   deathClips:

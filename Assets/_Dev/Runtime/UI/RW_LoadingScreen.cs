@@ -12,12 +12,20 @@ namespace RogueWave.UI
     public class RW_LoadingScreen : MonoBehaviour
     {
         [Header("Visuals")]
-        [SerializeField, Tooltip("The UI Element to display the hero image.")]
-        private Image m_HeroImage = null;
+        [SerializeField, Tooltip("The tutorial container. This will be shown or hidden depending on whether there is a tutorial step to show.")]
+        private RectTransform m_TutorialContainer = null;
+        [SerializeField, Tooltip("The none tutorial container. This will be shown or hidden depending on whether there is a tutorial step to show.")]
+        private RectTransform m_NoneTutorialContainer = null;
+
+        [Header("Tutorial Components")]
+        [SerializeField, Tooltip("The UI Element to display the hero image on tutorial loading screens.")]
+        private Image m_TutorialHeroImage = null;
         [SerializeField, Tooltip("The UI Element to display the story text if any is available.")]
         private TextMeshProUGUI m_StoryText = null;
 
-        [Header("Hints")]
+        [Header("None Tutorial Components")]
+        [SerializeField, Tooltip("The UI Element to display the hero image on none tutorial loading scenes.")]
+        private Image m_NoneTutorialHeroImage = null;
         [SerializeField, Tooltip("The UI text for the hints")]
         private Text m_HintText = null;
         [SerializeField, Tooltip("The object to enable if showing hints")]
@@ -32,6 +40,7 @@ namespace RogueWave.UI
         [Header("Audio Listener")]
         [SerializeField, Tooltip("The audio listener for the loading screen (disabled when activating the main scene)")]
         private AudioListener m_AudioListener = null;
+        private bool isTutorial;
 
         private void Start()
         {
@@ -45,17 +54,20 @@ namespace RogueWave.UI
             }
 
             TutorialManager tutorialManager = GameObject.FindObjectOfType<TutorialManager>();
-            if (tutorialManager.currentlyActiveStep != null)
+            isTutorial = tutorialManager.currentlyActiveStep != null;
+            if (isTutorial)
             {
                 ShowHeroImage(tutorialManager.currentlyActiveStep.loadingScreenHeroImage);
                 m_StoryText.text = tutorialManager.currentlyActiveStep.script;
-                m_StoryText.gameObject.SetActive(true);
+                m_TutorialContainer.gameObject.SetActive(true);
+                m_NoneTutorialContainer.gameObject.SetActive(false);
             } else
             {
                 int loadingScreenDataIndex = Random.Range(0, m_LoadingScreenData.Length);
                 ShowHint(loadingScreenDataIndex);
                 ShowHeroImage(loadingScreenDataIndex);
-                m_StoryText.gameObject.SetActive(false);
+                m_TutorialContainer.gameObject.SetActive(false);
+                m_NoneTutorialContainer.gameObject.SetActive(true);
             }
 
             NeoSceneManager.preSceneActivation += PreSceneActivation;
@@ -102,7 +114,7 @@ namespace RogueWave.UI
 
         void ShowHeroImage(int loadingDataIndex)
         {
-            if (m_HeroImage == null || m_LoadingScreenData.Length == 0)
+            if (m_TutorialHeroImage == null || m_LoadingScreenData.Length == 0)
             {
                 return;
             }
@@ -114,17 +126,27 @@ namespace RogueWave.UI
 
         void ShowHeroImage(Sprite heroImage)
         {
-            if (m_HeroImage == null || heroImage == null)
+            if (m_TutorialHeroImage == null || heroImage == null)
             {
                 return;
             }
             else
             {
-                float displayWidth = m_HeroImage.rectTransform.rect.width;
-                float displayHeight = m_HeroImage.rectTransform.rect.height;
+                float displayWidth = 0;
+                float displayHeight = 0;
+                if (isTutorial)
+                {
+                    displayWidth = m_TutorialHeroImage.rectTransform.rect.width;
+                    displayHeight = m_TutorialHeroImage.rectTransform.rect.height;
+                }
+                else
+                {
+                    displayWidth = m_NoneTutorialHeroImage.rectTransform.rect.width;
+                    displayHeight = m_NoneTutorialHeroImage.rectTransform.rect.height;
+                }
+
                 float imageWidth = heroImage.rect.width;
                 float imageHeight = heroImage.rect.height;
-
                 if (imageWidth != displayWidth || imageHeight != displayHeight)
                 {
                     float aspectRatio = imageWidth / imageHeight;
@@ -140,8 +162,17 @@ namespace RogueWave.UI
                     imageWidth *= scaleFactor;
                     imageHeight *= scaleFactor;
                 }
-                m_HeroImage.sprite = heroImage;
-                m_HeroImage.rectTransform.sizeDelta = new Vector2(imageWidth, imageHeight);
+
+                if (isTutorial)
+                {
+                    m_TutorialHeroImage.sprite = heroImage;
+                    m_TutorialHeroImage.rectTransform.sizeDelta = new Vector2(imageWidth, imageHeight);
+                }
+                else
+                {
+                    m_NoneTutorialHeroImage.sprite = heroImage;
+                    m_NoneTutorialHeroImage.rectTransform.sizeDelta = new Vector2(imageWidth, imageHeight);
+                }
             }
         }   
 
