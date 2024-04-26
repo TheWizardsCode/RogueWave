@@ -90,6 +90,10 @@ namespace RogueWave
 
         public virtual string Category => "Miscellaneous";
 
+        public IRecipe[] Dependencies => dependencies;
+
+        public IRecipe[] Complements => complements;
+
         public int Level => level;
 
         public bool IsPowerUp => isPowerUp;
