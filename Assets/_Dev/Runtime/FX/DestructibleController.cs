@@ -30,7 +30,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         internal float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
-        internal ResourcesPickup resourcesPrefab;
+        internal Pickup resourcesPrefab;
 
         // Game Stats
         [SerializeField, Tooltip("The GameStat to increment when this destructible is destroyed."), Foldout("Game Stats")]
@@ -118,7 +118,7 @@ namespace RogueWave
                 {
                     Vector3 pos = transform.position;
                     pos.y = 0;
-                    ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
+                    Pickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
                     if (modelRenderer != null)
                     {
                         var resourcesRenderer = resources.GetComponentInChildren<Renderer>();
