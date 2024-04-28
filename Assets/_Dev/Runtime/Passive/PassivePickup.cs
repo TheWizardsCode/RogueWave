@@ -8,7 +8,7 @@ namespace RogueWave
     public class PassivePickup : Pickup
     {
         [SerializeField, Tooltip("The inventory item prefab to give to the character.")]
-        internal PassiveWeapon itemPrefab = null;
+        internal GameObject itemPrefab = null;
         [SerializeField, Tooltip("The inventory item recipe to give to the character.")]
         internal PassiveItemPickupRecipe recipe = null;
 

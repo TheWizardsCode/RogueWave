@@ -21,7 +21,7 @@ namespace RogueWave
 
             if (applied < MaxStack)
             {
-                PassiveWeapon passiveWeapon = Instantiate(pickup.itemPrefab);
+                GameObject passiveWeapon = Instantiate(pickup.itemPrefab);
                 passiveWeapon.transform.SetParent(manager.transform, false);
                 return true;
             }
