@@ -14,7 +14,6 @@ using WizardsCode.Audio;
 
 namespace WizardsCode.Speech
 {
-
     public class SpeechEditorWindow : EditorWindow
     {
         private const string AudioProcessingScene = "Assets/_Dev/Scenes Dev/AudioProcessing Dev.unity";
@@ -72,59 +71,68 @@ namespace WizardsCode.Speech
         {
             audioMixerGroup = (AudioMixerGroup)EditorGUILayout.ObjectField("Audio Mixer Group", audioMixerGroup, typeof(AudioMixerGroup), false);
 
-            filename = EditorGUILayout.TextField("Audio clip name", filename);
+            filename = EditorGUILayout.TextField(new GUIContent("Audio clip name", "This will be the filename for the generated clip(s). If more than one clip is generated (see voice and processing variations below) then they will be numbered to create unique names."), filename);
 
-            
+            category = EditorGUILayout.TextField(new GUIContent("Category", "The category is used to create the path to the audio fles in the project."), category);
 
-            category = EditorGUILayout.TextField("Category", category);
-
-            GUILayout.Label("Text to Convert to Speech:", EditorStyles.boldLabel);
+            GUILayout.Label(new GUIContent("Text to Convert to Speech:", "The text that will be converted to speech."), EditorStyles.boldLabel);
             textToConvert = EditorGUILayout.TextArea(textToConvert, GUILayout.Height(80));
 
-            voicelineVariations = EditorGUILayout.IntField("Voiceline variations", voicelineVariations);
+            voicelineVariations = EditorGUILayout.IntField(new GUIContent("Voiceline variations", "How many different voicelines shouuld be generated. Total generated audio clips will be number of voiceline variations times the number of processing variations."), voicelineVariations);
 
-            processingVariations = EditorGUILayout.IntField("Processing variations", processingVariations);
+            processingVariations = EditorGUILayout.IntField(new GUIContent("Processing variations", "How many different variations will be created for each voiceline. Total generated audio clips will be number of voiceline variations times the number of processing variations."), processingVariations);
 
 
             if (!EditorApplication.isPlaying)
             {
-                EditorGUILayout.HelpBox("Use the below button to start the audio processing engine.", MessageType.Warning);
-                if (GUILayout.Button("Start the Engine", GUILayout.Height(80)))
-                {
-                    originalScene = EditorSceneManager.GetActiveScene().path;
-                    if (originalScene == AudioProcessingScene)
-                    {
-                        EditorApplication.isPlaying = true;
-                    }
-                    else
-                    {
-                        EditorApplication.playModeStateChanged += PlayModeStateChanged;
-                        EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
-                        EditorSceneManager.OpenScene(AudioProcessingScene);
-                        EditorApplication.isPlaying = true;
-                    }
-                }
+                ActionsWhenNotPlaying();
             }
-            else if (string.IsNullOrEmpty(textToConvert) || string.IsNullOrEmpty(filename))
+            else
             {
-                EditorGUILayout.HelpBox("Please ensure you have both a clip name and some text to convert to speech. If any options are available below pressing the generate button will fill in these boxes for you.", MessageType.Warning);
-            }
-            else if (EditorApplication.isPlaying)
-            {
-                if (GUILayout.Button("Generate Nanobot Voicelines"))
-                {
-                    EditorApplication.delayCall += async () =>
-                    {
-                        List<AudioClip> clips = await GenerateNanobotVoicelines();
-                        // do nothing with the clips
-                    };
-                }
+                ActionsWhenPlaying();
             }
 
             OnRecipeListGUI();
         }
 
-        
+        private void ActionsWhenPlaying()
+        {
+            if (string.IsNullOrEmpty(textToConvert) || string.IsNullOrEmpty(filename))
+            {
+                EditorGUILayout.HelpBox("Please ensure you have both a clip name and some text to convert to speech. If any options are available below pressing the generate button will fill in these boxes for you.", MessageType.Warning);
+                return;
+            }
+
+            if (GUILayout.Button("Generate Nanobot Voicelines"))
+            {
+                EditorApplication.delayCall += async () =>
+                {
+                    List<AudioClip> clips = await GenerateNanobotVoicelines();
+                    // do nothing with the clips
+                };
+            }
+        }
+
+        private void ActionsWhenNotPlaying()
+        {
+            EditorGUILayout.HelpBox("Use the below button to start the audio processing engine.", MessageType.Warning);
+            if (GUILayout.Button("Start the Engine", GUILayout.Height(80)))
+            {
+                originalScene = EditorSceneManager.GetActiveScene().path;
+                if (originalScene == AudioProcessingScene)
+                {
+                    EditorApplication.isPlaying = true;
+                }
+                else
+                {
+                    EditorApplication.playModeStateChanged += PlayModeStateChanged;
+                    EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo();
+                    EditorSceneManager.OpenScene(AudioProcessingScene);
+                    EditorApplication.isPlaying = true;
+                }
+            }
+        }
+
         void PlayModeStateChanged(PlayModeStateChange state)
         {
             if (state == PlayModeStateChange.ExitingPlayMode && !string.IsNullOrEmpty(originalScene))

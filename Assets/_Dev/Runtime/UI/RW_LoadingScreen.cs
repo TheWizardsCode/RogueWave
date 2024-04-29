@@ -54,7 +54,14 @@ namespace RogueWave.UI
             }
 
             TutorialManager tutorialManager = GameObject.FindObjectOfType<TutorialManager>();
-            isTutorial = tutorialManager.currentlyActiveStep != null;
+            if (tutorialManager != null)
+            {
+                isTutorial = tutorialManager.currentlyActiveStep != null;
+            } else
+            {
+                isTutorial = false;
+            }
+
             if (isTutorial)
             {
                 ShowHeroImage(tutorialManager.currentlyActiveStep.loadingScreenHeroImage);

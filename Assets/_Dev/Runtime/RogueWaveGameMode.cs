@@ -14,6 +14,9 @@ using System.Collections.Generic;
 using System.Linq;
 using RogeWave;
 using System.Text;
+using System.Xml.Serialization;
+using System;
+using NeoFPS.CharacterMotion;
 
 namespace RogueWave
 {
@@ -40,6 +43,8 @@ namespace RogueWave
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
         private GameStat m_VictoryCount;
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of portal exits in the game. A portal exist is when a player finds a portal and manages to exit through it.")]
+        private GameStat m_PortalExitsCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of deaths in the game.")]
         private GameStat m_DeathCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The time player stat for recording how long a player has been inside runs.")]
@@ -135,7 +140,8 @@ namespace RogueWave
         private Coroutine m_VictoryCoroutine = null;
         private float m_VictoryTimer = 0f;
 
-        public static event UnityAction onVictory;
+        public static event UnityAction onLevelComplete;
+        public static event UnityAction onPortalEntered;
 
         internal void OnSpawnerDestroyed(Spawner spawner)
         {
@@ -154,7 +160,7 @@ namespace RogueWave
 
             if (bossSpawnersRemaining == 0 && m_VictoryCoroutine == null)
             {
-                m_VictoryCoroutine = StartCoroutine(DelayedVictoryCoroutine(m_VictoryDuration));
+                m_VictoryCoroutine = StartCoroutine(DelayedLevelClearedCoroutine(m_VictoryDuration));
             }
         }
 
@@ -178,13 +184,13 @@ namespace RogueWave
             NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
         }
 
-        private IEnumerator DelayedVictoryCoroutine(float delay)
+        private IEnumerator DelayedLevelClearedCoroutine(float delay)
         {
-            LogGameState("Run completed");
+            LogGameState("Level Cleared");
 
             yield return null;
 
-            onVictory?.Invoke();
+            onLevelComplete?.Invoke();
 
             // Temporary magnet buff to pull in victory rewards
             MagnetController magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
@@ -202,7 +208,7 @@ namespace RogueWave
 
             // Delay timer
             m_VictoryTimer = delay;
-            while (m_VictoryTimer > 0f && !SkipDelayedDeathReaction())
+            while (m_VictoryTimer > 0f)
             {
                 m_VictoryTimer -= Time.deltaTime;
                 yield return null;
@@ -220,6 +226,42 @@ namespace RogueWave
             if (m_VictoryCount != null)
             {
                 m_VictoryCount.Increment();
+            }
+
+            if (inGame)
+                DelayedVictoryAction();
+        }
+
+        private IEnumerator DelayedLevelCompleteCoroutine(float delay)
+        {
+
+            LogGameState("Portal used");
+            FloatValueModifier modifier = FpsSoloCharacter.localPlayerCharacter.GetComponent<MovementUpgradeManager>().GetFloatModifier("moveSpeed");
+            modifier.multiplier = 0;
+
+            yield return null;
+
+            onPortalEntered?.Invoke();
+
+            yield return null;
+
+            m_VictoryTimer = delay;
+            while (m_VictoryTimer > 0f)
+            {
+                m_VictoryTimer -= Time.deltaTime;
+                yield return null;
+            }
+
+            RogueLiteManager.persistentData.currentGameLevel++;
+
+            if (m_VictoryCount != null)
+            {
+                m_VictoryCount.Increment();
+            }
+
+            if (m_PortalExitsCount != null)
+            {
+                m_PortalExitsCount.Increment();
             }
 
             if (inGame)
@@ -539,6 +581,22 @@ namespace RogueWave
             }
 
             return base.PreSpawnStep();
+        }
+
+        internal void RegisterPortal(PortalController portal)
+        {
+            portal.onPortalEntered.AddListener(OnPortalEntered);
+        }
+
+        private void OnPortalEntered(PortalController portal, Collider collider)
+        {
+            if (collider.CompareTag("Player"))
+            {
+                if (m_VictoryCoroutine == null)
+                {
+                    m_VictoryCoroutine = StartCoroutine(DelayedLevelCompleteCoroutine(m_VictoryDuration));
+                }
+            }
         }
 
         internal void RegisterSpawner(Spawner spawner)

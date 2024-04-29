@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Radar
   m_EditorClassIdentifier: 
   displayName: Radar
-  announcerVoicelineForName: Radart
+  announcerVoicelineForName: Radar
   description: Detects nearby enemies and projects an indicator into your HUD marking
     their location.
   heroImage: {fileID: 0}
@@ -30,7 +30,10 @@ MonoBehaviour:
   maxStack: 1
   buildCost: 50
   timeToBuild: 5
-  nameClips: []
+  nameClips:
+  - {fileID: 8300000, guid: c19e5c2f5ef91cb43b96539ebd9aac49, type: 3}
+  - {fileID: 8300000, guid: 3677451b514dd424d8494c97a70d1665, type: 3}
+  - {fileID: 8300000, guid: 0b6899b9012005e408410f1ed597e6a5, type: 3}
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}

@@ -29,7 +29,8 @@ namespace RogueWave.UI
 
         private void OnEnable()
         {
-            RogueWaveGameMode.onVictory += OnVictory;
+            RogueWaveGameMode.onLevelComplete += OnLevelComplete;
+            RogueWaveGameMode.onPortalEntered += OnPortalEntered;
             inVictoryRoutine = false;
         }
 
@@ -37,7 +38,8 @@ namespace RogueWave.UI
         {
             base.OnDestroy();
 
-            RogueWaveGameMode.onVictory -= OnVictory;
+            RogueWaveGameMode.onLevelComplete -= OnLevelComplete;
+            RogueWaveGameMode.onPortalEntered -= OnPortalEntered;
 
             if (character != null)
                 character.onIsAliveChanged -= OnIsAliveChanged;
@@ -46,7 +48,12 @@ namespace RogueWave.UI
             NeoFpsAudioManager.masterGroup.audioMixer.SetFloat("LowPassCutoff",22000f);
         }
 
-        private void OnVictory()
+        private void OnPortalEntered()
+        {
+            inVictoryRoutine = true;
+        }
+
+        private void OnLevelComplete()
         {
             inVictoryRoutine = true;
         }

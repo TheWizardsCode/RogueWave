@@ -147,17 +147,24 @@ namespace RogueWave
 
         private void OnEnable()
         {
-            RogueWaveGameMode.onVictory += OnVictory;
+            RogueWaveGameMode.onLevelComplete += OnLevelComplete;
+            RogueWaveGameMode.onPortalEntered += OnPortalEntered;
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             inVictoryRoutine = false;
         }
 
         private void OnDestroy()
         {
-            RogueWaveGameMode.onVictory -= OnVictory;
+            RogueWaveGameMode.onLevelComplete -= OnLevelComplete;
+            RogueWaveGameMode.onPortalEntered -= OnPortalEntered;
         }
 
-        private void OnVictory()
+        private void OnPortalEntered()
+        {
+            inVictoryRoutine = true;
+        }
+
+        private void OnLevelComplete()
         {
             inVictoryRoutine = true;
         }

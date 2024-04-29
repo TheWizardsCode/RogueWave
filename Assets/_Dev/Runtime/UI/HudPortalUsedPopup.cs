@@ -6,9 +6,9 @@ using NeoFPS;
 namespace RogueWave
 {
     [RequireComponent (typeof (CanvasGroup))]
-	public class HudVictoryPopup : MonoBehaviour
+	public class HudPortalUsedPopup : MonoBehaviour
     {
-        [SerializeField, Tooltip("THe amount of time to delay before making nanobot announcements. This is to give time for explosions and similar loud noises to fade.")]
+        [SerializeField, Tooltip("The amount of time to delay before making nanobot announcements. This is to give time for explosions and similar loud noises to fade.")]
         private float nanobotAnnouncementDelay = 1.5f;
         [SerializeField, Tooltip("The time taken to fade in (or out) the victory screen.")]
         private float fadeDuration = 1.5f;
@@ -20,22 +20,22 @@ namespace RogueWave
         void Awake()
         {
             canvasGroup = GetComponent<CanvasGroup>();
-            RogueWaveGameMode.onVictory += OnVictory;
+            RogueWaveGameMode.onPortalEntered += OnPortalEntered;
             canvasGroup.alpha = 0f;
         }
 
         private void OnDestroy()
         {
-            RogueWaveGameMode.onVictory -= OnVictory;
+            RogueWaveGameMode.onPortalEntered -= OnPortalEntered;
         }
 
-        private void OnVictory()
+        private void OnPortalEntered()
         {
             StartCoroutine(FadeCanvasGroup(canvasGroup.alpha, 1));
-            StartCoroutine(NanobotVicotryRoutine());
+            StartCoroutine(NanobotVictoryRoutine());
         }
 
-        private IEnumerator NanobotVicotryRoutine()
+        private IEnumerator NanobotVictoryRoutine()
         {
             yield return new WaitForSeconds(nanobotAnnouncementDelay);
 
