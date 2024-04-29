@@ -118,6 +118,7 @@ namespace RogueWave
                 {
                     Vector3 pos = transform.position;
                     pos.y = 0;
+                    // OPTIMIZATION: use pool for resources
                     Pickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
                     if (modelRenderer != null)
                     {
