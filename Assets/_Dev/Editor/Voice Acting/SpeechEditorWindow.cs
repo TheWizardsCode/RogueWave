@@ -154,10 +154,12 @@ namespace WizardsCode.Speech
             
             GUILayout.BeginHorizontal();
             GUILayout.Label("Unvoiced Recipes", EditorStyles.boldLabel);
+            // TODO: Only show this button if there are unvoiced recipes
             if (Application.isPlaying)
             {
                 if (GUILayout.Button($"Generate All Unvoiced Name Voicelines", GUILayout.Width(300), GUILayout.Height(40)))
                 {
+                    // TODO: only do this for unvoiced recipes. we have them in a separate list so we can do this.
                     foreach (AbstractRecipe recipe in allRecipes)
                     {
                         if (recipe.nameClips.Length == 0)

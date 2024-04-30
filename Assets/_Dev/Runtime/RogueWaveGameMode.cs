@@ -17,6 +17,7 @@ using System.Text;
 using System.Xml.Serialization;
 using System;
 using NeoFPS.CharacterMotion;
+using Random = UnityEngine.Random;
 
 namespace RogueWave
 {
@@ -568,6 +569,11 @@ namespace RogueWave
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
                 levelGenerator.Generate(currentLevelDefinition);
+            }
+
+            if (currentLevelDefinition.levelReadyAudioClips != null && currentLevelDefinition.levelReadyAudioClips.Length > 0)
+            {
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(currentLevelDefinition.levelReadyAudioClips[Random.Range(0, currentLevelDefinition.levelReadyAudioClips.Length)], Camera.main.transform.position);
             }
 
             for (int i = 0; i < _startingRecipes.Length; i++)

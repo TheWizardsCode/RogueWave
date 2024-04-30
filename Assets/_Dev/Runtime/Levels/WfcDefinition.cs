@@ -47,6 +47,14 @@ namespace RogueWave
         [SerializeField, Tooltip("The tiles to place in the level before any other generation is done. This is useful for things such as placing the player start position and objective tiles.."), Expandable]
         public TileDefinition[] prePlacedTiles;
 
+        [Header("Audio")]
+        [SerializeField, Tooltip("The audio to play when the level is ready. This will start playing once the level has been loaded/generated. Usually ths will be during the loudout screen. This might include a Nanobot announcement about the level, for example.")]
+        internal AudioClip[] levelReadyAudioClips = new AudioClip[0];
+        [SerializeField, Tooltip("The audio to play when the level is complete. This might include a Nanobot announcement about the level, for example.")]
+        internal AudioClip[] levelCompleteAudioClips = new AudioClip[0];
+        [SerializeField, Tooltip("The audio to play when the level is failed. This might include a Nanobot announcement about the level, for example.")]
+        internal AudioClip[] deathAudioClips = new AudioClip[0];
+
         public WaveDefinition[] Waves => waves;
 
         public float WaveWait => waveWait;

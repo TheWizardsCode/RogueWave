@@ -7,13 +7,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using WizardsCode.Common;
+using Random = UnityEngine.Random;
 
 namespace RogueWave.Tutorial
 {
     public class TutorialManager : MonoBehaviour
     {
         [SerializeField, Tooltip("The loading scene that will be used to transition between scenes. When this scene is loaded some of the tutorial content will be displayed."), Scene]
-        private String loadingScreen;
+        private string loadingScreen;
         [SerializeField, Tooltip("The tutorial steps that will be used to deliver tutorial content during scene loads and transitions."), FormerlySerializedAs("loadingScreenConfigurations"), Expandable]
         TutorialStep[] tutorialSteps;
 
@@ -77,12 +78,18 @@ namespace RogueWave.Tutorial
         private IEnumerator ExecuteSceneLoadedStep()
         {
             float endTime = Time.time;
-            if (currentlyActiveStep.sceneClip != null)
+            AudioClip sceneClip = null;
+            if (currentlyActiveStep.sceneClips.Length > 0)
             {
-                endTime += currentlyActiveStep.sceneClip.length + 0.75f;
+                sceneClip = currentlyActiveStep.sceneClips[Random.Range(0, currentlyActiveStep.sceneClips.Length)];
             }
 
-            if (currentlyActiveStep.sceneClip == null)
+            if (sceneClip != null)
+            {
+                endTime += sceneClip.length + 0.75f;
+            }
+
+            if (sceneClip == null)
             {
                 this.currentlyActiveStep = null;
                 yield break;
@@ -102,7 +109,7 @@ namespace RogueWave.Tutorial
 
             yield return new WaitForSeconds(0.75f);
 
-            audioSource.clip = currentlyActiveStep.sceneClip;
+            audioSource.clip = sceneClip;
             audioSource.Play();
 
             while (Time.time < endTime)
@@ -123,10 +130,14 @@ namespace RogueWave.Tutorial
             float oldDuration = NeoSceneManager.instance.minLoadScreenTime;
             NeoSceneManager.instance.minLoadScreenTime = currentlyActiveStep.loadingScreenDuration;
             
-            float endTime = Time.time + currentlyActiveStep.loadingScreenDuration;
-
-            audioSource.clip = currentlyActiveStep.loadingScreenClip;
+            audioSource.clip = currentlyActiveStep.loadingScreenClips[Random.Range(0, currentlyActiveStep.loadingScreenClips.Length)];
             audioSource.Play();
+
+            float endTime = 0;
+            if (currentlyActiveStep.loadingScreenDuration <= 0) {
+                currentlyActiveStep.loadingScreenDuration = audioSource.clip.length + 1;
+            }
+            endTime = Time.time + currentlyActiveStep.loadingScreenDuration;
 
             while (Time.time < endTime)
             {

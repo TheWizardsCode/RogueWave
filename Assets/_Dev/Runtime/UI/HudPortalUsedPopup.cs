@@ -39,12 +39,19 @@ namespace RogueWave
         {
             yield return new WaitForSeconds(nanobotAnnouncementDelay);
 
-
-            if (victoryPopupClip.Length > 0)
+            int index = Random.Range(0, victoryPopupClip.Length);
+            AudioClip[] clips = FindAnyObjectByType<RogueWaveGameMode>().currentLevelDefinition.levelCompleteAudioClips;
+            if (clips != null && clips.Length > 0)
             {
-                int randomClip = Random.Range(0, victoryPopupClip.Length);
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(victoryPopupClip[randomClip], FpsSoloCharacter.localPlayerCharacter.transform.position);
+                index = Random.Range(0, clips.Length);
+            } else
+            {
+                clips = victoryPopupClip;
             }
+
+            NeoFpsAudioManager.PlayEffectAudioAtPosition(clips[index], FpsSoloCharacter.localPlayerCharacter.transform.position);
+
+            yield return new WaitForSeconds(clips[index].length + 0.5f);
         }
 
         private IEnumerator FadeCanvasGroup(float startAlpha, float endAlpha)

@@ -1,4 +1,5 @@
 using NeoFPS;
+using NeoFPS.SinglePlayer;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ namespace RogueWave.UI
     {
         [SerializeField, Tooltip("The time taken to fade in (or out) the death screen.")] 
         private float fadeDuration = 1.5f;
-        [SerializeField, Tooltip("The audio clip options to play when the death screen is shown. One of these will be selected at random.")]
+        [SerializeField, Tooltip("The audio clip options to play when the death screen is shown. This can be overridden in the level definition, but if that is empty one of these will be selected at random.")]
         AudioClip[] deathPopupClip;
 
 
@@ -81,11 +82,17 @@ namespace RogueWave.UI
                 return;
             }
 
-            if (deathPopupClip.Length > 0)
+            AudioClip[] clips = FindAnyObjectByType<RogueWaveGameMode>().currentLevelDefinition.deathAudioClips;
+            if (clips != null && clips.Length > 0)
+            {
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(clips[Random.Range(0, clips.Length)], FpsSoloCharacter.localPlayerCharacter.transform.position);
+            }
+            else if (deathPopupClip.Length > 0)
             {
                 int randomClip = Random.Range(0, deathPopupClip.Length);
                 NeoFpsAudioManager.PlayEffectAudioAtPosition(deathPopupClip[randomClip], character.transform.position);
             }
+
             FadeIn(fadeDuration);
         }
 

@@ -12,7 +12,7 @@ namespace RogueWave
         private float nanobotAnnouncementDelay = 1.5f;
         [SerializeField, Tooltip("The time taken to fade in (or out) the victory screen.")]
         private float fadeDuration = 1.5f;
-        [SerializeField, Tooltip("The audio clip options to play when the vicotry screen is shown. One of these will be selected at random.")]
+        [SerializeField, Tooltip("The audio clip options to play when the vicotry screen is shown. This can be overridden in the level definition, but if not set there then this will be used. One of these will be selected at random.")]
         AudioClip[] victoryPopupClip;
 
         private CanvasGroup canvasGroup = null;
@@ -39,11 +39,14 @@ namespace RogueWave
         {
             yield return new WaitForSeconds(nanobotAnnouncementDelay);
 
-
-            if (victoryPopupClip.Length > 0)
+            AudioClip[] clips = FindAnyObjectByType<RogueWaveGameMode>().currentLevelDefinition.levelCompleteAudioClips;
+            if (clips != null && clips.Length > 0)
             {
-                int randomClip = Random.Range(0, victoryPopupClip.Length);
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(victoryPopupClip[randomClip], FpsSoloCharacter.localPlayerCharacter.transform.position);
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(clips[Random.Range(0, clips.Length)], FpsSoloCharacter.localPlayerCharacter.transform.position);
+            }
+            else if (victoryPopupClip.Length > 0)
+            {
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(victoryPopupClip[Random.Range(0, victoryPopupClip.Length)], FpsSoloCharacter.localPlayerCharacter.transform.position);
             }
         }
 
