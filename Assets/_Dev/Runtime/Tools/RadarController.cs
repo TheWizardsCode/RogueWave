@@ -20,6 +20,8 @@ namespace RogueWave
         LayerMask radarLayerMask;
         [SerializeField, Tooltip("The parent object that will hold the radar blips.")]
         Transform radarBlipParent;
+        [SerializeField, Tooltip("The offset from the radar blip parent that the radar blip lines will be drawn to.")]
+        Vector3 startOffset = new Vector3(0, 0.4f, 0);
 
         Collider[] colliders;
         float[] colliderDistances;
@@ -67,7 +69,7 @@ namespace RogueWave
 
                 lineRenderers[i].enabled = true;
                 lineRenderers[i].SetPosition(0, colliders[i].transform.position);
-                lineRenderers[i].SetPosition(1, radarBlipParent.position);
+                lineRenderers[i].SetPosition(1, radarBlipParent.position + startOffset);
                 lineRenderers[i].startColor = Color.Lerp(Color.red, Color.yellow, colliderDistances[i] / radarRadiusSqr);
                 lineRenderers[i].endColor = Color.Lerp(Color.red, Color.yellow, colliderDistances[i] / radarRadiusSqr);
             }

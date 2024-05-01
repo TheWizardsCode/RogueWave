@@ -80,6 +80,28 @@ namespace RogueWave.Procedural
                 AddDamageHandlers(parent.GetChild(i));
             }
 
+            // Set UVs and colours
+            MeshFilter[] meshFilters = building.GetComponentsInChildren<MeshFilter>();
+            foreach (MeshFilter meshFilter in meshFilters)
+            {
+                Mesh mesh = meshFilter.sharedMesh;
+                if (mesh == null)
+                {
+                    Debug.LogWarning($"Mesh filter in building generator has no mesh. The Building generator prefab has probably been saved with some mesh data in it. Stripping now, but you should remove it from the prefab to avoid this warning.");
+                    Destroy(meshFilter.gameObject);
+                    continue;
+                }
+                Vector3[] vertices = mesh.vertices;
+                Vector2[] uvs = new Vector2[vertices.Length];
+
+                for (int i = 0; i < uvs.Length; i++)
+                {
+                    uvs[i] = new Vector2(0, vertices[i].y / mesh.bounds.size.y);
+                }
+
+                mesh.uv = uvs;
+            }
+
             return building;
         }
 
