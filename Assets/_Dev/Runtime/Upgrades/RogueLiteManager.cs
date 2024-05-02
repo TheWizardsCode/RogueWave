@@ -16,6 +16,8 @@ namespace RogueWave
         private string m_reconstructionScene = "RogueWave_ReconstructionScene";
         [SerializeField, Tooltip("Name of the Reconstruction Scene to load upon death. This will show a summary of the players most recent run."), Scene]
         private string m_hubScene = "RogueWave_HubScene";
+        [SerializeField, Tooltip("The scene to load when the player enters the portal."), Scene]
+        private string m_portalScene = "RogueWave_PortalUsed";
 
         public string reconstructionScene
         {
@@ -62,6 +64,17 @@ namespace RogueWave
             {
                 if (instance != null)
                     return instance.m_hubScene;
+                else
+                    return string.Empty;
+            }
+        }
+
+        public static string portalScene
+        {
+            get
+            {
+                if (instance != null)
+                    return instance.m_portalScene;
                 else
                     return string.Empty;
             }

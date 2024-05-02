@@ -177,14 +177,26 @@ namespace RogueWave
             NeoSceneManager.LoadScene(RogueLiteManager.instance.reconstructionScene);
         }
 
-        void DelayedVictoryAction()
+        void DelayedVictoryAction(bool usedPortal)
         {
             SaveGameData();
             GameLog.ClearLog();
 
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            if (usedPortal)
+            {
+                NeoSceneManager.LoadScene(RogueLiteManager.portalScene);
+            }
+            else
+            {
+                NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            }
         }
 
+        /// <summary>
+        /// Level cleared is when all spawners are defeated and the player has not die, but the player has not yet exited the level via the portal.
+        /// </summary>
+        /// <param name="delay"></param>
+        /// <returns></returns>
         private IEnumerator DelayedLevelClearedCoroutine(float delay)
         {
             LogGameState("Level Cleared");
@@ -230,12 +242,16 @@ namespace RogueWave
             }
 
             if (inGame)
-                DelayedVictoryAction();
+                DelayedVictoryAction(false);
         }
 
+        /// <summary>
+        /// Level completed is when the player has managed to exit the level via a portal.
+        /// </summary>
+        /// <param name="delay"></param>
+        /// <returns></returns>
         private IEnumerator DelayedLevelCompleteCoroutine(float delay)
         {
-
             LogGameState("Portal used");
             FloatValueModifier modifier = FpsSoloCharacter.localPlayerCharacter.GetComponent<MovementUpgradeManager>().GetFloatModifier("moveSpeed");
             modifier.multiplier = 0;
@@ -266,7 +282,7 @@ namespace RogueWave
             }
 
             if (inGame)
-                DelayedVictoryAction();
+                DelayedVictoryAction(true);
         }
 
         private void SaveGameData()
