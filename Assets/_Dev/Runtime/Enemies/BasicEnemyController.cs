@@ -771,15 +771,18 @@ namespace RogueWave
                     BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prototype, pos, Quaternion.identity);
                     enemy.RequestAttack(Target.position);
 
-                    // add a line renderer to the spawned enemy from this enemy
+                    // add a line renderer to indicate why the new enemies have spawned
                     LineRenderer line = enemy.gameObject.AddComponent<LineRenderer>();
-                    line.startWidth = 0.03f;
-                    line.endWidth = 0.2f;
-                    line.material = new Material(Shader.Find("Unlit/Color"));
-                    line.material.color = Color.blue;
-                    line.SetPosition(0, transform.position);
-                    line.SetPosition(1, enemy.transform.position);
-                    Destroy(line, 0.15f);
+                    if (line != null)
+                    {
+                        line.startWidth = 0.03f;
+                        line.endWidth = 0.05f;
+                        line.material = new Material(Shader.Find("Unlit/Color"));
+                        line.material.color = Color.blue;
+                        line.SetPosition(0, transform.position);
+                        line.SetPosition(1, enemy.transform.position);
+                        Destroy(line, 0.2f);
+                    }
                 }
             }
         }

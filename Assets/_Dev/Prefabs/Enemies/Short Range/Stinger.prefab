@@ -119,9 +119,9 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   squadRole: 0
   shouldExplodeOnDeath: 1
-  deathExplosionRadius: 1.25
-  explosionDamageOnDeath: 3
-  explosionForceOnDeath: 3
+  deathExplosionRadius: 0.75
+  explosionDamageOnDeath: 15
+  explosionForceOnDeath: 20
   resourcesDropChance: 0.5
   resourcesPrefab: {fileID: 8288433013401571843, guid: 1e3f10b1661d2824f9723d38774a1f76, type: 3}
   onDeath:
@@ -266,7 +266,7 @@ MonoBehaviour:
   audioSource: {fileID: 5621733812786306976}
   _droneClip: {fileID: 8300000, guid: 34da95bec3586ad4596c012acb578b93, type: 3}
   droneVolume: 0.508
-  deathJuicePrefab: {fileID: 114570326930759748, guid: 7fcf882d3c77c1945a6083746a0fc169, type: 3}
+  deathJuicePrefab: {fileID: 114570326930759748, guid: 4abd7d20845dcd84e9c4ce9cc20832d4, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
   deathClips:
   - {fileID: 8300000, guid: bc177244095a48042876135f2f094f38, type: 3}
