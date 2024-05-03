@@ -110,7 +110,7 @@ namespace RogueWave
             return Recipes.Count(r => r == recipe);
         }
 
-        internal bool Contains(IRecipe recipe)
+        public bool Contains(IRecipe recipe)
         {
             return Recipes.Contains(recipe);
         }

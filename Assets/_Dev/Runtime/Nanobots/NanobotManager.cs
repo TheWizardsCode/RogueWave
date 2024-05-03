@@ -2,7 +2,7 @@ using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
-using RogeWave;
+using RogueWave;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

@@ -1,6 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
-using RogeWave;
+using RogueWave;
 using System.Collections.Generic;
 using System.Globalization;
 using UnityEngine;

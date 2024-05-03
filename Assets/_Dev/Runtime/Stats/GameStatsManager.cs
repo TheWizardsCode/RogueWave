@@ -20,7 +20,7 @@ using RogueWave;
 using System.Collections.Generic;
 using System.Text;
 using Lumpn.Discord;
-using RogeWave;
+using RogueWave;
 using System.Collections;
 using UnityEngine.Serialization;
 using RogueWave.Editor;

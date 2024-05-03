@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1aad701decc23e74f8b83257b0f3a75b, type: 3}
-  m_Name: Armour Body x 5 Pickup Recipe 1
+  m_Name: Armour Body x 5 Pickup Recipe
   m_EditorClassIdentifier: 
   displayName: Body Armour 5
   announcerVoicelineForName: Body Armour, Small
   description: Increase body armour by 5 units.
   heroImage: {fileID: 21300000, guid: a15f0b92214eaf64f8acfb5bb31ea611, type: 3}
   icon: {fileID: 21300000, guid: fe63b10a4a3a57348a4551c43bd1299b, type: 3}
-  level: 1
+  level: 3
   baseWeight: 0.4
   dependencies: []
   complements: []
-  buyCost: 250
+  baseBuyCost: 250
   isPowerUp: 1
   isConsumable: 1
   cooldown: 10

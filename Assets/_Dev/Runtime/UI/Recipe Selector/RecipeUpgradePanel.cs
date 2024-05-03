@@ -6,7 +6,7 @@ using UnityEngine;
 using NeoSaveGames.SceneManagement;
 using NaughtyAttributes;
 using System;
-using RogeWave;
+using RogueWave;
 
 namespace RogueWave.UI
 {

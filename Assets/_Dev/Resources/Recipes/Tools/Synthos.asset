@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310c037ba028285498c7d93c2b490b79, type: 3}
+  m_Name: Synthos
+  m_EditorClassIdentifier: 
+  displayName: Synthos
+  announcerVoicelineForName: Synthos
+  description: Synthos is the semi-physical manifestation of the Nanomind. Synthos
+    is a way for the Nanobots to communicate with you without words in your head.
+    They will keep you company and try to keep you safe through non-verbal communications.
+  heroImage: {fileID: 21300000, guid: ed32e2cffd574d34a9afe82bd94e5a40, type: 3}
+  icon: {fileID: 21300000, guid: 44ddaf0a61d2de14da4451a2f111419d, type: 3}
+  level: 1
+  baseWeight: 0.8
+  dependencies: []
+  complements: []
+  baseBuyCost: 150
+  isPowerUp: 1
+  isConsumable: 0
+  cooldown: 10
+  isStackable: 0
+  maxStack: 1
+  buildCost: 50
+  timeToBuild: 5
+  nameClips:
+  - {fileID: 8300000, guid: a355f9ceba1e7ed47a90c03d11ef332f, type: 3}
+  - {fileID: 8300000, guid: 69750c65c5d2f9a43912cc0ab903c743, type: 3}
+  - {fileID: 8300000, guid: efef47e8be63c20418a19cd66bca4bc0, type: 3}
+  - {fileID: 8300000, guid: d1a37cc23be9f7446b33f733fbbada49, type: 3}
+  - {fileID: 8300000, guid: c6e183e49321ae741a1a8f371977a1cc, type: 3}
+  - {fileID: 8300000, guid: ee043a6da46f6e342b64fae0d4ec85b9, type: 3}
+  - {fileID: 8300000, guid: 4d806c930d3508e43a1b5d184ac3fbb7, type: 3}
+  - {fileID: 8300000, guid: 118608865d1e1214ebcf19fb27f7655c, type: 3}
+  - {fileID: 8300000, guid: fa3fb8d0c5e28f9488c8839223bb8c58, type: 3}
+  - {fileID: 8300000, guid: ccfd0364f244b3c4097c3b6d225e41fa, type: 3}
+  - {fileID: 8300000, guid: cb5bdfe33dbb1814a9eec202924cb6a7, type: 3}
+  - {fileID: 8300000, guid: b6b27f094b460774cad93cfd47c38a4d, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 5720279f-2f54-4106-9dbe-ae9e1c0e4e67
+  pickup: {fileID: 4808171533917001499, guid: 5e7705d938eaab346b852356e09748c2, type: 3}

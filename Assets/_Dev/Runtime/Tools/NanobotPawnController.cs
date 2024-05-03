@@ -1,17 +1,17 @@
 using NeoFPS.SinglePlayer;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using static NeoFPS.HudWorldSpacePositionTracker;
 
-namespace RogeWave
+namespace RogueWave
 {
     /// <summary>
     /// The nanobot pawn is the little dude that the nanobots create in front of the player. This controller is responsible for moving the nanobot pawn, animations and other actions the pawn might take.
     /// </summary>
     public class NanobotPawnController : MonoBehaviour
     {
+        [Header("Positioning")]
+        [SerializeField, Tooltip("The offset from the player that the pawn will be created.")]
+        Vector3 playerOffset = new Vector3(0, 0, 5);
+
         [Header("Movement")]
         [SerializeField, Tooltip("The maximum speed the pawn can move.")]
         float maxSpeed = 10f;
@@ -34,7 +34,6 @@ namespace RogeWave
         }
 
         private FpsSoloCharacter player;
-        private Vector3 playerOffset;
         private Animator animator;
 
         private float sqrArrivalDistance;
@@ -79,7 +78,6 @@ namespace RogeWave
 
         private void Start()
         {
-            playerOffset = transform.localPosition;
             sqrArrivalDistance = arrivalDistance * arrivalDistance;
 
             // when added by the upgrade system the pawn is added to the players transform, but we want the pawn to move independently of the player.

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace RogeWave
+namespace RogueWave
 {
     /// <summary>
     /// GameLog alloes us to record game activities. These log items can be echoed to the console when running in the editor.

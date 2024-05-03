@@ -16,13 +16,14 @@ MonoBehaviour:
   announcerVoicelineForName: Radar
   description: Detects nearby enemies and projects an indicator into your HUD marking
     their location.
-  heroImage: {fileID: 0}
-  icon: {fileID: 0}
+  heroImage: {fileID: 21300000, guid: fa6c7e559ec8d604aa29759e0f2a4ff3, type: 3}
+  icon: {fileID: 21300000, guid: 31d91887879996b458820dd835ce0426, type: 3}
   level: 2
-  baseWeight: 0.2
-  dependencies: []
+  baseWeight: 4
+  dependencies:
+  - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
   complements: []
-  buyCost: 250
+  baseBuyCost: 250
   isPowerUp: 1
   isConsumable: 0
   cooldown: 10

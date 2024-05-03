@@ -19,7 +19,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The layer mask that the radar will detect.")]
         LayerMask radarLayerMask;
         [SerializeField, Tooltip("The parent object that will hold the radar blips.")]
-        Transform radarBlipParent;
+        NanobotPawnController nanobotPawn;
         [SerializeField, Tooltip("The offset from the radar blip parent that the radar blip lines will be drawn to.")]
         Vector3 startOffset = new Vector3(0, 0.4f, 0);
 
@@ -30,6 +30,14 @@ namespace RogueWave
 
         private void Awake()
         {
+            nanobotPawn = FindAnyObjectByType<NanobotPawnController>();
+            if (nanobotPawn == null)
+            {
+                Debug.LogError("RadarController: Could not find NanobotPawnController in scene. The Nanobot Pawn is supposed to be a dependency of the Radar, what happened here?");
+                enabled = false;
+                return;
+            }
+
             radarRadiusSqr = radarRadius * radarRadius;
             colliders = new Collider[radarDetectionCount];
             colliderDistances = new float[radarDetectionCount];
@@ -37,7 +45,7 @@ namespace RogueWave
             for (int i = 0; i < radarBlipCount; i++)
             {
                 GameObject blip = new GameObject($"RadarBlip {i}");
-                blip.transform.parent = radarBlipParent;
+                blip.transform.parent = nanobotPawn.transform;
 
                 LineRenderer lineRenderer = blip.AddComponent<LineRenderer>();
                 lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
@@ -69,7 +77,7 @@ namespace RogueWave
 
                 lineRenderers[i].enabled = true;
                 lineRenderers[i].SetPosition(0, colliders[i].transform.position);
-                lineRenderers[i].SetPosition(1, radarBlipParent.position + startOffset);
+                lineRenderers[i].SetPosition(1, nanobotPawn.transform.position + startOffset);
                 lineRenderers[i].startColor = Color.Lerp(Color.red, Color.yellow, colliderDistances[i] / radarRadiusSqr);
                 lineRenderers[i].endColor = Color.Lerp(Color.red, Color.yellow, colliderDistances[i] / radarRadiusSqr);
             }
