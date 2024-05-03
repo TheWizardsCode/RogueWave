@@ -5,6 +5,7 @@ namespace RogueWave.Editor
 {
     public class RecipeDataWindow : EditorWindow
     {
+        private string filter;
         Vector2 scrollPosition;
         private AbstractRecipe[] recipes;
         private bool recipeEdited;
@@ -38,6 +39,8 @@ namespace RogueWave.Editor
 
         void OnGUI()
         {
+            filter = EditorGUILayout.TextField("Filter", filter, GUILayout.Width(600));
+
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Lvl", GUILayout.Width(20));
@@ -54,6 +57,11 @@ namespace RogueWave.Editor
 
             foreach (AbstractRecipe recipe in recipes)
             {
+                if (!string.IsNullOrEmpty(filter) && !recipe.name.Contains(filter))
+                {
+                    continue;
+                }
+
                 EditorGUILayout.BeginHorizontal();
                 EditorGUI.BeginChangeCheck();
 

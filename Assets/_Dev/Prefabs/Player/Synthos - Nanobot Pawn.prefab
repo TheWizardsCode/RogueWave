@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6334479765892209179}
   - component: {fileID: 857271448417685549}
   - component: {fileID: 3103061539628683013}
+  - component: {fileID: 7401443933325716382}
+  - component: {fileID: 882116529043273726}
   m_Layer: 0
   m_Name: Synthos - Nanobot Pawn
   m_TagString: Untagged
@@ -67,11 +69,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8be8ffb96b69ba4a82cef20d713a841, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerOffset: {x: 0, y: 0, z: 5}
   maxSpeed: 20
   acceleration: 50
   rotationSpeed: 180
   arrivalDistance: 0.05
   idleTimeBeforeImpatient: 3
+--- !u!114 &7401443933325716382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553156071639926338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb299bddf94d3a44e954ac4eee7bba9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullHealthColour: {r: 0, g: 2, b: 0, a: 1}
+  noHealthColour: {r: 16, g: 0, b: 0, a: 1}
+--- !u!114 &882116529043273726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553156071639926338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9ad606a63b47bd428e5bd6041fde8bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8575898954228249958
 PrefabInstance:
   m_ObjectHideFlags: 0
