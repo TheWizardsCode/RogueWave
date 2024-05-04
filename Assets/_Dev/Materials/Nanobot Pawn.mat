@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Nanobot Pawn
-  m_Shader: {fileID: -6465566751694194690, guid: 1f6e311bf58ab704e9fc35ff67f20dca, type: 3}
+  m_Shader: {fileID: 45, guid: 0000000000000000f000000000000000, type: 0}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -80,6 +80,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _Texture2DAsset_c53e853e6f434c2797e37ede199ffa64_Out_0_Texture2D:
         m_Texture: {fileID: 2800000, guid: 3a3ee0134c13f284b945293e364f2b69, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -108,8 +112,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Base_Colour: {r: 0, g: 4.5412054, b: 2.692889, a: 0}
-    - _Color: {r: 0, g: 2, b: 0, a: 1}
+    - _Color: {r: 0, g: 0.6117647, b: 0.10980392, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Glow_Color: {r: 7.6871033, g: 27.532717, b: 3.7662687, a: 0}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _Tiling: {r: 1, g: 1.99, b: 0, a: 0}
   m_BuildTextureStacks: []
