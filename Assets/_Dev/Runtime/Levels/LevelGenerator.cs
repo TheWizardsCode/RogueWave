@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Events;
 using Random = UnityEngine.Random;
@@ -26,7 +27,7 @@ namespace RogueWave
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         internal void Generate(WfcDefinition levelDefinition)
         {
-            //Generate(levelDefinition, new Vector3((levelDefinition.mapSize.x / 2) * levelDefinition.lotSize.x, 0 , (levelDefinition.mapSize.y / 2) * levelDefinition.lotSize.y));
+            attemptCount = 0; 
             Generate(levelDefinition, Vector3.zero);
         }
 
@@ -37,12 +38,13 @@ namespace RogueWave
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
         internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords)
         {
+            attemptCount = 0;
             if (root != null)
                 Clear();
 
             root = new GameObject($"Environment {baseCoords}").transform;
             root.localPosition = baseCoords;
-            Generate(levelDefinition, baseCoords, root.transform);
+            GenerateLevel(levelDefinition, baseCoords, root.transform);
         }
 
         /// <summary>
@@ -53,15 +55,31 @@ namespace RogueWave
         /// <param name="root">The transform that this level will be parented to.</param>
         internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root)
         {
+            attemptCount = 0;
+            GenerateLevel(levelDefinition, baseCoords, root);
+        }
+
+        int attemptCount = 0;
+        /// <summary>
+        /// Generate a level.
+        /// </summary>
+        /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
+        /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
+        /// <param name="root">The transform that this level will be parented to.</param>
+        private void GenerateLevel(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root)
+        {
             this.levelDefinition = levelDefinition;
             this.root = root;
+            int seed;
 
             if (levelDefinition.seed <= 0)
             {
-                Random.InitState(Environment.TickCount);
+                seed = Environment.TickCount;
+                Random.InitState(seed);
             }
             else
             {
+                seed = levelDefinition.seed;
                 Random.InitState(levelDefinition.seed);
             }
 
@@ -75,7 +93,56 @@ namespace RogueWave
 
             GenerateTileContent();
 
+            attemptCount++;
+            if (attemptCount <= 3 && !isValidateLevel())
+            {
+                Debug.LogWarning($"Level with seed {seed} is not valid. Regenerating.");
+                foreach (Transform child in root)
+                {
+                    Destroy(child.gameObject);
+                }
+                GenerateLevel(levelDefinition, baseCoords, root);
+            }
+
             PositionSceneCamera();
+        }
+
+        private bool isValidateLevel()
+        {
+            // Check that every tile, except the outer walls, has at least one non barrier neighbor.
+            for (int x = 1; x < xSize - 1; x++)
+            {
+                for (int y = 1; y < ySize - 1; y++)
+                {
+                    if (tiles[x, y] != null)
+                    {
+                        int barrierNeighbours = 0;
+                        if (x > 0 && tiles[x - 1, y] is BarrierTile)
+                        {
+                            barrierNeighbours++;
+                        }
+                        else if (x < xSize - 1 && tiles[x + 1, y] is BarrierTile)
+                        {
+                            barrierNeighbours++;
+                        }
+                        else if (y > 0 && tiles[x, y - 1] is BarrierTile)
+                        {
+                            barrierNeighbours++;
+                        }
+                        else if (y < ySize - 1 && tiles[x, y + 1] is BarrierTile)
+                        {
+                            barrierNeighbours++;
+                        }
+
+                        if (barrierNeighbours >= 4)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
         }
 
         private void PositionSceneCamera()
