@@ -159,6 +159,8 @@ namespace RogueWave
                 bossSpawnersRemaining--;
             }
 
+            LogGameState("Level Cleared");
+
             if (bossSpawnersRemaining == 0 && m_VictoryCoroutine == null)
             {
                 m_VictoryCoroutine = StartCoroutine(DelayedLevelClearedCoroutine(m_VictoryDuration));
@@ -199,10 +201,6 @@ namespace RogueWave
         /// <returns></returns>
         private IEnumerator DelayedLevelClearedCoroutine(float delay)
         {
-            LogGameState("Level Cleared");
-
-            yield return null;
-
             onLevelComplete?.Invoke();
 
             // Temporary magnet buff to pull in victory rewards

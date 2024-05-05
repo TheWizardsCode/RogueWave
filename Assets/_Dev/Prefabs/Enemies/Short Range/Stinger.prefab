@@ -95,6 +95,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160272897
   sensor: {fileID: 2378618927220723377}
+  headLook: 1
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
@@ -119,8 +120,8 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   squadRole: 0
   shouldExplodeOnDeath: 1
-  deathExplosionRadius: 0.75
-  explosionDamageOnDeath: 15
+  deathExplosionRadius: 2
+  explosionDamageOnDeath: 10
   explosionForceOnDeath: 20
   resourcesDropChance: 0.5
   resourcesPrefab: {fileID: 8288433013401571843, guid: 1e3f10b1661d2824f9723d38774a1f76, type: 3}

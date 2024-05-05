@@ -84,7 +84,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40b924e2dad56384a8df2a1e111bb675, type: 3}
   m_Name: Vignette
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -1467,7 +1467,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3f6f3f7c722b4544b97e3c75840aa33, type: 3}
   m_Name: AutoExposure
   m_EditorClassIdentifier: 
-  active: 1
+  active: 0
   enabled:
     overrideState: 1
     value: 1
@@ -1510,22 +1510,22 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 6.18
+    value: 4.82
   threshold:
     overrideState: 1
-    value: 1.18
+    value: 0.89
   softKnee:
     overrideState: 1
-    value: 0.256
+    value: 0.115
   clamp:
     overrideState: 0
     value: 100
   diffusion:
     overrideState: 1
-    value: 5.28
+    value: 5.41
   anamorphicRatio:
     overrideState: 1
-    value: -0.15
+    value: 0.144
   color:
     overrideState: 0
     value: {r: 0.9433962, g: 0.9433962, b: 0.9433962, a: 1}

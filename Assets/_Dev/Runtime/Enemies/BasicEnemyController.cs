@@ -36,11 +36,13 @@ namespace RogueWave
         Transform sensor;
 
         [Header("Animation")]
-        [SerializeField, Tooltip("The head of the enemy. If set then this object will be rotated to face the player.")]
+        [SerializeField, Tooltip("If true the enemy will rotate their head to face the player.")]
+        internal bool headLook = true;
+        [SerializeField, Tooltip("The head of the enemy. If set then this object will be rotated to face the player."), ShowIf("headLook")]
         Transform head;
-        [SerializeField, Tooltip("The speed at which the head will rotate to face the plaeer."), Range(0, 10)]
+        [SerializeField, Tooltip("The speed at which the head will rotate to face the plaeer."), Range(0, 10), ShowIf("headLook")]
         float headRotationSpeed = 2;
-        [SerializeField, Tooltip("The maximum rotation of the head either side of forward."), Range(0, 180)]
+        [SerializeField, Tooltip("The maximum rotation of the head either side of forward."), Range(0, 180), ShowIf("headLook")]
         float maxHeadRotation = 75;
 
         [Header("Movement")]
@@ -443,7 +445,7 @@ namespace RogueWave
 
         private void RotateHead()
         {
-            if (head != null)
+            if (headLook && head != null)
             {
                 Vector3 direction = Target.position - head.position;
                 Quaternion targetRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
@@ -522,7 +524,6 @@ namespace RogueWave
         {
             float distanceToObstacle = 0;
             float turnAngle = 0;
-            float verticalAngle = 0;
             float turnRate = obstacleAvoidanceDistance * 10;
 
             // Check for obstacle dead ahead
@@ -577,7 +578,7 @@ namespace RogueWave
             Quaternion targetRotation = Quaternion.identity;
             if (distanceToObstacle > 0) // turn to avoid obstacle
             {
-                targetRotation = transform.rotation * Quaternion.Euler(verticalAngle * (distanceToObstacle / obstacleAvoidanceDistance), turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
+                targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (distanceToObstacle / obstacleAvoidanceDistance), 0);
                 if (distanceToObstacle < 1f)
                 {
                     currentSpeed = 0.1f;
@@ -678,7 +679,7 @@ namespace RogueWave
                     }
 #endif
                 }
-                if (verticalAngle < 0)
+                if (verticalAngle < 0 && transform.position.y > minimumHeight)
                 {
                     transform.position -= Vector3.up * rate;
 #if UNITY_EDITOR
@@ -688,7 +689,7 @@ namespace RogueWave
                     }
 #endif
                 }
-                else if (verticalAngle > 0)
+                else if (verticalAngle > 0 && transform.position.y < maximumHeight)
                 {
                     transform.position += Vector3.up * rate;
 #if UNITY_EDITOR

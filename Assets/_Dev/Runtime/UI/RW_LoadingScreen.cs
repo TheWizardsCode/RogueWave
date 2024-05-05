@@ -137,21 +137,15 @@ namespace RogueWave.UI
             {
                 return;
             }
+            else if (!isTutorial)
+            {
+                m_NoneTutorialHeroImage.sprite = heroImage;
+            }
             else
             {
-                float displayWidth = 0;
-                float displayHeight = 0;
-                if (isTutorial)
-                {
-                    displayWidth = m_TutorialHeroImage.rectTransform.rect.width;
-                    displayHeight = m_TutorialHeroImage.rectTransform.rect.height;
-                }
-                else
-                {
-                    displayWidth = m_NoneTutorialHeroImage.rectTransform.rect.width;
-                    displayHeight = m_NoneTutorialHeroImage.rectTransform.rect.height;
-                }
-
+                float displayWidth = m_TutorialHeroImage.rectTransform.rect.width;
+                float displayHeight = m_TutorialHeroImage.rectTransform.rect.height;
+                
                 float imageWidth = heroImage.rect.width;
                 float imageHeight = heroImage.rect.height;
                 if (imageWidth != displayWidth || imageHeight != displayHeight)
@@ -170,16 +164,8 @@ namespace RogueWave.UI
                     imageHeight *= scaleFactor;
                 }
 
-                if (isTutorial)
-                {
-                    m_TutorialHeroImage.sprite = heroImage;
-                    m_TutorialHeroImage.rectTransform.sizeDelta = new Vector2(imageWidth, imageHeight);
-                }
-                else
-                {
-                    m_NoneTutorialHeroImage.sprite = heroImage;
-                    m_NoneTutorialHeroImage.rectTransform.sizeDelta = new Vector2(imageWidth, imageHeight);
-                }
+                m_TutorialHeroImage.sprite = heroImage;
+                m_TutorialHeroImage.rectTransform.sizeDelta = new Vector2(imageWidth, imageHeight);
             }
         }   
 

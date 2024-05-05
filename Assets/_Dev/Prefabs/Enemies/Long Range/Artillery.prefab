@@ -92,6 +92,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 1723859731166736551}
+  headLook: 0
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
@@ -101,13 +102,19 @@ MonoBehaviour:
   acceleration: 10
   rotationSpeed: 1
   minimumHeight: 0
-  maximumHeight: 0
+  maximumHeight: 0.01
   optimalDistanceFromPlayer: 50
   destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 10
   arrivalDistance: 1.5
-  seekDuration: 45
+  returnToSpawner: 0
   seekDistance: 30
+  spawnOnDamageEnabled: 0
+  spawnOnDamageAroundAttacker: 0
+  spawnOnDamageDistance: 10
+  spawnOnDamagePrototypes: []
+  spawnOnDamageThreshold: 10
+  spawnOnDamageCount: 3
   squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 30
@@ -301,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 4984582729786400570}
   _droneClip: {fileID: 0}
+  droneVolume: 1
   deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
   juiceOffset: {x: 0, y: 2, z: 0}
   deathClips:
@@ -330,6 +338,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1247368917995443265}
     m_Modifications:
+    - target: {fileID: 224382202919746279, guid: 0792079464d15c840ae5af4f5f146fbd, type: 3}
+      propertyPath: _StartupTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 1070318524709720543, guid: 0792079464d15c840ae5af4f5f146fbd, type: 3}
       propertyPath: m_Name
       value: EnemyDrunkenArtilleryGun

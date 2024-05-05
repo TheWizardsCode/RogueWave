@@ -18,8 +18,6 @@ namespace RogueWave
         float radarUpdateInterval = 0.25f;
         [SerializeField, Tooltip("The layer mask that the radar will detect.")]
         LayerMask radarLayerMask;
-        [SerializeField, Tooltip("The parent object that will hold the radar blips.")]
-        NanobotPawnController nanobotPawn;
         [SerializeField, Tooltip("The offset from the radar blip parent that the radar blip lines will be drawn to.")]
         Vector3 startOffset = new Vector3(0, 0.4f, 0);
 
@@ -27,6 +25,7 @@ namespace RogueWave
         float[] colliderDistances;
         float radarRadiusSqr;
         LineRenderer[] lineRenderers;
+        NanobotPawnController nanobotPawn;
 
         private void Awake()
         {
