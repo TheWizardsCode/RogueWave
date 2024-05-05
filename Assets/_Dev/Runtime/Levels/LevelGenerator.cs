@@ -13,6 +13,12 @@ namespace RogueWave
 {
     public class LevelGenerator : MonoBehaviour
     {
+        [Header("Debugging")]
+        [SerializeField, Tooltip("The seed used to generate this level. If set to -1 then the value fed in from the Game Mode will be used. This value has no effect outside the editor.")]
+        private int seed = -1;
+        [SerializeField, Tooltip("Should the generation fast fail when a problem is detected with the generation. In normal gameplay such levels will be regenerated. This has no effect outside the editor.")]
+        private bool fastFail = true;
+
         internal Transform root;
         internal WfcDefinition levelDefinition;
         private int currentSeed;
@@ -26,10 +32,10 @@ namespace RogueWave
         /// Generate a level.
         /// </summary>
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
-        internal void Generate(WfcDefinition levelDefinition)
+        internal void Generate(WfcDefinition levelDefinition, int seed)
         {
             attemptCount = 0; 
-            Generate(levelDefinition, Vector3.zero);
+            Generate(levelDefinition, Vector3.zero, seed);
         }
 
         /// <summary>
@@ -37,7 +43,7 @@ namespace RogueWave
         /// </summary>
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
-        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords)
+        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords, int seed)
         {
             attemptCount = 0;
             if (root != null)
@@ -45,7 +51,7 @@ namespace RogueWave
 
             root = new GameObject($"Environment {baseCoords}").transform;
             root.localPosition = baseCoords;
-            GenerateLevel(levelDefinition, baseCoords, root.transform);
+            GenerateLevel(levelDefinition, baseCoords, root.transform, seed);
         }
 
         /// <summary>
@@ -54,24 +60,32 @@ namespace RogueWave
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
         /// <param name="root">The transform that this level will be parented to.</param>
-        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root)
+        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root, int seed)
         {
             attemptCount = 0;
-            GenerateLevel(levelDefinition, baseCoords, root);
+            GenerateLevel(levelDefinition, baseCoords, root, seed);
         }
 
         int attemptCount = 0;
+        private string generationFailureReport;
+
         /// <summary>
         /// Generate a level.
         /// </summary>
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
         /// <param name="root">The transform that this level will be parented to.</param>
-        private void GenerateLevel(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root, int seed = -1)
+        private void GenerateLevel(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root, int seed)
         {
             this.levelDefinition = levelDefinition;
             this.root = root;
 
+#if UNITY_EDITOR
+            if (this.seed >= 0)
+            {
+                seed = this.seed;
+            } else
+#endif
             if (levelDefinition.seed <= 0)
             {
                 seed = Environment.TickCount;
@@ -98,21 +112,30 @@ namespace RogueWave
             attemptCount++;
             if (attemptCount <= 3 && !isValidateLevel())
             {
-                GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. Regenerating.");
+#if UNITY_EDITOR
+                if (fastFail)
+                {
+                    GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. {generationFailureReport} In normal gameplay this would be regenerated.");
+                }
+#else
+                GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. {generationFailureReport} Regenerating.");
                 foreach (Transform child in root)
                 {
                     Destroy(child.gameObject);
                 }
-                GenerateLevel(levelDefinition, baseCoords, root);
+                GenerateLevel(levelDefinition, baseCoords, root, -1);
+#endif
             }
 
-            GameLog.LogError($"Level generated with seed {seed} using {levelDefinition}.");
+            GameLog.Log($"Level generated with seed {seed} using {levelDefinition}.");
 
             PositionSceneCamera();
         }
 
         private bool isValidateLevel()
         {
+            generationFailureReport = string.Empty;
+
             // Check that every tile, except the outer walls, has at least one non barrier neighbor.
             for (int x = 1; x < xSize - 1; x++)
             {
@@ -140,6 +163,7 @@ namespace RogueWave
 
                         if (barrierNeighbours >= 4)
                         {
+                            generationFailureReport = $"Tile {x},{y} does has too many barrier neighbour.";
                             return false;
                         }
                     }
@@ -615,7 +639,12 @@ namespace RogueWave
         [Button("(Re)Generate")]
         void TestGenerate()
         {
-            Generate(FindObjectOfType<RogueWaveGameMode>().currentLevelDefinition);
+            if (!Application.isPlaying)
+            {
+                Debug.LogError("Generating a level should only be called in play mode.");
+            }
+
+            Generate(FindObjectOfType<RogueWaveGameMode>().currentLevelDefinition, -1);
         }
 #endif
     }

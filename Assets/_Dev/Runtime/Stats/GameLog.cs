@@ -32,6 +32,11 @@ namespace RogueWave
 #endif
         }
 
+        public static void Log(string message)
+        {
+            Info(message);
+        }
+
         /// <summary>
         /// Log a warning message to the game log. The message should be one more more `key:value` pairs separated by commas.
         /// </summary>

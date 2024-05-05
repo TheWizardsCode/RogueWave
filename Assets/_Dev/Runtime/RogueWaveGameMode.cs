@@ -38,6 +38,8 @@ namespace RogueWave
         private AbstractRecipe[] _startingRecipes;
 
         [Header("Level Management")]
+        [SerializeField, Tooltip("The seed to use for level generation. If set to -1, a random seed will be used.")]
+        private int m_Seed = -1;
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level."), Expandable]
         WfcDefinition[] levels;
 
@@ -582,7 +584,7 @@ namespace RogueWave
             
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
-                levelGenerator.Generate(currentLevelDefinition);
+                levelGenerator.Generate(currentLevelDefinition, m_Seed);
             }
 
             if (currentLevelDefinition.levelReadyAudioClips != null && currentLevelDefinition.levelReadyAudioClips.Length > 0)
