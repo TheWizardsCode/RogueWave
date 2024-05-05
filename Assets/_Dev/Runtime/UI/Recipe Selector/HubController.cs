@@ -29,11 +29,13 @@ namespace RogueWave.UI
         private void OnEnable()
         {
             m_ContinueButton.onClick.AddListener(QuitSelectionUI);
+            NeoFpsInputManager.captureMouseCursor = false;
         }
 
         private void OnDisable()
         {
             m_ContinueButton.onClick.RemoveListener(QuitSelectionUI);
+            NeoFpsInputManager.captureMouseCursor = true;
         }
 
         private void OnGUI()

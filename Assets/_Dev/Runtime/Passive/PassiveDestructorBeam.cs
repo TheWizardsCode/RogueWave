@@ -10,7 +10,7 @@ namespace RogueWave
         [Header("Beam Configuration")]
         [SerializeField, Tooltip("The number of beams to fire.")]
         private int beamCount = 2;
-        [SerializeField, Tooltip("The size of the beam. This is the radius in meters.")]
+        [SerializeField, Tooltip("The size of the beam. This will translate to a box that is beamSize meters square.")]
         private float beamSize = 0.5f;
         [SerializeField, Tooltip("The duration of the beam in seconds.")]
         private float beamDuration = 0.5f;
@@ -78,7 +78,7 @@ namespace RogueWave
                 Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
                 Vector3 endPoint;
 
-                if (Physics.BoxCast(transform.position, new Vector3(beamSize, beamSize * 2, beamSize), direction, out hit, Quaternion.identity, range, layerMask))
+                if (Physics.BoxCast(transform.position, new Vector3(beamSize, beamSize, beamSize), direction, out hit, Quaternion.identity, range, layerMask))
                 {
                     IDamageHandler damageHandler = hit.transform.GetComponent<IDamageHandler>();
 

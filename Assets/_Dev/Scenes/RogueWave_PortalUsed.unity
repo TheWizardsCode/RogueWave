@@ -271,6 +271,26 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1699678246422602940, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1699678246422602940, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1699678246422602940, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1699678246422602940, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1699678246422602940, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2278920627779949251, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -487,8 +507,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -242.97}
-  m_SizeDelta: {x: 1200, y: 400}
+  m_AnchoredPosition: {x: 0, y: -367.34}
+  m_SizeDelta: {x: 1600, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1514708662
 MonoBehaviour:
@@ -510,10 +530,22 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Congratulations.\nYou made it home.\n\nWe hope you enjoyed our demo level.
-    \nMuch of this is procedurally generated, why not try again.\n\nLet us know what
-    you thought. \nHow can we improve the full game?\nWhat do you want more of?\nWhat
-    do you want less of?"
+  m_text: 'Congratulations. You made it home and thus completed the demo.
+
+
+    Most
+    levels are procedurally generated, why not try to find another way through?
+
+
+    Let
+    us know what you thought. Join our discord:
+
+    How can we improve the full
+    game?
+
+    What do you want more of?
+
+    What do you want less of?'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -576,7 +608,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 0, y: 0, z: 0, w: 2.3904114}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

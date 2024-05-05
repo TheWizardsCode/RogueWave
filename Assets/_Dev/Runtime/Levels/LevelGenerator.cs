@@ -15,6 +15,7 @@ namespace RogueWave
     {
         internal Transform root;
         internal WfcDefinition levelDefinition;
+        private int currentSeed;
         BaseTile[,] tiles;
         internal LevelGenerator parentGenerator;
 
@@ -66,11 +67,10 @@ namespace RogueWave
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
         /// <param name="root">The transform that this level will be parented to.</param>
-        private void GenerateLevel(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root)
+        private void GenerateLevel(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root, int seed = -1)
         {
             this.levelDefinition = levelDefinition;
             this.root = root;
-            int seed;
 
             if (levelDefinition.seed <= 0)
             {
@@ -82,6 +82,8 @@ namespace RogueWave
                 seed = levelDefinition.seed;
                 Random.InitState(levelDefinition.seed);
             }
+
+            currentSeed = seed;
 
             tiles = new BaseTile[levelDefinition.mapSize.x, levelDefinition.mapSize.y];
 
@@ -96,13 +98,15 @@ namespace RogueWave
             attemptCount++;
             if (attemptCount <= 3 && !isValidateLevel())
             {
-                Debug.LogWarning($"Level with seed {seed} is not valid. Regenerating.");
+                GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. Regenerating.");
                 foreach (Transform child in root)
                 {
                     Destroy(child.gameObject);
                 }
                 GenerateLevel(levelDefinition, baseCoords, root);
             }
+
+            GameLog.LogError($"Level generated with seed {seed} using {levelDefinition}.");
 
             PositionSceneCamera();
         }

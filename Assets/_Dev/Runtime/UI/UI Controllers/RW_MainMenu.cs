@@ -1,8 +1,6 @@
+using NeoFPS;
 using NeoFPS.Samples;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace RogueWave.UI
@@ -11,6 +9,18 @@ namespace RogueWave.UI
     {
         [SerializeField, Tooltip("The URL to open when the user clicks the 'Join Discord' button.")]
         private string joinDiscordUrl = "https://discord.gg/Mp6XAz9T6w";
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            NeoFpsInputManager.captureMouseCursor = false;
+        }
+
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            NeoFpsInputManager.captureMouseCursor = true;
+        }
 
         public void JoinDiscord()
         {

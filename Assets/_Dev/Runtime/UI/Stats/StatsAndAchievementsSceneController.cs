@@ -1,3 +1,4 @@
+using NeoFPS;
 using NeoSaveGames.SceneManagement;
 using RogueWave;
 using System.Collections;
@@ -30,6 +31,16 @@ namespace RogueWave.GameStats
         AchievementUIElement m_AchievementElementPrefab;
 
         private bool isInitialized;
+
+        void OnEnable()
+        {
+            NeoFpsInputManager.captureMouseCursor = false;
+        }
+
+        void OnDisable()
+        {
+            NeoFpsInputManager.captureMouseCursor = true;
+        }
 
         private void OnGUI()
         {

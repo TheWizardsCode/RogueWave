@@ -184,76 +184,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7b88495fe5ac614298a29479e714b85, type: 3}
---- !u!1 &257816093 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6495454180581363533, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-  m_PrefabInstance: {fileID: 735030451}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &257816098 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3021623268426482257, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-  m_PrefabInstance: {fileID: 735030451}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &257816099
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 257816093}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  volumeTrigger: {fileID: 257816098}
-  volumeLayer:
-    serializedVersion: 2
-    m_Bits: 256
-  stopNaNPropagation: 1
-  finalBlitToCameraTarget: 0
-  antialiasingMode: 0
-  temporalAntialiasing:
-    jitterSpread: 0.75
-    sharpness: 0.25
-    stationaryBlending: 0.95
-    motionBlending: 0.85
-  subpixelMorphologicalAntialiasing:
-    quality: 2
-  fastApproximateAntialiasing:
-    fastMode: 0
-    keepAlpha: 0
-  fog:
-    enabled: 1
-    excludeSkybox: 1
-  debugLayer:
-    lightMeter:
-      width: 512
-      height: 256
-      showCurves: 1
-    histogram:
-      width: 512
-      height: 256
-      channel: 3
-    waveform:
-      exposure: 0.12
-      height: 256
-    vectorscope:
-      size: 256
-      exposure: 0.12
-    overlaySettings:
-      linearDepth: 0
-      motionColorIntensity: 4
-      motionGridSize: 64
-      colorBlindnessType: 0
-      colorBlindnessStrength: 1
-  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
-  m_ShowToolkit: 0
-  m_ShowCustomSorter: 0
-  breakBeforeColorGrading: 0
-  m_BeforeTransparentBundles: []
-  m_BeforeStackBundles: []
-  m_AfterStackBundles: []
 --- !u!1001 &735030451
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -306,46 +236,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: levels.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: m_PortalExitsCount
-      value: 
-      objectReference: {fileID: 11400000, guid: dcd25387334f16c4e92d828dc31e508a, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: levels.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: abda08b451113c748a651527554532a4, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: levels.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: levels.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 02029c6a945aae6408c827f88f447113, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: levels.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: e089507f989067e4b9990648eb223653, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipes.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
-    - target: {fileID: 8474616463793294590, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: difficultyMultiplier
-      value: 6
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 7352027426996825190, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6495454180581363533, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 257816099}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
 --- !u!1 &830978939
 GameObject:
