@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1391478775162101584}
   - component: {fileID: -643772105435015575}
   m_Layer: 0
-  m_Name: Path
+  m_Name: Wall - Destructible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,20 +41,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1125955095931971287}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60f96795b3618e34b8934e3173607be4, type: 3}
+  m_Script: {fileID: 11500000, guid: ca79b2a0cf5c4c143830a8598bfd801c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
   spawnFurniture: 0
   furnitureChance: 0.25
   furniturePrefabs: []
-  structureMaterial: {fileID: 2100000, guid: cda8aea4c982e154fb6821b85fffa65d, type: 2}
-  structureHeight: 0.02
-  destructible: 0
-  health: 100
+  structureMaterial: {fileID: 2100000, guid: dadd4775bfe952d49b6faca11bbf098f, type: 2}
+  structureHeight: 40
+  destructible: 1
+  health: 300
+  destructionParticles: {fileID: -5221352478806724427, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
+  smokeParticles: {fileID: -1879706516398249802, guid: d0d4fce4cdd4ddf4798a6c50afb74622, type: 3}
+  lootPrefab: {fileID: 8288433013401571843, guid: c5e67adb717297b479a13c4672a13627, type: 3}
   validConnections:
   - {fileID: -643772105435015575}
-  - {fileID: 4512869180751816955, guid: 05f0bc6a21f0d5b43a6300b84a18e744, type: 3}
-  - {fileID: 4512869180751816955, guid: 0632310973690cd4b8d6f686f3ab92ef, type: 3}
-  - {fileID: 4512869180751816955, guid: 1b35890d051dd3b4b8ff71dc0b58642a, type: 3}
-  - {fileID: 4840245277533164759, guid: badcfbe7566108c4caa59e48d134560b, type: 3}

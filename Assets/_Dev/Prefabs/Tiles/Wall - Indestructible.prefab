@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1391478775162101584}
   - component: {fileID: -643772105435015575}
   m_Layer: 0
-  m_Name: Wall
+  m_Name: Wall - Indestructible
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,5 +50,7 @@ MonoBehaviour:
   furniturePrefabs: []
   structureMaterial: {fileID: 2100000, guid: 64710d2176c2e8f438cd7dbd01d584a9, type: 2}
   structureHeight: 40
+  destructible: 0
+  health: 100
   validConnections:
   - {fileID: -643772105435015575}

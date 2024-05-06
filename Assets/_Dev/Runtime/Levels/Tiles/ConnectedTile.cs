@@ -1,4 +1,6 @@
-﻿using ProceduralToolkit;
+﻿using NaughtyAttributes;
+using NeoFPS;
+using ProceduralToolkit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +20,16 @@ namespace RogueWave
         Material structureMaterial;
         [SerializeField, Tooltip("The height of the structure.")]
         float structureHeight = 40;
+        [SerializeField, Tooltip("If true then this structure will be destructible")]
+        bool destructible = false;
+        [SerializeField, Tooltip("How much damage this structure can take, before being destroyed."), ShowIf("destructible")]
+        float health = 100;
+        [SerializeField, Tooltip("The scaled destruction particles object to use when this structure is destroyed."), ShowIf("destructible")]
+        PooledObject destructionParticles;
+        [SerializeField, Tooltip("The scaled smoke particles object to use when this structure is destroyed."), ShowIf("destructible")]
+        PooledObject smokeParticles;
+        [SerializeField, Tooltip("The pickup to drop when this structure is destroyed."), ShowIf("destructible")]
+        Pickup lootPrefab;
         [SerializeField, Tooltip("Define the tiles that this kind of tile will create a flow structure (wall, path, fence etc.) to if they are neighbours.")]
         BaseTile[] validConnections;
 
@@ -79,7 +91,7 @@ namespace RogueWave
             {
                 MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight / 2, structureHeight);
                 draft.Move(new Vector3(0, 0, -tileHeight / 4));
-                draft.name = "Flow Structure";
+                draft.name = "Connected Structure";
                 compoundDraft.Add(draft);
             }
 
@@ -88,6 +100,21 @@ namespace RogueWave
             meshFilter.mesh = compoundDraft.ToMeshDraft().ToMesh();
 
             contentObject.AddComponent<MeshCollider>().sharedMesh = meshFilter.mesh;
+
+            if (destructible)
+            {
+                BasicHealthManager healthManager = contentObject.AddComponent<BasicHealthManager>();
+                contentObject.AddComponent<BasicDamageHandler>();
+
+                DestructibleController destructibleController = contentObject.AddComponent<DestructibleController>();
+                destructibleController.m_PooledScaledDestructionParticles = new PooledObject[] { destructionParticles };
+                destructibleController.m_PooledScaledFXParticles = new PooledObject[] { smokeParticles };
+                destructibleController.resourcesPrefab = lootPrefab;
+                destructibleController.resourcesDropChance = 1;
+
+                healthManager.healthMax = health;
+                healthManager.health = health;
+            }
 
             base.GenerateTileContent(x, z, tiles, levelGenerator);
         }

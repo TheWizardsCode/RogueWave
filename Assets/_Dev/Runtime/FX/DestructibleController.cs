@@ -10,9 +10,9 @@ namespace RogueWave
     public class DestructibleController : MonoBehaviour
     {
         [SerializeField, Tooltip("The particle effects to replace the object with when it is destroyed. These effects will have their colour and emitter shape adjusted to match the object being destroyed.")]
-        PooledObject[] m_PooledScaledDestructionParticles;
+        internal PooledObject[] m_PooledScaledDestructionParticles;
         [SerializeField, Tooltip("The VFX (e.g. smoke and fire) particle effects to spawn when the object is destroyed. These effects will not have their colour adjusted to match the object being destroyed, but they will be adjusted to match shape.")]
-        PooledObject[] m_PooledScaledFXParticles;
+        internal PooledObject[] m_PooledScaledFXParticles;
         [SerializeField, Tooltip("Density of particles to spawn. The higher this value the more particles will spawn."), Range(0.5f, 100)]
         float m_ParticalDensity = 25;
         [SerializeField, Tooltip("Explosive force. The higher this value the more the particles will move away from the center of the destructable object."), Range(0f, 10f)]
