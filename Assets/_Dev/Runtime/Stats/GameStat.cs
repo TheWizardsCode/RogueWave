@@ -22,6 +22,7 @@ namespace RogueWave.GameStats
             Float
         }
 
+        [Header("Meta Data")]
         [SerializeField, Tooltip("The key to use to store this stat in the GameStatsManager.")]
         string m_Key;
         [SerializeField, Tooltip("The name of the stat as displayed in the UI.")]
@@ -32,7 +33,13 @@ namespace RogueWave.GameStats
         float m_DefaultValue = 0;
         [SerializeField, Tooltip("The formatting string to use when displaying a string representation of the stat.")]
         string m_FormatString = "00000";
-        
+
+        [Header("Scoring")]
+        [SerializeField, Tooltip("If true then this stat will contribute to the players score.")]
+        internal bool contributeToScore = false;
+        [SerializeField, Tooltip("The amount to multiply this stat by when calculating the score."), ShowIf("contributeToScore")]
+        int  m_ScoreMultiplier = 1;
+
 
         [ShowNonSerializedField]
         int m_intValue;
@@ -41,6 +48,29 @@ namespace RogueWave.GameStats
 
         public string key => m_Key;
         public StatType type => m_StatType;
+
+        public int ScoreContribution
+        {
+            get
+            {
+                if (!contributeToScore)
+                {
+                    throw new Exception("Asking for a score contribution from a stat that is not set to contribute to the score.");
+                }
+
+                switch (m_StatType)
+                {
+                    case StatType.Int:
+                        return m_intValue * m_ScoreMultiplier;
+                    case StatType.Float:
+                        return Mathf.RoundToInt(m_floatValue * m_ScoreMultiplier);
+                }
+
+                Debug.LogError("Asking for a score for an unknown stat type. Returning 0.");
+                return 0;
+            }
+        }
+
 
         public string displayName
         {
@@ -76,6 +106,15 @@ namespace RogueWave.GameStats
             if (m_StatType == StatType.Float)
             {
                 Debug.LogWarning("Asking for an int value from a float stat. Float has been rounded to an int.");
+                return Mathf.RoundToInt(m_floatValue);
+            }
+            return m_intValue;
+        }
+
+        public int GetIntRoundedValue()
+        {
+            if (m_StatType == StatType.Float)
+            {
                 return Mathf.RoundToInt(m_floatValue);
             }
             return m_intValue;

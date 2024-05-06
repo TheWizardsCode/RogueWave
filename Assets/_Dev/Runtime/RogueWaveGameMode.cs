@@ -253,7 +253,6 @@ namespace RogueWave
         private IEnumerator DelayedLevelCompleteCoroutine(float delay)
         {
             LogGameState("Portal used");
-            onLevelComplete?.Invoke();
 
             FloatValueModifier modifier = FpsSoloCharacter.localPlayerCharacter.GetComponent<MovementUpgradeManager>().GetFloatModifier("moveSpeed");
             modifier.multiplier = 0;

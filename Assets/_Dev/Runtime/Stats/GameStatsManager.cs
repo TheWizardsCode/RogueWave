@@ -17,6 +17,8 @@ using RogueWave;
 using System.Collections;
 using UnityEngine.Serialization;
 using RogueWave.Editor;
+using UnityEngine.SocialPlatforms.Impl;
+using Steamworks.Data;
 
 namespace RogueWave.GameStats
 {
@@ -248,6 +250,23 @@ namespace RogueWave.GameStats
                     }
                 }
             }
+
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Score:");
+            int totalScore = 0;
+            GameStat[] stats = Resources.LoadAll<GameStat>("");
+            foreach (GameStat stat in stats)
+            {
+                if (stat.contributeToScore)
+                {
+                    int score = stat.ScoreContribution;
+                    totalScore += score;
+                    sb.AppendLine($"  - {stat.key}: {score}");
+                }
+            }
+            sb.AppendLine($"  - Total Score: {totalScore}");
             chunks.Add(sb.ToString());
 
             sb.Clear();
@@ -261,6 +280,20 @@ namespace RogueWave.GameStats
             chunks.Add(sb.ToString());
 
             return chunks.ToArray();
+        }
+
+        internal GameStat GetStat(string key)
+        {
+            GameStat[] stats = Resources.LoadAll<GameStat>("");
+            foreach (GameStat stat in stats)
+            {
+                if (stat.key == key)
+                {
+                    return stat;
+                }
+            }
+
+            return null;
         }
 
         private void Update()
@@ -511,5 +544,14 @@ namespace RogueWave.GameStats
 #endif
 #endif
 #endregion
+    }
+
+    [Serializable]
+    internal struct ScoreCallculation
+    {
+        [SerializeField, Tooltip("The stat this scord caclulation is based on.")]
+        internal GameStat stat;
+        [SerializeField, Tooltip("The number of points per unit of the stat.")]
+        internal int pointsPerUnit;
     }
 }
