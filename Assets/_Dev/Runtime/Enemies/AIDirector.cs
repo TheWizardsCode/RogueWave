@@ -190,12 +190,18 @@ namespace RogueWave
 
         private void OnSpawnerCreated(Spawner spawner)
         {
+#if UNITY_EDITOR
+            Debug.Log($"{spawner.name} created with id {spawner.GetInstanceID()}.");
+#endif
             spawners.Add(spawner);
             spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
         }
 
         private void OnSpawnerDestroyed(Spawner spawner)
         {
+#if UNITY_EDITOR
+            Debug.Log($"{spawner.name} with id {spawner.GetInstanceID()} destroyed.");
+#endif
             spawners.Remove(spawner);
             killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = spawner.challengeRating, enemyName = spawner.name, location = spawner.transform.position });
         }

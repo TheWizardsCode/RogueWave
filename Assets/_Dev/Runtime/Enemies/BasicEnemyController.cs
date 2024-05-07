@@ -1,15 +1,11 @@
-using Codice.Client.BaseCommands;
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
-using NeoSaveGames;
 using System;
 using System.Linq;
-using System.Net;
 using UnityEngine;
 using UnityEngine.Events;
 using RogueWave.GameStats;
-using static Codice.Client.Commands.WkTree.WorkspaceTreeNode;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -773,17 +769,18 @@ namespace RogueWave
                     enemy.RequestAttack(Target.position);
 
                     // add a line renderer to indicate why the new enemies have spawned
-                    LineRenderer line = enemy.gameObject.AddComponent<LineRenderer>();
-                    if (line != null)
+                    LineRenderer line = enemy.GetComponent<LineRenderer>();
+                    if (line == null)
                     {
-                        line.startWidth = 0.03f;
-                        line.endWidth = 0.05f;
-                        line.material = new Material(Shader.Find("Unlit/Color"));
-                        line.material.color = Color.blue;
-                        line.SetPosition(0, transform.position);
-                        line.SetPosition(1, enemy.transform.position);
-                        Destroy(line, 0.2f);
+                        line = enemy.gameObject.AddComponent<LineRenderer>();
                     }
+                    line.startWidth = 0.03f;
+                    line.endWidth = 0.05f;
+                    line.material = new Material(Shader.Find("Unlit/Color"));
+                    line.material.color = Color.blue;
+                    line.SetPosition(0, transform.position);
+                    line.SetPosition(1, enemy.transform.position);
+                    Destroy(line, 0.2f);
                 }
             }
         }

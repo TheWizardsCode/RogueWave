@@ -434,10 +434,13 @@ namespace RogueWave
                 }
             }
 
-            IInventoryItem[] loadout = FpsSoloCharacter.localPlayerCharacter.GetComponent<IInventory>().GetItems();
-            foreach (var item in loadout)
+            if (FpsSoloCharacter.localPlayerCharacter != null)
             {
-                log.Append($"Inventory Item: {item.name}, ");
+                IInventoryItem[] loadout = FpsSoloCharacter.localPlayerCharacter.GetComponent<IInventory>().GetItems();
+                foreach (var item in loadout)
+                {
+                    log.Append($"Inventory Item: {item.name}, ");
+                }
             }
 
             foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
@@ -452,8 +455,11 @@ namespace RogueWave
             log.Append($"Nanobot Level: {RogueLiteManager.persistentData.currentNanobotLevel}, ");
             log.Append($"Game Level: {RogueLiteManager.persistentData.currentGameLevel}, ");
             log.Append($"Run Number: {RogueLiteManager.persistentData.runNumber}, ");
-            
-            log.Append($"Health: {FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>().healthMax}, ");
+
+            if (FpsSoloCharacter.localPlayerCharacter != null)
+            {
+                log.Append($"Health: {FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>().healthMax}, ");
+            }
             
             GameLog.Info(log.ToString());
         }

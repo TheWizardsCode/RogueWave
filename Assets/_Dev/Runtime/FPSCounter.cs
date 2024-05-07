@@ -89,7 +89,7 @@ namespace RogueWave.Editor
         {
             GUI.Label(new Rect(position.x, position.y, 200, 100), $"FPS: {movingAverageFPS:.0} ({minFPS:.0} - {maxFPS:.0})", style);
         }
-    }
 #endif
+    }
 #endif
 }

@@ -53,7 +53,10 @@ namespace RogueWave
 
         protected virtual void OnHealthChanged(float from, float to, bool critical, IDamageSource source)
         {
-            Color healthColour = Color.Lerp(noHealthColour, fullHealthColour, to / m_HealthManager.healthMax);
+            float healthRatio = to / m_HealthManager.healthMax;
+            float adjustedHealthRatio = Mathf.Pow(healthRatio, 0.5f); // Adjust this exponent to change the rate of color change
+
+            Color healthColour = Color.Lerp(noHealthColour, fullHealthColour, adjustedHealthRatio);
             material.SetColor("_Color", healthColour);
         }
     }

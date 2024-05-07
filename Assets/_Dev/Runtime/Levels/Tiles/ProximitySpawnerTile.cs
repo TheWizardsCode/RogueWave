@@ -1,5 +1,4 @@
-﻿using NeoFPS;
-using UnityEngine;
+﻿using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace RogueWave

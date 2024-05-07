@@ -1542,6 +1542,66 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: difficultyMultiplier
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].time
+      value: 56.065468
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].time
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].value
+      value: 3.410944
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].value
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].inSlope
+      value: 0.01425321
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].inSlope
+      value: 0.11097543
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].inSlope
+      value: 0.1959596
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].outSlope
+      value: 0.01425321
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].outSlope
+      value: 0.11097543
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].outSlope
+      value: 0.1959596
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].outWeight
+      value: 0.061538994
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
     - target: {fileID: 5223561033937574973, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: m_Name
       value: Rogue Wave Game Mode

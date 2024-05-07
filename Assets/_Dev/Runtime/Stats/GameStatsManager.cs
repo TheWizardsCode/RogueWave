@@ -386,13 +386,26 @@ namespace RogueWave.GameStats
             OnAchievementUnlocked?.Invoke(achievement);
         }
 
-        #region EDITOR_ONLY
+        [Button("Reset Stats and Achievements (Play mode only)"), ShowIf("showDebug")]
+        internal static void ResetStats()
+        {
+            if (Application.isPlaying)
+            {
+                ResetLocalStatsAndAchievements();
+#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+                ResetSteamStats();
+#endif
+                Debug.Log("Stats and achievements reset.");
+            }
+            else
+            {
+                Debug.LogError("You can only reset Steam stats and achievements in play mode.");
+            }
+        }
+
 #if UNITY_EDITOR
-        [HorizontalLine(color: EColor.Blue)]
-        [SerializeField]
-        bool showDebug = false;
-        
         [MenuItem("Tools/Rogue Wave/Data/Destructive/Reset Stats and Achievements")]
+#endif
         private static void ResetLocalStatsAndAchievements()
         {
             GameStat[] gameStats = Resources.LoadAll<GameStat>("");
@@ -410,22 +423,11 @@ namespace RogueWave.GameStats
             Debug.Log("Stats and achievements reset.");
         }
 
-        [Button("Reset Stats and Achievements (Play mode only)"), ShowIf("showDebug")]
-        internal static void ResetStats()
-        {
-            if (Application.isPlaying)
-            {
-                ResetLocalStatsAndAchievements();
-#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-                ResetSteamStats();
-#endif
-                Debug.Log("Stats and achievements reset.");
-            }
-            else
-            {
-                Debug.LogError("You can only reset Steam stats and achievements in play mode.");
-            }
-        }
+        #region EDITOR_ONLY
+#if UNITY_EDITOR
+        [HorizontalLine(color: EColor.Blue)]
+        [SerializeField]
+        bool showDebug = false;
 
         [Button("Dump Stats and Achievements to Console"), ShowIf("showDebug")]
         private void DumpStatsAndAchievements()

@@ -821,12 +821,6 @@ namespace RogueWave
                     passiveRecipes.Add(passiveRecipe);
                 }
             }
-#if UNITY_EDITOR
-            else
-            {
-                Debug.LogWarning($"Either {recipe.DisplayName} ({recipe.GetType().Name}) is an unkown recipe type or we tried to add it a second time.");
-            }
-#endif
         }
 
         internal void Apply(BaseStatRecipe statRecipe)
