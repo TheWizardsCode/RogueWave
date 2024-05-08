@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RogueWave
 {
-    public class RadarController : MonoBehaviour
+    public class RadarController : NanobotPawnUpgrade
     {
         [SerializeField, Tooltip("The radiues the radar will scan.")]
         float radarRadius = 10f;
@@ -25,38 +25,43 @@ namespace RogueWave
         float[] colliderDistances;
         float radarRadiusSqr;
         LineRenderer[] lineRenderers;
-        NanobotPawnController nanobotPawn;
+        protected override NanobotPawnController nanobotPawn
+        {
+            get
+            {
+                if (m_NanobotPawn == null)
+                {
+                    m_NanobotPawn = FindObjectOfType<NanobotPawnController>();
+                    lineRenderers = new LineRenderer[radarBlipCount];
+                    for (int i = 0; i < radarBlipCount; i++)
+                    {
+                        GameObject blip = new GameObject($"RadarBlip {i}");
+                        blip.transform.parent = m_NanobotPawn.transform;
+
+                        LineRenderer lineRenderer = blip.AddComponent<LineRenderer>();
+                        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
+                        lineRenderer.positionCount = 2;
+                        lineRenderer.startWidth = 0.01f;
+                        lineRenderer.endWidth = 0.05f;
+                        lineRenderers[i] = lineRenderer;
+                    }
+                }
+                return m_NanobotPawn;
+            }
+        }
 
         private void Awake()
         {
-            nanobotPawn = FindAnyObjectByType<NanobotPawnController>();
-            if (nanobotPawn == null)
-            {
-                Debug.LogError("RadarController: Could not find NanobotPawnController in scene. The Nanobot Pawn is supposed to be a dependency of the Radar, what happened here?");
-                enabled = false;
-                return;
-            }
-
             radarRadiusSqr = radarRadius * radarRadius;
             colliders = new Collider[radarDetectionCount];
             colliderDistances = new float[radarDetectionCount];
-            lineRenderers = new LineRenderer[radarBlipCount];
-            for (int i = 0; i < radarBlipCount; i++)
-            {
-                GameObject blip = new GameObject($"RadarBlip {i}");
-                blip.transform.parent = nanobotPawn.transform;
-
-                LineRenderer lineRenderer = blip.AddComponent<LineRenderer>();
-                lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-                lineRenderer.positionCount = 2;
-                lineRenderer.startWidth = 0.01f;
-                lineRenderer.endWidth = 0.01f;
-                lineRenderers[i] = lineRenderer;
-            }
         }
 
         private void Update()
         {
+            if (nanobotPawn == null)
+                return;
+
             Array.Clear(colliders, 0, radarBlipCount);
             int count = Physics.OverlapSphereNonAlloc(transform.position, radarRadius, colliders, radarLayerMask);
             for (int i = 0; i < radarDetectionCount; i++)

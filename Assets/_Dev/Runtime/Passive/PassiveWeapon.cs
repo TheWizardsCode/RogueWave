@@ -1,7 +1,5 @@
 using NaughtyAttributes;
 using NeoFPS.ModularFirearms;
-using NeoFPS.WieldableTools;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -10,7 +8,7 @@ namespace RogueWave
     /// <summary>
     /// A passive weapon is one which will fire automatically based on a timer.
     /// </summary>
-    public class PassiveWeapon : MonoBehaviour
+    public class PassiveWeapon : NanobotPawnUpgrade
     {
         [Header("Firing")]
         [SerializeField, Tooltip("Cooldown between trigger pulls, in game seconds.")]

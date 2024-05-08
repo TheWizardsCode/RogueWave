@@ -8,13 +8,11 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Destruction Beam
-  m_Shader: {fileID: 4800000, guid: 65496952687231d4382d31041d14d10f, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: 1f6e311bf58ab704e9fc35ff67f20dca, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
-  m_InvalidKeywords:
-  - _ALPHABLEND_ON
-  - _EMISSION
+  m_InvalidKeywords: []
   m_LightmapFlags: 1
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -87,6 +85,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BUILTIN_QueueControl: 0
+    - _BUILTIN_QueueOffset: 0
+    - _Bottom_Line: 0.55
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
@@ -105,10 +106,13 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _RimGlow: 0.475
+    - _Scroll_Speed: 0.469
+    - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _Speed: 0.151
     - _SrcBlend: 5
+    - _Top_Line: 0.65
     - _TransAmbient: 0.2
     - _TransDirect: 1
     - _TransNormalDistortion: 0.1
@@ -120,10 +124,13 @@ Material:
     - __dirty: 0
     m_Colors:
     - _AnimationSpeed: {r: -0.3, g: 0, b: 0, a: 0}
+    - _Base_Colour: {r: 1, g: 1, b: 1, a: 0.3921569}
+    - _BottomColor: {r: 0.745283, g: 0.6215302, b: 0.130073, a: 0.3921569}
     - _Color: {r: 1, g: 0, b: 0, a: 0.41960785}
     - _Colour: {r: 5.1387925, g: 0.26663548, b: 0.26663548, a: 0}
     - _EmissionColor: {r: 1, g: 0, b: 0, a: 1}
     - _EmissionColour: {r: 2.260026, g: 0.50104344, b: 0.50104344, a: 0.68235296}
     - _NoiseSpeed: {r: -0.3, g: 0, b: 0, a: 0}
     - _Speed: {r: -0.5, g: 0, b: 0, a: 0}
+    - _Top_Colour: {r: 0.7735849, g: 0.1204165, b: 0.1204165, a: 0.3921569}
   m_BuildTextureStacks: []

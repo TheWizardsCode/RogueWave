@@ -20,6 +20,8 @@ namespace RogueWave
         float endAngle = 35f;
         [SerializeField, Tooltip("The material to use for the beam.")]
         private Material material;
+        [SerializeField, Tooltip("The offset from the transform position to start the beam.")]
+        private Vector3 positionOffset = new Vector3(0, 0.7f, 0);
 
         private LineRenderer[] lineRenderers;
         private float[] firingEndTime;
@@ -34,10 +36,10 @@ namespace RogueWave
             {
                 GameObject go = new GameObject("Beam " + i);
                 go.transform.SetParent(transform);
-                go.transform.localPosition = new Vector3(0, 1f, 0);
+                go.transform.localPosition += positionOffset;
                 lineRenderers[i] = go.AddComponent<LineRenderer>();
                 lineRenderers[i].material = material;
-                lineRenderers[i].startWidth = beamSize / 2;
+                lineRenderers[i].startWidth = 0.01f;
                 lineRenderers[i].endWidth = beamSize;
 
                 firingEndTime[i] = 0;
