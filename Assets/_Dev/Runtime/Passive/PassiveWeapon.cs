@@ -39,19 +39,6 @@ namespace RogueWave
         internal int layerMask;
         ModularFirearm m_Firearm;
         AudioSource m_AudioSource;
-        RadarController m_Radar;
-
-        protected RadarController radar
-        {
-            get
-            {
-                if (m_Radar == null)
-                {
-                    m_Radar = nanobotPawn.GetComponentInChildren<RadarController>();
-                }
-                return m_Radar;
-            }
-        }
 
         internal virtual void Awake()
         {

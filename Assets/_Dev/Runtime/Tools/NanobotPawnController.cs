@@ -1,4 +1,6 @@
 using NeoFPS.SinglePlayer;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace RogueWave
@@ -8,9 +10,14 @@ namespace RogueWave
     /// </summary>
     public class NanobotPawnController : MonoBehaviour
     {
-        [Header("Positioning")]
         [SerializeField, Tooltip("The offset from the player that the pawn will be created.")]
         Vector3 playerOffset = new Vector3(0, 0, 5);
+        [SerializeField, Tooltip("The detection range for enemies and objects of interest.")]
+        protected float m_DetectionRange = 15f;
+        [SerializeField, Tooltip("The number of items the nanobots will detect and potentially make available to other items.")]
+        int detectedObjectsCount = 10;
+        [SerializeField, Tooltip("The layer mask for objects that should be detected and tracked.")]
+        LayerMask detectionLayerMask;
 
         [Header("Movement")]
         [SerializeField, Tooltip("The maximum speed the pawn can move.")]
@@ -25,6 +32,59 @@ namespace RogueWave
         [Header("Idle Behaviour")]
         [SerializeField, Tooltip("The time the pawn will wait before becoming impatient.")]
         float idleTimeBeforeImpatient = 3f;
+
+        Collider[] colliders;
+        float[] colliderDistances;
+        Queue<KeyValuePair<float, Collider>> m_collidersQueue = new Queue<KeyValuePair<float, Collider>>();
+        bool isDetectionQueueInvalid = true;
+
+        public Queue<KeyValuePair<float, Collider>> sortedColliders
+        {
+            get
+            {
+                if (isDetectionQueueInvalid)
+                {
+                    m_collidersQueue.Clear();
+                    for (int i = 0; i < detectedObjectsCount; i++)
+                    {
+                        m_collidersQueue.Enqueue(new KeyValuePair<float, Collider>(colliderDistances[i], colliders[i]));
+                    }
+                    isDetectionQueueInvalid = false;
+                }
+                return m_collidersQueue;
+            }
+        }
+
+        /// <summary>
+        /// Peek at the first non-null collider in the queue. If there are no colliders in the queue, this will return a default KeyValuePair (key = 0, collider = null).
+        /// 
+        /// If there are null colliders in the queue, they will be removed and the next collider will be peeked at.
+        /// </summary>
+        /// <returns></returns>
+        public KeyValuePair<float, Collider> PeekDetectedObject()
+        {
+            if (sortedColliders.Count > 0 && sortedColliders.Peek().Value == null)
+            {
+                sortedColliders.Dequeue();
+                return PeekDetectedObject();
+            }
+            return sortedColliders.Count > 0 ? sortedColliders.Peek() : default(KeyValuePair<float, Collider>);
+        }
+
+        public KeyValuePair<float, Collider> DequeueDetectedObject()
+        {
+            if (sortedColliders.Peek().Value == null)
+            {
+                sortedColliders.Dequeue();
+                return DequeueDetectedObject();
+            }
+            return sortedColliders.Dequeue();
+        }
+
+        public void Enqueue(float distance, Collider collider)
+        {
+            sortedColliders.Enqueue(new KeyValuePair<float, Collider>(distance, collider));
+        }
 
         private enum State
         {
@@ -76,6 +136,12 @@ namespace RogueWave
             }
         }
 
+        private void Awake()
+        {
+            colliders = new Collider[detectedObjectsCount];
+            colliderDistances = new float[detectedObjectsCount];
+        }
+
         private void Start()
         {
             sqrArrivalDistance = arrivalDistance * arrivalDistance;
@@ -90,8 +156,33 @@ namespace RogueWave
         private void Update()
         {
             timeInState += Time.deltaTime;
+            ManageState();
+
             CalculateMovement();
 
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+
+            ConfigureAnimator();
+
+            DetectObjectsOfInterest();
+        }
+
+        private void DetectObjectsOfInterest()
+        {
+            Array.Clear(colliders, 0, detectedObjectsCount);
+            int count = Physics.OverlapSphereNonAlloc(transform.position, m_DetectionRange, colliders, detectionLayerMask);
+            for (int i = 0; i < detectedObjectsCount; i++)
+            {
+                colliderDistances[i] = colliders[i] != null ? Vector3.Distance(transform.position, colliders[i].transform.position) : float.MaxValue;
+            }
+
+            Array.Sort(colliderDistances, colliders);
+            isDetectionQueueInvalid = true;
+        }
+
+        private void ManageState()
+        {
             switch (CurrentState)
             {
                 case State.Idle:
@@ -105,11 +196,6 @@ namespace RogueWave
                 case State.Moving:
                     break;
             }
-
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-
-            ConfigureAnimator();
         }
 
         private void ConfigureAnimator()

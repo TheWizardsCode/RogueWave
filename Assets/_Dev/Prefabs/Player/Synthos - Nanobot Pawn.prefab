@@ -71,6 +71,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerOffset: {x: 0, y: 0, z: 5}
+  m_DetectionRange: 15
+  detectedObjectsCount: 10
+  detectionLayerMask:
+    serializedVersion: 2
+    m_Bits: 2147483648
   maxSpeed: 20
   acceleration: 50
   rotationSpeed: 180

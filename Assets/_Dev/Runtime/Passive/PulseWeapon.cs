@@ -37,7 +37,7 @@ namespace RogueWave
                 material.SetFloat("_Size", scale);
                 timer += Time.deltaTime;
                 
-                KeyValuePair<float, Collider> collider = radar.Peek();
+                KeyValuePair<float, Collider> collider = nanobotPawn.PeekDetectedObject();
 
                 if (collider.Value != null && collider.Key <= range * scale)
                 {
