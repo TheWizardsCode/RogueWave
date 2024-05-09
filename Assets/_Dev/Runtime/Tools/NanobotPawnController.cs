@@ -20,6 +20,12 @@ namespace RogueWave
         LayerMask detectionLayerMask;
 
         [Header("Movement")]
+        [SerializeField, Tooltip("The distance the player needs to move to trigger the pawn to move.")]
+        float movementDampingDistance = 2f;
+        [SerializeField, Tooltip("The rotation the player needs to move through in order to trigger the pawn to move.")]
+        float rotationDamping = 20;
+        [SerializeField, Tooltip("The distance below which the nearest enemy needs to be for the pawn to become aggro'd.")]
+        float aggroDistance = 7.5f;
         [SerializeField, Tooltip("The maximum speed the pawn can move.")]
         float maxSpeed = 10f;
         [SerializeField, Tooltip("The acceleration/deceleration of the pawn.")]
@@ -35,6 +41,7 @@ namespace RogueWave
 
         Collider[] colliders;
         float[] colliderDistances;
+        private float sqrMovementDampingDistance;
         Queue<KeyValuePair<float, Collider>> m_collidersQueue = new Queue<KeyValuePair<float, Collider>>();
         bool isDetectionQueueInvalid = true;
 
@@ -90,7 +97,8 @@ namespace RogueWave
         {
             Idle,
             Impatient,
-            Moving
+            Moving,
+            Aggro
         }
 
         private FpsSoloCharacter player;
@@ -104,6 +112,7 @@ namespace RogueWave
 
         private State m_currentState = State.Idle;
         private float timeInState = 0;
+        private Collider aggroTarget;
 
         private State CurrentState
         {
@@ -140,6 +149,7 @@ namespace RogueWave
         {
             colliders = new Collider[detectedObjectsCount];
             colliderDistances = new float[detectedObjectsCount];
+            sqrMovementDampingDistance = movementDampingDistance * movementDampingDistance;
         }
 
         private void Start()
@@ -161,7 +171,8 @@ namespace RogueWave
             CalculateMovement();
 
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime).eulerAngles.y, transform.rotation.eulerAngles.z);
+
 
             ConfigureAnimator();
 
@@ -185,16 +196,43 @@ namespace RogueWave
         {
             switch (CurrentState)
             {
+                case State.Aggro:
+                    CheckAggro();
+                    break;
                 case State.Idle:
                     if (timeInState >= idleTimeBeforeImpatient)
                     {
                         CurrentState = State.Impatient;
                     }
+                    CheckAggro();
                     break;
                 case State.Impatient:
+                    CheckAggro();
                     break;
                 case State.Moving:
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if the pawn should be in an aggro state and sets the state and target if it should be.
+        /// </summary>
+        bool CheckAggro()
+        {
+            KeyValuePair<float, Collider> nearest = PeekDetectedObject();
+            if (nearest.Value != null && nearest.Key <= aggroDistance)
+            {
+                aggroTarget = nearest.Value;
+                CurrentState = State.Aggro;
+                return true;
+            } else
+            {
+                aggroTarget = null;
+                if (CurrentState == State.Aggro)
+                {
+                    CurrentState = State.Idle;
+                }
+                return false;
             }
         }
 
@@ -210,8 +248,32 @@ namespace RogueWave
             // set in CurrentState property
         }
 
+        Vector3 lastPlayerPosition = Vector3.zero;
+        private Vector3 lastPlayerForward;
+
         private void CalculateMovement()
         {
+            if (CurrentState != State.Moving 
+                && (lastPlayerPosition - player.transform.position).sqrMagnitude < sqrMovementDampingDistance
+                && Quaternion.Angle(player.transform.rotation, Quaternion.LookRotation(lastPlayerForward)) < rotationDamping
+                )
+            {
+
+                if (aggroTarget != null)
+                {
+                    targetRotation = Quaternion.LookRotation(aggroTarget.transform.position - transform.position, Vector3.up);
+                }
+                else
+                {
+                    targetRotation = player.transform.rotation;
+                }
+
+                return;
+            }
+
+            lastPlayerPosition = player.transform.position;
+            lastPlayerForward = player.transform.forward;
+
             targetPosition = Vector3.Lerp(transform.position, player.transform.position + (player.transform.forward * playerOffset.magnitude), Time.deltaTime * acceleration);
 
             float sqrDistance = (transform.position - targetPosition).sqrMagnitude;
@@ -223,6 +285,15 @@ namespace RogueWave
                 {
                     currentSpeed = 0;
                     CurrentState = State.Idle;
+                }
+
+                if (aggroTarget != null)
+                {
+                    targetRotation = Quaternion.LookRotation(aggroTarget.transform.position - transform.position, Vector3.up);
+                }
+                else
+                {
+                    targetRotation = player.transform.rotation;
                 }
             }
             else

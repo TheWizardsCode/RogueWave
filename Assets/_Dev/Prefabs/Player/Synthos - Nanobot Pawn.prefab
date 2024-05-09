@@ -76,8 +76,11 @@ MonoBehaviour:
   detectionLayerMask:
     serializedVersion: 2
     m_Bits: 2147483648
+  movementDampingDistance: 2
+  rotationDamping: 25
+  aggroDistance: 7.5
   maxSpeed: 20
-  acceleration: 50
+  acceleration: 20
   rotationSpeed: 180
   arrivalDistance: 0.05
   idleTimeBeforeImpatient: 3
