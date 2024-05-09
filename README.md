@@ -1,4 +1,22 @@
-# First Person roguelike wave shooter using greybox art
+# First Person roguelike wave shooter prototype
+
+This is a prototype Unity game made entirely with open source and CC0 code and assets with the one exception of [NeoFPS](https://bit.ly/NeoFPS), the FPS controller which is a paid asset.
+
+## Installation
+
+Checkout this repo and open it in Unity. The first time you try to load it it will report errors. Ignore them for now.
+
+Once Unity starts you will need to import [NeoFPS](https://bit.ly/NeoFPS). Note that by default Neo FPS will overwrite some files that are provided by this repo, you need to find them and ensure they are not imported, or you revert any changes made by the import. The easiest way to do this is to import Neo FPS and then run the command `git restore .` in the root of the project directory.
+
+## Optional Features
+
+Some features require additional open source libraries to be installed. The application will compile without these, but if you install the libraries as described below additional features will be enabled.
+
+### Disccord Integration
+
+For convenience during development and playtesting logs can be sent to a Discord Webbook. To enable this feature it is necessary to install [Unity-Discord](https://github.com/lumpn/unity-discord).
+
+Once installed set the `DISCORD_ENABLED` script define symbol.
 
 ## Game Concept
 
