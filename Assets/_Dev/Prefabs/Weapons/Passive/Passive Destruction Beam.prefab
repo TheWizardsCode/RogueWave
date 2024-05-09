@@ -174,10 +174,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Cooldown: 3
-  range: 20
+  range: 15
   damage: 25
   layers: 31
   model: {fileID: 0}
+  positionOffset: {x: 0, y: 0.7, z: 0}
   fireAudioClip:
   - {fileID: 8300000, guid: d2017356dd23e5144a1da78a28daf106, type: 3}
   - {fileID: 8300000, guid: ddddf12885cf18c4daa3147281315620, type: 3}

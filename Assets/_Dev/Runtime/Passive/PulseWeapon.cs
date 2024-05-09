@@ -1,9 +1,7 @@
-using NaughtyAttributes;
 using NeoFPS;
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace RogueWave
 {
@@ -18,7 +16,9 @@ namespace RogueWave
         internal override void Awake()
         {
             base.Awake();
+
             material = model.GetComponent<Renderer>().material;
+            transform.localScale = Vector3.one * (range / 5);
         }
 
         public override void Fire()
@@ -31,43 +31,32 @@ namespace RogueWave
         IEnumerator Pulse() {
             float timer = 0;
 
-            Array.Clear(colliders, 0, colliders.Length);
-            bool originalQueriesHitTriggers = Physics.queriesHitTriggers;
-            Physics.queriesHitTriggers = false;
-            int count = Physics.OverlapSphereNonAlloc(transform.position, range * 2, colliders, layerMask);
-            Physics.queriesHitTriggers = originalQueriesHitTriggers;
-
-            yield return null;
-
-            int i = 0;
-            while (timer < m_pulseDuration || i < count)
+            while (timer < m_pulseDuration)
             {
-                if (i < count && colliders[i] != null)
+                float scale = Mathf.Lerp(0f, 1, timer / m_pulseDuration);
+                material.SetFloat("_Size", scale);
+                timer += Time.deltaTime;
+                
+                KeyValuePair<float, Collider> collider = radar.Peek();
+
+                if (collider.Value != null && collider.Key <= range * scale)
                 {
-                    IDamageHandler damageHandler = colliders[i].GetComponent<IDamageHandler>();
+                    IDamageHandler damageHandler = collider.Value.GetComponent<IDamageHandler>();
 
                     if (damageHandler != null)
                     {
                         damageHandler.AddDamage(damage);
                         if (hitAudioClip.Length > 0)
                         {
-                            NeoFpsAudioManager.PlayEffectAudioAtPosition(hitAudioClip[UnityEngine.Random.Range(0, hitAudioClip.Length)], colliders[i].transform.position);
+                            NeoFpsAudioManager.PlayEffectAudioAtPosition(hitAudioClip[UnityEngine.Random.Range(0, hitAudioClip.Length)], collider.Value.transform.position);
                         }
                     }
-
-                    i++;
                 }
 
-                float scale = Mathf.Lerp(0f, 1, timer / m_pulseDuration);
-                model.GetComponent<Renderer>().material.SetFloat("_Size", scale);
-
-                timer += Time.deltaTime;
-             
                 yield return null;
-
-
-                model.GetComponent<Renderer>().material.SetFloat("_Size", 0f);
             }
+
+            material.SetFloat("_Size", 0f);
         }
 
         private void OnDrawGizmosSelected()

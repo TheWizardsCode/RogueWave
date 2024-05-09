@@ -20,8 +20,6 @@ namespace RogueWave
         float endAngle = 35f;
         [SerializeField, Tooltip("The material to use for the beam.")]
         private Material material;
-        [SerializeField, Tooltip("The offset from the transform position to start the beam.")]
-        private Vector3 positionOffset = new Vector3(0, 0.7f, 0);
 
         private LineRenderer[] lineRenderers;
         private float[] firingEndTime;

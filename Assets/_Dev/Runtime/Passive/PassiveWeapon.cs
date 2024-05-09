@@ -15,7 +15,7 @@ namespace RogueWave
         internal float m_Cooldown = 5f;
 
         [Header("Damage")]
-        [SerializeField, Tooltip("The maximum area of the damage.")]
+        [SerializeField, Tooltip("The maximum range of the weapon. For area of effect weapons this is the radius, for other weapons it is the total range.")]
         [FormerlySerializedAs("radius")]
         internal float range = 20f;
         [SerializeField, Tooltip("The damage applied to each enemy within the area of effect, each time the weapon fires.")]
@@ -26,6 +26,8 @@ namespace RogueWave
         [Header("Visuals")]
         [SerializeField, Tooltip("The model to display when the weapon is active.")]
         internal GameObject model;
+        [SerializeField, Tooltip("The offset from the transform position to start the beam.")]
+        protected Vector3 positionOffset = new Vector3(0, 0.7f, 0);
 
         [Header("Audio")]
         [SerializeField, Tooltip("The audio clip to play when the weapon fires.")]
@@ -37,12 +39,29 @@ namespace RogueWave
         internal int layerMask;
         ModularFirearm m_Firearm;
         AudioSource m_AudioSource;
+        RadarController m_Radar;
+
+        protected RadarController radar
+        {
+            get
+            {
+                if (m_Radar == null)
+                {
+                    m_Radar = nanobotPawn.GetComponentInChildren<RadarController>();
+                }
+                return m_Radar;
+            }
+        }
 
         internal virtual void Awake()
         {
             layerMask = 1 << layers;
             m_Firearm = GetComponent<ModularFirearm>();
             m_AudioSource = GetComponent<AudioSource>();
+            if (model != null)
+            {
+                model.transform.position += positionOffset;
+            }
         }
 
         public virtual bool isValid

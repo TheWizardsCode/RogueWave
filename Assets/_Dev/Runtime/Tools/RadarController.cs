@@ -23,6 +23,57 @@ namespace RogueWave
 
         Collider[] colliders;
         float[] colliderDistances;
+        Queue<KeyValuePair<float, Collider>> m_collidersQueue = new Queue<KeyValuePair<float, Collider>>();
+        bool isQueueInvalid = true;
+
+        public Queue<KeyValuePair<float, Collider>> sortedColliders
+        {
+            get
+            {
+                if (isQueueInvalid)
+                {
+                    m_collidersQueue.Clear();
+                    for (int i = 0; i < radarDetectionCount; i++)
+                    {
+                        m_collidersQueue.Enqueue(new KeyValuePair<float, Collider>(colliderDistances[i], colliders[i]));
+                    }
+                    isQueueInvalid = false;
+                }
+                return m_collidersQueue;
+            }
+        }
+
+        /// <summary>
+        /// Peek at the first non-null collider in the queue. If there are no colliders in the queue, this will return a default KeyValuePair (key = 0, collider = null).
+        /// 
+        /// If there are null colliders in the queue, they will be removed and the next collider will be peeked at.
+        /// </summary>
+        /// <returns></returns>
+        public KeyValuePair<float, Collider> Peek()
+        {
+            if (sortedColliders.Count > 0 && sortedColliders.Peek().Value == null)
+            {
+                sortedColliders.Dequeue();
+                return Peek();
+            }
+            return sortedColliders.Count > 0 ? sortedColliders.Peek() : default(KeyValuePair<float, Collider>);
+        }
+
+        public KeyValuePair<float, Collider> Dequeue()
+        {
+            if (sortedColliders.Peek().Value == null)
+            {
+                sortedColliders.Dequeue();
+                return Dequeue();
+            }
+            return sortedColliders.Dequeue();
+        }
+
+        public void Enqueue(float distance, Collider collider)
+        {
+            sortedColliders.Enqueue(new KeyValuePair<float, Collider>(distance, collider));
+        }
+
         float radarRadiusSqr;
         LineRenderer[] lineRenderers;
         protected override NanobotPawnController nanobotPawn
@@ -66,10 +117,11 @@ namespace RogueWave
             int count = Physics.OverlapSphereNonAlloc(transform.position, radarRadius, colliders, radarLayerMask);
             for (int i = 0; i < radarDetectionCount; i++)
             {
-                colliderDistances[i] = colliders[i] != null ? (transform.position - colliders[i].transform.position).sqrMagnitude : float.MaxValue;
+                colliderDistances[i] = colliders[i] != null ? Vector3.Distance(transform.position, colliders[i].transform.position) : float.MaxValue;
             }
 
             Array.Sort(colliderDistances, colliders);
+            isQueueInvalid = true;
 
             for (int i = 0; i < radarBlipCount; i++)
             {

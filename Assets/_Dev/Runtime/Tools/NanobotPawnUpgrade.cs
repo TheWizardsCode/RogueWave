@@ -18,7 +18,7 @@ namespace RogueWave
             }
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             transform.SetParent(nanobotPawn.transform);
         }
