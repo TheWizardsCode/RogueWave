@@ -206,15 +206,19 @@ namespace RogueWave
             onLevelComplete?.Invoke();
 
             // Temporary magnet buff to pull in victory rewards
-            MagnetController magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
+            MagnetController magnet = null;
             float originalRange = 0;
             float originalSpeed = 0;
-            if (magnet != null)
+            if (FpsSoloCharacter.localPlayerCharacter != null)
             {
-                originalRange = magnet.range;
-                originalSpeed = magnet.speed;
-                magnet.range = 100;
-                magnet.speed = 25;
+                magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
+                if (magnet != null)
+                {
+                    originalRange = magnet.range;
+                    originalSpeed = magnet.speed;
+                    magnet.range = 100;
+                    magnet.speed = 25;
+                }
             }
 
             yield return null;

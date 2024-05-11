@@ -78,6 +78,16 @@ namespace RogueWave
             return sortedColliders.Count > 0 ? sortedColliders.Peek() : default(KeyValuePair<float, Collider>);
         }
 
+        internal KeyValuePair<float, Collider> ObjectAt(int idx)
+        {
+            if (idx >= detectedObjectsCount)
+            {
+                return default(KeyValuePair<float, Collider>);
+            }
+
+            return new KeyValuePair<float, Collider>(colliderDistances[idx], colliders[idx]);
+        }
+
         public KeyValuePair<float, Collider> DequeueDetectedObject()
         {
             if (sortedColliders.Peek().Value == null)
@@ -126,6 +136,9 @@ namespace RogueWave
                 {
                     switch (m_currentState)
                     {
+                        case State.Aggro:
+                            animator.SetBool("Impatient", false);
+                            break;
                         case State.Idle:
                             animator.SetBool("Impatient", false);
                             targetRotation = Quaternion.LookRotation(-player.transform.forward, Vector3.up);
@@ -182,10 +195,10 @@ namespace RogueWave
         private void DetectObjectsOfInterest()
         {
             Array.Clear(colliders, 0, detectedObjectsCount);
-            int count = Physics.OverlapSphereNonAlloc(transform.position, m_DetectionRange, colliders, detectionLayerMask);
+            int count = Physics.OverlapSphereNonAlloc(FpsSoloCharacter.localPlayerCharacter.transform.position, m_DetectionRange, colliders, detectionLayerMask);
             for (int i = 0; i < detectedObjectsCount; i++)
             {
-                colliderDistances[i] = colliders[i] != null ? Vector3.Distance(transform.position, colliders[i].transform.position) : float.MaxValue;
+                colliderDistances[i] = colliders[i] != null ? Vector3.Distance(FpsSoloCharacter.localPlayerCharacter.transform.position, colliders[i].transform.position) : float.MaxValue;
             }
 
             Array.Sort(colliderDistances, colliders);

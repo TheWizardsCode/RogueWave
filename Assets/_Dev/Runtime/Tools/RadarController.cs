@@ -57,7 +57,7 @@ namespace RogueWave
 
             for (int i = 0; i < radarBlipCount; i++)
             {
-                KeyValuePair<float, Collider> detectedObject = nanobotPawn.PeekDetectedObject();
+                KeyValuePair<float, Collider> detectedObject = nanobotPawn.ObjectAt(i);
                 if (detectedObject.Value == null)
                 {
                     lineRenderers[i].enabled = false;
