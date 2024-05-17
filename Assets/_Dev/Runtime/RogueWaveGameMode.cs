@@ -178,7 +178,7 @@ namespace RogueWave
 
             RogueLiteManager.ResetRunData();
 
-            NeoSceneManager.LoadScene(RogueLiteManager.instance.reconstructionScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.reconstructionScene);
         }
 
         void DelayedVictoryAction(bool usedPortal)

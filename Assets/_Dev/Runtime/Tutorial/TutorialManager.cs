@@ -15,7 +15,7 @@ namespace RogueWave.Tutorial
     {
         [SerializeField, Tooltip("The loading scene that will be used to transition between scenes. When this scene is loaded some of the tutorial content will be displayed."), Scene]
         private string loadingScreen;
-        [SerializeField, Tooltip("The tutorial steps that will be used to deliver tutorial content during scene loads and transitions."), FormerlySerializedAs("loadingScreenConfigurations"), Expandable]
+        
         TutorialStep[] tutorialSteps;
 
         int[] sceneLoadCounts;
@@ -28,6 +28,8 @@ namespace RogueWave.Tutorial
             audioSource = gameObject.GetComponent<AudioSource>();
 
             sceneLoadCounts = new int[SceneManager.sceneCountInBuildSettings];
+
+            tutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
         }
 
         private void OnEnable()
@@ -44,34 +46,34 @@ namespace RogueWave.Tutorial
 
         private void OnSceneLoaded(int sceneIndex)
         {
-            if (currentlyActiveStep == null)
+            foreach (TutorialStep step in tutorialSteps)
             {
-                return;
-            }
+                if (!step.isLoadingScene 
+                    && sceneIndex == SceneManagement.SceneBuildIndexFromName(step.sceneName) 
+                    && step.sceneLoadCount == sceneLoadCounts[sceneIndex])
+                {
+                    currentlyActiveStep = step;
 
-            StartCoroutine(ExecuteSceneLoadedStep());
+                    StartCoroutine(ExecuteSceneLoadedStep());
+                }
+            }
         }
 
         private void OnSceneLoadRequested(int sceneIndex, string sceneName)
         {
-            if (RogueLiteManager.persistentData.tutorialNextStep >= tutorialSteps.Length)
-            {
-                currentlyActiveStep = null;
-                return;
-            }
-
             if (sceneIndex < 0) {
                 sceneIndex = SceneManagement.SceneBuildIndexFromName(sceneName);
             }
             sceneLoadCounts[sceneIndex]++;
 
-            TutorialStep step = tutorialSteps[RogueLiteManager.persistentData.tutorialNextStep];
-            if (sceneName == step.sceneName && step.sceneLoadCount <= sceneLoadCounts[sceneIndex])
+            foreach (TutorialStep step in tutorialSteps)
             {
-                currentlyActiveStep = step;
-                RogueLiteManager.persistentData.tutorialNextStep++;
+                if (step.isLoadingScene && sceneName == step.sceneName && step.sceneLoadCount == sceneLoadCounts[sceneIndex])
+                {
+                    currentlyActiveStep = step;
 
-                StartCoroutine(ExecuteLoadingStep());
+                    StartCoroutine(ExecuteLoadingStep());
+                }
             }
         }
 
@@ -79,9 +81,9 @@ namespace RogueWave.Tutorial
         {
             float endTime = Time.time;
             AudioClip sceneClip = null;
-            if (currentlyActiveStep.sceneClips.Length > 0)
+            if (currentlyActiveStep.audioClips.Length > 0)
             {
-                sceneClip = currentlyActiveStep.sceneClips[Random.Range(0, currentlyActiveStep.sceneClips.Length)];
+                sceneClip = currentlyActiveStep.audioClips[Random.Range(0, currentlyActiveStep.audioClips.Length)];
             }
 
             if (sceneClip != null)
@@ -128,16 +130,16 @@ namespace RogueWave.Tutorial
         private IEnumerator ExecuteLoadingStep()
         {
             float oldDuration = NeoSceneManager.instance.minLoadScreenTime;
-            NeoSceneManager.instance.minLoadScreenTime = currentlyActiveStep.loadingScreenDuration;
+            NeoSceneManager.instance.minLoadScreenTime = currentlyActiveStep.duration;
             
-            audioSource.clip = currentlyActiveStep.loadingScreenClips[Random.Range(0, currentlyActiveStep.loadingScreenClips.Length)];
+            audioSource.clip = currentlyActiveStep.audioClips[Random.Range(0, currentlyActiveStep.audioClips.Length)];
             audioSource.Play();
 
             float endTime = 0;
-            if (currentlyActiveStep.loadingScreenDuration <= 0) {
-                currentlyActiveStep.loadingScreenDuration = audioSource.clip.length + 1;
+            if (currentlyActiveStep.duration <= 0) {
+                currentlyActiveStep.duration = audioSource.clip.length + 1;
             }
-            endTime = Time.time + currentlyActiveStep.loadingScreenDuration;
+            endTime = Time.time + currentlyActiveStep.duration;
 
             while (Time.time < endTime)
             {

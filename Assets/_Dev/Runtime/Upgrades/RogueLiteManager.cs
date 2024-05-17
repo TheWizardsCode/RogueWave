@@ -12,6 +12,8 @@ namespace RogueWave
     [CreateAssetMenu(fileName = "FpsManager_RogueLite", menuName = "Rogue Wave/Rogue-Lite Manager", order = 900)]
     public class RogueLiteManager : NeoFpsManager<RogueLiteManager>
     {
+
+        [Header("Scenes")]
         [SerializeField, Tooltip("Name of the Hub Scene to load between levels. This is where the player gets to buy permanent upgrades for their character."), Scene]
         private string m_reconstructionScene = "RogueWave_ReconstructionScene";
         [SerializeField, Tooltip("Name of the Reconstruction Scene to load upon death. This will show a summary of the players most recent run."), Scene]
@@ -19,9 +21,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The scene to load when the player enters the portal."), Scene]
         private string m_portalScene = "RogueWave_PortalUsed";
 
-        public string reconstructionScene
+        public static string reconstructionScene
         {
-            get { return m_reconstructionScene; }
+            get { return instance.m_reconstructionScene; }
         }
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -66,6 +68,14 @@ namespace RogueWave
                     return instance.m_hubScene;
                 else
                     return string.Empty;
+            }
+        }
+
+        public static string combatScene
+        {
+            get
+            {
+                return "RogueWave_CombatLevel";
             }
         }
 

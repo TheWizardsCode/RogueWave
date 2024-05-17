@@ -14,23 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displayName: First Portal Level
   description: Teach the player about the portal.
-  sceneName: RogueWave_Level
+  isLoadingScene: 0
+  sceneName: RogueWave_MainMenu
   sceneLoadCount: 7
-  loadingScreenDuration: 0
-  loadingScreenHeroImage: {fileID: 21300000, guid: 76801a6aca21e434590c577d82f36502, type: 3}
+  duration: 0
+  heroImage: {fileID: 21300000, guid: 76801a6aca21e434590c577d82f36502, type: 3}
   script: This is it, the portal is here. Find it and simply walk through to go home.
-  loadingScreenClips: []
-  sceneClips:
-  - {fileID: 8300000, guid: 6bc6a1f27665e5f4a81fad0714a15e12, type: 3}
-  - {fileID: 8300000, guid: 06644581adc141947b3f94a843ad12e1, type: 3}
-  - {fileID: 8300000, guid: 3e0eb83d856aeed4a8c92a4d7fd292c8, type: 3}
-  - {fileID: 8300000, guid: 27885f4ef5663014b913fbbd44ebe665, type: 3}
-  - {fileID: 8300000, guid: 32493d62957fdc3438df42b3b6cab248, type: 3}
-  - {fileID: 8300000, guid: 2e1eb02ffe4ecf642ab68e86be9fbd82, type: 3}
-  - {fileID: 8300000, guid: 5604fa17937188c4baf657bb61c510a2, type: 3}
-  - {fileID: 8300000, guid: 0f3bf49487291b1448d2387c219f5857, type: 3}
-  - {fileID: 8300000, guid: e8f95917b933d604d9987ed0de3e6e12, type: 3}
-  - {fileID: 8300000, guid: aa2986052ad875640b8bf4b1ce55e35b, type: 3}
-  - {fileID: 8300000, guid: 9f496fb2ee79a734a906d8d66dd084a9, type: 3}
-  - {fileID: 8300000, guid: 4b37ddd1c4177b94793be5416934368b, type: 3}
+  actor: 1
+  audioClips:
+  - {fileID: 8300000, guid: 4a36e608e630bb14a9e5294d0e2f8cf4, type: 3}
   showDebug: 0

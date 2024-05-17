@@ -9,6 +9,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
+using System;
 
 namespace RogueWave
 {
@@ -49,7 +50,6 @@ namespace RogueWave
         ParticleSystem defaultPickupParticlePrefab;
         [SerializeField, Tooltip("The default audio clip to play when a recipe name is needed, but the recipe does not have a name clip. This should never be used in practice.")]
         AudioClip defaultRecipeName;
-
 
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of resources collected in the game.")]
@@ -409,6 +409,11 @@ namespace RogueWave
 
         private void LevelUp()
         {
+            if (RogueLiteManager.persistentData.runNumber == 1)
+            {
+                return;
+            }
+
             RogueLiteManager.persistentData.currentNanobotLevel++;
 
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();

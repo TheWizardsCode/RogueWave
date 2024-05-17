@@ -21,7 +21,7 @@ namespace RogueWave
 
         protected virtual void Start()
         {
-            transform.SetParent(nanobotPawn.transform);
+            transform.SetParent(nanobotPawn.transform, false);
         }
     }
 }

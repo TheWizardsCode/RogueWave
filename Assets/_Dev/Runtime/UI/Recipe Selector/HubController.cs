@@ -10,9 +10,6 @@ namespace RogueWave.UI
 {
     public class HubController : MonoBehaviour
     {
-        [SerializeField, Tooltip("The scene to load when entering combat from this scene."), Scene]
-        string m_CombatScene = string.Empty;
-
         [Header("UI Elements")]
         [SerializeField, Tooltip("The number of resources currently available to the player. If this is null then it is assumed that the resources should not be shown.")]
         private Text m_ResourcesText = null;
@@ -83,9 +80,9 @@ namespace RogueWave.UI
         {
             if (FpsSoloCharacter.localPlayerCharacter == null)
             {
-                if (!string.IsNullOrWhiteSpace(m_CombatScene))
+                if (!string.IsNullOrWhiteSpace(RogueLiteManager.combatScene))
                 {
-                    NeoSceneManager.LoadScene(m_CombatScene);
+                    NeoSceneManager.LoadScene(RogueLiteManager.combatScene);
                 }
             }
             else

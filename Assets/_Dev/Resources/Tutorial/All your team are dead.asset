@@ -14,29 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: org.wizardscode.roguewave:WizardsCode.Tutorial:TutorialStep
   displayName: Team is Dead
   description: First words from the nanobots, you are alone.
-  sceneName: RogueWave_ReconstructionScene
+  isLoadingScene: 1
+  sceneName: RogueWave_CombatLevel
   sceneLoadCount: 1
-  loadingScreenDuration: 10.721633
-  loadingScreenHeroImage: {fileID: 21300000, guid: 199ee3e0cb4d9fb44913b550d69574c0, type: 3}
-  script: 'Neural pathways reconstructed.
+  duration: 0
+  heroImage: {fileID: 21300000, guid: 199ee3e0cb4d9fb44913b550d69574c0, type: 3}
+  script: 'Neural pathways are complete --- Welcome back!
 
+    
 
-    We have some bad news for you.
-
-
-    There''s
-    no easy way to say this.
-
-
-    All your team are dead.
-
-
-    It seems the natives
-    aren''t keen on you being here.
-
-'
-  loadingScreenClips:
-  - {fileID: 8300000, guid: 57d7fdfa26ae53f488ad83a54fffcd90, type: 3}
-  sceneClips:
-  - {fileID: 8300000, guid: 24684d0ba95ac3e4691991b9814b05c2, type: 3}
+    The natives
+    attacked. We managed to deconstruct you just before true death. We''ll have you
+    fully reconstructed soon, but -- I''m afraid, there''s no easy way to say this
+    ---- All your team are dead!'
+  actor: 1
+  audioClips:
+  - {fileID: 8300000, guid: cc832eba057fcac48bac02be9ec9372f, type: 3}
   showDebug: 1

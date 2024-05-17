@@ -85,7 +85,7 @@ namespace RogueWave
         public void OnClickContinue()
         {
             RogueLiteManager.LoadProfile(0);
-            NeoSceneManager.LoadScene(RogueLiteManager.instance.reconstructionScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.reconstructionScene);
         }
     }
 }

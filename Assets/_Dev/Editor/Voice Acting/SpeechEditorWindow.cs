@@ -1,9 +1,8 @@
 using ElevenLabs;
 using ElevenLabs.Voices;
 using RogueWave;
+using RogueWave.Tutorial;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.Recorder;
@@ -11,6 +10,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Audio;
 using WizardsCode.Audio;
+using static RogueWave.Constants;
 
 namespace WizardsCode.Speech
 {
@@ -25,13 +25,16 @@ namespace WizardsCode.Speech
         private RecorderController recordingController;
         private AudioSource audioSource;
         private AbstractRecipe[] allRecipes;
+        private TutorialStep[] allTutorialSteps;
         private int voicelineVariations = 4;
         private int processingVariations = 3;
 
         private Vector2 recipesScrollPosition;
+        private Vector2 tutorialStepScrollPosition;
         private List<Voice> activeVoices = new List<Voice>();
+
         private static readonly string[] validVoiceIds = new string[] { 
-            "0OefQs8ayzWKjplwJXyS", "DlaNkMyM2qrZzkFpbsiS", "hCPg2NoW9AOhketGMBJn", 
+            "0OefQs8ayzWKjplwJXyS", "gUABw7pXQjhjt0kNFBTF", "hCPg2NoW9AOhketGMBJn", 
             "mZzkFQAy1TG9QaiFuPbO", "Ro9jY4KmiusRPxvR7JCw", "FA6HhUjVbervLw2rNl8M", 
             "H1JjD7OHmS3KIOu5PDkI", "fYrvlfwSjfNxUmSH1Ikk", "y6p0SvBlfEe2MH4XN7BP",
             "j9jfwdrw7BRfcR43Qohk"
@@ -48,11 +51,12 @@ namespace WizardsCode.Speech
         {
             audioSource = FindAnyObjectByType<AudioSource>();
 
-            // Get all Recipes from the Resources folder
             allRecipes = Resources.LoadAll<AbstractRecipe>("Recipes");
+            allTutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
 
             voicelineVariations = EditorPrefs.GetInt("SpeechEditorWindow.voicelineVariations");
             processingVariations = EditorPrefs.GetInt("SpeechEditorWindow.processingVariations");
+
             int mixerGroupID = EditorPrefs.GetInt("SpeechEditorWindow.mixerGroup");
             if (mixerGroupID != -1)
             {
@@ -92,7 +96,16 @@ namespace WizardsCode.Speech
                 ActionsWhenPlaying();
             }
 
+            float height = Screen.height * 0.33f;
+
+            recipesScrollPosition = EditorGUILayout.BeginScrollView(recipesScrollPosition, GUILayout.MaxHeight(height));
             OnRecipeListGUI();
+            EditorGUILayout.EndScrollView();
+
+            tutorialStepScrollPosition = EditorGUILayout.BeginScrollView(tutorialStepScrollPosition, GUILayout.MaxHeight(height));
+            OnTutorialStepGUI();
+            EditorGUILayout.EndScrollView();
+            GUILayout.FlexibleSpace();
         }
 
         private void ActionsWhenPlaying()
@@ -107,7 +120,7 @@ namespace WizardsCode.Speech
             {
                 EditorApplication.delayCall += async () =>
                 {
-                    List<AudioClip> clips = await GenerateNanobotVoicelines();
+                    List<AudioClip> clips = await GenerateNanobotVoicelines(Random.Range(0, activeVoices.Count));
                     // do nothing with the clips
                 };
             }
@@ -143,11 +156,127 @@ namespace WizardsCode.Speech
             }
         }
 
+        private async void OnTutorialStepGUI()
+        {
+            List<AbstractRecipe> voicedRecipe = new List<AbstractRecipe>();
+            List<TutorialStep> voicedTutorialSteps = new List<TutorialStep>();
+
+            GUILayout.Space(10);
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Unvoiced Tutorial Steps", EditorStyles.boldLabel);
+            // TODO: Only show this button if there are unvoiced tutorial steps
+            if (Application.isPlaying)
+            {
+                if (GUILayout.Button($"Generate All Unvoiced Tutorial Steps Voicelines", GUILayout.Width(300), GUILayout.Height(40)))
+                {
+                    // TODO: only do this for unvoiced recipes. we have them in a separate list so we can do this.
+                    foreach (TutorialStep step in allTutorialSteps)
+                    {
+                        if (step.audioClips.Length == 0)
+                        {
+                            SetVoiceFields(step);
+
+                            int voiceIndex = 0;
+                            if (step.actor == Actor.Random) {
+                                voiceIndex = Random.Range(0, activeVoices.Count);
+                            } else
+                            {
+                                voiceIndex = (int)step.actor;
+                            }
+                            List<AudioClip> clips = await GenerateNanobotVoicelines(voiceIndex);
+                            step.audioClips = clips.ToArray();
+                            EditorUtility.SetDirty(step);
+                            AssetDatabase.SaveAssets();
+                        }
+                    }
+                }
+            }
+            GUILayout.EndHorizontal();
+
+            foreach (TutorialStep step in allTutorialSteps)
+            {
+                GUILayout.BeginHorizontal();
+                if (step.audioClips.Length > 0)
+                {
+                    voicedTutorialSteps.Add(step);
+                }
+                else
+                {
+                    if (GUILayout.Button(step.displayName, EditorStyles.label))
+                    {
+                        SetVoiceFields(step);
+                        Selection.activeObject = step;
+                    }
+                    if (Application.isPlaying)
+                    {
+                        if (GUILayout.Button($"Generate {voicelineVariations * processingVariations} Tutorial Step Voicelines", GUILayout.Width(200)))
+                        {
+                            Selection.activeObject = step;
+                            SetVoiceFields(step);
+
+                            EditorApplication.delayCall += async () =>
+                            {
+                                int voiceIndex = 0;
+                                if (step.actor == Actor.Random)
+                                {
+                                    voiceIndex = Random.Range(0, activeVoices.Count);
+                                }
+                                else
+                                {
+                                    voiceIndex = (int)step.actor;
+                                }
+                                List<AudioClip> clips = await GenerateNanobotVoicelines(voiceIndex); 
+                                step.audioClips = clips.ToArray();
+                                EditorUtility.SetDirty(step);
+                                AssetDatabase.SaveAssets();
+                            };
+                        }
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+
+            GUILayout.Space(10);
+            GUILayout.Label("Voiced Tutorial Steps", EditorStyles.boldLabel);
+            foreach (TutorialStep step in voicedTutorialSteps)
+            {
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button(step.displayName, EditorStyles.label))
+                {
+                    EditorGUIUtility.PingObject(step);
+                    Selection.activeObject = step;
+                }
+
+                if (!Application.isPlaying)
+                {
+                    if (GUILayout.Button($"Delete All", GUILayout.Width(80)))
+                    {
+                        foreach (AudioClip clip in step.audioClips)
+                        {
+                            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(clip));
+                        }
+                        step.audioClips = new AudioClip[0];
+                        EditorUtility.SetDirty(step);
+                        AssetDatabase.SaveAssets();
+                    }
+
+                    if (GUILayout.Button($"Play {step.audioClips.Length} Script Clip(s)", GUILayout.Width(200)))
+                    {
+                        audioSource.outputAudioMixerGroup = null;
+                        foreach (AudioClip clip in step.audioClips)
+                        {
+                            audioSource.PlayOneShot(clip);
+                            await Task.Delay((int)(clip.length * 1.15f) * 1000);
+                        }
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+        }
 
         private async void OnRecipeListGUI()
         {
-            recipesScrollPosition = EditorGUILayout.BeginScrollView(recipesScrollPosition);
-
             List<AbstractRecipe> voiced = new List<AbstractRecipe>();
 
             GUILayout.Space(10);
@@ -157,7 +286,7 @@ namespace WizardsCode.Speech
             // TODO: Only show this button if there are unvoiced recipes
             if (Application.isPlaying)
             {
-                if (GUILayout.Button($"Generate All Unvoiced Name Voicelines", GUILayout.Width(300), GUILayout.Height(40)))
+                if (GUILayout.Button($"Generate All Unvoiced Recipe Voicelines", GUILayout.Width(300), GUILayout.Height(40)))
                 {
                     // TODO: only do this for unvoiced recipes. we have them in a separate list so we can do this.
                     foreach (AbstractRecipe recipe in allRecipes)
@@ -166,7 +295,7 @@ namespace WizardsCode.Speech
                         {
                             SetVoiceFields(recipe);
 
-                            List<AudioClip> clips = await GenerateNanobotVoicelines();
+                            List<AudioClip> clips = await GenerateNanobotVoicelines(Random.Range(0, activeVoices.Count));
                             recipe.nameClips = clips.ToArray();
                             EditorUtility.SetDirty(recipe);
                             AssetDatabase.SaveAssets();
@@ -198,7 +327,7 @@ namespace WizardsCode.Speech
 
                             EditorApplication.delayCall += async () =>
                             {
-                                List<AudioClip> clips = await GenerateNanobotVoicelines();
+                                List<AudioClip> clips = await GenerateNanobotVoicelines(Random.Range(0, activeVoices.Count));
                                 recipe.nameClips = clips.ToArray();
                                 EditorUtility.SetDirty(recipe);
                                 AssetDatabase.SaveAssets();
@@ -245,8 +374,13 @@ namespace WizardsCode.Speech
                 }
                 GUILayout.EndHorizontal();
             }
+        }
 
-            EditorGUILayout.EndScrollView();
+        private void SetVoiceFields(TutorialStep step)
+        {
+            textToConvert = step.script;
+            filename = step.displayName;
+            category = "Tutorial";
         }
 
         private void SetVoiceFields(AbstractRecipe recipe)
@@ -256,7 +390,7 @@ namespace WizardsCode.Speech
             category = recipe.Category;
         }
 
-        private async Task<List<AudioClip>> GenerateNanobotVoicelines()
+        private async Task<List<AudioClip>> GenerateNanobotVoicelines(int voiceIndex)
         {
             Debug.Log("Generating Nanobot voice lines.");
 
@@ -273,7 +407,7 @@ namespace WizardsCode.Speech
                 Debug.Log($"Generating voice line {i + 1} of {voicelineVariations}");
 
                 VoiceSettings defaultVoiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
-                Voice voice = activeVoices[Random.Range(0, activeVoices.Count)];
+                Voice voice = activeVoices[voiceIndex];
                 VoiceClip voiceClip = await api.TextToSpeechEndpoint.TextToSpeechAsync(textToConvert, voice, defaultVoiceSettings);
 
                 string relativePath = GetRelativeFilepathWithoutExtensionForUnprocessedFile(i);
@@ -284,7 +418,7 @@ namespace WizardsCode.Speech
 
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
-            List<AudioClip> clips = await StartRecording();
+            List<AudioClip> clips = await RecordVariations();
 
             Repaint();
             Debug.Log("Completed recording.");
@@ -303,7 +437,7 @@ namespace WizardsCode.Speech
             Debug.Log($"Loaded {activeVoices.Count} voices.");
         }
 
-        private async Task<List<AudioClip>> StartRecording()
+        private async Task<List<AudioClip>> RecordVariations()
         {
             RecorderControllerSettings controllerSettings = CreateInstance<RecorderControllerSettings>();
             recordingController = new RecorderController(controllerSettings);
@@ -326,7 +460,12 @@ namespace WizardsCode.Speech
                 {
                     Debug.Log($"Processing variation {y + 1} of {processingVariations} for {i + 1} of {voicelineVariations} voicelines.");
 
-                    audioSource.pitch = 0.95f + (y * pitchStep);
+                    if (processingVariations > 1)
+                    {
+                        audioSource.pitch = 0.95f + (y * pitchStep);
+                    } else {
+                        audioSource.pitch = 1;
+                    }
                     audioSource.clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/{GetRelativeFilepathWithoutExtensionForUnprocessedFile(i)}.wav");
                     audioSource.clip.LoadAudioData();
                     while (audioSource.clip.loadState == AudioDataLoadState.Loading)
@@ -335,7 +474,8 @@ namespace WizardsCode.Speech
                     }
 
                     audioRecorder.OutputFile = GetProcessedFilepath(i, y);
-                    controllerSettings.SetRecordModeToFrameInterval(2, Mathf.RoundToInt(audioSource.clip.length + 0.3f) * frameRate);
+                    //controllerSettings.SetRecordModeToFrameInterval(2, Mathf.RoundToInt(audioSource.clip.length + 0.3f) * frameRate);
+                    controllerSettings.SetRecordModeToTimeInterval(0, audioSource.clip.length * 1.04f); // magic number to ensure we get the whole clip
 
                     recordingController.PrepareRecording();
                     recordingController.StartRecording();

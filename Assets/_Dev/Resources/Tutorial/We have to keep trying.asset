@@ -14,15 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: org.wizardscode.roguewave:WizardsCode.Tutorial:TutorialStep
   displayName: The portal home
   description: The first hint that this is going to repeat.
-  sceneName: RogueWave_Level
-  sceneLoadCount: 1
-  loadingScreenDuration: 15.029863
-  loadingScreenHeroImage: {fileID: 21300000, guid: f9bf250993245f74f8768496f0195dea, type: 3}
-  script: "We aren't sure where, or when, the portal home will reopen.\n\nWe can
-    nano-transfer you to possible locations, but there will probably be hostiles
-    present, and we can't guarantee the presence of the portal.\n\nBut we can keep
-    you alive, no matter what, we just have to keep trying until we find it.\t"
-  loadingScreenClips:
-  - {fileID: 8300000, guid: 29b9867ade782c74abacc50151470a63, type: 3}
-  sceneClips: []
+  isLoadingScene: 1
+  sceneName: RogueWave_CombatLevel
+  sceneLoadCount: 2
+  duration: 0
+  heroImage: {fileID: 21300000, guid: f9bf250993245f74f8768496f0195dea, type: 3}
+  script: "We have to find the portal home. -- We aren't sure where, or when, the
+    it'll reopen. ---\n\nWe will nano-transfer you to possible locations, but there
+    will probably be hostiles present.  But we can keep you alive, no matter what,
+    we just have to keep trying until we find our why out.\t"
+  actor: 1
+  audioClips:
+  - {fileID: 8300000, guid: b651a32cc4e89944cbe076b7e21206db, type: 3}
   showDebug: 1

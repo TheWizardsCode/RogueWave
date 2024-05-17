@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cb4f17aacd720849ba1df49c5bf61fa, type: 3}
+  m_Name: Gather Resources
+  m_EditorClassIdentifier: org.wizardscode.roguewave:WizardsCode.Tutorial:TutorialStep
+  displayName: Gather resources
+  description: Guidance to gather resources so Nanobots an create things for the
+    player.
+  isLoadingScene: 0
+  sceneName: RogueWave_CombatLevel
+  sceneLoadCount: 1
+  duration: 0
+  heroImage: {fileID: 21300000, guid: 199ee3e0cb4d9fb44913b550d69574c0, type: 3}
+  script: "We had to leave vital equipment behind. We can make more, but we need
+    resources first.\r\n\r\nGather what you can in this sector. Be careful though,
+    there is an enemy spawner here. While it's active we can't pull you out of there.
+    \n\nDestroy it and we'll transport you out, along with all your gear.\r"
+  actor: 1
+  audioClips:
+  - {fileID: 8300000, guid: a7b43a33c416f2041b7c695d0ae78bec, type: 3}
+  showDebug: 1

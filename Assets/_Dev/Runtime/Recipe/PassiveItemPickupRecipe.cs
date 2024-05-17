@@ -1,6 +1,3 @@
-using NeoFPS;
-using NeoFPS.SinglePlayer;
-using System;
 using UnityEngine;
 
 namespace RogueWave

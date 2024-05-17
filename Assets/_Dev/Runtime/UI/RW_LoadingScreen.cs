@@ -45,8 +45,8 @@ namespace RogueWave.UI
         private void Start()
         {
             // Check if first run
-            bool firstRun = (m_HintObject == null) || PlayerPrefs.GetInt("loading.first", 1) == 1;
-            PlayerPrefs.SetInt("loading.first", 0);
+            bool firstRun = (m_HintObject == null) || PlayerPrefs.GetInt("roguewave.loading.first", 1) == 1;
+            PlayerPrefs.SetInt("roguewave.loading.first", 0);
 
             if (firstRun)
             {
@@ -64,7 +64,7 @@ namespace RogueWave.UI
 
             if (isTutorial)
             {
-                ShowHeroImage(tutorialManager.currentlyActiveStep.loadingScreenHeroImage);
+                ShowHeroImage(tutorialManager.currentlyActiveStep.heroImage);
                 m_StoryText.text = tutorialManager.currentlyActiveStep.script;
                 m_TutorialContainer.gameObject.SetActive(true);
                 m_NoneTutorialContainer.gameObject.SetActive(false);
