@@ -65,6 +65,7 @@ namespace RogueWave.Tutorial
                 sceneIndex = SceneManagement.SceneBuildIndexFromName(sceneName);
             }
             sceneLoadCounts[sceneIndex]++;
+            currentlyActiveStep = null;
 
             foreach (TutorialStep step in tutorialSteps)
             {
