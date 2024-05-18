@@ -2,6 +2,7 @@
 using RogueWave.Tutorial;
 using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -65,7 +66,7 @@ namespace RogueWave.UI
             if (isTutorial)
             {
                 ShowHeroImage(tutorialManager.currentlyActiveStep.heroImage);
-                m_StoryText.text = tutorialManager.currentlyActiveStep.script;
+                m_StoryText.text = Regex.Replace(tutorialManager.currentlyActiveStep.script, "\\s*<.*?/>", string.Empty);
                 m_TutorialContainer.gameObject.SetActive(true);
                 m_NoneTutorialContainer.gameObject.SetActive(false);
             } else

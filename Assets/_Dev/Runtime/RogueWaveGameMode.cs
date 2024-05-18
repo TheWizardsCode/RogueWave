@@ -605,7 +605,7 @@ namespace RogueWave
 
             for (int i = 0; i < _startingRecipes.Length; i++)
             {
-                ConfigureRecipeForRun(_startingRecipes[i]);
+                RogueLiteManager.persistentData.Add(_startingRecipes[i]);
             }
 
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
