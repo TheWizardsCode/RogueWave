@@ -9,16 +9,11 @@ using Steamworks;
 using UnityEngine;
 using NaughtyAttributes;
 using System;
-using RogueWave;
 using System.Collections.Generic;
 using System.Text;
 using Lumpn.Discord;
-using RogueWave;
 using System.Collections;
 using UnityEngine.Serialization;
-using RogueWave.Editor;
-using UnityEngine.SocialPlatforms.Impl;
-using Steamworks.Data;
 
 namespace RogueWave.GameStats
 {

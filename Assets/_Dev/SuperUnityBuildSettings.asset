@@ -18,8 +18,8 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 29
-    buildVersion: 2024.05.09.5564
+    buildCounter: 36
+    buildVersion: 2024.05.18.3379
     versionTemplate: $YEAR.$MONTH.$DAY.$SECONDS
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -140,10 +140,10 @@ MonoBehaviour:
       - enabled: 1
         childKeys:
         - Release_NoSteamWorks/Linux/Linux x64/Mono
-      - enabled: 1
+      - enabled: 0
         childKeys:
         - Release_NoSteamWorks/Linux/Linux x64
-      - enabled: 0
+      - enabled: 1
         childKeys:
         - Release_NoSteamWorks/PC
         - Release_NoSteamWorks/Linux
@@ -154,7 +154,7 @@ MonoBehaviour:
     showBuildInfo: 0
     hideDisabled: 0
     treeView: 1
-    selectedKeyChain: DeveloperTest_NoSteamWorks/PC/Windows x64 (App)/Mono
+    selectedKeyChain: Release_NoSteamWorks/PC/Windows x64 (App)/Mono
   _preBuildActions:
     buildActions: []
   _postBuildActions:
@@ -182,7 +182,7 @@ MonoBehaviour:
     clauses:
     - type: 0
       comparison: 0
-      test: RELEASE_NOSTEAM
+      test: RELEASE_NOSTEAMWORKS
   pathToButlerExe: C:\Users\ross\OneDrive\bin\Butler\butler.exe
   nameOfItchUser: WizardsCode
   nameOfItchGame: rogue-wave

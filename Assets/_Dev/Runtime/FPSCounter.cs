@@ -3,9 +3,8 @@ using UnityEngine;
 using TMPro;
 using System;
 
-namespace RogueWave.Editor
+namespace RogueWave
 {
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
     /// <summary>
     /// This is a simple FPS counter that can be used to display the current FPS on screen. As well as gather data about average/max/min FPS. This is useful for debugging performance issues.
     /// 
@@ -91,5 +90,4 @@ namespace RogueWave.Editor
         }
 #endif
     }
-#endif
 }
