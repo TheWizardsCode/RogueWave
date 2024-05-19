@@ -205,7 +205,12 @@ namespace RogueWave
 
         public static string GetProfileName(int index)
         {
-            return Path.GetFileNameWithoutExtension(availableProfiles[index].Name);
+            if (availableProfiles == null || availableProfiles.Length == 0)
+                return string.Empty;
+            else if (index < 0 || index >= availableProfiles.Length)
+                return string.Empty;
+            else
+                return Path.GetFileNameWithoutExtension(availableProfiles[index].Name);
         }
 
         public static void LoadProfile(int index)
@@ -223,25 +228,25 @@ namespace RogueWave
 
         public static void SaveProfile()
         {
-#if UNITY_EDITOR
-            if (currentProfile == string.Empty)
-            {
-                currentProfile = "Test";
+//#if UNITY_EDITOR
+//            if (currentProfile == string.Empty)
+//            {
+//                currentProfile = "Test";
 
-                FileInfo newProfile = new FileInfo(string.Format("{0}\\{1}.{2}", Application.persistentDataPath, currentProfile, k_Extension));
+//                FileInfo newProfile = new FileInfo(string.Format("{0}\\{1}.{2}", Application.persistentDataPath, currentProfile, k_Extension));
 
-                if (availableProfiles == null)
-                {
-                    availableProfiles = new FileInfo[] { newProfile };
-                }
-                else
-                {
-                    List<FileInfo> temp = new List<FileInfo>(availableProfiles);
-                    temp.Add(newProfile);
-                    availableProfiles = temp.ToArray();
-                }
-            }
-#endif
+//                if (availableProfiles == null)
+//                {
+//                    availableProfiles = new FileInfo[] { newProfile };
+//                }
+//                else
+//                {
+//                    List<FileInfo> temp = new List<FileInfo>(availableProfiles);
+//                    temp.Add(newProfile);
+//                    availableProfiles = temp.ToArray();
+//                }
+//            }
+//#endif
             // Only save if there have been changes
             if (persistentData == null || !persistentData.isDirty || currentProfile == string.Empty)
                 return;
