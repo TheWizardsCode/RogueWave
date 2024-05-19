@@ -27,22 +27,38 @@ namespace RogueWave
 
             bool selectedSet = false;
 
+            RogueLiteManager.UpdateAvailableProfiles();
+
             if (m_ContinueButton != null)
             {
                 // Check if can continue (this can block so do it intermittently)
-                EventSystem.current.SetSelectedGameObject(m_ContinueButton.gameObject);
-                selectedSet = true;
-                m_ContinueButton.onClick.AddListener(OnClickContinue);
-                m_ContinueButton.gameObject.SetActive(true);
-                m_ContinueButton.interactable = true;
-                m_ContinueButton.description = string.Format("Profile = <b>{0}</b>", RogueLiteManager.GetProfileName(0));
+                if (RogueLiteManager.hasProfile)
+                {
+                    EventSystem.current.SetSelectedGameObject(m_ContinueButton.gameObject);
+                    selectedSet = true;
+                    m_ContinueButton.onClick.AddListener(OnClickContinue);
+                    m_ContinueButton.gameObject.SetActive(true);
+                    m_ContinueButton.interactable = true;
+                    m_ContinueButton.description = string.Format("Profile = <b>{0}</b>", RogueLiteManager.GetProfileName(0));
+                }
+                else
+                {
+                    m_ContinueButton.gameObject.SetActive(false);
+                }
             }
 
             if (m_SelectProfileButton != null)
             {
-                m_SelectProfileButton.onClick.AddListener(OnClickSelectProfile);
-                m_SelectProfileButton.gameObject.SetActive(true);
-                m_SelectProfileButton.interactable = true;
+                if (RogueLiteManager.hasProfile)
+                {
+                    m_SelectProfileButton.onClick.AddListener(OnClickSelectProfile);
+                    m_SelectProfileButton.gameObject.SetActive(true);
+                    m_SelectProfileButton.interactable = true;
+                }
+                else
+                {
+                    m_SelectProfileButton.gameObject.SetActive(false);
+                }
             }
 
             if (m_NewGameButton != null)

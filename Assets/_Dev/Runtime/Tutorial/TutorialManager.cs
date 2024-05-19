@@ -15,7 +15,9 @@ namespace RogueWave.Tutorial
     {
         [SerializeField, Tooltip("The loading scene that will be used to transition between scenes. When this scene is loaded some of the tutorial content will be displayed."), Scene]
         private string loadingScreen;
-        
+        [SerializeField, Tooltip("The scene to play if no profiles exist. This is the start of the tutorial."), Scene]
+        private string introScene;
+
         TutorialStep[] tutorialSteps;
 
         int[] sceneLoadCounts;
@@ -30,6 +32,12 @@ namespace RogueWave.Tutorial
             sceneLoadCounts = new int[SceneManager.sceneCountInBuildSettings];
 
             tutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
+
+            RogueLiteManager.UpdateAvailableProfiles();
+            if (!RogueLiteManager.hasProfile)
+            {
+                NeoSceneManager.LoadScene(introScene);
+            }
         }
 
         private void OnEnable()

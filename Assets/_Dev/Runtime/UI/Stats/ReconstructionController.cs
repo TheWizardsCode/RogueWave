@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RogueWave.GameStats
 { 
-    public class StatsAndAchievementsSceneController : MonoBehaviour
+    public class ReconstructionController : MonoBehaviour
     {
         [Header("Stats")]
         [SerializeField, Tooltip("The container to put the player stats in.")]
@@ -95,9 +95,15 @@ namespace RogueWave.GameStats
             }
         }
 
-        public static void LoadHubScene()
+        public static void LoadNextScene()
         {
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            if (RogueLiteManager.hasProfile)
+            {
+                NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            } else
+            {
+                NeoSceneManager.LoadScene(RogueLiteManager.mainMenuScene);
+            }
         }
     }
 }

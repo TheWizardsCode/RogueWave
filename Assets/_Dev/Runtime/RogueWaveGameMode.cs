@@ -18,6 +18,7 @@ using System.Xml.Serialization;
 using System;
 using NeoFPS.CharacterMotion;
 using Random = UnityEngine.Random;
+using UnityEngine.Serialization;
 
 namespace RogueWave
 {
@@ -34,8 +35,11 @@ namespace RogueWave
         private FpsSoloCharacter m_CharacterPrefab = null;
         [SerializeField, Tooltip("The initial health of the player character.")]
         private float initialHealth = 40;
-        [SerializeField, Tooltip("The recipes that will be available to the player at the start of each run, regardless of resources.")]
-        private AbstractRecipe[] _startingRecipes;
+        [SerializeField, Tooltip("The recipes that will be available to the player at the start of each run, regardless of resources and death.")]
+        [FormerlySerializedAs("m_StartingRecipes")]
+        private AbstractRecipe[] _startingRecipesPermanent;
+        [SerializeField, Tooltip("The recipes that will be available to the player on the start of their first run, but lost on death.")]
+        private AbstractRecipe[] _startingRecipesRun;
 
         [Header("Level Management")]
         [SerializeField, Tooltip("The seed to use for level generation. If set to -1, a random seed will be used.")]
@@ -581,7 +585,8 @@ namespace RogueWave
             }
 
             List<IRecipe> recipes = new List<IRecipe>();
-            recipes.AddRange(_startingRecipes);
+            recipes.AddRange(_startingRecipesPermanent);
+            recipes.AddRange(_startingRecipesRun);
             recipes.AddRange(RogueLiteManager.runData.Recipes);
 
             RogueLiteManager.runData.Loadout.Clear(); 
@@ -603,9 +608,9 @@ namespace RogueWave
                 NeoFpsAudioManager.PlayEffectAudioAtPosition(currentLevelDefinition.levelReadyAudioClips[Random.Range(0, currentLevelDefinition.levelReadyAudioClips.Length)], Camera.main.transform.position);
             }
 
-            for (int i = 0; i < _startingRecipes.Length; i++)
+            for (int i = 0; i < _startingRecipesPermanent.Length; i++)
             {
-                RogueLiteManager.persistentData.Add(_startingRecipes[i]);
+                RogueLiteManager.persistentData.Add(_startingRecipesPermanent[i]);
             }
 
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)

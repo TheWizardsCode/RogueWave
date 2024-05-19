@@ -14,6 +14,8 @@ namespace RogueWave
     {
 
         [Header("Scenes")]
+        [SerializeField, Tooltip("Name of the Main Menu Scene to load. This is where the player starts the game."), Scene]
+        private string m_mainMenuScene = "RogueWave_MainMenu";
         [SerializeField, Tooltip("Name of the Hub Scene to load between levels. This is where the player gets to buy permanent upgrades for their character."), Scene]
         private string m_reconstructionScene = "RogueWave_ReconstructionScene";
         [SerializeField, Tooltip("Name of the Reconstruction Scene to load upon death. This will show a summary of the players most recent run."), Scene]
@@ -34,11 +36,23 @@ namespace RogueWave
         }
 
 #if UNITY_EDITOR
-        [UnityEditor.MenuItem("Tools/Rogue Wave/Explore To Profiles Folder", priority = 0)]
+        [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Explore To Profiles Folder", priority = 0)]
         static void ExploreToProfilesFolder()
         {
             string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
             Application.OpenURL(folder);
+        }
+
+        [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Delete Profiles", priority = 1)]
+        static void DeleteProfiles()
+        {
+            string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
+            DirectoryInfo directory = new DirectoryInfo(folder);
+            if (directory.Exists)
+            {
+                directory.Delete(true);
+                UpdateAvailableProfiles();
+            }
         }
 #endif
 
@@ -59,6 +73,17 @@ namespace RogueWave
             get;
             private set;
         } = string.Empty;
+
+        public static string mainMenuScene
+        {
+            get
+            {
+                if (instance != null)
+                    return instance.m_mainMenuScene;
+                else
+                    return string.Empty;
+            }
+        }
 
         public static string hubScene
         {
@@ -110,6 +135,13 @@ namespace RogueWave
                     ResetRunData();
                 return m_RunData;
             }
+        }
+
+        public static bool hasProfile { 
+            get
+            {
+                return availableProfiles != null && availableProfiles.Length != 0;
+            } 
         }
 
         protected override void OnDestroy()
@@ -177,7 +209,7 @@ namespace RogueWave
                 m_PersistentData = new RogueLitePersistentData();
         }
 
-        static void UpdateAvailableProfiles()
+        internal static void UpdateAvailableProfiles()
         {
             // Get or create the profiles folder
             string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);

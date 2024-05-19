@@ -255,6 +255,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 312791779345894743, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1173576589928391996, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -291,46 +295,62 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1906224993111092232, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2278920627779949251, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2278920627779949251, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2278920627779949251, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 2278920627779949251, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 2278920627779949251, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40
       objectReference: {fileID: 0}
     - target: {fileID: 3065350906620607550, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3065350906620607550, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMin.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3065350906620607550, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 0
+      value: 320
       objectReference: {fileID: 0}
     - target: {fileID: 3065350906620607550, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: 3065350906620607550, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -126
       objectReference: {fileID: 0}
+    - target: {fileID: 4036236726832707903, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_Description
+      value: Feedback appreciated.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4088098735303341033, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: continueButton
+      value: 
+      objectReference: {fileID: 320224322}
+    - target: {fileID: 4088098735303341033, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: selectProfileButton
+      value: 
+      objectReference: {fileID: 536027156}
     - target: {fileID: 5965228009630884620, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -392,6 +412,28 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+--- !u!114 &320224322 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4646616537577074521, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+  m_PrefabInstance: {fileID: 130888108}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca59abb41b79ea489dce04aa8e5c418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &536027156 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8703305423226548693, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+  m_PrefabInstance: {fileID: 130888108}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ca59abb41b79ea489dce04aa8e5c418, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &742674689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -721,6 +763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingScreen: RogueWave_LoadingScene
+  introScene: RogueWave_IntroLevel
 --- !u!4 &1866998863
 Transform:
   m_ObjectHideFlags: 0
