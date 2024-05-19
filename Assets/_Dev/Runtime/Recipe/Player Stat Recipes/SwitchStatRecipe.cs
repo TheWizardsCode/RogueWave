@@ -16,6 +16,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The value of the stat when this recipe is applied.")]
         bool value = false;
 
+        public override string Category => "Stat";
+
         [Button("Apply Switch (works in game only)")]
         internal override void Apply()
         {

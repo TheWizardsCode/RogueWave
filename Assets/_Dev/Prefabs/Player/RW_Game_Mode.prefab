@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c187386a2187f4fac5475fff8f1275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: -1
+  fastFail: 1
 --- !u!1 &5223561033937574973
 GameObject:
   m_ObjectHideFlags: 0
@@ -79,6 +81,7 @@ Transform:
   m_Children:
   - {fileID: 3021623268426482257}
   - {fileID: 6262499156547862416}
+  - {fileID: 4040435941306778648}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7050872739850107185
@@ -98,7 +101,10 @@ MonoBehaviour:
   m_VictoryDuration: 5
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
-  _startingRecipes: []
+  initialHealth: 40
+  _startingRecipes:
+  - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
+  m_Seed: -1
   levels:
   - {fileID: 11400000, guid: 9457e0dad7ab5b54c86fa3439b0cdff4, type: 2}
   - {fileID: 11400000, guid: 907167b1f8785814e92140b33b99a787, type: 2}
@@ -106,7 +112,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e3174ef1a025c9140a82781959567ad6, type: 2}
   - {fileID: 11400000, guid: 1f3fab56f97b5904e89b12b386585fff, type: 2}
   - {fileID: 11400000, guid: 0b9628c45a935dd4695701360be1f27e, type: 2}
+  - {fileID: 11400000, guid: abda08b451113c748a651527554532a4, type: 2}
+  - {fileID: 11400000, guid: 564a8cdd017138d418c2df87ac7fcc06, type: 2}
   m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
+  m_PortalExitsCount: {fileID: 11400000, guid: dcd25387334f16c4e92d828dc31e508a, type: 2}
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
   m_TimePlayedStat: {fileID: 11400000, guid: cd470668f69eda34db38f3129ed8601f, type: 2}
   onSpawnerCreated:
@@ -115,7 +124,7 @@ MonoBehaviour:
   onEnemySpawned:
     m_PersistentCalls:
       m_Calls: []
-  _isDebug: 0
+  showDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
     spawnZones: []
@@ -190,10 +199,92 @@ MonoBehaviour:
   levelGenerator: {fileID: 3423411428560200973}
   maximumTimeBetweenReports: 30
   scannerPrefab: {fileID: 4437746279418429034, guid: bf1c25210103bed4bb9378c859bef582, type: 3}
-  timeSlice: 50
-  targetKillScore: 0.3
-  difficultyMultiplier: 7
+  timeSlice: 25
+  targetSkillScoreByLevel:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3
+      inSlope: 0.01425321
+      outSlope: 0.01425321
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.061538994
+    - serializedVersion: 3
+      time: 56.065468
+      value: 3.410944
+      inSlope: 0.11097543
+      outSlope: 0.11097543
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 99
+      value: 10
+      inSlope: 0.1959596
+      outSlope: 0.1959596
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  sizeOfAttackSquad: 5
+  difficultyMultiplier: 4
   isDebug: 0
+--- !u!1 &6012438873311502382
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4040435941306778648}
+  - component: {fileID: 803184603107497854}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4040435941306778648
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6012438873311502382}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5226446580903751955}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &803184603107497854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6012438873311502382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec53478dc643cb9498fce34d2e4c55af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 16
+  position: {x: 5, y: 5}
+  colour: {r: 0, g: 1, b: 0, a: 1}
+  startUpFrames: 600
+  updateInterval: 0.5
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0

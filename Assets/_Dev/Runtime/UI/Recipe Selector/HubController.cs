@@ -1,7 +1,6 @@
 using NeoFPS.SinglePlayer;
 using NeoFPS;
 using NeoSaveGames.SceneManagement;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,9 +10,6 @@ namespace RogueWave.UI
 {
     public class HubController : MonoBehaviour
     {
-        [SerializeField, Tooltip("The scene to load when entering combat from this scene."), Scene]
-        string m_CombatScene = string.Empty;
-
         [Header("UI Elements")]
         [SerializeField, Tooltip("The number of resources currently available to the player. If this is null then it is assumed that the resources should not be shown.")]
         private Text m_ResourcesText = null;
@@ -21,9 +17,23 @@ namespace RogueWave.UI
         private TMPro.TMP_Text m_GameLevelNumberText = null;
         [SerializeField, Tooltip("The text readout for the current players Nanobot level number.")]
         private TMPro.TMP_Text m_NanobotLevelNumberText = null;
+        [SerializeField, Tooltip("The button to move the player to the next screen on the way into combat.")]
+        private Button m_ContinueButton = null;
 
         internal static List<IRecipe> permanentRecipes = new List<IRecipe>();
         internal static List<IRecipe> temporaryRecipes = new List<IRecipe>();
+
+        private void OnEnable()
+        {
+            m_ContinueButton.onClick.AddListener(QuitSelectionUI);
+            NeoFpsInputManager.captureMouseCursor = false;
+        }
+
+        private void OnDisable()
+        {
+            m_ContinueButton.onClick.RemoveListener(QuitSelectionUI);
+            NeoFpsInputManager.captureMouseCursor = true;
+        }
 
         private void OnGUI()
         {
@@ -54,15 +64,25 @@ namespace RogueWave.UI
             temporaryRecipes.Clear();
             temporaryRecipes.AddRange(RogueLiteManager.runData.Recipes);
             temporaryRecipes.RemoveAll(recipe => permanentRecipes.Contains(recipe));
+
+            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
+            {
+                m_ContinueButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Build a Weapon";
+                m_ContinueButton.interactable = false;
+            } else
+            {
+                m_ContinueButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Continue to Loadout Builder";
+                m_ContinueButton.interactable = true;
+            }
         }
 
         public void QuitSelectionUI()
         {
             if (FpsSoloCharacter.localPlayerCharacter == null)
             {
-                if (!string.IsNullOrWhiteSpace(m_CombatScene))
+                if (!string.IsNullOrWhiteSpace(RogueLiteManager.combatScene))
                 {
-                    NeoSceneManager.LoadScene(m_CombatScene);
+                    NeoSceneManager.LoadScene(RogueLiteManager.combatScene);
                 }
             }
             else

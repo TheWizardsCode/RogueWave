@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 {
     public class AchievementNotificationManager : MonoBehaviour
     {

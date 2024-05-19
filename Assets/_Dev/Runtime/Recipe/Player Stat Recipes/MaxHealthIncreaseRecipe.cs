@@ -12,6 +12,8 @@ namespace RogueWave {
         [SerializeField, Tooltip("The amount to add to the current MaxHealth of the player.")]
         int AdditionalMaxHealth = 20;
 
+        public override string Category => "Health";
+
         internal override void Apply()
         {
             BasicHealthManager healthManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>();

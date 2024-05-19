@@ -187,11 +187,11 @@ namespace RogueWave
             }
 
 #if UNITY_EDITOR
-            string listOfCandidates = "";
-            foreach (T candidate in candidates)
-            {
-                listOfCandidates += $"\t{candidate} with weight {candidate.weight} and cost of {candidate.BuyCost}.\n";
-            }
+            //string listOfCandidates = "";
+            //foreach (T candidate in candidates)
+            //{
+            //    listOfCandidates += $"\t{candidate} with weight {candidate.weight} and cost of {candidate.BuyCost}.\n";
+            //}
             //Debug.Log($"Offer candidates: {candidates.Count}\n{listOfCandidates}");
 #endif
             return candidates;

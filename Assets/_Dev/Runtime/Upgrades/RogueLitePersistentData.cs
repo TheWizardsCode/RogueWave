@@ -22,7 +22,10 @@ namespace RogueWave
         [SerializeField] internal int m_CurrentGameLevel = 0; // The currentl level of the game, this advances each time the player completes all waves in a level.abl
         public int currentGameLevel {
             get { return m_CurrentGameLevel; }
-            set { m_CurrentGameLevel = value; }
+            set { 
+                m_CurrentGameLevel = value; 
+                isDirty = true;
+            }
         }
 
         [SerializeField] internal int m_CurrentNanobotLevel = 0; // The current level of the nanobots, this advances each time the player gahters enough resources to level up.
@@ -45,6 +48,7 @@ namespace RogueWave
 
         public List<string> RecipeIds = new List<string>();
         public List<string> _weaponBuildOrderBackingField = new List<string>(); // this is public to ensure it is serialized. TODO: write a custom serialiser for this class to avoid this
+
         internal List<string> WeaponBuildOrder
         {
             get

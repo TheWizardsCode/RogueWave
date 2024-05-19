@@ -12,6 +12,8 @@ namespace RogueWave
     {
         private ShieldManager _shieldMgr;
 
+        public override string Category => "Shield";
+
         private ShieldManager shieldManager
         {
             get

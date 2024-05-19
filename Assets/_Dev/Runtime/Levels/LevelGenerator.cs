@@ -1,19 +1,23 @@
 using NaughtyAttributes;
-using NeoFPS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
 {
     public class LevelGenerator : MonoBehaviour
     {
+        [Header("Debugging")]
+        [SerializeField, Tooltip("The seed used to generate this level. If set to -1 then the value fed in from the Game Mode will be used. This value has no effect outside the editor.")]
+        private int seed = -1;
+        [SerializeField, Tooltip("Should the generation fast fail when a problem is detected with the generation. In normal gameplay such levels will be regenerated. This has no effect outside the editor.")]
+        private bool fastFail = true;
+
         internal Transform root;
         internal WfcDefinition levelDefinition;
+        private int currentSeed;
         BaseTile[,] tiles;
         internal LevelGenerator parentGenerator;
 
@@ -24,10 +28,10 @@ namespace RogueWave
         /// Generate a level.
         /// </summary>
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
-        internal void Generate(WfcDefinition levelDefinition)
+        internal void Generate(WfcDefinition levelDefinition, int seed)
         {
-            //Generate(levelDefinition, new Vector3((levelDefinition.mapSize.x / 2) * levelDefinition.lotSize.x, 0 , (levelDefinition.mapSize.y / 2) * levelDefinition.lotSize.y));
-            Generate(levelDefinition, Vector3.zero);
+            attemptCount = 0; 
+            Generate(levelDefinition, Vector3.zero, seed);
         }
 
         /// <summary>
@@ -35,14 +39,15 @@ namespace RogueWave
         /// </summary>
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
-        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords)
+        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords, int seed)
         {
+            attemptCount = 0;
             if (root != null)
                 Clear();
 
             root = new GameObject($"Environment {baseCoords}").transform;
             root.localPosition = baseCoords;
-            Generate(levelDefinition, baseCoords, root.transform);
+            GenerateLevel(levelDefinition, baseCoords, root.transform, seed);
         }
 
         /// <summary>
@@ -51,19 +56,44 @@ namespace RogueWave
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
         /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
         /// <param name="root">The transform that this level will be parented to.</param>
-        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root)
+        internal void Generate(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root, int seed)
+        {
+            attemptCount = 0;
+            GenerateLevel(levelDefinition, baseCoords, root, seed);
+        }
+
+        int attemptCount = 0;
+        private string generationFailureReport;
+
+        /// <summary>
+        /// Generate a level.
+        /// </summary>
+        /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>
+        /// <param name="baseCoords">The base coordinates for the level. This is the bottom left corner of the level in local coordinates.</param>
+        /// <param name="root">The transform that this level will be parented to.</param>
+        private void GenerateLevel(WfcDefinition levelDefinition, Vector3 baseCoords, Transform root, int seed)
         {
             this.levelDefinition = levelDefinition;
             this.root = root;
 
+#if UNITY_EDITOR
+            if (this.seed >= 0)
+            {
+                seed = this.seed;
+            } else
+#endif
             if (levelDefinition.seed <= 0)
             {
-                Random.InitState(Environment.TickCount);
+                seed = Environment.TickCount;
+                Random.InitState(seed);
             }
             else
             {
+                seed = levelDefinition.seed;
                 Random.InitState(levelDefinition.seed);
             }
+
+            currentSeed = seed;
 
             tiles = new BaseTile[levelDefinition.mapSize.x, levelDefinition.mapSize.y];
 
@@ -75,10 +105,71 @@ namespace RogueWave
 
             GenerateTileContent();
 
-            PpositionSceneCamera();
+            attemptCount++;
+            if (attemptCount <= 3 && !isValidateLevel())
+            {
+#if UNITY_EDITOR
+                if (fastFail)
+                {
+                    GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. {generationFailureReport} In normal gameplay this would be regenerated.");
+                }
+#else
+                GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. {generationFailureReport} Regenerating.");
+                foreach (Transform child in root)
+                {
+                    Destroy(child.gameObject);
+                }
+                GenerateLevel(levelDefinition, baseCoords, root, -1);
+#endif
+            }
+
+            GameLog.Log($"Level generated with seed {seed} using {levelDefinition}.");
+
+            PositionSceneCamera();
         }
 
-        private void PpositionSceneCamera()
+        private bool isValidateLevel()
+        {
+            generationFailureReport = string.Empty;
+
+            // Check that every tile, except the outer walls, has at least one non barrier neighbor.
+            for (int x = 1; x < xSize - 1; x++)
+            {
+                for (int y = 1; y < ySize - 1; y++)
+                {
+                    if (tiles[x, y] != null)
+                    {
+                        int barrierNeighbours = 0;
+                        if (x > 0 && tiles[x - 1, y] is BarrierTile)
+                        {
+                            barrierNeighbours++;
+                        }
+                        else if (x < xSize - 1 && tiles[x + 1, y] is BarrierTile)
+                        {
+                            barrierNeighbours++;
+                        }
+                        else if (y > 0 && tiles[x, y - 1] is BarrierTile)
+                        {
+                            barrierNeighbours++;
+                        }
+                        else if (y < ySize - 1 && tiles[x, y + 1] is BarrierTile)
+                        {
+                            barrierNeighbours++;
+                        }
+
+                        if (barrierNeighbours >= 4)
+                        {
+                            generationFailureReport = $"Tile {x},{y} does has too many barrier neighbour.";
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private void PositionSceneCamera()
         {
             Camera sceneCamera = Camera.main;
             float height = Mathf.Max(levelDefinition.mapSize.x * levelDefinition.lotSize.x, levelDefinition.mapSize.y * levelDefinition.lotSize.y) ;
@@ -544,7 +635,12 @@ namespace RogueWave
         [Button("(Re)Generate")]
         void TestGenerate()
         {
-            Generate(FindObjectOfType<RogueWaveGameMode>().currentLevelDefinition);
+            if (!Application.isPlaying)
+            {
+                Debug.LogError("Generating a level should only be called in play mode.");
+            }
+
+            Generate(FindObjectOfType<RogueWaveGameMode>().currentLevelDefinition, -1);
         }
 #endif
     }

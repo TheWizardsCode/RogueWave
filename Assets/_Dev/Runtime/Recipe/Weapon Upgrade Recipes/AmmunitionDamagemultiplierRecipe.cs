@@ -15,6 +15,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The damage multiplier to apply to this ammo type.")]
         float multiplier = 1.1f;
 
+        public override string Category => "Ammunition";
+
         internal override void Apply(RogueWaveBulletAmmoEffect effect)
         {
             effect.damage *= multiplier;

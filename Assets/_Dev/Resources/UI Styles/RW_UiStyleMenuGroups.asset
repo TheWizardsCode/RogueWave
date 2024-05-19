@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eca1da46cd5ddd7489029c240e30e7b5, type: 3}
+  m_Name: RW_UiStyleMenuGroups
+  m_EditorClassIdentifier: 
+  m_HeightSmall: 50
+  m_HeightLarge: 80
+  m_Background: {fileID: 21300000, guid: df1c0c8c6a520ab4287d0d4aab7fc7c8, type: 3}
+  m_InputPulseDuration: 0.15
+  m_Colours:
+    normal: {r: 0, g: 0, b: 0, a: 0.54901963}
+    highlighted: {r: 0, g: 1, b: 0.6275861, a: 0.39215687}
+    focussed: {r: 0, g: 1, b: 0.6275861, a: 0.627451}
+    pressed: {r: 0, g: 1, b: 0.6275861, a: 0.39215687}
+    disabled: {r: 0, g: 0, b: 0, a: 0.27450982}
+  m_TextInfo:
+    font: {fileID: 12800000, guid: e7621c975d79eaa4f92bcc51d2679a70, type: 3}
+    headerColour: {r: 1, g: 1, b: 1, a: 1}
+    headerFontSize: 24
+    descriptionColour: {r: 1, g: 1, b: 1, a: 0.54901963}
+    descriptionFontSize: 20
+    controlColour: {r: 1, g: 1, b: 1, a: 1}
+    controlFontSize: 24
+  m_Icons:
+    plus: {fileID: 21300002, guid: 4d974bd370650f047bbe67e82a47e4ff, type: 3}
+    minus: {fileID: 21300000, guid: 4d974bd370650f047bbe67e82a47e4ff, type: 3}
+    left: {fileID: 21300004, guid: 4d974bd370650f047bbe67e82a47e4ff, type: 3}
+    right: {fileID: 21300006, guid: 4d974bd370650f047bbe67e82a47e4ff, type: 3}
+    expand: {fileID: 21300002, guid: 4d974bd370650f047bbe67e82a47e4ff, type: 3}
+    collapse: {fileID: 21300000, guid: 4d974bd370650f047bbe67e82a47e4ff, type: 3}
+    locked: {fileID: 0}
+    alert: {fileID: 0}
+  m_SoundEffects:
+    move: {fileID: 8300000, guid: 58d3bb8878851f241b424aecd5ab5284, type: 3}
+    press: {fileID: 0}
+    error: {fileID: 0}

@@ -12,6 +12,8 @@ namespace RogueWave
         [Header("Description")]
         [SerializeField, Tooltip("The name of this recipe. Used in the UI for the player.")]
         string displayName = "TBD";
+        [SerializeField, Tooltip("Text to use for the voiceline when the announcer needs to provide a name for this recipe. If left blank the name field will be used.")]
+        string announcerVoicelineForName = string.Empty;
         [SerializeField, TextArea(1, 4), Tooltip("A short description of this recipe helping the player understand what it is.")]
         string description = "TBD";
         [SerializeField, Tooltip("An image to use as the hero image for this recipe."), ShowAssetPreview]
@@ -23,15 +25,14 @@ namespace RogueWave
         [SerializeField, Tooltip("The zero based level of this recipe. This is used to influence when the recipe should be offered to the player.")]
         int level = 1;
         [SerializeField, Tooltip("The base weight of this recipe. This is used to influence when the recipe should be offered to the player if all prerequisites have been set. Other factors will affect the total weight, such as the number of complements already owned.")]
-        float baseWeight = 0.2f;
+        public float baseWeight = 0.2f;
         [SerializeField, Tooltip("The recipes that must be built before this recipe can be built.")]
         AbstractRecipe[] dependencies = new AbstractRecipe[0];
         [SerializeField, Tooltip("The recipes that complement this one. For each complimentary recipe the player already has this one will be given a higher chance of being offered.")]
         AbstractRecipe[] complements = new AbstractRecipe[0];
         [SerializeField, Tooltip("The resources required to buy this recipe. If the recipe is for a built item then there will be an additional cost to build it (see 'buildCost'), if it is an immediate upgrade then this is the only cost incurred.")]
-        [FormerlySerializedAs("cost")]
-        int buyCost = 500;
-
+        [FormerlySerializedAs("buyCost")]
+        public int baseBuyCost = 500;
 
         [Header("Build")]
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
@@ -51,7 +52,7 @@ namespace RogueWave
 
         [Header("Feedback")]
         [SerializeField, Tooltip("The sound to play when an announcer needs to provide a name for this recipe.")]
-        AudioClip[] nameClips = new AudioClip[0];
+        public AudioClip[] nameClips = new AudioClip[0];
         [SerializeField, Tooltip("The sound to play when the build is started. If there are no sounds here then a default will be used.")]
         AudioClip[] buildStartedClips = new AudioClip[0];
         [SerializeField, Tooltip("The sound to play when the build is complete. If there are no sounds here then a default will be used.")]
@@ -65,13 +66,37 @@ namespace RogueWave
 
         public string DisplayName => displayName;
 
+        public string AnnouncerVoicelineForName {
+            get
+            {
+                if (string.IsNullOrEmpty(announcerVoicelineForName))
+                {
+                    return DisplayName;
+                }
+                else
+                {
+                    return announcerVoicelineForName;
+                }
+            }
+        }
+
         public string Description => description;
 
         public Sprite HeroImage => heroImage;
 
         public Sprite Icon => icon;
 
-        public int Level => level;
+        public virtual string Category => "Miscellaneous";
+
+        public IRecipe[] Dependencies => dependencies;
+
+        public IRecipe[] Complements => complements;
+
+        public int Level
+        {
+            get => level;
+            set => level = value;
+        }
 
         public bool IsPowerUp => isPowerUp;
 
@@ -88,11 +113,11 @@ namespace RogueWave
                 if (IsStackable)
                 {
                     int ownedCopies = RogueLiteManager.runData.GetCount(this);
-                    return Mathf.RoundToInt(buyCost * (1 + (ownedCopies * 0.1f)));
+                    return Mathf.RoundToInt(baseBuyCost * (1 + (ownedCopies * 0.25f)));
                 }
                 else
                 {
-                    return buyCost;
+                    return baseBuyCost;
                 }
             }
         }
@@ -258,7 +283,7 @@ namespace RogueWave
         [Button("Set Build cost to 10% of buy cost")]
         protected void SetBuildCost()
         {
-            buildCost = Mathf.RoundToInt(buyCost * 0.1f);
+            buildCost = Mathf.RoundToInt(baseBuyCost * 0.1f);
             EditorUtility.SetDirty(this);
             AssetDatabase.SaveAssets();
         }

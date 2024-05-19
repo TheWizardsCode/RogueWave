@@ -32,6 +32,18 @@ namespace RogueWave
             base.Start();
         }
 
+        private void OnEnable()
+        {
+            if (RogueLiteManager.persistentData.runNumber == 0)
+            {
+                gameObject.SetActive(false);
+            }
+            else
+            {
+                gameObject.SetActive(true);
+            }
+        }
+
         protected override void OnDestroy()
         {
             if (nanobotManager != null)

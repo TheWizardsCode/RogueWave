@@ -1,7 +1,7 @@
 using UnityEngine;
 using NeoFPS;
 using UnityEngine.Serialization;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 using NaughtyAttributes;
 
 namespace RogueWave
@@ -10,9 +10,9 @@ namespace RogueWave
     public class DestructibleController : MonoBehaviour
     {
         [SerializeField, Tooltip("The particle effects to replace the object with when it is destroyed. These effects will have their colour and emitter shape adjusted to match the object being destroyed.")]
-        PooledObject[] m_PooledScaledDestructionParticles;
+        internal PooledObject[] m_PooledScaledDestructionParticles;
         [SerializeField, Tooltip("The VFX (e.g. smoke and fire) particle effects to spawn when the object is destroyed. These effects will not have their colour adjusted to match the object being destroyed, but they will be adjusted to match shape.")]
-        PooledObject[] m_PooledScaledFXParticles;
+        internal PooledObject[] m_PooledScaledFXParticles;
         [SerializeField, Tooltip("Density of particles to spawn. The higher this value the more particles will spawn."), Range(0.5f, 100)]
         float m_ParticalDensity = 25;
         [SerializeField, Tooltip("Explosive force. The higher this value the more the particles will move away from the center of the destructable object."), Range(0f, 10f)]
@@ -30,7 +30,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         internal float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
-        internal ResourcesPickup resourcesPrefab;
+        internal Pickup resourcesPrefab;
 
         // Game Stats
         [SerializeField, Tooltip("The GameStat to increment when this destructible is destroyed."), Foldout("Game Stats")]
@@ -118,7 +118,8 @@ namespace RogueWave
                 {
                     Vector3 pos = transform.position;
                     pos.y = 0;
-                    ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
+                    // OPTIMIZATION: use pool for resources
+                    Pickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
                     if (modelRenderer != null)
                     {
                         var resourcesRenderer = resources.GetComponentInChildren<Renderer>();

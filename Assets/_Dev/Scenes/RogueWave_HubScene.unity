@@ -38102,19 +38102,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1509369220}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1537294156}
-        m_TargetAssemblyTypeName: RogueWave.UI.HubController, org.wizardscode.roguewave
-        m_MethodName: QuitSelectionUI
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1509369220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38913,6 +38901,7 @@ MonoBehaviour:
   m_ResourcesText: {fileID: 1000208547}
   m_GameLevelNumberText: {fileID: 1035829446}
   m_NanobotLevelNumberText: {fileID: 1125330692}
+  m_ContinueButton: {fileID: 1509369219}
   testRecipes: []
 --- !u!1 &1548170415
 GameObject:

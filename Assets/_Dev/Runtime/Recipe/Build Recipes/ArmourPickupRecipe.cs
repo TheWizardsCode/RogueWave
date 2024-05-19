@@ -13,6 +13,8 @@ namespace RogueWave
         IInventory _Inventory;
         IInventoryItem _ArmourItem;
 
+        public override string Category => "Armour";
+
         private IInventoryItem armourItem
         {
             get

@@ -1,4 +1,4 @@
-using RogeWave;
+using RogueWave;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -131,7 +131,7 @@ namespace RogueWave.UI
 
             RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
 
-            GameLog.Instance.Info($"Made {recipe} permanent.");
+            GameLog.Info($"Made {recipe} permanent.");
         }
     }
 }

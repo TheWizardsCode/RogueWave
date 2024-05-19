@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45c9647589ddd646ab4be34481c3372, type: 3}
   m_Name: Passive Pulse Range +10%
   m_EditorClassIdentifier: 
-  displayName: Increase Pulse Weapon Range (10%)
+  displayName: Pulse Wave Range (10%)
+  announcerVoicelineForName: Increase Pulse Weapon Range, 10%.
   description: Increase the passive pulse weapons range by 10%.
   heroImage: {fileID: 21300000, guid: d2e5fe97345b6f247a257df43aacc853, type: 3}
   icon: {fileID: 21300000, guid: e460e5f997d617e4489e8ecf515badd6, type: 3}
@@ -21,7 +22,7 @@ MonoBehaviour:
   dependencies:
   - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
   complements: []
-  buyCost: 750
+  baseBuyCost: 750
   isPowerUp: 1
   isConsumable: 0
   cooldown: 30
@@ -29,7 +30,19 @@ MonoBehaviour:
   maxStack: 10
   buildCost: 75
   timeToBuild: 5
-  nameClips: []
+  nameClips:
+  - {fileID: 8300000, guid: d7f1e73536032ad4ea941ceba4a97079, type: 3}
+  - {fileID: 8300000, guid: 947325e78874fef41a7b0630d00a5caf, type: 3}
+  - {fileID: 8300000, guid: 019c7fbb32c4f2446a32294786de9c2c, type: 3}
+  - {fileID: 8300000, guid: b2a9c7d1447a1e442adf8f45168bda20, type: 3}
+  - {fileID: 8300000, guid: 7f2d7eb8d10691d48abf95db618c8d17, type: 3}
+  - {fileID: 8300000, guid: 9940262ac4f6ec548a08f3dbb4314a3e, type: 3}
+  - {fileID: 8300000, guid: d7ad604cb9b76a742a2e40f368907c2f, type: 3}
+  - {fileID: 8300000, guid: c3505dffefe2d784ebb8421d0bf1a61c, type: 3}
+  - {fileID: 8300000, guid: e046635a8f5c28944a33d23d3775f64c, type: 3}
+  - {fileID: 8300000, guid: fad2dc3439090fd45bc84997874dedc4, type: 3}
+  - {fileID: 8300000, guid: e1a1926fe0f44f54695bfff69b996456, type: 3}
+  - {fileID: 8300000, guid: d178cb6a98024ef4ab280b9f6fc853d7, type: 3}
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}

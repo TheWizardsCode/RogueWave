@@ -12,16 +12,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9173466c2b1873b46a6dc2bb3df303bb, type: 3}
   m_Name: Health Pickup 10 Recipe
   m_EditorClassIdentifier: 
-  displayName: Health 10
+  displayName: Bandages
+  announcerVoicelineForName: Bandages.
   description: Bandage up some of those flesh wounds.
   heroImage: {fileID: 21300000, guid: 37d7c21f57ea47949ac7074a41c8bba3, type: 3}
   icon: {fileID: 21300000, guid: 84eeed9f4d6630c48b646f1abfb9a084, type: 3}
   level: 3
   baseWeight: 0.2
   dependencies:
-  - {fileID: 11400000, guid: 54f96e0540cf6bb41a06fdbff74ac37e, type: 2}
+  - {fileID: 11400000, guid: fed54ab5aaf1355498d2c777f4b3cbd7, type: 2}
   complements: []
-  buyCost: 75
+  baseBuyCost: 75
   isPowerUp: 1
   isConsumable: 1
   cooldown: 4
@@ -30,17 +31,19 @@ MonoBehaviour:
   buildCost: 50
   timeToBuild: 5
   nameClips:
-  - {fileID: 8300000, guid: 89967dc181ad044438d2e71d9b8b1ed0, type: 3}
-  - {fileID: 8300000, guid: ac60d6c35a686214981bc70b76cb3154, type: 3}
-  - {fileID: 8300000, guid: 702fd7e65e4256748a990daf373054c3, type: 3}
-  - {fileID: 8300000, guid: 1b9a0f4fee56c5c469ce92ef54604636, type: 3}
-  - {fileID: 8300000, guid: aa3532eba6d1d964bab3b87c40f75f5d, type: 3}
-  buildStartedClips:
-  - {fileID: 8300000, guid: 372f2124f27024844996c0e57dbb7ed8, type: 3}
-  - {fileID: 8300000, guid: 9047ca4bae75c5a46a72037c49edad6f, type: 3}
-  - {fileID: 8300000, guid: fa3f06f5135079946baf7c4ee4cc6a34, type: 3}
-  - {fileID: 8300000, guid: 11cf4eb6106dba949b786e07912e5d83, type: 3}
-  - {fileID: 8300000, guid: 1171f7fc64454484394425d1adddc62a, type: 3}
+  - {fileID: 8300000, guid: c7687ebc314223a46a4d721c47abc589, type: 3}
+  - {fileID: 8300000, guid: b24902caa81f00d4da7ecd2e2f92a21c, type: 3}
+  - {fileID: 8300000, guid: 99464c49cdfcd2e4fbb478bfab8a47bf, type: 3}
+  - {fileID: 8300000, guid: c1616c62593efff488074f42c62e5607, type: 3}
+  - {fileID: 8300000, guid: 39511cc4557c0e549b65cc8db1b6435a, type: 3}
+  - {fileID: 8300000, guid: abfd335cd9ba518499b7b668bb122828, type: 3}
+  - {fileID: 8300000, guid: f276e1612d3847f40b5afd665367e32c, type: 3}
+  - {fileID: 8300000, guid: 39cbf4ad28e968847b4559ca03a39b94, type: 3}
+  - {fileID: 8300000, guid: f2e179c7204b12f4391bb8842cd37b47, type: 3}
+  - {fileID: 8300000, guid: 3ae15fe7064e8384da2c606525e75355, type: 3}
+  - {fileID: 8300000, guid: fd688e47cfac7d7459ff37bcc562ff08, type: 3}
+  - {fileID: 8300000, guid: 9c92b1ec503756542befba57b33e7a7b, type: 3}
+  buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
   uniqueID: e1ab5fee-77d9-48b5-bec3-fee65852a9b3

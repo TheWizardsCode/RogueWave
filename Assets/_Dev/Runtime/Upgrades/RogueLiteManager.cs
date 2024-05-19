@@ -1,4 +1,6 @@
+using NaughtyAttributes;
 using NeoFPS;
+using RogueWave.GameStats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,6 +12,20 @@ namespace RogueWave
     [CreateAssetMenu(fileName = "FpsManager_RogueLite", menuName = "Rogue Wave/Rogue-Lite Manager", order = 900)]
     public class RogueLiteManager : NeoFpsManager<RogueLiteManager>
     {
+
+        [Header("Scenes")]
+        [SerializeField, Tooltip("Name of the Hub Scene to load between levels. This is where the player gets to buy permanent upgrades for their character."), Scene]
+        private string m_reconstructionScene = "RogueWave_ReconstructionScene";
+        [SerializeField, Tooltip("Name of the Reconstruction Scene to load upon death. This will show a summary of the players most recent run."), Scene]
+        private string m_hubScene = "RogueWave_HubScene";
+        [SerializeField, Tooltip("The scene to load when the player enters the portal."), Scene]
+        private string m_portalScene = "RogueWave_PortalUsed";
+
+        public static string reconstructionScene
+        {
+            get { return instance.m_reconstructionScene; }
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void LoadRogueLiteManager()
         {
@@ -26,8 +42,6 @@ namespace RogueWave
         }
 #endif
 
-        [SerializeField, Tooltip("Name of the Hub Scene to load between levels. This is where the player gets to buy permanent upgrades for their character.")]
-        private string m_HubScene = "Playground_HubScene";
 
         const string k_Extension = "profileData";
         const string k_Subfolder = "Profiles";
@@ -51,7 +65,26 @@ namespace RogueWave
             get
             {
                 if (instance != null)
-                    return instance.m_HubScene;
+                    return instance.m_hubScene;
+                else
+                    return string.Empty;
+            }
+        }
+
+        public static string combatScene
+        {
+            get
+            {
+                return "RogueWave_CombatLevel";
+            }
+        }
+
+        public static string portalScene
+        {
+            get
+            {
+                if (instance != null)
+                    return instance.m_portalScene;
                 else
                     return string.Empty;
             }
@@ -166,12 +199,18 @@ namespace RogueWave
             currentProfile = profileName;
             ResetPersistentData();
             ResetRunData();
+            GameStatsManager.ResetStats();
             persistentData.isDirty = true;
         }
 
         public static string GetProfileName(int index)
         {
-            return Path.GetFileNameWithoutExtension(availableProfiles[index].Name);
+            if (availableProfiles == null || availableProfiles.Length == 0)
+                return string.Empty;
+            else if (index < 0 || index >= availableProfiles.Length)
+                return string.Empty;
+            else
+                return Path.GetFileNameWithoutExtension(availableProfiles[index].Name);
         }
 
         public static void LoadProfile(int index)
@@ -189,25 +228,25 @@ namespace RogueWave
 
         public static void SaveProfile()
         {
-#if UNITY_EDITOR
-            if (currentProfile == string.Empty)
-            {
-                currentProfile = "Test";
+//#if UNITY_EDITOR
+//            if (currentProfile == string.Empty)
+//            {
+//                currentProfile = "Test";
 
-                FileInfo newProfile = new FileInfo(string.Format("{0}\\{1}.{2}", Application.persistentDataPath, currentProfile, k_Extension));
+//                FileInfo newProfile = new FileInfo(string.Format("{0}\\{1}.{2}", Application.persistentDataPath, currentProfile, k_Extension));
 
-                if (availableProfiles == null)
-                {
-                    availableProfiles = new FileInfo[] { newProfile };
-                }
-                else
-                {
-                    List<FileInfo> temp = new List<FileInfo>(availableProfiles);
-                    temp.Add(newProfile);
-                    availableProfiles = temp.ToArray();
-                }
-            }
-#endif
+//                if (availableProfiles == null)
+//                {
+//                    availableProfiles = new FileInfo[] { newProfile };
+//                }
+//                else
+//                {
+//                    List<FileInfo> temp = new List<FileInfo>(availableProfiles);
+//                    temp.Add(newProfile);
+//                    availableProfiles = temp.ToArray();
+//                }
+//            }
+//#endif
             // Only save if there have been changes
             if (persistentData == null || !persistentData.isDirty || currentProfile == string.Empty)
                 return;

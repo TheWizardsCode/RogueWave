@@ -1,86 +1,62 @@
-using NaughtyAttributes;
 using NeoFPS;
-using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace RogueWave
 {
     public class PulseWeapon : PassiveWeapon
     {
-
-        MeshRenderer[] modelRenderers;
+        [Header("Pulse")]
+        float m_pulseDuration = 1.5f;
 
         Collider[] colliders = new Collider[50];
-        private int layerMask;
-
-        private void Awake()
+        private Material material;
+        
+        internal override void Awake()
         {
-            layerMask = 1 << layers;
-            modelRenderers = model.GetComponentsInChildren<MeshRenderer>();
-            foreach (MeshRenderer renderer in modelRenderers)
-            {
-                renderer.enabled = false;
-            }
+            base.Awake();
+
+            material = model.GetComponent<Renderer>().material;
+            transform.localScale = Vector3.one * (range / 5);
         }
 
         public override void Fire()
         {
-            m_NextFireTime = Time.timeSinceLevelLoad + m_Cooldown;
+            base.Fire();
 
             StartCoroutine(Pulse());
         }
 
         IEnumerator Pulse() {
-            float duration = m_Cooldown / 2;
             float timer = 0;
-            float height = range;
-            model.transform.localScale = Vector3.zero;
 
-            foreach (MeshRenderer renderer in modelRenderers)
+            while (timer < m_pulseDuration)
             {
-                renderer.enabled = true;
-            }
+                float scale = Mathf.Lerp(0f, 1, timer / m_pulseDuration);
+                material.SetFloat("_Size", scale);
+                timer += Time.deltaTime;
+                
+                KeyValuePair<float, Collider> collider = nanobotPawn.PeekDetectedObject();
 
-            Array.Clear(colliders, 0, colliders.Length);
-
-            bool originalQueriesHitTriggers = Physics.queriesHitTriggers;
-            Physics.queriesHitTriggers = false;
-            int count = Physics.OverlapSphereNonAlloc(transform.position, range, colliders, layerMask);
-            Physics.queriesHitTriggers = originalQueriesHitTriggers;
-
-            yield return null;
-
-            int i = 0;
-            while (timer < duration || i < count)
-            {
-                if (i < count && colliders[i] != null)
+                if (collider.Value != null && collider.Key <= range * scale)
                 {
-                    IDamageHandler damageHandler = colliders[i].GetComponent<IDamageHandler>();
+                    IDamageHandler damageHandler = collider.Value.GetComponent<IDamageHandler>();
 
                     if (damageHandler != null)
                     {
                         damageHandler.AddDamage(damage);
+                        if (hitAudioClip.Length > 0)
+                        {
+                            NeoFpsAudioManager.PlayEffectAudioAtPosition(hitAudioClip[UnityEngine.Random.Range(0, hitAudioClip.Length)], collider.Value.transform.position);
+                        }
                     }
-
-                    i++;
                 }
 
-                float scale = Mathf.Lerp(1, range, timer / duration);
-                model.transform.localScale = new Vector3(scale, height, scale);
-
-                timer += Time.deltaTime;
-             
                 yield return null;
             }
 
-            yield return new WaitForSeconds(0.5f);
-
-            foreach (MeshRenderer renderer in modelRenderers)
-            {
-                renderer.enabled = false;
-            }
+            material.SetFloat("_Size", 0f);
         }
 
         private void OnDrawGizmosSelected()

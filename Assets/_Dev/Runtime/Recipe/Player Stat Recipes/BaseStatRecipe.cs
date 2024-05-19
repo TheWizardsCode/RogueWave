@@ -54,6 +54,7 @@ namespace RogueWave
         // Parameters
         moveSpeed
     */
+        public override string Category => "Base Stat";
 
         MovementUpgradeManager _movementUpgradeManager;
         internal MovementUpgradeManager movementUpgradeManager

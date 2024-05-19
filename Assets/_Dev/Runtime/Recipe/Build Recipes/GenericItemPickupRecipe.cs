@@ -16,5 +16,6 @@ namespace RogueWave
     [CreateAssetMenu(fileName = "Item Pickup Recipe", menuName = "Rogue Wave/Recipe/Generic Item Pickup", order = 100)]
     public class GenericItemPickupRecipe : ItemRecipe<Pickup>
     {
+        public override string Category => "Item";
     }
 }

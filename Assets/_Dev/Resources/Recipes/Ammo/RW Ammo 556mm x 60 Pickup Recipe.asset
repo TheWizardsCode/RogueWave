@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7b81f4165b0a6244b9fd646452c5eec, type: 3}
   m_Name: RW Ammo 556mm x 60 Pickup Recipe
   m_EditorClassIdentifier: 
-  displayName: 556mm 60
+  displayName: 556mm (60 pack)
+  announcerVoicelineForName: Five Five Six millimeter, sixty pack.
   description: 60 rounds of 556mm ammo.
   heroImage: {fileID: 21300000, guid: 0abfc92557c48504f81a597607a0daab, type: 3}
   icon: {fileID: 21300000, guid: 9d6bda0936d64024ba583a9cebe40b5c, type: 3}
@@ -21,7 +22,7 @@ MonoBehaviour:
   dependencies:
   - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
   complements: []
-  buyCost: 200
+  baseBuyCost: 200
   isPowerUp: 1
   isConsumable: 1
   cooldown: 1
@@ -30,11 +31,18 @@ MonoBehaviour:
   buildCost: 60
   timeToBuild: 4.5
   nameClips:
-  - {fileID: 8300000, guid: 1817d2a6c599b574fbe960ffd10a7391, type: 3}
-  - {fileID: 8300000, guid: 126e6e2952e9fcd4e817b19c71047238, type: 3}
-  - {fileID: 8300000, guid: 550412fb85e45a7478583023762155dd, type: 3}
-  - {fileID: 8300000, guid: 4095669f9fca9ba438727391d0d66525, type: 3}
-  - {fileID: 8300000, guid: 1e49703097f676247a76f653e249b1ec, type: 3}
+  - {fileID: 8300000, guid: 99a0a75bd4309444fa2709789e1719b1, type: 3}
+  - {fileID: 8300000, guid: 7b1f7d85f3f08304e8d71a375474d08c, type: 3}
+  - {fileID: 8300000, guid: fad1d061971b19f47af2fa252b395981, type: 3}
+  - {fileID: 8300000, guid: 5c2501e5f77754e4aaceb2860d2748ed, type: 3}
+  - {fileID: 8300000, guid: a2deda165c62cbe43b540ee58fb21d4b, type: 3}
+  - {fileID: 8300000, guid: a39aedd7a5b7a5d4cb75756663ea2e58, type: 3}
+  - {fileID: 8300000, guid: 9f67301a4ec4070468f7d3ee4d2d0882, type: 3}
+  - {fileID: 8300000, guid: 8744f3a6ab9f8264c8a613e5895db72a, type: 3}
+  - {fileID: 8300000, guid: 3c40970f93028394983db82c63f3f2bd, type: 3}
+  - {fileID: 8300000, guid: 7acac9ced4695df4a887e73b20369c26, type: 3}
+  - {fileID: 8300000, guid: a263edc6fc426a84a861ab2ac53835c3, type: 3}
+  - {fileID: 8300000, guid: 60576e8a5130d0541a9084da96e20f1b, type: 3}
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}

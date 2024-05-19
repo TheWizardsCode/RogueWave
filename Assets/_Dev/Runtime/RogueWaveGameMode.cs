@@ -9,11 +9,15 @@ using System.Collections;
 using NeoFPS.Constants;
 using NaughtyAttributes;
 using RogueWave.UI;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 using System.Collections.Generic;
 using System.Linq;
-using RogeWave;
+using RogueWave;
 using System.Text;
+using System.Xml.Serialization;
+using System;
+using NeoFPS.CharacterMotion;
+using Random = UnityEngine.Random;
 
 namespace RogueWave
 {
@@ -28,17 +32,22 @@ namespace RogueWave
         private FpsSoloPlayerController m_PlayerPrefab = null;
         [SerializeField, NeoPrefabField(required = true), Tooltip("The character prefab to use.")]
         private FpsSoloCharacter m_CharacterPrefab = null;
-        private float initialHealth = 30;
+        [SerializeField, Tooltip("The initial health of the player character.")]
+        private float initialHealth = 40;
         [SerializeField, Tooltip("The recipes that will be available to the player at the start of each run, regardless of resources.")]
         private AbstractRecipe[] _startingRecipes;
 
         [Header("Level Management")]
+        [SerializeField, Tooltip("The seed to use for level generation. If set to -1, a random seed will be used.")]
+        private int m_Seed = -1;
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level."), Expandable]
         WfcDefinition[] levels;
 
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
         private GameStat m_VictoryCount;
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of portal exits in the game. A portal exist is when a player finds a portal and manages to exit through it.")]
+        private GameStat m_PortalExitsCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of deaths in the game.")]
         private GameStat m_DeathCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The time player stat for recording how long a player has been inside runs.")]
@@ -50,8 +59,11 @@ namespace RogueWave
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
         public UnityEvent<BasicEnemyController> onEnemySpawned;
 
-        [SerializeField, Tooltip("Turn on debug mode for this Game Mode"), Foldout("Debug")]
-        private bool _isDebug = false;
+#if UNITY_EDITOR
+        [HorizontalLine(color: EColor.Blue)]
+        [SerializeField, Tooltip("Turn on debug mode for this Game Mode")]
+        private bool showDebug = false;
+#endif
 
         LevelProgressBar levelProgressBar;
 
@@ -131,7 +143,8 @@ namespace RogueWave
         private Coroutine m_VictoryCoroutine = null;
         private float m_VictoryTimer = 0f;
 
-        public static event UnityAction onVictory;
+        public static event UnityAction onLevelComplete;
+        public static event UnityAction onPortalEntered;
 
         internal void OnSpawnerDestroyed(Spawner spawner)
         {
@@ -148,9 +161,11 @@ namespace RogueWave
                 bossSpawnersRemaining--;
             }
 
+            LogGameState("Level Cleared");
+
             if (bossSpawnersRemaining == 0 && m_VictoryCoroutine == null)
             {
-                m_VictoryCoroutine = StartCoroutine(DelayedVictoryCoroutine(m_VictoryDuration));
+                m_VictoryCoroutine = StartCoroutine(DelayedLevelClearedCoroutine(m_VictoryDuration));
             }
         }
 
@@ -159,46 +174,58 @@ namespace RogueWave
             LogGameState("Death");
 
             SaveGameData();
-            GameLog.Instance.ClearLog();
+            GameLog.ClearLog();
 
             RogueLiteManager.ResetRunData();
 
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.reconstructionScene);
         }
 
-        void DelayedVictoryAction()
+        void DelayedVictoryAction(bool usedPortal)
         {
             SaveGameData();
-            GameLog.Instance.ClearLog();
+            GameLog.ClearLog();
 
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            if (usedPortal)
+            {
+                NeoSceneManager.LoadScene(RogueLiteManager.portalScene);
+            }
+            else
+            {
+                NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            }
         }
 
-        private IEnumerator DelayedVictoryCoroutine(float delay)
+        /// <summary>
+        /// Level cleared is when all spawners are defeated and the player has not die, but the player has not yet exited the level via the portal.
+        /// </summary>
+        /// <param name="delay"></param>
+        /// <returns></returns>
+        private IEnumerator DelayedLevelClearedCoroutine(float delay)
         {
-            LogGameState("Run completed");
-
-            yield return null;
-
-            onVictory?.Invoke();
+            onLevelComplete?.Invoke();
 
             // Temporary magnet buff to pull in victory rewards
-            MagnetController magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
+            MagnetController magnet = null;
             float originalRange = 0;
             float originalSpeed = 0;
-            if (magnet != null)
+            if (FpsSoloCharacter.localPlayerCharacter != null)
             {
-                originalRange = magnet.range;
-                originalSpeed = magnet.speed;
-                magnet.range = 100;
-                magnet.speed = 25;
+                magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
+                if (magnet != null)
+                {
+                    originalRange = magnet.range;
+                    originalSpeed = magnet.speed;
+                    magnet.range = 100;
+                    magnet.speed = 25;
+                }
             }
 
             yield return null;
 
             // Delay timer
             m_VictoryTimer = delay;
-            while (m_VictoryTimer > 0f && !SkipDelayedDeathReaction())
+            while (m_VictoryTimer > 0f)
             {
                 m_VictoryTimer -= Time.deltaTime;
                 yield return null;
@@ -219,7 +246,48 @@ namespace RogueWave
             }
 
             if (inGame)
-                DelayedVictoryAction();
+                DelayedVictoryAction(false);
+        }
+
+        /// <summary>
+        /// Level completed is when the player has managed to exit the level via a portal.
+        /// </summary>
+        /// <param name="delay"></param>
+        /// <returns></returns>
+        private IEnumerator DelayedLevelCompleteCoroutine(float delay)
+        {
+            LogGameState("Portal used");
+
+            FloatValueModifier modifier = FpsSoloCharacter.localPlayerCharacter.GetComponent<MovementUpgradeManager>().GetFloatModifier("moveSpeed");
+            modifier.multiplier = 0;
+
+            yield return null;
+
+            onPortalEntered?.Invoke();
+
+            yield return null;
+
+            m_VictoryTimer = delay;
+            while (m_VictoryTimer > 0f)
+            {
+                m_VictoryTimer -= Time.deltaTime;
+                yield return null;
+            }
+
+            RogueLiteManager.persistentData.currentGameLevel++;
+
+            if (m_VictoryCount != null)
+            {
+                m_VictoryCount.Increment();
+            }
+
+            if (m_PortalExitsCount != null)
+            {
+                m_PortalExitsCount.Increment();
+            }
+
+            if (inGame)
+                DelayedVictoryAction(true);
         }
 
         private void SaveGameData()
@@ -370,10 +438,13 @@ namespace RogueWave
                 }
             }
 
-            IInventoryItem[] loadout = FpsSoloCharacter.localPlayerCharacter.GetComponent<IInventory>().GetItems();
-            foreach (var item in loadout)
+            if (FpsSoloCharacter.localPlayerCharacter != null)
             {
-                log.Append($"Inventory Item: {item.name}, ");
+                IInventoryItem[] loadout = FpsSoloCharacter.localPlayerCharacter.GetComponent<IInventory>().GetItems();
+                foreach (var item in loadout)
+                {
+                    log.Append($"Inventory Item: {item.name}, ");
+                }
             }
 
             foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
@@ -388,10 +459,13 @@ namespace RogueWave
             log.Append($"Nanobot Level: {RogueLiteManager.persistentData.currentNanobotLevel}, ");
             log.Append($"Game Level: {RogueLiteManager.persistentData.currentGameLevel}, ");
             log.Append($"Run Number: {RogueLiteManager.persistentData.runNumber}, ");
+
+            if (FpsSoloCharacter.localPlayerCharacter != null)
+            {
+                log.Append($"Health: {FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>().healthMax}, ");
+            }
             
-            log.Append($"Health: {FpsSoloCharacter.localPlayerCharacter.GetComponent<BasicHealthManager>().healthMax}, ");
-            
-            GameLog.Instance.Info(log.ToString());
+            GameLog.Info(log.ToString());
         }
 
         private void OnCharacterIsAliveChanged(ICharacter character, bool alive)
@@ -521,12 +595,17 @@ namespace RogueWave
             
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
-                levelGenerator.Generate(currentLevelDefinition);
+                levelGenerator.Generate(currentLevelDefinition, m_Seed);
+            }
+
+            if (currentLevelDefinition.levelReadyAudioClips != null && currentLevelDefinition.levelReadyAudioClips.Length > 0)
+            {
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(currentLevelDefinition.levelReadyAudioClips[Random.Range(0, currentLevelDefinition.levelReadyAudioClips.Length)], Camera.main.transform.position);
             }
 
             for (int i = 0; i < _startingRecipes.Length; i++)
             {
-                ConfigureRecipeForRun(_startingRecipes[i]);
+                RogueLiteManager.persistentData.Add(_startingRecipes[i]);
             }
 
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
@@ -535,6 +614,22 @@ namespace RogueWave
             }
 
             return base.PreSpawnStep();
+        }
+
+        internal void RegisterPortal(PortalController portal)
+        {
+            portal.onPortalEntered.AddListener(OnPortalEntered);
+        }
+
+        private void OnPortalEntered(PortalController portal, Collider collider)
+        {
+            if (collider.CompareTag("Player"))
+            {
+                if (m_VictoryCoroutine == null)
+                {
+                    m_VictoryCoroutine = StartCoroutine(DelayedLevelCompleteCoroutine(m_VictoryDuration));
+                }
+            }
         }
 
         internal void RegisterSpawner(Spawner spawner)

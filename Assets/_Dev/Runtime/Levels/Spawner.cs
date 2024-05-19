@@ -115,7 +115,7 @@ namespace RogueWave
             onSpawnerDestroyed?.Invoke(this);
         }
 
-        private void Update()
+        protected override void Update()
         {
             if (hasShield == false)
             {
@@ -300,7 +300,7 @@ namespace RogueWave
         /// <returns>The enemy spawned, null if current maxAlive is hit and we are not ignoring maxalive, or if an enemy cannot be spawned for some other reason.</returns>
         internal BasicEnemyController SpawnEnemy()
         {
-            if (ignoreMaxAlive && (currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
+            if (ignoreMaxAlive && (currentLevel.maxAlive == 0 || spawnedEnemies.Count >= currentLevel.maxAlive))
             {
                 return null;
             }

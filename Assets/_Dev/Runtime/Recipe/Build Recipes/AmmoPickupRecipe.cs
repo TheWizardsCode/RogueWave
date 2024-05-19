@@ -12,6 +12,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The ammo type this recipe creates.")]
         private SharedAmmoType ammo;
 
+        public override string Category => "Ammunition";
+
         private FpsInventorySwappable _inventory;
         private FpsInventorySwappable inventory
         {

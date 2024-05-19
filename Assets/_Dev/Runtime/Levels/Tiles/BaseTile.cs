@@ -51,6 +51,9 @@ namespace RogueWave
             ground.AddComponent<MeshFilter>().mesh = draft.ToMesh();
             ground.AddComponent<MeshRenderer>().material = groundMaterial;
             ground.AddComponent<MeshCollider>();
+
+            // TODO: Don't hard code the ground tag
+            ground.tag = "Ground";
         }
 
         protected virtual void GenerateEnemies(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)

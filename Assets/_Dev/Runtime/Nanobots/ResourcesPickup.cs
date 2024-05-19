@@ -8,7 +8,7 @@ using NeoFPS;
 namespace RogueWave
 {
     [RequireComponent(typeof(AudioSource))]
-    public class ResourcesPickup : MonoBehaviour, IPickup, INeoSerializableComponent
+    public class ResourcesPickup : Pickup, INeoSerializableComponent
     {
         [SerializeField, Tooltip("The amount of resources to collect.")]
         private int m_ResourcesAmount = 10;
@@ -35,7 +35,7 @@ namespace RogueWave
             EnablePickup(true);
         }
 
-        public void Trigger(ICharacter character)
+        public override void Trigger(ICharacter character)
         {
             var nanobotManager = character.GetComponent<NanobotManager>();
             if (nanobotManager == null)

@@ -11,6 +11,8 @@ namespace RogueWave {
         [SerializeField, Tooltip("The amount to add to the current damage mitigation of the shields.")]
         float additionalDamageMitigation = 0.1f;
 
+        public override string Category => "Shield";
+
         internal override void Apply()
         {
             var shield = FpsSoloCharacter.localPlayerCharacter.GetComponent<ShieldManager>();

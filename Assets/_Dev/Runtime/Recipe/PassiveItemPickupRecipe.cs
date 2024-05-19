@@ -1,6 +1,3 @@
-using NeoFPS;
-using NeoFPS.SinglePlayer;
-using System;
 using UnityEngine;
 
 namespace RogueWave
@@ -8,6 +5,8 @@ namespace RogueWave
     [CreateAssetMenu(fileName = "Passive Item Pickup Recipe", menuName = "Rogue Wave/Recipe/Passive Item Pickup", order = 106)]
     public class PassiveItemPickupRecipe : ItemRecipe<PassivePickup>
     {
+        public override string Category => "Passive Item";
+
         /// <summary>
         /// Apply this recipe if there is not too many applied already.
         /// </summary>
@@ -19,7 +18,7 @@ namespace RogueWave
 
             if (applied < MaxStack)
             {
-                PassiveWeapon passiveWeapon = Instantiate(pickup.itemPrefab);
+                GameObject passiveWeapon = Instantiate(pickup.itemPrefab);
                 passiveWeapon.transform.SetParent(manager.transform, false);
                 return true;
             }

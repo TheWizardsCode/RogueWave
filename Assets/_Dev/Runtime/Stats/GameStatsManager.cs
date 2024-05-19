@@ -1,11 +1,4 @@
-﻿// The SteamManager is designed to work with Steamworks.NET
-// This file is released into the public domain.
-// Where that dedication is not recognized you are granted a perpetual,
-// irrevocable license to copy and modify this file as you see fit.
-//
-// Version: 1.0.13
-
-#if UNITY_EDITOR
+﻿#if UNITY_EDITOR
 using UnityEditor;
 #endif
 
@@ -16,14 +9,13 @@ using Steamworks;
 using UnityEngine;
 using NaughtyAttributes;
 using System;
-using RogueWave;
 using System.Collections.Generic;
 using System.Text;
 using Lumpn.Discord;
-using RogeWave;
 using System.Collections;
+using UnityEngine.Serialization;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 {
     //
     // The GameStatsManager is a singleton responsible for managing player Stats and Achievements, as well as
@@ -35,10 +27,15 @@ namespace WizardsCode.GameStats
     [DisallowMultipleComponent]
     public class GameStatsManager : MonoBehaviour
     {
-        [SerializeField, Tooltip("The URL of the webhook to send stats and achievements to.")]
-        WebhookData webhookData;
+        [SerializeField, Tooltip("The scene to load when displaying stats for the player."), Scene]
+        private string m_StatsScene = "RogueWave_StatsScene";
+        [SerializeField, Tooltip("The URL of the webhook to send player stats and achievements to.")]
+        [FormerlySerializedAs("webhookData")]
+        WebhookData playerDataWebhook;
+        [SerializeField, Tooltip("The URL of the webhook to send developer stats and achievements to.")]
+        WebhookData developerDataWebhook;
 
-        private Achievement[] m_Achievements;
+        private Achievement[] m_Achievements = new Achievement[0];
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]
@@ -55,21 +52,65 @@ namespace WizardsCode.GameStats
         private float startTime;
         private float endTime;
 
-        public static GameStatsManager Instance { get; private set; }
+        private static GameStatsManager m_Instance;
+        public static GameStatsManager Instance {
+            get
+            {
+                if (m_Instance == null)
+                {
+                    m_Instance = FindFirstObjectByType<GameStatsManager>();
+                    if (m_Instance == null)
+                    {
+                        m_Instance = new GameObject("Game Stat Manager").AddComponent<GameStatsManager>();
+                    }
+
+                    DontDestroyOnLoad(m_Instance.gameObject);
+                }
+
+                return m_Instance;
+            }
+        }
+
         public static Action<Achievement> OnAchievementUnlocked { get; internal set; }
+
+        public static string statsScene
+        {
+            get
+            {
+                return Instance.m_StatsScene;
+            }
+        }
+
+        WebhookData activeWebhook
+        {
+            get
+            {
+#if UNITY_EDITOR
+                return developerDataWebhook;
+#else
+                return playerDataWebhook;  
+#endif
+            }
+        }
+
+        public List<Achievement> unlockedAchievements
+        {
+            get
+            {
+                List<Achievement> unlocked = new List<Achievement>();
+                foreach (Achievement achievement in m_Achievements)
+                {
+                    if (achievement.isUnlocked)
+                    {
+                        unlocked.Add(achievement);
+                    }
+                }
+                return unlocked;
+            }
+        }
 
         private void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
-            }
-
             DontDestroyOnLoad(gameObject);
 
             m_Achievements = Resources.LoadAll<Achievement>("");
@@ -106,7 +147,7 @@ namespace WizardsCode.GameStats
 
         internal void SendDataToWebhook() 
         {
-            if (webhookData == null)
+            if (activeWebhook == null)
             {
                 return;
             }
@@ -117,7 +158,7 @@ namespace WizardsCode.GameStats
 
         IEnumerator SendDataToWebhookCoroutine(string[] chunks)
         {
-            Webhook webhook = webhookData.CreateWebhook();
+            Webhook webhook = activeWebhook.CreateWebhook();
             foreach (string chunk in chunks)
             {
                 if (chunk.Length > 2000)
@@ -133,7 +174,7 @@ namespace WizardsCode.GameStats
                             yield return new WaitForSeconds(0.5f);
                             sb.Clear();
                         }
-                        sb.AppendLine(line);
+                        sb.Append(line);
                     }
 
                     StartCoroutine(webhook.Send($"```yaml\n# Partial (Last)\n{sb}```"));
@@ -168,7 +209,23 @@ namespace WizardsCode.GameStats
             sb.AppendLine($"  - SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}");
             chunks.Add(sb.ToString());
 
-            chunks.Add(GameLog.Instance.ToYAML());
+            sb.AppendLine("Performance Stats:");
+            FPSCounter fps = FindObjectOfType<FPSCounter>();
+            if (fps != null)
+            {
+                sb.AppendLine($"  - AVERAGE_FPS: {fps.averageFPS}");
+                sb.AppendLine($"  - MIN_FPS: {fps.minFPS}");
+                sb.AppendLine($"  - MAX_FPS: {fps.maxFPS}");
+            }
+            else
+            {
+                sb.AppendLine("No FPS Counter found.");
+            }
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+
+            chunks.Add(GameLog.ToYAML());
 
             sb.Clear();
 
@@ -188,6 +245,23 @@ namespace WizardsCode.GameStats
                     }
                 }
             }
+
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Score:");
+            int totalScore = 0;
+            GameStat[] stats = Resources.LoadAll<GameStat>("");
+            foreach (GameStat stat in stats)
+            {
+                if (stat.contributeToScore)
+                {
+                    int score = stat.ScoreContribution;
+                    totalScore += score;
+                    sb.AppendLine($"  - {stat.key}: {score}");
+                }
+            }
+            sb.AppendLine($"  - Total Score: {totalScore}");
             chunks.Add(sb.ToString());
 
             sb.Clear();
@@ -201,6 +275,20 @@ namespace WizardsCode.GameStats
             chunks.Add(sb.ToString());
 
             return chunks.ToArray();
+        }
+
+        internal GameStat GetStat(string key)
+        {
+            GameStat[] stats = Resources.LoadAll<GameStat>("");
+            foreach (GameStat stat in stats)
+            {
+                if (stat.key == key)
+                {
+                    return stat;
+                }
+            }
+
+            return null;
         }
 
         private void Update()
@@ -293,11 +381,26 @@ namespace WizardsCode.GameStats
             OnAchievementUnlocked?.Invoke(achievement);
         }
 
-        #region EDITOR_ONLY
-#if UNITY_EDITOR
-        #region ScriptableObjects
+        [Button("Reset Stats and Achievements (Play mode only)"), ShowIf("showDebug")]
+        internal static void ResetStats()
+        {
+            if (Application.isPlaying)
+            {
+                ResetLocalStatsAndAchievements();
+#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+                ResetSteamStats();
+#endif
+                Debug.Log("Stats and achievements reset.");
+            }
+            else
+            {
+                Debug.LogError("You can only reset Steam stats and achievements in play mode.");
+            }
+        }
 
+#if UNITY_EDITOR
         [MenuItem("Tools/Rogue Wave/Data/Destructive/Reset Stats and Achievements")]
+#endif
         private static void ResetLocalStatsAndAchievements()
         {
             GameStat[] gameStats = Resources.LoadAll<GameStat>("");
@@ -315,24 +418,13 @@ namespace WizardsCode.GameStats
             Debug.Log("Stats and achievements reset.");
         }
 
-        [Button("Reset Stats and Achievements (Play mode only)")]
-        private static void ResetStats()
-        {
-            if (Application.isPlaying)
-            {
-                ResetLocalStatsAndAchievements();
-#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-                ResetSteamStats();
-#endif
-                Debug.Log("Stats and achievements reset.");
-            }
-            else
-            {
-                Debug.LogError("You can only reset Steam stats and achievements in play mode.");
-            }
-        }
+        #region EDITOR_ONLY
+#if UNITY_EDITOR
+        [HorizontalLine(color: EColor.Blue)]
+        [SerializeField]
+        bool showDebug = false;
 
-        [Button("Dump Stats and Achievements to Console")]
+        [Button("Dump Stats and Achievements to Console"), ShowIf("showDebug")]
         private void DumpStatsAndAchievements()
         {
             if (Application.isPlaying)
@@ -379,7 +471,6 @@ namespace WizardsCode.GameStats
                 Debug.LogError("You can only dump stats and achievements in play mode.");
             }
         }
-        #endregion
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [Button("Disable Steamworks")]
@@ -434,7 +525,7 @@ namespace WizardsCode.GameStats
             Debug.LogError($"Steam: {achievement.name} = Not found");
         }
 #else
-        [Button("Enable Steamworks")]
+        [Button("Enable Steamworks"), ShowIf("showDebug")]
         private void EnableSteamworks()
         {
             PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);
@@ -449,6 +540,15 @@ namespace WizardsCode.GameStats
         }
 #endif
 #endif
-        #endregion
+#endregion
+    }
+
+    [Serializable]
+    internal struct ScoreCallculation
+    {
+        [SerializeField, Tooltip("The stat this scord caclulation is based on.")]
+        internal GameStat stat;
+        [SerializeField, Tooltip("The number of points per unit of the stat.")]
+        internal int pointsPerUnit;
     }
 }

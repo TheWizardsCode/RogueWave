@@ -19,7 +19,7 @@ namespace RogueWave
             levelGenerator = gameObject.AddComponent<LevelGenerator>();
             levelGenerator.parentGenerator = parent;
             levelGenerator.levelDefinition = wfcDefinition;
-            levelGenerator.Generate(wfcDefinition, Vector3.zero, transform);
+            levelGenerator.Generate(wfcDefinition, Vector3.zero, transform, -1);
             Destroy(levelGenerator);
         }
 

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: RW Ammo 762mm Ammo +10%  Recipe
   m_EditorClassIdentifier: 
   displayName: 762 Damage +10%
+  announcerVoicelineForName: Increase Damage, Seven Six Two millimeter, 10%.
   description: Increase the damage done by 762mm ammo by 10%.
   heroImage: {fileID: 21300000, guid: 9e6c72b0636c91a4386813641f149fab, type: 3}
   icon: {fileID: 21300000, guid: f78c776520fce2347949cedeed6a2112, type: 3}
@@ -21,7 +22,7 @@ MonoBehaviour:
   dependencies:
   - {fileID: 11400000, guid: 63db726cd6cb7e14eaf506d41ab93140, type: 2}
   complements: []
-  buyCost: 600
+  baseBuyCost: 600
   isPowerUp: 1
   isConsumable: 1
   cooldown: 30
@@ -29,7 +30,19 @@ MonoBehaviour:
   maxStack: 10
   buildCost: 50
   timeToBuild: 10
-  nameClips: []
+  nameClips:
+  - {fileID: 8300000, guid: 481a4a8ca1fc22f4e8d121335707f7af, type: 3}
+  - {fileID: 8300000, guid: 73ae066cea4ddb146b885ef607f7736d, type: 3}
+  - {fileID: 8300000, guid: a06210f05c74b8a48999ebfc04fdc161, type: 3}
+  - {fileID: 8300000, guid: 7f5e3d5468f7de94dac3db1f2790c757, type: 3}
+  - {fileID: 8300000, guid: eb760175b780b0346a49924b499c2155, type: 3}
+  - {fileID: 8300000, guid: 28d901664016a214688dc1bc48f04ada, type: 3}
+  - {fileID: 8300000, guid: 8c0b94de638762d4d96a1acf031bca14, type: 3}
+  - {fileID: 8300000, guid: 3ff1aae9f713fd0439912ee14e06e122, type: 3}
+  - {fileID: 8300000, guid: b3121ff93624bfb4aa17d82f3905c087, type: 3}
+  - {fileID: 8300000, guid: 82b8fd583b7ed66408c020bf6881a1c5, type: 3}
+  - {fileID: 8300000, guid: 5d864de5f5cfb23429c44a047dc6dd12, type: 3}
+  - {fileID: 8300000, guid: 337d429c5095fc34c89389c0536ee732, type: 3}
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}

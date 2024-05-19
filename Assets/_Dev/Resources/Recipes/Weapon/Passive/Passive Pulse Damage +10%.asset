@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45c9647589ddd646ab4be34481c3372, type: 3}
   m_Name: Passive Pulse Damage +10%
   m_EditorClassIdentifier: 
-  displayName: Increase Pulse Weapon Damage (10%)
+  displayName: Pulse Wave Damage (10%)
+  announcerVoicelineForName: Increase Damage, Pulse Weapon, 10%
   description: Increase the passive pulse weapons damage by 10%.
   heroImage: {fileID: 21300000, guid: 10d305d400e030040ae1020520cc7af5, type: 3}
   icon: {fileID: 21300000, guid: 1daf48e6fc7ccae45bb6709a8c1ea5a0, type: 3}
@@ -21,7 +22,7 @@ MonoBehaviour:
   dependencies:
   - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
   complements: []
-  buyCost: 750
+  baseBuyCost: 750
   isPowerUp: 1
   isConsumable: 0
   cooldown: 30
@@ -29,7 +30,19 @@ MonoBehaviour:
   maxStack: 10
   buildCost: 75
   timeToBuild: 5
-  nameClips: []
+  nameClips:
+  - {fileID: 8300000, guid: 75fd9dff39741bf47967afaa6294641f, type: 3}
+  - {fileID: 8300000, guid: 4bdde15dcce6c10498eb8b8c6f8abe9a, type: 3}
+  - {fileID: 8300000, guid: e3330cf8284248e48b9e3a7c9a78f1f5, type: 3}
+  - {fileID: 8300000, guid: ea7252f3bbfedb943908db643a0f9bf1, type: 3}
+  - {fileID: 8300000, guid: 707e5012f12f92b4a915981f93ad2653, type: 3}
+  - {fileID: 8300000, guid: c348755176717cc4b864162a2b1fa2e9, type: 3}
+  - {fileID: 8300000, guid: d103b91ed725835438c84744843e48f8, type: 3}
+  - {fileID: 8300000, guid: cc7761f71bd7aca42bdd09941b204baa, type: 3}
+  - {fileID: 8300000, guid: a58d6524ff807394bb00c9ab77e4c665, type: 3}
+  - {fileID: 8300000, guid: c6e8e85e9ba321a40a40c28de1fef5e9, type: 3}
+  - {fileID: 8300000, guid: dcb1dcad39d479d43b48e1d59bc72385, type: 3}
+  - {fileID: 8300000, guid: f0c59b1aa3c43d440af79c4344d7da31, type: 3}
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}

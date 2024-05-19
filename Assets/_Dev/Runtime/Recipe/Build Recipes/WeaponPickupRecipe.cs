@@ -14,6 +14,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]
         internal AmmoPickupRecipe ammoRecipe;
 
+        public override string Category => "Weapon";
+
         [NonSerialized]
         private FpsInventorySwappable _inventory;
         private FpsInventorySwappable inventory

@@ -23,6 +23,8 @@ namespace RogueWave
         [Header("Alive")]
         [SerializeField, Tooltip("The drone sound to play for this enemy.")]
         internal AudioClip _droneClip = null;
+        [SerializeField, Tooltip("The volume of the drone sound."), Range(0,1)]
+        internal float droneVolume = 1.0f;
 
         [Header("Death")]
         [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions.")]
@@ -51,10 +53,6 @@ namespace RogueWave
         private void OnEnable()
         {
             controller.onDeath.AddListener(OnDeath);
-        }
-
-        private void Start()
-        {
             StartAudio();
         }
 
@@ -72,6 +70,7 @@ namespace RogueWave
             }
 
             audioSource.clip = droneClip;
+            audioSource.volume = droneVolume;
             audioSource.loop = true;
             audioSource.Play();
         }
@@ -80,6 +79,7 @@ namespace RogueWave
         {
             if (audioSource != null)
             {
+                audioSource.volume = 1;
                 audioSource.Stop();
             }
         }

@@ -13,6 +13,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The ammunition type this upgrade applies to.")]
         internal SharedAmmoType ammoType;
 
+        public override string Category => "Ammunition";
+
         internal virtual void Apply()
         {
             IInventoryItem[] items = FpsSoloCharacter.localPlayerCharacter.inventory.GetItems();

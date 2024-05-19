@@ -98,14 +98,17 @@ MonoBehaviour:
   isMobile: 1
   minSpeed: 2
   maxSpeed: 6
+  acceleration: 10
   rotationSpeed: 1
   minimumHeight: 0.5
-  maximumHeight: 75
+  maximumHeight: 3
   optimalDistanceFromPlayer: 0.2
+  destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 4
   arrivalDistance: 1.5
-  seekDuration: 20
+  returnToSpawner: 0
   seekDistance: 75
+  squadRole: 0
   shouldExplodeOnDeath: 0
   deathExplosionRadius: 5
   explosionDamageOnDeath: 20
@@ -491,7 +494,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 715693049552409892, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: damagePerSecond
-      value: 30
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 715693049552409892, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: damageDescription
@@ -515,7 +518,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1881717928048593120, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6817774594015439600, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_LocalPosition.x

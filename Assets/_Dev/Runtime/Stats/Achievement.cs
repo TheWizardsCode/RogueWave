@@ -1,12 +1,12 @@
-using RogeWave;
+using RogueWave;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 
-namespace WizardsCode.GameStats
+namespace RogueWave.GameStats
 {
     [CreateAssetMenu(fileName = "New Achievement", menuName = "Rogue Wave/Stats/Achievement")]
     public class Achievement : ScriptableObject
@@ -17,6 +17,8 @@ namespace WizardsCode.GameStats
         string m_DisplayName;
         [SerializeField, Tooltip("The description of the achievement as used in the User Interface.")]
         string m_Description;
+        [SerializeField, Tooltip("The hero image for the achievement.")]
+        Sprite m_HeroImage;
         [SerializeField, Tooltip("The icon to use for the achievement.")]
         Sprite m_Icon;
 
@@ -46,7 +48,7 @@ namespace WizardsCode.GameStats
         internal void Unlock() {
             m_IsUnlocked = true;
             m_TimeOfUnlock = DateTime.Now;
-            GameLog.Instance.Info($"Achievement {displayName} unlocked!");
+            GameLog.Info($"Achievement {displayName} unlocked!");
         }
     }
 }

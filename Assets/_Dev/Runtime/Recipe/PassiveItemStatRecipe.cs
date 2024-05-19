@@ -17,6 +17,8 @@ namespace RogueWave
         [SerializeField, Tooltip("A multiplier for the weapons damage.")]
         float damageMultiplier = 1.00f;
 
+        public override string Category => "Passive Item";
+
         internal override void Apply()
         {
             PassiveWeapon[] passiveWeapons = FpsSoloCharacter.localPlayerCharacter.GetComponentsInChildren<PassiveWeapon>();

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-namespace RogeWave
+namespace RogueWave
 {
     /// <summary>
     /// GameLog alloes us to record game activities. These log items can be echoed to the console when running in the editor.
@@ -17,31 +17,13 @@ namespace RogeWave
             Warning,
             Error
         }
-        List<(DateTime Timestamp, LogType logType, string Value)> m_log = new List<(DateTime, LogType, string)>();
-
-        private static GameLog instance;
-        private static readonly object padlock = new object();
-
-        public static GameLog Instance
-        {
-            get
-            {
-                lock (padlock)
-                {
-                    if (instance == null)
-                    {
-                        instance = new GameLog();
-                    }
-                    return instance;
-                }
-            }
-        }
+        static List<(DateTime Timestamp, LogType logType, string Value)> m_log = new List<(DateTime, LogType, string)>();
 
         /// <summary>
         /// Log an info message to the game log. The message should be one more more `key:value` pairs separated by commas.
         /// </summary>
         /// <param name="message">One or more `key:value` pairs, each pair separated by a comma. For example `key1:value1, key2:value2, key3:value3`</param>
-        public void Info(string message)
+        public static void Info(string message)
         {
             m_log.Add((DateTime.Now, LogType.Info, message));
 
@@ -50,11 +32,16 @@ namespace RogeWave
 #endif
         }
 
+        public static void Log(string message)
+        {
+            Info(message);
+        }
+
         /// <summary>
         /// Log a warning message to the game log. The message should be one more more `key:value` pairs separated by commas.
         /// </summary>
         /// <param name="message">One or more `key:value` pairs, each pair separated by a comma. For example `key1:value1, key2:value2, key3:value3`</param>
-        public void LogWarning(string message)
+        public static void LogWarning(string message)
         {
             m_log.Add((DateTime.Now, LogType.Warning, message));
 
@@ -67,7 +54,7 @@ namespace RogeWave
         /// Log an error message to the game log. The message should be one more more `key:value` pairs separated by commas.
         /// </summary>
         /// <param name="message">One or more `key:value` pairs, each pair separated by a comma. For example `key1:value1, key2:value2, key3:value3`</param>
-        public void LogError(string message)
+        public static void LogError(string message)
         {
             m_log.Add((DateTime.Now, LogType.Error, message));
 
@@ -76,12 +63,12 @@ namespace RogeWave
 #endif
         }
 
-        public void ClearLog()
+        public static void ClearLog()
         {
             m_log.Clear();
         }
 
-        public string ToYAML()
+        public static string ToYAML()
         {
             StringBuilder info = new StringBuilder();
             StringBuilder error = new StringBuilder();

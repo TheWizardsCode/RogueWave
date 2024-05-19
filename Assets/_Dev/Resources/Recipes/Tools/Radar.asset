@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 310c037ba028285498c7d93c2b490b79, type: 3}
+  m_Name: Radar
+  m_EditorClassIdentifier: 
+  displayName: Radar
+  announcerVoicelineForName: Radar
+  description: Detects nearby enemies and projects an indicator into your HUD marking
+    their location.
+  heroImage: {fileID: 21300000, guid: fa6c7e559ec8d604aa29759e0f2a4ff3, type: 3}
+  icon: {fileID: 21300000, guid: 31d91887879996b458820dd835ce0426, type: 3}
+  level: 2
+  baseWeight: 4
+  dependencies:
+  - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
+  complements: []
+  baseBuyCost: 250
+  isPowerUp: 1
+  isConsumable: 0
+  cooldown: 10
+  isStackable: 0
+  maxStack: 1
+  buildCost: 50
+  timeToBuild: 5
+  nameClips:
+  - {fileID: 8300000, guid: c19e5c2f5ef91cb43b96539ebd9aac49, type: 3}
+  - {fileID: 8300000, guid: 3677451b514dd424d8494c97a70d1665, type: 3}
+  - {fileID: 8300000, guid: 0b6899b9012005e408410f1ed597e6a5, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: f21ea59d-dc90-495d-8a9e-1830b707947e
+  pickup: {fileID: 4808171533917001499, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}

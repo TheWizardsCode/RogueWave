@@ -1,6 +1,8 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
+using RogueWave;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
@@ -22,12 +24,12 @@ namespace RogueWave
         [SerializeField, Tooltip("The length of a time slice. The AI director will evaluate the current state of play every timeSlice seconds. Based on this evaluation the AI will issue orders to the Enemies.")]
         float timeSlice = 50f;
         [SerializeField, Tooltip("The target kill score, which is the total challenge rating of all the enemies killed in the last `timeSlice`, divided by the `timeslice`. " +
-            "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player.")]
-        float targetKillScore = 0.3f;
+            "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player."), CurveRange(0, 0.3f, 99, 10, EColor.Red)]
+        private AnimationCurve targetSkillScoreByLevel;
+        [SerializeField, Tooltip("The size of the attack squad. This is the number of enemies that will be sent from the main spawners to attack the player when the AI director detects that the player is hiding. Note that additional Enemies will be spawned from proximity spawners.")]
+        private int sizeOfAttackSquad = 5;
         [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player.")]
-        float difficultyMultiplier = 7f;
-
-        [Header("Squads")]
+        float difficultyMultiplier = 4f;
 
 
         [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]
@@ -100,36 +102,38 @@ namespace RogueWave
                 }
                 currentKillscore = totalChallengeRating / timeSlice;
 
-#if UNITY_EDITOR
-                if (isDebug)
-                {
-                    Debug.Log($"AIDirector: CurrentKillScore is {currentKillscore}, targetKillScore is {targetKillScore}");
-                }
-#endif
-                float remainingChallengeRating = (RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier;
+                float targetKillScore = targetSkillScoreByLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel);
+
+                int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier);
+                int challengeRatingSent = 0;
+                int orderedEnemies = 0;
                 if (enemies.Count > 0 && currentKillscore < targetKillScore)
                 {
-                    int orderedEnemies = 0;
-                    while (orderedEnemies < enemies.Count && remainingChallengeRating > 0)
+                    while (orderedEnemies <= enemies.Count 
+                        && orderedEnemies <= sizeOfAttackSquad
+                        && enemies.Count <= levelGenerator.levelDefinition.maxAlive 
+                        && challengeRatingSent < challengeRatingToSend)
                     {
                         orderedEnemies++;
                         BasicEnemyController randomEnemy = enemies[Random.Range(0, enemies.Count)];
-                        remainingChallengeRating -= randomEnemy.challengeRating;
+                        challengeRatingSent += randomEnemy.challengeRating;
                         randomEnemy.RequestAttack(suspectedTargetLocation);
                     }
-#if UNITY_EDITOR
-                    if (isDebug)
-                    {
-                        Debug.Log($"AIDirector: Sending enemies with a total challenge rating of {totalChallengeRating} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
-                    }
-#endif
+
+                    GameLog.Info($"AIDirector: Sending enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                } 
+                else
+                {
+                    GameLog.Info($"AIDirector: The current Kill Score is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                    return;
                 }
 
-                if (remainingChallengeRating <= 0)
+                if (challengeRatingSent <= 0)
                 {
                     return;
                 }
 
+                // Select the nearest 3 spawners to the player
                 Spawner[] nearestSpawners = null;
                 if (spawners.Count > 3) {
                     nearestSpawners = new Spawner[3];
@@ -149,17 +153,22 @@ namespace RogueWave
                     return;
                 }
 
-                while (remainingChallengeRating > 0)
+                // Send remaining enemies from the nearest spawners to the player
+                int challengeRatingSpawned = 0;
+                while (challengeRatingSpawned + challengeRatingSent < challengeRatingToSend
+                        && enemies.Count <= levelGenerator.levelDefinition.maxAlive + difficultyMultiplier)
                 {
                     BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy();
                     if (randomEnemy != null)
                     {
-                        remainingChallengeRating -= randomEnemy.challengeRating;
+                        challengeRatingSpawned += randomEnemy.challengeRating;
                     } else
                     {
                         break;
                     }
                 }
+
+                GameLog.Info($"AIDirector: Spawned additional enemies with total challenge rating of {challengeRatingSpawned} as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
             }
         }
 
@@ -181,12 +190,18 @@ namespace RogueWave
 
         private void OnSpawnerCreated(Spawner spawner)
         {
+#if UNITY_EDITOR
+            Debug.Log($"{spawner.name} created with id {spawner.GetInstanceID()}.");
+#endif
             spawners.Add(spawner);
             spawner.onSpawnerDestroyed.AddListener(OnSpawnerDestroyed);
         }
 
         private void OnSpawnerDestroyed(Spawner spawner)
         {
+#if UNITY_EDITOR
+            Debug.Log($"{spawner.name} with id {spawner.GetInstanceID()} destroyed.");
+#endif
             spawners.Remove(spawner);
             killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = spawner.challengeRating, enemyName = spawner.name, location = spawner.transform.position });
         }

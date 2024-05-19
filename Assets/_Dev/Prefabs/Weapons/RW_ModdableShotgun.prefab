@@ -6566,9 +6566,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DamageType: 1
-  damage: 5
-  bulletSize: 0.5
-  impactForce: 5
+  damage: 10
+  bulletSize: 0.8
+  impactForce: 10
 --- !u!114 &6401484793471732515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6643,6 +6643,7 @@ MonoBehaviour:
   m_HipAccuracyRecover: 0.75
   m_SightedAccuracyKick: 0.1
   m_SightedAccuracyRecover: 0.75
+  m_AdditiveTransform: {fileID: 0}
   m_HipFireRecoil:
     expanded: 1
     recoilAngle: 5

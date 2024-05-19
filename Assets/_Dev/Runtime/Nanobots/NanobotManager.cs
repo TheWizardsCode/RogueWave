@@ -2,13 +2,14 @@ using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
-using RogeWave;
+using RogueWave;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
-using WizardsCode.GameStats;
+using RogueWave.GameStats;
 using Random = UnityEngine.Random;
+using System;
 
 namespace RogueWave
 {
@@ -23,6 +24,8 @@ namespace RogueWave
         private int baseResourcesPerLevel = 100;
         [SerializeField, Tooltip("This is the multiplier for the resources required for the next level. This is multiplied by the current level and the baseResourcesPerLevel to get the resources required for the next level.")]
         private float resourcesPerLevelMultiplier = 1.5f;
+        [SerializeField, Tooltip("The resources needed to reach the next nanobot level."), CurveRange(0, 100, 99, 50000, EColor.Green)]
+        private AnimationCurve resourcesForLevel;
         [SerializeField, Tooltip("The time between recipe offers from the home planet. Once a player has levelled up they will recieve an updated offer until they accept one. This is the freqency at which the offer will be changed.")]
         private float timeBetweenRecipeOffers = 10;
         [SerializeField, Tooltip("How far away from the player will built pickup be spawned.")]
@@ -47,7 +50,6 @@ namespace RogueWave
         ParticleSystem defaultPickupParticlePrefab;
         [SerializeField, Tooltip("The default audio clip to play when a recipe name is needed, but the recipe does not have a name clip. This should never be used in practice.")]
         AudioClip defaultRecipeName;
-
 
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of resources collected in the game.")]
@@ -145,17 +147,24 @@ namespace RogueWave
 
         private void OnEnable()
         {
-            RogueWaveGameMode.onVictory += OnVictory;
+            RogueWaveGameMode.onLevelComplete += OnLevelComplete;
+            RogueWaveGameMode.onPortalEntered += OnPortalEntered;
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             inVictoryRoutine = false;
         }
 
         private void OnDestroy()
         {
-            RogueWaveGameMode.onVictory -= OnVictory;
+            RogueWaveGameMode.onLevelComplete -= OnLevelComplete;
+            RogueWaveGameMode.onPortalEntered -= OnPortalEntered;
         }
 
-        private void OnVictory()
+        private void OnPortalEntered()
+        {
+            inVictoryRoutine = true;
+        }
+
+        private void OnLevelComplete()
         {
             inVictoryRoutine = true;
         }
@@ -326,7 +335,7 @@ namespace RogueWave
                     recipeNames[i] = currentOfferRecipes[i].NameClip;
                 }   
 
-                GameLog.Instance.Info($"Offering in-run recipe reward {currentOfferRecipes[i].DisplayName}");
+                GameLog.Info($"Offering in-run recipe reward {currentOfferRecipes[i].DisplayName}");
             }
             StartCoroutine(Announce(clip, recipeNames));
 
@@ -353,7 +362,7 @@ namespace RogueWave
                     timeOfNextBuiild = Time.timeSinceLevelLoad + currentOfferRecipes[i].TimeToBuild + 5f;
 
                     // Announce request made
-                    GameLog.Instance.Info($"Requesting in-run recipe reward {currentOfferRecipes[i].DisplayName}");
+                    GameLog.Info($"Requesting in-run recipe reward {currentOfferRecipes[i].DisplayName}");
                     clip = recipeRequested[Random.Range(0, recipeRequested.Length)];
                     if (Time.timeSinceLevelLoad - timeOfLastRewardOffer > 5)
                     {
@@ -400,6 +409,11 @@ namespace RogueWave
 
         private void LevelUp()
         {
+            if (RogueLiteManager.persistentData.runNumber == 1)
+            {
+                return;
+            }
+
             RogueLiteManager.persistentData.currentNanobotLevel++;
 
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
@@ -420,7 +434,7 @@ namespace RogueWave
                 m_MaxNanobotLevelStat.Increment();
             }
 
-            GameLog.Instance.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
+            GameLog.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
         }
 
         /// <summary>
@@ -486,7 +500,7 @@ namespace RogueWave
 
         private int GetRequiredResourcesForNextNanobotLevel()
         {
-            return Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * resourcesPerLevelMultiplier * baseResourcesPerLevel);
+            return Mathf.RoundToInt(resourcesForLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel + 1));
         }
 
         // TODO: we can probably generalize these Try* methods now that we have refactored the recipes to use interfaces/Abstract classes
@@ -698,7 +712,7 @@ namespace RogueWave
                 StartCoroutine(Announce(buildStartedClips[Random.Range(0, buildStartedClips.Length)], recipeName));
             }
 
-            GameLog.Instance.Info($"Building {recipe.DisplayName}");
+            GameLog.Info($"Building {recipe.DisplayName}");
 
             onBuildStarted?.Invoke(recipe);
             yield return new WaitForSeconds(recipe.TimeToBuild);
@@ -812,12 +826,6 @@ namespace RogueWave
                     passiveRecipes.Add(passiveRecipe);
                 }
             }
-#if UNITY_EDITOR
-            else
-            {
-                Debug.LogWarning($"Either {recipe.DisplayName} ({recipe.GetType().Name}) is an unkown recipe type or we tried to add it a second time.");
-            }
-#endif
         }
 
         internal void Apply(BaseStatRecipe statRecipe)

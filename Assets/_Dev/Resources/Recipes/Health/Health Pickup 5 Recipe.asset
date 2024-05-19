@@ -12,28 +12,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9173466c2b1873b46a6dc2bb3df303bb, type: 3}
   m_Name: Health Pickup 5 Recipe
   m_EditorClassIdentifier: 
-  displayName: Health 5
+  displayName: Painkillers
+  announcerVoicelineForName: Painkillers.
   description: Take away some of the hurt.
   heroImage: {fileID: 21300000, guid: fbc9485f7d2a0774c8f52a2f848af5ad, type: 3}
   icon: {fileID: 21300000, guid: e77c85fa3c6598b4a96046c5e1bf3f5e, type: 3}
-  level: 1
-  baseWeight: 0.2
+  level: 2
+  baseWeight: 0.4
   dependencies: []
   complements: []
-  buyCost: 30
+  baseBuyCost: 50
   isPowerUp: 1
   isConsumable: 1
   cooldown: 2
   isStackable: 0
   maxStack: 1
-  buildCost: 2
+  buildCost: 30
   timeToBuild: 2
   nameClips:
-  - {fileID: 8300000, guid: d67945ee9483704479f83eee5bf0eeb7, type: 3}
-  - {fileID: 8300000, guid: ab28e9346e0b22146b3e11acc35b2f75, type: 3}
-  - {fileID: 8300000, guid: 7c95dc1578de4744ca0ef0d3f5b0947b, type: 3}
-  - {fileID: 8300000, guid: c41cb1ee1b3177546b432286ad92c2b1, type: 3}
-  - {fileID: 8300000, guid: 887522f414ac3ca4a99ab2d8f7c4d65d, type: 3}
+  - {fileID: 8300000, guid: 1759c3554daaa1c458191c06fdc3d412, type: 3}
+  - {fileID: 8300000, guid: 8f6753f883ce401459bb3865515358e2, type: 3}
+  - {fileID: 8300000, guid: e67b5d31791b65f48a743bb39ae34706, type: 3}
+  - {fileID: 8300000, guid: 7697a3b0b3143ca4494be0278f81059f, type: 3}
+  - {fileID: 8300000, guid: f70eff435db6694459bb5dbe5bc0c123, type: 3}
+  - {fileID: 8300000, guid: d5c794abdbc4ce143bea42c78b17e5d1, type: 3}
+  - {fileID: 8300000, guid: 873e66121ada2414cad04c696a1f3f0d, type: 3}
+  - {fileID: 8300000, guid: 69e51a7a69cf4044ba4ea64e148d85aa, type: 3}
+  - {fileID: 8300000, guid: a4482d46383877f4fbf7526f448781d1, type: 3}
+  - {fileID: 8300000, guid: 2b40d9fac6acd63419d52a3425609377, type: 3}
+  - {fileID: 8300000, guid: 79ab8e412d4bd83408c080921a0cfb73, type: 3}
+  - {fileID: 8300000, guid: 766d4cfb540c6d440888194e30db7db2, type: 3}
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
