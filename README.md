@@ -6,7 +6,17 @@ This is a prototype Unity game made entirely with open source and CC0 code and a
 
 Checkout this repo and open it in Unity. The first time you try to load it it will report errors. Ignore them for now.
 
-Once Unity starts you will need to import [NeoFPS](https://bit.ly/NeoFPS). Note that by default Neo FPS will overwrite some files that are provided by this repo, you need to find them and ensure they are not imported, or you revert any changes made by the import. The easiest way to do this is to import Neo FPS and then run the command `git restore .` in the root of the project directory.
+Once Unity starts you will need to import [NeoFPS](https://bit.ly/NeoFPS). You need to make a small change to the NeoFPS code in order for the application to compile. Add the following lines to `NeoSceneManager`:
+
+```csharp
+public float minLoadScreenTime
+{
+    get { return m_MinLoadScreenTime; }
+    set { m_MinLoadScreenTime = value; }
+}
+```
+
+***Note*** that by default Neo FPS will overwrite some files that are provided by this repo, you need to find them and ensure they are not imported, or you revert any changes made by the import. The easiest way to do this is to import Neo FPS and then run the command `git restore .` in the root of the project directory.
 
 ## Optional Features
 
