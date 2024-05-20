@@ -22,6 +22,18 @@ namespace RogueWave
         [SerializeField, Tooltip("The tile prefab to spawn for this tile type.")]
         BaseTile tilePrefab;
 
+        [Header("Tile Ground")]
+        [SerializeField, Tooltip("Should this tile be flat or not? If true it will be flat.")]
+        internal bool isFlat = true;
+        [SerializeField, HideIf("isFlat"), Tooltip("The height of the terrain."), Range(0f, 10f)]
+        internal float tileHeight = 5f;
+        [SerializeField, HideIf("isFlat"), Tooltip("The size of the noise cells in the terrain. The smaller this the more rugged the tile will be."), Range(0.1f, 1f)]
+        internal float noiseCellSize = 0.75f;
+        [SerializeField, HideIf("isFlat"), Tooltip("The frequency of the noise. The higher this is the more rugged the terrain will be."), Range(1f, 8f)]
+        internal float noiseFrequency = 3f;
+        [SerializeField, Tooltip("The material to use for the ground.")]
+        internal Material groundMaterial = null;
+
         [Header("Enemies")]
         [SerializeField, Range(0f, 1f), Tooltip("The chance of an enemy spawning in any given tile. These are only spawned on level creation. They are not spawned while the level is being played. For that you need spawners.")]
         internal float enemySpawnChance = 0f;

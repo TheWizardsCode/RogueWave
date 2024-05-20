@@ -13,7 +13,7 @@ namespace RogueWave
             spawn.transform.parent = this.transform;
 
             SpawnPoint spawnPoint = spawn.AddComponent<SpawnPoint>();
-            spawnPoint.transform.localPosition = new Vector3(Random.Range(10, tileWidth - 10), 0, Random.Range(10, tileHeight - 10));
+            spawnPoint.transform.localPosition = new Vector3(Random.Range(10, tileWidth - 10), 0, Random.Range(10, tileDepth - 10));
 
             SpawnManager.AddSpawnPoint(spawnPoint);
 

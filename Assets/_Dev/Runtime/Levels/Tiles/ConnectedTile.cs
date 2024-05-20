@@ -65,7 +65,7 @@ namespace RogueWave
 
             if (ShouldConnect(xPositive))
             {
-                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 2, tileHeight / 3, structureHeight);
+                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 2, tileDepth / 3, structureHeight);
                 draft.name = "Flow Structure";
                 draft.Move(new Vector3(tileWidth / 4, 0, 0));
                 compoundDraft.Add(draft);
@@ -73,7 +73,7 @@ namespace RogueWave
 
             if (ShouldConnect(xNegative))
             {
-                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 2, tileHeight / 3, structureHeight);
+                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 2, tileDepth / 3, structureHeight);
                 draft.Move(new Vector3(-tileWidth / 4, 0, 0));
                 draft.name = "Flow Structure";
                 compoundDraft.Add(draft);
@@ -81,16 +81,16 @@ namespace RogueWave
 
             if (ShouldConnect(yPositive))
             {
-                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight / 2, structureHeight);
+                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileDepth / 2, structureHeight);
                 draft.name = "Flow Structure";
-                draft.Move(new Vector3(0, 0, tileHeight / 4));
+                draft.Move(new Vector3(0, 0, tileDepth / 4));
                 compoundDraft.Add(draft);
             }
 
             if (ShouldConnect(yNegative))
             {
-                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileHeight / 2, structureHeight);
-                draft.Move(new Vector3(0, 0, -tileHeight / 4));
+                MeshDraft draft = MeshDraft.Hexahedron(tileWidth / 3, tileDepth / 2, structureHeight);
+                draft.Move(new Vector3(0, 0, -tileDepth / 4));
                 draft.name = "Connected Structure";
                 compoundDraft.Add(draft);
             }

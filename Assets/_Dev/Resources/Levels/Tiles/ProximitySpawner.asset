@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: ProximitySpawner
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 4342319696840374070, guid: ef94e9d0f57762d41aafbc6b4bb10c43, type: 3}
+  isFlat: 1
+  tileHeight: 1
+  noiseCellSize: 0.5
+  noiseFrequency: 3
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
   enemySpawnChance: 0.505
   constraints:
     bottomLeftBoundary: {x: 0, y: 0, z: 0}

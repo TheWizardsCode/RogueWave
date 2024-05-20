@@ -28,7 +28,7 @@ namespace RogueWave
                 ConfigureFloors(x, y, tiles, generator);
 
                 float lengthMultiplier = generator.foundationsPolygon.sides > 6 ? Random.Range(0.6f, 0.7f) : Random.Range(0.7f, 0.9f);
-                generator.foundationsPolygon.facadeLength = new Vector2Int(Mathf.RoundToInt(tileWidth * lengthMultiplier), Mathf.RoundToInt(tileHeight * lengthMultiplier));
+                generator.foundationsPolygon.facadeLength = new Vector2Int(Mathf.RoundToInt(tileWidth * lengthMultiplier), Mathf.RoundToInt(tileDepth * lengthMultiplier));
                 generator.Generate();
             }
         }

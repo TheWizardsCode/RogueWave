@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Central Area - Level 1 Spawner
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 4840245277533164759, guid: badcfbe7566108c4caa59e48d134560b, type: 3}
+  isFlat: 0
+  tileHeight: 0.95
+  noiseCellSize: 1
+  noiseFrequency: 8
+  groundMaterial: {fileID: 2100000, guid: e3ff34cbf683443488ed55f0c4660470, type: 2}
   enemySpawnChance: 0
   constraints:
     bottomLeftBoundary: {x: 0.5, y: 0, z: 0.5}

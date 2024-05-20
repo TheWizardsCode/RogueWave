@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: Building Procedural
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 4512869180751816955, guid: 0632310973690cd4b8d6f686f3ab92ef, type: 3}
+  isFlat: 1
+  tileHeight: 1
+  noiseCellSize: 0.5
+  noiseFrequency: 3
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
   enemySpawnChance: 0
   constraints:
     bottomLeftBoundary: {x: 0, y: 0, z: 0}
