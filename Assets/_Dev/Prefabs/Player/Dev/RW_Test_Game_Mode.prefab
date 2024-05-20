@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5c187386a2187f4fac5475fff8f1275, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  seed: -1
+  fastFail: 1
 --- !u!1 &5223561033937574973
 GameObject:
   m_ObjectHideFlags: 0
@@ -56,7 +58,7 @@ GameObject:
   - component: {fileID: 7050872739850107185}
   - component: {fileID: 3957620431239229239}
   - component: {fileID: 905963099382226170}
-  - component: {fileID: 8474616463793294590}
+  - component: {fileID: 8788259941515310497}
   m_Layer: 0
   m_Name: RW_Test_Game_Mode
   m_TagString: Untagged
@@ -99,12 +101,9 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   initialHealth: 40
-  _startingRecipes:
-  - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
-  - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
-  - {fileID: 11400000, guid: 22e1bf5280e270b46a7e8df0dcca53e8, type: 2}
-  - {fileID: 11400000, guid: 3f74a6743cf4d9e45b231c97899f5d7a, type: 2}
-  - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
+  _startingRecipesPermanent: []
+  _startingRecipesRun: []
+  m_Seed: -1
   levels:
   - {fileID: 11400000, guid: abda08b451113c748a651527554532a4, type: 2}
   - {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
@@ -183,7 +182,7 @@ MonoBehaviour:
   expandNeoComponents: 0
   expandOtherComponents: 0
   prefabGuid: 5c01213201fd72b4e806db0dd061f6f3
---- !u!114 &8474616463793294590
+--- !u!114 &8788259941515310497
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,18 +195,45 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelGenerator: {fileID: 3423411428560200973}
-  maximumTimeBetweenReports: 30
+  maximumTimeBetweenReports: 15
   scannerPrefab: {fileID: 4437746279418429034, guid: bf1c25210103bed4bb9378c859bef582, type: 3}
-  timeSlice: 10
+  timeSlice: 15
   targetSkillScoreByLevel:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.3
+      inSlope: 0.05110267
+      outSlope: 0.05110267
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.05227971
+    - serializedVersion: 3
+      time: 44.02493
+      value: 2.7962418
+      inSlope: 0.081488125
+      outSlope: 0.081488125
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.053064305
+    - serializedVersion: 3
+      time: 99
+      value: 10
+      inSlope: 0.15919253
+      outSlope: 0.15919253
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.054684304
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sizeOfAttackSquad: 5
-  difficultyMultiplier: 6
-  isDebug: 1
+  sizeOfAttackSquad: 10
+  difficultyMultiplier: 1
+  isDebug: 0
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0

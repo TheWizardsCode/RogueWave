@@ -2,14 +2,12 @@ using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.ModularFirearms;
 using NeoFPS.SinglePlayer;
-using RogueWave;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
-using System;
 
 namespace RogueWave
 {

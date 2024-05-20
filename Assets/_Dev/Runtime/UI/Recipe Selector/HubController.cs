@@ -27,12 +27,16 @@ namespace RogueWave.UI
         {
             m_ContinueButton.onClick.AddListener(QuitSelectionUI);
             NeoFpsInputManager.captureMouseCursor = false;
+
+            GameLog.Info($"Entering Hub Scene with {RogueLiteManager.persistentData.currentResources} resources.");
         }
 
         private void OnDisable()
         {
             m_ContinueButton.onClick.RemoveListener(QuitSelectionUI);
             NeoFpsInputManager.captureMouseCursor = true;
+
+            GameLog.Info($"Exiting Hub Scene with {RogueLiteManager.persistentData.currentResources} resources.");
         }
 
         private void OnGUI()

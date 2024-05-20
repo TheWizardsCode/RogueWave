@@ -30,6 +30,10 @@ namespace RogueWave.Tutorial
             audioSource = gameObject.GetComponent<AudioSource>();
 
             sceneLoadCounts = new int[SceneManager.sceneCountInBuildSettings];
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                sceneLoadCounts[i] = PlayerPrefs.GetInt("SceneLoadCount_" + i, 0);
+            }
 
             tutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
 
@@ -50,6 +54,8 @@ namespace RogueWave.Tutorial
         {
             NeoSceneManager.onSceneLoadRequested -= OnSceneLoadRequested;
             NeoSceneManager.onSceneLoaded -= OnSceneLoaded;
+
+
         }
 
         private void OnSceneLoaded(int sceneIndex)
@@ -73,6 +79,7 @@ namespace RogueWave.Tutorial
                 sceneIndex = SceneManagement.SceneBuildIndexFromName(sceneName);
             }
             sceneLoadCounts[sceneIndex]++;
+            PlayerPrefs.SetInt("SceneLoadCount_" + sceneIndex, sceneLoadCounts[sceneIndex]);
             currentlyActiveStep = null;
 
             foreach (TutorialStep step in tutorialSteps)

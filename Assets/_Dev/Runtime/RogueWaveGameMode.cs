@@ -11,12 +11,7 @@ using NaughtyAttributes;
 using RogueWave.UI;
 using RogueWave.GameStats;
 using System.Collections.Generic;
-using System.Linq;
-using RogueWave;
 using System.Text;
-using System.Xml.Serialization;
-using System;
-using NeoFPS.CharacterMotion;
 using Random = UnityEngine.Random;
 using UnityEngine.Serialization;
 
@@ -385,11 +380,15 @@ namespace RogueWave
         protected override void OnCharacterSpawned(ICharacter character)
         {
             // Configure the Level Progress Bar
-            levelProgressBar.gameObject.SetActive(true);
-            levelProgressBar.MaxValue = currentLevelDefinition.Duration;
-            levelProgressBar.MinValue = 0;
-            levelProgressBar.Value = 0;
-            levelProgressBar.levelDefinition = currentLevelDefinition;
+            if (levelProgressBar.isActiveAndEnabled)
+            {
+                levelProgressBar.gameObject.SetActive(true);
+                levelProgressBar.MaxValue = currentLevelDefinition.Duration;
+                levelProgressBar.MinValue = 0;
+                levelProgressBar.Value = 0;
+                levelProgressBar.levelDefinition = currentLevelDefinition;
+            }
+
             timeInLevel = 0;
 
             // Configure the character
@@ -611,6 +610,11 @@ namespace RogueWave
             for (int i = 0; i < _startingRecipesPermanent.Length; i++)
             {
                 RogueLiteManager.persistentData.Add(_startingRecipesPermanent[i]);
+            }
+
+            for (int i = 0; i < _startingRecipesRun.Length; i++)
+            {
+                RogueLiteManager.runData.Add(_startingRecipesRun[i]);
             }
 
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)

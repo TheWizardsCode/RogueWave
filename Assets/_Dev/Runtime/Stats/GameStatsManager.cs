@@ -159,6 +159,9 @@ namespace RogueWave.GameStats
         IEnumerator SendDataToWebhookCoroutine(string[] chunks)
         {
             Webhook webhook = activeWebhook.CreateWebhook();
+
+            webhook.Send($"\n\n\n\nGame Stats Data for {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\n\n\n\n");
+
             foreach (string chunk in chunks)
             {
                 if (chunk.Length > 2000)
@@ -186,6 +189,8 @@ namespace RogueWave.GameStats
                     yield return new WaitForSeconds(0.5f);
                 }
             }
+
+            webhook.Send($"\n\n\n\nEnd of data for {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\n\n\n\n");
         }
 
         private string[] GetDataAsYAML()
@@ -209,6 +214,7 @@ namespace RogueWave.GameStats
             sb.AppendLine($"  - SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}");
             chunks.Add(sb.ToString());
 
+            sb.Clear();
             sb.AppendLine("Performance Stats:");
             FPSCounter fps = FindObjectOfType<FPSCounter>();
             if (fps != null)
@@ -224,11 +230,6 @@ namespace RogueWave.GameStats
             chunks.Add(sb.ToString());
 
             sb.Clear();
-
-            chunks.Add(GameLog.ToYAML());
-
-            sb.Clear();
-
             sb.AppendLine("Player Stats:");
             foreach (GameStat stat in Resources.LoadAll<GameStat>(""))
             {
@@ -273,6 +274,8 @@ namespace RogueWave.GameStats
             }
 
             chunks.Add(sb.ToString());
+
+            chunks.Add(GameLog.ToYAML());
 
             return chunks.ToArray();
         }

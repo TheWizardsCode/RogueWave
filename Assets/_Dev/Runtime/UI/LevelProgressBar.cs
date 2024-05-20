@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,7 +13,7 @@ namespace RogueWave.UI
         RectTransform progressBarContainer;
         private WfcDefinition _levelDefinition;
 
-        private void Awake()
+        private void Start()
         {
             progressBarContainer = GetComponent<RectTransform>();    
         }

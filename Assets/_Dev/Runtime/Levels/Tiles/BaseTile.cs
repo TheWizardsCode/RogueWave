@@ -25,8 +25,21 @@ namespace RogueWave
         protected LevelGenerator levelGenerator;
         protected float tileWidth = 25f;
         protected float tileHeight = 25f;
+        private AIDirector m_aiDirector;
 
         public TileDefinition tileDefinition { get; internal set; }
+
+        private AIDirector aiDirector
+        {
+            get
+            {
+                if (m_aiDirector == null)
+                {
+                    m_aiDirector = FindAnyObjectByType<AIDirector>();
+                }
+                return m_aiDirector;
+            }
+        }
 
         internal virtual void GenerateTileContent(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
@@ -58,7 +71,8 @@ namespace RogueWave
 
         protected virtual void GenerateEnemies(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
-            if (tiles[x, y].tileDefinition.enemySpawnChance > 0 && Random.value < tiles[x, y].tileDefinition.enemySpawnChance)
+            float enemyChance = tiles[x, y].tileDefinition.enemySpawnChance * aiDirector.difficultyMultiplier;
+            if (enemyChance > 0 && Random.value < enemyChance)
             {
                 PooledObject prototype = levelGenerator.levelDefinition.GetRandomEnemy();
                 if (prototype == null)
