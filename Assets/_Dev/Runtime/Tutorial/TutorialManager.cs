@@ -89,8 +89,11 @@ namespace RogueWave.Tutorial
                     currentlyActiveStep = step;
 
                     StartCoroutine(ExecuteLoadingStep());
+                    return;
                 }
             }
+
+            NeoSceneManager.instance.minLoadScreenTime = 3;
         }
 
         private IEnumerator ExecuteSceneLoadedStep()
