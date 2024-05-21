@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
+using System.Net.Security;
 
 namespace RogueWave
 {
@@ -611,13 +612,13 @@ namespace RogueWave
             float verticalAngle = 0;
 
             // check for obstacle to the above/in front
-            Ray ray = new Ray(sensor.position, Quaternion.AngleAxis(-testingAngle, transform.transform.right) * transform.forward);
+            Ray ray = new Ray(sensor.position, Quaternion.AngleAxis(-testingAngle, transform.right) * transform.forward);
             if (Physics.Raycast(ray, out RaycastHit forwardUpHit, obstacleAvoidanceDistance, sensorMask))
             {
                 if (forwardUpHit.collider.transform.root != Target)
                 {
                     distanceToObstacle = forwardUpHit.distance;
-                    verticalAngle = -45;
+                    verticalAngle -= 45;
 
 #if UNITY_EDITOR
                     if (isDebug) {
@@ -637,14 +638,14 @@ namespace RogueWave
             }
 
             // check for obstacle to the below/in front
-            ray.direction = Quaternion.AngleAxis(testingAngle, transform.transform.right) * transform.forward;
+            ray.direction = Quaternion.AngleAxis(testingAngle, transform.right) * transform.forward;
             if (Physics.Raycast(ray, out RaycastHit forwardDownHit, obstacleAvoidanceDistance, sensorMask))
             {
                 // TODO: Don't hard code the ground tag
                 if (forwardDownHit.collider.transform.root != Target && !forwardDownHit.collider.CompareTag("Ground"))
                 {
                     distanceToObstacle = forwardDownHit.distance;
-                    verticalAngle = 45;
+                    verticalAngle += 45;
 
 #if UNITY_EDITOR
                     if (isDebug && distanceToObstacle > 0)
@@ -661,7 +662,36 @@ namespace RogueWave
 #endif
             }
 
-            float rate = maxSpeed * speedMultiplier * Time.deltaTime;
+            // check for obstacle below
+            ray = new Ray(sensor.position, -transform.up);
+            if (Physics.Raycast(ray, out RaycastHit downHit, minimumHeight + sensor.transform.localPosition.y, sensorMask))
+            {
+                if (downHit.collider.transform.root != Target)
+                {
+                    distanceToObstacle = downHit.distance;
+                    verticalAngle += 60;
+
+#if UNITY_EDITOR
+                    if (isDebug)
+                    {
+                        if (distanceToObstacle > 0)
+                        {
+                            Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                        }
+                    }
+#endif
+                }
+#if UNITY_EDITOR
+                else
+                {
+                    Debug.DrawRay(sensor.position, ray.direction * obstacleAvoidanceDistance, Color.green, 2);
+                }
+#endif
+            }
+
+            verticalAngle = Mathf.Clamp(verticalAngle, -90, 90);
+
+            float rate = currentSpeed * speedMultiplier * Time.deltaTime;
             if (distanceToObstacle > 0)
             {
                 // Try to get over or under the obstacle
