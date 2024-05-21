@@ -690,8 +690,8 @@ namespace RogueWave
             }
 
             verticalAngle = Mathf.Clamp(verticalAngle, -90, 90);
+            float rate = maxSpeed * speedMultiplier * Time.deltaTime * (Mathf.Abs(verticalAngle) / 90); 
 
-            float rate = currentSpeed * speedMultiplier * Time.deltaTime;
             if (distanceToObstacle > 0)
             {
                 // Try to get over or under the obstacle
@@ -701,11 +701,11 @@ namespace RogueWave
 #if UNITY_EDITOR
                     if (isDebug)
                     {
-                        Debug.Log("Obstacle is above and below in front, moving up in an atttempt to get over it.");
+                        Debug.Log("Obstacles above and below in front, moving vertically up in an atttempt to get over it.");
                     }
 #endif
                 }
-                if (verticalAngle < 0 && transform.position.y > minimumHeight)
+                else if (verticalAngle < 0 && transform.position.y > minimumHeight)
                 {
                     transform.position -= Vector3.up * rate;
 #if UNITY_EDITOR
@@ -733,11 +733,11 @@ namespace RogueWave
                 {
                     if (destination.y > transform.position.y)
                     {
-                        transform.position += Vector3.up * rate;
+                        transform.position += Vector3.up * currentSpeed * Time.deltaTime;
                     }
                     else
                     {
-                        transform.position -= Vector3.up * rate;
+                        transform.position -= Vector3.up * currentSpeed * Time.deltaTime;
                     }
                 }
             }
