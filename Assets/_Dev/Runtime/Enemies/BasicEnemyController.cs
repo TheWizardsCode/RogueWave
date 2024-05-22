@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
-using System.Net.Security;
 
 namespace RogueWave
 {
@@ -71,7 +70,7 @@ namespace RogueWave
         [Header("Seek Behaviour")]
         [SerializeField, Tooltip("If true the enemy will return to their spawn point when they go beyond their seek distance."), ShowIf("isMobile")]
         internal bool returnToSpawner = false;
-        [SerializeField, Tooltip("How far the enemy will go from their spawn point when attacking the player. If the enemy goes further than this then they will return to their spawn point to 'recharge'. Then they will resume their normal behaviour."), ShowIf("isMobile")]
+        [SerializeField, Tooltip("If chasing an player and the player gets this far away from the enemy then the enemy will return to their spawn point and resume their normal behaviour."), ShowIf("isMobile")]
         internal float seekDistance = 30;
 
         [Header("Defensive Behaviour")]
@@ -146,8 +145,8 @@ namespace RogueWave
 
         internal bool shouldUpdateDestination
         {
-            get { 
-                return seekDistance > 0 && Time.timeSinceLevelLoad > timeOfNextDestinationChange; 
+            get {
+                return Time.timeSinceLevelLoad > timeOfNextDestinationChange; 
             }
         }
 
@@ -164,12 +163,23 @@ namespace RogueWave
             }
         }
 
+        int frameOfNextSightTest = 0;
+        bool lastSightTestResult = false;
         internal bool CanSeeTarget
         {
             get
             {
                 if (Target == null)
+                {
                     return false;
+                }
+
+                if (frameOfNextSightTest >= Time.frameCount)
+                {
+                    return lastSightTestResult;
+                }
+
+                frameOfNextSightTest = Time.frameCount + 30;
 
                 if (Vector3.Distance(Target.position, transform.position) <= viewDistance)
                 {
@@ -190,6 +200,7 @@ namespace RogueWave
                     {
                         if (hit.transform == Target)
                         {
+                            lastSightTestResult = true;
                             return true;
                         }
 #if UNITY_EDITOR
@@ -207,6 +218,7 @@ namespace RogueWave
 #endif
                 }
 
+                lastSightTestResult = false;
                 return false;
             }
         }
@@ -223,6 +235,8 @@ namespace RogueWave
                 return _parentRenderer;
             }
         }
+
+        public Vector3 lastKnownTargetPosition { get; private set; }
 
         /// <summary>
         /// Enemies should not go to exactly where the player is but rather somewhere that places them at an
@@ -265,7 +279,6 @@ namespace RogueWave
         internal BasicHealthManager healthManager;
         private float sqrSeekDistance;
         private float sqrArrivalDistance;
-        private float sqrOptimalDistanceFromPlayer;
         private PooledObject pooledObject;
         private bool isRecharging;
         private bool fromPool;
@@ -276,7 +289,6 @@ namespace RogueWave
         {
             sqrSeekDistance = seekDistance * seekDistance;
             sqrArrivalDistance = arrivalDistance * arrivalDistance;
-            sqrOptimalDistanceFromPlayer = optimalDistanceFromPlayer * optimalDistanceFromPlayer;
             pooledObject = GetComponent<PooledObject>();
 
             gameMode = FindObjectOfType<RogueWaveGameMode>();
@@ -364,7 +376,7 @@ namespace RogueWave
                 {
                     // Just follow the orders
                 }
-                // else if the enemy is recharging then move to the spawn position
+                // else if the enemy is recharging and time is up then stop recharging
                 else if (isRecharging)
                 {
                     if (timeToUpdate)
@@ -372,16 +384,29 @@ namespace RogueWave
                         isRecharging = false;
                     }
                 }
-                // else if the enemy can see the player and the current destination is > 2x the optimal distance to the player then update the destination at the appropriate time
-                else if (timeToUpdate && CanSeeTarget)
+                // else if the enemy can see the player and the current destination is > 2x the optimal distance to the player then update the destination
+                else if (timeToUpdate)
                 {
-                    if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrOptimalDistanceFromPlayer * 2)
+                    float sqrDistance = Vector3.SqrMagnitude(goalDestination - Target.position);
+                    if (sqrDistance < sqrSeekDistance)
                     {
-                        goalDestination = GetDestination(Target.position);
+                        if (CanSeeTarget)
+                        {
+                            goalDestination = GetDestination(Target.position);
+                            lastKnownTargetPosition = Target.position;
+                        } else
+                        {
+                            goalDestination = GetDestination(lastKnownTargetPosition);
+                        }
+                    }
+                    else
+                    {
+                        isRecharging = true;
+                        goalDestination = spawnPosition;
                     }
                 }
                 // time for a wander
-                else if (timeToUpdate)
+                else
                 {
                     if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrSeekDistance)
                     {
@@ -404,39 +429,27 @@ namespace RogueWave
 
                 RotateHead();
             }
-            
+
             // Second move towards the destination if it is still appropriate
-            // if the distance to the goal destination is within the seek distance and outside the arrive distance then move towards the goal destination
+            // if the distance to the goalDestination is < arrive distance then slow down, eventually stopping
             float distanceToGoal = Vector3.SqrMagnitude(goalDestination - transform.position); 
-            if (distanceToGoal < sqrSeekDistance && distanceToGoal > sqrArrivalDistance)
+            if (distanceToGoal < sqrArrivalDistance)
             {
-                if (underOrders)
-                {
-                    MoveTowards(goalDestination, 1.5f);
-                }
-                else
-                {
-                    MoveTowards(goalDestination);
-                }
+                currentSpeed = Mathf.Max(0, currentSpeed - Time.deltaTime * acceleration);
             }
-            // else if the distance to the goalDestination is < arrive distance then slow down, eventually stopping
-            else if (distanceToGoal < sqrArrivalDistance)
+
+            if (currentSpeed == 0)
             {
-                underOrders = false;
-                currentSpeed = 0;
+                return;
             }
-            // else move towards the spawn position
+
+            if (underOrders)
+            {
+                MoveTowards(goalDestination, 1.5f);
+            }
             else
             {
-                if (returnToSpawner)
-                {
-                    goalDestination = GetDestination(spawnPosition);
-                    MoveTowards(goalDestination);
-                    isRecharging = true;
-                } else
-                {
-                    Wander();
-                }
+                MoveTowards(goalDestination);
             }
         }
 

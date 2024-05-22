@@ -102,7 +102,8 @@ MonoBehaviour:
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   initialHealth: 40
-  _startingRecipesPermanent: []
+  _startingRecipesPermanent:
+  - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
   _startingRecipesRun: []
   m_Seed: -1
   levels:
@@ -196,7 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb73adea4588514fb2d2a797f0932c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelGenerator: {fileID: 0}
+  levelGenerator: {fileID: 3423411428560200973}
   maximumTimeBetweenReports: 30
   scannerPrefab: {fileID: 4437746279418429034, guid: bf1c25210103bed4bb9378c859bef582, type: 3}
   timeSlice: 25

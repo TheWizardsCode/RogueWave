@@ -218,23 +218,15 @@ namespace RogueWave
             enemies.Remove(enemy);
         }
 
-        internal void ReportPlayerLocation(Vector3 position, float precision)
+        internal void ReportPlayerLocation(Vector3 position)
         {
             timeOfLastPlayerLocationReport = Time.timeSinceLevelLoad;
 
-            if (precision == 0)
+            if (reportedLocations.Count >= 3)
             {
-                reportedLocations.Clear();
-                reportedLocations.Add(position);
+                reportedLocations.RemoveAt(0);
             }
-            else
-            {
-                if (reportedLocations.Count >= 3)
-                {
-                    reportedLocations.RemoveAt(0);
-                }
-                reportedLocations.Add(position);
-            }
+            reportedLocations.Add(position);
         }
     }
 
