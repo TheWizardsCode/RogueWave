@@ -3,6 +3,7 @@ using NeoSaveGames.SceneManagement;
 using RosgueWave.UI;
 using System;
 using System.Collections;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
@@ -13,6 +14,7 @@ namespace RogueWave.Tutorial
 {
     public class TutorialManager : MonoBehaviour
     {
+        private const string sceneProgressKeyPrefix = "SceneLoadCount_";
         [SerializeField, Tooltip("The loading scene that will be used to transition between scenes. When this scene is loaded some of the tutorial content will be displayed."), Scene]
         private string loadingScreen;
         [SerializeField, Tooltip("The scene to play if no profiles exist. This is the start of the tutorial."), Scene]
@@ -32,10 +34,16 @@ namespace RogueWave.Tutorial
             sceneLoadCounts = new int[SceneManager.sceneCountInBuildSettings];
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
-                sceneLoadCounts[i] = PlayerPrefs.GetInt("SceneLoadCount_" + i, 0);
+                sceneLoadCounts[i] = PlayerPrefs.GetInt(sceneProgressKeyPrefix + i, 0);
             }
 
             tutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
+        }
+
+        private void Start()
+        {
+            NeoSceneManager.onSceneLoadRequested += OnSceneLoadRequested;
+            NeoSceneManager.onSceneLoaded += OnSceneLoaded;
 
             RogueLiteManager.UpdateAvailableProfiles();
             if (!RogueLiteManager.hasProfile)
@@ -44,18 +52,10 @@ namespace RogueWave.Tutorial
             }
         }
 
-        private void OnEnable()
-        {
-            NeoSceneManager.onSceneLoadRequested += OnSceneLoadRequested;
-            NeoSceneManager.onSceneLoaded += OnSceneLoaded;
-        }
-
         private void OnDisable()
         {
             NeoSceneManager.onSceneLoadRequested -= OnSceneLoadRequested;
             NeoSceneManager.onSceneLoaded -= OnSceneLoaded;
-
-
         }
 
         private void OnSceneLoaded(int sceneIndex)
@@ -78,8 +78,9 @@ namespace RogueWave.Tutorial
             if (sceneIndex < 0) {
                 sceneIndex = SceneManagement.SceneBuildIndexFromName(sceneName);
             }
+
             sceneLoadCounts[sceneIndex]++;
-            PlayerPrefs.SetInt("SceneLoadCount_" + sceneIndex, sceneLoadCounts[sceneIndex]);
+            PlayerPrefs.SetInt(sceneProgressKeyPrefix + sceneIndex, sceneLoadCounts[sceneIndex]);
             currentlyActiveStep = null;
 
             foreach (TutorialStep step in tutorialSteps)
@@ -178,5 +179,16 @@ namespace RogueWave.Tutorial
                 }
             }
         }
+
+#if UNITY_EDITOR
+        [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Reset Tutorial Progress", priority = 1)]
+        public static void ClearTutorialProgress()
+        {
+            for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+            {
+                PlayerPrefs.DeleteKey("SceneLoadCount_" + i);
+            }
+        }
+#endif
     }
 }

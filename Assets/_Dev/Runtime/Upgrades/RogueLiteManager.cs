@@ -12,7 +12,6 @@ namespace RogueWave
     [CreateAssetMenu(fileName = "FpsManager_RogueLite", menuName = "Rogue Wave/Rogue-Lite Manager", order = 900)]
     public class RogueLiteManager : NeoFpsManager<RogueLiteManager>
     {
-
         [Header("Scenes")]
         [SerializeField, Tooltip("Name of the Main Menu Scene to load. This is where the player starts the game."), Scene]
         private string m_mainMenuScene = "RogueWave_MainMenu";
