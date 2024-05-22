@@ -79,6 +79,8 @@ namespace RogueWave.Tutorial
                 sceneIndex = SceneManagement.SceneBuildIndexFromName(sceneName);
             }
 
+            GameLog.Log($"Loading scene {sceneName}");
+
             sceneLoadCounts[sceneIndex]++;
             PlayerPrefs.SetInt(sceneProgressKeyPrefix + sceneIndex, sceneLoadCounts[sceneIndex]);
             currentlyActiveStep = null;
