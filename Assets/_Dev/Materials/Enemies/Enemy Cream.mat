@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy Dissolve Cream
-  m_Shader: {fileID: -6465566751694194690, guid: e3480932330de0944a22c79483aafa09, type: 3}
+  m_Name: Enemy Cream
+  m_Shader: {fileID: 4800000, guid: a7de4bf0f370ca243b4604b8cd314ffc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -81,6 +81,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GridScale: 10.02
+    - _MaxTriSize: 25
     - _Metallic: 0.5
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -90,13 +91,17 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _WireSmoothness: 3
+    - _WireThickness: 412
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
+    - _BaseColor: {r: 0, g: 0, b: 0, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffuseColor: {r: 0.93333334, g: 0.9294448, b: 0.02352941, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _WireColor: {r: 1, g: 0.92585254, b: 0.033018887, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &8699192562610032711
 MonoBehaviour:

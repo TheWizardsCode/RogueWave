@@ -92,6 +92,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 8620451866325067554}
+  headLook: 1
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
@@ -106,8 +107,14 @@ MonoBehaviour:
   destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 10
   arrivalDistance: 1.5
-  seekDuration: 25
+  returnToSpawner: 0
   seekDistance: 75
+  spawnOnDamageEnabled: 0
+  spawnOnDamageAroundAttacker: 0
+  spawnOnDamageDistance: 10
+  spawnOnDamagePrototypes: []
+  spawnOnDamageThreshold: 10
+  spawnOnDamageCount: 3
   squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 15
@@ -301,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 3993961177526658726}
   _droneClip: {fileID: 0}
+  droneVolume: 1
   deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
   juiceOffset: {x: 0, y: 1, z: 0}
   deathClips:
@@ -468,6 +476,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 31
       objectReference: {fileID: 0}
+    - target: {fileID: -4683669308469848369, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: adc0e291d9706954d8b782080d249bb4, type: 2}
     - target: {fileID: -3272106112100924687, guid: 99a334387d36ca248bcdd4f37b901f76, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.7

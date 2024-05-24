@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy Dissolve Blue
-  m_Shader: {fileID: -6465566751694194690, guid: e3480932330de0944a22c79483aafa09, type: 3}
+  m_Name: Enemy Blue
+  m_Shader: {fileID: 4800000, guid: a7de4bf0f370ca243b4604b8cd314ffc, type: 3}
   m_Parent: {fileID: 2100000, guid: 5ba0ace889d035c46881b8838d2ecfb7, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -39,5 +39,6 @@ Material:
     m_Ints: []
     m_Floats:
     - _Dissolve: 0
-    m_Colors: []
+    m_Colors:
+    - _WireColor: {r: 0.2783019, g: 0.30952916, b: 1, a: 1}
   m_BuildTextureStacks: []

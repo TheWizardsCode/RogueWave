@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6901972063412320817}
-  - component: {fileID: 3279353296584564737}
   - component: {fileID: 7915850157571994926}
   - component: {fileID: 4237585111736123269}
   m_Layer: 31
@@ -37,48 +36,6 @@ Transform:
   - {fileID: 1442629194260554073}
   m_Father: {fileID: 6134286060280689273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &3279353296584564737
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 610628251586757860}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 86c85ce311a2f3c488995c038a34548d, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!136 &7915850157571994926
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -285,6 +242,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   sensor: {fileID: 0}
+  headLook: 1
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
@@ -301,6 +259,12 @@ MonoBehaviour:
   arrivalDistance: 1.5
   returnToSpawner: 0
   seekDistance: 30
+  spawnOnDamageEnabled: 0
+  spawnOnDamageAroundAttacker: 0
+  spawnOnDamageDistance: 10
+  spawnOnDamagePrototypes: []
+  spawnOnDamageThreshold: 10
+  spawnOnDamageCount: 3
   squadRole: 1
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 15
@@ -473,6 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 4880692556491869283}
   _droneClip: {fileID: 0}
+  droneVolume: 1
   deathJuicePrefab: {fileID: 2524701439248955567, guid: ecf74d541dbf5cb40a417278326c0f1e, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
   deathClips:

@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Enemy Dissolve Green
-  m_Shader: {fileID: -6465566751694194690, guid: e3480932330de0944a22c79483aafa09, type: 3}
+  m_Name: Enemy Grey
+  m_Shader: {fileID: 4800000, guid: a7de4bf0f370ca243b4604b8cd314ffc, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -85,6 +85,7 @@ Material:
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GridScale: 10.14
+    - _MaxTriSize: 20.1
     - _Metallic: 0.5
     - _Mode: 0
     - _OcclusionStrength: 1
@@ -94,13 +95,17 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
+    - _WireSmoothness: 7
+    - _WireThickness: 416
     - _ZWrite: 1
     - __dirty: 0
     m_Colors:
+    - _BaseColor: {r: 0.3584906, g: 0.3534176, b: 0.3534176, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DiffuseColor: {r: 0.022027409, g: 0.9339623, b: 0.08684548, a: 1}
     - _Emission: {r: 0.0072846483, g: 3.4199712, b: 0.03209277, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _WireColor: {r: 0.8301887, g: 0.8301887, b: 0.8301887, a: 1}
   m_BuildTextureStacks: []
 --- !u!114 &6929573100539311539
 MonoBehaviour:
