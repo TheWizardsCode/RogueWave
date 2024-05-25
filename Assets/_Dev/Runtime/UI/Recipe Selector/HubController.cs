@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
+using NeoFPS.Samples;
 
 namespace RogueWave.UI
 {
@@ -18,7 +19,7 @@ namespace RogueWave.UI
         [SerializeField, Tooltip("The text readout for the current players Nanobot level number.")]
         private TMPro.TMP_Text m_NanobotLevelNumberText = null;
         [SerializeField, Tooltip("The button to move the player to the next screen on the way into combat.")]
-        private Button m_ContinueButton = null;
+        private MultiInputButton m_ContinueButton = null;
 
         internal static List<IRecipe> permanentRecipes = new List<IRecipe>();
         internal static List<IRecipe> temporaryRecipes = new List<IRecipe>();
@@ -71,11 +72,11 @@ namespace RogueWave.UI
 
             if (RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
             {
-                m_ContinueButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Build a Weapon";
+                m_ContinueButton.label = "Build a Weapon";
                 m_ContinueButton.interactable = false;
             } else
             {
-                m_ContinueButton.GetComponentInChildren<TMPro.TMP_Text>().text = "Continue to Loadout Builder";
+                m_ContinueButton.label = "Continue to Loadout Builder";
                 m_ContinueButton.interactable = true;
             }
         }

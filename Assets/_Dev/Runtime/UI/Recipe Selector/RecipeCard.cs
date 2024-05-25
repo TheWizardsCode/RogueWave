@@ -1,3 +1,4 @@
+using NeoFPS.Samples;
 using RogueWave;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,14 +21,12 @@ namespace RogueWave.UI
         internal RecipeCardType cardType;
         [SerializeField, Tooltip("The UI element for displaying the image for this recipe.")]
         Image image;
-        [SerializeField, Tooltip("The UI element for displaying the name of this recipe.")]
-        TMP_Text nameText;
-        [SerializeField, Tooltip("The UI element for displaying the description of this recipe.")]
-        TMP_Text descriptionText;
+        [SerializeField, Tooltip("The UI element for displaying the name and description of this recipe.")]
+        MultiInputLabel details;
         [SerializeField, Tooltip("The UI element for displaying the current stack size of this recipe.")]
-        TMP_Text stackText;
+        MultiInputLabel stackText;
         [SerializeField, Tooltip("The button that will be clicked to select this recipe.")]
-        internal Button selectionButton;
+        internal MultiInputButton selectionButton;
 
         internal int stackSize = 1;
 
@@ -73,8 +72,8 @@ namespace RogueWave.UI
         private void SetupOfferCard()
         {
             image.sprite = _recipe.HeroImage;
-            descriptionText.text = recipe.Description;
-            selectionButton.GetComponentInChildren<TMP_Text>().text = $"Buy for {_recipe.BuyCost}";
+            details.description = recipe.Description;
+            selectionButton.label = $"Buy for {_recipe.BuyCost}";
             if (RogueLiteManager.persistentData.currentResources >= _recipe.BuyCost)
             {
                 selectionButton.interactable = true;
@@ -97,7 +96,7 @@ namespace RogueWave.UI
         private void SetupAcquiredCard()
         {
             image.sprite = _recipe.Icon;
-            selectionButton.GetComponentInChildren<TMP_Text>().text = $"Permanent ({recipe.BuyCost})";
+            selectionButton.label = $"Permanent ({recipe.BuyCost})";
             if (RogueLiteManager.persistentData.currentResources < _recipe.BuyCost)
             {
                 selectionButton.interactable = false;
@@ -107,16 +106,16 @@ namespace RogueWave.UI
 
         private void SetUpCommonElements()
         {
-            nameText.text = recipe.DisplayName;
+            details.label = recipe.DisplayName;
 
             if (stackText != null)
             {
                 if (recipe.IsStackable)
                 {
-                    stackText.text = $"{stackSize}/{recipe.MaxStack}";
+                    stackText.label = $"{stackSize}/{recipe.MaxStack}";
                 } else
                 {
-                    stackText.text = string.Empty;
+                    stackText.label = string.Empty;
                 }
             }
         }
