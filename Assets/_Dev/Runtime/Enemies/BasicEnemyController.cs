@@ -138,6 +138,10 @@ namespace RogueWave
                     _target = FpsSoloCharacter.localPlayerCharacter.transform;
                 return _target;
             }
+            private set
+            {
+                _target = value;
+            }
         }
 
         internal bool shouldUpdateDestination
@@ -166,6 +170,12 @@ namespace RogueWave
         {
             get
             {
+                if (squadLeader != null && squadLeader != this)
+                {
+                    Target = squadLeader.Target;
+                    return squadLeader.CanSeeTarget;
+                }
+
                 if (Target == null)
                 {
                     return false;
@@ -198,6 +208,13 @@ namespace RogueWave
                         if (hit.transform == Target)
                         {
                             lastSightTestResult = true;
+                            if (squadLeader != null && squadLeader != this)
+                            {
+                                squadLeader.lastKnownTargetPosition = Target.position;
+                                squadLeader.Target = Target;
+                                squadLeader.frameOfNextSightTest = frameOfNextSightTest;
+
+                            }
                             return true;
                         }
 #if UNITY_EDITOR
@@ -361,74 +378,15 @@ namespace RogueWave
                 return;
             }
 
-            // First update the destination if required
-            if (shouldAttack)
+            if (timeToUpdate)
             {
-                goalDestination = GetDestination(Target.position);
-            }
-            else if (!underOrders && Time.frameCount % 5 == 0) {
-                // if line of sight is not required then update the destination at the appropriate time
-                if (!requireLineOfSight && timeToUpdate)
-                {
-                    goalDestination = GetDestination(Target.position);
-                }
-                // else if the enemy is recharging and time is up then stop recharging
-                else if (isRecharging)
-                {
-                    if (timeToUpdate)
-                    {
-                        isRecharging = false;
-                    }
-                }
-                // else if the enemy can see the player and the current destination is > 2x the optimal distance to the player then update the destination
-                else if (timeToUpdate)
-                {
-                    float sqrDistance = Vector3.SqrMagnitude(goalDestination - Target.position);
-                    if (sqrDistance < sqrSeekDistance)
-                    {
-                        if (CanSeeTarget)
-                        {
-                            goalDestination = GetDestination(Target.position);
-                            lastKnownTargetPosition = Target.position;
-                        } else
-                        {
-                            goalDestination = GetDestination(lastKnownTargetPosition);
-                        }
-                    }
-                    else
-                    {
-                        isRecharging = true;
-                        goalDestination = spawnPosition;
-                    }
-                }
-                // time for a wander
-                else
-                {
-                    if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrSeekDistance)
-                    {
-                        if (returnToSpawner)
-                        {
-                            isRecharging = true;
-                            goalDestination = spawnPosition;
-                        }
-                        else
-                        {
-                            Wander();
-                        }
-                    } else
-                    {
-                        Wander();
-                    }
-                }
-
-                RotateHead();
+                UpdateDestination();
             }
 
             currentSpeed = Mathf.Min(maxSpeed, currentSpeed + Time.deltaTime * acceleration);
 
-            // Second move towards the destination if it is still appropriate
             // if the distance to the goalDestination is < arrive distance then slow down, eventually stopping
-            float distanceToGoal = Vector3.SqrMagnitude(goalDestination - transform.position); 
+            float distanceToGoal = Vector3.SqrMagnitude(goalDestination - transform.position);
             if (distanceToGoal < sqrArrivalDistance)
             {
                 currentSpeed = Mathf.Max(0, currentSpeed - Time.deltaTime * acceleration);
@@ -450,6 +408,64 @@ namespace RogueWave
             else
             {
                 MoveTowards(goalDestination);
+            }
+        }
+
+        private void UpdateDestination()
+        {
+            float sqrDistance = Vector3.SqrMagnitude(goalDestination - Target.position);
+
+            if (shouldAttack)
+            {
+                goalDestination = GetDestination(Target.position);
+            }
+            else if (!underOrders && Time.frameCount % 5 == 0)
+            {
+                // if line of sight is not required then update the destination at the appropriate time
+                if (!requireLineOfSight)
+                {
+                    goalDestination = GetDestination(Target.position);
+                }
+                // else if the enemy is recharging and time is up then stop recharging
+                else if (isRecharging)
+                {
+                    isRecharging = false;
+                }
+                // else if the enemy can see the player and the current destination is > 2x the optimal distance to the player then update the destination
+                else if (sqrDistance < sqrSeekDistance)
+                {
+                    if (CanSeeTarget)
+                    {
+                        goalDestination = GetDestination(Target.position);
+                        lastKnownTargetPosition = Target.position;
+                    }
+                    else
+                    {
+                        goalDestination = GetDestination(lastKnownTargetPosition);
+                    }
+                }
+                // time for a wander
+                else
+                {
+                    if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrSeekDistance)
+                    {
+                        if (returnToSpawner)
+                        {
+                            isRecharging = true;
+                            goalDestination = spawnPosition;
+                        }
+                        else
+                        {
+                            Wander();
+                        }
+                    }
+                    else
+                    {
+                        Wander();
+                    }
+                }
+
+                RotateHead();
             }
         }
 
