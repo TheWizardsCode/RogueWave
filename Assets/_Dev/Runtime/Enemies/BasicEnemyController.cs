@@ -12,7 +12,7 @@ namespace RogueWave
 {
     public class BasicEnemyController : MonoBehaviour
     {
-        internal enum SquadRole { Fodder, /* Heavy, Sniper, Medic, Scout, Leader,*/ None }
+        internal enum SquadRole { None, Fodder, Leader, /* Heavy, Sniper, Medic, Scout*/ }
 
         [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
         public string displayName = "TBD";
@@ -125,13 +125,10 @@ namespace RogueWave
         public bool includeInShowcase = true;
 
         internal float currentSpeed;
-
-        int maxFlockSize = 8;
-        BasicEnemyController[] flockingGroup;
-        Collider[] flockingColliders;
-        float flockAvoidanceDistance = 10f;
-        float flockRadius = 40f;
-
+        private AIDirector aiDirector;
+        internal BasicEnemyController squadLeader;
+        float squadAvoidanceDistance = 10f;
+        
         Transform _target;
         internal Transform Target
         {
@@ -179,7 +176,7 @@ namespace RogueWave
                     return lastSightTestResult;
                 }
 
-                frameOfNextSightTest = Time.frameCount + 30;
+                frameOfNextSightTest = Time.frameCount + 15;
 
                 if (Vector3.Distance(Target.position, transform.position) <= viewDistance)
                 {
@@ -281,9 +278,10 @@ namespace RogueWave
         private float sqrArrivalDistance;
         private PooledObject pooledObject;
         private bool isRecharging;
+        // TODO: Are both fromPool and isPooled needed?
         private bool fromPool;
-        internal RogueWaveGameMode gameMode;
         private bool isPooled = false;
+        internal RogueWaveGameMode gameMode;
 
         protected virtual void Awake()
         {
@@ -302,8 +300,7 @@ namespace RogueWave
         {
             spawnPosition = transform.position;
             currentSpeed = Random.Range(minSpeed, maxSpeed);
-            flockingGroup = new BasicEnemyController[maxFlockSize];
-            flockingColliders = new Collider[maxFlockSize * 3];
+            aiDirector = FindObjectOfType<AIDirector>();
         }
 
 
@@ -365,16 +362,15 @@ namespace RogueWave
             }
 
             // First update the destination if required
-            if (Time.frameCount % 5 == 0) {
+            if (shouldAttack)
+            {
+                goalDestination = GetDestination(Target.position);
+            }
+            else if (!underOrders && Time.frameCount % 5 == 0) {
                 // if line of sight is not required then update the destination at the appropriate time
                 if (!requireLineOfSight && timeToUpdate)
                 {
                     goalDestination = GetDestination(Target.position);
-                }
-                // else if the enemy is under orders then move to the ordered destination
-                else if (underOrders)
-                {
-                    // Just follow the orders
                 }
                 // else if the enemy is recharging and time is up then stop recharging
                 else if (isRecharging)
@@ -425,10 +421,10 @@ namespace RogueWave
                     }
                 }
 
-                currentSpeed = Mathf.Min(maxSpeed, currentSpeed + Time.deltaTime * acceleration);
-
                 RotateHead();
             }
+
+            currentSpeed = Mathf.Min(maxSpeed, currentSpeed + Time.deltaTime * acceleration);
 
             // Second move towards the destination if it is still appropriate
             // if the distance to the goalDestination is < arrive distance then slow down, eventually stopping
@@ -436,6 +432,10 @@ namespace RogueWave
             if (distanceToGoal < sqrArrivalDistance)
             {
                 currentSpeed = Mathf.Max(0, currentSpeed - Time.deltaTime * acceleration);
+                if (underOrders)
+                {
+                    underOrders = false;
+                }
             }
 
             if (currentSpeed == 0)
@@ -468,55 +468,60 @@ namespace RogueWave
         {
             Vector3 centerDirection = destination - transform.position;
             Vector3 avoidanceDirection = Vector3.zero;
-            int flockSize = 0;
+            BasicEnemyController[] squadMembers = aiDirector.GetSquadMembers(squadLeader);
+            int squadSize = 0;
 
-            // OPTIMIZATON: AI Director should define flock groups, we shouldn't be doing overlap sphere checks every frame
-            Array.Clear(flockingGroup, 0, flockingGroup.Length);
-            Array.Clear(flockingColliders, 0, flockingColliders.Length);
-            int colliderCount = Physics.OverlapSphereNonAlloc(transform.position, flockRadius, flockingColliders, LayerMask.GetMask("Enemy"));
-            for (int i = 0; i < colliderCount && flockSize < maxFlockSize; i++)
+            if (squadLeader == this)
             {
-                BasicEnemyController enemy = flockingColliders[i].GetComponentInParent<BasicEnemyController>();
-                if (enemy != null && enemy != this && enemy.squadRole != SquadRole.None && flockingGroup.Contains(enemy) == false)
+                Vector3 directionToTarget = (destination - transform.position).normalized;
+                float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
+
+                if (dotProduct > 0)
                 {
-                    flockingGroup[flockSize] = enemy;
-                    centerDirection += enemy.transform.position;
-
-                    if (Vector3.Distance(enemy.transform.position, transform.position) < flockAvoidanceDistance)
-                    {
-                        avoidanceDirection += transform.position - enemy.transform.position;
-                    }
-
-                    flockSize++;
+                    transform.rotation = Quaternion.Slerp(transform.rotation, ObstacleAvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
                 }
-            }
-
-            if (flockSize > 0)
-            {
-                // TODO: centreDirection is never used!
-                centerDirection /= flockSize;
-                centerDirection = (centerDirection - transform.position).normalized;
-            }
-
-            if (destination.y < minimumHeight)
-            {
-                destination.y = minimumHeight;
-            }
-            else if (destination.y > maximumHeight)
-            {
-                destination.y = maximumHeight;
-            }
-
-            Vector3 directionToTarget = (destination - transform.position).normalized;
-            float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
-
-            if (dotProduct > 0)
-            {
-                transform.rotation = Quaternion.Slerp(transform.rotation, ObstacleAvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+                else
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+                }
             }
             else
             {
-                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+                foreach (BasicEnemyController enemy in squadMembers)
+                {
+                    if (enemy != null && enemy != this)
+                    {
+                        centerDirection += enemy.transform.position;
+
+                        if (Vector3.Distance(enemy.transform.position, transform.position) < squadAvoidanceDistance)
+                        {
+                            avoidanceDirection += transform.position - enemy.transform.position;
+                        }
+
+                        squadSize++;
+                    }
+                }
+
+                if (squadSize > 0)
+                {
+                    // TODO: centreDirection is never used!
+                    centerDirection /= squadSize;
+                    centerDirection = (centerDirection - transform.position).normalized;
+                }
+
+                destination.y = Mathf.Clamp(destination.y, minimumHeight, maximumHeight);
+
+                Vector3 directionToTarget = (destination - transform.position).normalized;
+                float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
+
+                if (dotProduct > 0)
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, ObstacleAvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+                }
+                else
+                {
+                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+                }
             }
 
             transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
@@ -882,22 +887,43 @@ namespace RogueWave
             //Debug.Log($"{name} has been requested to attack {position}.");
         }
 
+        private void OnDrawGizmos()
+        {
+            if (underOrders)
+            {
+                Gizmos.color = Color.magenta;
+                Gizmos.DrawLine(transform.position, goalDestination);
+            }
+        }
+
         private void OnDrawGizmosSelected()
         {
-            if (flockingGroup != null && flockingGroup.Count() > 0)
-            {
-                Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(transform.position, flockRadius);
-                for (int i = 0; i < maxFlockSize && flockingGroup[i] != null; i++)
-                {
-                    Gizmos.DrawLine(transform.position, flockingGroup[i].transform.position);
-                }
-            }
-
             if (goalDestination != Vector3.zero)
             {
                 Gizmos.color = Color.blue;
                 Gizmos.DrawLine(transform.position, goalDestination);
+            }
+
+            if (squadLeader == null)
+            {
+                return;
+            }
+
+            if (squadLeader == this)
+            {
+                foreach (BasicEnemyController enemy in aiDirector.GetSquadMembers(this))
+                {
+                    if (enemy != null && enemy != this)
+                    {
+                        Gizmos.color = Color.red;
+                        Gizmos.DrawLine(transform.position, enemy.transform.position);
+                    }
+                }
+            }
+            else
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawLine(transform.position, squadLeader.transform.position);
             }
         }
     }

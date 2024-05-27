@@ -171,6 +171,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   sensor: {fileID: 0}
+  headLook: 1
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
@@ -187,7 +188,13 @@ MonoBehaviour:
   arrivalDistance: 1.5
   returnToSpawner: 0
   seekDistance: 30
-  squadRole: 1
+  spawnOnDamageEnabled: 0
+  spawnOnDamageAroundAttacker: 0
+  spawnOnDamageDistance: 10
+  spawnOnDamagePrototypes: []
+  spawnOnDamageThreshold: 10
+  spawnOnDamageCount: 3
+  squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 5
   explosionDamageOnDeath: 20

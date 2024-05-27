@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 1553841292609099499}
   - component: {fileID: 881754059264202784}
   m_Layer: 31
-  m_Name: Gem
+  m_Name: Gem Fodder
   m_TagString: AI
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91,6 +91,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 3468349145074774147}
+  headLook: 1
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
@@ -107,7 +108,13 @@ MonoBehaviour:
   arrivalDistance: 1.5
   returnToSpawner: 0
   seekDistance: 100
-  squadRole: 0
+  spawnOnDamageEnabled: 0
+  spawnOnDamageAroundAttacker: 0
+  spawnOnDamageDistance: 10
+  spawnOnDamagePrototypes: []
+  spawnOnDamageThreshold: 10
+  spawnOnDamageCount: 3
+  squadRole: 1
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 1
   explosionDamageOnDeath: 3
@@ -300,6 +307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 8124027268666945902}
   _droneClip: {fileID: 8300000, guid: e8bcddab3fdc910488517e0f282bf4bc, type: 3}
+  droneVolume: 1
   deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
   juiceOffset: {x: 0, y: 0.5, z: 0}
   deathClips:

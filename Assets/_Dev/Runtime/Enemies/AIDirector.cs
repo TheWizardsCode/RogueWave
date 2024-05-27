@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
 using System.Collections.Generic;
 using UnityEngine;
+using static RogueWave.BasicEnemyController;
 using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
@@ -29,12 +30,12 @@ namespace RogueWave
         [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player."), Range(0.1f, 10f)]
         internal float difficultyMultiplier = 4f;
 
-
         [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]
         bool isDebug = false;
 
         List<Spawner> spawners = new List<Spawner>();
         List<BasicEnemyController> enemies = new List<BasicEnemyController>();
+        Dictionary<BasicEnemyController, List<BasicEnemyController>> squads = new Dictionary<BasicEnemyController, List<BasicEnemyController>>();
         List<Vector3> reportedLocations = new List<Vector3>();
         List<KillReport> killReports = new List<KillReport>();
 
@@ -80,45 +81,73 @@ namespace RogueWave
 
         private void Update()
         {
+            // If we have not recieves a scanner report assume all scanners are dead and spawn a new one
             if (spawners.Count > 0 && FpsSoloCharacter.localPlayerCharacter != null && Time.timeSinceLevelLoad - timeOfLastPlayerLocationReport > maximumTimeBetweenReports)
             {
                 Spawner spawner = spawners[Random.Range(0, spawners.Count)];
                 spawner.RequestSpawn(scannerPrefab.transform.root.GetComponent<BasicEnemyController>());
             }
 
+            // Check the player is under pressure, if not send some enemies to attack
             if (Time.timeSinceLevelLoad > timeOfNextTimeSlice)
             {
                 timeOfNextTimeSlice = Time.timeSinceLevelLoad + timeSlice;
-                float totalChallengeRating = 0.0f;
+                float totalChallengeRatingKilled = 0.0f;
                 for (int i = killReports.Count - 1; i >= 0; i--)
                 {
                     if (killReports[i].time < Time.timeSinceLevelLoad - timeSlice)
                     {
                         break;
                     }
-                    totalChallengeRating += killReports[i].challengeRating;
+                    totalChallengeRatingKilled += killReports[i].challengeRating;
                 }
-                currentKillscore = totalChallengeRating / timeSlice;
+                currentKillscore = totalChallengeRatingKilled / timeSlice;
 
                 float targetKillScore = targetSkillScoreByLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel);
 
-                int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier);
+                int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier) + 1;
                 int challengeRatingSent = 0;
-                int orderedEnemies = 0;
                 if (enemies.Count > 0 && currentKillscore < targetKillScore)
                 {
-                    while (orderedEnemies <= enemies.Count 
-                        && orderedEnemies <= sizeOfAttackSquad
-                        && enemies.Count <= levelGenerator.levelDefinition.maxAlive 
-                        && challengeRatingSent < challengeRatingToSend)
+                    // Send squads before individual enemies
+                    foreach (BasicEnemyController leader in squads.Keys)
                     {
-                        orderedEnemies++;
-                        BasicEnemyController randomEnemy = enemies[Random.Range(0, enemies.Count)];
-                        challengeRatingSent += randomEnemy.challengeRating;
-                        randomEnemy.RequestAttack(suspectedTargetLocation);
+                        if (challengeRatingSent < challengeRatingToSend)
+                        {
+                            leader.RequestAttack(suspectedTargetLocation);
+                            challengeRatingSent += leader.challengeRating;
+
+                            // TODO: Consider moving this into the enemy controller where the individual leader can own the orders for the squad members, thus allowing more varied squad behaviour
+                            foreach (BasicEnemyController member in squads[leader])
+                            {
+                                member.RequestAttack(suspectedTargetLocation);
+                                challengeRatingSent += member.challengeRating;
+                            }
+                        } else
+                        {
+                            break;
+                        }
                     }
 
-                    GameLog.Info($"AIDirector: Sending enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                    // if there's still challenge rating to send, send individual enemies
+                    if (challengeRatingSent < challengeRatingToSend)
+                    {
+                        foreach (BasicEnemyController enemy in enemies)
+                        {
+                            if (enemy != null && enemy.squadLeader != enemy)
+                            {
+                                enemy.RequestAttack(suspectedTargetLocation);
+                                challengeRatingSent += enemy.challengeRating;
+                            }
+
+                            if (challengeRatingSent >= challengeRatingToSend) 
+                            {
+                                break;
+                            }
+                        }
+                    }
+
+                    GameLog.Info($"AIDirector: Sending existing enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                 } 
                 else
                 {
@@ -207,14 +236,71 @@ namespace RogueWave
 
         private void OnEnemySpawned(BasicEnemyController enemy)
         {
+            JoinOrCreateSquad(enemy);
+
             enemies.Add(enemy);
             enemy.onDeath.AddListener(OnEnemyDeath);
+        }
+
+        private void JoinOrCreateSquad(BasicEnemyController enemy)
+        {
+            if (enemy.squadRole == SquadRole.Leader)
+            {
+                enemy.squadLeader = enemy;
+                squads.Add(enemy, new List<BasicEnemyController>());
+
+                Collider[] colliders = Physics.OverlapSphere(enemy.transform.position, 10, LayerMask.GetMask("Enemy"));
+                foreach (Collider collider in colliders)
+                {
+                    BasicEnemyController otherEnemy = collider.GetComponentInParent<BasicEnemyController>();
+                    if (otherEnemy != null && otherEnemy.squadLeader == null && otherEnemy.squadRole != SquadRole.Leader && otherEnemy != enemy)
+                    {
+                        squads[enemy].Add(otherEnemy);
+                        otherEnemy.squadLeader = enemy;
+                    }
+                }
+            }
+            else if (enemy.squadRole == SquadRole.Fodder)
+            {
+                foreach (BasicEnemyController leader in squads.Keys)
+                {
+                    if (leader.squadRole == SquadRole.Leader && Vector3.Distance(leader.transform.position, enemy.transform.position) < 10)
+                    {
+                        squads[leader].Add(enemy);
+                        enemy.squadLeader = leader;
+                        break;
+                    }
+                }
+            }
         }
 
         private void OnEnemyDeath(BasicEnemyController enemy)
         {
             killReports.Add(new KillReport() { time = Time.timeSinceLevelLoad, challengeRating = enemy.challengeRating, enemyName = enemy.name, location = enemy.transform.position });
             enemy.onDeath.RemoveListener(OnEnemyDeath);
+
+            foreach (BasicEnemyController leader in squads.Keys)
+            {
+                // OPTIMIZATION: Consider only allowing one leader in a squad, this will allow us to only check for leaders or members as opposed to both
+                if (leader == enemy)
+                {
+                    List<BasicEnemyController> members = new List<BasicEnemyController>();
+                    members.AddRange(squads[leader]);
+                    squads.Remove(leader);
+                    leader.squadLeader = null;
+                    foreach (BasicEnemyController member in members)
+                    {
+                        member.squadLeader = null;
+                        JoinOrCreateSquad(member);
+                    }
+                    break;
+                } else if (squads[leader].Contains(enemy))
+                {
+                    squads[leader].Remove(enemy);
+                    enemy.squadLeader = null;
+                    break;
+                }
+            }
             enemies.Remove(enemy);
         }
 
@@ -227,6 +313,17 @@ namespace RogueWave
                 reportedLocations.RemoveAt(0);
             }
             reportedLocations.Add(position);
+        }
+
+        internal BasicEnemyController[] GetSquadMembers(BasicEnemyController squadLeader)
+        {
+            if (squadLeader != null && squads.TryGetValue(squadLeader, out List<BasicEnemyController> members))
+            {
+                return members.ToArray();
+            } else
+            {
+                return new BasicEnemyController[0];
+            }
         }
     }
 

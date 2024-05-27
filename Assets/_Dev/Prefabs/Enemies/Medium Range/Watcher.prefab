@@ -92,6 +92,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 5842710943198418096}
+  headLook: 1
   head: {fileID: 7645348947715895611}
   headRotationSpeed: 3.34
   maxHeadRotation: 180
@@ -106,9 +107,15 @@ MonoBehaviour:
   destinationUpdateFrequency: 2
   obstacleAvoidanceDistance: 5
   arrivalDistance: 1.5
-  seekDuration: 30
+  returnToSpawner: 0
   seekDistance: 75
-  squadRole: 0
+  spawnOnDamageEnabled: 0
+  spawnOnDamageAroundAttacker: 0
+  spawnOnDamageDistance: 10
+  spawnOnDamagePrototypes: []
+  spawnOnDamageThreshold: 10
+  spawnOnDamageCount: 3
+  squadRole: 2
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 10
   explosionDamageOnDeath: 25
@@ -301,6 +308,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audioSource: {fileID: 0}
   _droneClip: {fileID: 0}
+  droneVolume: 1
   deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
   juiceOffset: {x: 0, y: 0.75, z: 0}
   deathClips:

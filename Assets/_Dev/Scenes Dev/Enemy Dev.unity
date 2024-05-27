@@ -419,7 +419,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7985948857531989657, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3322,7 +3322,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7985948857531989657, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3459,6 +3459,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1020475153064511633, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: m_CullingMask.m_Bits
+      value: 2281439031
+      objectReference: {fileID: 0}
     - target: {fileID: 5223561033937574973, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_Name
       value: RW_Test_Game_Mode
@@ -3505,16 +3509,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: levels.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: levels.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 02029c6a945aae6408c827f88f447113, type: 2}
+      objectReference: {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: levels.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
+      objectReference: {fileID: 11400000, guid: 02029c6a945aae6408c827f88f447113, type: 2}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: randomizePlayerSpawn
       value: 0
@@ -3546,6 +3550,38 @@ PrefabInstance:
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_SpawnZones.spawnZones.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 22e1bf5280e270b46a7e8df0dcca53e8, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: e5b9d9263de9c4e4cbba768dc79a01d4, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: e5b9d9263de9c4e4cbba768dc79a01d4, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: e5b9d9263de9c4e4cbba768dc79a01d4, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: e5b9d9263de9c4e4cbba768dc79a01d4, type: 2}
+    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].value
+      value: 0.39834455
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3855,7 +3891,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7238103921518997512, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
