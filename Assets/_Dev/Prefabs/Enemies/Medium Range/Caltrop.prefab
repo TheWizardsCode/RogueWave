@@ -112,6 +112,7 @@ GameObject:
   - component: {fileID: 1450764596457488462}
   - component: {fileID: 5219187662690625511}
   - component: {fileID: -6177641379027551643}
+  - component: {fileID: 7033754188453668221}
   - component: {fileID: 4676414208784409485}
   - component: {fileID: 3297794374706640729}
   - component: {fileID: 816581867132793744}
@@ -188,19 +189,19 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile: 1
-  minSpeed: 1
-  maxSpeed: 5
-  acceleration: 10
-  rotationSpeed: 2
-  minimumHeight: 10
-  maximumHeight: 30
-  optimalDistanceFromPlayer: 20
-  destinationUpdateFrequency: 2
-  obstacleAvoidanceDistance: 7
-  arrivalDistance: 1.5
+  isMobile_old: 1
+  minSpeed_old: 1
+  maxSpeed_old: 5
+  acceleration_old: 10
+  rotationSpeed_old: 2
+  minimumHeight_old: 10
+  maximumHeight_old: 30
+  obstacleAvoidanceDistance_old: 7
+  arrivalDistance_old: 1.5
   returnToSpawner: 0
   seekDistance: 100
+  optimalDistanceFromPlayer: 20
+  destinationUpdateFrequency: 2
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -226,6 +227,28 @@ MonoBehaviour:
   includeInShowcase: 1
   minAttackDistance: 35
   attackSpeedMultiplier: 1.5
+--- !u!114 &7033754188453668221
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985948857531989657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b88be9caed6dd47bbdb576238697b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpeed: 1
+  maxSpeed: 5
+  acceleration: 10
+  rotationSpeed: 2
+  minimumHeight: 10
+  maximumHeight: 30
+  squadAvoidanceDistance: 10
+  obstacleAvoidanceDistance: 7
+  arrivalDistance: 1.5
+  isDebug: 0
 --- !u!82 &4676414208784409485
 AudioSource:
   m_ObjectHideFlags: 0

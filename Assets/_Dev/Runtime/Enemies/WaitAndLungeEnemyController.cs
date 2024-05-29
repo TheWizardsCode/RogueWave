@@ -22,7 +22,7 @@ namespace RogueWave
 
             if (shouldAttack)
             {
-                MoveTowards(Target.position, attackSpeedMultiplier);
+                movementController.MoveTowards(Target.position, attackSpeedMultiplier, squadLeader);
             }
             else
             {

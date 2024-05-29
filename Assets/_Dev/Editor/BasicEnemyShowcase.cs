@@ -27,7 +27,6 @@ namespace RogueWave.Editor
         private BaseTriggerBehaviour trigger;
         private BasicHealthManager healthManager;
         private BasicEnemyController enemyController;
-        private bool isMobile;
 
         float currentAnimationDuration;
 
@@ -93,9 +92,10 @@ namespace RogueWave.Editor
 
         private void TearDown()
         {
-            if (enemyController != null)
+            BasicMovementController movementController = GetComponentInChildren<BasicMovementController>();
+            if (movementController != null)
             {
-                enemyController.isMobile = isMobile;
+                movementController.enabled = true;
             }
         }
 
@@ -107,8 +107,11 @@ namespace RogueWave.Editor
             enemyController = GetComponentInChildren<BasicEnemyController>();
             if (enemyController != null)
             {
-                isMobile = enemyController.isMobile;
-                enemyController.isMobile = false;
+                BasicMovementController movementController = GetComponentInChildren<BasicMovementController>();
+                if (movementController != null)
+                {
+                    movementController.enabled = false;
+                }
             }
 
             if (nameText != null)

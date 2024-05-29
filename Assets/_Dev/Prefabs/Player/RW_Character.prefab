@@ -2742,8 +2742,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750a797d8f5dd2f4dad9dd839ee9f7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingRecipes:
-  - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
   buildingCooldown: 5
   baseResourcesPerLevel: 100
   resourcesPerLevelMultiplier: 1.5
@@ -2753,12 +2751,12 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0.07041168
       value: 100
-      inSlope: 73.32281
-      outSlope: 73.32281
+      inSlope: 0.001815413
+      outSlope: 0.001815413
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.034875445
+      outWeight: 0.0050551654
     - serializedVersion: 3
       time: 99
       value: 50000

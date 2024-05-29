@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6706889214515762481}
   - component: {fileID: 3259290649580598187}
+  - component: {fileID: 1671692327719102688}
   - component: {fileID: 869951294456908153}
   - component: {fileID: 2463116733313490395}
   - component: {fileID: 315295061721736226}
@@ -66,19 +67,19 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile: 1
-  minSpeed: 1
-  maxSpeed: 6
-  acceleration: 10
-  rotationSpeed: 1.5
-  minimumHeight: 3
-  maximumHeight: 10
-  optimalDistanceFromPlayer: 20
-  destinationUpdateFrequency: 2
-  obstacleAvoidanceDistance: 6
-  arrivalDistance: 1.5
+  isMobile_old: 1
+  minSpeed_old: 1
+  maxSpeed_old: 6
+  acceleration_old: 10
+  rotationSpeed_old: 1.5
+  minimumHeight_old: 3
+  maximumHeight_old: 10
+  obstacleAvoidanceDistance_old: 6
+  arrivalDistance_old: 1.5
   returnToSpawner: 0
   seekDistance: 50
+  optimalDistanceFromPlayer: 20
+  destinationUpdateFrequency: 2
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -102,6 +103,28 @@ MonoBehaviour:
   enemyKillsStat: {fileID: 11400000, guid: 86043e26fe7a4564f91093790836a74c, type: 2}
   isDebug: 0
   includeInShowcase: 1
+--- !u!114 &1671692327719102688
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2843505163344375664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4b88be9caed6dd47bbdb576238697b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minSpeed: 1
+  maxSpeed: 6
+  acceleration: 10
+  rotationSpeed: 1.5
+  minimumHeight: 3
+  maximumHeight: 10
+  squadAvoidanceDistance: 10
+  obstacleAvoidanceDistance: 6
+  arrivalDistance: 1.5
+  isDebug: 0
 --- !u!114 &869951294456908153
 MonoBehaviour:
   m_ObjectHideFlags: 0
