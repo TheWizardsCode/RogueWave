@@ -130,16 +130,25 @@ namespace RogueWave.Procedural
         [Button("Generate Building")]
         void GenerateBuilding()
         {
-            ClearBuildings();
+            DestroyBuilding();
             Generate();
         }
 
-        [Button("Clear Buildings")]
-        void ClearBuildings()
+        [Button("Destroy Building")]
+        void DestroyBuilding()
         {
+            if (parent.childCount == 0)
+            {
+                return;
+            }
+
             for (int i = parent.childCount - 1; i >= 0; i--)
             {
-                GameObject.DestroyImmediate(parent.GetChild(i).gameObject);
+                Transform building = parent.GetChild(i);
+                if (Application.isPlaying)
+                    building.GetComponentInParent<BasicDamageHandler>().AddDamage(10000);
+                else
+                    DestroyImmediate(building.gameObject);
             }
         }
 #endif
