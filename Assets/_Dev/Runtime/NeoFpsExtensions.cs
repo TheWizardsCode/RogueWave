@@ -5,6 +5,7 @@ using System.Reflection;
 using UnityEngine;
 using System.Runtime.CompilerServices;
 using System.Collections;
+using NeoFPS.Constants;
 
 namespace RogueWave
 {
@@ -69,6 +70,18 @@ namespace RogueWave
             var damageMitigation = (float)field.GetValue(instance);
             damageMitigation += value;
             field.SetValue(instance, damageMitigation);
+        }
+    }
+
+    public static class HudAdvancedCrosshairExtensions
+    {
+        public static HudAdvancedCrosshairStyleBase GetCurrentCrosshair(this HudAdvancedCrosshair instance)
+        {
+            var field = typeof(HudAdvancedCrosshair).GetField("m_CurrentCrosshair", BindingFlags.NonPublic | BindingFlags.Instance);
+            FpsCrosshair crosshair = (FpsCrosshair)field.GetValue(instance);
+            HudAdvancedCrosshairStyleBase[] crosshairs = (HudAdvancedCrosshairStyleBase[])typeof(HudAdvancedCrosshair).GetField("m_Crosshairs", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(instance);
+
+            return crosshairs[crosshair];
         }
     }
 }
