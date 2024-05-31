@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 6025125400354248471}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.891, y: -0.725, z: 0.026}
+  m_LocalPosition: {x: -0.033, y: 1.669, z: 0.026}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -97,15 +97,6 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile_old: 1
-  minSpeed_old: 2
-  maxSpeed_old: 6
-  acceleration_old: 10
-  rotationSpeed_old: 1
-  minimumHeight_old: 0.5
-  maximumHeight_old: 3
-  obstacleAvoidanceDistance_old: 4
-  arrivalDistance_old: 1.5
   returnToSpawner: 0
   seekDistance: 75
   optimalDistanceFromPlayer: 0.2
@@ -379,7 +370,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2b23e285d73eacf4eaf523aa195f5335, type: 3}
       propertyPath: m_LocalPosition.z
