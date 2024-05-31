@@ -186,7 +186,6 @@ namespace RogueWave
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
             transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime).eulerAngles.y, transform.rotation.eulerAngles.z);
 
-
             ConfigureAnimator();
 
             DetectObjectsOfInterest();
@@ -297,7 +296,6 @@ namespace RogueWave
                 if (currentSpeed <= 0.1)
                 {
                     currentSpeed = 0;
-                    CurrentState = State.Idle;
                 }
 
                 if (aggroTarget != null)
@@ -314,6 +312,14 @@ namespace RogueWave
                 targetRotation = Quaternion.LookRotation(targetPosition - transform.position, Vector3.up);
                 currentSpeed = Mathf.Clamp(currentSpeed + (acceleration * Time.deltaTime), 0, maxSpeed);
                 CurrentState = State.Moving;
+            }
+
+            // find the height of the ground at the target position
+            float maxTerrrainHeight = 8;
+            float yOffset = -1;
+            if (Physics.Raycast(targetPosition + (Vector3.up * maxTerrrainHeight), Vector3.down, out RaycastHit hit, maxTerrrainHeight * 1.1f, 1 << 0))
+            {
+                targetPosition.y = hit.point.y;
             }
 
             Vector3 localTarget = transform.InverseTransformPoint(targetPosition);
