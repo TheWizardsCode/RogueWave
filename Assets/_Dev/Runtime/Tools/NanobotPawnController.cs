@@ -296,6 +296,7 @@ namespace RogueWave
                 if (currentSpeed <= 0.1)
                 {
                     currentSpeed = 0;
+                    CurrentState = State.Idle;
                 }
 
                 if (aggroTarget != null)
