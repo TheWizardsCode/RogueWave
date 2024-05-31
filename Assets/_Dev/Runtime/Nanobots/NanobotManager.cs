@@ -308,7 +308,12 @@ namespace RogueWave
         IEnumerator OfferInGameRewardRecipe()
         {
             timeOfLastRewardOffer = Time.timeSinceLevelLoad;
-            List<IRecipe> offers = RecipeManager.GetOffers(numInGameRewards, 0);
+            int weapons = 0;
+            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count < 3)
+            {
+                weapons = 1;
+            }
+            List<IRecipe> offers = RecipeManager.GetOffers(numInGameRewards, weapons);
 
             if (offers.Count == 0)
             {
