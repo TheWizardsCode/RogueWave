@@ -88,7 +88,7 @@ MonoBehaviour:
     and can be a nuisance. But they need to get in very close to attack.
   challengeRating: 2
   requireLineOfSight: 1
-  viewDistance: 100
+  viewDistance: 50
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160264705
@@ -100,7 +100,7 @@ MonoBehaviour:
   returnToSpawner: 0
   seekDistance: 75
   optimalDistanceFromPlayer: 0.2
-  destinationUpdateFrequency: 2
+  destinationUpdateFrequency: 8
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 2
-  maxSpeed: 6
+  maxSpeed: 5
   acceleration: 10
   rotationSpeed: 1
   minimumHeight: 0.5

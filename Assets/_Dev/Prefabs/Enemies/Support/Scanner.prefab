@@ -57,7 +57,7 @@ MonoBehaviour:
     player relentlessly. Fortunately it is not well armed.
   challengeRating: 1
   requireLineOfSight: 1
-  viewDistance: 40
+  viewDistance: 200
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160166401
@@ -66,19 +66,10 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile_old: 1
-  minSpeed_old: 4
-  maxSpeed_old: 6
-  acceleration_old: 10
-  rotationSpeed_old: 1
-  minimumHeight_old: 20
-  maximumHeight_old: 30
-  obstacleAvoidanceDistance_old: 10
-  arrivalDistance_old: 1.5
   returnToSpawner: 0
   seekDistance: 30
   optimalDistanceFromPlayer: 45
-  destinationUpdateFrequency: 2
+  destinationUpdateFrequency: 30
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10

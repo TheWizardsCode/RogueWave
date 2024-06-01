@@ -58,7 +58,7 @@ MonoBehaviour:
     damaging nearby enemies.
   challengeRating: 1
   requireLineOfSight: 1
-  viewDistance: 100
+  viewDistance: 50
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160264705
@@ -67,19 +67,10 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile_old: 1
-  minSpeed_old: 1
-  maxSpeed_old: 6
-  acceleration_old: 10
-  rotationSpeed_old: 1.5
-  minimumHeight_old: 3
-  maximumHeight_old: 10
-  obstacleAvoidanceDistance_old: 6
-  arrivalDistance_old: 1.5
   returnToSpawner: 0
   seekDistance: 50
   optimalDistanceFromPlayer: 20
-  destinationUpdateFrequency: 2
+  destinationUpdateFrequency: 20
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -116,7 +107,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 1
-  maxSpeed: 6
+  maxSpeed: 5
   acceleration: 10
   rotationSpeed: 1.5
   minimumHeight: 3

@@ -180,7 +180,7 @@ MonoBehaviour:
     Whhen they are attacking they no longer need line of sight.
   challengeRating: 2
   requireLineOfSight: 1
-  viewDistance: 100
+  viewDistance: 60
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160264705
@@ -189,19 +189,10 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile_old: 1
-  minSpeed_old: 1
-  maxSpeed_old: 5
-  acceleration_old: 10
-  rotationSpeed_old: 2
-  minimumHeight_old: 10
-  maximumHeight_old: 30
-  obstacleAvoidanceDistance_old: 7
-  arrivalDistance_old: 1.5
   returnToSpawner: 0
   seekDistance: 100
   optimalDistanceFromPlayer: 20
-  destinationUpdateFrequency: 2
+  destinationUpdateFrequency: 15
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -240,7 +231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 1
-  maxSpeed: 5
+  maxSpeed: 6
   acceleration: 10
   rotationSpeed: 2
   minimumHeight: 10

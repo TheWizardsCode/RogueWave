@@ -7,6 +7,7 @@ using UnityEngine.Events;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
 using UnityEngine.Serialization;
+using Codice.Client.BaseCommands.Merge;
 
 namespace RogueWave
 {
@@ -117,12 +118,10 @@ namespace RogueWave
             get
             {
                 if (_target == null && FpsSoloCharacter.localPlayerCharacter != null)
+                {
                     _target = FpsSoloCharacter.localPlayerCharacter.transform;
+                }
                 return _target;
-            }
-            private set
-            {
-                _target = value;
             }
         }
 
@@ -137,9 +136,9 @@ namespace RogueWave
         {
             get
             { 
-                if (requireLineOfSight && CanSeeTarget == false)
+                if (requireLineOfSight)
                 {
-                    return false;
+                    return CanSeeTarget;
                 }
 
                 return true;
@@ -152,10 +151,9 @@ namespace RogueWave
         {
             get
             {
-                if (squadLeader != null && squadLeader != this)
+                if (squadLeader != null && squadLeader != this && squadLeader.CanSeeTarget)
                 {
-                    Target = squadLeader.Target;
-                    return squadLeader.CanSeeTarget;
+                    return true; // doesn't matter if this enemy can see the target, the squad leader can and will tell this unit where to go.
                 }
 
                 if (Target == null)
@@ -168,7 +166,7 @@ namespace RogueWave
                     return lastSightTestResult;
                 }
 
-                frameOfNextSightTest = Time.frameCount + 15;
+                frameOfNextSightTest = Time.frameCount + Random.Range(7, 18);
 
                 if (Vector3.Distance(Target.position, transform.position) <= viewDistance)
                 {
@@ -189,15 +187,15 @@ namespace RogueWave
                     {
                         if (hit.transform == Target)
                         {
-                            lastSightTestResult = true;
                             if (squadLeader != null && squadLeader != this)
                             {
                                 squadLeader.lastKnownTargetPosition = Target.position;
-                                squadLeader.Target = Target;
+                                squadLeader.lastSightTestResult = true;
                                 squadLeader.frameOfNextSightTest = frameOfNextSightTest;
-
                             }
-                            return true;
+
+                            lastSightTestResult = true;
+                            return lastSightTestResult;
                         }
 #if UNITY_EDITOR
                         else if (isDebug)
@@ -215,7 +213,7 @@ namespace RogueWave
                 }
 
                 lastSightTestResult = false;
-                return false;
+                return lastSightTestResult;
             }
         }
 
@@ -323,7 +321,7 @@ namespace RogueWave
                 return;
             }
 
-            if (timeToUpdate)
+            if (timeToUpdate || CanSeeTarget)
             {
                 UpdateDestination();
             }
@@ -411,19 +409,19 @@ namespace RogueWave
         /// <returns>A position near the player that places the enemy at an optimal position to attack from.</returns>
         internal Vector3 GetDestination(Vector3 targetPosition)
         {
-            if (timeOfNextDestinationChange > Time.timeSinceLevelLoad)
+            if (!shouldAttack && timeOfNextDestinationChange > Time.timeSinceLevelLoad)
             {
                 return goalDestination;
             }
 
-            Vector3 newPosition = new Vector3();
+            Vector3 newPosition = targetPosition;
             int tries = 0;
             do
             {
                 tries++;
                 newPosition = Random.onUnitSphere * optimalDistanceFromPlayer;
                 newPosition += targetPosition;
-            } while (Physics.CheckSphere(newPosition, 1f) && tries < 50);
+            } while (!IsValidDestination(newPosition, optimalDistanceFromPlayer * 0.9f) && tries < 50);
 
             if (tries == 50)
             {
@@ -450,7 +448,10 @@ namespace RogueWave
                     wanderDestination.y = Mathf.Clamp(wanderDestination.y, movementController.minimumHeight, movementController.maximumHeight);
                 } while (Physics.CheckSphere(wanderDestination, 1f) && tries < 50);
 
-                goalDestination = wanderDestination;
+                if (IsValidDestination(wanderDestination, movementController.obstacleAvoidanceDistance) == false)
+                {
+                    return wanderDestination;
+                }
 
 #if UNITY_EDITOR
                 if (isDebug)
@@ -458,6 +459,32 @@ namespace RogueWave
 #endif
             }
             return wanderDestination;
+        }
+
+        Collider[] validDestinationCheckColliders = new Collider[4];
+        private bool IsValidDestination(Vector3 destination, float avoidanceDistance)
+        {
+            // OPTIMIZATION: Check only essential layers
+            RaycastHit hit;
+            Physics.queriesHitBackfaces = true;
+
+            bool hitCollider = Physics.Raycast(destination, Vector3.forward, out hit, avoidanceDistance);
+            if (!hitCollider)
+            {
+                hitCollider = Physics.Raycast(destination, Vector3.back, out hit, avoidanceDistance);
+            }
+            if (!hitCollider)
+            {
+                hitCollider = Physics.Raycast(destination, Vector3.left, out hit, avoidanceDistance);
+            }
+            if (!hitCollider)
+            {
+                hitCollider = Physics.Raycast(destination, Vector3.right, out hit, avoidanceDistance);
+            }
+
+            Physics.queriesHitBackfaces = false;
+
+            return !hitCollider;
         }
 
         private void RotateHead()

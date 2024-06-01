@@ -91,7 +91,7 @@ MonoBehaviour:
     up for in numbers.
   challengeRating: 2
   requireLineOfSight: 1
-  viewDistance: 250
+  viewDistance: 10
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160272897
@@ -100,19 +100,10 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile_old: 1
-  minSpeed_old: 6
-  maxSpeed_old: 10
-  acceleration_old: 25
-  rotationSpeed_old: 2
-  minimumHeight_old: 1.5
-  maximumHeight_old: 5
-  obstacleAvoidanceDistance_old: 1
-  arrivalDistance_old: 0.5
   returnToSpawner: 1
-  seekDistance: 250
+  seekDistance: 10
   optimalDistanceFromPlayer: 0
-  destinationUpdateFrequency: 1.5
+  destinationUpdateFrequency: 5
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -122,7 +113,7 @@ MonoBehaviour:
   squadRole: 1
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 2
-  explosionDamageOnDeath: 10
+  explosionDamageOnDeath: 3
   explosionForceOnDeath: 20
   resourcesDropChance: 0.5
   resourcesPrefab: {fileID: 8288433013401571843, guid: 1e3f10b1661d2824f9723d38774a1f76, type: 3}
@@ -149,7 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 6
-  maxSpeed: 10
+  maxSpeed: 9
   acceleration: 25
   rotationSpeed: 2
   minimumHeight: 1.5

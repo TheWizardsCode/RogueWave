@@ -97,19 +97,10 @@ MonoBehaviour:
   head: {fileID: 7645348947715895611}
   headRotationSpeed: 3.34
   maxHeadRotation: 180
-  isMobile_old: 1
-  minSpeed_old: 1
-  maxSpeed_old: 6
-  acceleration_old: 10
-  rotationSpeed_old: 1
-  minimumHeight_old: 0
-  maximumHeight_old: 2
-  obstacleAvoidanceDistance_old: 5
-  arrivalDistance_old: 1.5
   returnToSpawner: 0
   seekDistance: 75
   optimalDistanceFromPlayer: 20
-  destinationUpdateFrequency: 2
+  destinationUpdateFrequency: 30
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -146,7 +137,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 1
-  maxSpeed: 6
+  maxSpeed: 7
   acceleration: 10
   rotationSpeed: 1
   minimumHeight: 0

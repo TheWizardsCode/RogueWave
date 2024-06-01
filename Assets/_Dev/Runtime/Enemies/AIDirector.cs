@@ -25,8 +25,6 @@ namespace RogueWave
         [SerializeField, Tooltip("The target kill score, which is the total challenge rating of all the enemies killed in the last `timeSlice`, divided by the `timeslice`. " +
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player."), CurveRange(0, 0.3f, 99, 10, EColor.Red)]
         private AnimationCurve targetSkillScoreByLevel;
-        [SerializeField, Tooltip("The size of the attack squad. This is the number of enemies that will be sent from the main spawners to attack the player when the AI director detects that the player is hiding. Note that additional Enemies will be spawned from proximity spawners.")]
-        private int sizeOfAttackSquad = 5;
         [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player."), Range(0.1f, 10f)]
         internal float difficultyMultiplier = 4f;
 

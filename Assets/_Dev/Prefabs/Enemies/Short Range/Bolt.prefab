@@ -57,7 +57,7 @@ MonoBehaviour:
     Be careful of the scale of their explosion on death.
   challengeRating: 2
   requireLineOfSight: 1
-  viewDistance: 100
+  viewDistance: 40
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160264705
@@ -66,19 +66,10 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile_old: 1
-  minSpeed_old: 1
-  maxSpeed_old: 6
-  acceleration_old: 10
-  rotationSpeed_old: 1
-  minimumHeight_old: 0.5
-  maximumHeight_old: 5
-  obstacleAvoidanceDistance_old: 5
-  arrivalDistance_old: 1.5
   returnToSpawner: 0
   seekDistance: 100
   optimalDistanceFromPlayer: 0.2
-  destinationUpdateFrequency: 2
+  destinationUpdateFrequency: 14
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -115,7 +106,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 1
-  maxSpeed: 6
+  maxSpeed: 4
   acceleration: 10
   rotationSpeed: 1
   minimumHeight: 0.5

@@ -88,7 +88,7 @@ MonoBehaviour:
     damage but these things have a habit of sneaking up behind you.
   challengeRating: 2
   requireLineOfSight: 1
-  viewDistance: 100
+  viewDistance: 60
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160264705
@@ -97,19 +97,10 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile_old: 1
-  minSpeed_old: 2
-  maxSpeed_old: 6
-  acceleration_old: 10
-  rotationSpeed_old: 1
-  minimumHeight_old: 2.5
-  maximumHeight_old: 15
-  obstacleAvoidanceDistance_old: 10
-  arrivalDistance_old: 1.5
   returnToSpawner: 0
-  seekDistance: 75
+  seekDistance: 60
   optimalDistanceFromPlayer: 5
-  destinationUpdateFrequency: 2
+  destinationUpdateFrequency: 10
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -167,7 +158,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 2
-  maxSpeed: 6
+  maxSpeed: 4
   acceleration: 10
   rotationSpeed: 1
   minimumHeight: 2.5
