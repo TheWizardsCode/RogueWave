@@ -184,7 +184,10 @@ namespace RogueWave
                 }
                 else
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+                    if (directionToTarget != Vector3.zero)
+                    {
+                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+                    }
                 }
             }
 
