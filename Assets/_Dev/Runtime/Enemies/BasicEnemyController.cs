@@ -288,6 +288,11 @@ namespace RogueWave
                 healthManager.onIsAliveChanged += OnAliveIsChanged;
                 healthManager.onHealthChanged += OnHealthChanged;
             }
+
+            destinationMinX = gameMode.currentLevelDefinition.lotSize.x;
+            destinationMinY = gameMode.currentLevelDefinition.lotSize.y;
+            destinationMaxX = (gameMode.currentLevelDefinition.mapSize.x - 1) * gameMode.currentLevelDefinition.lotSize.x;
+            destinationMaxY = (gameMode.currentLevelDefinition.mapSize.y - 1) * gameMode.currentLevelDefinition.lotSize.y;
         }
 
         protected virtual void OnDisable()
@@ -445,13 +450,15 @@ namespace RogueWave
                 {
                     tries++;
                     wanderDestination = spawnPosition + Random.insideUnitSphere * seekDistance;
+                    wanderDestination.x = Mathf.Clamp(wanderDestination.x, destinationMinX, destinationMaxX);
+                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, destinationMinY, destinationMaxY);
                     wanderDestination.y = Mathf.Clamp(wanderDestination.y, movementController.minimumHeight, movementController.maximumHeight);
-                } while (Physics.CheckSphere(wanderDestination, 1f) && tries < 50);
 
-                if (IsValidDestination(wanderDestination, movementController.obstacleAvoidanceDistance) == false)
-                {
-                    return wanderDestination;
-                }
+                    if (IsValidDestination(wanderDestination, movementController.obstacleAvoidanceDistance) == false)
+                    {
+                        wanderDestination = Vector3.positiveInfinity;
+                    }
+                } while (wanderDestination != Vector3.positiveInfinity && Physics.CheckSphere(wanderDestination, 1f) && tries < 50);
 
 #if UNITY_EDITOR
                 if (isDebug)
@@ -462,8 +469,18 @@ namespace RogueWave
         }
 
         Collider[] validDestinationCheckColliders = new Collider[4];
+        private float destinationMinX;
+        private float destinationMinY;
+        private float destinationMaxX;
+        private float destinationMaxY;
+
         private bool IsValidDestination(Vector3 destination, float avoidanceDistance)
         {
+            if (destination.x < destinationMinX || destination.x > destinationMaxX || destination.z < destinationMinY || destination.z > destinationMaxY)
+            {
+                return false;
+            }
+
             // OPTIMIZATION: Check only essential layers
             RaycastHit hit;
             Physics.queriesHitBackfaces = true;
