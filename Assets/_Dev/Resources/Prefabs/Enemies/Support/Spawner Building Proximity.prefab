@@ -175,19 +175,10 @@ MonoBehaviour:
   head: {fileID: 0}
   headRotationSpeed: 2
   maxHeadRotation: 75
-  isMobile: 0
-  minSpeed: 4
-  maxSpeed: 6
-  acceleration: 10
-  rotationSpeed: 1
-  minimumHeight: 0.5
-  maximumHeight: 75
-  optimalDistanceFromPlayer: 0.2
-  destinationUpdateFrequency: 2
-  obstacleAvoidanceDistance: 2
-  arrivalDistance: 1.5
   returnToSpawner: 0
   seekDistance: 30
+  optimalDistanceFromPlayer: 0.2
+  destinationUpdateFrequency: 2
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
@@ -218,6 +209,7 @@ MonoBehaviour:
   levelDefinition: {fileID: 0}
   timeBetweenWaves: 3
   spawnRadius: 5
+  spawnPositionMultiplier: 2
   destroySpawnsOnDeath: 0
   loopWaves: 1
   hasShield: 0

@@ -160,7 +160,7 @@ namespace RogueWave
 
                 // Select the nearest 3 spawners to the player
                 Spawner[] nearestSpawners = null;
-                if (spawners.Count > 3) {
+                if (FpsSoloCharacter.localPlayerCharacter != null && spawners.Count > 3) {
                     nearestSpawners = new Spawner[3];
                     List<Spawner> sortedSpawners = new List<Spawner>(spawners);
                     sortedSpawners.Sort((a, b) => Vector3.Distance(a.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position).CompareTo(Vector3.Distance(b.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position)));
@@ -181,10 +181,9 @@ namespace RogueWave
                 // Send remaining enemies from the nearest spawners to the player
                 int challengeRatingSpawned = 0;
                 int challendRatingToSpawn = Mathf.RoundToInt((challengeRatingToSend * 1.5f) - challengeRatingSent);
-                while (challengeRatingSpawned <= challendRatingToSpawn
-                        && enemies.Count <= levelGenerator.levelDefinition.maxAlive * difficultyMultiplier)
+                while (challengeRatingSpawned <= challendRatingToSpawn)
                 {
-                    BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy();
+                    BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy(true);
                     if (randomEnemy != null)
                     {
                         challengeRatingSpawned += randomEnemy.challengeRating;

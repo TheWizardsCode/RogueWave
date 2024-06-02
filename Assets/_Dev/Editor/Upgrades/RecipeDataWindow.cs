@@ -11,7 +11,7 @@ namespace RogueWave.Editor
         private bool recipeEdited;
 
         // Create a menu option to display a summary of all recipe data
-        [MenuItem("Tools/Rogue Wave/Recipe Data", priority = 100)]
+        [MenuItem("Tools/Rogue Wave/Recipe Data", priority = 105)]
         static void Init()
         {
             RecipeDataWindow window = (RecipeDataWindow)GetWindow(typeof(RecipeDataWindow));
@@ -66,9 +66,9 @@ namespace RogueWave.Editor
                 EditorGUI.BeginChangeCheck();
 
                 recipe.Level = EditorGUILayout.IntField(recipe.Level, GUILayout.Width(20));
-                recipe.name = EditorGUILayout.TextArea(recipe.name, GUILayout.Width(300));
-                if (GUILayout.Button("Edit", GUILayout.Width(40)))
+                if (GUILayout.Button(recipe.name, GUILayout.Width(200)))
                 {
+                    EditorGUIUtility.PingObject(recipe);
                     Selection.activeObject = recipe;
                 }
                 recipe.baseBuyCost = EditorGUILayout.IntField(recipe.baseBuyCost, GUILayout.Width(40));

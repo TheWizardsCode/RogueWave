@@ -20,7 +20,7 @@ namespace RogueWave
         [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI.")]
         public string description = "TBD";
         [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat.")]
-        public int challengeRating = 1;
+        internal int challengeRating = 1;
 
         [Header("Senses")]
         [SerializeField, Tooltip("If true, the enemy will only move towards or attack the player if they have line of sight. If false they will always seek out the player.")]

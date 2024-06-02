@@ -1,7 +1,5 @@
 using NaughtyAttributes;
-using System.Diagnostics;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 using Debug = UnityEngine.Debug;
 
 namespace RogueWave
@@ -18,7 +16,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The minimum speed at which the enemy moves.")]
         internal float minSpeed = 4f;
         [SerializeField, Tooltip("The maximum speed at which the enemy moves.")]
-        internal float maxSpeed = 6f;
+        public float maxSpeed = 6f;
         [SerializeField, Tooltip("The rate at which the enemy accelerates to its maximum speed.")]
         internal float acceleration = 10f;
         [SerializeField, Tooltip("How fast the enemy rotates.")]
@@ -38,6 +36,17 @@ namespace RogueWave
 
         [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Editor Only")]
         bool isDebug;
+
+        enum Direction
+        {
+            None,
+            Left,
+            Right,
+            BothHorizontal
+        }
+        Direction obstacleDirection = Direction.None;
+        int nextAvoidanceCheckFrame = 1;
+        Quaternion targetRotation = Quaternion.identity;
 
         private AIDirector aiDirector;
 
@@ -131,7 +140,8 @@ namespace RogueWave
 
                 if (dotProduct > 0)
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, ObstacleAvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+                    SetObstacleAvoidanceRotation(destination, avoidanceDirection);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
                 else
                 {
@@ -169,7 +179,8 @@ namespace RogueWave
 
                 if (dotProduct > 0)
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, ObstacleAvoidanceRotation(destination, avoidanceDirection), rotationSpeed * Time.deltaTime);
+                    SetObstacleAvoidanceRotation(destination, avoidanceDirection);
+                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
                 else
                 {
@@ -178,7 +189,6 @@ namespace RogueWave
             }
 
             transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
-
             AdjustHeight(destination, speedMultiplier);
         }
 
@@ -188,17 +198,24 @@ namespace RogueWave
         /// <param name="destination">The destination we are trying to reach.</param>
         /// <param name="avoidanceDirection">The optimal direction we are trying to avoid other flock members.</param>
         /// <returns></returns>
-        private Quaternion ObstacleAvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
+        private void SetObstacleAvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
         {
+            if (nextAvoidanceCheckFrame > Time.frameCount)
+            {
+                return;
+            }
+
+            nextAvoidanceCheckFrame = Time.frameCount + Random.Range(1, 3);
+
             bool forwardBlocked = false;
             bool forwardRightBlocked = false;
             bool forwardLeftBlocked = false;
 
             float distanceToObstacle = 0;
             float turnAngle = 0;
-            float turnRate = obstacleAvoidanceDistance * 10;
+            float offsetAngle = 50;
 
-            Quaternion targetRotation = Quaternion.identity;
+            obstacleDirection = Direction.None;
 
             // Check for obstacle dead ahead
             Ray ray = new Ray(enemyController.sensor.position, transform.forward);
@@ -220,11 +237,11 @@ namespace RogueWave
                     targetRotation = Quaternion.LookRotation(direction);
                 }
 
-                return targetRotation;
+                return;
             }
 
             // check for obstacle to the forward left
-            ray.direction = Quaternion.AngleAxis(-turnRate, transform.transform.up) * transform.forward;
+            ray.direction = Quaternion.AngleAxis(-offsetAngle, transform.transform.up) * transform.forward;
             if (Physics.Raycast(ray, out RaycastHit leftForwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
             {
                 forwardLeftBlocked = leftForwardHit.collider.transform.root != enemyController.Target;
@@ -234,7 +251,7 @@ namespace RogueWave
             }
 
             // check for obstacle to the forward right
-            ray.direction = Quaternion.AngleAxis(turnRate, transform.transform.up) * transform.forward;
+            ray.direction = Quaternion.AngleAxis(offsetAngle, transform.transform.up) * transform.forward;
             if (Physics.Raycast(ray, out RaycastHit rightForwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
             {
                 forwardRightBlocked = rightForwardHit.collider.transform.root != enemyController.Target;
@@ -243,39 +260,64 @@ namespace RogueWave
                 forwardRightBlocked = false;
             }
 
-            if (forwardRightBlocked && forwardLeftBlocked)
+            if (obstacleDirection == Direction.None && (forwardRightBlocked || forwardLeftBlocked))
             {
-                // turn left if there is more left turning room available
-                if (leftForwardHit.distance > rightForwardHit.distance)
+                if (forwardRightBlocked && forwardLeftBlocked)
                 {
-                    turnAngle = 45;
-                    distanceToObstacle = leftForwardHit.distance;
+                    // if the destination is to the left or right, turn in that direction
+                    if (Vector3.Dot(transform.right, destination - transform.position) > 0)
+                    {
+                        turnAngle = -90;
+                        distanceToObstacle = rightForwardHit.distance;
+                        obstacleDirection = Direction.Right;
+                    }
+                    else
+                    {
+                        turnAngle = 90;
+                        distanceToObstacle = leftForwardHit.distance;
+                        obstacleDirection = Direction.Left;
+                    }
                 }
-                else
+                else if (forwardRightBlocked)
                 {
-                    turnAngle = -45;
+                    turnAngle = -90;
                     distanceToObstacle = rightForwardHit.distance;
+                    obstacleDirection = Direction.Right;
                 }
-            } 
-            else if (!forwardRightBlocked)
+                else if (forwardLeftBlocked)
+                {
+                    turnAngle = 90;
+                    distanceToObstacle = leftForwardHit.distance;
+                    obstacleDirection = Direction.Left;
+                }
+            }
+            else
             {
-                turnAngle = -45;
-                distanceToObstacle = rightForwardHit.distance;
-            } 
-            else if (!forwardLeftBlocked)
-            {
-                turnAngle = 45;
-                distanceToObstacle = leftForwardHit.distance;
+                if (obstacleDirection == Direction.Left && forwardLeftBlocked)
+                {
+                    turnAngle = -90;
+                }
+                else if (obstacleDirection == Direction.Right && forwardRightBlocked)
+                {
+                    turnAngle = 90;
+                } else
+                {
+                    obstacleDirection = Direction.None;
+                }
             }
 
             // Calculate avoidance rotation
-            if (distanceToObstacle > 0) // turn to avoid obstacle
+            if (distanceToObstacle > 0)
             {
-                targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * (obstacleAvoidanceDistance / distanceToObstacle), 0);
                 if (distanceToObstacle < 1f)
                 {
-                    // TODO: this is not having any effect, something elsewhere is overriding the speed
-                    currentSpeed = 0.05f;
+                    targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * 1.5f, 0);
+                    currentSpeed = 0;
+                }
+                else
+                {
+                    targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle, 0);
+                    currentSpeed = 0;
                 }
 #if UNITY_EDITOR
                 if (isDebug)
@@ -287,8 +329,6 @@ namespace RogueWave
                 }
 #endif
             }
-
-            return targetRotation;
         }
 
         private void AdjustHeight(Vector3 destination, float speedMultiplier)

@@ -27,11 +27,13 @@ namespace RogueWave
         private float timeBetweenWaves = 5;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
+        [SerializeField, Tooltip("A multiplier to apply to the spawn position. This can be useful if you want to endure that spawn position is outside a containing building, for example. The multiplier will be applied to the radius.")]
+        internal float spawnPositionMultiplier = 1f;
         [SerializeField, Tooltip("If true, all enemies spawned by this spawner will be destroyed when this spawner is destroyed.")]
         internal bool destroySpawnsOnDeath = true;
         [SerializeField, Tooltip("If true then the spawner will loop through the waves defined in the level definition if all waves have completed.")]
         internal bool loopWaves = false;
-        
+
         [Header("Shield")]
         [SerializeField, Tooltip("Should this spawner generate a shield to protect itself?")]
         bool hasShield = true;
@@ -65,7 +67,7 @@ namespace RogueWave
             public GameObject gameObject;
             public Transform transform;
 
-            public ShieldGenerator (IHealthManager h)
+            public ShieldGenerator(IHealthManager h)
             {
                 healthManager = h;
                 gameObject = h.gameObject;
@@ -298,14 +300,17 @@ namespace RogueWave
         /// If the spawner is not ignoring the max alive setting in the level definition, then this will spawn an enemy if the max alive count has not been reached.
         /// </summary>
         /// <returns>The enemy spawned, null if current maxAlive is hit and we are not ignoring maxalive, or if an enemy cannot be spawned for some other reason.</returns>
-        internal BasicEnemyController SpawnEnemy()
+        internal BasicEnemyController SpawnEnemy(bool maxAliveOverride = false)
         {
-            if (ignoreMaxAlive && (currentLevel.maxAlive == 0 || spawnedEnemies.Count >= currentLevel.maxAlive))
+            if (!maxAliveOverride || ignoreMaxAlive)
             {
-                return null;
+                if (currentLevel.maxAlive != 0 && spawnedEnemies.Count >= currentLevel.maxAlive)
+                {
+                    return null;
+                }
             }
 
-            Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
+            Vector3 spawnPosition = transform.position + (Random.insideUnitSphere * spawnRadius * spawnPositionMultiplier);
             if (currentWave == null)
             {
                 currentWave = gameMode.GetEnemyWaveFromBossSpawner();
@@ -373,7 +378,7 @@ namespace RogueWave
         /// <param name="scannerPrefab"></param>
         internal void RequestSpawn(BasicEnemyController enemyPrefab)
         {
-            Vector3 spawnPosition = transform.position + Random.insideUnitSphere * spawnRadius;
+            Vector3 spawnPosition = transform.position + (Random.insideUnitSphere * spawnRadius * spawnPositionMultiplier);
             BasicEnemyController enemy = Instantiate(enemyPrefab, spawnPosition, Quaternion.identity);
             spawnedEnemies.Add(enemy);
 
