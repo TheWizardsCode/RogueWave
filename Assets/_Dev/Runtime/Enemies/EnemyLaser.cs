@@ -179,6 +179,12 @@ namespace RogueWave
 
         void UpdateLaser()
         {
+            if (controller.requireLineOfSight && !controller.CanSeeTarget)
+            {
+                HideLaser();
+                return;
+            }
+
             _timeToNextFiring -= Time.deltaTime;
             if (_timeToNextFiring > 0)
             {

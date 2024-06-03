@@ -6,8 +6,6 @@ using UnityEngine;
 using UnityEngine.Events;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
-using UnityEngine.Serialization;
-using Codice.Client.BaseCommands.Merge;
 
 namespace RogueWave
 {
@@ -23,7 +21,7 @@ namespace RogueWave
         internal int challengeRating = 1;
 
         [Header("Senses")]
-        [SerializeField, Tooltip("If true, the enemy will only move towards or attack the player if they have line of sight. If false they will always seek out the player.")]
+        [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight OR if they are a part of a squad in which at least one squad member has line of sight. If true will only attack if this enemy has lince of sight. If false they will always seek and attack out the player.")]
         internal bool requireLineOfSight = true;
         [SerializeField, Tooltip("The maximum distance the character can see"), ShowIf("requireLineOfSight")]
         internal float viewDistance = 30f;
@@ -147,15 +145,15 @@ namespace RogueWave
 
         int frameOfNextSightTest = 0;
         bool lastSightTestResult = false;
+        /// <summary>
+        /// Test to see if this enemy can see the target. Note that this will only return true if the target is within the view distance of this enemy and there is a clear line of sight to the target.
+        /// 
+        /// If you want to test for whether a squad member is aware of the targets position then use the SquadCanSeeTarget property.
+        /// </summary>
         internal bool CanSeeTarget
         {
             get
             {
-                if (squadLeader != null && squadLeader != this && squadLeader.CanSeeTarget)
-                {
-                    return true; // doesn't matter if this enemy can see the target, the squad leader can and will tell this unit where to go.
-                }
-
                 if (Target == null)
                 {
                     return false;
@@ -214,6 +212,27 @@ namespace RogueWave
 
                 lastSightTestResult = false;
                 return lastSightTestResult;
+            }
+        }
+
+        /// <summary>
+        /// Tests to see if any member of the squad can see the target. This is useful for determining if the squad should move towards the target.
+        /// </summary>
+        internal bool SquadCanSeeTarget
+        {
+            get
+            {
+                if (squadLeader != null && squadLeader != this && squadLeader.CanSeeTarget)
+                {
+                    return true; // doesn't matter if this enemy can see the target, the squad leader can and will tell this unit where to go.
+                }
+
+                if (Target == null)
+                {
+                    return false;
+                }
+
+                return CanSeeTarget;
             }
         }
 

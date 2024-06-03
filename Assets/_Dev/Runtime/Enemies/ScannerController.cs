@@ -44,7 +44,7 @@ namespace RogueWave
                 return;
             }
 
-            if (m_controller.CanSeeTarget)
+            if (m_controller.SquadCanSeeTarget)
             {
                 m_director.ReportPlayerLocation(m_controller.Target.position);
             }

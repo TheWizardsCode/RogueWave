@@ -420,7 +420,7 @@ namespace RogueWave
             }
 
             verticalAngle = Mathf.Clamp(verticalAngle, -90, 90);
-            float rate = maxSpeed * speedMultiplier * Time.deltaTime * (Mathf.Abs(verticalAngle) / 90);
+            float rate = currentSpeed * Time.deltaTime * (Mathf.Abs(verticalAngle) / 90);
 
             if (distanceToObstacle > 0)
             {
@@ -462,13 +462,14 @@ namespace RogueWave
                 float heightDifference = transform.position.y - destination.y;
                 if (heightDifference > 0.2f || heightDifference < -0.2f)
                 {
+                    rate = currentSpeed * Time.deltaTime * 0.5f;
                     if (destination.y > transform.position.y)
                     {
-                        transform.position += Vector3.up * currentSpeed * Time.deltaTime;
+                        transform.position += Vector3.up * rate;
                     }
                     else
                     {
-                        transform.position -= Vector3.up * currentSpeed * Time.deltaTime;
+                        transform.position -= Vector3.up * rate;
                     }
                 }
             }

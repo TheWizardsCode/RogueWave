@@ -18,8 +18,8 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 36
-    buildVersion: 2024.05.18.3379
+    buildCounter: 39
+    buildVersion: 2024.06.02.3923
     versionTemplate: $YEAR.$MONTH.$DAY.$SECONDS
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
       productName: RogueWave
       syncAppNameWithProduct: 1
       appBuildName: RogueWave
-      buildOptions: 16385
+      buildOptions: 1
       customDefines: STEAMWORKS_DISABLED
       sceneList:
         releaseScenes:
@@ -46,6 +46,8 @@ MonoBehaviour:
         - fileGUID: d88bdbeec6ad907498cb496116fbd849
           sceneActive: 1
         - fileGUID: 448349ad5824f9f4e888d58e8fea37d4
+          sceneActive: 1
+        - fileGUID: 25dcd75b7a6c45e4c8d3de36d89c4593
           sceneActive: 1
     - typeName: Release_NoSteamWorks
       bundleIdentifier: com.Wizards-Code.RogueWave
@@ -68,6 +70,8 @@ MonoBehaviour:
         - fileGUID: d88bdbeec6ad907498cb496116fbd849
           sceneActive: 1
         - fileGUID: 448349ad5824f9f4e888d58e8fea37d4
+          sceneActive: 1
+        - fileGUID: 25dcd75b7a6c45e4c8d3de36d89c4593
           sceneActive: 1
   _platformList:
     platforms:
@@ -143,7 +147,7 @@ MonoBehaviour:
       - enabled: 0
         childKeys:
         - Release_NoSteamWorks/Linux/Linux x64
-      - enabled: 1
+      - enabled: 0
         childKeys:
         - Release_NoSteamWorks/PC
         - Release_NoSteamWorks/Linux
