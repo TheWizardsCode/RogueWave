@@ -55,6 +55,7 @@ namespace RogueWave
                 nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
                 nanobotManager.onOfferChanged -= OnOfferChanged;
             }
+
             base.OnDestroy();
         }
 

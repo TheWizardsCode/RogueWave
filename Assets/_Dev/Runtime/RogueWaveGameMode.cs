@@ -622,7 +622,9 @@ namespace RogueWave
                 ConfigureRecipeForRun(RogueLiteManager.persistentData.RecipeIds[i]);
             }
 
-            return base.PreSpawnStep();
+            bool result = base.PreSpawnStep();
+
+            return result;
         }
 
         internal void RegisterPortal(PortalController portal)

@@ -184,7 +184,7 @@ namespace RogueWave
                 }
                 else
                 {
-                    if (directionToTarget != Vector3.zero)
+                    if (directionToTarget.sqrMagnitude > 0.0f)
                     {
                         transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
                     }

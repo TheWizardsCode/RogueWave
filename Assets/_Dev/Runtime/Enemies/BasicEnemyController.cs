@@ -345,7 +345,7 @@ namespace RogueWave
                 return;
             }
 
-            if (timeToUpdate || CanSeeTarget)
+            if (timeToUpdate || SquadCanSeeTarget)
             {
                 UpdateDestination();
             }
@@ -385,10 +385,10 @@ namespace RogueWave
                 {
                     isRecharging = false;
                 }
-                // else if the enemy can see the player and the current destination is > 2x the optimal distance to the player then update the destination
+                // else if the squad can see the player and the current destination is > 2x the optimal distance to the player then update the destination
                 else if (sqrDistance < sqrSeekDistance)
                 {
-                    if (CanSeeTarget)
+                    if (SquadCanSeeTarget)
                     {
                         goalDestination = GetDestination(Target.position);
                         lastKnownTargetPosition = Target.position;
@@ -543,25 +543,35 @@ namespace RogueWave
 
             if (from - to >= spawnOnDamageThreshold)
             {
-                for (int i = 0; i < spawnOnDamageCount; i++)
+                SpawnOnDamage(source);
+            }
+        }
+
+        private void SpawnOnDamage(IDamageSource source)
+        {
+            for (int i = 0; i < spawnOnDamageCount; i++)
+            {
+                PooledObject prototype = spawnOnDamagePrototypes[Random.Range(0, spawnOnDamagePrototypes.Length)];
+
+                Vector3 pos;
+                if (spawnOnDamageAroundAttacker)
                 {
-                    PooledObject prototype = spawnOnDamagePrototypes[Random.Range(0, spawnOnDamagePrototypes.Length)];
+                    pos = source.damageSourceTransform.position + (source.damageSourceTransform.forward * spawnOnDamageDistance);
+                    pos += Random.insideUnitSphere * spawnOnDamageDistance;
+                    pos.y = source.damageSourceTransform.position.y + 1f;
+                }
+                else
+                {
+                    pos = transform.position - (source.damageSourceTransform.forward * spawnOnDamageDistance);
+                    pos += Random.insideUnitSphere * spawnOnDamageDistance;
+                    pos.y = transform.position.y + 1f;
+                }
 
-                    Vector3 pos;
-                    if (spawnOnDamageAroundAttacker)
-                    {
-                        pos = source.damageSourceTransform.position + (source.damageSourceTransform.forward * spawnOnDamageDistance);
-                    }
-                    else
-                    {
-                        pos = transform.position - (source.damageSourceTransform.forward * spawnOnDamageDistance);
-                    }
+                BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prototype, pos, Quaternion.identity);
+                enemy.RequestAttack(Target.position);
 
-                    pos += Random.insideUnitSphere;
-                    pos.y = 1.5f;
-                    BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prototype, pos, Quaternion.identity);
-                    enemy.RequestAttack(Target.position);
-
+                if (spawnOnDamageAroundAttacker)
+                {
                     // add a line renderer to indicate why the new enemies have spawned
                     LineRenderer line = enemy.GetComponent<LineRenderer>();
                     if (line == null)
