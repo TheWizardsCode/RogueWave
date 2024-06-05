@@ -212,6 +212,23 @@ namespace RogueWave.GameStats
             sb.AppendLine($"  - DEVICE_TYPE: {SystemInfo.deviceType}");
             sb.AppendLine($"  - GRAPHICS_API: {SystemInfo.graphicsDeviceType}");
             sb.AppendLine($"  - SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}");
+            sb.AppendLine($"  - SCREEN_DPI: {Screen.dpi}");
+            sb.AppendLine($"  - FULL_SCREEN: {Screen.fullScreen}");
+            sb.AppendLine($"  - VSYNC: {QualitySettings.vSyncCount}");
+            sb.AppendLine($"  - QUALITY_LEVEL: {QualitySettings.GetQualityLevel()}");
+            sb.AppendLine($"  - TARGET_FRAME_RATE: {Application.targetFrameRate}");
+            sb.AppendLine($"  - PLATFORM: {Application.platform}");
+            sb.AppendLine($"  - LANGUAGE: {Application.systemLanguage}");
+            sb.AppendLine($"  - LOCAL_TIME: {DateTime.Now}");
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Build:");
+            sb.AppendLine($"  - NAME: {Application.productName}");
+            sb.AppendLine($"  - VERSION: {Application.version}");
+            sb.AppendLine($"  - BUILD_GUID: {Application.buildGUID}");
+            sb.AppendLine($"  - GENUINE_CHECK_AVAILABLE: {Application.genuineCheckAvailable}");
+            sb.AppendLine($"  - GENUINE: {Application.genuine}");
             chunks.Add(sb.ToString());
 
             sb.Clear();
@@ -227,6 +244,13 @@ namespace RogueWave.GameStats
             {
                 sb.AppendLine("No FPS Counter found.");
             }
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Gameplay Stats:");
+            sb.AppendLine($"  - START_TIME: {startTime}");
+            sb.AppendLine($"  - END_TIME: {endTime}");
+            sb.AppendLine($"  - PLAY_TIME: {endTime - startTime}");
             chunks.Add(sb.ToString());
 
             sb.Clear();
