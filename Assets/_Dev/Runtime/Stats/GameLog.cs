@@ -27,7 +27,7 @@ namespace RogueWave
         {
             m_log.Add((DateTime.Now, LogType.Info, message));
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             Debug.Log(message);
 #endif
         }
@@ -45,7 +45,7 @@ namespace RogueWave
         {
             m_log.Add((DateTime.Now, LogType.Warning, message));
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             Debug.LogWarning(message);
 #endif
         }
@@ -58,7 +58,7 @@ namespace RogueWave
         {
             m_log.Add((DateTime.Now, LogType.Error, message));
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
             Debug.LogError(message);
 #endif
         }

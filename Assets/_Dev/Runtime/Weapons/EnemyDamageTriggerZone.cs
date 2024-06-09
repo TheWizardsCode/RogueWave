@@ -39,19 +39,18 @@ namespace RogueWave
             }
 
             damageHandler.AddDamage(damage);
-
-            Vector3 pos = other.ClosestPoint(transform.position);
+;
             FpsSurfaceMaterial surfaceMaterial = FpsSurfaceMaterial.Default;
             BaseSurface surface = other.transform.GetComponent<BaseSurface>();
             if (surface != null)
             {
                 surfaceMaterial = surface.GetSurface();
-                SurfaceManager.ShowImpactFX(surfaceMaterial, pos, other.transform.forward);
-                SurfaceManager.PlayImpactNoiseAtPosition(surfaceMaterial, pos, 1);
+                SurfaceManager.ShowImpactFX(surfaceMaterial, transform.position, other.transform.forward);
+                SurfaceManager.PlayImpactNoiseAtPosition(surfaceMaterial, transform.position, 1);
             }
 
             if (hitAudioClips != null && hitAudioClips.Length > 0) {
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(hitAudioClips[Random.Range(0, hitAudioClips.Length)], pos);
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(hitAudioClips[Random.Range(0, hitAudioClips.Length)], transform.position);
             }
 
             if (m_DestroySourceOnTrigger)

@@ -1,3 +1,4 @@
+using log4net.Util;
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
@@ -5,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.Common;
+using System.Diagnostics;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
@@ -15,7 +17,7 @@ namespace RogueWave
     {
         [SerializeField, Tooltip("The speed of the fireball.")]
         private float speed = 10f;
-        
+
         private GameObject visuals;
         private EnemyDamageTriggerZone triggerZone;
         Collider collider;
@@ -49,7 +51,7 @@ namespace RogueWave
         }
 
         private IEnumerator FireballRoutine()
-        {   
+        {
             currentState = State.Firing;
             model.transform.SetParent(null);
             collider.enabled = true;
@@ -62,17 +64,19 @@ namespace RogueWave
                 if (target != null)
                 {
                     direction = target.transform.position - model.transform.position;
-                } else
+                }
+                else
                 {
                     direction = FpsSoloCharacter.localPlayerCharacter.transform.forward;
                 }
                 model.transform.position += direction * speed * Time.deltaTime;
+                AdjustHeight();
                 distance += speed * Time.deltaTime;
-                
+
                 yield return null;
             }
 
-            visuals.SetActive(false); 
+            visuals.SetActive(false);
             collider.enabled = false;
             model.transform.SetParent(transform);
             model.transform.localPosition = positionOffset;
@@ -85,6 +89,17 @@ namespace RogueWave
 
             visuals.SetActive(true);
             currentState = State.Ready;
+        }
+
+        private void AdjustHeight()
+        {
+            float obstacleAvoidanceDistance = 0.9f;
+
+            Ray ray = new Ray(model.transform.position, -model.transform.up);
+            if (Physics.Raycast(ray, out RaycastHit hit, obstacleAvoidanceDistance))
+            {
+                model.transform.position += Vector3.up * 10 * Time.deltaTime;
+            }
         }
     }
 }

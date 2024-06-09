@@ -57,6 +57,8 @@ namespace RogueWave.Tutorial
 
         private void OnSceneLoaded(int sceneIndex)
         {
+            GameLog.Log($"Scene loaded (index: {sceneIndex}");
+
             foreach (TutorialStep step in tutorialSteps)
             {
                 if (!step.isLoadingScene 
@@ -76,7 +78,7 @@ namespace RogueWave.Tutorial
                 sceneIndex = SceneManagement.SceneBuildIndexFromName(sceneName);
             }
 
-            GameLog.Log($"Loading scene {sceneName}");
+            GameLog.Log($"Scene load requested {sceneName} (index: {sceneIndex}");
 
             sceneLoadCounts[sceneIndex]++;
             PlayerPrefs.SetInt(sceneProgressKeyPrefix + sceneIndex, sceneLoadCounts[sceneIndex]);
@@ -88,7 +90,7 @@ namespace RogueWave.Tutorial
                 {
                     currentlyActiveStep = step;
 
-                    StartCoroutine(ExecuteLoadingStep());
+                    StartCoroutine(ExecuteSceneLoadingStep());
                     return;
                 }
             }
@@ -98,6 +100,8 @@ namespace RogueWave.Tutorial
 
         private IEnumerator ExecuteSceneLoadedStep()
         {
+            GameLog.Log($"Executing scene loaded tutorial step in {currentlyActiveStep.sceneName}");
+
             float endTime = Time.time;
             AudioClip sceneClip = null;
             if (currentlyActiveStep.audioClips.Length > 0)
@@ -146,8 +150,10 @@ namespace RogueWave.Tutorial
             this.currentlyActiveStep = null;
         }
 
-        private IEnumerator ExecuteLoadingStep()
+        private IEnumerator ExecuteSceneLoadingStep()
         {
+            GameLog.Log($"Executing scene loading tutorial step in {currentlyActiveStep.sceneName}");
+
             float oldDuration = NeoSceneManager.instance.minLoadScreenTime;
             NeoSceneManager.instance.minLoadScreenTime = currentlyActiveStep.duration;
             
