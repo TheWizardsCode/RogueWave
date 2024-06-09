@@ -124,7 +124,11 @@ namespace RogueWave
 
         public int BuildCost => buildCost;
 
-        public float TimeToBuild => timeToBuild;
+        public float TimeToBuild
+        {
+            get => timeToBuild;
+            internal set => timeToBuild = value;
+        }
 
         public AudioClip NameClip {
             get

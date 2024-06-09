@@ -44,9 +44,10 @@ namespace RogueWave.Editor
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Lvl", GUILayout.Width(20));
-            EditorGUILayout.LabelField("Display name", GUILayout.Width(300));
+            EditorGUILayout.LabelField("Display name", GUILayout.Width(200));
             EditorGUILayout.LabelField(new GUIContent("Cost", "Base buy cost of the recipe"), GUILayout.Width(30));
             EditorGUILayout.LabelField(new GUIContent("Wght", "Base weight of the recipe"), GUILayout.Width(30));
+            EditorGUILayout.LabelField(new GUIContent("BT", "Build time for this recipe."), GUILayout.Width(30));
             if (Application.isPlaying)
             {
                 EditorGUILayout.LabelField(new GUIContent("O", "Is this recipe currently owned?"), GUILayout.Width(10));
@@ -71,8 +72,9 @@ namespace RogueWave.Editor
                     EditorGUIUtility.PingObject(recipe);
                     Selection.activeObject = recipe;
                 }
-                recipe.baseBuyCost = EditorGUILayout.IntField(recipe.baseBuyCost, GUILayout.Width(40));
-                recipe.baseWeight = EditorGUILayout.FloatField(recipe.baseWeight, GUILayout.Width(40));
+                recipe.baseBuyCost = EditorGUILayout.IntField(recipe.baseBuyCost, GUILayout.Width(30));
+                recipe.baseWeight = EditorGUILayout.FloatField(recipe.baseWeight, GUILayout.Width(30));
+                recipe.TimeToBuild = EditorGUILayout.FloatField(recipe.TimeToBuild, GUILayout.Width(30));
 
                 if (Application.isPlaying)
                 {
