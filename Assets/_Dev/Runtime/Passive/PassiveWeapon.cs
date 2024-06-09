@@ -30,6 +30,8 @@ namespace RogueWave
         protected Vector3 positionOffset = new Vector3(0, 0.7f, 0);
 
         [Header("Audio")]
+        [SerializeField, Tooltip("The audio source to play weapon fire sounds from.")]
+        AudioSource m_FiringAudioSource;
         [SerializeField, Tooltip("The audio clip to play when the weapon fires.")]
         internal AudioClip[] fireAudioClip = default;
         [SerializeField, Tooltip("The default audio clip to play when the weapon hits a target.")]
@@ -38,7 +40,6 @@ namespace RogueWave
         internal float m_NextFireTime = 0;
         internal int layerMask;
         ModularFirearm m_Firearm;
-        AudioSource m_AudioSource;
 
         internal enum State
         {
@@ -66,7 +67,10 @@ namespace RogueWave
         {
             layerMask = 1 << layers;
             m_Firearm = GetComponent<ModularFirearm>();
-            m_AudioSource = GetComponent<AudioSource>();
+            if (m_FiringAudioSource == null)
+            {
+                m_FiringAudioSource = GetComponent<AudioSource>();
+            }
             if (model != null)
             {
                 model.transform.position += positionOffset;
@@ -124,10 +128,10 @@ namespace RogueWave
                 return;
             }
 
-            if (m_AudioSource != null && fireAudioClip.Length > 0)
+            if (m_FiringAudioSource != null && fireAudioClip.Length > 0)
             {
-                m_AudioSource.clip = fireAudioClip[Random.Range(0, fireAudioClip.Length)];
-                m_AudioSource.Play();
+                m_FiringAudioSource.clip = fireAudioClip[Random.Range(0, fireAudioClip.Length)];
+                m_FiringAudioSource.Play();
             }
         }
     }

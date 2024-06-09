@@ -44,6 +44,10 @@ namespace RogueWave
         [SerializeField, Tooltip("The time the pawn will wait before becoming impatient.")]
         float idleTimeBeforeImpatient = 3f;
 
+        [Header("Starting Upgrades")]
+        [SerializeField, Tooltip("Recipes that should be applied to the player when the pawn is enabled.")]
+        AbstractRecipe[] startingRecipes;
+
         Collider[] colliders;
         float[] colliderDistances;
         private float sqrMovementDampingDistance;
@@ -168,6 +172,10 @@ namespace RogueWave
             colliders = new Collider[detectedObjectsCount];
             colliderDistances = new float[detectedObjectsCount];
             sqrMovementDampingDistance = movementDampingDistance * movementDampingDistance;
+            foreach (IRecipe recipe in startingRecipes)
+            {
+                RogueLiteManager.persistentData.Add(recipe);
+            }
         }
 
         private void Start()

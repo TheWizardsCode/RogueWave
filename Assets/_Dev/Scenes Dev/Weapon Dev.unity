@@ -525,11 +525,11 @@ PrefabInstance:
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: levels.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 9457e0dad7ab5b54c86fa3439b0cdff4, type: 2}
+      objectReference: {fileID: 11400000, guid: 71f08f8f638277e4393b4a3ff75c5dc3, type: 2}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: levels.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 71f08f8f638277e4393b4a3ff75c5dc3, type: 2}
+      objectReference: {fileID: 11400000, guid: 9457e0dad7ab5b54c86fa3439b0cdff4, type: 2}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: levels.Array.data[2]
       value: 
@@ -588,7 +588,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: _startingRecipesPermanent.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: _startingRecipesPermanent.Array.data[0]
@@ -619,17 +619,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
---- !u!114 &284661818 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3594583190328289263, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
-  m_PrefabInstance: {fileID: 6889328844788476972}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 421f12c4cc2c4614f9e0616ef942cf44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &405615396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2967,11 +2956,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1137701271881037766, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
       propertyPath: m_Children.m_Keys.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1137701271881037766, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
       propertyPath: m_Children.m_Values.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1137701271881037766, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
       propertyPath: m_Children.m_Keys.Array.data[0]
@@ -2980,7 +2969,7 @@ PrefabInstance:
     - target: {fileID: 1137701271881037766, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
       propertyPath: m_Children.m_Values.Array.data[0]
       value: 
-      objectReference: {fileID: 284661818}
+      objectReference: {fileID: 0}
     - target: {fileID: 1145024715601847669, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 90.6

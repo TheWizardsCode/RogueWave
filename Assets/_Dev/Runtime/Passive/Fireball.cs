@@ -17,7 +17,7 @@ namespace RogueWave
         private float speed = 10f;
         
         private GameObject visuals;
-        private EnemyTriggerZone triggerZone;
+        private EnemyDamageTriggerZone triggerZone;
         Collider collider;
 
         private NanobotPawnController m_synthos;
@@ -37,13 +37,14 @@ namespace RogueWave
         {
             base.Start();
             visuals = GetComponentInChildren<ParticleSystem>().gameObject;
-            triggerZone = GetComponentInChildren<EnemyTriggerZone>();
+            triggerZone = GetComponentInChildren<EnemyDamageTriggerZone>();
             collider = model.GetComponent<Collider>();
         }
 
         public override void Fire()
         {
             triggerZone.SetDamage(damage);
+            triggerZone.SetHitAudioClips(hitAudioClip);
             StartCoroutine(FireballRoutine());
         }
 
