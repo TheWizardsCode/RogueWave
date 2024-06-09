@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS;
+using NeoFPS.Constants;
 using ProceduralToolkit;
 using ProceduralToolkit.FastNoiseLib;
 using System.Collections.Generic;
@@ -13,6 +14,10 @@ namespace RogueWave
     /// </summary>
     public class BaseTile : MonoBehaviour
     {
+        [Header("Ground")]
+        [SerializeField, Tooltip("The surface material for the ground of this tile.")]
+        internal FpsSurfaceMaterial groundSurface = FpsSurfaceMaterial.Dust;
+
         [Header("Tile Content")]
         [SerializeField, Tooltip("Spawn furniture on the tile. If true, the tile will be populated with furniture.")]
         private bool spawnFurniture = false;
@@ -71,6 +76,9 @@ namespace RogueWave
             ground.AddComponent<MeshFilter>().mesh = draft.ToMesh();
             ground.AddComponent<MeshRenderer>().material = tileDefinition.groundMaterial;
             ground.AddComponent<MeshCollider>();
+
+            BuildingSurface surface = ground.gameObject.AddComponent<BuildingSurface>();
+            surface.Surface = this.groundSurface;
 
             // TODO: Don't hard code the ground tag
             ground.tag = "Ground";

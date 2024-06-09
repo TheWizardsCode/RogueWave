@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using NeoFPS;
 using NeoFPS.Constants;
 using ProceduralToolkit;
 using ProceduralToolkit.Buildings;

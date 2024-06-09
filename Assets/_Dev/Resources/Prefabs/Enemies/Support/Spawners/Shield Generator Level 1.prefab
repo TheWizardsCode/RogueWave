@@ -139,6 +139,7 @@ GameObject:
   - component: {fileID: 631714007282967770}
   - component: {fileID: 5642523666447883031}
   - component: {fileID: 5620064431566530618}
+  - component: {fileID: 8147921263850287627}
   m_Layer: 31
   m_Name: shield_gen
   m_TagString: Untagged
@@ -284,6 +285,20 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
   - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
+--- !u!114 &8147921263850287627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3351190687941056451}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f584881cb0f56e47a64c6a27ce99298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Surface:
+    m_Value: 9
 --- !u!1 &6386298650279004615
 GameObject:
   m_ObjectHideFlags: 0

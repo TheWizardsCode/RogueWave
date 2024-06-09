@@ -1,6 +1,8 @@
 ﻿using NaughtyAttributes;
 using NeoFPS;
+using NeoFPS.Constants;
 using ProceduralToolkit;
+using ProceduralToolkit.Buildings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +18,9 @@ namespace RogueWave
     /// </summary>
     internal class ConnectedTile : BaseTile
     {
+        [SerializeField, Tooltip("The surface material for the connecting material on this tile.")]
+        internal FpsSurfaceMaterial surface = FpsSurfaceMaterial.CrystalAggregate;
+        // TODO: Lookup the surface material from the FpsSurfaceMaterial enum
         [SerializeField, Tooltip("The material to use for the structure.")]
         Material structureMaterial;
         [SerializeField, Tooltip("The height of the structure.")]
@@ -100,6 +105,8 @@ namespace RogueWave
             meshFilter.mesh = compoundDraft.ToMeshDraft().ToMesh();
 
             contentObject.AddComponent<MeshCollider>().sharedMesh = meshFilter.mesh;
+            BuildingSurface surface = contentObject.gameObject.AddComponent<BuildingSurface>();
+            surface.Surface = this.surface;
 
             if (destructible)
             {
@@ -115,6 +122,9 @@ namespace RogueWave
                 healthManager.healthMax = health;
                 healthManager.health = health;
             }
+
+            BuildingSurface flowSurface = contentObject.gameObject.AddComponent<BuildingSurface>();
+            flowSurface.Surface = this.surface;
 
             base.GenerateTileContent(x, z, tiles, levelGenerator);
         }

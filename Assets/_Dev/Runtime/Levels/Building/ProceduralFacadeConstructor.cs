@@ -10,7 +10,7 @@ namespace RogueWave.Procedural
     public class ProceduralFacadeConstructor : FacadeConstructor
     {
         [SerializeField, Tooltip("The surface material for this building.")]
-        internal FpsSurfaceMaterial surface = FpsSurfaceMaterial.Concrete;
+        internal FpsSurfaceMaterial surface = FpsSurfaceMaterial.CrystalAggregate;
         [SerializeField, Tooltip("The colour range for the walls for this building. Upon generation a random selection will be made from this gradient.")]
         public Gradient wallGradient = default;
 

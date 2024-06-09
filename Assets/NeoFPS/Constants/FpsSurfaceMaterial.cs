@@ -13,48 +13,38 @@ namespace NeoFPS.Constants
 	public struct FpsSurfaceMaterial
 	{
 		public const byte Default = 0;
-		public const byte Concrete = 1;
-		public const byte Stone = 2;
-		public const byte Dirt = 3;
-		public const byte Grass = 4;
-		public const byte Gravel = 5;
-		public const byte Wood = 6;
-		public const byte Plastic = 7;
-		public const byte Gadget = 8;
-		public const byte Flesh = 9;
-		public const byte MetalSolid = 10;
-		public const byte MetalHollowLight = 11;
-		public const byte MetalHollowHeavy = 12;
-		public const byte Treadplate = 13;
-		public const byte Glass = 14;
-		public const byte GlassBottle = 15;
-		public const byte TinCan = 16;
-		public const byte PaintTin = 17;
-		public const byte Shield = 18;
+		public const byte CrystalAggregate = 1;
+		public const byte Rock = 2;
+		public const byte Silica = 3;
+		public const byte Silicone = 4;
+		public const byte SmallStones = 5;
+		public const byte VolcanicRock = 6;
+		public const byte Dust = 7;
+		public const byte HeavyCrystal = 8;
+		public const byte MediumCrystal = 9;
+		public const byte LightCrystal = 10;
+		public const byte CrystalGlass = 11;
+		public const byte Shield = 12;
+		public const byte Flesh = 13;
 
-		public const int count = 19;
+		public const int count = 14;
 
 		public static readonly string[] names = new string[]
 		{
 			"Default",
-			"Concrete",
-			"Stone",
-			"Dirt",
-			"Grass",
-			"Gravel",
-			"Wood",
-			"Plastic",
-			"Gadget",
-			"Flesh",
-			"MetalSolid",
-			"MetalHollowLight",
-			"MetalHollowHeavy",
-			"Treadplate",
-			"Glass",
-			"GlassBottle",
-			"TinCan",
-			"PaintTin",
-			"Shield"
+			"CrystalAggregate",
+			"Rock",
+			"Silica",
+			"Silicone",
+			"SmallStones",
+			"VolcanicRock",
+			"Dust",
+			"HeavyCrystal",
+			"MediumCrystal",
+			"LightCrystal",
+			"CrystalGlass",
+			"Shield",
+			"Flesh"
 		};
 
 		[SerializeField] 
