@@ -1,6 +1,7 @@
 using NeoFPS.SinglePlayer;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 namespace RogueWave
@@ -18,6 +19,10 @@ namespace RogueWave
         int detectedObjectsCount = 10;
         [SerializeField, Tooltip("The layer mask for objects that should be detected and tracked.")]
         LayerMask detectionLayerMask;
+
+        [Header("Animation")]
+        [SerializeField, Tooltip("The trigger for the attack animation.")]
+        string attackTrigger = "Attack";
 
         [Header("Movement")]
         [SerializeField, Tooltip("The distance the player needs to move to trigger the pawn to move.")]
@@ -191,17 +196,34 @@ namespace RogueWave
             DetectObjectsOfInterest();
         }
 
+        /// <summary>
+        /// Updates the local collection of known objects of interest within the detection range.
+        /// </summary>
         private void DetectObjectsOfInterest()
         {
             Array.Clear(colliders, 0, detectedObjectsCount);
             int count = Physics.OverlapSphereNonAlloc(FpsSoloCharacter.localPlayerCharacter.transform.position, m_DetectionRange, colliders, detectionLayerMask);
-            for (int i = 0; i < detectedObjectsCount; i++)
+            for (int i = 0; i < count; i++)
             {
                 colliderDistances[i] = colliders[i] != null ? Vector3.Distance(FpsSoloCharacter.localPlayerCharacter.transform.position, colliders[i].transform.position) : float.MaxValue;
             }
 
             Array.Sort(colliderDistances, colliders);
             isDetectionQueueInvalid = true;
+        }
+
+        /// <summary>
+        /// Get the nearest enemy, if there is one.
+        /// </summary>
+        /// <returns>The nearest Enemy controller or null if thre isn't an enemy nearby.</returns>
+        internal BasicEnemyController GetNearestEnemy()
+        {
+            KeyValuePair<float, Collider> nearest = PeekDetectedObject();
+            if (nearest.Value != null)
+            {
+                return nearest.Value.GetComponentInParent<BasicEnemyController>();
+            }
+            return null;
         }
 
         private void ManageState()

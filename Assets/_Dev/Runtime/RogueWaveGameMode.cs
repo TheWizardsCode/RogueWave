@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Text;
 using Random = UnityEngine.Random;
 using UnityEngine.Serialization;
+using UnityEngine.SceneManagement;
 
 namespace RogueWave
 {
@@ -177,7 +178,14 @@ namespace RogueWave
 
             RogueLiteManager.ResetRunData();
 
-            NeoSceneManager.LoadScene(RogueLiteManager.reconstructionScene);
+            if (SceneManager.GetActiveScene().name != RogueLiteManager.combatScene) // must be the intro scene
+            {
+                NeoSceneManager.LoadScene(RogueLiteManager.mainMenuScene);
+            }
+            else
+            {
+                NeoSceneManager.LoadScene(RogueLiteManager.reconstructionScene);
+            }
         }
 
         void DelayedVictoryAction(bool usedPortal)
@@ -622,7 +630,8 @@ namespace RogueWave
                 ConfigureRecipeForRun(RogueLiteManager.persistentData.RecipeIds[i]);
             }
 
-            bool result = base.PreSpawnStep();
+            bool result = true;
+            result = base.PreSpawnStep();
 
             return result;
         }

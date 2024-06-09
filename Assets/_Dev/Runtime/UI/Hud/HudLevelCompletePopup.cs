@@ -31,8 +31,11 @@ namespace RogueWave
 
         private void OnLevelComplete()
         {
-            StartCoroutine(FadeCanvasGroup(canvasGroup.alpha, 1));
-            StartCoroutine(NanobotVictoryRoutine());
+            if (gameObject.activeSelf)
+            {
+                StartCoroutine(FadeCanvasGroup(canvasGroup.alpha, 1));
+                StartCoroutine(NanobotVictoryRoutine());
+            }
         }
 
         private IEnumerator NanobotVictoryRoutine()

@@ -1,0 +1,62 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 450cef1de72d2234d90c54f14782b3ff, type: 3}
+  m_Name: Max Health Increase 10 Recipe
+  m_EditorClassIdentifier: 
+  displayName: Maximum Health +10
+  announcerVoicelineForName: Increase max health, medium.
+  description: Increase maximum health by 10
+  heroImage: {fileID: 21300000, guid: 2374a940a4f432c48be32879133a300d, type: 3}
+  icon: {fileID: 21300000, guid: 93a31e6292dd0a540ae590d6b0e5ef2a, type: 3}
+  level: 8
+  baseWeight: 0.6
+  dependencies:
+  - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
+  complements: []
+  baseBuyCost: 1000
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 10
+  isStackable: 1
+  maxStack: 10
+  buildCost: 75
+  timeToBuild: 10
+  nameClips:
+  - {fileID: 8300000, guid: 03407825033f2e848bfa8b8e179ea3d4, type: 3}
+  - {fileID: 8300000, guid: d1ae79ff22a6e8f4ba0db651acf0ff4d, type: 3}
+  - {fileID: 8300000, guid: ac7144cb3d0c86749861867173c18052, type: 3}
+  - {fileID: 8300000, guid: db4bff5a0aa3b9447b025a85d307eaab, type: 3}
+  - {fileID: 8300000, guid: cd3c47d554b0de646916c113ce0fc8ee, type: 3}
+  - {fileID: 8300000, guid: 27fea062822ec354c8d9ec3f82b62995, type: 3}
+  - {fileID: 8300000, guid: b4c8f19abfd96094b90d5d681ade993d, type: 3}
+  - {fileID: 8300000, guid: 449ef079e7538bb459ef6eb5f58c2669, type: 3}
+  - {fileID: 8300000, guid: cfaa282aff210194f87705bac83f1775, type: 3}
+  - {fileID: 8300000, guid: f92cf4ee1ec1a864aadf1ffaa2757649, type: 3}
+  - {fileID: 8300000, guid: b05d97c3a245ed64591786ecf153bb2b, type: 3}
+  - {fileID: 8300000, guid: 786213386b4beb84eb38a6ff6ef2e55d, type: 3}
+  buildStartedClips:
+  - {fileID: 8300000, guid: 5707be107dc57964d8fbc4d1bd33a096, type: 3}
+  - {fileID: 8300000, guid: 2c714e000622f6544bb39904da1ea88f, type: 3}
+  - {fileID: 8300000, guid: 90cf8bc36f2629f4e82723bdfaa8f039, type: 3}
+  - {fileID: 8300000, guid: 9fec7fb2b61d53a419545c1dafcfe67a, type: 3}
+  - {fileID: 8300000, guid: 7bd3f237413a4364dac3b179089f65a7, type: 3}
+  buildCompleteClips:
+  - {fileID: 8300000, guid: cf19d292e0d6cc54a936589ad4c98bb2, type: 3}
+  - {fileID: 8300000, guid: 0f6575ea37a6ab540868663ef2f86baa, type: 3}
+  - {fileID: 8300000, guid: 2debacc510795284eb2beab6a6630429, type: 3}
+  - {fileID: 8300000, guid: ec68c10cdfe0ed54885f46b7d928c2b5, type: 3}
+  - {fileID: 8300000, guid: ab02f842e644b264ca4cf6950ec6ef01, type: 3}
+  - {fileID: 8300000, guid: 41312061328b6a54e9afc1f23315bb1d, type: 3}
+  - {fileID: 8300000, guid: c7563a76c1d2f664ea993629fdd55d6c, type: 3}
+  pickupParticles: {fileID: 0}
+  uniqueID: 7a98e83d-8de9-4150-bb74-6eeecb3a4bde
+  AdditionalMaxHealth: 10

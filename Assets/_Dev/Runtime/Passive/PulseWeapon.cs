@@ -23,8 +23,6 @@ namespace RogueWave
 
         public override void Fire()
         {
-            base.Fire();
-
             StartCoroutine(Pulse());
         }
 

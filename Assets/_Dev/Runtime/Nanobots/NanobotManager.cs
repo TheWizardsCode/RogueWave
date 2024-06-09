@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
+using UnityEngine.SceneManagement;
 
 namespace RogueWave
 {
@@ -197,6 +198,16 @@ namespace RogueWave
             foreach (var itemRecipe in itemRecipes)
             {
                 itemRecipe.Reset();
+            }
+
+            if (SceneManager.GetActiveScene().name != RogueLiteManager.combatScene)
+            {
+                foreach (string guid in RogueLiteManager.persistentData.WeaponBuildOrder)
+                {
+                    RecipeManager.TryGetRecipe(guid, out IRecipe recipe);
+                    RogueLiteManager.persistentData.currentResources += recipe.BuildCost;
+                    TryRecipe(recipe);
+                }
             }
         }
 

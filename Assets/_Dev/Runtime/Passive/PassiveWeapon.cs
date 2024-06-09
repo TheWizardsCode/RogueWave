@@ -40,6 +40,28 @@ namespace RogueWave
         ModularFirearm m_Firearm;
         AudioSource m_AudioSource;
 
+        internal enum State
+        {
+            Ready,
+            Firing
+        }
+        internal State m_currentState = State.Ready;
+        internal virtual State currentState
+        {
+            get
+            {
+                return m_currentState;
+            }
+            set
+            {
+                if (m_currentState == value)
+                {
+                    return;
+                }
+                m_currentState = value;
+            }
+        }
+
         internal virtual void Awake()
         {
             layerMask = 1 << layers;
@@ -49,35 +71,48 @@ namespace RogueWave
             {
                 model.transform.position += positionOffset;
             }
+
+            m_NextFireTime = Time.timeSinceLevelLoad + (m_Cooldown / 4);
         }
 
-        public virtual bool isValid
+        public virtual bool isReadyToFire
         {
-            get { return m_NextFireTime < Time.timeSinceLevelLoad; }
+            get { 
+                if (currentState == State.Firing)
+                {
+                    return false;
+                }
+                else
+                {
+                    return m_NextFireTime < Time.timeSinceLevelLoad;
+                }
+            }
         }
 
         protected virtual void Update()
         {
-            if (isValid)
+            if (isReadyToFire)
             {
-                Fire();
+                m_NextFireTime = Time.timeSinceLevelLoad + m_Cooldown;
+                Attack();
             }
         }
 
-        public virtual void Fire()
+        public void Attack()
         {
             PlayFireSFX();
+            Fire();
+        }
 
-            m_NextFireTime = Time.timeSinceLevelLoad + m_Cooldown;
-
+         public virtual void Fire() {
             if (m_Firearm != null)
             {
                 m_Firearm.trigger.Press();
             }
 #if UNITY_EDITOR
-            else if (this.GetType() == typeof(PassiveWeapon))
+            else if (this is PassiveWeapon)
             {
-                Debug.LogError($"{this.name} is equipped but there is no ModularFirearm component and no override of the `Fire` method.");
+                Debug.LogError($"{this.name} is equipped but there is no ModularFirearm component and no override of the `Fire` method (or the fire method is calling the base).");
             }
 #endif
         }

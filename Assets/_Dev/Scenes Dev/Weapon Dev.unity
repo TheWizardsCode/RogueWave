@@ -468,7 +468,7 @@ PrefabInstance:
       objectReference: {fileID: 7571342023460485295, guid: f349bcbf314ebbe45ba44bba226acdf8, type: 3}
     - target: {fileID: 5223561033937574973, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_Name
-      value: Playground_Test_Game_Mode
+      value: RogueWave_Test_Game_Mode
       objectReference: {fileID: 0}
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -588,7 +588,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: _startingRecipesPermanent.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: _startingRecipesPermanent.Array.data[0]
@@ -605,6 +605,10 @@ PrefabInstance:
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: _startingRecipesPermanent.Array.data[3]
       value: 
+      objectReference: {fileID: 11400000, guid: e3b996310a9e0fc429a0418a082ef552, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.data[4]
+      value: 
       objectReference: {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
     - target: {fileID: 8474616463793294590, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: scannerPrefab
@@ -615,6 +619,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+--- !u!114 &284661818 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3594583190328289263, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
+  m_PrefabInstance: {fileID: 6889328844788476972}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421f12c4cc2c4614f9e0616ef942cf44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &405615396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1449,7 +1464,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6088336194742650778, guid: 6e65484e683ad974297434772b4f3bd8, type: 3}
       propertyPath: m_Name
-      value: Playground HudAndMenuCanvas
+      value: RogueWaveHudAndMenuCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6486608023667122011, guid: 6e65484e683ad974297434772b4f3bd8, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2950,6 +2965,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1137701271881037766, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
+      propertyPath: m_Children.m_Keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1137701271881037766, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
+      propertyPath: m_Children.m_Values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1137701271881037766, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
+      propertyPath: m_Children.m_Keys.Array.data[0]
+      value: 1549718432
+      objectReference: {fileID: 0}
+    - target: {fileID: 1137701271881037766, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
+      propertyPath: m_Children.m_Values.Array.data[0]
+      value: 
+      objectReference: {fileID: 284661818}
     - target: {fileID: 1145024715601847669, guid: e8a9f5332635ea34aae60b99db3137ba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 90.6

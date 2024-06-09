@@ -1,6 +1,4 @@
-using NaughtyAttributes;
 using NeoFPS;
-using System.Collections;
 using UnityEngine;
 
 namespace RogueWave
@@ -34,7 +32,7 @@ namespace RogueWave
             {
                 GameObject go = new GameObject("Beam " + i);
                 go.transform.SetParent(transform);
-                go.transform.localPosition += positionOffset;
+                go.transform.localPosition = positionOffset;
                 lineRenderers[i] = go.AddComponent<LineRenderer>();
                 lineRenderers[i].material = material;
                 lineRenderers[i].startWidth = 0.01f;
@@ -46,8 +44,6 @@ namespace RogueWave
 
         public override void Fire()
         {
-            base.Fire();
-
             FireBeams(beamCount);
         }
 
