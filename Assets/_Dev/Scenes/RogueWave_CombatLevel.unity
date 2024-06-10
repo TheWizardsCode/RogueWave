@@ -1591,16 +1591,48 @@ PrefabInstance:
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].time
+      value: 99
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].value
+      value: 6.852725
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].value
+      value: 6.852725
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].inSlope
       value: 0.011144835
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].inSlope
+      value: 0.15919253
       objectReference: {fileID: 0}
     - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].outSlope
       value: 0.011144835
       objectReference: {fileID: 0}
     - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].inWeight
+      value: 0.054684304
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].outSlope
+      value: 0.15919253
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].outWeight
       value: 0.07517077
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767766673360794206, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].outWeight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5223561033937574973, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: m_Name
