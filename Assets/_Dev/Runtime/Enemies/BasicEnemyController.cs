@@ -106,7 +106,6 @@ namespace RogueWave
         internal float timeOfNextDestinationChange = 0;
         internal Vector3 goalDestination = Vector3.zero;
         private float sqrSeekDistance;
-        Vector3 wanderDestination = Vector3.zero;
 
         protected BasicMovementController movementController;
 
@@ -339,9 +338,9 @@ namespace RogueWave
             {
                 if (timeToUpdate)
                 {
-                    goalDestination = WanderDestination();
+                    goalDestination = GetWanderDestination();
                 }
-                movementController.MoveUpdateMovement(goalDestination, 1, squadLeader);
+                movementController.MoveTo(goalDestination, 1, squadLeader);
                 return;
             }
 
@@ -357,11 +356,11 @@ namespace RogueWave
 
             if (underOrders)
             {
-                movementController.MoveUpdateMovement(goalDestination, 1.5f, squadLeader);
+                movementController.MoveTo(goalDestination, 1.5f, squadLeader);
             }
             else
             {
-                movementController.MoveUpdateMovement(goalDestination, 1, squadLeader);
+                movementController.MoveTo(goalDestination, 1, squadLeader);
             }
         }
 
@@ -410,15 +409,15 @@ namespace RogueWave
                         }
                         else
                         {
-                            goalDestination = WanderDestination();
+                            goalDestination = GetWanderDestination();
                         }
                     }
                     else
                     {
-                        goalDestination = WanderDestination();
+                        goalDestination = GetWanderDestination();
                     }
 
-                    movementController.MoveUpdateMovement(goalDestination, 1, squadLeader);
+                    movementController.MoveTo(goalDestination, 1, squadLeader);
                 }
 
                 RotateHead();
@@ -457,37 +456,36 @@ namespace RogueWave
             return newPosition;
         }
 
-        internal Vector3 WanderDestination()
+        internal Vector3 GetWanderDestination()
         {
+            Vector3 wanderDestination = Vector3.positiveInfinity;
             if (Time.timeSinceLevelLoad > timeOfNextDestinationChange)
             {
                 isRecharging = false;
                 timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
 
                 int tries = 0;
-                do
+                while (!IsValidDestination(wanderDestination, 1f) && tries < 50)
                 {
                     tries++;
                     wanderDestination = spawnPosition + Random.insideUnitSphere * seekDistance;
                     wanderDestination.x = Mathf.Clamp(wanderDestination.x, destinationMinX, destinationMaxX);
-                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, destinationMinY, destinationMaxY);
-                    wanderDestination.y = Mathf.Clamp(wanderDestination.y, movementController.minimumHeight, movementController.maximumHeight);
+                    wanderDestination.y = Random.Range(movementController.minimumHeight, movementController.maximumHeight);
+                    wanderDestination.z = Mathf.Clamp(wanderDestination.y, destinationMinY, destinationMaxY);
+                }
 
-                    if (IsValidDestination(wanderDestination, movementController.obstacleAvoidanceDistance) == false)
-                    {
-                        wanderDestination = Vector3.positiveInfinity;
-                    }
-                } while (wanderDestination != Vector3.positiveInfinity && Physics.CheckSphere(wanderDestination, 1f) && tries < 50);
 
+                if (tries == 50)
+                {
+                    wanderDestination = spawnPosition;
 #if UNITY_EDITOR
-                if (isDebug)
-                    Debug.LogWarning($"{name} selected wander destination of {wanderDestination}");
+                    Debug.LogWarning($"{name} unable to find a wander destination returning to spawn position.");
 #endif
+                }
             }
             return wanderDestination;
         }
 
-        Collider[] validDestinationCheckColliders = new Collider[4];
         private float destinationMinX;
         private float destinationMinY;
         private float destinationMaxX;

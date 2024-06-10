@@ -31,7 +31,7 @@ namespace RogueWave
 
         private void OnLevelComplete()
         {
-            if (gameObject.activeSelf)
+            if (gameObject.activeInHierarchy)
             {
                 StartCoroutine(FadeCanvasGroup(canvasGroup.alpha, 1));
                 StartCoroutine(NanobotVictoryRoutine());
