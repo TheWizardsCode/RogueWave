@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef4bffeda13d7a748973ff9204401c07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timePlayedStat: {fileID: 11400000, guid: cd470668f69eda34db38f3129ed8601f, type: 2}
-  webhookData: {fileID: 11400000, guid: 443f7d773094e5d4ea3c4d494909741e, type: 2}
-  m_SteamAppId: 2895630
-  m_FrequencyOfSteamStatStore: 60
+  m_StatsScene: RogueWave_MainMenu
+  playerDataWebhook: {fileID: 11400000, guid: 443f7d773094e5d4ea3c4d494909741e, type: 2}
+  developerDataWebhook: {fileID: 0}
+  showDebug: 0

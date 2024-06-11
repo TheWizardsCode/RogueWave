@@ -9,6 +9,7 @@ using UnityEngine.Serialization;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
+using WizardsCode.Common;
 
 namespace RogueWave
 {
@@ -470,11 +471,6 @@ namespace RogueWave
         /// <param name="mainClip">The main clip to play</param>
         private IEnumerator Announce(AudioClip mainClip)
         {
-            if (voiceDescription == voiceDescriptionLevel.Silent)
-            {
-                yield break;
-            }
-
             yield return Announce(mainClip, new AudioClip[] { });
         }
 
@@ -495,7 +491,7 @@ namespace RogueWave
         /// <param name="recipeName">OPTIONAL: if not null then these recipe name clips will be announced after the main clip</param>
         private IEnumerator Announce(AudioClip mainClip, AudioClip[] recipeNames)
         {
-            if (voiceDescription == voiceDescriptionLevel.Silent)
+            if (voiceDescription != voiceDescriptionLevel.Silent && SceneManager.GetActiveScene().name != RogueLiteManager.combatScene)
             {
                 yield break;
             }
