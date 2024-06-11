@@ -97,12 +97,12 @@ namespace RogueWave
             return new KeyValuePair<float, Collider>(colliderDistances[idx], colliders[idx]);
         }
 
-        public KeyValuePair<float, Collider> DequeueDetectedObject()
+        public KeyValuePair<float, Collider> GetNearestObject()
         {
             if (sortedColliders.Peek().Value == null)
             {
                 sortedColliders.Dequeue();
-                return DequeueDetectedObject();
+                return GetNearestObject();
             }
             return sortedColliders.Dequeue();
         }

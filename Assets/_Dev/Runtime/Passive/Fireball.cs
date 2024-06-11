@@ -20,9 +20,11 @@ namespace RogueWave
 
         private GameObject visuals;
         private EnemyDamageTriggerZone triggerZone;
-        Collider collider;
+        new Collider collider;
 
         private NanobotPawnController m_synthos;
+        private BasicEnemyController target;
+
         private NanobotPawnController synthos
         {
             get
@@ -32,6 +34,30 @@ namespace RogueWave
                     m_synthos = GetComponentInParent<NanobotPawnController>();
                 }
                 return m_synthos;
+            }
+        }
+
+        /// <summary>
+        /// Checks to see if the fireball is ready to fire. 
+        /// To be ready to fire the fireball must be in the ready state and there must be a target.
+        /// If it is then the target is set to the nearest enemy.
+        /// </summary>
+        public override bool isReadyToFire
+        {
+            get
+            {
+                if (!base.isReadyToFire)
+                {
+                    return false;
+                }
+                
+                target = synthos.GetNearestEnemy();
+                if (target == null)
+                {
+                    return false;
+                }
+
+                return Vector3.Distance(target.transform.position, transform.position) <= range;
             }
         }
 
@@ -55,8 +81,7 @@ namespace RogueWave
             currentState = State.Firing;
             model.transform.SetParent(null);
             collider.enabled = true;
-
-            BasicEnemyController target = synthos.GetNearestEnemy();
+            
             float distance = 0f;
             while (distance < range)
             {
