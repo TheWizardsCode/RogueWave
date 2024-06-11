@@ -13,18 +13,14 @@ namespace NeoFPS.Constants
 	public struct FpsSwappableCategory
 	{
 		public const int Firearm = 0;
-		public const int Melee = 1;
-		public const int Thrown = 2;
-		public const int Passive = 3;
+		public const int Thrown = 1;
 
-		public const int count = 4;
+		public const int count = 2;
 
 		public static readonly string[] names = new string[]
 		{
 			"Firearm",
-			"Melee",
-			"Thrown",
-			"Passive"
+			"Thrown"
 		};
 
 		[SerializeField] 

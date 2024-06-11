@@ -137,7 +137,20 @@ namespace RogueWave
                     onOfferChanged(_currentOffers);
             }
         }
-        
+
+        private FpsInventorySwappable _inventory;
+        private FpsInventorySwappable inventory
+        {
+            get
+            {
+                if (!_inventory && FpsSoloCharacter.localPlayerCharacter != null)
+                {
+                    _inventory = FpsSoloCharacter.localPlayerCharacter.inventory as FpsInventorySwappable;
+                }
+                return _inventory;
+            }
+        }
+
         private float timeOfLastRewardOffer = 0;
 
         private float timeOfNextBuiild = 0;
@@ -235,13 +248,13 @@ namespace RogueWave
             }
 
             // Prioritize building ammo if the player is low on ammo
-            if (TryAmmoRecipes(0.1f))
+            if (TryAmmoRecipes(0.2f))
             {
                 return;
             }
 
             // Health is the next priority, got to stay alive, but only build at this stage if fairly badly hurt
-            if (TryHealthRecipes(0.6f))
+            if (TryHealthRecipes(0.7f))
             {
                 return;
             }
@@ -253,7 +266,7 @@ namespace RogueWave
             }
 
             // Prioritize building armour if the player does not have armour or is low on armour
-            if (TryArmourRecipes(0.4f))
+            if (TryArmourRecipes(0.2f))
             {
                 return;
             }
@@ -598,9 +611,9 @@ namespace RogueWave
                 IRecipe weapon;
                 if (RecipeManager.TryGetRecipe(id, out weapon))
                 {
-                    if (((WeaponPickupRecipe)weapon).InInventory == false)
+                    if (TryRecipe(weapon as WeaponPickupRecipe))
                     {
-                        return TryRecipe(weapon as WeaponPickupRecipe);
+                        return true;
                     }
                 }
             }
@@ -609,9 +622,12 @@ namespace RogueWave
             foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
             {
                 WeaponPickupRecipe weapon = recipe as WeaponPickupRecipe;
-                if (weapon != null && RogueLiteManager.persistentData.RecipeIds.Contains(weapon.uniqueID) == false && weapon.InInventory == false)
+                if (weapon != null && RogueLiteManager.persistentData.RecipeIds.Contains(weapon.uniqueID) == false)
                 {
-                    return TryRecipe(weapon);
+                    if (TryRecipe(weapon))
+                    {
+                        return true;
+                    }
                 }
             }
 

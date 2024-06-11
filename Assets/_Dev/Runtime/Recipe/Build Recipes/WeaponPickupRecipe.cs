@@ -54,6 +54,12 @@ namespace RogueWave
             {
                 if (InInventory == false)
                 {
+                    int slot = inventory.GetSlotForItem(pickup.GetItemPrefab() as ISwappable);
+                    if (slot == -1 || inventory.GetSlotItem(slot) != null)
+                    {
+                        return false;
+                    }
+
                     return base.ShouldBuild;
                 }
                 else
