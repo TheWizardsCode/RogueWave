@@ -172,10 +172,6 @@ namespace RogueWave
             colliders = new Collider[detectedObjectsCount];
             colliderDistances = new float[detectedObjectsCount];
             sqrMovementDampingDistance = movementDampingDistance * movementDampingDistance;
-            foreach (IRecipe recipe in startingRecipes)
-            {
-                RogueLiteManager.persistentData.Add(recipe);
-            }
         }
 
         private void Start()
@@ -187,6 +183,13 @@ namespace RogueWave
 
             player = FpsSoloCharacter.localPlayerCharacter;
             animator = GetComponent<Animator>();
+
+            NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
+            foreach (IRecipe recipe in startingRecipes)
+            {
+                RogueLiteManager.persistentData.Add(recipe);
+                nanobotManager.Add(recipe);
+            }
         }
 
         private void Update()

@@ -55,6 +55,7 @@ namespace WizardsCode.Speech
             allTutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
 
             voicelineVariations = EditorPrefs.GetInt("SpeechEditorWindow.voicelineVariations");
+            rate = EditorPrefs.GetFloat("SpeechEditorWindow.rate", 1);
 
             int mixerGroupID = EditorPrefs.GetInt("SpeechEditorWindow.mixerGroup");
             if (mixerGroupID != -1)
@@ -66,6 +67,7 @@ namespace WizardsCode.Speech
         private void OnDisable()
         {
             EditorPrefs.SetInt("SpeechEditorWindow.voicelineVariations", voicelineVariations);
+            EditorPrefs.SetFloat("SpeechEditorWindow.rate", rate);
             EditorPrefs.SetInt("SpeechEditorWindow.mixerGroup", audioMixerGroup == null ? -1 : audioMixerGroup.GetInstanceID());
         }
 
