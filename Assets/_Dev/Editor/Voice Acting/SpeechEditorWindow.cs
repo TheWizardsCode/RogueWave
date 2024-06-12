@@ -27,7 +27,7 @@ namespace WizardsCode.Speech
         private AbstractRecipe[] allRecipes;
         private TutorialStep[] allTutorialSteps;
         private int voicelineVariations = 4;
-        private int processingVariations = 3;
+        private float rate = 1;
 
         private Vector2 recipesScrollPosition;
         private Vector2 tutorialStepScrollPosition;
@@ -55,7 +55,6 @@ namespace WizardsCode.Speech
             allTutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
 
             voicelineVariations = EditorPrefs.GetInt("SpeechEditorWindow.voicelineVariations");
-            processingVariations = EditorPrefs.GetInt("SpeechEditorWindow.processingVariations");
 
             int mixerGroupID = EditorPrefs.GetInt("SpeechEditorWindow.mixerGroup");
             if (mixerGroupID != -1)
@@ -67,7 +66,6 @@ namespace WizardsCode.Speech
         private void OnDisable()
         {
             EditorPrefs.SetInt("SpeechEditorWindow.voicelineVariations", voicelineVariations);
-            EditorPrefs.SetInt("SpeechEditorWindow.processingVariations", processingVariations);
             EditorPrefs.SetInt("SpeechEditorWindow.mixerGroup", audioMixerGroup == null ? -1 : audioMixerGroup.GetInstanceID());
         }
 
@@ -84,8 +82,8 @@ namespace WizardsCode.Speech
 
             voicelineVariations = EditorGUILayout.IntField(new GUIContent("Voiceline variations", "How many different voicelines shouuld be generated. Total generated audio clips will be number of voiceline variations times the number of processing variations."), voicelineVariations);
 
-            processingVariations = EditorGUILayout.IntField(new GUIContent("Processing variations", "How many different variations will be created for each voiceline. Total generated audio clips will be number of voiceline variations times the number of processing variations."), processingVariations);
-
+            rate = EditorGUILayout.FloatField(new GUIContent("Rate", "The rate at which the text is spoken, 0.9 (slow) to 1.1 (fast)"), rate);
+            rate = Mathf.Clamp(rate, 0.9f, 1.1f);
 
             if (!EditorApplication.isPlaying)
             {
@@ -210,7 +208,7 @@ namespace WizardsCode.Speech
                     }
                     if (Application.isPlaying)
                     {
-                        if (GUILayout.Button($"Generate {voicelineVariations * processingVariations} Tutorial Step Voicelines", GUILayout.Width(200)))
+                        if (GUILayout.Button($"Generate {voicelineVariations} Tutorial Step Voicelines", GUILayout.Width(200)))
                         {
                             Selection.activeObject = step;
                             SetVoiceFields(step);
@@ -320,7 +318,7 @@ namespace WizardsCode.Speech
                     }
                     if (Application.isPlaying)
                     {
-                        if (GUILayout.Button($"Generate {voicelineVariations * processingVariations} Name Voicelines", GUILayout.Width(200)))
+                        if (GUILayout.Button($"Generate {voicelineVariations} Name Voicelines", GUILayout.Width(200)))
                         {
                             Selection.activeObject = recipe;
                             SetVoiceFields(recipe);
@@ -406,9 +404,11 @@ namespace WizardsCode.Speech
             {
                 Debug.Log($"Generating voice line {i + 1} of {voicelineVariations}");
 
-                VoiceSettings defaultVoiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
+                VoiceSettings voiceSettings = await api.VoicesEndpoint.GetDefaultVoiceSettingsAsync();
+                voiceSettings.Stability = Random.Range(0.35f, 0.75f);
+                voiceSettings.SimilarityBoost = Random.Range(0.5f, 0.85f);
                 Voice voice = activeVoices[voiceIndex];
-                VoiceClip voiceClip = await api.TextToSpeechEndpoint.TextToSpeechAsync(textToConvert, voice, defaultVoiceSettings);
+                VoiceClip voiceClip = await api.TextToSpeechEndpoint.TextToSpeechAsync(textToConvert, voice, voiceSettings);
 
                 string relativePath = GetRelativeFilepathWithoutExtensionForUnprocessedFile(i);
                 SavWav.Save($"{Application.dataPath}/{relativePath}.wav", voiceClip.AudioClip);
@@ -418,7 +418,7 @@ namespace WizardsCode.Speech
 
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
 
-            List<AudioClip> clips = await RecordVariations();
+            List<AudioClip> clips = await ChangePitch();
 
             Repaint();
             Debug.Log("Completed recording.");
@@ -437,7 +437,7 @@ namespace WizardsCode.Speech
             Debug.Log($"Loaded {activeVoices.Count} voices.");
         }
 
-        private async Task<List<AudioClip>> RecordVariations()
+        private async Task<List<AudioClip>> ChangePitch()
         {
             RecorderControllerSettings controllerSettings = CreateInstance<RecorderControllerSettings>();
             recordingController = new RecorderController(controllerSettings);
@@ -455,40 +455,31 @@ namespace WizardsCode.Speech
 
             for (int i = 0; i < voicelineVariations; i++)
             {
-                float pitchStep = 0.2f / processingVariations;
-                for (int y = 0; y < processingVariations; y++)
+                Debug.Log($"Processing {i + 1} of {voicelineVariations} voicelines at a pitch of {rate}.");
+
+                audioSource.pitch = rate;
+                audioSource.clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/{GetRelativeFilepathWithoutExtensionForUnprocessedFile(i)}.wav");
+                audioSource.clip.LoadAudioData();
+                while (audioSource.clip.loadState == AudioDataLoadState.Loading)
                 {
-                    Debug.Log($"Processing variation {y + 1} of {processingVariations} for {i + 1} of {voicelineVariations} voicelines.");
-
-                    if (processingVariations > 1)
-                    {
-                        audioSource.pitch = 0.95f + (y * pitchStep);
-                    } else {
-                        audioSource.pitch = 1;
-                    }
-                    audioSource.clip = AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/{GetRelativeFilepathWithoutExtensionForUnprocessedFile(i)}.wav");
-                    audioSource.clip.LoadAudioData();
-                    while (audioSource.clip.loadState == AudioDataLoadState.Loading)
-                    {
-                        await Task.Delay(100); // Wait for a short time before checking again
-                    }
-
-                    audioRecorder.OutputFile = GetProcessedFilepath(i, y);
-                    //controllerSettings.SetRecordModeToFrameInterval(2, Mathf.RoundToInt(audioSource.clip.length + 0.3f) * frameRate);
-                    controllerSettings.SetRecordModeToTimeInterval(0, audioSource.clip.length * 1.04f); // magic number to ensure we get the whole clip
-
-                    recordingController.PrepareRecording();
-                    recordingController.StartRecording();
-
-                    audioSource.Play();
-
-                    while (recordingController.IsRecording())
-                    {
-                        await Task.Delay(100);
-                    }
-
-                    AssetDatabase.ImportAsset($"Assets/{GetRelativeFilepathWithoutExtensionForProcessedFile(i, y)}.wav", ImportAssetOptions.ForceSynchronousImport);
+                    await Task.Delay(100); // Wait for a short time before checking again
                 }
+
+                audioRecorder.OutputFile = GetProcessedFilepath(i);
+                //controllerSettings.SetRecordModeToFrameInterval(2, Mathf.RoundToInt(audioSource.clip.length + 0.3f) * frameRate);
+                controllerSettings.SetRecordModeToTimeInterval(0, audioSource.clip.length * 1.04f); // magic number to ensure we get the whole clip
+
+                recordingController.PrepareRecording();
+                recordingController.StartRecording();
+
+                audioSource.Play();
+
+                while (recordingController.IsRecording())
+                {
+                    await Task.Delay(100);
+                }
+
+                AssetDatabase.ImportAsset($"Assets/{GetRelativeFilepathWithoutExtensionForProcessedFile(i)}.wav", ImportAssetOptions.ForceSynchronousImport);
             }
 
             AssetDatabase.SaveAssets();
@@ -497,10 +488,7 @@ namespace WizardsCode.Speech
             List<AudioClip> processedClips = new List<AudioClip>();
             for (int i = 0; i < voicelineVariations; i++)
             {
-                for (int y = 0; y < processingVariations; y++)
-                {
-                    processedClips.Add(AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/{GetRelativeFilepathWithoutExtensionForProcessedFile(i, y)}.wav"));
-                }
+                processedClips.Add(AssetDatabase.LoadAssetAtPath<AudioClip>($"Assets/{GetRelativeFilepathWithoutExtensionForProcessedFile(i)}.wav"));
             }
 
             return processedClips;
@@ -511,14 +499,14 @@ namespace WizardsCode.Speech
             return $"{path}/Unprocessed/{category}/{filename}_{variation.ToString("000")}";
         }
 
-        private string GetProcessedFilepath(int voiceVariation, int processingVariation)
+        private string GetProcessedFilepath(int voiceVariation)
         {
-            return $"{Application.dataPath}/{GetRelativeFilepathWithoutExtensionForProcessedFile(voiceVariation, processingVariation)}";
+            return $"{Application.dataPath}/{GetRelativeFilepathWithoutExtensionForProcessedFile(voiceVariation)}";
         }
 
-        private string GetRelativeFilepathWithoutExtensionForProcessedFile(int voiceVariation, int processingVariation)
+        private string GetRelativeFilepathWithoutExtensionForProcessedFile(int voiceVariation)
         {
-            return $"{path}/{category}/{filename}_{voiceVariation.ToString("000")}_{processingVariation.ToString("000")}";
+            return $"{path}/{category}/{filename}_{voiceVariation.ToString("000")}";
         }
     }
 
