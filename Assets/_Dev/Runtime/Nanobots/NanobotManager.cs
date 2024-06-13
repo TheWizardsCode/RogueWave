@@ -746,7 +746,6 @@ namespace RogueWave
             IItemRecipe itemRecipe = recipe as IItemRecipe;
             if (itemRecipe != null)
             {
-                // TODO Use the pool manager to create the item
                 GameObject go = Instantiate(itemRecipe.Item.gameObject);
 
                 Vector3 position = transform.position + (transform.forward * pickupSpawnDistance) + (transform.up * 1f);
@@ -759,7 +758,6 @@ namespace RogueWave
 
                 go.transform.position = position;
 
-                // TODO: Use the pool manager to create the particle system
                 if (recipe.PickupParticles != null)
                 {
                     ParticleSystem ps = Instantiate(recipe.PickupParticles, go.transform);

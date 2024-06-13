@@ -15,6 +15,7 @@ using System.Text;
 using Random = UnityEngine.Random;
 using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
+using WizardsCode.Common;
 
 namespace RogueWave
 {
@@ -415,9 +416,13 @@ namespace RogueWave
                 }
             }
 
-            FpsInventoryLoadout loadout = ConfigureLoadout();
-            if (loadout != null)
-                character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
+            if (SceneManager.GetActiveScene().name == RogueLiteManager.combatScene)
+            {
+                FpsInventoryLoadout loadout = ConfigureLoadout();
+                if (loadout != null)
+                    character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
+            }
+
             // Add nanobot recipes
             NanobotManager manager = character.GetComponent<NanobotManager>();
             for (int i = 0; i < RogueLiteManager.runData.Recipes.Count; i++)
@@ -581,7 +586,7 @@ namespace RogueWave
             }
 
             // If the character died then the weapon build order may have weapons that were in the rundata and need to be removed.
-            for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0 ; i--)
+            for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0; i--)
             {
                 if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[i], out IRecipe weapon)) {
                     if (!RogueLiteManager.persistentData.Contains(weapon))
@@ -592,11 +597,11 @@ namespace RogueWave
             }
 
             List<IRecipe> recipes = new List<IRecipe>();
+            recipes.AddRange(RogueLiteManager.runData.Recipes);
             recipes.AddRange(_startingRecipesPermanent);
             recipes.AddRange(_startingRecipesRun);
-            recipes.AddRange(RogueLiteManager.runData.Recipes);
 
-            RogueLiteManager.runData.Loadout.Clear(); 
+            RogueLiteManager.runData.Loadout.Clear();
             for (int i = 0; i < recipes.Count; i++)
             {
                 if (recipes[i] is WeaponPickupRecipe && !RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipes[i].UniqueID))
@@ -604,7 +609,7 @@ namespace RogueWave
                     RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipes[i].UniqueID);
                 }
             }
-            
+
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
                 levelGenerator.Generate(currentLevelDefinition, m_Seed);
@@ -618,11 +623,6 @@ namespace RogueWave
             for (int i = 0; i < _startingRecipesPermanent.Length; i++)
             {
                 RogueLiteManager.persistentData.Add(_startingRecipesPermanent[i]);
-            }
-
-            for (int i = 0; i < _startingRecipesRun.Length; i++)
-            {
-                RogueLiteManager.runData.Add(_startingRecipesRun[i]);
             }
 
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
