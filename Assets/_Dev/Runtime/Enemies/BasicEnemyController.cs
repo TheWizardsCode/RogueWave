@@ -43,7 +43,7 @@ namespace RogueWave
         [Header("Seek Behaviour")]
         [SerializeField, Tooltip("If true the enemy will return to their spawn point when they go beyond their seek distance.")]
         internal bool returnToSpawner = false;
-        [SerializeField, Tooltip("If chasing an player and the player gets this far away from the enemy then the enemy will return to their spawn point and resume their normal behaviour.")]
+        [SerializeField, Tooltip("If chasing a player and the player gets this far away from the enemy then the enemy will return to their spawn point and resume their normal behaviour.")]
         internal float seekDistance = 30;
         [SerializeField, Tooltip("How close to the player will this enemy try to get?")]
         internal float optimalDistanceFromPlayer = 0.2f;
@@ -107,7 +107,7 @@ namespace RogueWave
         internal Vector3 goalDestination = Vector3.zero;
         private float sqrSeekDistance;
 
-        protected BasicMovementController movementController;
+        internal BasicMovementController movementController;
 
         Transform _target;
         internal Transform Target
@@ -340,7 +340,7 @@ namespace RogueWave
                 {
                     goalDestination = GetWanderDestination();
                 }
-                movementController.MoveTo(goalDestination, 1, squadLeader);
+                movementController.SetDestination(goalDestination, 1, squadLeader);
                 return;
             }
 
@@ -356,11 +356,11 @@ namespace RogueWave
 
             if (underOrders)
             {
-                movementController.MoveTo(goalDestination, 1.5f, squadLeader);
+                movementController.SetDestination(goalDestination, 1.5f, squadLeader);
             }
             else
             {
-                movementController.MoveTo(goalDestination, 1, squadLeader);
+                movementController.SetDestination(goalDestination, 1, squadLeader);
             }
         }
 
@@ -417,7 +417,7 @@ namespace RogueWave
                         goalDestination = GetWanderDestination();
                     }
 
-                    movementController.MoveTo(goalDestination, 1, squadLeader);
+                    movementController.SetDestination(goalDestination, 1, squadLeader);
                 }
 
                 RotateHead();
@@ -468,10 +468,9 @@ namespace RogueWave
                 while (!IsValidDestination(wanderDestination, 1f) && tries < 50)
                 {
                     tries++;
-                    wanderDestination = spawnPosition + Random.insideUnitSphere * seekDistance;
-                    wanderDestination.x = Mathf.Clamp(wanderDestination.x, destinationMinX, destinationMaxX);
+                    wanderDestination.x = Random.Range(destinationMinX, destinationMaxX);
                     wanderDestination.y = Random.Range(movementController.minimumHeight, movementController.maximumHeight);
-                    wanderDestination.z = Mathf.Clamp(wanderDestination.y, destinationMinY, destinationMaxY);
+                    wanderDestination.z = Random.Range(destinationMinY, destinationMaxY);
                 }
 
 

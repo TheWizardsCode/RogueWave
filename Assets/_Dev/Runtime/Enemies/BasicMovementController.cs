@@ -42,10 +42,10 @@ namespace RogueWave
             None,
             Left,
             Right,
-            BothHorizontal
+            BothHorizontal,
+            All
         }
         Direction obstacleDirection = Direction.None;
-        int nextAvoidanceCheckFrame = 1;
         Quaternion targetRotation = Quaternion.identity;
 
         private AIDirector aiDirector;
@@ -67,7 +67,7 @@ namespace RogueWave
             {
                 if (_destination != value)
                 {
-                    value.y = Mathf.Max(value.y, minimumHeight);
+                    value.y = Mathf.Clamp(value.y, minimumHeight, maximumHeight);
                     _destination = value;
                 }
             }
@@ -103,7 +103,7 @@ namespace RogueWave
             aiDirector = FindAnyObjectByType<AIDirector>();
         }
 
-        internal void MoveTo(Vector3 destination, float speedMultiplier, BasicEnemyController squadLeader)
+        internal void SetDestination(Vector3 destination, float speedMultiplier, BasicEnemyController squadLeader)
         {
             this.destination = destination;
 
@@ -122,17 +122,17 @@ namespace RogueWave
                 return;
             }
 
-            MoveTowards(destination, speedMultiplier, squadLeader);
+            MoveTowards(speedMultiplier, squadLeader);
         }
 
-        internal virtual void MoveTowards(Vector3 destination, float speedMultiplier, BasicEnemyController squadLeader)
+        internal virtual void MoveTowards(float speedMultiplier, BasicEnemyController squadLeader)
         {
             Vector3 centerDirection = destination - transform.position;
             Vector3 avoidanceDirection = Vector3.zero;
             BasicEnemyController[] squadMembers = aiDirector.GetSquadMembers(squadLeader);
             int squadSize = 0;
 
-            if (squadLeader == this)
+            if (squadLeader != null && squadLeader.movementController == this)
             {
                 Vector3 directionToTarget = (destination - transform.position).normalized;
                 float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
@@ -140,11 +140,11 @@ namespace RogueWave
                 if (dotProduct != 0)
                 {
                     SetObstacleAvoidanceRotation(destination, avoidanceDirection);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
                 else
                 {
-                    transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
                 }
             }
             else
@@ -171,38 +171,51 @@ namespace RogueWave
                     centerDirection = (centerDirection - transform.position).normalized;
                 }
 
-                destination.y = Mathf.Clamp(destination.y, minimumHeight, maximumHeight);
-
                 Vector3 directionToTarget = (destination - transform.position).normalized;
                 float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
 
                 if (dotProduct != 0)
                 {
                     SetObstacleAvoidanceRotation(destination, avoidanceDirection);
-                    transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
                 }
                 else
                 {
                     if (directionToTarget.sqrMagnitude > 0.0f)
                     {
-                        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+                        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
                     }
                 }
             }
 
-            if (obstacleDirection == Direction.None)
+            if (obstacleDirection == Direction.All)
+            {
+                transform.position += transform.up * currentSpeed * Time.deltaTime;
+            }
+            else if (obstacleDirection != Direction.None)
+            {
+                transform.position += transform.forward * currentSpeed * 0.8f * Time.deltaTime;
+            } 
+            else
             {
                 transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
-            } else if (obstacleDirection == Direction.Left)
-            {
-                transform.position += (transform.forward + transform.right) * currentSpeed * Time.deltaTime;
-            } else if (obstacleDirection == Direction.Right)
-            {
-                transform.position += (transform.forward - transform.right) * currentSpeed * Time.deltaTime;
-            } else if (obstacleDirection == Direction.BothHorizontal)
-            {
-                transform.position += -transform.forward * currentSpeed * Time.deltaTime;
             }
+
+            
+
+            //if (obstacleDirection == Direction.None)
+            //{
+            //    transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
+            //} else if (obstacleDirection == Direction.Left)
+            //{
+            //    transform.position += (transform.forward + transform.right) * currentSpeed * Time.deltaTime;
+            //} else if (obstacleDirection == Direction.Right)
+            //{
+            //    transform.position += (transform.forward - transform.right) * currentSpeed * Time.deltaTime;
+            //} else if (obstacleDirection == Direction.BothHorizontal)
+            //{
+            //    transform.position += -transform.forward * currentSpeed * Time.deltaTime;
+            //}
             AdjustHeight(destination, speedMultiplier);
         }
 
@@ -214,28 +227,81 @@ namespace RogueWave
         /// <returns></returns>
         private void SetObstacleAvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
         {
-            if (obstacleDirection == Direction.None && nextAvoidanceCheckFrame > Time.frameCount)
-            {
-                return;
-            }
-
-            nextAvoidanceCheckFrame = Time.frameCount + Random.Range(1, 3);
-
             bool forwardBlocked = false;
             bool forwardRightBlocked = false;
             bool forwardLeftBlocked = false;
 
             float distanceToObstacle = 0;
             float turnAngle = 0;
-            float offsetAngle = 50;
+            float offsetAngleIncrement = 45;
 
             // Check for obstacle dead ahead
             Ray ray = new Ray(enemyController.sensor.position, transform.forward);
-            if (Physics.Raycast(ray, out RaycastHit forwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
+            if (Physics.Raycast(ray, out RaycastHit forwardHit, obstacleAvoidanceDistance * 2, enemyController.sensorMask))
             {
                 forwardBlocked = forwardHit.collider.transform.root != enemyController.Target;
+            } 
+
+            // check for obstacle to the forward left
+            ray.direction = Quaternion.AngleAxis(-offsetAngleIncrement, transform.transform.up) * transform.forward;
+            if (Physics.Raycast(ray, out RaycastHit leftForwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
+            {
+                forwardLeftBlocked = leftForwardHit.collider.transform.root != enemyController.Target;
             } else
             {
+                forwardLeftBlocked = false;
+            }
+
+            // check for obstacle to the forward right
+            ray.direction = Quaternion.AngleAxis(offsetAngleIncrement, transform.transform.up) * transform.forward;
+            if (Physics.Raycast(ray, out RaycastHit rightForwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
+            {
+                forwardRightBlocked = rightForwardHit.collider.transform.root != enemyController.Target;
+            } else
+            {
+                forwardRightBlocked = false;
+            }
+
+            if (forwardRightBlocked && forwardLeftBlocked)
+            {
+                if (forwardBlocked)
+                {
+                    obstacleDirection = Direction.All;
+                    distanceToObstacle = forwardHit.distance;
+                }
+                else
+                {
+                    obstacleDirection = Direction.BothHorizontal;
+
+                    turnAngle = 180;
+
+                    if (Vector3.Dot(transform.right, destination - transform.position) > 0)
+                    {
+                        distanceToObstacle = rightForwardHit.distance;
+                        obstacleDirection = Direction.Right;
+                    }
+                    else
+                    {
+                        distanceToObstacle = leftForwardHit.distance;
+                        obstacleDirection = Direction.Left;
+                    }
+                }
+            }
+            else if (forwardRightBlocked)
+            {
+                turnAngle = -125;
+                distanceToObstacle = rightForwardHit.distance;
+                obstacleDirection = Direction.Right;
+            }
+            else if (forwardLeftBlocked)
+            {
+                turnAngle = 125;
+                distanceToObstacle = leftForwardHit.distance;
+                obstacleDirection = Direction.Left;
+            }
+            else
+            {
+                obstacleDirection = Direction.None;
                 Vector3 directionToTarget = destination - transform.position;
                 directionToTarget.y = 0;
                 avoidanceDirection.y = 0;
@@ -248,69 +314,16 @@ namespace RogueWave
                 return;
             }
 
-            // check for obstacle to the forward left
-            ray.direction = Quaternion.AngleAxis(-offsetAngle, transform.transform.up) * transform.forward;
-            if (Physics.Raycast(ray, out RaycastHit leftForwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
-            {
-                forwardLeftBlocked = leftForwardHit.collider.transform.root != enemyController.Target;
-            } else
-            {
-                forwardLeftBlocked = false;
-            }
-
-            // check for obstacle to the forward right
-            ray.direction = Quaternion.AngleAxis(offsetAngle, transform.transform.up) * transform.forward;
-            if (Physics.Raycast(ray, out RaycastHit rightForwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
-            {
-                forwardRightBlocked = rightForwardHit.collider.transform.root != enemyController.Target;
-            } else
-            {
-                forwardRightBlocked = false;
-            }
-
-            if (forwardRightBlocked && forwardLeftBlocked)
-            {
-                obstacleDirection = Direction.BothHorizontal;
-
-                // if the destination is to the left or right, turn in that direction
-                if (Vector3.Dot(transform.right, destination - transform.position) > 0)
-                {
-                    turnAngle = -90;
-                    distanceToObstacle = rightForwardHit.distance;
-                    obstacleDirection = Direction.Right;
-                }
-                else
-                {
-                    turnAngle = 90;
-                    distanceToObstacle = leftForwardHit.distance;
-                    obstacleDirection = Direction.Left;
-                }
-            }
-            else if (forwardRightBlocked)
-            {
-                turnAngle = -90;
-                distanceToObstacle = rightForwardHit.distance;
-                obstacleDirection = Direction.Right;
-            }
-            else if (forwardLeftBlocked)
-            {
-                turnAngle = 90;
-                distanceToObstacle = leftForwardHit.distance;
-                obstacleDirection = Direction.Left;
-            }
-        
             // Calculate avoidance rotation
             if (distanceToObstacle > 0)
             {
                 if (distanceToObstacle < 1f)
                 {
                     targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * 1.5f, 0);
-                    currentSpeed /= 2;
                 }
                 else
                 {
                     targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle, 0);
-                    currentSpeed /= 2;
                 }
 #if UNITY_EDITOR
                 if (isDebug)
