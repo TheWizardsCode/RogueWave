@@ -22,11 +22,9 @@ public float minLoadScreenTime
 
 Some features require additional open source libraries to be installed. The application will compile without these, but if you install the libraries as described below additional features will be enabled.
 
-### Disccord Integration
+### Discord Integration
 
-For convenience during development and playtesting logs can be sent to a Discord Webbook. To enable this feature it is necessary to install [Unity-Discord](https://github.com/lumpn/unity-discord).
-
-Once installed set the `DISCORD_ENABLED` script define symbol.
+Set the `DISCORD_ENABLED` script define symbol to enable Discord features.
 
 ## Game Concept
 
