@@ -1,4 +1,4 @@
-Shader "SuperSystems/Wireframe"
+Shader "Wizards Code/Wireframe"
 {
 	Properties
 	{
