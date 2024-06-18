@@ -15,11 +15,11 @@ MonoBehaviour:
   _basicSettings:
     baseBuildFolder: Builds
     buildPath: $VERSION/$RELEASE_TYPE/$PLATFORM/$ARCHITECTURE/$SCRIPTING_BACKEND
-    openFolderPostBuild: 0
+    openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 42
-    buildVersion: 2024.06.09.2424
+    buildCounter: 45
+    buildVersion: 2024.06.14.278
     versionTemplate: $YEAR.$MONTH.$DAY.$SECONDS
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       - enabled: 0
         childKeys:
         - DeveloperTest_NoSteamWorks/Linux/Linux x64
-      - enabled: 1
+      - enabled: 0
         childKeys:
         - DeveloperTest_NoSteamWorks/PC
         - DeveloperTest_NoSteamWorks/Linux
@@ -147,7 +147,7 @@ MonoBehaviour:
       - enabled: 0
         childKeys:
         - Release_NoSteamWorks/Linux/Linux x64
-      - enabled: 0
+      - enabled: 1
         childKeys:
         - Release_NoSteamWorks/PC
         - Release_NoSteamWorks/Linux

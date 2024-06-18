@@ -1,14 +1,6 @@
-using log4net.Util;
-using NaughtyAttributes;
-using NeoFPS;
 using NeoFPS.SinglePlayer;
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Diagnostics;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 namespace RogueWave
 {

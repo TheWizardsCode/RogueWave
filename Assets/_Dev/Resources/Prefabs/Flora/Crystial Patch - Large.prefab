@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1502995325194625006}
   - component: {fileID: 3330521954649590052}
   m_Layer: 0
-  m_Name: Crystial Patch - Medium
+  m_Name: Crystial Patch - Large
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,11 +47,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   crystalPrefab:
   - {fileID: 8005421940692841325, guid: da384b574a5c859419d9ae3b0ec059ef, type: 3}
+  - {fileID: 6265560657406017618, guid: 33cee0868a3a6cd4d8293311a43aadad, type: 3}
   - {fileID: 8833195273473885070, guid: 993f2174ac5d36d40866addc9e1f1612, type: 3}
   yOffSet: {x: -0.25, y: 0}
-  scaleRange: {x: 0.75, y: 1.25}
-  numberOfCrystals: {x: 5, y: 21}
-  radius: 6.86
+  scaleRange: {x: 0.78949225, y: 1.2782085}
+  numberOfCrystals: {x: 10, y: 22}
+  radius: 10
 --- !u!1 &5644141409331147541
 GameObject:
   m_ObjectHideFlags: 0

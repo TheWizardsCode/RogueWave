@@ -44,13 +44,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0462d772ae994b4791c696428f7703e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
-  spawnFurniture: 0
+  groundSurface:
+    m_Value: 7
+  spawnFurniture: 1
   furnitureChance: 0.25
   furniturePrefabs: []
+  surface:
+    m_Value: 1
   structureMaterial: {fileID: 2100000, guid: cda8aea4c982e154fb6821b85fffa65d, type: 2}
   structureHeight: 40
-  connectToAnyFlowNeighbour: 0
+  destructible: 0
+  health: 100
+  destructionParticles: {fileID: 0}
+  smokeParticles: {fileID: 0}
+  lootPrefab: {fileID: 0}
+  validConnections: []
+  adjustFloorsBasedOnDistance: 1
   buildingPrefabs:
   - {fileID: 7571342023460485295, guid: f349bcbf314ebbe45ba44bba226acdf8, type: 3}
   spawnerPrefab: {fileID: 6576056135945926902, guid: 8580e7bc57d7d9a4e9cc17120733b0c9, type: 3}

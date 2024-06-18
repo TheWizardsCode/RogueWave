@@ -44,9 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fdf8c640284aa64a96cb1e341f6da13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
+  groundSurface:
+    m_Value: 7
   spawnFurniture: 1
   furnitureChance: 0.25
   furniturePrefabs:
-  - {fileID: 2240847932507530799, guid: 39d8e84e5cf28dc40b6cc8c6c96999a0, type: 3}
   - {fileID: 2240847932507530799, guid: b7470fd9757219741a226a980299c33c, type: 3}
+  - {fileID: 2240847932507530799, guid: 39d8e84e5cf28dc40b6cc8c6c96999a0, type: 3}
+  - {fileID: 2240847932507530799, guid: a7679306448eada47b0cbc9e5b5e380d, type: 3}
