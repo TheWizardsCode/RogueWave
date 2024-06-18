@@ -16,6 +16,18 @@ public float minLoadScreenTime
 }
 ```
 
+Then in `BasicHealthManager` add a null check (`?`) to the following event invocation in `OnHealthCHanged`:
+
+```csharp
+protected virtual void OnHealthChanged(float from, float to, bool critical, IDamageSource source)
+{
+    // Fire event
+    if (onHealthChanged != null)
+        onHealthChanged(from, to, critical, source);
+    m_OnHealthChanged?.Invoke(to);
+}
+```
+
 ***Note*** that by default Neo FPS will overwrite some files that are provided by this repo, you need to find them and ensure they are not imported, or you revert any changes made by the import. The easiest way to do this is to import Neo FPS and then run the command `git restore .` in the root of the project directory.
 
 ## Optional Features
