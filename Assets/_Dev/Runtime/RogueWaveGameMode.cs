@@ -306,10 +306,12 @@ namespace RogueWave
                 m_TimePlayedStat.Increment(timePlayed);
             }
 
+#if DISCORD_ENABLED
             GameStatsManager.Instance.SendDataToWebhook();
+#endif
         }
 
-        #endregion
+#endregion
 
         #region ISpawnZoneSelector IMPLEMENTATION
 

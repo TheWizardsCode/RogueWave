@@ -11,7 +11,9 @@ using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using System.Text;
+#if DISCORD_ENABLED
 using Lumpn.Discord;
+#endif
 using System.Collections;
 using UnityEngine.Serialization;
 
@@ -29,11 +31,13 @@ namespace RogueWave.GameStats
     {
         [SerializeField, Tooltip("The scene to load when displaying stats for the player."), Scene]
         private string m_StatsScene = "RogueWave_StatsScene";
+#if DISCORD_ENABLED
         [SerializeField, Tooltip("The URL of the webhook to send player stats and achievements to.")]
         [FormerlySerializedAs("webhookData")]
         WebhookData playerDataWebhook;
         [SerializeField, Tooltip("The URL of the webhook to send developer stats and achievements to.")]
         WebhookData developerDataWebhook;
+#endif
 
         private Achievement[] m_Achievements = new Achievement[0];
 
@@ -81,6 +85,8 @@ namespace RogueWave.GameStats
             }
         }
 
+
+#if DISCORD_ENABLED
         WebhookData activeWebhook
         {
             get
@@ -92,6 +98,7 @@ namespace RogueWave.GameStats
 #endif
             }
         }
+#endif
 
         public List<Achievement> unlockedAchievements
         {
@@ -145,6 +152,7 @@ namespace RogueWave.GameStats
 #endif
         }
 
+#if DISCORD_ENABLED
         internal void SendDataToWebhook() 
         {
             if (activeWebhook == null)
@@ -192,6 +200,7 @@ namespace RogueWave.GameStats
 
             webhook.Send($"\n\n\n\nEnd of data for {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\n\n\n\n");
         }
+#endif
 
         private string[] GetDataAsYAML()
         {// send a summary of the stats and achevements to a webhook
