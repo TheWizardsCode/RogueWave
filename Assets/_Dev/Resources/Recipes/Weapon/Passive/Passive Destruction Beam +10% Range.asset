@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45c9647589ddd646ab4be34481c3372, type: 3}
+  m_Name: Passive Destruction Beam +10% Range
+  m_EditorClassIdentifier: 
+  displayName: Destruction Beam +10% Range
+  announcerVoicelineForName: Increase Destruction Beam range
+  description: Synthos' destruction beam does 10% more range
+  heroImage: {fileID: 21300000, guid: 9fda75679ffff28489c8607024cd5a43, type: 3}
+  icon: {fileID: 21300000, guid: c0e14ce3debffbe488cbf20eca03cac5, type: 3}
+  level: 6
+  baseWeight: 0.2
+  dependencies:
+  - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
+  complements: []
+  baseBuyCost: 300
+  isPowerUp: 1
+  isConsumable: 0
+  cooldown: 30
+  isStackable: 1
+  maxStack: 10
+  buildCost: 30
+  timeToBuild: 5
+  nameClips:
+  - {fileID: 8300000, guid: e943674d568d5434e92d5c61475036c7, type: 3}
+  - {fileID: 8300000, guid: 2df7c66270baaee4ca1f6b045068ee90, type: 3}
+  - {fileID: 8300000, guid: f24d3916ec3bbff4a9e84ce08024cff5, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: f920886b-253a-4146-8508-c4d7083d9a70
+  passiveWeapon: {fileID: 6852470632378416659, guid: b1fd13fd853554e4286729b3b69c7bee, type: 3}
+  rangeMultiplier: 1
+  damageMultiplier: 1.1
