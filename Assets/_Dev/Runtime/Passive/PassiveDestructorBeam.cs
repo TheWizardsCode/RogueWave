@@ -25,6 +25,18 @@ namespace RogueWave
         internal override void Awake()
         {
             base.Awake();
+        }
+
+        private void SetLineRenderers()
+        {
+            if (lineRenderers != null && lineRenderers.Length == beamCount)
+                return;
+
+            if (lineRenderers != null && lineRenderers.Length > 0) {
+                foreach (LineRenderer lr in lineRenderers) {
+                    Destroy(lr.gameObject);
+                }
+            }
 
             lineRenderers = new LineRenderer[beamCount];
             firingEndTime = new float[beamCount];
@@ -44,10 +56,10 @@ namespace RogueWave
 
         public override void Fire()
         {
-            FireBeams(beamCount);
+            FireBeams();
         }
 
-        public void FireBeams(int beamCount)
+        public void FireBeams()
         {
             for (int i = 0; i < beamCount; i++)
             {
@@ -58,6 +70,8 @@ namespace RogueWave
 
         protected override void Update()
         {
+            SetLineRenderers();
+
             float angleStep = (endAngle - startAngle) / (beamCount - 1);
 
             for (int idx = 0; idx < beamCount; idx++)
