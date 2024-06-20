@@ -20,7 +20,7 @@ using UnityEngine.Serialization;
 namespace RogueWave.GameStats
 {
     //
-    // The GameStatsManager is a singleton responsible for managing player Stats and Achievements, as well as
+    // The GameStatusManager is a singleton responsible for managing player Stats and Achievements, as well as
     // game telemetry.
     // 
     // It is designed to work with Steamworks.NET and the Facepunch.Steamworks library for builds that will be distributed on Steam.

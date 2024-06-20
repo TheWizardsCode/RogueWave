@@ -105,16 +105,7 @@ MonoBehaviour:
   _startingRecipesPermanent:
   - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
   _startingRecipesRun: []
-  m_Seed: -1
-  levels:
-  - {fileID: 11400000, guid: 9457e0dad7ab5b54c86fa3439b0cdff4, type: 2}
-  - {fileID: 11400000, guid: 907167b1f8785814e92140b33b99a787, type: 2}
-  - {fileID: 11400000, guid: 71f08f8f638277e4393b4a3ff75c5dc3, type: 2}
-  - {fileID: 11400000, guid: e3174ef1a025c9140a82781959567ad6, type: 2}
-  - {fileID: 11400000, guid: 1f3fab56f97b5904e89b12b386585fff, type: 2}
-  - {fileID: 11400000, guid: 0b9628c45a935dd4695701360be1f27e, type: 2}
-  - {fileID: 11400000, guid: abda08b451113c748a651527554532a4, type: 2}
-  - {fileID: 11400000, guid: 564a8cdd017138d418c2df87ac7fcc06, type: 2}
+  campaign: {fileID: 11400000, guid: e1d6e9a426540b246af58b0d7e5d3eea, type: 2}
   m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
   m_PortalExitsCount: {fileID: 11400000, guid: dcd25387334f16c4e92d828dc31e508a, type: 2}
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
@@ -207,24 +198,15 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0.3
-      inSlope: 0.05110267
-      outSlope: 0.05110267
+      inSlope: 0.011144835
+      outSlope: 0.011144835
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.05227971
-    - serializedVersion: 3
-      time: 44.02493
-      value: 2.7962418
-      inSlope: 0.081488125
-      outSlope: 0.081488125
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.053064305
+      outWeight: 0.07517077
     - serializedVersion: 3
       time: 99
-      value: 10
+      value: 6.852725
       inSlope: 0.15919253
       outSlope: 0.15919253
       tangentMode: 0
@@ -234,7 +216,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  sizeOfAttackSquad: 5
   difficultyMultiplier: 1
   isDebug: 0
 --- !u!1 &6012438873311502382

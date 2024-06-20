@@ -39,10 +39,8 @@ namespace RogueWave
         private AbstractRecipe[] _startingRecipesRun;
 
         [Header("Level Management")]
-        [SerializeField, Tooltip("The seed to use for level generation. If set to -1, a random seed will be used.")]
-        private int m_Seed = -1;
-        [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level."), Expandable]
-        WfcDefinition[] levels;
+        [SerializeField, Tooltip("The campaign definitions which defines the levels to play in order, which in turn defines the enemies, geometry and more for each level."), Expandable]
+        CampaignDefinition campaign;
 
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
@@ -100,10 +98,10 @@ namespace RogueWave
         public WfcDefinition currentLevelDefinition
         {
             get { 
-                if (levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
-                    return levels[levels.Length - 1]; 
+                if (campaign.levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
+                    return campaign.levels[campaign.levels.Length - 1]; 
                 else
-                    return levels[RogueLiteManager.persistentData.currentGameLevel];
+                    return campaign.levels[RogueLiteManager.persistentData.currentGameLevel];
             }
         }
 
@@ -614,7 +612,7 @@ namespace RogueWave
 
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
-                levelGenerator.Generate(currentLevelDefinition, m_Seed);
+                levelGenerator.Generate(currentLevelDefinition, campaign.seed);
             }
 
             if (currentLevelDefinition.levelReadyAudioClips != null && currentLevelDefinition.levelReadyAudioClips.Length > 0)
