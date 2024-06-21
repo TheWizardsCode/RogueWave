@@ -10,6 +10,7 @@ using RogueWave.GameStats;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
 using WizardsCode.Common;
+using System;
 
 namespace RogueWave
 {
@@ -861,6 +862,21 @@ namespace RogueWave
                 }
             }
         }
+
+        public static bool IsDerivedFromGenericClass(Type derivedType, Type genericClass)
+        {
+            while (derivedType != null && derivedType != typeof(object))
+            {
+                var cur = derivedType.IsGenericType ? derivedType.GetGenericTypeDefinition() : derivedType;
+                if (genericClass == cur)
+                {
+                    return true;
+                }
+                derivedType = derivedType.BaseType;
+            }
+            return false;
+        }
+
 
         /// <summary>
         /// The amount of resources the player currently has.

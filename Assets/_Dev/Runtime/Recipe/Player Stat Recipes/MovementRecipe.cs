@@ -9,7 +9,8 @@ namespace RogueWave
     /// The float Stat Recipe will upgrade one of the player's float stats, such as move speed.
     /// </summary>
     [CreateAssetMenu(fileName = "Movement Stat Recipe", menuName = "Rogue Wave/Recipe/Movement Stat", order = 1)]
-    public class MovementRecipe : BaseStatRecipe
+    // REFACTOR: can we remove this and make it a BaseStatRecipe instead?
+    public class MovementRecipe : GenericStatRecipe<MonoBehaviour>
     {
         [SerializeField, Tooltip("The name of the stat to modify.")]
         internal string statName = string.Empty;

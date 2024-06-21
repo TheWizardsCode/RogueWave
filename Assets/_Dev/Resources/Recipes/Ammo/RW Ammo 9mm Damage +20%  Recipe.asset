@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20841f593ee06e446bae0a97deac3b51, type: 3}
+  m_Name: RW Ammo 9mm Damage +20%  Recipe
+  m_EditorClassIdentifier: 
+  displayName: 9mm Damage +20%
+  announcerVoicelineForName: Increase damage, nine millimeter, 20%.
+  description: Increase the damage done by 9mm ammo by 20%.
+  heroImage: {fileID: 21300000, guid: 651d15e51c68e96428c58ea378fd18bb, type: 3}
+  icon: {fileID: 21300000, guid: 4e05a46197b78db4987e1489ab4ac3d2, type: 3}
+  level: 2
+  baseWeight: 0.1
+  dependencies:
+  - {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
+  complements: []
+  baseBuyCost: 400
+  isPowerUp: 1
+  isConsumable: 1
+  cooldown: 30
+  isStackable: 1
+  maxStack: 10
+  buildCost: 50
+  timeToBuild: 10
+  nameClips:
+  - {fileID: 8300000, guid: 1f376741966bb33439f37dabec1d3a29, type: 3}
+  - {fileID: 8300000, guid: 29d3ceb94fef9634f82ae377ca599500, type: 3}
+  - {fileID: 8300000, guid: 1d4c0914d6f2f974e9d8ef3973138f44, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 7ca76629-a78c-4be8-94c7-3dfef1a15379
+  ammoType: {fileID: 11400000, guid: a79bf42d15972724a9473b8c0ab8881d, type: 2}
+  multiplier: 1.2

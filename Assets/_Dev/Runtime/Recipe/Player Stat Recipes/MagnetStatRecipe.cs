@@ -4,7 +4,8 @@ using UnityEngine;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Magnet Stats Recipe", menuName = "Rogue Wave/Recipe/Magnet Stats Recipe", order = 10)]
-    public class MagnetStatRecipe : BaseStatRecipe
+    // REFACTOR: can we remove this and make it a BaseStatRecipe instead?
+    public class MagnetStatRecipe : GenericStatRecipe<MonoBehaviour>
     {
         [Header("Stat Modifier")]
         [SerializeField, Tooltip("The range multiplier to add to the magnets range.")]
