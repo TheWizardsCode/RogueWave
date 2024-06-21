@@ -1,5 +1,7 @@
 
 using NaughtyAttributes;
+using NeoFPS.SinglePlayer;
+using NeoFPS;
 using System.Reflection;
 using UnityEngine;
 
@@ -34,6 +36,8 @@ namespace RogueWave
         /// Apply the modifier to the target object.
         /// The implementation of this should get the target object this recipe is modifying 
         /// and call `Apply(MonoBehaviour target)` with that target object.
+        /// 
+        /// For example: `Apply(FpsSoloCharacter.localPlayerCharacter.GetComponentInChildren<BasicHealthManager>() as MonoBehaviour);`
         /// </summary>
         internal abstract void Apply();
 
