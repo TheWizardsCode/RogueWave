@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
+using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
@@ -32,6 +33,12 @@ namespace RogueWave
         internal override void Apply()
         {
             PassiveWeapon[] passiveWeapons = FpsSoloCharacter.localPlayerCharacter.GetComponentsInChildren<PassiveWeapon>();
+            NanobotPawnController _nanobotPawnController = FindFirstObjectByType<NanobotPawnController>();
+            if (_nanobotPawnController != null)
+            {
+                passiveWeapons = passiveWeapons.Concat(_nanobotPawnController.GetComponentsInChildren<PassiveWeapon>()).ToArray();
+            }
+
             foreach (PassiveWeapon weapon in passiveWeapons)
             {
                 if (weapon != null && weapon.name.StartsWith(passiveWeapon.name) )

@@ -61,9 +61,12 @@ namespace RogueWave
         [SerializeField, Tooltip("The GameStat to store the maximum nanobot level the player has attained."), Foldout("Game Stats")]
         internal GameStat m_MaxNanobotLevelStat;
 
-        [Header("Debug")]
         [SerializeField, Tooltip("Turn on debug features for the Nanobot Manager"), Foldout("Debug")]
         bool isDebug = false;
+#if UNITY_EDITOR
+        [SerializeField, Tooltip("A recipe to offer when upgrading the nanobots to the next level. This is used in conjunction with the Level Up button below for testing. This is only used in the editor to test the level up process."), Foldout("Debug"), ShowIf("isDebug")]
+        AbstractRecipe _UpgradeRecipe;
+#endif
 
         private List<ArmourPickupRecipe> armourRecipes = new List<ArmourPickupRecipe>();
         private List<HealthPickupRecipe> healthRecipes = new List<HealthPickupRecipe>();
@@ -346,6 +349,12 @@ namespace RogueWave
             }
 
             currentOfferRecipes = offers.ToArray();
+#if UNITY_EDITOR
+            if (isDebug && _UpgradeRecipe != null)
+            {
+                currentOfferRecipes[0] = _UpgradeRecipe;
+            }
+#endif
             status = Status.OfferingRecipe;
             yield return null;
 
@@ -435,6 +444,7 @@ namespace RogueWave
             }
         }
 
+        [Button("Level Up the Nanobots")]
         private void LevelUp()
         {
             if (RogueLiteManager.persistentData.runNumber == 1)
@@ -836,7 +846,7 @@ namespace RogueWave
             } 
             else if (recipe is BaseStatRecipe statRecipe)
             {
-                Apply(statRecipe);
+                statRecipe.Apply();
             }
             else if (recipe is AmmunitionEffectUpgradeRecipe ammoUpgradeRecipe)
             {
@@ -849,15 +859,6 @@ namespace RogueWave
                 {
                     passiveRecipes.Add(passiveRecipe);
                 }
-            }
-        }
-
-        internal void Apply(BaseStatRecipe statRecipe)
-        {
-            if (statRecipe != null)
-            {
-                statRecipe.Apply();
-                return;
             }
         }
 

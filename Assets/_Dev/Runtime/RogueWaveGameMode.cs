@@ -230,12 +230,7 @@ namespace RogueWave
             yield return null;
 
             // Delay timer
-            m_VictoryTimer = delay;
-            while (m_VictoryTimer > 0f)
-            {
-                m_VictoryTimer -= Time.deltaTime;
-                yield return null;
-            }
+            yield return new WaitForSeconds(delay);
 
             // Reset magnet
             if (magnet != null)
