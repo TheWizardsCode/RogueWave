@@ -1,7 +1,5 @@
 
 using NaughtyAttributes;
-using NeoFPS.SinglePlayer;
-using NeoFPS;
 using System.Reflection;
 using UnityEngine;
 
@@ -22,7 +20,9 @@ namespace RogueWave
         float parameterModifier = 1f;
         [SerializeField, Tooltip("The multiplier to apply to the parameter. This is applied after any modifier value. If the parameter is an int value the result will be rounded to an int."), ShowIf("isNamedParameterModifier")]
         float parameterMultiplier = 1.10f;
-
+        [SerializeField, Tooltip("The time in seconds to wait before repeating the modifier. A value of 0 will only apply the modifier once."), MinValue(0f), ShowIf("isNamedParameterModifier")]
+        internal float repeatEvery = 0f;
+        
         public override string Category => "Base Stat";
 
         public override void BuildFinished()

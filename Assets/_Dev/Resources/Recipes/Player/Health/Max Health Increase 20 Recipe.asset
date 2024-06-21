@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 450cef1de72d2234d90c54f14782b3ff, type: 3}
+  m_Script: {fileID: 11500000, guid: f4fb7e8d73d55b64da4e54ddec76f479, type: 3}
   m_Name: Max Health Increase 20 Recipe
   m_EditorClassIdentifier: 
   displayName: Maximum Health +20
@@ -59,4 +59,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: c7563a76c1d2f664ea993629fdd55d6c, type: 3}
   pickupParticles: {fileID: 0}
   uniqueID: 91d47162-f3c2-4006-b4a1-caf29a79af9c
-  AdditionalMaxHealth: 20
+  isNamedParameterModifier: 1
+  parameterName: healthMax
+  parameterModifier: 20
+  parameterMultiplier: 1
+  repeatEvery: 0
+  targetPrototype: {fileID: 4054295320918284225, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}

@@ -847,7 +847,7 @@ namespace RogueWave
             } 
             else if (recipe is BaseStatRecipe statRecipe)
             {
-                statRecipe.Apply();
+                StartCoroutine(ApplyStatModifier(statRecipe));
             }
             else if (recipe is AmmunitionEffectUpgradeRecipe ammoUpgradeRecipe)
             {
@@ -860,6 +860,18 @@ namespace RogueWave
                 {
                     passiveRecipes.Add(passiveRecipe);
                 }
+            }
+        }
+
+        private IEnumerator ApplyStatModifier(BaseStatRecipe statRecipe)
+        {
+            yield return null;
+            statRecipe.Apply();
+
+            while (statRecipe.repeatEvery > 0)
+            {
+                yield return new WaitForSeconds(statRecipe.repeatEvery);
+                statRecipe.Apply();
             }
         }
 

@@ -10,33 +10,33 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4fb7e8d73d55b64da4e54ddec76f479, type: 3}
-  m_Name: Max Health Increase 10%
+  m_Name: Self Healing
   m_EditorClassIdentifier: 
-  displayName: Max Health +10%
-  announcerVoicelineForName: Increase Max Health, 10%
-  description: Increase the players maxiumum health by 10%
+  displayName: Self Healing
+  announcerVoicelineForName: Self Healing
+  description: Heal a small amount every few moments
   heroImage: {fileID: 0}
   icon: {fileID: 0}
-  level: 5
+  level: 8
   baseWeight: 0.5
   dependencies: []
   complements: []
-  baseBuyCost: 650
+  baseBuyCost: 1000
   isPowerUp: 1
   isConsumable: 0
   cooldown: 10
   isStackable: 1
   maxStack: 10
-  buildCost: 65
+  buildCost: 50
   timeToBuild: 5
   nameClips: []
   buildStartedClips: []
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
-  uniqueID: ed2e1078-0a04-47c7-95c5-a04d76e564af
+  uniqueID: ca8a1979-9539-4210-9172-8149030b36ad
   isNamedParameterModifier: 1
-  parameterName: healthMax
-  parameterModifier: 0
-  parameterMultiplier: 1.1
-  repeatEvery: 0
+  parameterName: health
+  parameterModifier: 1
+  parameterMultiplier: 1
+  repeatEvery: 5
   targetPrototype: {fileID: 4054295320918284225, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
