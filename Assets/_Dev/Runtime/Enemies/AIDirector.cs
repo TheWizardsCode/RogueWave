@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System.Collections.Generic;
 using UnityEngine;
@@ -22,11 +23,13 @@ namespace RogueWave
         ScannerController scannerPrefab;
         [SerializeField, Tooltip("The length of a time slice. The AI director will evaluate the current state of play every timeSlice seconds. Based on this evaluation the AI will issue orders to the Enemies.")]
         float timeSlice = 50f;
+
+        [Header("Difficulty")]
         [SerializeField, Tooltip("The target kill score, which is the total challenge rating of all the enemies killed in the last `timeSlice`, divided by the `timeslice`. " +
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player."), CurveRange(0, 0.3f, 99, 10, EColor.Red)]
         private AnimationCurve targetSkillScoreByLevel;
-        [SerializeField, Tooltip("The difficulty multiplier. This is used to increase the difficulty of the game as the player. It impacts things like the total challenge rating of squads sent to attack a hiding player."), Range(0.1f, 10f)]
-        internal float difficultyMultiplier = 4f;
+        [SerializeField, Tooltip("A multiplier to the challenge rating of enemeies that will be sent when the player is below the target kill score. The game difficulty setting will be used to read from this curve.")]
+        private AnimationCurve challengeRatingMultiplierByDifficulty = AnimationCurve.Linear(0,0,2.5f,2.5f);
 
         [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]
         bool isDebug = false;
@@ -103,7 +106,7 @@ namespace RogueWave
 
                 float targetKillScore = targetSkillScoreByLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel);
 
-                int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * difficultyMultiplier) + 1;
+                int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * challengeRatingMultiplierByDifficulty.Evaluate(FpsSettings.playstyle.difficulty)) + 1;
                 int challengeRatingSent = 0;
                 if (enemies.Count > 0 && currentKillscore < targetKillScore)
                 {

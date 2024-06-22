@@ -26,6 +26,10 @@ namespace RogueWave
         [SerializeField, ShowIf("spawnFurniture"), Tooltip("Prefabs that may be spawned on this tile. Only one of these, selected at random, will be generated.")]
         private GameObject[] furniturePrefabs = null;
 
+        [Header("Difficulty")]
+        [SerializeField, Tooltip("A multiplier for the chance of an enemiy spawning on this tile. The based chance is set in the tile definition, this curve is used to adjust the chance based on the game difficulty.")]
+        AnimationCurve enemySpawnMultiplierByDifficulty = AnimationCurve.Linear(0,0,1,5);
+
         protected LevelGenerator levelGenerator;
         protected float tileWidth = 25f;
         protected float tileDepth = 25f;
@@ -199,7 +203,7 @@ namespace RogueWave
 
         protected virtual void GenerateEnemies(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
-            float enemyChance = tiles[x, y].tileDefinition.enemySpawnChance * aiDirector.difficultyMultiplier;
+            float enemyChance = tiles[x, y].tileDefinition.enemySpawnChance * enemySpawnMultiplierByDifficulty.Evaluate(FpsSettings.playstyle.difficulty);
             if (enemyChance > 0 && Random.value < enemyChance)
             {
                 PooledObject prototype = levelGenerator.levelDefinition.GetRandomEnemy();

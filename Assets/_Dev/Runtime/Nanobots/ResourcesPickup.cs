@@ -12,7 +12,8 @@ namespace RogueWave
     {
         [SerializeField, Tooltip("The amount of resources to collect.")]
         private int m_ResourcesAmount = 10;
-
+        [SerializeField, Tooltip("A multiplier curve for the resources amount based on the current difficulty. This will be applied to the amount of resources collected.")]
+        AnimationCurve resourceMultiplierByLevel = new AnimationCurve(new Keyframe(0, 3), new Keyframe(0.4f, 1), new Keyframe(1, 0.5f));
         [SerializeField, Tooltip("An event called when a character collects these resources.")]
         private UnityEvent m_OnResourcesCollected = null;
 
@@ -43,7 +44,7 @@ namespace RogueWave
 
             m_OnResourcesCollected.Invoke();
 
-            nanobotManager.CollectResources(m_ResourcesAmount);
+            nanobotManager.CollectResources(Mathf.RoundToInt(m_ResourcesAmount * resourceMultiplierByLevel.Evaluate(FpsSettings.playstyle.difficulty)));
             DestroyPickup();
         }
 

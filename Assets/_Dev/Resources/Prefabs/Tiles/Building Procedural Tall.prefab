@@ -44,13 +44,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db65358f7d230e042b6d85f8cb13f8de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
+  groundSurface:
+    m_Value: 7
   spawnFurniture: 0
   furnitureChance: 0.25
   furniturePrefabs: []
+  enemySpawnMultiplierByDifficulty:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2.5
+      outSlope: 2.5
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 2.5
+      inSlope: 2.5
+      outSlope: 2.5
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  surface:
+    m_Value: 1
   structureMaterial: {fileID: 2100000, guid: cda8aea4c982e154fb6821b85fffa65d, type: 2}
   structureHeight: 0.05
+  destructible: 0
+  health: 100
+  destructionParticles: {fileID: 0}
+  smokeParticles: {fileID: 0}
+  lootPrefab: {fileID: 0}
   validConnections:
   - {fileID: -643772105435015575, guid: e5d8c881c68629b4384b45d36fb0eb67, type: 3}
+  adjustFloorsBasedOnDistance: 1
   buildingPrefabs:
   - {fileID: 6543032934749555394, guid: e18e9f1d6da543a4786d75bfb515ceef, type: 3}

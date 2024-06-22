@@ -111,6 +111,7 @@ namespace RogueWave.UI
             RogueLiteManager.persistentData.currentResources -= offer.BuyCost;
             RogueLiteManager.SaveProfile();
             
+            HubController.isDirty = true;
             offers.RemoveAll(o => o == offer);
 
             GameLog.Info($"Bought {offer} in hub scene.");

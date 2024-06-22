@@ -23,6 +23,7 @@ namespace RogueWave.UI
 
         internal static List<IRecipe> permanentRecipes = new List<IRecipe>();
         internal static List<IRecipe> temporaryRecipes = new List<IRecipe>();
+        internal static bool isDirty = false;
 
         private void OnEnable()
         {

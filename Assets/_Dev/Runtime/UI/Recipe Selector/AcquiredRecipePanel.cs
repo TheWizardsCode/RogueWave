@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -19,6 +18,8 @@ namespace RogueWave.UI
         [SerializeField, Tooltip("The kind of recipes to display.")]
         AcquisitionType acquisitionType;
 
+        int processedReciupes = 0;
+
         private List<IRecipe> recipes = new List<IRecipe>();
 
         private void OnGUI()
@@ -34,7 +35,7 @@ namespace RogueWave.UI
             }
 
             IEnumerable<IRecipe> recipesDistinct = recipes.Distinct();
-            if (recipesDistinct.Count() != transform.childCount)
+            if (HubController.isDirty)
             {
                 for (int i = transform.childCount - 1; i >= 0; i--)
                 {
@@ -59,6 +60,8 @@ namespace RogueWave.UI
                             break;
                     }
                     card.recipe = recipe;
+
+                    HubController.isDirty = false;
                 }
             }
         }

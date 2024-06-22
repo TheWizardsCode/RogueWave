@@ -1,11 +1,13 @@
-﻿using System;
+﻿using RogueWave;
+using System;
 using UnityEngine;
 
 namespace NeoFPS
 {
 	public class FpsSettings
-	{
-		public static FpsAudioSettings audio { get; private set; }
+    {
+        public static FpsPlaystyleSettings playstyle { get; private set; }
+        public static FpsAudioSettings audio { get; private set; }
 		public static FpsGameplaySettings gameplay { get; private set; }
 		public static FpsGraphicsSettings graphics { get; private set; }
 		public static FpsInputSettings input { get; private set; }
@@ -28,8 +30,9 @@ namespace NeoFPS
 
 		[RuntimeInitializeOnLoadMethod (RuntimeInitializeLoadType.BeforeSceneLoad)]
 		static void RuntimeInitializeOnLoad ()
-		{
-			audio = FpsAudioSettings.GetInstance ("FpsSettings_Audio");
+        {
+            playstyle = FpsPlaystyleSettings.GetInstance("FpsSettings_Playstyle");
+            audio = FpsAudioSettings.GetInstance ("FpsSettings_Audio");
 			gameplay = FpsGameplaySettings.GetInstance ("FpsSettings_Gameplay");
 			graphics = FpsGraphicsSettings.GetInstance ("FpsSettings_Graphics");
 			input = FpsInputSettings.GetInstance ("FpsSettings_Input");
@@ -40,6 +43,7 @@ namespace NeoFPS
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         static void RuntimeInitializeOnLoadPost()
         {
+            playstyle.Load();
             audio.Load();
             gameplay.Load();
             graphics.Load();
@@ -50,12 +54,13 @@ namespace NeoFPS
 
         public static void Save ()
 		{
-			audio.Save ();
-			gameplay.Save ();
-			graphics.Save ();
-			input.Save ();
-			keyBindings.Save ();
-			gamepad.Save ();
+            playstyle.Save();
+			audio.Save();
+			gameplay.Save();
+			graphics.Save();
+			input.Save();
+			keyBindings.Save();
+			gamepad.Save();
 		}
 	}
 }

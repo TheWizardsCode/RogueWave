@@ -129,6 +129,7 @@ namespace RogueWave.UI
             HubController.permanentRecipes.Add(recipe);
 
             RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
+            HubController.isDirty = true;
 
             GameLog.Info($"Made {recipe} permanent.");
         }
