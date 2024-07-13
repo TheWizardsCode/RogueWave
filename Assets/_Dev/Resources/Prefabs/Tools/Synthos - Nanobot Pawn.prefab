@@ -35,6 +35,7 @@ Transform:
   m_Children:
   - {fileID: 8109030007580807821}
   - {fileID: 1250354380922891833}
+  - {fileID: 8299194340207719822}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &857271448417685549
@@ -71,12 +72,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerOffset: {x: 0, y: 0, z: 5}
+  scanner: {fileID: 8299194340207719822}
   m_DetectionRange: 15
   detectedObjectsCount: 10
   detectionLayerMask:
     serializedVersion: 2
     m_Bits: 2147483648
   attackTrigger: Attack
+  canMove: 1
   movementDampingDistance: 2
   rotationDamping: 25
   aggroDistance: 7.5
@@ -207,6 +210,37 @@ Light:
   m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!1 &8782066404459260927
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8299194340207719822}
+  m_Layer: 0
+  m_Name: Scanner location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8299194340207719822
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8782066404459260927}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 1.6, z: -5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6334479765892209179}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &8575898954228249958
 PrefabInstance:
   m_ObjectHideFlags: 0

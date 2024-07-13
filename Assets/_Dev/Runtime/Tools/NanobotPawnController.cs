@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
 using System;
 using System.Collections.Generic;
@@ -10,8 +11,13 @@ namespace RogueWave
     /// </summary>
     public class NanobotPawnController : MonoBehaviour
     {
+        [Header("Positioning")]
         [SerializeField, Tooltip("The offset from the player that the pawn will be created.")]
         Vector3 playerOffset = new Vector3(0, 0, 5);
+
+        [Header("Scanner")]
+        [SerializeField, Tooltip("The scanner that the nanobots will use to detect enemies and objects of interest.  This object creates the center of the scan sphere.")]
+        private Transform scanner;
         [SerializeField, Tooltip("The detection range for enemies and objects of interest.")]
         protected float m_DetectionRange = 15f;
         [SerializeField, Tooltip("The number of items the nanobots will detect and potentially make available to other items.")]
@@ -24,19 +30,21 @@ namespace RogueWave
         string attackTrigger = "Attack";
 
         [Header("Movement")]
-        [SerializeField, Tooltip("The distance the player needs to move to trigger the pawn to move.")]
+        [SerializeField, Tooltip("If set to true this pawn is able to move independently.")]
+        bool canMove = true;
+        [SerializeField, Tooltip("The distance the player needs to move to trigger the pawn to move."), ShowIf("canMove")]
         float movementDampingDistance = 2f;
-        [SerializeField, Tooltip("The rotation the player needs to move through in order to trigger the pawn to move.")]
+        [SerializeField, Tooltip("The rotation the player needs to move through in order to trigger the pawn to move."), ShowIf("canMove")]
         float rotationDamping = 20;
-        [SerializeField, Tooltip("The distance below which the nearest enemy needs to be for the pawn to become aggro'd.")]
+        [SerializeField, Tooltip("The distance below which the nearest enemy needs to be for the pawn to become aggro'd."), ShowIf("canMove")]
         float aggroDistance = 7.5f;
-        [SerializeField, Tooltip("The maximum speed the pawn can move.")]
+        [SerializeField, Tooltip("The maximum speed the pawn can move."), ShowIf("canMove")]
         float maxSpeed = 10f;
-        [SerializeField, Tooltip("The acceleration/deceleration of the pawn.")]
+        [SerializeField, Tooltip("The acceleration/deceleration of the pawn."), ShowIf("canMove")]
         float acceleration = 10f;
-        [SerializeField, Tooltip("The speed the pawn will rotate.")]
+        [SerializeField, Tooltip("The speed the pawn will rotate."), ShowIf("canMove")]
         float rotationSpeed = 180f;
-        [SerializeField, Tooltip("The distance the pawn will stop from their intended destination.")]
+        [SerializeField, Tooltip("The distance the pawn will stop from their intended destination."), ShowIf("canMove")]
         float arrivalDistance = 0.25f;
 
         [Header("Idle Behaviour")]
@@ -52,6 +60,19 @@ namespace RogueWave
         private float sqrMovementDampingDistance;
         Queue<KeyValuePair<float, Collider>> m_collidersQueue = new Queue<KeyValuePair<float, Collider>>();
         bool isDetectionQueueInvalid = true;
+
+        private FpsSoloCharacter player;
+        private Animator animator;
+
+        private float sqrArrivalDistance;
+        private float currentSpeed = 0;
+        private float movementDirection;
+        private Vector3 targetPosition;
+        private Quaternion targetRotation;
+
+        private State m_currentState = State.Idle;
+        private float timeInState = 0;
+        private Collider aggroTarget;
 
         public Queue<KeyValuePair<float, Collider>> sortedColliders
         {
@@ -119,19 +140,6 @@ namespace RogueWave
             Aggro
         }
 
-        private FpsSoloCharacter player;
-        private Animator animator;
-
-        private float sqrArrivalDistance;
-        private float currentSpeed = 0;
-        private float movementDirection;
-        private Vector3 targetPosition;
-        private Quaternion targetRotation;
-
-        private State m_currentState = State.Idle;
-        private float timeInState = 0;
-        private Collider aggroTarget;
-
         private State CurrentState
         {
             get
@@ -149,11 +157,17 @@ namespace RogueWave
                             break;
                         case State.Idle:
                             animator.SetBool("Impatient", false);
-                            targetRotation = Quaternion.LookRotation(-player.transform.forward, Vector3.up);
+                            if (canMove)
+                            {
+                                targetRotation = Quaternion.LookRotation(-player.transform.forward, Vector3.up);
+                            }
                             break;
                         case State.Impatient:
-                            targetRotation = Quaternion.LookRotation(-player.transform.forward, Vector3.up);
                             animator.SetBool("Impatient", true);
+                            if (canMove)
+                            {
+                                targetRotation = Quaternion.LookRotation(-player.transform.forward, Vector3.up);
+                            }
                             break;
                         case State.Moving:
                             animator.SetBool("Impatient", false);
@@ -183,11 +197,14 @@ namespace RogueWave
             player = FpsSoloCharacter.localPlayerCharacter;
             animator = GetComponent<Animator>();
 
-            NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
-            foreach (IRecipe recipe in startingRecipes)
+            if (FpsSoloCharacter.localPlayerCharacter != null)
             {
-                RogueLiteManager.persistentData.Add(recipe);
-                nanobotManager.Add(recipe);
+                NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
+                foreach (IRecipe recipe in startingRecipes)
+                {
+                    RogueLiteManager.persistentData.Add(recipe);
+                    nanobotManager.Add(recipe);
+                }
             }
         }
 
@@ -196,10 +213,13 @@ namespace RogueWave
             timeInState += Time.deltaTime;
             ManageState();
 
-            CalculateMovement();
+            if (canMove)
+            {
+                CalculateMovement();
 
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
-            transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime).eulerAngles.y, transform.rotation.eulerAngles.z);
+                transform.position = Vector3.MoveTowards(transform.position, targetPosition, currentSpeed * Time.deltaTime);
+                transform.rotation = Quaternion.Euler(transform.rotation.eulerAngles.x, Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime).eulerAngles.y, transform.rotation.eulerAngles.z);
+            }
 
             ConfigureAnimator();
 
@@ -212,10 +232,10 @@ namespace RogueWave
         private void DetectObjectsOfInterest()
         {
             Array.Clear(colliders, 0, detectedObjectsCount);
-            int count = Physics.OverlapSphereNonAlloc(FpsSoloCharacter.localPlayerCharacter.transform.position, m_DetectionRange, colliders, detectionLayerMask);
+            int count = Physics.OverlapSphereNonAlloc(scanner.position, m_DetectionRange, colliders, detectionLayerMask);
             for (int i = 0; i < count; i++)
             {
-                colliderDistances[i] = colliders[i] != null ? Vector3.Distance(FpsSoloCharacter.localPlayerCharacter.transform.position, colliders[i].transform.position) : float.MaxValue;
+                colliderDistances[i] = colliders[i] != null ? Vector3.Distance(scanner.position, colliders[i].transform.position) : float.MaxValue;
             }
 
             Array.Sort(colliderDistances, colliders);
@@ -282,11 +302,13 @@ namespace RogueWave
 
         private void ConfigureAnimator()
         {
-            // Movement Speed (normalized)
-            animator.SetFloat("Speed", currentSpeed / maxSpeed);
-
-            // Movement Direction (-1 = hard left, 0 = forward, 1 = hard right)
-            animator.SetFloat("Direction", movementDirection);
+            if (canMove)
+            {
+                // Movement Speed (normalized)
+                animator.SetFloat("Speed", currentSpeed / maxSpeed);
+                // Movement Direction (-1 = hard left, 0 = forward, 1 = hard right)
+                animator.SetFloat("Direction", movementDirection);
+            }
 
             // Impatient - frustration in idle animations
             // set in CurrentState property
