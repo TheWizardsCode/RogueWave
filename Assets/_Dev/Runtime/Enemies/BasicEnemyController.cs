@@ -553,13 +553,21 @@ namespace RogueWave
                 Vector3 pos;
                 if (spawnOnDamageAroundAttacker)
                 {
-                    pos = source.damageSourceTransform.position + (source.damageSourceTransform.forward * spawnOnDamageDistance);
+                    pos = source.damageSourceTransform.position;
+                    if (source != null)
+                    {
+                        pos += source.damageSourceTransform.forward * spawnOnDamageDistance;
+                    }
                     pos += Random.insideUnitSphere * spawnOnDamageDistance;
                     pos.y = source.damageSourceTransform.position.y + 1f;
                 }
                 else
                 {
-                    pos = transform.position - (source.damageSourceTransform.forward * spawnOnDamageDistance);
+                    pos = transform.position;
+                    if (source != null)
+                    {
+                        pos += source.damageSourceTransform.forward * spawnOnDamageDistance;
+                    }
                     pos += Random.insideUnitSphere * spawnOnDamageDistance;
                     pos.y = transform.position.y + 1f;
                 }

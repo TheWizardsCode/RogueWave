@@ -17,6 +17,10 @@ PrefabInstance:
       value: RW_WeaponPickup_Turret_Generator
       objectReference: {fileID: 0}
     - target: {fileID: 1651731687865070, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1651731687865070, guid: 293b4a5033ddd374f891d3cd13fef722, type: 3}
       propertyPath: m_TagString
       value: MagneticPickup
       objectReference: {fileID: 0}
@@ -139,12 +143,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ConsumeResult: 0
-  m_ItemPrefab: {fileID: 114149182331079868, guid: 5eaac4fd2a405cf41beb2e4561a07eaa, type: 3}
+  m_ItemPrefab: {fileID: 114149182331079868, guid: 9a80e64954d9f8342bd215a6f35be915, type: 3}
   m_AdditionalItems: []
   m_SpawnOnAwake: 1
   m_RespawnDuration: 20
   m_DisplayMesh: {fileID: 573985184080712184}
-  weaponPickupRecipe: {fileID: 11400000, guid: 3b9002bca11ae7042a4e7c86aef43c06, type: 2}
+  weaponPickupRecipe: {fileID: 11400000, guid: ce0062bb3be66384cb6435600114f267, type: 2}
   ammoPickupRecipe: {fileID: 0}
 --- !u!114 &73874827290450196
 MonoBehaviour:

@@ -757,6 +757,7 @@ namespace RogueWave
             IItemRecipe itemRecipe = recipe as IItemRecipe;
             if (itemRecipe != null)
             {
+                // TODO: should use the PoolManager
                 GameObject go = Instantiate(itemRecipe.Item.gameObject);
 
                 Vector3 position = transform.position + (transform.forward * pickupSpawnDistance) + (transform.up * 1f);
