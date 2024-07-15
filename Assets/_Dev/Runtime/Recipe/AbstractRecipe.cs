@@ -37,8 +37,6 @@ namespace RogueWave
         [Header("Build")]
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
         bool isPowerUp = false;
-        [SerializeField, Tooltip("Consumables are recipes that are used up when they are built. Typically such recipes are only built once. For example, it is unlikely that the player will need two Pistols, so the recipe is marked as consumable. The recipe remains available, but will only come back into use if the item it built is lost for some reason.")]
-        bool isConsumable = false;
         [SerializeField, Tooltip("The cooldown time for this recipe (in seconds). If the nanobots have built this recipe, they cannot build it again until this time has passed.")]
         float cooldown = 10;
         [SerializeField, Tooltip("If true, this recipe can be stacked, that is if the player can hold more than onve of these at a time. Weapons, for example, are not stackable while health boosts are.")]
@@ -99,8 +97,6 @@ namespace RogueWave
         }
 
         public bool IsPowerUp => isPowerUp;
-
-        public bool IsConsumable => isConsumable;
 
         public bool IsStackable => isStackable;
 
@@ -217,7 +213,7 @@ namespace RogueWave
                     return false;
                 }
 
-                if (isConsumable == false && (RogueLiteManager.runData.GetCount(this) >= MaxStack || RogueLiteManager.persistentData.GetCount(this) >= MaxStack))
+                if (RogueLiteManager.runData.GetCount(this) >= MaxStack || RogueLiteManager.persistentData.GetCount(this) >= MaxStack)
                 {
                     return false;
                 }

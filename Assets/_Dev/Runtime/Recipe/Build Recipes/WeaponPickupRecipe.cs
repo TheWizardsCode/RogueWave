@@ -2,6 +2,7 @@ using NeoFPS;
 using UnityEngine;
 using NeoFPS.SinglePlayer;
 using System;
+using NaughtyAttributes;
 
 namespace RogueWave
 {
@@ -11,7 +12,9 @@ namespace RogueWave
         [Header("Weapon")]
         [SerializeField, Tooltip("If true then the weapon will be put to the top of the loadout build order when purchased, otherwise it will be put in the second slot.")]
         internal bool overridePrimaryWeapon = false;
-        [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too.")]
+        [SerializeField, Tooltip("Does this weapon use ammo? If set to true then an ammoRecipe must also be provided. If set to false then the weapon is consumed when used but it will be possible to build as many of the item as the inventory can hold.")]
+        internal bool usesAmmo = true;
+        [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too."), ShowIf("usesAmmo")]
         internal AmmoPickupRecipe ammoRecipe;
 
         public override string Category => "Weapon";
@@ -52,12 +55,22 @@ namespace RogueWave
         {
             get
             {
-                if (InInventory == false)
+                if (InInventory == false || !usesAmmo)
                 {
-                    int slot = inventory.GetSlotForItem(pickup.GetItemPrefab() as ISwappable);
+                    IInventoryItem item = pickup.GetItemPrefab();
+                    int slot = inventory.GetSlotForItem(item as ISwappable);
                     if (slot == -1 || inventory.GetSlotItem(slot) != null)
                     {
                         return false;
+                    }
+
+                    if (!usesAmmo)
+                    {
+                        FpsInventoryItemBase existing = (FpsInventoryItemBase)inventory.GetItem(item.itemIdentifier);
+                        if (existing != null && existing.quantity >= existing.maxQuantity)
+                        {
+                            return false;
+                        }
                     }
 
                     return base.ShouldBuild;

@@ -23,11 +23,10 @@ MonoBehaviour:
   complements: []
   baseBuyCost: 750
   isPowerUp: 1
-  isConsumable: 1
   cooldown: 35
   isStackable: 0
-  maxStack: 1
-  buildCost: 75
+  maxStack: 5
+  buildCost: 500
   timeToBuild: 10
   nameClips:
   - {fileID: 8300000, guid: 5976b003a9706c843b6c575ec642603e, type: 3}
@@ -39,4 +38,5 @@ MonoBehaviour:
   uniqueID: 4771ab38-6064-4fd8-9692-5a04231b22e0
   pickup: {fileID: -3470823083365234843, guid: f8cb7690be85b994b8367dc1ae48d7d0, type: 3}
   overridePrimaryWeapon: 0
+  usesAmmo: 0
   ammoRecipe: {fileID: 0}

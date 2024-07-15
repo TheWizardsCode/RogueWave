@@ -15,7 +15,7 @@ namespace RogueWave
 
         public Sprite Icon { get; }
         public bool IsPowerUp { get; }
-        public bool IsConsumable { get; }
+
         public bool IsStackable { get; }
         public int MaxStack { get; }
         public int BuyCost { get; }
