@@ -1,5 +1,8 @@
 using NaughtyAttributes;
+using NeoFPSEditor.Hub.Pages;
+using PlasticPipe.PlasticProtocol.Client;
 using System;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -58,7 +61,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The particle system to play when a pickup is spawned.")]
         ParticleSystem pickupParticles;
 
-        float nextTimeAvailable = 0;
+        protected float nextTimeAvailable = 0;
 
         public string UniqueID => uniqueID;
 
@@ -199,6 +202,29 @@ namespace RogueWave
             }
         }
 
+        /// <summary>
+        /// Test to see if this recipe is valid.
+        /// </summary>
+        /// <param name="statusMessage">If valid this will be an empty string, if invalid it will contain a description of why it is invalid.</param>
+        /// <returns>true if valid, otherwise false.</returns>
+        internal bool Validate(out string statusMessage)
+        {
+            StringBuilder msg = new StringBuilder();
+
+            if (heroImage == null)
+            {
+                msg.AppendLine("Missing hero image.");
+            }
+
+            if (nameClips.Length == 0)
+            {
+                msg.AppendLine("Missing name audio clips.");
+            }
+
+            statusMessage = msg.ToString();
+            return string.IsNullOrEmpty(statusMessage);
+        }
+
         public virtual void Reset()
         {
             nextTimeAvailable = 0;
@@ -213,7 +239,7 @@ namespace RogueWave
                     return false;
                 }
 
-                if (RogueLiteManager.runData.GetCount(this) >= MaxStack || RogueLiteManager.persistentData.GetCount(this) >= MaxStack)
+                if (isStackable && (RogueLiteManager.runData.GetCount(this) >= MaxStack || RogueLiteManager.persistentData.GetCount(this) >= MaxStack))
                 {
                     return false;
                 }

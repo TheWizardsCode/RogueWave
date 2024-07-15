@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3162815a9730db4abc29a6e6d5822dd, type: 3}
   m_Name: Weapon Turret Generator Pickup Recipe
   m_EditorClassIdentifier: 
-  displayName: Turret
-  announcerVoicelineForName: Turret
-  description: Place a turret on the ground that will shoot the nearest enemy.
-  heroImage: {fileID: 0}
-  icon: {fileID: 0}
-  level: 4
+  displayName: Fire Turret
+  announcerVoicelineForName: Fire Turret
+  description: Create a Fire Turret that will shoot at the nearest enemy.
+  heroImage: {fileID: 21300000, guid: dba0e2141d419d74fa15aeb193a77544, type: 3}
+  icon: {fileID: 21300000, guid: b4bfe56458745b54ead21e1ac2929d3c, type: 3}
+  level: 8
   baseWeight: 1.2
   dependencies: []
   complements: []

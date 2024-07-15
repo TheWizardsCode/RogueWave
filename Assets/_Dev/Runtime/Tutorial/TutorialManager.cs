@@ -11,7 +11,7 @@ namespace RogueWave.Tutorial
 {
     public class TutorialManager : MonoBehaviour
     {
-        private const string sceneProgressKeyPrefix = "SceneLoadCount_";
+        internal const string SCENE_PROGRESS_KEY_PREFIX = "SceneLoadCount_";
         [SerializeField, Tooltip("The loading scene that will be used to transition between scenes. When this scene is loaded some of the tutorial content will be displayed."), Scene]
         private string loadingScreen;
         [SerializeField, Tooltip("The scene to play if no profiles exist. This is the start of the tutorial."), Scene]
@@ -31,7 +31,8 @@ namespace RogueWave.Tutorial
             sceneLoadCounts = new int[SceneManager.sceneCountInBuildSettings];
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
-                sceneLoadCounts[i] = PlayerPrefs.GetInt(sceneProgressKeyPrefix + i, 0);
+                sceneLoadCounts[i] = PlayerPrefs.GetInt(SCENE_PROGRESS_KEY_PREFIX + i.ToString(), 0);
+                Debug.LogError($"Scene Load Count for SceneIndex {i} is {sceneLoadCounts[i]}");
             }
 
             tutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
@@ -81,7 +82,7 @@ namespace RogueWave.Tutorial
             GameLog.Log($"Scene load requested {sceneName} (index: {sceneIndex}");
 
             sceneLoadCounts[sceneIndex]++;
-            PlayerPrefs.SetInt(sceneProgressKeyPrefix + sceneIndex, sceneLoadCounts[sceneIndex]);
+            PlayerPrefs.SetInt(SCENE_PROGRESS_KEY_PREFIX + sceneIndex.ToString(), sceneLoadCounts[sceneIndex]);
             currentlyActiveStep = null;
 
             foreach (TutorialStep step in tutorialSteps)
@@ -191,7 +192,7 @@ namespace RogueWave.Tutorial
         {
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
-                PlayerPrefs.DeleteKey("SceneLoadCount_" + i);
+                PlayerPrefs.DeleteKey(SCENE_PROGRESS_KEY_PREFIX + i.ToString());
             }
         }
 #endif
