@@ -31,6 +31,8 @@ namespace RogueWave.UI
             NeoFpsInputManager.captureMouseCursor = false;
 
             GameLog.Info($"Entering Hub Scene with {RogueLiteManager.persistentData.currentResources} resources.");
+
+            isDirty = true;
         }
 
         private void OnDisable()

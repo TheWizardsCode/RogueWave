@@ -1,6 +1,4 @@
 using NaughtyAttributes;
-using NeoFPSEditor.Hub.Pages;
-using PlasticPipe.PlasticProtocol.Client;
 using System;
 using System.Text;
 using UnityEditor;

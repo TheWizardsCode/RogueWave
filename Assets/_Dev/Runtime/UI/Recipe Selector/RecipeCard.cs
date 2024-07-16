@@ -81,8 +81,9 @@ namespace RogueWave.UI
             else
             {
                 selectionButton.interactable = false;
+                selectionButton.GetComponent<Image>().color = Color.red;
+                selectionButton.label = $"Insufficient Funds ({_recipe.BuyCost})";
             }
-
 
             SetUpCommonElements();
         }
@@ -100,7 +101,9 @@ namespace RogueWave.UI
             if (RogueLiteManager.persistentData.currentResources < _recipe.BuyCost)
             {
                 selectionButton.interactable = false;
+                selectionButton.GetComponent<Image>().color = Color.red;
             }
+
             SetUpCommonElements();
         }
 

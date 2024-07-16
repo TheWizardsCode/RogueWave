@@ -73,7 +73,7 @@ namespace RogueWave.UI
                 noOffersMessage.gameObject.SetActive(false);
             }
 
-            if (offers.Count != transform.childCount)
+            if (offers.Count != transform.childCount || HubController.isDirty)
             {
                 foreach (Transform child in transform)
                 {
