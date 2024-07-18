@@ -64,6 +64,19 @@ namespace RogueWave
         private bool showDebug = false;
 #endif
 
+        private AIDirector m_aiDirector;
+        private AIDirector aiDirector
+        {
+            get
+            {
+                if (m_aiDirector == null)
+                {
+                    m_aiDirector = FindAnyObjectByType<AIDirector>();
+                }
+                return m_aiDirector;
+            }
+        }
+
         LevelProgressBar levelProgressBar;
 
         int m_BossSpawnersRemaining = 0;
@@ -73,7 +86,6 @@ namespace RogueWave
             private set
             {
                 m_BossSpawnersRemaining = value;
-                updateHUD();
             }
         }
         private float timeInLevel;
@@ -134,6 +146,8 @@ namespace RogueWave
 
             timeInLevel += Time.deltaTime;
             levelProgressBar.Value = timeInLevel;
+
+            updateHUD();
         }
         #endregion
 
@@ -354,15 +368,6 @@ namespace RogueWave
         private LoadoutBuilderData m_LoadoutBuilder = new LoadoutBuilderData();
         private float startTime;
         private List<Spawner> spawners = new List<Spawner>();
-        int m_BasicEnemiesCount = 0;
-        internal int basicEnemiesCount
-        {
-            get { return m_BasicEnemiesCount; }
-            private set {
-                m_BasicEnemiesCount = value;
-                updateHUD();
-            }
-        }
 
         internal int bossSpawnerCount => bossSpawnersRemaining;
 
@@ -668,19 +673,17 @@ namespace RogueWave
         internal void RegisterEnemy(BasicEnemyController enemy)
         {
             enemy.onDeath.AddListener(OnEnemyDeath);
-            basicEnemiesCount++;
             onEnemySpawned?.Invoke(enemy);
         }
 
         private void OnEnemyDeath(BasicEnemyController enemy)
         {
             enemy.onDeath.RemoveListener(OnEnemyDeath);
-            basicEnemiesCount--;
         }
 
         private void updateHUD()
         {
-            statusHud.UpdateEnemyCount(basicEnemiesCount);
+            statusHud.UpdateEnemyCount(aiDirector.enemies.Count);
             statusHud.UpdateSpawnerCount(bossSpawnerCount);
         }
 

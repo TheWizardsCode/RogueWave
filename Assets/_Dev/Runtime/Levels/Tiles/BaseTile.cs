@@ -33,10 +33,10 @@ namespace RogueWave
         protected LevelGenerator levelGenerator;
         protected float tileWidth = 25f;
         protected float tileDepth = 25f;
-        private AIDirector m_aiDirector;
 
         public TileDefinition tileDefinition { get; internal set; }
 
+        private AIDirector m_aiDirector;
         private AIDirector aiDirector
         {
             get

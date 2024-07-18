@@ -65,7 +65,9 @@ namespace RogueWave
         internal int spawnOnDamageCount = 3;
 
         [Header("SquadBehaviour")]
-        [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy.")]
+        [SerializeField, Tooltip("If true then this enemy will register with the AI director and be available to recieve orders. If false the AI director will not give this enemy orders.")]
+        internal bool registerWithAIDirector = true;
+        [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy."), ShowIf("registerWithAIDirector")]
         internal SquadRole squadRole = SquadRole.Fodder;
 
         [Header("Juice")]

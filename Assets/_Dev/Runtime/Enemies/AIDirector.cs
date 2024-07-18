@@ -35,7 +35,7 @@ namespace RogueWave
         bool isDebug = false;
 
         List<Spawner> spawners = new List<Spawner>();
-        List<BasicEnemyController> enemies = new List<BasicEnemyController>();
+        internal List<BasicEnemyController> enemies = new List<BasicEnemyController>();
         Dictionary<BasicEnemyController, List<BasicEnemyController>> squads = new Dictionary<BasicEnemyController, List<BasicEnemyController>>();
         List<Vector3> reportedLocations = new List<Vector3>();
         List<KillReport> killReports = new List<KillReport>();
@@ -108,7 +108,7 @@ namespace RogueWave
 
                 int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * challengeRatingMultiplierByDifficulty.Evaluate(FpsSettings.playstyle.difficulty)) + 1;
                 int challengeRatingSent = 0;
-                if (enemies.Count > 0 && currentKillscore < targetKillScore)
+                if (currentKillscore < targetKillScore)
                 {
                     // Send squads before individual enemies
                     foreach (BasicEnemyController leader in squads.Keys)
@@ -147,17 +147,16 @@ namespace RogueWave
                             }
                         }
                     }
-
-                    GameLog.Info($"AIDirector: Sending existing enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                 } 
                 else
                 {
-                    GameLog.Info($"AIDirector: The current Kill Score is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                    GameLog.Info($"AIDirector: The current Kill Score is {currentKillscore} (above targetKillScore of {targetKillScore}).");
                     return;
                 }
 
-                if (challengeRatingSent <= 0)
+                if (challengeRatingSent >= challengeRatingToSend)
                 {
+                    GameLog.Info($"AIDirector: Sending existing enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                     return;
                 }
 
@@ -196,7 +195,7 @@ namespace RogueWave
                     }
                 }
 
-                GameLog.Info($"AIDirector: Spawned additional enemies with total challenge rating of {challengeRatingSpawned} as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                GameLog.Info($"AIDirector: Spawned existing enemies with a total challenge rating of {challengeRatingSent} and additional enemies with total challenge rating of {challengeRatingSpawned}.\nCurrent currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
             }
         }
 
@@ -236,6 +235,10 @@ namespace RogueWave
 
         private void OnEnemySpawned(BasicEnemyController enemy)
         {
+            if (!enemy.registerWithAIDirector)
+            {
+                return;
+            }
             JoinOrCreateSquad(enemy);
 
             enemies.Add(enemy);
