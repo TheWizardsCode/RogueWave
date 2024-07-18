@@ -6,10 +6,11 @@ namespace RogueWave
 {
     /// <summary>
     /// Basic movement controller for enemies. It handles the most basic movement of the enemy,which is essentially to move towards a position relative to the target, and to rotate towards the target.
-    /// Basic Movement Controller is paird with a Basic Enemy Controller, which handles the central coordination of the enemy controllers.
+    /// Basic Movement Controller is paired with a Basic Enemy Controller, which handles the central coordination of the enemy controllers.
     /// 
     /// Subclasses of this class will implement more complex movement patterns, such as formations, patrolling, or following a path.
     /// </summary>
+    [RequireComponent(typeof(BasicEnemyController))]
     public class BasicMovementController : MonoBehaviour
     {
         [Header("Movement")]
@@ -51,6 +52,7 @@ namespace RogueWave
         private AIDirector aiDirector;
 
         private float sqrArrivalDistance;
+        private float sqrSlowingDistance;
         Vector3 _destination = Vector3.zero;
 
         internal float currentSpeed;
@@ -73,12 +75,15 @@ namespace RogueWave
             }
         }
 
+        private float currentSpeedMultiplier;
+        private BasicEnemyController currentSquadLeader;
+        private float currentSqrDistanceToGoal;
+
         internal bool hasArrived
         {
             get
             {
-                float distanceToGoal = Vector3.SqrMagnitude(destination - transform.position);
-                if (distanceToGoal < sqrArrivalDistance)
+                if (currentSqrDistanceToGoal < sqrArrivalDistance)
                 {
                     return true;
                 }
@@ -87,13 +92,12 @@ namespace RogueWave
                     return false;
                 }
             }
-
         }
 
         protected virtual void Awake()
         {
             sqrArrivalDistance = arrivalDistance * arrivalDistance;
-
+            sqrSlowingDistance = sqrArrivalDistance * 1.5f;
             enemyController = GetComponent<BasicEnemyController>();
         }
 
@@ -103,16 +107,29 @@ namespace RogueWave
             aiDirector = FindAnyObjectByType<AIDirector>();
         }
 
+        private void Update()
+        {
+            currentSqrDistanceToGoal = Vector3.SqrMagnitude(destination - transform.position);
+            if (!hasArrived)
+            {
+                MoveTowards(currentSpeedMultiplier, currentSquadLeader);
+            }
+        }
+
         internal void SetDestination(Vector3 destination, float speedMultiplier, BasicEnemyController squadLeader)
         {
             this.destination = destination;
+            this.currentSpeedMultiplier = speedMultiplier;
+            this.currentSquadLeader = squadLeader;
+        }
 
-            // if the distance to the goalDestination is < arrive distance then slow down, eventually stopping
-            float distanceToGoal = Vector3.SqrMagnitude(destination - transform.position);
-            if (distanceToGoal < sqrArrivalDistance)
+        internal virtual void MoveTowards(float speedMultiplier, BasicEnemyController squadLeader)
+        {
+            if (currentSqrDistanceToGoal < sqrSlowingDistance)
             {
                 currentSpeed = Mathf.Max(0, currentSpeed - Time.deltaTime * acceleration);
-            } else if (currentSpeed < maxSpeed)
+            }
+            else if (currentSpeed < maxSpeed)
             {
                 currentSpeed = currentSpeed + Time.deltaTime * acceleration;
             }
@@ -122,11 +139,6 @@ namespace RogueWave
                 return;
             }
 
-            MoveTowards(speedMultiplier, squadLeader);
-        }
-
-        internal virtual void MoveTowards(float speedMultiplier, BasicEnemyController squadLeader)
-        {
             Vector3 centerDirection = destination - transform.position;
             Vector3 avoidanceDirection = Vector3.zero;
             BasicEnemyController[] squadMembers = aiDirector.GetSquadMembers(squadLeader);
@@ -201,21 +213,6 @@ namespace RogueWave
                 transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
             }
 
-            
-
-            //if (obstacleDirection == Direction.None)
-            //{
-            //    transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
-            //} else if (obstacleDirection == Direction.Left)
-            //{
-            //    transform.position += (transform.forward + transform.right) * currentSpeed * Time.deltaTime;
-            //} else if (obstacleDirection == Direction.Right)
-            //{
-            //    transform.position += (transform.forward - transform.right) * currentSpeed * Time.deltaTime;
-            //} else if (obstacleDirection == Direction.BothHorizontal)
-            //{
-            //    transform.position += -transform.forward * currentSpeed * Time.deltaTime;
-            //}
             AdjustHeight(destination, speedMultiplier);
         }
 
