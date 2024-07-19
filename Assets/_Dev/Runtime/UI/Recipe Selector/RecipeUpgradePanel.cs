@@ -22,6 +22,7 @@ namespace RogueWave.UI
         [SerializeField, Tooltip("The recipe card protoype for displaying an upgrade offer.")]
         RecipeCard recipeCardPrototype;
 
+        HubController hubController;
         private List<IRecipe> offers = new List<IRecipe>();
 
         private NanobotManager nanobotManager
@@ -54,6 +55,7 @@ namespace RogueWave.UI
                 NeoFpsInputManager.captureMouseCursor = false;
             }
 
+            hubController = GetComponentInParent<HubController>();
         }
 
         private void OnGUI()
@@ -73,7 +75,7 @@ namespace RogueWave.UI
                 noOffersMessage.gameObject.SetActive(false);
             }
 
-            if (offers.Count != transform.childCount || HubController.isDirty)
+            if (offers.Count != transform.childCount || hubController.isDirty)
             {
                 foreach (Transform child in transform)
                 {
@@ -111,7 +113,7 @@ namespace RogueWave.UI
             RogueLiteManager.persistentData.currentResources -= offer.BuyCost;
             RogueLiteManager.SaveProfile();
             
-            HubController.isDirty = true;
+            hubController.permanentPanel.isDirty = true;
             offers.RemoveAll(o => o == offer);
 
             GameLog.Info($"Bought {offer} in hub scene.");

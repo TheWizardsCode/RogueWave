@@ -3640,9 +3640,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -30}
+  m_AnchoredPosition: {x: -0.0010375977, y: -30}
   m_SizeDelta: {x: 0, y: 140}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1478363794
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4114,6 +4114,8 @@ MonoBehaviour:
   m_GameLevelNumberText: {fileID: 1035829446}
   m_NanobotLevelNumberText: {fileID: 1125330692}
   m_ContinueButton: {fileID: 1509369222}
+  permanentPanel: {fileID: 607204286}
+  temporaryPanel: {fileID: 1478363796}
   testRecipes: []
 --- !u!1 &1594955184
 GameObject:

@@ -18,9 +18,16 @@ namespace RogueWave.UI
         [SerializeField, Tooltip("The kind of recipes to display.")]
         AcquisitionType acquisitionType;
 
+        internal bool isDirty = true;
+
         int processedReciupes = 0;
 
         private List<IRecipe> recipes = new List<IRecipe>();
+
+        private void OnEnable()
+        {
+            isDirty = true;
+        }
 
         private void OnGUI()
         {
@@ -35,7 +42,7 @@ namespace RogueWave.UI
             }
 
             IEnumerable<IRecipe> recipesDistinct = recipes.Distinct();
-            if (HubController.isDirty)
+            if (isDirty || recipes.Count != transform.childCount)
             {
                 for (int i = transform.childCount - 1; i >= 0; i--)
                 {
@@ -60,9 +67,9 @@ namespace RogueWave.UI
                             break;
                     }
                     card.recipe = recipe;
-
-                    HubController.isDirty = false;
                 }
+
+                isDirty = false;
             }
         }
     }

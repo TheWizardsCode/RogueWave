@@ -20,10 +20,18 @@ namespace RogueWave.UI
         private TMPro.TMP_Text m_NanobotLevelNumberText = null;
         [SerializeField, Tooltip("The button to move the player to the next screen on the way into combat.")]
         private MultiInputButton m_ContinueButton = null;
+        [SerializeField, Tooltip("The UI pnael on which to display the permanent upgrades.")]
+        internal AcquiredRecipePanel permanentPanel;
+        [SerializeField, Tooltip("The UI pnael on which to display the temporary upgrades.")]
+        internal AcquiredRecipePanel temporaryPanel;
 
         internal static List<IRecipe> permanentRecipes = new List<IRecipe>();
         internal static List<IRecipe> temporaryRecipes = new List<IRecipe>();
-        internal static bool isDirty = false;
+        
+        internal bool isDirty
+        {
+            get { return permanentPanel.isDirty || temporaryPanel.isDirty; }  
+        }
 
         private void OnEnable()
         {
@@ -31,8 +39,6 @@ namespace RogueWave.UI
             NeoFpsInputManager.captureMouseCursor = false;
 
             GameLog.Info($"Entering Hub Scene with {RogueLiteManager.persistentData.currentResources} resources.");
-
-            isDirty = true;
         }
 
         private void OnDisable()
