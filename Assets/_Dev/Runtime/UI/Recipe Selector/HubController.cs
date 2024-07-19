@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 using NeoFPS.Samples;
+using PlasticPipe.PlasticProtocol.Messages;
+using System.Collections.ObjectModel;
 
 namespace RogueWave.UI
 {
@@ -20,17 +22,21 @@ namespace RogueWave.UI
         private TMPro.TMP_Text m_NanobotLevelNumberText = null;
         [SerializeField, Tooltip("The button to move the player to the next screen on the way into combat.")]
         private MultiInputButton m_ContinueButton = null;
-        [SerializeField, Tooltip("The UI pnael on which to display the permanent upgrades.")]
-        internal AcquiredRecipePanel permanentPanel;
-        [SerializeField, Tooltip("The UI pnael on which to display the temporary upgrades.")]
-        internal AcquiredRecipePanel temporaryPanel;
 
-        internal static List<IRecipe> permanentRecipes = new List<IRecipe>();
-        internal static List<IRecipe> temporaryRecipes = new List<IRecipe>();
-        
-        internal bool isDirty
+        static List<IRecipe> m_PermanentRecipes = new List<IRecipe>();
+        static List<IRecipe> m_TemporaryRecipes = new List<IRecipe>();
+
+        internal static bool isPermanentRecipesDirty = true;
+        internal static bool isTemporryRecipesDirty = true;
+
+        internal static ReadOnlyCollection<IRecipe> permanentRecipes
         {
-            get { return permanentPanel.isDirty || temporaryPanel.isDirty; }  
+            get { return m_PermanentRecipes.AsReadOnly(); }
+        }
+
+        internal static IReadOnlyList<IRecipe> temporaryRecipes
+        {
+            get { return m_TemporaryRecipes.AsReadOnly(); }
         }
 
         private void OnEnable()
@@ -39,6 +45,19 @@ namespace RogueWave.UI
             NeoFpsInputManager.captureMouseCursor = false;
 
             GameLog.Info($"Entering Hub Scene with {RogueLiteManager.persistentData.currentResources} resources.");
+
+            clearPermanentRecipes();
+            foreach (string recipeID in RogueLiteManager.persistentData.RecipeIds)
+            {
+                if (RecipeManager.TryGetRecipe(recipeID, out IRecipe recipe))
+                {
+                    AddPermanentRecipe(recipe);
+                }
+            }
+
+            ClearTemporaryRecipes();
+            AddRangeOfTemporaryRecipes(RogueLiteManager.runData.Recipes);
+            RemoveAllTemporaryRecipes(recipe => permanentRecipes.Contains(recipe));
         }
 
         private void OnDisable()
@@ -66,19 +85,6 @@ namespace RogueWave.UI
                 m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
             }
 
-            permanentRecipes.Clear();
-            foreach (string recipeID in RogueLiteManager.persistentData.RecipeIds)
-            {
-                if (RecipeManager.TryGetRecipe(recipeID, out IRecipe recipe))
-                {
-                    permanentRecipes.Add(recipe);
-                }
-            }
-
-            temporaryRecipes.Clear();
-            temporaryRecipes.AddRange(RogueLiteManager.runData.Recipes);
-            temporaryRecipes.RemoveAll(recipe => permanentRecipes.Contains(recipe));
-
             if (RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
             {
                 m_ContinueButton.label = "Build a Weapon";
@@ -88,6 +94,42 @@ namespace RogueWave.UI
                 m_ContinueButton.label = "Continue to Loadout Builder";
                 m_ContinueButton.interactable = true;
             }
+        }
+
+        private void RemoveAllTemporaryRecipes(System.Predicate<IRecipe> match)
+        {
+            m_TemporaryRecipes.RemoveAll(match);
+            isTemporryRecipesDirty = true;
+        }
+
+        private void AddRangeOfTemporaryRecipes(List<IRecipe> recipes)
+        {
+            m_TemporaryRecipes.AddRange(recipes);
+            isTemporryRecipesDirty = true;
+        }
+
+        private void ClearTemporaryRecipes()
+        {
+            m_TemporaryRecipes.Clear();
+            isTemporryRecipesDirty = true;
+        }
+
+        internal static void RemoveTemporaryRecipe(IRecipe recipe)
+        {
+            m_TemporaryRecipes.Remove(recipe);
+            isTemporryRecipesDirty = true;
+        }
+
+        internal static void AddPermanentRecipe(IRecipe recipe)
+        {
+            m_PermanentRecipes.Add(recipe);
+            isPermanentRecipesDirty = true;
+        }
+
+        private static void clearPermanentRecipes()
+        {
+            m_PermanentRecipes.Clear();
+            isPermanentRecipesDirty = true;
         }
 
         public void QuitSelectionUI()

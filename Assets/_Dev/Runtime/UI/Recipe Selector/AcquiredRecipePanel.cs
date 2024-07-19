@@ -18,16 +18,7 @@ namespace RogueWave.UI
         [SerializeField, Tooltip("The kind of recipes to display.")]
         AcquisitionType acquisitionType;
 
-        internal bool isDirty = true;
-
-        int processedReciupes = 0;
-
-        private List<IRecipe> recipes = new List<IRecipe>();
-
-        private void OnEnable()
-        {
-            isDirty = true;
-        }
+        private IReadOnlyList<IRecipe> recipes = new List<IRecipe>();
 
         private void OnGUI()
         {
@@ -41,21 +32,22 @@ namespace RogueWave.UI
                     break;
             }
 
-            IEnumerable<IRecipe> recipesDistinct = recipes.Distinct();
-            if (isDirty || recipes.Count != transform.childCount)
+            if ((acquisitionType == AcquisitionType.Permanent && HubController.isPermanentRecipesDirty)
+                || (acquisitionType == AcquisitionType.Temporary && HubController.isTemporryRecipesDirty))
             {
                 for (int i = transform.childCount - 1; i >= 0; i--)
                 {
                     DestroyImmediate(transform.GetChild(i).gameObject);
                 }
 
+                IEnumerable<IRecipe> recipesDistinct = recipes.Distinct();
                 foreach (IRecipe recipe in recipesDistinct)
                 {
                     RecipeCard card = Instantiate(recipeCardPrototype, transform);
                     if (recipe.IsStackable)
                     {
-                        card.stackSize = HubController.permanentRecipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
-                        card.stackSize += HubController.temporaryRecipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
+                        card.stackSize = HubController.permanentRecipes.Count(r => r.UniqueID == recipe.UniqueID);
+                        card.stackSize += HubController.temporaryRecipes.Count(r => r.UniqueID == recipe.UniqueID);
                     }
                     switch (acquisitionType)
                     {
@@ -69,7 +61,13 @@ namespace RogueWave.UI
                     card.recipe = recipe;
                 }
 
-                isDirty = false;
+                if (acquisitionType == AcquisitionType.Permanent)
+                {
+                    HubController.isPermanentRecipesDirty = false;
+                } else
+                {
+                    HubController.isTemporryRecipesDirty = false;
+                }
             }
         }
     }

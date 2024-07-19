@@ -7,6 +7,7 @@ using NeoSaveGames.SceneManagement;
 using NaughtyAttributes;
 using System;
 using RogueWave;
+using System.Linq;
 
 namespace RogueWave.UI
 {
@@ -24,6 +25,7 @@ namespace RogueWave.UI
 
         HubController hubController;
         private List<IRecipe> offers = new List<IRecipe>();
+        private bool isDirty;
 
         private NanobotManager nanobotManager
         {
@@ -49,6 +51,7 @@ namespace RogueWave.UI
             }
 
             offers = RecipeManager.GetOffers(m_NumberOfOffers, weapons);
+            isDirty = true;
 
             if (FpsSoloCharacter.localPlayerCharacter == null)
             {
@@ -75,7 +78,7 @@ namespace RogueWave.UI
                 noOffersMessage.gameObject.SetActive(false);
             }
 
-            if (offers.Count != transform.childCount || hubController.isDirty)
+            if (isDirty)
             {
                 foreach (Transform child in transform)
                 {
@@ -89,8 +92,8 @@ namespace RogueWave.UI
 
                     if (recipe.IsStackable)
                     {
-                        card.stackSize = HubController.permanentRecipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
-                        card.stackSize += HubController.temporaryRecipes.FindAll(r => r.UniqueID == recipe.UniqueID).Count;
+                        card.stackSize = HubController.permanentRecipes.Count(r => r.UniqueID == recipe.UniqueID);
+                        card.stackSize += HubController.temporaryRecipes.Count(r => r.UniqueID == recipe.UniqueID);
                         card.stackSize++;
                     }
 
@@ -98,6 +101,8 @@ namespace RogueWave.UI
 
                     card.gameObject.SetActive(true);
                 }
+
+                isDirty = false;
             }
         }
 
@@ -110,11 +115,12 @@ namespace RogueWave.UI
             }
 
             RogueLiteManager.persistentData.Add(offer);
+            HubController.AddPermanentRecipe(offer);
             RogueLiteManager.persistentData.currentResources -= offer.BuyCost;
             RogueLiteManager.SaveProfile();
             
-            hubController.permanentPanel.isDirty = true;
             offers.RemoveAll(o => o == offer);
+            isDirty = true;
 
             GameLog.Info($"Bought {offer} in hub scene.");
         }

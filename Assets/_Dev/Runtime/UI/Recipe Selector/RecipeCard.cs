@@ -29,7 +29,6 @@ namespace RogueWave.UI
         internal MultiInputButton selectionButton;
 
         internal int stackSize = 1;
-        HubController hubController;
 
         IRecipe _recipe;
         internal IRecipe recipe
@@ -47,11 +46,6 @@ namespace RogueWave.UI
                     gameObject.SetActive(true);
                 }
             }
-        }
-
-        private void OnEnable()
-        {
-            hubController = GetComponentInParent<HubController>();
         }
 
         private void OnGUI()
@@ -132,14 +126,12 @@ namespace RogueWave.UI
         public void MakePermanent()
         {
             RogueLiteManager.runData.Remove(recipe);
-            HubController.temporaryRecipes.Remove(recipe);
+            HubController.RemoveTemporaryRecipe(recipe);
 
             RogueLiteManager.persistentData.Add(recipe);
-            HubController.permanentRecipes.Add(recipe);
+            HubController.AddPermanentRecipe(recipe);
 
             RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
-            hubController.permanentPanel.isDirty = true;
-            hubController.temporaryPanel.isDirty = true;
 
             GameLog.Info($"Made {recipe} permanent.");
         }
