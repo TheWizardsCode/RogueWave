@@ -20,11 +20,10 @@ MonoBehaviour:
   level: 7
   baseWeight: 0.6
   dependencies:
-  - {fileID: 11400000, guid: e3b996310a9e0fc429a0418a082ef552, type: 2}
+  - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
   complements: []
   baseBuyCost: 600
   isPowerUp: 1
-  isConsumable: 0
   cooldown: 10
   isStackable: 1
   maxStack: 10
@@ -42,6 +41,7 @@ MonoBehaviour:
   parameterName: m_Cooldown
   parameterModifier: 0
   parameterMultiplier: 0.9
+  repeatEvery: 0
   targetPrototype: {fileID: -8490178041935154496, guid: 23e8e9e0bcfac2449ac6732b3d7b1091, type: 3}
   isRangeModifier: 0
   rangeMultiplier: 1.1
