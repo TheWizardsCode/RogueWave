@@ -8,7 +8,6 @@ namespace RogueWave.Editor
     public class RecipeDataWindow : EditorWindow
     {
         private string filter;
-        private bool filterIsValid;
         Vector2 scrollPosition;
         private AbstractRecipe[] recipes;
         private bool recipeEdited;
@@ -59,7 +58,7 @@ namespace RogueWave.Editor
                     continue;
                 }
 
-                if (!string.IsNullOrEmpty(filter) && !recipe.name.ToLower().Contains(filter.ToLower()) && isValid == filterIsValid)
+                if (!string.IsNullOrEmpty(filter) && !recipe.name.ToLower().Contains(filter.ToLower()))
                 {
                     continue;
                 }
