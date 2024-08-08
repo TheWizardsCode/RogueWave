@@ -78,7 +78,7 @@ namespace RogueWave
             List<WeaponPickupRecipe> weaponCandidates = null;
             if (requiredWeaponCount > 0)
             {
-                weaponCandidates = GetOfferCandidates<WeaponPickupRecipe>();
+                weaponCandidates = GetOfferCandidates<WeaponPickupRecipe>(false);
 
                 // TODO: Use the weights to select the best weapon to offer
                 int idx = Random.Range(0, weaponCandidates.Count);
@@ -100,7 +100,7 @@ namespace RogueWave
                 }
             }
 
-            List<IRecipe> candidates = GetOfferCandidates<IRecipe>();
+            List<IRecipe> candidates = GetOfferCandidates<IRecipe>(true);
             if (weaponCandidates != null)
             {
                 candidates.RemoveAll(c => offers.Any(o => o.UniqueID == c.UniqueID));
@@ -132,8 +132,9 @@ namespace RogueWave
         /// <summary>
         /// Get a list of powerup recipes that can be offered to the player.
         /// </summary>
+        /// <param name="allowUnaffordable">If true, the player can be offered recipes that they cannot afford.</param>
         /// <returns>A list of possible offers. They have not yet been given weights.</returns>
-        private static List<T> GetOfferCandidates<T>() where T : IRecipe
+        private static List<T> GetOfferCandidates<T>(bool allowUnaffordable) where T : IRecipe
         {
             // TODO: cache the results of this search. Invalidate the cache when a new recipe is added to the NanobotManager.
 #if UNITY_EDITOR
@@ -147,7 +148,7 @@ namespace RogueWave
             foreach (IRecipe recipe in powerupRecipes.Values)
             {
 
-                if (RogueLiteManager.persistentData.currentResources < recipe.BuyCost)
+                if (!allowUnaffordable && RogueLiteManager.persistentData.currentResources < recipe.BuyCost)
                 {
 #if UNITY_EDITOR
                     //Debug.Log($"Skip: {recipe} is too expensive for the player at a cost of {recipe.BuyCost}.");
