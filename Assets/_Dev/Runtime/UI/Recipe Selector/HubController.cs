@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using NaughtyAttributes;
 using NeoFPS.Samples;
-using PlasticPipe.PlasticProtocol.Messages;
 using System.Collections.ObjectModel;
 
 namespace RogueWave.UI
