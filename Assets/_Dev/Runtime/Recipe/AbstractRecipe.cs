@@ -178,6 +178,14 @@ namespace RogueWave
                 float adjustedWeight = baseWeight;
 
                 int ownedComplements = 0;
+                foreach (IRecipe complement in dependencies)
+                {
+                    if (RogueLiteManager.runData.Contains(complement))
+                    {
+                        ownedComplements++;
+                    }
+                }
+
                 foreach (IRecipe complement in complements)
                 {
                     if (RogueLiteManager.runData.Contains(complement))
@@ -185,6 +193,7 @@ namespace RogueWave
                         ownedComplements++;
                     }
                 }
+
                 if (ownedComplements > 0)
                 {
                     adjustedWeight += ownedComplements * 0.05f;

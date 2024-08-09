@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45c9647589ddd646ab4be34481c3372, type: 3}
+  m_Name: Passive Fireball Range +10%
+  m_EditorClassIdentifier: 
+  displayName: Fireball Range Increase
+  announcerVoicelineForName: Increase Fireball Range
+  description: Increase the Fireball range by 10%.
+  heroImage: {fileID: 21300000, guid: 6802b298aa5269d41acb69b1d0fb3488, type: 3}
+  icon: {fileID: 21300000, guid: f00fbfe778314074f99ddccd1d6319a1, type: 3}
+  level: 3
+  baseWeight: 0.7
+  dependencies:
+  - {fileID: 11400000, guid: e3b996310a9e0fc429a0418a082ef552, type: 2}
+  complements: []
+  baseBuyCost: 750
+  isPowerUp: 1
+  cooldown: 10
+  isStackable: 1
+  maxStack: 10
+  buildCost: 60
+  timeToBuild: 5
+  nameClips:
+  - {fileID: 8300000, guid: d0ec24523c576b941b0647a4afcbb75e, type: 3}
+  - {fileID: 8300000, guid: d2f9a4360f089414c9db970ce5e58be3, type: 3}
+  - {fileID: 8300000, guid: a21355af1cfc70f4393638b6ba7392a6, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 6c5818b6-c6d6-4502-bf2c-5483b8fe478a
+  isNamedParameterModifier: 0
+  parameterName: m_Cooldown
+  parameterModifier: 0
+  parameterMultiplier: 0.9
+  repeatEvery: 0
+  targetPrototype: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
+  isRangeModifier: 1
+  rangeMultiplier: 1.1
+  isDamageModifier: 0
+  damageMultiplier: 1.1
