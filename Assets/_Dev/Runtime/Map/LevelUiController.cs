@@ -6,7 +6,6 @@ using UnityEngine.UI;
 
 namespace RogueWave
 {
-    [ExecuteAlways]
     public class LevelUiController : MonoBehaviour
     {
         [SerializeField, Tooltip("The image element for the enemies icon of the level.")]
