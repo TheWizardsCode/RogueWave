@@ -13,8 +13,6 @@ namespace RogueWave
         [SerializeField, Tooltip("The campaign definition to use for the map."), Expandable]
         private CampaignDefinition campaignDefinition;
 
-        [SerializeField, Tooltip("Seed for Random Number Generator. Set to 0 for a random seed.")]
-        private int seed = 0;
         [SerializeField, Tooltip("The number of columns in the map.")]
         private int numOfColumns = 8;
         [SerializeField, Tooltip("The number of rows in the map.")]
@@ -36,15 +34,6 @@ namespace RogueWave
         [Button]
         private void GenerateMap()
         {
-            // Set the seed for the random number generator
-            int mapSeed = seed;
-            if (mapSeed == 0)
-            {
-                mapSeed = Random.Range(0, 1000000);
-            }
-            Random.InitState(mapSeed);
-            Debug.Log("Generating map with seed: " + mapSeed);  
-
             // remove all children of the parent object
             for (int i = parent.childCount - 1; i >= 0; i--)
             {
