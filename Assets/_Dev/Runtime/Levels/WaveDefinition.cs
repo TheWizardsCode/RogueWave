@@ -37,6 +37,27 @@ namespace RogueWave
         public float WaveDuration => waveDuration;
         public SpawnOrder Order => spawnOrder;
 
+        /// <summary>
+        /// Get the Challenge Rating for this level. The higher this value
+        /// the harder the wave will be to complete.
+        /// </summary>
+        public int CR { 
+            get
+            {
+                int cr = 0;
+                foreach (EnemySpawnConfiguration spawnConfig in enemies)
+                {
+                    BasicEnemyController enemy = spawnConfig.pooledEnemyPrefab.GetComponent<BasicEnemyController>();
+                    cr += enemy.challengeRating;
+                }
+                cr /= enemies.Length;
+
+                cr *= Mathf.RoundToInt(numberToSpawn * (waveDuration / spawnEventFrequency));
+
+                return cr;
+            } 
+        }
+
         private int currentEnemyIndex = 0;
         private WeightedRandom<EnemySpawnConfiguration> weightedEnemies;
 

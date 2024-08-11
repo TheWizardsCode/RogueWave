@@ -1,7 +1,9 @@
+using log4net.Util;
 using NaughtyAttributes;
 using NeoFPS;
 using System;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -54,6 +56,53 @@ namespace RogueWave
         internal AudioClip[] levelCompleteAudioClips = new AudioClip[0];
         [SerializeField, Tooltip("The audio to play when the level is failed. This might include a Nanobot announcement about the level, for example.")]
         internal AudioClip[] deathAudioClips = new AudioClip[0];
+
+        public string DisplayName => name;
+
+        /// <summary>
+        /// Get the Challenge Rating for this level. The higher this value the more difficult the level will be to complete.
+        /// </summary>
+        public int challengeRating
+        {
+            get
+            {
+                int cr = 0;
+                foreach (var wave in waves)
+                {
+                    cr += wave.CR;
+                }
+
+                return cr;
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+
+                sb.AppendLine($"{DisplayName} - Challenge Rating of {challengeRating}\n");
+
+                StringBuilder contains = new StringBuilder();
+                foreach (TileDefinition tile in prePlacedTiles)
+                {
+                    if (tile.icon == null)
+                    {
+                        continue;
+                    }
+                    contains.AppendLine($"\t{tile.name}");
+                }
+
+                if (contains.Length > 0)
+                {
+                    sb.AppendLine("Contains:");
+                    sb.Append(contains.ToString());
+                }
+
+                return sb.ToString();
+            }
+        }
 
         public WaveDefinition[] Waves => waves;
 

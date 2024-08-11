@@ -51,6 +51,11 @@ namespace RogueWave
         [SerializeField, Tooltip("The constraints that define neighbours to the x negative edge.")]
         internal List<TileNeighbour> zNegativeConstraints = new List<TileNeighbour>();
 
+
+        [Header("UI")]
+        [SerializeField, Tooltip("The sprite to use when representing this tile, or a level containing this tile, in the UI.")]
+        internal Sprite icon;
+
         internal BaseTile GetTileObject(Transform root)
         {
             GameObject go = Instantiate(tilePrefab.gameObject, root);
