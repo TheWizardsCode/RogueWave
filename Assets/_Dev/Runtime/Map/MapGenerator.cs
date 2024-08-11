@@ -24,7 +24,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The prefab to use for the level elements in the UI.")]
         private LevelUiController levelElementProtoytpe;
 
-        void Start()
+        void Awake()
         {
             GenerateMap();
         }
