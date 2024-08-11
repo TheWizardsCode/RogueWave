@@ -23,8 +23,6 @@ namespace RogueWave
         [Header("UI Elements")]
         [SerializeField, Tooltip("The prefab to use for the level elements in the UI.")]
         private LevelUiController levelElementProtoytpe;
-        [SerializeField, Tooltip("The UI element to display the selected level details.")]
-        TMP_Text descriptionText;
 
         void Start()
         {
@@ -53,7 +51,7 @@ namespace RogueWave
             {
                 columnIndex++;
                 LevelUiController levelElement = Instantiate(levelElementProtoytpe, parent);
-                levelElement.Init(levelDefinition, descriptionText);
+                levelElement.Init(levelDefinition);
                 levelElement.name = levelDefinition.DisplayName;
             }
         }

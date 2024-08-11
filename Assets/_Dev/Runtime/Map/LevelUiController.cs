@@ -8,6 +8,10 @@ namespace RogueWave
 {
     public class LevelUiController : MonoBehaviour
     {
+        [SerializeField, Tooltip("The text element to display the level description.")]
+        TMP_Text descriptionText;
+        [SerializeField, Tooltip("The button to launch into the selected level.")]
+        Button launchButton;
         [SerializeField, Tooltip("The image element for the enemies icon of the level.")]
         Image iconPrototype;
         [SerializeField, Tooltip("The sprite to use for a level with a low Challenge Rating.")]
@@ -16,12 +20,12 @@ namespace RogueWave
         Sprite highCRSprite;
 
         WfcDefinition levelDefinition;
-        TMP_Text descriptionText;
 
-        public void Init(WfcDefinition definition, TMP_Text descriptionText)
+        public void Init(WfcDefinition definition)
         {
+            gameObject.SetActive(true);
             this.levelDefinition = definition;
-            this.descriptionText = descriptionText;
+            launchButton.gameObject.SetActive(false);
 
             iconPrototype.name = "Enemy Icon";
             if (levelDefinition.challengeRating < 100)
@@ -51,6 +55,8 @@ namespace RogueWave
             {
                 descriptionText.text = levelDefinition.Description;
             }
+
+            launchButton.gameObject.SetActive(true);
         }
     }
 }

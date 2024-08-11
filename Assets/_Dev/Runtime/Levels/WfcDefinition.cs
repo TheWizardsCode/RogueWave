@@ -82,7 +82,9 @@ namespace RogueWave
             {
                 StringBuilder sb = new StringBuilder();
 
-                sb.AppendLine($"{DisplayName} - Challenge Rating of {challengeRating}\n");
+                sb.AppendLine(DisplayName);
+                sb.AppendLine($"Challenge Rating of {challengeRating}");
+                sb.AppendLine();
 
                 StringBuilder contains = new StringBuilder();
                 foreach (TileDefinition tile in prePlacedTiles)
