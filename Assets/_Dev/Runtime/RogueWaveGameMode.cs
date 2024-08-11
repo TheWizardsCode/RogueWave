@@ -491,7 +491,6 @@ namespace RogueWave
                 RogueLiteManager.ResetRunData();
                 character.onIsAliveChanged -= OnCharacterIsAliveChanged;
 
-
                 m_DeathCount.Increment();
             }
         }
