@@ -19,7 +19,10 @@ namespace RogueWave
         [SerializeField, Tooltip("The sprite to use for a level with a medium Challenge Rating.")]
         Sprite highCRSprite;
 
-        WfcDefinition levelDefinition;
+        // An event that will be fired when the level is clicked on.
+        public event System.Action<LevelUiController> OnLevelClicked;
+
+        internal WfcDefinition levelDefinition;
 
         public void Init(WfcDefinition definition)
         {
@@ -57,6 +60,8 @@ namespace RogueWave
             }
 
             launchButton.gameObject.SetActive(true);
+
+            OnLevelClicked?.Invoke(this);
         }
     }
 }

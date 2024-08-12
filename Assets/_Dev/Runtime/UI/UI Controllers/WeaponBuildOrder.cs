@@ -1,14 +1,12 @@
 using NeoFPS;
-using NeoFPS.SinglePlayer;
-using UnityEngine;
+using RogueWave;
 using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
-using System;
 
-namespace RogueWave
+namespace WizardsCode.RogueWave.UI
 {
-    [Obsolete("This was used as part of the `RW_PreSpawnPopup` UI in an earlier version. It has been replaced by the `LevelManu` prefab at this point. We can probably get rid of this code now. (StO Aug 11th 2024))")]
-    public class BuildOrderTab : InstantSwitchTabBase
+    public class WeaponBuildOrder : MonoBehaviour
     {
         [SerializeField, RequiredObjectProperty, Tooltip("The entire sortable list.")]
         private RectTransform sortableList = null;
@@ -17,11 +15,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The UI element to use to represent a weapon not in the build order list. This will be cloned for each weapon.")]
         RectTransform doNotBuildPrefab;
 
-        public override string tabName => "Build Order";
-
         private List<BuildElement> builds = new List<BuildElement>();
 
-        void OnEnable()
+        void Start()
         {
             ConfigureUI();
         }
@@ -29,7 +25,7 @@ namespace RogueWave
         private void ConfigureUI()
         {
             builds.Clear();
-            foreach(RectTransform child in sortableList)
+            foreach (RectTransform child in sortableList)
             {
                 Destroy(child.gameObject);
             }
@@ -61,7 +57,7 @@ namespace RogueWave
         }
 
         BuildElement InstantiateBuildElement(IRecipe recipe, int index)
-        {   
+        {
             return InstantiateElement(recipe, index, buildPrefab);
         }
 
@@ -177,7 +173,6 @@ namespace RogueWave
             ConfigureUI();
         }
     }
-
     class BuildElement
     {
         public IRecipe weaponPickupRecipe { get; set; }

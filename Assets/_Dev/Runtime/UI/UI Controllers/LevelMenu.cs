@@ -1,15 +1,21 @@
-using UnityEngine;
 using NaughtyAttributes;
-using Unity.VisualScripting;
-using System.Collections.Generic;
-using TMPro;
+using NeoFPS;
+using NeoFPS.SinglePlayer;
 using RogueWave;
+using System;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-namespace RogueWave
+namespace WizardsCode.RogueWave
 {
-    public class MapGenerator : MonoBehaviour
+    public class LevelMenu : PreSpawnPopupBase, IPointerClickHandler
     {
+        [SerializeField, RequiredObjectProperty, Tooltip("The button that's used to spawn the character")]
+        private Button m_SpawnButton = null;
+
+        [Header("Level Map")]
         [SerializeField, Tooltip("The campaign definition to use for the map."), Expandable]
         private CampaignDefinition campaignDefinition;
 
@@ -19,14 +25,45 @@ namespace RogueWave
         private int numOfRows = 4;
         [SerializeField, Tooltip("The parent object to hold the map.")]
         private RectTransform parent;
-
-        [Header("UI Elements")]
         [SerializeField, Tooltip("The prefab to use for the level elements in the UI.")]
         private LevelUiController levelElementProtoytpe;
+
+        public override Selectable startingSelection
+        {
+            get { return m_SpawnButton; }
+        }
 
         void Awake()
         {
             GenerateMap();
+        }
+
+        private void OnEnable()
+        {
+            NeoFpsInputManager.captureMouseCursor = false;
+        }
+
+        private void OnDisable()
+        {
+            NeoFpsInputManager.captureMouseCursor = true;
+        }
+
+        public override void Initialise(FpsSoloGameCustomisable g, UnityAction onComplete)
+        {
+            base.Initialise(g, onComplete);
+
+            m_SpawnButton.onClick.AddListener(GenerateLevelAndSpawn);
+        }
+
+        private void GenerateLevelAndSpawn()
+        {
+            ((RogueWaveGameMode)gameMode).GenerateLevel();
+            Spawn();
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            // Empty to prevent clicks falling through and cancelling the popup
         }
 
         [Button]
@@ -53,7 +90,13 @@ namespace RogueWave
                 LevelUiController levelElement = Instantiate(levelElementProtoytpe, parent);
                 levelElement.Init(levelDefinition);
                 levelElement.name = levelDefinition.DisplayName;
+                levelElement.OnLevelClicked += OnLevelClicked;
             }
+        }
+
+        private void OnLevelClicked(LevelUiController controller)
+        {
+            RogueLiteManager.persistentData.currentGameLevel = Array.IndexOf(campaignDefinition.levels, controller.levelDefinition);
         }
     }
 }

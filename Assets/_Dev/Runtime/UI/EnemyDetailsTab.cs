@@ -1,5 +1,6 @@
 using NeoFPS;
 using NeoFPS.SinglePlayer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 
 namespace RogueWave
 {
+    [Obsolete("This was used as part of the `RW_PreSpawnPopup` UI in an earlier version. It has been replaced by the `LevelManu` prefab at this point. We can probably get rid of this code now. (StO Aug 11th 2024))")]
     public class EnemyDetailsTab : InstantSwitchTabBase
     {
         [SerializeField, RequiredObjectProperty, Tooltip("The list of enemies in this level.")]
