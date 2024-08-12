@@ -20,6 +20,8 @@ namespace RogueWave
         private TMPro.TMP_Text m_GameLevelNumberText = null;
         [SerializeField, Tooltip("The text readout for the current players Nanobot level number.")]
         private TMPro.TMP_Text m_NanobotLevelNumberText = null;
+        [SerializeField, Tooltip("The panel that contains the level status information.")]
+        private RectTransform m_LevelStatusPanel = null;
 
         private NanobotManager nanobotManager = null;
 
@@ -36,6 +38,8 @@ namespace RogueWave
             {
                 m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
             }
+
+            m_LevelStatusPanel.gameObject.SetActive(false);
         }
 
         internal void UpdateSpawnerCount(int count)
@@ -67,6 +71,10 @@ namespace RogueWave
             if (nanobotManager != null)
             {
                 nanobotManager.onResourcesChanged -= OnResourcesChanged;
+                m_LevelStatusPanel.gameObject.SetActive(true);
+            } else
+            {
+                m_LevelStatusPanel.gameObject.SetActive(false);
             }
 
             if (character as Component != null)
