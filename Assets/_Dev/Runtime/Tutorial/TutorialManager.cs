@@ -32,7 +32,7 @@ namespace RogueWave.Tutorial
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
             {
                 sceneLoadCounts[i] = PlayerPrefs.GetInt(SCENE_PROGRESS_KEY_PREFIX + i.ToString(), 0);
-                Debug.LogError($"Scene Load Count for SceneIndex {i} is {sceneLoadCounts[i]}");
+                // Debug.LogError($"Scene Load Count for SceneIndex {i} is {sceneLoadCounts[i]}");
             }
 
             tutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");

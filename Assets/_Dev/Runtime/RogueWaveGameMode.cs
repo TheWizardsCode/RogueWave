@@ -15,12 +15,17 @@ using System.Text;
 using Random = UnityEngine.Random;
 using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
-using WizardsCode.Common;
+using NeoFPS.Samples;
+using WizardsCode.RogueWave;
 
 namespace RogueWave
 {
     public class RogueWaveGameMode : FpsSoloGameCustomisable, ISpawnZoneSelector, ILoadoutBuilder
     {
+        [Header("Pre-Spawn UI")]
+        [SerializeField, Tooltip("The pre-spawn popup prefab to use.")]
+        private LevelMenu m_PreSpawnUI = null;
+
         [Header("Victory")]
         [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
         float m_VictoryDuration = 5f;
@@ -63,6 +68,17 @@ namespace RogueWave
         [SerializeField, Tooltip("Turn on debug mode for this Game Mode")]
         private bool showDebug = false;
 #endif
+
+        public override bool spawnOnStart
+        {
+            get { return true; }
+            set { }
+        }
+
+        public virtual bool showPrespawnUI
+        {
+            get { return m_PreSpawnUI != null; }
+        }
 
         private AIDirector m_aiDirector;
         private AIDirector aiDirector
@@ -588,7 +604,8 @@ namespace RogueWave
             // If the character died then the weapon build order may have weapons that were in the rundata and need to be removed.
             for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0; i--)
             {
-                if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[i], out IRecipe weapon)) {
+                if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[i], out IRecipe weapon))
+                {
                     if (!RogueLiteManager.persistentData.Contains(weapon))
                     {
                         RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(i);
@@ -610,16 +627,6 @@ namespace RogueWave
                 }
             }
 
-            if (currentLevelDefinition.generateLevelOnSpawn)
-            {
-                levelGenerator.Generate(currentLevelDefinition, campaign.seed);
-            }
-
-            if (currentLevelDefinition.levelReadyAudioClips != null && currentLevelDefinition.levelReadyAudioClips.Length > 0)
-            {
-                NeoFpsAudioManager.PlayEffectAudioAtPosition(currentLevelDefinition.levelReadyAudioClips[Random.Range(0, currentLevelDefinition.levelReadyAudioClips.Length)], Camera.main.transform.position);
-            }
-
             for (int i = 0; i < _startingRecipesPermanent.Length; i++)
             {
                 RogueLiteManager.persistentData.Add(_startingRecipesPermanent[i]);
@@ -631,9 +638,31 @@ namespace RogueWave
             }
 
             bool result = true;
-            result = base.PreSpawnStep();
 
-            return result;
+            if (showPrespawnUI)
+            {
+                var ui = PrefabPopupContainer.ShowPrefabPopup(m_PreSpawnUI);
+                ui.Initialise(this, SpawnPlayerCharacter);
+
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        internal void GenerateLevel()
+        {
+            if (currentLevelDefinition.generateLevelOnSpawn)
+            {
+                levelGenerator.Generate(currentLevelDefinition, campaign.seed);
+            }
+
+            if (currentLevelDefinition.levelReadyAudioClips != null && currentLevelDefinition.levelReadyAudioClips.Length > 0)
+            {
+                NeoFpsAudioManager.PlayEffectAudioAtPosition(currentLevelDefinition.levelReadyAudioClips[Random.Range(0, currentLevelDefinition.levelReadyAudioClips.Length)], Camera.main.transform.position);
+            }
         }
 
         internal void RegisterPortal(PortalController portal)
