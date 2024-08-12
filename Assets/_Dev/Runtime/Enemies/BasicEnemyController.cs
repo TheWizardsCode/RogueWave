@@ -6,6 +6,8 @@ using UnityEngine;
 using UnityEngine.Events;
 using RogueWave.GameStats;
 using Random = UnityEngine.Random;
+using UnityEngine.Serialization;
+using System.Text;
 
 namespace RogueWave
 {
@@ -15,8 +17,14 @@ namespace RogueWave
 
         [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
         public string displayName = "TBD";
-        [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI.")]
-        public string description = "TBD";
+        [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI."), FormerlySerializedAs("description")]
+        private string m_description = "TBD";
+        [SerializeField, Tooltip("The strengths of this enemy as displayed in the UI.")]
+        private string strengths = string.Empty;
+        [SerializeField, Tooltip("The weaknesses of this enemy as displayed in the UI.")]
+        private string weaknesses = string.Empty;
+        [SerializeField, Tooltip("The attacks of this enemy as displayed in the UI.")]
+        private string attacks = string.Empty;
         [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat.")]
         internal int challengeRating = 1;
 
@@ -110,6 +118,32 @@ namespace RogueWave
         private float sqrSeekDistance;
 
         internal BasicMovementController movementController;
+
+        public string description { 
+            get {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine(m_description);
+                if (!string.IsNullOrEmpty(strengths))
+                {
+                    sb.AppendLine();
+                    sb.Append("Strengths: ");
+                    sb.AppendLine(strengths);
+                }
+                if (!string.IsNullOrEmpty(weaknesses))
+                {
+                    sb.AppendLine();
+                    sb.Append("Weaknesses: ");
+                    sb.AppendLine(weaknesses);
+                }
+                if (!string.IsNullOrEmpty(attacks))
+                {
+                    sb.AppendLine();
+                    sb.Append("Attacks: ");
+                    sb.AppendLine(attacks);
+                }
+                return sb.ToString(); 
+            } 
+        }
 
         Transform _target;
         internal Transform Target

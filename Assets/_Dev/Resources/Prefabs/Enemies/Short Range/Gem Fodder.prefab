@@ -84,7 +84,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Gem
-  description: Moves slowly towards the enemy in a direct line and attacks on contact.
+  m_description: Slow moving and weak, more of a nuisance than a threat.
+  strengths: 
+  weaknesses: Weak to almost everything.
+  attacks: Attacks on contact.
   challengeRating: 1
   requireLineOfSight: 1
   viewDistance: 40
@@ -106,6 +109,7 @@ MonoBehaviour:
   spawnOnDamagePrototypes: []
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
+  registerWithAIDirector: 1
   squadRole: 1
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 1
