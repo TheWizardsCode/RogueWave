@@ -21,7 +21,7 @@ namespace RogueWave
         {
             get
             {
-                return $"Damage * {multiplier}";
+                return $"{ammoType.printableName} Damage * {multiplier}";
             }
         }
 

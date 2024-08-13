@@ -25,9 +25,9 @@ namespace RogueWave
                 summary = $"{Category} {itemPickup.stepCount}";
 
 #if UNITY_EDITOR
-                DestroyImmediate(itemPickup);
+                DestroyImmediate(itemPickup.gameObject);
 #else
-                Destroy(itemPickup);
+                Destroy(itemPickup.gameObject);
 #endif
 
                 return summary;

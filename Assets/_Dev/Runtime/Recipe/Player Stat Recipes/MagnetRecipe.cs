@@ -32,7 +32,7 @@ namespace RogueWave
                     summary.AppendLine($"Magnet strength * {strengthMultiplier}");
                 }
 
-                return summary.ToString();
+                return summary.ToString().Trim();
             }
         }
 

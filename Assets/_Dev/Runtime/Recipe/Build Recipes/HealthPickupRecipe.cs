@@ -31,9 +31,9 @@ namespace RogueWave
                 }
 
 #if UNITY_EDITOR
-                DestroyImmediate(healthPickup);
+                DestroyImmediate(healthPickup.gameObject);
 #else
-                Destroy(healthPickup);
+                Destroy(healthPickup.gameObject);
 #endif
 
                 return summary;

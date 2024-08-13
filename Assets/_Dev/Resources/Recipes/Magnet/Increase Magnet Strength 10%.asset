@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37f6071601ab374598107c58717e013, type: 3}
   m_Name: Increase Magnet Strength 10%
   m_EditorClassIdentifier: 
-  displayName: Increase Magnet Strength (10%)
-  announcerVoicelineForName: Increase Magnet Strength, 10%.
+  displayName: Attraction Enhancer
+  announcerVoicelineForName: Attraction Enhancer
   description: Increase the strength of the magnet by 10%. This will result in items
     coming to you more quickly.
   heroImage: {fileID: 21300000, guid: 3f27d5629da54d44c9f4d7618a638706, type: 3}
@@ -24,7 +24,6 @@ MonoBehaviour:
   complements: []
   baseBuyCost: 200
   isPowerUp: 1
-  isConsumable: 0
   cooldown: 10
   isStackable: 1
   maxStack: 10
@@ -47,5 +46,11 @@ MonoBehaviour:
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
   uniqueID: f475b69c-bca6-41b9-b509-053d516b6288
+  isNamedParameterModifier: 0
+  parameterName: 
+  parameterModifier: 1
+  parameterMultiplier: 1.1
+  repeatEvery: 0
+  targetPrototype: {fileID: 0}
   rangeMultiplier: 1
   strengthMultiplier: 1.1

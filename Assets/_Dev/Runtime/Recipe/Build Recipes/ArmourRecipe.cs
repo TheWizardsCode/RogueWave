@@ -27,11 +27,11 @@ namespace RogueWave
                 summary = $"{Category} {item.quantity}";
 
 #if UNITY_EDITOR
-                DestroyImmediate(itemPickup);
-                DestroyImmediate(item);
+                DestroyImmediate(itemPickup.gameObject);
+                DestroyImmediate(item.gameObject);
 #else
-                Destroy(itemPickup);
-                Destroy(item);
+                Destroy(itemPickup.gameObject);
+                Destroy(item.gameObject);
 #endif
 
                 return summary;

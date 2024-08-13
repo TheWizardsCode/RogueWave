@@ -73,8 +73,8 @@ namespace RogueWave.Editor
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Lvl", GUILayout.Width(20));
-            EditorGUILayout.LabelField("Display name", GUILayout.Width(100));
-            EditorGUILayout.LabelField("Display name", GUILayout.Width(300));
+            EditorGUILayout.LabelField("Category", GUILayout.Width(100));
+            EditorGUILayout.LabelField("Display name", GUILayout.Width(400));
             EditorGUILayout.LabelField(new GUIContent("Cost", "Base buy cost of the recipe"), GUILayout.Width(40));
             EditorGUILayout.LabelField(new GUIContent("Wght", "Base weight of the recipe"), GUILayout.Width(30));
             EditorGUILayout.LabelField(new GUIContent("BT", "Build time for this recipe."), GUILayout.Width(30));
@@ -104,7 +104,13 @@ namespace RogueWave.Editor
 
                 recipe.Level = EditorGUILayout.IntField(recipe.Level, GUILayout.Width(20));
                 EditorGUILayout.LabelField(recipe.Category, GUILayout.Width(100));
-                if (GUILayout.Button(new GUIContent(recipe.DisplayName, $"{recipe.Description}\n\n{recipe.TechnicalSummary}\n\n{statusMsg}"), GUILayout.Width(300)))
+                string displayName = $"{recipe.DisplayName}";
+                if (recipe.TechnicalSummary != string.Empty) {
+                    displayName += $" <color=#A9A9A9>({recipe.TechnicalSummary}</color>";
+                }
+
+                GUIStyle richTextStyle = new GUIStyle(GUI.skin.button) { richText = true };
+                if (GUILayout.Button(new GUIContent(displayName, $"{recipe.Description}\n\n{statusMsg}"), richTextStyle, GUILayout.Width(400)))
                 {
                     EditorGUIUtility.PingObject(recipe);
                     Selection.activeObject = recipe;

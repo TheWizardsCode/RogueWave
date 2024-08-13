@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b37f6071601ab374598107c58717e013, type: 3}
   m_Name: Increase Magnet Range 10%
   m_EditorClassIdentifier: 
-  displayName: Increase Magnet Range (10%)
-  announcerVoicelineForName: Increase Magnet Range, 10%.
+  displayName: Attraction Amplifier
+  announcerVoicelineForName: Attraction Amplifier
   description: Increase the range of the magnet by 10%.
   heroImage: {fileID: 21300000, guid: 9ddae7b1c6adc5543bac77bfc03be9a4, type: 3}
   icon: {fileID: 21300000, guid: 14dca54b2eb5bb342a298b4f496c1272, type: 3}
@@ -23,7 +23,6 @@ MonoBehaviour:
   complements: []
   baseBuyCost: 300
   isPowerUp: 1
-  isConsumable: 0
   cooldown: 10
   isStackable: 1
   maxStack: 10
@@ -46,5 +45,11 @@ MonoBehaviour:
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
   uniqueID: 0ec465b2-4bb8-4836-b586-5d39c7a1bd45
+  isNamedParameterModifier: 0
+  parameterName: 
+  parameterModifier: 1
+  parameterMultiplier: 1.1
+  repeatEvery: 0
+  targetPrototype: {fileID: 0}
   rangeMultiplier: 1.1
   strengthMultiplier: 1

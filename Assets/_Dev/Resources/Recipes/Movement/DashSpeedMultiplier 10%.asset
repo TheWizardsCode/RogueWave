@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca6596388ba2ec4c894740aca5af5ab, type: 3}
   m_Name: DashSpeedMultiplier 10%
   m_EditorClassIdentifier: 
-  displayName: Increase Dash Speed 10%
-  announcerVoicelineForName: Increase Dash Speed, 10%.
+  displayName: Dash Boost
+  announcerVoicelineForName: Dash Boost
   description: Increase the base Dash Speed by, 10%.
   heroImage: {fileID: 21300000, guid: fbfa2ae543c119840bd300bbb6ad9f28, type: 3}
   icon: {fileID: 21300000, guid: 86abb6d71b6388c4a932e5409e2d49af, type: 3}
@@ -53,6 +53,6 @@ MonoBehaviour:
   repeatEvery: 0
   targetPrototype: {fileID: 0}
   statName: dashSpeed
-  additionalMultiplier: 0.1
+  additionalMultiplier: 1.1
   additionalPreMultiplyAdd: 0
   additionalPostMultiplyAdd: 0

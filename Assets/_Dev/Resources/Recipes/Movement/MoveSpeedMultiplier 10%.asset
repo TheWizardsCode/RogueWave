@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca6596388ba2ec4c894740aca5af5ab, type: 3}
   m_Name: MoveSpeedMultiplier 10%
   m_EditorClassIdentifier: 
-  displayName: Increase Move Speed 10%
-  announcerVoicelineForName: Increase Move Speed, 10%.
+  displayName: Quick Step
+  announcerVoicelineForName: Quick Step
   description: Increase all your movement speeds  by 10%.
   heroImage: {fileID: 21300000, guid: 9ef4a25274892044f9d080d8158aba04, type: 3}
   icon: {fileID: 21300000, guid: 00a3a687b71b9a24d9d37dd0a1506b30, type: 3}
@@ -24,7 +24,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a783ac2fff4fc1a4eab90aecf9e305a1, type: 2}
   baseBuyCost: 500
   isPowerUp: 1
-  isConsumable: 0
   cooldown: 60
   isStackable: 1
   maxStack: 20
@@ -47,6 +46,12 @@ MonoBehaviour:
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
   uniqueID: 91976d3c-305b-4f62-8175-038efe5b8360
+  isNamedParameterModifier: 0
+  parameterName: 
+  parameterModifier: 1
+  parameterMultiplier: 1.1
+  repeatEvery: 0
+  targetPrototype: {fileID: 0}
   statName: moveSpeed
   additionalMultiplier: 0.1
   additionalPreMultiplyAdd: 0

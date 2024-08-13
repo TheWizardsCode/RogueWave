@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bca6596388ba2ec4c894740aca5af5ab, type: 3}
   m_Name: MaxJumpHeightMultiplier 10%
   m_EditorClassIdentifier: 
-  displayName: Increase Max Jump 10%
-  announcerVoicelineForName: Increase Max Jump, 10%.
+  displayName: Skyward Surge
+  announcerVoicelineForName: Skyward Surge
   description: Boost your base jump by 10%
   heroImage: {fileID: 21300000, guid: 748c06582b01cfd44aef6a46cf98d556, type: 3}
   icon: {fileID: 21300000, guid: ca41a1ba0cc90194997ab7012e2b072c, type: 3}
@@ -24,7 +24,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f74a6743cf4d9e45b231c97899f5d7a, type: 2}
   baseBuyCost: 250
   isPowerUp: 1
-  isConsumable: 0
   cooldown: 45
   isStackable: 1
   maxStack: 10
@@ -47,6 +46,12 @@ MonoBehaviour:
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
   uniqueID: 85bd8d16-2c30-4cf7-8563-01f2a4e7f7bf
+  isNamedParameterModifier: 0
+  parameterName: 
+  parameterModifier: 1
+  parameterMultiplier: 1.1
+  repeatEvery: 0
+  targetPrototype: {fileID: 0}
   statName: maxJumpHeight
   additionalMultiplier: 0.1
   additionalPreMultiplyAdd: 0

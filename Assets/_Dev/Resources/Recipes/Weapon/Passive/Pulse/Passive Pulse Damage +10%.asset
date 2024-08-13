@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45c9647589ddd646ab4be34481c3372, type: 3}
   m_Name: Passive Pulse Damage +10%
   m_EditorClassIdentifier: 
-  displayName: Pulse Wave Damage (10%)
-  announcerVoicelineForName: Increase Damage, Pulse Weapon, 10%
+  displayName: Pulse Power Surge
+  announcerVoicelineForName: Pulse Power Surge
   description: Increase the passive pulse weapons damage by 10%.
   heroImage: {fileID: 21300000, guid: 10d305d400e030040ae1020520cc7af5, type: 3}
   icon: {fileID: 21300000, guid: 1daf48e6fc7ccae45bb6709a8c1ea5a0, type: 3}
@@ -24,7 +24,6 @@ MonoBehaviour:
   complements: []
   baseBuyCost: 750
   isPowerUp: 1
-  isConsumable: 0
   cooldown: 30
   isStackable: 1
   maxStack: 10
@@ -51,6 +50,7 @@ MonoBehaviour:
   parameterName: 
   parameterModifier: 1
   parameterMultiplier: 1
+  repeatEvery: 0
   targetPrototype: {fileID: -8490178041935154496, guid: 23e8e9e0bcfac2449ac6732b3d7b1091, type: 3}
   isRangeModifier: 0
   rangeMultiplier: 1

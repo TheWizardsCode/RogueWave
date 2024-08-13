@@ -27,13 +27,13 @@ namespace RogueWave
             {
                 if (base.TechnicalSummary != string.Empty)
                 {
-                    return base.TechnicalSummary;
+                    return $"{targetPrototype.name} {base.TechnicalSummary}";
                 } else if (isRangeModifier)
                 {
-                    return $"Range * {rangeMultiplier}";
+                    return $"{targetPrototype.name} Range * {rangeMultiplier}";
                 } else if (isDamageModifier)
                 {
-                    return $"Damage * {damageMultiplier}";
+                    return $"{targetPrototype.name} Damage * {damageMultiplier}";
                 }
 
                 return string.Empty;

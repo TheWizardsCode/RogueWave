@@ -11,9 +11,9 @@ namespace WizardsCode.RogueWave.UI
         [SerializeField, RequiredObjectProperty, Tooltip("The entire sortable list.")]
         private RectTransform sortableList = null;
         [SerializeField, Tooltip("The UI element to use to represent a weapon in the build order list. This will be cloned for each weapon.")]
-        RectTransform buildPrefab;
+        RectTransform buildItemPrototype;
         [SerializeField, Tooltip("The UI element to use to represent a weapon not in the build order list. This will be cloned for each weapon.")]
-        RectTransform doNotBuildPrefab;
+        RectTransform doNotBuildItemPrototype;
 
         private List<BuildElement> builds = new List<BuildElement>();
 
@@ -58,12 +58,12 @@ namespace WizardsCode.RogueWave.UI
 
         BuildElement InstantiateBuildElement(IRecipe recipe, int index)
         {
-            return InstantiateElement(recipe, index, buildPrefab);
+            return InstantiateElement(recipe, index, buildItemPrototype);
         }
 
         BuildElement InstantiateDoNotBuildElement(IRecipe recipe, int index)
         {
-            return InstantiateElement(recipe, index, doNotBuildPrefab);
+            return InstantiateElement(recipe, index, doNotBuildItemPrototype);
         }
 
         BuildElement InstantiateElement(IRecipe recipe, int index, RectTransform prefab)

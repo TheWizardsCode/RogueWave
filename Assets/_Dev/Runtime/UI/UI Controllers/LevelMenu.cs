@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
@@ -32,8 +33,8 @@ namespace WizardsCode.RogueWave
         private RectTransform parent;
         [SerializeField, Tooltip("The prefab to use for the level elements in the UI.")]
         private LevelUiController levelElementProtoytpe;
-        [SerializeField, Tooltip("The player character info text box.")]
-        private TMP_Text playerCharacterInfoText;
+        [SerializeField, Tooltip("The location for details about the player character to be shown.")]
+        private RectTransform playerCharacterInfo;
 
         public override Selectable startingSelection
         {
@@ -59,40 +60,7 @@ namespace WizardsCode.RogueWave
         {
             base.Initialise(g, onComplete);
 
-            StringBuilder sb = new StringBuilder();
-
-            sb.AppendLine($"{RogueLiteManager.currentProfile} Info");
-            sb.AppendLine();
-            sb.AppendLine($"Resources:\t\t\t{RogueLiteManager.persistentData.currentResources}");
-            sb.AppendLine($"Nanobot Level:\t\t{RogueLiteManager.persistentData.currentNanobotLevel}");
-
-            IEnumerable<IGrouping<string, IRecipe>> groupedRunRecipes = RogueLiteManager.runData.Recipes
-                .GroupBy(recipe => recipe.Category);
-
-            foreach (var group in groupedRunRecipes)
-            {
-                sb.AppendLine($"{ExpandCamelCase(group.Key)}:");
-                foreach (var recipe in group)
-                {
-                    if (string.IsNullOrEmpty(recipe.TechnicalSummary))
-                    {
-                        sb.AppendLine($"\t{recipe.DisplayName}");
-                    }
-                    else
-                    {
-                        sb.AppendLine($"\t{recipe.DisplayName} - {recipe.TechnicalSummary}");
-                    }
-                }
-            }
-
-            playerCharacterInfoText.text = sb.ToString();
-
             m_SpawnButton.onClick.AddListener(GenerateLevelAndSpawn);
-        }
-
-        private string ExpandCamelCase(string input)
-        {
-            return System.Text.RegularExpressions.Regex.Replace(input, "([a-z](?=[A-Z])|[A-Z](?=[A-Z][a-z]))", "$1 ");
         }
 
         private void GenerateLevelAndSpawn()

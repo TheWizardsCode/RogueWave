@@ -80,7 +80,7 @@ namespace RogueWave
             recipeUI.gameObject.SetActive(true);
 
             result.rectTransform = recipeUI;
-            result.weaponPickupRecipe = recipe;
+            result.recipe = recipe;
 
             return result;
         }
@@ -170,7 +170,7 @@ namespace RogueWave
 
         private void AddItemToBuild(int index)
         {
-            RogueLiteManager.persistentData.WeaponBuildOrder.Add(builds[index].weaponPickupRecipe.UniqueID);
+            RogueLiteManager.persistentData.WeaponBuildOrder.Add(builds[index].recipe.UniqueID);
             RogueLiteManager.persistentData.isDirty = true;
             RogueLiteManager.SaveProfile();
 
@@ -180,7 +180,7 @@ namespace RogueWave
 
     class BuildElement
     {
-        public IRecipe weaponPickupRecipe { get; set; }
+        public IRecipe recipe { get; set; }
         public RectTransform rectTransform { get; set; }
     }
 }

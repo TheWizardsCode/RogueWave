@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RogueWave
 {
-    public class PassiveDestructorBeam : PassiveWeapon
+    public class DestructorBeam : PassiveWeapon
     {
         [Header("Beam Configuration")]
         [SerializeField, Tooltip("The number of beams to fire.")]

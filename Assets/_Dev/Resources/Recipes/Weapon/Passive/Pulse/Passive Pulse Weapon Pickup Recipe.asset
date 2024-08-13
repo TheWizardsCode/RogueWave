@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 310c037ba028285498c7d93c2b490b79, type: 3}
   m_Name: Passive Pulse Weapon Pickup Recipe
   m_EditorClassIdentifier: 
-  displayName: Passive Pulse
-  announcerVoicelineForName: Passive Weapon, Pulse Wave.
+  displayName: Pulse Wave
+  announcerVoicelineForName: Pulse Wave
   description: Periodically send out a pulse that damages enemies within range.
   heroImage: {fileID: 21300000, guid: 4ed729db737fe8546bd5cc58d5d41dd1, type: 3}
   icon: {fileID: 21300000, guid: 329d858b188b81046a71a896f14ba90e, type: 3}
@@ -25,7 +25,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
   baseBuyCost: 1000
   isPowerUp: 1
-  isConsumable: 1
   cooldown: 10
   isStackable: 0
   maxStack: 1

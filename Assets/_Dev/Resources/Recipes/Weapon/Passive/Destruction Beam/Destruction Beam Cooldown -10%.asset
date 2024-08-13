@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a45c9647589ddd646ab4be34481c3372, type: 3}
-  m_Name: Passive Destruction Beam Cooldown -10%
+  m_Name: Destruction Beam Cooldown -10%
   m_EditorClassIdentifier: 
-  displayName: Destruction Beam Cooldown Reduction
-  announcerVoicelineForName: Reduce Destruction Beam Cooldown
+  displayName: Annihilation Accelerator
+  announcerVoicelineForName: Annihilation Accelerator
   description: Reduce the Destruction beam cooldown by 10%.
   heroImage: {fileID: 21300000, guid: ff1bbda8fbca8d4459376b9d0773a7db, type: 3}
   icon: {fileID: 21300000, guid: e12f785e27fead94fb767717e753b859, type: 3}
-  level: 1
+  level: 5
   baseWeight: 0.2
   dependencies:
   - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
   complements: []
   baseBuyCost: 600
   isPowerUp: 1
-  isConsumable: 0
   cooldown: 10
   isStackable: 1
   maxStack: 10
@@ -42,6 +41,7 @@ MonoBehaviour:
   parameterName: m_Cooldown
   parameterModifier: 0
   parameterMultiplier: 0.9
+  repeatEvery: 0
   targetPrototype: {fileID: 6852470632378416659, guid: b1fd13fd853554e4286729b3b69c7bee, type: 3}
   isRangeModifier: 0
   rangeMultiplier: 1.1
