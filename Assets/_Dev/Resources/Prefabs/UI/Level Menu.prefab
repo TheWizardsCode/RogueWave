@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7999542163388793326}
   - component: {fileID: 2429542316221575697}
   - component: {fileID: 741038020223422833}
-  - component: {fileID: 2515893971272651850}
   - component: {fileID: 5972006909989299164}
   m_Layer: 5
   m_Name: Character configuration
@@ -106,32 +105,6 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 633d8e0b954ccda4bbd89ac29e7fae2b, type: 2}
   currentState: 3
   isNested_IAM: 0
---- !u!114 &2515893971272651850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 32312446897003019}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 20
-    m_Right: 20
-    m_Top: 20
-    m_Bottom: 20
-  m_ChildAlignment: 0
-  m_Spacing: 5
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!114 &5972006909989299164
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,11 +732,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3029632395386631135}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 725}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: -25}
+  m_SizeDelta: {x: -50, y: 500}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &8857710452074694004
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -785,7 +758,7 @@ MonoBehaviour:
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
@@ -5169,7 +5142,6 @@ GameObject:
   - component: {fileID: 7169413799467257766}
   - component: {fileID: 6089245253649778266}
   - component: {fileID: 5986103525780301323}
-  - component: {fileID: 4378757895656688975}
   - component: {fileID: 4257557558786715985}
   m_Layer: 5
   m_Name: Weapon Buildout
@@ -5263,32 +5235,6 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 633d8e0b954ccda4bbd89ac29e7fae2b, type: 2}
   currentState: 3
   isNested_IAM: 0
---- !u!114 &4378757895656688975
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7648143077009539327}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59f8146938fff824cb5fd77236b75775, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 20
-    m_Right: 20
-    m_Top: 20
-    m_Bottom: 20
-  m_ChildAlignment: 0
-  m_Spacing: 5
-  m_ChildForceExpandWidth: 1
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
-  m_ReverseArrangement: 0
 --- !u!114 &4257557558786715985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5625,11 +5571,11 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6121737303652120576}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 725}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 472.5, y: -25}
+  m_SizeDelta: {x: 895, y: 500}
+  m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &3236690210887616414
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5651,7 +5597,7 @@ MonoBehaviour:
   m_Spacing: 5
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 0
+  m_ChildControlWidth: 1
   m_ChildControlHeight: 0
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
