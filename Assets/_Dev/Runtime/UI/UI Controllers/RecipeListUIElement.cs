@@ -6,8 +6,8 @@ namespace WizardsCode.RogueWave.UI
 {
     public class RecipeListUIElement : MonoBehaviour
     {
-        [SerializeField, Tooltip("The name of the recipe.")]
-        private TMP_Text nameText = null;
+        [SerializeField, Tooltip("The name of the recipe this item represents.")]
+        protected TMP_Text nameText = null;
 
         IRecipe m_recipe;
         public IRecipe recipe
@@ -20,15 +20,15 @@ namespace WizardsCode.RogueWave.UI
             }
         }
 
-        private void ConfigureUI()
+        protected virtual void ConfigureUI()
         {
             if (recipe == null)
             {
                 gameObject.SetActive(false);
             }
 
-            gameObject.name = m_recipe.DisplayName;
-            if (string.IsNullOrEmpty(m_recipe.TechnicalSummary))
+            gameObject.name = recipe.DisplayName;
+            if (string.IsNullOrEmpty(recipe.TechnicalSummary))
             {
                 nameText.text = recipe.DisplayName;
             }
