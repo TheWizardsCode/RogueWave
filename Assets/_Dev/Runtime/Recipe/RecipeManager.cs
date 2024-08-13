@@ -75,10 +75,10 @@ namespace RogueWave
             List<IRecipe> offers = new List<IRecipe>();
 
             // Are we required to offer a weapon?
-            List<WeaponPickupRecipe> weaponCandidates = null;
+            List<WeaponRecipe> weaponCandidates = null;
             if (requiredWeaponCount > 0)
             {
-                weaponCandidates = GetOfferCandidates<WeaponPickupRecipe>(false);
+                weaponCandidates = GetOfferCandidates<WeaponRecipe>(false);
 
                 // TODO: Use the weights to select the best weapon to offer
                 int idx = Random.Range(0, weaponCandidates.Count);

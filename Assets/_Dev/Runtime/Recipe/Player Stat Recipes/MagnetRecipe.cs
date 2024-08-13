@@ -1,11 +1,13 @@
+using NeoFPS;
 using NeoFPS.SinglePlayer;
+using System.Text;
 using UnityEngine;
 
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Magnet Stats Recipe", menuName = "Rogue Wave/Recipe/Magnet Stats Recipe", order = 10)]
     // REFACTOR: can we remove this and make it a BaseStatRecipe instead?
-    public class MagnetStatRecipe : GenericStatRecipe<MonoBehaviour>
+    public class MagnetRecipe : GenericStatRecipe<MonoBehaviour>
     {
         [Header("Stat Modifier")]
         [SerializeField, Tooltip("The range multiplier to add to the magnets range.")]
@@ -14,6 +16,25 @@ namespace RogueWave
         float strengthMultiplier = 1.00f;
 
         public override string Category => "Magnet Stat";
+
+        public override string TechnicalSummary
+        {
+            get
+            {
+                StringBuilder summary = new StringBuilder();
+
+                if (rangeMultiplier != 1)
+                {
+                    summary.AppendLine($"Magnet range * {rangeMultiplier}");
+                }
+                if (strengthMultiplier != 1)
+                {
+                    summary.AppendLine($"Magnet strength * {strengthMultiplier}");
+                }
+
+                return summary.ToString();
+            }
+        }
 
         internal override void Apply()
         {

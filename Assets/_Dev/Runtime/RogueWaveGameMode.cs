@@ -425,7 +425,7 @@ namespace RogueWave
             IRecipe startingWeapon;
             if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
             {
-                WeaponPickupRecipe weaponRecipe = startingWeapon as WeaponPickupRecipe;
+                WeaponRecipe weaponRecipe = startingWeapon as WeaponRecipe;
                 if (weaponRecipe != null)
                 {
                     RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
@@ -620,7 +620,7 @@ namespace RogueWave
             RogueLiteManager.runData.Loadout.Clear();
             for (int i = 0; i < recipes.Count; i++)
             {
-                if (recipes[i] is WeaponPickupRecipe && !RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipes[i].UniqueID))
+                if (recipes[i] is WeaponRecipe && !RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipes[i].UniqueID))
                 {
                     RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipes[i].UniqueID);
                 }
@@ -636,11 +636,9 @@ namespace RogueWave
                 ConfigureRecipeForRun(RogueLiteManager.persistentData.RecipeIds[i]);
             }
 
-            bool result = true;
-
             if (showPrespawnUI)
             {
-                var ui = PrefabPopupContainer.ShowPrefabPopup(m_PreSpawnUI);
+                LevelMenu ui = PrefabPopupContainer.ShowPrefabPopup(m_PreSpawnUI);
                 ui.Initialise(this, SpawnPlayerCharacter);
 
                 return true;

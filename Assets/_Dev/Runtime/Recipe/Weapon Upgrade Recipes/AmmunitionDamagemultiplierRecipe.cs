@@ -17,6 +17,14 @@ namespace RogueWave
 
         public override string Category => "Ammunition";
 
+        public override string TechnicalSummary
+        {
+            get
+            {
+                return $"Damage * {multiplier}";
+            }
+        }
+
         internal override void Apply(RogueWaveBulletAmmoEffect effect)
         {
             effect.damage *= multiplier;

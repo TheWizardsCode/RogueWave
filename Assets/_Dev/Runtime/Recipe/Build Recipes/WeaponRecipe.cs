@@ -7,7 +7,7 @@ using NaughtyAttributes;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Weapon Pickup Recipe", menuName = "Rogue Wave/Recipe/Weapon Pickup", order = 108)]
-    public class WeaponPickupRecipe : ItemRecipe<InventoryItemPickup>
+    public class WeaponRecipe : ItemRecipe<InventoryItemPickup>
     {
         [Header("Weapon")]
         [SerializeField, Tooltip("If true then the weapon will be put to the top of the loadout build order when purchased, otherwise it will be put in the second slot.")]
@@ -15,7 +15,7 @@ namespace RogueWave
         [SerializeField, Tooltip("Does this weapon use ammo? If set to true then an ammoRecipe must also be provided. If set to false then the weapon is consumed when used but it will be possible to build as many of the item as the inventory can hold.")]
         internal bool usesAmmo = true;
         [SerializeField, Tooltip("The Ammo recipe for this weapon. When the weapon is built the player should get this recipe too."), ShowIf("usesAmmo")]
-        internal AmmoPickupRecipe ammoRecipe;
+        internal AmmoRecipe ammoRecipe;
 
         public override string Category => "Weapon";
 

@@ -62,7 +62,7 @@ namespace RogueWave
                 {
                     IRecipe recipe;
                     if (RecipeManager.TryGetRecipe(id, out recipe)
-                        && (recipe is WeaponPickupRecipe || recipe is ToolPickupRecipe))
+                        && (recipe is WeaponRecipe || recipe is ToolRecipe))
                     {
                         _weaponBuildOrderBackingField.Add(id);
                     }
@@ -112,7 +112,7 @@ namespace RogueWave
             }
 
             RecipeIds.Add(recipe.UniqueID);
-            if (recipe is WeaponPickupRecipe weapon)
+            if (recipe is WeaponRecipe weapon)
             {
                 if (WeaponBuildOrder.Contains(recipe.UniqueID) == false)
                 {

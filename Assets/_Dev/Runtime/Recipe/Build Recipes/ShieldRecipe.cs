@@ -8,11 +8,31 @@ namespace RogueWave
     /// This will add a shield manager to the player if they don't have one, and if they do, it will recharge a depleted shield.
     /// </summary>
     [CreateAssetMenu(fileName = "Shield Pickup Recipe", menuName = "Rogue Wave/Recipe/Shield Pickup", order = 110)]
-    public class ShieldPickupRecipe : ItemRecipe<ShieldPickup>
+    public class ShieldRecipe : ItemRecipe<ShieldPickup>
     {
         private ShieldManager _shieldMgr;
 
         public override string Category => "Shield";
+
+        public override string TechnicalSummary
+        {
+            get
+            {
+                string summary = string.Empty;
+
+                ShieldPickup itemPickup = Instantiate(pickup);
+
+                summary = $"{Category} {itemPickup.stepCount}";
+
+#if UNITY_EDITOR
+                DestroyImmediate(itemPickup);
+#else
+                Destroy(itemPickup);
+#endif
+
+                return summary;
+            }
+        }
 
         private ShieldManager shieldManager
         {

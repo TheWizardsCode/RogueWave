@@ -49,7 +49,7 @@ namespace RogueWave
             {
                 IRecipe recipe;
                 if (RecipeManager.TryGetRecipe(id, out recipe)
-                    && recipe is WeaponPickupRecipe
+                    && recipe is WeaponRecipe
                     && RogueLiteManager.persistentData.WeaponBuildOrder.Contains(id) == false)
                 {
                     builds.Add(InstantiateDoNotBuildElement(recipe, index));

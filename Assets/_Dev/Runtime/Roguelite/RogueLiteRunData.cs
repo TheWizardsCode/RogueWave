@@ -68,7 +68,7 @@ namespace RogueWave
 
             recipe.Reset();
 
-            if (recipe is WeaponPickupRecipe weapon)
+            if (recipe is WeaponRecipe weapon)
             {
                 // REFACTOR: this code is a duplicate of code in the persistent data class
                 if (RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipe.UniqueID) == false)

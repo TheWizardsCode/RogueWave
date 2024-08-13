@@ -12,6 +12,17 @@ namespace RogueWave {
 
         public override string Category => "Shield";
 
+        public override string TechnicalSummary
+        {
+            get
+            {
+                if (base.TechnicalSummary != string.Empty)
+                    return base.TechnicalSummary + ", " + "Damage Mitigation + " + additionalDamageMitigation;
+                else
+                    return "Damage Mitigation + " + additionalDamageMitigation;
+            }
+        }
+
         internal override void Apply()
         {
             var shield = FpsSoloCharacter.localPlayerCharacter.GetComponent<ShieldManager>();

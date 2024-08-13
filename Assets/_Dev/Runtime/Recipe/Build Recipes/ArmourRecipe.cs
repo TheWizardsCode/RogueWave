@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Armour Pickup Recipe", menuName = "Rogue Wave/Recipe/Armour Pickup", order = 110)]
-    public class ArmourPickupRecipe : ItemRecipe<InventoryItemPickup>
+    public class ArmourRecipe : ItemRecipe<InventoryItemPickup>
     {
         [SerializeField, FpsInventoryKey, Tooltip("The inventory ID of the armour type")]
         private int m_InventoryID = 0;
@@ -14,6 +14,29 @@ namespace RogueWave
         IInventoryItem _ArmourItem;
 
         public override string Category => "Armour";
+
+        public override string TechnicalSummary
+        {
+            get
+            {
+                string summary = string.Empty;
+
+                InventoryItemPickup itemPickup = Instantiate(pickup);
+                FpsInventoryItemBase item = Instantiate(itemPickup.GetItemPrefab());
+
+                summary = $"{Category} {item.quantity}";
+
+#if UNITY_EDITOR
+                DestroyImmediate(itemPickup);
+                DestroyImmediate(item);
+#else
+                Destroy(itemPickup);
+                Destroy(item);
+#endif
+
+                return summary;
+            }
+        }
 
         private IInventoryItem armourItem
         {

@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -80,6 +81,17 @@ namespace RogueWave
         }
 
         public string Description => description;
+
+        /// <summary>
+        /// Return a short description of this recipe's stats if that is meaningful, otherwise return an empty string.
+        /// </summary>
+        public virtual string TechnicalSummary
+        {
+            get
+            {
+                return string.Empty;
+            }
+        }
 
         public Sprite HeroImage => heroImage;
 
@@ -303,6 +315,19 @@ namespace RogueWave
 
         [SerializeField, Tooltip("DO NOT CHANGE THIS. Unless you know what you are doing"), BoxGroup("Internal"), ReadOnly]
         internal string uniqueID;
+
+        protected string ConvertToReadableString(string name)
+        {
+            name = Regex.Replace(name, @"^m_", "");
+            name = Regex.Replace(name, "(\\B[A-Z])", " $1");
+
+            if (name.Length > 0)
+            {
+                name = char.ToUpper(name[0]) + name.Substring(1);
+            }
+
+            return name;
+        }
 
 #if UNITY_EDITOR
         [Button("Regenerate ID (use with care)")]

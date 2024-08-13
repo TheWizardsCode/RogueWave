@@ -10,7 +10,7 @@ namespace RogueWave
     /// </summary>
     [CreateAssetMenu(fileName = "Switch Stat Recipe", menuName = "Rogue Wave/Recipe/Switch Stat", order = 1)]
     // REFACTOR: can we remove this and make it a BaseStatRecipe instead?
-    public class SwitchStatRecipe : GenericStatRecipe<MonoBehaviour>
+    public class SkillRecipe : GenericStatRecipe<MonoBehaviour>
     {
         [SerializeField, Tooltip("The name of the stat to modify.")]
         internal string statName = string.Empty;

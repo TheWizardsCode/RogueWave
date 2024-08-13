@@ -1,6 +1,7 @@
 
 using NaughtyAttributes;
 using System.Reflection;
+using System.Text;
 using UnityEngine;
 
 namespace RogueWave
@@ -24,6 +25,38 @@ namespace RogueWave
         internal float repeatEvery = 0f;
         
         public override string Category => "Base Stat";
+
+        public override string TechnicalSummary {
+            get
+            {
+                if (isNamedParameterModifier)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.Append(ConvertToReadableString(parameterName));
+                    if (parameterModifier != 0)
+                    {
+                        sb.Append(" + ");
+                        sb.Append(parameterModifier);
+                    }
+                    if (parameterMultiplier != 1)
+                    {
+                        sb.Append(" * ");
+                        sb.Append(parameterMultiplier);
+                    }
+                    if (repeatEvery > 0)
+                    {
+                        sb.Append(" every ");
+                        sb.Append(repeatEvery);
+                        sb.Append("s");
+                    }
+
+                    return sb.ToString();
+                } else
+                {
+                    return string.Empty;
+                }
+            }
+        }
 
         public override void BuildFinished()
         {

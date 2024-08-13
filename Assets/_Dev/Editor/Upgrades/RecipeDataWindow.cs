@@ -28,7 +28,7 @@ namespace RogueWave.Editor
         private void UpdateRecipeList()
         {
             recipes = Resources.LoadAll<AbstractRecipe>("");
-            System.Array.Sort(recipes, (x, y) =>
+            Array.Sort(recipes, (x, y) =>
             {
                 int levelComparison = x.Level.CompareTo(y.Level);
                 if (levelComparison == 0)
@@ -73,6 +73,7 @@ namespace RogueWave.Editor
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Lvl", GUILayout.Width(20));
+            EditorGUILayout.LabelField("Display name", GUILayout.Width(100));
             EditorGUILayout.LabelField("Display name", GUILayout.Width(300));
             EditorGUILayout.LabelField(new GUIContent("Cost", "Base buy cost of the recipe"), GUILayout.Width(40));
             EditorGUILayout.LabelField(new GUIContent("Wght", "Base weight of the recipe"), GUILayout.Width(30));
@@ -90,7 +91,7 @@ namespace RogueWave.Editor
                 if (recipe.Validate(out string statusMsg))
                 {
                     GUI.backgroundColor = Color.green;
-                    statusMsg = "Click to select the recipe.";
+                    statusMsg = "\n(Click to select the recipe).";
                 }
                 else
                 {
@@ -102,7 +103,8 @@ namespace RogueWave.Editor
                 EditorGUI.BeginChangeCheck();
 
                 recipe.Level = EditorGUILayout.IntField(recipe.Level, GUILayout.Width(20));
-                if (GUILayout.Button(new GUIContent(recipe.DisplayName, statusMsg), GUILayout.Width(300)))
+                EditorGUILayout.LabelField(recipe.Category, GUILayout.Width(100));
+                if (GUILayout.Button(new GUIContent(recipe.DisplayName, $"{recipe.Description}\n\n{recipe.TechnicalSummary}\n\n{statusMsg}"), GUILayout.Width(300)))
                 {
                     EditorGUIUtility.PingObject(recipe);
                     Selection.activeObject = recipe;

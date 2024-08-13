@@ -55,7 +55,6 @@ namespace RogueWave
         }
 #endif
 
-
         const string k_Extension = "profileData";
         const string k_Subfolder = "Profiles";
 

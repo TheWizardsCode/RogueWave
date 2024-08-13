@@ -11,6 +11,35 @@ namespace RogueWave
     {
         public override string Category => "Health";
 
+        public override string TechnicalSummary
+        {
+            get
+            {
+                string summary = string.Empty;
+
+                HealthPickup healthPickup = Instantiate(pickup);
+                if (healthPickup.GetHealType() == HealthPickup.HealType.FixedValue)
+                {
+                    summary = $"Heal {healthPickup.GetHealAmount()} HP";
+                }
+                else if (healthPickup.GetHealType() == HealthPickup.HealType.Factor)
+                {
+                    summary = $"Heal {healthPickup.GetHealAmount() * 100}% HP";
+                } else if (healthPickup.GetHealType() == HealthPickup.HealType.MissingFactor)
+                {
+                    summary = $"Heal {healthPickup.GetHealAmount() * 100}% of missing HP";
+                }
+
+#if UNITY_EDITOR
+                DestroyImmediate(healthPickup);
+#else
+                Destroy(healthPickup);
+#endif
+
+                return summary;
+            }
+        }
+
         [NonSerialized]
         private BasicHealthManager _healthManager;
         private BasicHealthManager healthManager

@@ -69,15 +69,15 @@ namespace RogueWave
         AbstractRecipe _UpgradeRecipe;
 #endif
 
-        private List<ArmourPickupRecipe> armourRecipes = new List<ArmourPickupRecipe>();
+        private List<ArmourRecipe> armourRecipes = new List<ArmourRecipe>();
         private List<HealthPickupRecipe> healthRecipes = new List<HealthPickupRecipe>();
-        private List<ShieldPickupRecipe> shieldRecipes = new List<ShieldPickupRecipe>();
-        private List<WeaponPickupRecipe> weaponRecipes = new List<WeaponPickupRecipe>();
-        private List<AmmoPickupRecipe> ammoRecipes = new List<AmmoPickupRecipe>();
+        private List<ShieldRecipe> shieldRecipes = new List<ShieldRecipe>();
+        private List<WeaponRecipe> weaponRecipes = new List<WeaponRecipe>();
+        private List<AmmoRecipe> ammoRecipes = new List<AmmoRecipe>();
         private List<AmmunitionEffectUpgradeRecipe> ammoUpgradeRecipes = new List<AmmunitionEffectUpgradeRecipe>();
-        private List<ToolPickupRecipe> toolRecipes = new List<ToolPickupRecipe>();
-        private List<GenericItemPickupRecipe> itemRecipes = new List<GenericItemPickupRecipe>();
-        private List<PassiveItemPickupRecipe> passiveRecipes = new List<PassiveItemPickupRecipe>();
+        private List<ToolRecipe> toolRecipes = new List<ToolRecipe>();
+        private List<ItemRecipe> itemRecipes = new List<ItemRecipe>();
+        private List<PassiveItemRecipe> passiveRecipes = new List<PassiveItemRecipe>();
 
         private int numInGameRewards = 3;
         internal int resourcesForNextNanobotLevel = 0;
@@ -618,7 +618,7 @@ namespace RogueWave
                 IRecipe weapon;
                 if (RecipeManager.TryGetRecipe(id, out weapon))
                 {
-                    if (TryRecipe(weapon as WeaponPickupRecipe))
+                    if (TryRecipe(weapon as WeaponRecipe))
                     {
                         return true;
                     }
@@ -628,7 +628,7 @@ namespace RogueWave
             // If we have built everything in the build order then try to build anything we bought during this run
             foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
             {
-                WeaponPickupRecipe weapon = recipe as WeaponPickupRecipe;
+                WeaponRecipe weapon = recipe as WeaponRecipe;
                 if (weapon != null && RogueLiteManager.persistentData.RecipeIds.Contains(weapon.uniqueID) == false)
                 {
                     if (TryRecipe(weapon))
@@ -675,7 +675,7 @@ namespace RogueWave
         /// <returns></returns>
         private bool TryAmmoRecipes(float minimumAmmoAmount)
         {
-            AmmoPickupRecipe chosenRecipe = null;
+            AmmoRecipe chosenRecipe = null;
             float chosenAmount = 0;
             for (int i = 0; i < ammoRecipes.Count; i++)
             {
@@ -814,11 +814,11 @@ namespace RogueWave
             }
 
             // TODO: This is messy, far too many if...else statements. Do we really need to keep separate lists now that they have a common AbstractRecipe base class?
-            if (recipe is AmmoPickupRecipe ammo && !ammoRecipes.Contains(ammo))
+            if (recipe is AmmoRecipe ammo && !ammoRecipes.Contains(ammo))
             {
                 ammoRecipes.Add(ammo);
             }
-            else if(recipe is ArmourPickupRecipe armour && !armourRecipes.Contains(armour))
+            else if(recipe is ArmourRecipe armour && !armourRecipes.Contains(armour))
             {
                 armourRecipes.Add(armour);
             }
@@ -826,7 +826,7 @@ namespace RogueWave
             {
                 healthRecipes.Add(health);
             } 
-            else if (recipe is WeaponPickupRecipe weapon && !weaponRecipes.Contains(weapon))
+            else if (recipe is WeaponRecipe weapon && !weaponRecipes.Contains(weapon))
             {
                 weaponRecipes.Add(weapon);
                 if (weapon.ammoRecipe != null)
@@ -834,15 +834,15 @@ namespace RogueWave
                     Add(weapon.ammoRecipe);
                 }
             }
-            else if (recipe is ToolPickupRecipe tool && !toolRecipes.Contains(tool))
+            else if (recipe is ToolRecipe tool && !toolRecipes.Contains(tool))
             {
                 toolRecipes.Add(tool);
             }
-            else if (recipe is ShieldPickupRecipe shield && !shieldRecipes.Contains(shield))
+            else if (recipe is ShieldRecipe shield && !shieldRecipes.Contains(shield))
             {
                 shieldRecipes.Add(shield);
             }
-            else if (recipe is GenericItemPickupRecipe item && !itemRecipes.Contains(item))
+            else if (recipe is ItemRecipe item && !itemRecipes.Contains(item))
             {
                 itemRecipes.Add(item);
             } 
@@ -855,7 +855,7 @@ namespace RogueWave
                 ammoUpgradeRecipe.Apply();
                 ammoUpgradeRecipes.Add(ammoUpgradeRecipe);
             }
-            else if (recipe is PassiveItemPickupRecipe passiveRecipe)
+            else if (recipe is PassiveItemRecipe passiveRecipe)
             {
                 if (passiveRecipe.Apply(this))
                 {
@@ -926,7 +926,7 @@ namespace RogueWave
             resources += amount;
         }
 
-        internal int GetAppliedCount(PassiveItemPickupRecipe passiveItemPickupRecipe)
+        internal int GetAppliedCount(PassiveItemRecipe passiveItemPickupRecipe)
         {
             return passiveRecipes.FindAll(x => x == passiveItemPickupRecipe).Count;
         }

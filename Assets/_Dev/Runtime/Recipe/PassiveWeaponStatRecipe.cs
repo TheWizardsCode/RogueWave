@@ -1,12 +1,11 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
 using System.Linq;
-using System.Reflection;
 using UnityEngine;
 
 namespace RogueWave
 {
-    [CreateAssetMenu(fileName = "Passive Item Stat Recipe", menuName = "Rogue Wave/Recipe/Passive Item Stat")]
+    [CreateAssetMenu(fileName = "Weapon Stat Recipe", menuName = "Rogue Wave/Recipe/Passive Item Stat")]
     public class PassiveWeaponStatRecipe : GenericStatRecipe<PassiveWeapon>
     {
         // REFACTOR: remove the need for this class and use the BaseStatRecipe instead - following should be named parameter modifiers
@@ -20,7 +19,26 @@ namespace RogueWave
         [SerializeField, Tooltip("A multiplier for the weapons damage."), ShowIf("isDamageModifier")]
         float damageMultiplier = 1.10f;
         
-        public override string Category => "Passive Item";
+        public override string Category => "Passive Weapon Stat";
+
+        public override string TechnicalSummary
+        {
+            get
+            {
+                if (base.TechnicalSummary != string.Empty)
+                {
+                    return base.TechnicalSummary;
+                } else if (isRangeModifier)
+                {
+                    return $"Range * {rangeMultiplier}";
+                } else if (isDamageModifier)
+                {
+                    return $"Damage * {damageMultiplier}";
+                }
+
+                return string.Empty;
+            }
+        }
 
         internal override void Apply()
         {

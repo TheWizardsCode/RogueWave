@@ -10,7 +10,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The inventory item prefab to give to the character.")]
         internal GameObject itemPrefab = null;
         [SerializeField, Tooltip("The inventory item recipe to give to the character.")]
-        internal PassiveItemPickupRecipe recipe = null;
+        internal PassiveItemRecipe recipe = null;
 
         [SerializeField, Tooltip("The display mesh of the pickup. This should not be the same game object as this, so that if this is disabled the pickup will still respawn if required.")]
         private GameObject m_DisplayMesh = null;

@@ -1,16 +1,16 @@
 using NaughtyAttributes;
-using System.Collections;
-using System.Collections.Generic;
+using System.Reflection;
+using System.Text;
 using UnityEngine;
 
 namespace RogueWave
 {
     /// <summary>
-    /// The float Stat Recipe will upgrade one of the player's float stats, such as move speed.
+    /// Modify a stat on the motion graph.
     /// </summary>
     [CreateAssetMenu(fileName = "Movement Stat Recipe", menuName = "Rogue Wave/Recipe/Movement Stat", order = 1)]
     // REFACTOR: can we remove this and make it a BaseStatRecipe instead?
-    public class MovementRecipe : GenericStatRecipe<MonoBehaviour>
+    public class MotionGraphRecipe : GenericStatRecipe<MonoBehaviour>
     {
         [SerializeField, Tooltip("The name of the stat to modify.")]
         internal string statName = string.Empty;
@@ -22,6 +22,33 @@ namespace RogueWave
         float additionalPostMultiplyAdd = 0f;
 
         public override string Category => "Movement";
+
+        public override string TechnicalSummary
+        {
+            get
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.Append(ConvertToReadableString(statName));
+                if (additionalPreMultiplyAdd != 0)
+                {
+                    sb.Append("( + ");
+                    sb.Append(additionalPreMultiplyAdd);
+                    sb.Append(") ");
+                }
+                if (additionalMultiplier != 1)
+                {
+                    sb.Append(" * ");
+                    sb.Append(additionalMultiplier);
+                }
+                if (additionalPostMultiplyAdd > 0)
+                {
+                    sb.Append(" + ");
+                    sb.Append(additionalPostMultiplyAdd);
+                }
+
+                return sb.ToString();
+            }
+        }
 
         [Button("Apply Float Modifier (works in game only)")]
         internal override void Apply()

@@ -10,11 +10,11 @@ namespace RogueWave
     /// Creates a recipe for an item. This is a generic class that can be used to create any item.
     /// </summary>
     /// <typeparam name="T">The type of item that will be created.</typeparam>
-    /// <seealso cref="AmmoPickupRecipe"/>
-    /// <seealso cref="WeaponPickupRecipe"/>
-    /// <seealso cref="ToolPickupRecipe"/>
+    /// <seealso cref="AmmoRecipe"/>
+    /// <seealso cref="WeaponRecipe"/>
+    /// <seealso cref="ToolRecipe"/>
     [CreateAssetMenu(fileName = "Item Pickup Recipe", menuName = "Rogue Wave/Recipe/Generic Item Pickup", order = 100)]
-    public class GenericItemPickupRecipe : ItemRecipe<Pickup>
+    public class ItemRecipe : ItemRecipe<Pickup>
     {
         public override string Category => "Item";
     }

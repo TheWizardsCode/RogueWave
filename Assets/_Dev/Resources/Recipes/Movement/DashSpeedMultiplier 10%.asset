@@ -24,7 +24,6 @@ MonoBehaviour:
   complements: []
   baseBuyCost: 500
   isPowerUp: 1
-  isConsumable: 0
   cooldown: 35
   isStackable: 1
   maxStack: 20
@@ -47,6 +46,12 @@ MonoBehaviour:
   buildCompleteClips: []
   pickupParticles: {fileID: 0}
   uniqueID: ba32ae4f-91d2-4f5f-bd35-ca3ff21f94df
+  isNamedParameterModifier: 0
+  parameterName: 
+  parameterModifier: 1
+  parameterMultiplier: 1.1
+  repeatEvery: 0
+  targetPrototype: {fileID: 0}
   statName: dashSpeed
   additionalMultiplier: 0.1
   additionalPreMultiplyAdd: 0

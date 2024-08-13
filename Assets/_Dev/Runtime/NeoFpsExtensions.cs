@@ -49,6 +49,12 @@ namespace RogueWave
             var fieldInfo = typeof(HealthPickup).GetField("m_HealAmount", BindingFlags.NonPublic | BindingFlags.Instance);
             return (float)fieldInfo.GetValue(instance);
         }
+
+        public static HealthPickup.HealType GetHealType(this HealthPickup instance)
+        {
+            var fieldInfo = typeof(HealthPickup).GetField("m_HealType", BindingFlags.NonPublic | BindingFlags.Instance);
+            return (HealthPickup.HealType)fieldInfo.GetValue(instance);
+        }
     }
 
     public static class LoadoutBuilderSlotExtensions
