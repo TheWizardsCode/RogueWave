@@ -1,11 +1,14 @@
 using RogueWave;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace WizardsCode.RogueWave.UI
 {
     public class RecipeListUIElement : MonoBehaviour
     {
+        [SerializeField, Tooltip("The icon element for the recipe.")]
+        protected Image icon = null;
         [SerializeField, Tooltip("The name of the recipe this item represents.")]
         protected TMP_Text nameText = null;
 
@@ -36,6 +39,8 @@ namespace WizardsCode.RogueWave.UI
             {
                 nameText.text = $"{recipe.DisplayName} ({recipe.TechnicalSummary})";
             }
+
+            icon.sprite = recipe.Icon;
 
             gameObject.SetActive(true);
         }
