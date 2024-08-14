@@ -28,21 +28,24 @@ namespace WizardsCode.RogueWave
 
             foreach (var group in groupedRunRecipes)
             {
-                //EditorGUILayout.LabelField($"{ExpandCamelCase(group.Key)}");
-                foreach (var recipe in group)
+                var uniqueRecipes = group
+                    .GroupBy(recipe => recipe.DisplayName)
+                    .Select(g => new { Recipe = g.First(), Count = g.Count() });
+                foreach (var tuple in uniqueRecipes)
                 {
-                    if (recipe.Category != "Weapon" && recipe.Category != "Ammunition")
+                    if (tuple.Recipe.Category != "Weapon" && tuple.Recipe.Category != "Ammunition")
                     {
-                        InstantiateRecipeElement(recipe);
+                        InstantiateRecipeElement(tuple.Recipe, tuple.Count);
                     }
                 }
             }
         }
 
-        void InstantiateRecipeElement(IRecipe recipe)
+        void InstantiateRecipeElement(IRecipe recipe, int count)
         {
             RecipeListUIElement recipeUI = Instantiate(buildItemPrototype, recipeList);
             recipeUI.recipe = recipe;
+            recipeUI.instances = count;
             recipeUI.gameObject.SetActive(true);
         }
 

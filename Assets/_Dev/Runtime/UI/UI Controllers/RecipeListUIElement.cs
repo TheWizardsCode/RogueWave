@@ -23,6 +23,23 @@ namespace WizardsCode.RogueWave.UI
             }
         }
 
+        int m_instances = 1;
+        public int instances
+        {
+            get
+            {
+                return m_instances;
+            }
+            set
+            {
+                if (m_instances != value)
+                {
+                    m_instances = value;
+                    ConfigureUI();
+                }
+            }
+        }
+
         protected virtual void ConfigureUI()
         {
             if (recipe == null)
@@ -30,14 +47,22 @@ namespace WizardsCode.RogueWave.UI
                 gameObject.SetActive(false);
             }
 
+            if (instances > 1)
+            {
+                nameText.text = $"{instances} x ";
+            } else
+            {
+                nameText.text = string.Empty;
+            }
+
             gameObject.name = recipe.DisplayName;
             if (string.IsNullOrEmpty(recipe.TechnicalSummary))
             {
-                nameText.text = recipe.DisplayName;
+                nameText.text += recipe.DisplayName;
             }
             else
             {
-                nameText.text = $"{recipe.DisplayName} ({recipe.TechnicalSummary})";
+                nameText.text += $"{recipe.DisplayName} ({recipe.TechnicalSummary})";
             }
 
             icon.sprite = recipe.Icon;
