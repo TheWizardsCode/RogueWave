@@ -74,7 +74,7 @@ namespace WizardsCode.RogueWave.UI
             recipeUI.recipe = recipe;
             recipeUI.gameObject.SetActive(true);
 
-            result.rectTransform = (RectTransform)recipeUI.transform;
+            result.element = recipeUI;
             result.weaponPickupRecipe = recipe;
 
             return result;
@@ -104,8 +104,7 @@ namespace WizardsCode.RogueWave.UI
             {
                 int index = i; // capture the index in a local variable so it's not changed by the time the button is clicked
 
-                // TODO: it's brittle to search bot the button by name
-                Button button = builds[index].rectTransform.Find("Up Button")?.GetComponent<Button>();
+                Button button = builds[index].element.moveUpButton;
                 if (button != null)
                 {
                     if (index > 0)
@@ -120,8 +119,7 @@ namespace WizardsCode.RogueWave.UI
                     }
                 }
 
-                // TODO: it's brittle to search by name
-                button = builds[index].rectTransform.Find("Down Button")?.GetComponent<Button>();
+                button = builds[index].element.moveDownButton;
                 if (button != null)
                 {
                     if (index < RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1)
@@ -136,16 +134,14 @@ namespace WizardsCode.RogueWave.UI
                     }
                 }
 
-                // TODO: it's brittle to search by name
-                button = builds[index].rectTransform.Find("Remove Button")?.GetComponent<Button>();
+                button = builds[index].element.removeButton;
                 if (button != null)
                 {
                     button.onClick.RemoveAllListeners();
                     button.onClick.AddListener(() => RemoveItemFromBuild(index));
                 }
 
-                // TODO: it's brittle to search by name
-                button = builds[index].rectTransform.Find("Add Button")?.GetComponent<Button>();
+                button = builds[index].element.addButton;
                 if (button != null)
                 {
                     button.onClick.RemoveAllListeners();
@@ -175,6 +171,6 @@ namespace WizardsCode.RogueWave.UI
     class BuildElement
     {
         public IRecipe weaponPickupRecipe { get; set; }
-        public RectTransform rectTransform { get; set; }
+        public BuildOrderUIElement element { get; set; }
     }
 }
