@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -46,7 +47,7 @@ namespace RogueWave
                     continue;
                 }
 
-                Image icon = Instantiate(iconPrototype, transform);
+                Image icon = Instantiate(iconPrototype, iconPrototype.transform.parent);
                 icon.sprite = tile.icon;
                 icon.name = tile.name;
             }
@@ -60,6 +61,14 @@ namespace RogueWave
             }
 
             launchButton.gameObject.SetActive(true);
+            foreach (Transform sibling in transform.parent)
+            {
+                LevelUiController siblingLevel = sibling.GetComponent<LevelUiController>();
+                if (siblingLevel != null && siblingLevel != this)
+                {
+                    siblingLevel.launchButton.gameObject.SetActive(false);
+                }
+            }
 
             OnLevelClicked?.Invoke(this);
         }

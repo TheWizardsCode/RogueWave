@@ -18,9 +18,6 @@ namespace WizardsCode.RogueWave
 {
     public class LevelMenu : PreSpawnPopupBase, IPointerClickHandler
     {
-        [SerializeField, RequiredObjectProperty, Tooltip("The button that's used to spawn the character")]
-        private Button m_SpawnButton = null;
-
         [Header("Level Map")]
         [SerializeField, Tooltip("The campaign definition to use for the map."), Expandable]
         private CampaignDefinition campaignDefinition;
@@ -38,7 +35,7 @@ namespace WizardsCode.RogueWave
 
         public override Selectable startingSelection
         {
-            get { return m_SpawnButton; }
+            get { return null; }
         }
 
         void Awake()
@@ -56,14 +53,7 @@ namespace WizardsCode.RogueWave
             NeoFpsInputManager.captureMouseCursor = true;
         }
 
-        public override void Initialise(FpsSoloGameCustomisable g, UnityAction onComplete)
-        {
-            base.Initialise(g, onComplete);
-
-            m_SpawnButton.onClick.AddListener(GenerateLevelAndSpawn);
-        }
-
-        private void GenerateLevelAndSpawn()
+        public void GenerateLevelAndSpawn()
         {
             ((RogueWaveGameMode)gameMode).GenerateLevel();
             Spawn();
@@ -105,6 +95,7 @@ namespace WizardsCode.RogueWave
         private void OnLevelClicked(LevelUiController controller)
         {
             RogueLiteManager.persistentData.currentGameLevel = Array.IndexOf(campaignDefinition.levels, controller.levelDefinition);
+
         }
     }
 }
