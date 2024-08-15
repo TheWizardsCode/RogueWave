@@ -49,6 +49,16 @@ namespace RogueWave
             }
         }
 
+        public void Generate(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
+        {
+            this.levelGenerator = levelGenerator;
+            tileWidth = levelGenerator.levelDefinition.lotSize.x;
+            tileDepth = levelGenerator.levelDefinition.lotSize.y;
+            GenerateGround(x, y, tiles, levelGenerator);
+            GenerateTileContent(x, y, tiles, levelGenerator);
+            GenerateEnemies(x, y, tiles, levelGenerator);
+        }
+
         internal virtual void GenerateTileContent(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             if (spawnFurniture && furniturePrefabs.Length > 0 && Random.value < furnitureChance)
@@ -215,16 +225,6 @@ namespace RogueWave
                 BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prototype);
                 enemy.transform.position = levelGenerator.TileCoordinatesToWorldPosition(x, y) + new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileDepth / 2, tileDepth / 2)) + contentOffset;
             }
-        }
-
-        public void Generate(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
-        {
-            this.levelGenerator = levelGenerator;
-            tileWidth = levelGenerator.levelDefinition.lotSize.x;
-            tileDepth = levelGenerator.levelDefinition.lotSize.y;
-            GenerateGround(x, y, tiles, levelGenerator);
-            GenerateTileContent(x, y, tiles, levelGenerator);
-            GenerateEnemies(x, y, tiles, levelGenerator);
         }
 
         public Vector3 contentOffset => new Vector3(tileWidth / 2, 0, tileDepth / 2);

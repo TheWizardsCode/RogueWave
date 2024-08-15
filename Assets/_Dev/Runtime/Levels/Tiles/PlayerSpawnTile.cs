@@ -19,5 +19,10 @@ namespace RogueWave
 
             base.GenerateTileContent(x, y, tiles, levelGenerator);
         }
+
+        protected override void GenerateEnemies(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
+        {
+            // do not put enemies in the same tile as the player spawn
+        }
     }
 }
