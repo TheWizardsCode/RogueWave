@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Test Empty Level - 5 x 5 Lots - 14 x 16
+  m_Name: Test Spawner Level - 5 x 5 Lots - 14 x 16
   m_EditorClassIdentifier: 
   seed: 0
   lotSize: {x: 25, y: 25}
@@ -25,6 +25,7 @@ MonoBehaviour:
   maxAlive: 200
   generateLevelOnSpawn: 1
   prePlacedTiles:
+  - {fileID: 11400000, guid: 61668e039e7afa94c9f74eab2bfadfc6, type: 2}
   - {fileID: 11400000, guid: ccca2893416a8f2458df113e4cc012b8, type: 2}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1903032401512609414}
   - component: {fileID: 4555997216275955981}
   - component: {fileID: -7296944252688237283}
-  m_Layer: 31
+  m_Layer: 30
   m_Name: Shield Generator Level 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,8 +70,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Shield Generator
-  description: Generate a shield around a nearby object. To attack that object the
-    shield generaotr(s) will need to be destroyed first.
+  m_description: Generate a shield around a nearby object. To attack that object
+    the shield generaotr(s) will need to be destroyed first.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 1
   requireLineOfSight: 0
   viewDistance: 30
@@ -141,7 +144,7 @@ GameObject:
   - component: {fileID: 5642523666447883031}
   - component: {fileID: 5620064431566530618}
   - component: {fileID: 8147921263850287627}
-  m_Layer: 31
+  m_Layer: 30
   m_Name: shield_gen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -310,7 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3070221231925691227}
   - component: {fileID: 639148792871228887}
-  m_Layer: 31
+  m_Layer: 30
   m_Name: Line
   m_TagString: Untagged
   m_Icon: {fileID: 0}

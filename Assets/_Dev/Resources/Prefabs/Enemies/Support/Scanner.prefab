@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 4437746279418429034}
   - component: {fileID: 2167139020078676602}
   - component: {fileID: 2551047271547030005}
-  m_Layer: 31
+  m_Layer: 30
   m_Name: Scanner
   m_TagString: AI
   m_Icon: {fileID: 0}
@@ -53,8 +53,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Scanner
-  description: The doughnut has sensors that mean it can detect and hunt down the
+  m_description: The doughnut has sensors that mean it can detect and hunt down the
     player relentlessly. Fortunately it is not well armed.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 1
   requireLineOfSight: 1
   viewDistance: 200
@@ -337,7 +340,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3991244696875155355}
-  m_Layer: 31
+  m_Layer: 30
   m_Name: Sensor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -409,7 +412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -5117700066308340382, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: -2571118854743697038, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -421,7 +424,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 6bd2ddfa38a698d47b3c522c9f7933d4, type: 2}
     - target: {fileID: -391268320553695201, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
       propertyPath: m_Name
@@ -429,7 +432,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1352bd14e9f58bf4bb7e407d4fde94f4, type: 3}
       propertyPath: m_Layer
-      value: 31
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
