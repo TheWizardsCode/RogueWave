@@ -16,6 +16,11 @@ namespace RogueWave
 {
     public class NanobotManager : MonoBehaviour
     {
+        public enum ResourceType
+        {
+            Refined,
+            Crystal
+        }
         enum voiceDescriptionLevel { Silent, Low, Medium, High }
 
         [Header("Building")]
@@ -55,6 +60,8 @@ namespace RogueWave
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of resources collected in the game.")]
         private GameStat m_ResourcesCollected;
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The unrefined crystal resources gathered.")]
+        private GameStat m_CrystalResourcesCollected;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of resources spent in the game.")]
         private GameStat m_ResourcesSpent;
         [SerializeField, Tooltip("The GameStat to increment when a recipe is called in during a run."), Foldout("Game Stats")]
@@ -920,10 +927,15 @@ namespace RogueWave
             }
         }
 
-        public void CollectResources(int amount)
+        public void CollectResources(int amount, ResourceType resourceType)
         {
             resourcesForNextNanobotLevel -= amount;
             resources += amount;
+
+            if (resourceType == ResourceType.Crystal)
+            {
+                m_CrystalResourcesCollected.Increment(amount);
+            }
         }
 
         internal int GetAppliedCount(PassiveItemRecipe passiveItemPickupRecipe)

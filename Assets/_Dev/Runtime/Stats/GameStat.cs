@@ -27,6 +27,8 @@ namespace RogueWave.GameStats
         string m_Key;
         [SerializeField, Tooltip("The name of the stat as displayed in the UI.")]
         string m_displayName;
+        [SerializeField, TextArea, Tooltip("A description of the stat.")]
+        string m_description;
         [SerializeField, Tooltip("The type of stat.")]
         StatType m_StatType;
         [SerializeField, OnValueChanged("OnDefaultValueChangedCallback"), Tooltip("The default value of the stat.")]
@@ -81,7 +83,13 @@ namespace RogueWave.GameStats
                 }
                 return m_displayName; 
             }
-            set { m_displayName = value; }
+            private set { m_displayName = value; }
+        }
+
+        public string description
+        {
+            get { return m_description; }
+            private set { m_description = value; }
         }
 
         internal void Reset()

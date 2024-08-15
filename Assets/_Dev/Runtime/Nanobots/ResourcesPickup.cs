@@ -10,6 +10,8 @@ namespace RogueWave
     [RequireComponent(typeof(AudioSource))]
     public class ResourcesPickup : Pickup, INeoSerializableComponent
     {
+        [SerializeField, Tooltip("The type of resources to collect.")]
+        private NanobotManager.ResourceType m_ResourceType = NanobotManager.ResourceType.Refined;
         [SerializeField, Tooltip("The amount of resources to collect.")]
         private int m_ResourcesAmount = 10;
         [SerializeField, Tooltip("A multiplier curve for the resources amount based on the current difficulty. This will be applied to the amount of resources collected.")]
@@ -44,7 +46,7 @@ namespace RogueWave
 
             m_OnResourcesCollected.Invoke();
 
-            nanobotManager.CollectResources(Mathf.RoundToInt(m_ResourcesAmount * resourceMultiplierByLevel.Evaluate(FpsSettings.playstyle.difficulty)));
+            nanobotManager.CollectResources(Mathf.RoundToInt(m_ResourcesAmount * resourceMultiplierByLevel.Evaluate(FpsSettings.playstyle.difficulty)), m_ResourceType);
             DestroyPickup();
         }
 
