@@ -44,6 +44,8 @@ namespace RogueWave
         private AbstractRecipe[] _startingRecipesRun;
 
         [Header("Level Management")]
+        [SerializeField, Tooltip("If true the level will be generated when the game mode starts.")]
+        bool m_generateLevelOnStart = false;
         [SerializeField, Tooltip("The campaign definitions which defines the levels to play in order, which in turn defines the enemies, geometry and more for each level."), Expandable]
         CampaignDefinition campaign;
 
@@ -368,6 +370,11 @@ namespace RogueWave
 
         protected override void OnStart()
         {
+            if (m_generateLevelOnStart)
+            {
+                levelGenerator.Generate(currentLevelDefinition, campaign.seed);
+            }
+
             base.OnStart();
 
             if (m_SpawnZones.currentIndex == -1 && m_SpawnZones.spawnZones.Length > 0)

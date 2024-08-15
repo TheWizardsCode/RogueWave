@@ -1717,6 +1717,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2927439300837321280, guid: 6e65484e683ad974297434772b4f3bd8, type: 3}
+      propertyPath: m_LevelStatusPanel
+      value: 
+      objectReference: {fileID: 1767541930}
     - target: {fileID: 3072563277687745674, guid: 6e65484e683ad974297434772b4f3bd8, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2663,6 +2667,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43413b55cf8e8664f8dfc21fe194f3d9, type: 3}
+--- !u!224 &1767541930 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 7691755514027512542, guid: 6e65484e683ad974297434772b4f3bd8, type: 3}
+  m_PrefabInstance: {fileID: 1244532085}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1802216494
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3191,10 +3200,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1020475153064511633, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 2281439031
-      objectReference: {fileID: 0}
     - target: {fileID: 5223561033937574973, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_Name
       value: RW_Test_Game_Mode
@@ -3238,226 +3243,6 @@ PrefabInstance:
     - target: {fileID: 5226446580903751955, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: campaign
-      value: 
-      objectReference: {fileID: 11400000, guid: a6b18b6f111583d4d845ae1ced2ddc37, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: levels.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: levels.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: c6ce2c3bfb9d41b47b32f4690dc4a982, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: levels.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 02029c6a945aae6408c827f88f447113, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: randomizePlayerSpawn
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipes.Array.size
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipes.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipes.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 3f74a6743cf4d9e45b231c97899f5d7a, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipes.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: a783ac2fff4fc1a4eab90aecf9e305a1, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipes.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipes.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: b7dab938896fc29438fccfb0264b6f3b, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: m_SpawnZones.spawnZones.Array.size
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: 22e1bf5280e270b46a7e8df0dcca53e8, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
-    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: _startingRecipesPermanent.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: difficultyMultiplier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].time
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].time
-      value: 44.02493
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].time
-      value: 99
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[3].time
-      value: 99
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].value
-      value: 0.38605958
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].value
-      value: 2.7962418
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].value
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[3].value
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].inSlope
-      value: 0.05110267
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].inSlope
-      value: 0.081488125
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].inSlope
-      value: 0.15919253
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[3].inSlope
-      value: 0.15919253
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].inWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].outSlope
-      value: 0.05110267
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].inWeight
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].outSlope
-      value: 0.081488125
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].inWeight
-      value: 0.054684304
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].outSlope
-      value: 0.15919253
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[3].inWeight
-      value: 0.054684304
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[3].outSlope
-      value: 0.15919253
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[0].outWeight
-      value: 0.05227971
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[1].outWeight
-      value: 0.053064305
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: targetSkillScoreByLevel.m_Curve.Array.data[2].outWeight
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[1].value
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[0].inSlope
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[1].inSlope
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[0].outSlope
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[1].inWeight
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[1].outSlope
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[0].outWeight
-      value: 0.33333334
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[0].tangentMode
-      value: 34
-      objectReference: {fileID: 0}
-    - target: {fileID: 8788259941515310497, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
-      propertyPath: challengeRatingMultiplierByDifficulty.m_Curve.Array.data[1].tangentMode
-      value: 34
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
