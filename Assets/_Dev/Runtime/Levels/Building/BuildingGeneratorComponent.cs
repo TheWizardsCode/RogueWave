@@ -1,9 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS;
-using NeoFPS.Constants;
-using ProceduralToolkit;
+using Palmmedia.ReportGenerator.Core;
 using ProceduralToolkit.Buildings;
-using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,13 +12,13 @@ namespace RogueWave.Procedural
         [Header("Building Configurations")]
         [SerializeField, Tooltip("If true then a new building will be generated on Awake.")]
         private bool generateOnAwake = true;
-        [SerializeField, Expandable]
-        [FormerlySerializedAs("foundationPolygon")]
-        private PolygonAsset[] foundationPolygons = null;
+        [SerializeField, Expandable, Tooltip("The polygons that can be used as the first layer of two layer buildings.")]
+        [FormerlySerializedAs("layerOnePolygons")]
+        private PolygonAsset[] groundLayerPolygons = null;
+        [SerializeField, Expandable, Tooltip("The polygons that can be used as the second layer of two layer buildings.")]
+        private PolygonAsset[] upperLayerPolygons = null;
         [SerializeField, Tooltip("The number of minimum and maximum number of floors the building will have."), MinMaxSlider(2, 50)]
         internal Vector2Int floors = new Vector2Int(2, 50);
-        [SerializeField, Tooltip("The parent for the building generated.")]
-        private Transform parent = null;
 
         [Header("Planners and Constructors")]
         [SerializeField, FormerlySerializedAs("facadePlanningStrategy"), Expandable]
@@ -32,36 +30,80 @@ namespace RogueWave.Procedural
         [SerializeField, FormerlySerializedAs("roofConstructionStrategy"), Expandable]
         private RoofConstructor roofConstructor = null;
 
-        PolygonAsset m_foundationsPolygon;
-        internal PolygonAsset foundationsPolygon
-        {
-            get
-            {
-                if (m_foundationsPolygon == null)
-                {
-                    m_foundationsPolygon = foundationPolygons[Random.Range(0, foundationPolygons.Length)];
-                }
-                return m_foundationsPolygon;
-            }
-        }
-
         private void Awake()
         {
             if (generateOnAwake)
             {
-                Generate();
+                Generate(groundLayerPolygons[Random.Range(0, groundLayerPolygons.Length)], Random.Range(floors.x, floors.y), new GameObject().transform, false);
             }
         }
 
-        public Transform Generate()
+        /// <summary>
+        /// Generate a building with a random polygon from the first layer.
+        /// </summary>
+        /// <param name="size">The largest floorplan size this building can be. This is in meters and represent an approximate maximum length of a sqaure area the building may cover.</param>
+        /// <returns></returns>
+        public GameObject Generate(Vector2Int size, int layers)
         {
-            if (foundationsPolygon.autoGenerate)
+            GameObject building = new GameObject("Procedural Building");
+            building.transform.SetParent(transform);
+
+            PolygonAsset floorplan;
+            float lengthMultiplier;
+            int numOfFloors;
+
+            for (int i = 0; i < layers; i++)
             {
-                foundationsPolygon.Randomize();
+                GameObject layer = new GameObject("Layer " + i);
+                if (i == 0)
+                {
+                    floorplan = upperLayerPolygons[Random.Range(0, upperLayerPolygons.Length)];
+                    lengthMultiplier = floorplan.sides > 6 ? Random.Range(0.6f, 0.7f) : Random.Range(0.7f, 0.9f);
+                    floorplan.facadeLength = new Vector2Int(Mathf.RoundToInt(size.x * lengthMultiplier), Mathf.RoundToInt(size.y * lengthMultiplier));
+
+                    if (layers > 0)
+                    {
+                        numOfFloors = Mathf.RoundToInt(Mathf.Max(Random.Range(floors.x, floors.y / 1.5f), 1));
+                    }
+                    else
+                    {
+                        numOfFloors = Random.Range(floors.x, floors.y);
+                    }
+                }
+                else
+                {
+                    floorplan = upperLayerPolygons[Random.Range(0, upperLayerPolygons.Length)];
+                    lengthMultiplier = floorplan.sides > 6 ? Random.Range(0.4f, 0.5f) : Random.Range(0.5f, 0.6f);
+                    if (Random.value < 0.5f)
+                    {
+                        floorplan.facadeLength = new Vector2Int(Mathf.RoundToInt(size.x * lengthMultiplier), Mathf.RoundToInt(size.y * lengthMultiplier));
+                    }
+                    numOfFloors = Mathf.Max(Random.Range(floors.x / 2, floors.y / 2), 1);
+                }
+                if (i > 0)
+                {
+                    Generate(floorplan, numOfFloors, layer.transform, true);
+                    Transform lowerLayer = building.transform.Find("Layer " + (i - 1)).Find("Facades");
+                    layer.transform.localPosition = new Vector3(0, lowerLayer.GetComponent<Collider>().bounds.size.y, 0);
+                } else
+                {
+                    Generate(floorplan, numOfFloors, layer.transform, false);
+                }
+                layer.transform.SetParent(building.transform);
+            }
+
+            return building;
+        }
+
+        public void Generate(PolygonAsset floorplan, int floors, Transform parent, bool generateFloor)
+        {
+            if (floorplan.autoGenerate)
+            {
+                floorplan.Randomize();
             }
 
             BuildingGenerator.Config config = new BuildingGenerator.Config();
-            config.floors = Random.Range(floors.x, floors.y);
+            config.floors = floors;
             
             var generator = new BuildingGenerator();
             generator.SetFacadePlanner(facadePlanner);
@@ -69,15 +111,20 @@ namespace RogueWave.Procedural
             generator.SetRoofPlanner(roofPlanner);
             generator.SetRoofConstructor(roofConstructor);
             config.palette = facadeConstructor.palette;
-            Transform building = generator.Generate(foundationsPolygon.vertices, config, parent);
-
-            parent.name = $"Model (Foundations generated by {foundationsPolygon})";
+            Transform building = generator.Generate(floorplan.vertices, config, parent);
 
             for (int i = parent.childCount - 1; i >= 0; i--)
             {
                 parent.GetChild(i).gameObject.isStatic = true;
                 CreateColliders(parent.GetChild(i));
                 AddDamageHandlers(parent.GetChild(i));
+            }
+
+            if (generateFloor)
+            {
+                GameObject floor = Instantiate(building.root.Find("Roof").gameObject, parent);
+                floor.transform.localPosition = Vector3.zero;
+                floor.transform.localRotation = Quaternion.Euler(180, 0, 0);
             }
 
             // Set UVs and colours
@@ -101,8 +148,6 @@ namespace RogueWave.Procedural
 
                 mesh.uv = uvs;
             }
-
-            return building;
         }
 
         void AddDamageHandlers(Transform building)
@@ -127,24 +172,31 @@ namespace RogueWave.Procedural
         }
 
 #if UNITY_EDITOR
-        [Button("Generate Building")]
-        void GenerateBuilding()
+        [Button]
+        void GenerateOneLevelBuilding()
         {
             DestroyBuilding();
-            Generate();
+            Generate(new Vector2Int(25, 25), 1);
+        }
+
+        [Button]
+        void GenerateTwoLevelBuilding()
+        {
+            DestroyBuilding();
+            Generate(new Vector2Int(25,25), 2);
         }
 
         [Button("Destroy Building")]
         void DestroyBuilding()
         {
-            if (parent.childCount == 0)
+            if (transform.childCount == 0)
             {
                 return;
             }
 
-            for (int i = parent.childCount - 1; i >= 0; i--)
+            for (int i = transform.childCount - 1; i >= 0; i--)
             {
-                Transform building = parent.GetChild(i);
+                Transform building = transform.GetChild(i);
                 if (Application.isPlaying)
                     building.GetComponentInParent<BasicDamageHandler>().AddDamage(10000);
                 else

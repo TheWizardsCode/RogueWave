@@ -46,17 +46,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   generateOnAwake: 0
-  foundationPolygons:
-  - {fileID: 11400000, guid: ddafba8a2d487844f871f88e4aca43b0, type: 2}
+  groundLayerPolygons:
   - {fileID: 11400000, guid: a540d7a1fdf3a9d49a66617d16c65196, type: 2}
   - {fileID: 11400000, guid: 4db065a1516b4fa4b8371342a9e31dd1, type: 2}
   - {fileID: 11400000, guid: fdb382f0363bae845801de5407f0da12, type: 2}
-  - {fileID: 11400000, guid: 98289bb0a89df1549a30e83e5b3fb788, type: 2}
+  - {fileID: 11400000, guid: ddafba8a2d487844f871f88e4aca43b0, type: 2}
   - {fileID: 11400000, guid: 62ddd43b0d0d5054899f4c920f3ccd96, type: 2}
+  - {fileID: 11400000, guid: ee96c012f0eb2ea42915d8e4a9d39ab6, type: 2}
+  - {fileID: 11400000, guid: 794a430728663f64e9e66cdfc61dbac1, type: 2}
   - {fileID: 11400000, guid: e899eeac1b29be24f90f3eceefef3765, type: 2}
   - {fileID: 11400000, guid: 7596ae514788f7c49b60625818ef3a75, type: 2}
+  upperLayerPolygons:
+  - {fileID: 11400000, guid: 4db065a1516b4fa4b8371342a9e31dd1, type: 2}
+  - {fileID: 11400000, guid: 62ddd43b0d0d5054899f4c920f3ccd96, type: 2}
+  - {fileID: 11400000, guid: e899eeac1b29be24f90f3eceefef3765, type: 2}
   floors: {x: 2, y: 30}
-  parent: {fileID: 2047799219072644281}
   facadePlanner: {fileID: 11400000, guid: c977cc8568bc7114f800c7db915b5ee8, type: 2}
   facadeConstructor: {fileID: 11400000, guid: 9662c59503204e64289e7d0e4027eff2, type: 2}
   roofPlanner: {fileID: 11400000, guid: 4ef7227c02ad17045971dc0e36c02e4d, type: 2}
