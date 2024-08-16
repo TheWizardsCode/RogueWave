@@ -18,27 +18,30 @@ namespace WizardsCode.RogueWave
 {
     public class LevelMenu : PreSpawnPopupBase, IPointerClickHandler
     {
+        [Header("UI Elements")]
+        [SerializeField, Tooltip("The Interface Animation Manager that will make the UI appear and dissapear.")]
+        private InterfaceAnimManager interfaceAnimationManager;
+        [SerializeField, Tooltip("The prefab to use for the level elements in the UI.")]
+        private LevelUiController levelElementProtoytpe;
+        [SerializeField, Tooltip("The stand by message for when the UI is appearing and disappearing.")]
+        private TextMeshProUGUI standbyMessage;
+
         [Header("Level Map")]
         [SerializeField, Tooltip("The campaign definition to use for the map."), Expandable]
         private CampaignDefinition campaignDefinition;
-
         [SerializeField, Tooltip("The number of columns in the map.")]
         private int numOfColumns = 8;
         [SerializeField, Tooltip("The number of rows in the map.")]
         private int numOfRows = 4;
         [SerializeField, Tooltip("The parent object to hold the map.")]
         private RectTransform parent;
-        [SerializeField, Tooltip("The prefab to use for the level elements in the UI.")]
-        private LevelUiController levelElementProtoytpe;
-        [SerializeField, Tooltip("The location for details about the player character to be shown.")]
-        private RectTransform playerCharacterInfo;
-
+        
         public override Selectable startingSelection
         {
             get { return null; }
         }
 
-        void Awake()
+        private void Start()
         {
             GenerateMap();
         }
@@ -46,14 +49,32 @@ namespace WizardsCode.RogueWave
         private void OnEnable()
         {
             NeoFpsInputManager.captureMouseCursor = false;
+            standbyMessage.gameObject.SetActive(true);
+            interfaceAnimationManager.OnEndAppear += OnAppear;
+
+            interfaceAnimationManager.startAppear();
+        }
+
+        private void OnAppear(InterfaceAnimManager _IAM)
+        {
+            standbyMessage.gameObject.SetActive(false);
         }
 
         private void OnDisable()
         {
             NeoFpsInputManager.captureMouseCursor = true;
+            interfaceAnimationManager.OnEndAppear -= OnAppear;
+            interfaceAnimationManager.OnEndDisappear -= _GenerateLevelAndSpawn;
         }
 
         public void GenerateLevelAndSpawn()
+        {
+            interfaceAnimationManager.OnEndDisappear += _GenerateLevelAndSpawn;
+            standbyMessage.gameObject.SetActive(true);
+            interfaceAnimationManager.startDisappear();
+        }
+
+        private void _GenerateLevelAndSpawn(InterfaceAnimManager _IAM)
         {
             ((RogueWaveGameMode)gameMode).GenerateLevel();
             Spawn();
