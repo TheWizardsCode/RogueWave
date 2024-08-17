@@ -5,14 +5,19 @@ using Random = UnityEngine.Random;
 
 namespace RogueWave
 {
-    internal static class RecipeManager
+    public static class RecipeManager
     {
-        static Dictionary<string, IRecipe> allRecipes = new Dictionary<string, IRecipe>();
+        public static Dictionary<string, IRecipe> allRecipes = new Dictionary<string, IRecipe>();
         static Dictionary<string, IRecipe> powerupRecipes = new Dictionary<string, IRecipe>();
         static bool isInitialised = false;
 
-        internal static void Initialise()
+        public static void Initialise()
         {
+            if (isInitialised)
+            {
+                return;
+            }
+
             AbstractRecipe[] itemRecipes = Resources.LoadAll<AbstractRecipe>("Recipes");
             foreach (AbstractRecipe recipe in itemRecipes)
             {

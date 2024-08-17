@@ -21,7 +21,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
             }
         }
 
-        [RegisterCommand(Help = "Kill a % of enemies on this level. Default is 75.")]
+        [RegisterCommand(Help = "Kill a % of enemies on this level. Default is 75.", MinArgCount = 1, MaxArgCount = 1)]
         static void KillPercentageEnemies(CommandArg[] args)
         {
             if (Terminal.IssuedError) return;
@@ -42,7 +42,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
             Terminal.Log($"Killed {percentage}% of enemies.");
         }
 
-        [RegisterCommand(Help = "Disable spawning in this level.")]
+        [RegisterCommand(Help = "Disable spawning in this level.", MinArgCount = 0, MaxArgCount = 0)]
         static void DisableSpawning(CommandArg[] args)
         {
             if (Terminal.IssuedError) return;
@@ -52,7 +52,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
             Terminal.Log("Spawning disabled.");
         }
 
-        [RegisterCommand(Help = "Enable spawning in this level.")]
+        [RegisterCommand(Help = "Enable spawning in this level.", MinArgCount = 0, MaxArgCount = 0)]
         static void EnableSpawning(CommandArg[] args)
         {
             if (Terminal.IssuedError) return;
