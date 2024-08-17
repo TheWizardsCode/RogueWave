@@ -2,12 +2,25 @@
 using RogueWave;
 using UnityEngine;
 using WizardsCode.CommandTerminal;
-using static UnityEngine.UI.DefaultControls;
 
 namespace WizardsCode.RogueWave.CommandTerminal.InGame
 {
     public class EnemyCommands
     {
+        static AIDirector m_Director;
+        static AIDirector director
+        {
+            get
+            {
+                if (m_Director == null)
+                {
+                    m_Director = GameObject.FindObjectOfType<AIDirector>();
+                }
+
+                return m_Director;
+            }
+        }
+
         [RegisterCommand(Help = "Kill a % of enemies on this level. Default is 75.")]
         static void KillPercentageEnemies(CommandArg[] args)
         {
@@ -24,10 +37,29 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
                 percentage = args[0].Float;
             }
 
-            AIDirector director = GameObject.FindObjectOfType<AIDirector>();
             director.Kill(percentage);
             
             Terminal.Log($"Killed {percentage}% of enemies.");
+        }
+
+        [RegisterCommand(Help = "Disable spawning in this level.")]
+        static void DisableSpawning(CommandArg[] args)
+        {
+            if (Terminal.IssuedError) return;
+
+            director.DisableSpawning();
+            
+            Terminal.Log("Spawning disabled.");
+        }
+
+        [RegisterCommand(Help = "Enable spawning in this level.")]
+        static void EnableSpawning(CommandArg[] args)
+        {
+            if (Terminal.IssuedError) return;
+
+            director.EnableSpawning();
+            
+            Terminal.Log("Spawning enabled.");
         }
     }
 }

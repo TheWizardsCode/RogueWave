@@ -348,6 +348,28 @@ namespace RogueWave
                 enemiesToKill--;
             }
         }
+
+        /// <summary>
+        /// Enable spawning of enemies by turning on the spawners.
+        /// </summary>
+        public void EnableSpawning()
+        {
+            foreach (Spawner spawner in spawners)
+            {
+                spawner.spawningEnabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Enable spawning of enemies by turning on the spawners.
+        /// </summary>
+        public void DisableSpawning()
+        {
+            foreach (Spawner spawner in spawners)
+            {
+                spawner.spawningEnabled = false;
+            }
+        }
     }
 
     internal struct KillReport

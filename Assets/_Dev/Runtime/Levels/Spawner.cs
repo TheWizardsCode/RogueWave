@@ -91,6 +91,7 @@ namespace RogueWave
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
         private AudioSource audioSource;
+        internal bool spawningEnabled = true;
 
         protected override void Awake()
         {
@@ -297,11 +298,17 @@ namespace RogueWave
         }
 
         /// <summary>
-        /// If the spawner is not ignoring the max alive setting in the level definition, then this will spawn an enemy if the max alive count has not been reached.
+        /// Spawn an enemy if this spawner is actively spawning and the max alive count has not been reached (unless we are ignoring the max alive count according to the optional `maxAliveOverride` parameter).
         /// </summary>
+        /// <param name="maxAliveOverride">If true then the max alive count will be ignored and thus an enemy will always be spawned unless the spawner is currently inactive.</param>
         /// <returns>The enemy spawned, null if current maxAlive is hit and we are not ignoring maxalive, or if an enemy cannot be spawned for some other reason.</returns>
         internal BasicEnemyController SpawnEnemy(bool maxAliveOverride = false)
         {
+            if (spawningEnabled == false)
+            {
+                return null;
+            }
+
             if (!maxAliveOverride || ignoreMaxAlive)
             {
                 if (currentLevel.maxAlive != 0 && spawnedEnemies.Count >= currentLevel.maxAlive)
