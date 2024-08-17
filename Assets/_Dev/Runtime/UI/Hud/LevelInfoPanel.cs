@@ -3,6 +3,7 @@ using NeoFPS.Samples;
 using NeoFPS.SinglePlayer;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace RogueWave
@@ -10,7 +11,8 @@ namespace RogueWave
     public class LevelInfoPanel : PreSpawnPopup
     {
         [SerializeField, Tooltip("The audio to play when this panel is shown.")]
-        AudioClip audio;
+        [FormerlySerializedAs("audio")]
+        AudioClip showAudioClip;
 
         private void OnEnable()
         {
@@ -24,7 +26,7 @@ namespace RogueWave
 
         public override void Initialise(FpsSoloGameCustomisable g, UnityAction onComplete)
         {
-            GetComponent<AudioSource>().PlayOneShot(audio);
+            GetComponent<AudioSource>().PlayOneShot(showAudioClip);
             base.Initialise(g, onComplete);
         }
     }

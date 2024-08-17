@@ -43,7 +43,9 @@ namespace RogueWave.Tutorial
 #if UNITY_EDITOR
         [HorizontalLine]
         [SerializeField]
+        #pragma warning disable CS0414 // used to show/hide buttons in the inspector
         bool showDebug = false;
+        #pragma warning restore CS0414
 
         [Button, ShowIf("showDebug")]
         public void PlayClip()

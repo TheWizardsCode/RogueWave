@@ -12,8 +12,6 @@ namespace RogueWave
         float radarRadius = 10f;
         [SerializeField, Tooltip("The number of blips the radar will display. The radar will try to display only the closest items, however, the total number of items detected is controlled by `radarDetectionCount`, if this is too low it is possible the radar will not detect the nearest items.")]
         int radarBlipCount = 3;
-        [SerializeField, Tooltip("The time interval between radar updates.")]
-        float radarUpdateInterval = 0.25f;
         [SerializeField, Tooltip("The offset from the radar blip parent that the radar blip lines will be drawn to.")]
         Vector3 startOffset = new Vector3(0, 0.4f, 0);
 

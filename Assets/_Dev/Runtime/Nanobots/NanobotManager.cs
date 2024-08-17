@@ -26,10 +26,6 @@ namespace RogueWave
         [Header("Building")]
         [SerializeField, Tooltip("Cooldown between recipe builds.")]
         private float buildingCooldown = 4;
-        [SerializeField, Tooltip("How many resources are needed for a level up recipe offer. This will be multiplied by the current level * 1.5. Meaning the higher the level the more resources are required for a reward crate.")]
-        private int baseResourcesPerLevel = 100;
-        [SerializeField, Tooltip("This is the multiplier for the resources required for the next level. This is multiplied by the current level and the baseResourcesPerLevel to get the resources required for the next level.")]
-        private float resourcesPerLevelMultiplier = 1.5f;
         [SerializeField, Tooltip("The resources needed to reach the next nanobot level."), CurveRange(0, 100, 99, 50000, EColor.Green)]
         private AnimationCurve resourcesForLevel;
         [SerializeField, Tooltip("The time between recipe offers from the home planet. Once a player has levelled up they will recieve an updated offer until they accept one. This is the freqency at which the offer will be changed.")]

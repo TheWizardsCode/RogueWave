@@ -1,16 +1,10 @@
 using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
-using NUnit.Framework;
 using RogueWave;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TMPro;
-using UnityEditor;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -29,10 +23,6 @@ namespace WizardsCode.RogueWave
         [Header("Level Map")]
         [SerializeField, Tooltip("The campaign definition to use for the map."), Expandable]
         private CampaignDefinition campaignDefinition;
-        [SerializeField, Tooltip("The number of columns in the map.")]
-        private int numOfColumns = 8;
-        [SerializeField, Tooltip("The number of rows in the map.")]
-        private int numOfRows = 4;
         [SerializeField, Tooltip("The parent object to hold the map.")]
         private RectTransform parent;
         

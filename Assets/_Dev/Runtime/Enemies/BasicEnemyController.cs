@@ -43,8 +43,6 @@ namespace RogueWave
         internal bool headLook = true;
         [SerializeField, Tooltip("The head of the enemy. If set then this object will be rotated to face the player."), ShowIf("headLook")]
         Transform head;
-        [SerializeField, Tooltip("The speed at which the head will rotate to face the plaeer."), Range(0, 10), ShowIf("headLook")]
-        float headRotationSpeed = 2;
         [SerializeField, Tooltip("The maximum rotation of the head either side of forward."), Range(0, 180), ShowIf("headLook")]
         float maxHeadRotation = 75;
 
@@ -630,7 +628,7 @@ namespace RogueWave
             }
         }
 
-        public void OnAliveIsChanged(bool isAlive)
+        public virtual void OnAliveIsChanged(bool isAlive)
         {
             if (!isAlive)
                 Die();

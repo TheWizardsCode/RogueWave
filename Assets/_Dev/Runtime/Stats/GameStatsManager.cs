@@ -456,7 +456,9 @@ namespace RogueWave.GameStats
 #if UNITY_EDITOR
         [HorizontalLine(color: EColor.Blue)]
         [SerializeField]
+        #pragma warning disable CS0414 // used in Button attribute
         bool showDebug = false;
+        #pragma warning restore CS0414
 
         [Button("Dump Stats and Achievements to Console"), ShowIf("showDebug")]
         private void DumpStatsAndAchievements()

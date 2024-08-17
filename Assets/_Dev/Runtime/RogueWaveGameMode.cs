@@ -65,12 +65,6 @@ namespace RogueWave
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
         public UnityEvent<BasicEnemyController> onEnemySpawned;
 
-#if UNITY_EDITOR
-        [HorizontalLine(color: EColor.Blue)]
-        [SerializeField, Tooltip("Turn on debug mode for this Game Mode")]
-        private bool showDebug = false;
-#endif
-
         public override bool spawnOnStart
         {
             get { return true; }

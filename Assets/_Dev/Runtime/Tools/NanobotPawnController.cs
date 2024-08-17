@@ -25,10 +25,6 @@ namespace RogueWave
         [SerializeField, Tooltip("The layer mask for objects that should be detected and tracked.")]
         LayerMask detectionLayerMask;
 
-        [Header("Animation")]
-        [SerializeField, Tooltip("The trigger for the attack animation.")]
-        string attackTrigger = "Attack";
-
         [Header("Movement")]
         [SerializeField, Tooltip("If set to true this pawn is able to move independently.")]
         bool canMove = true;
@@ -371,7 +367,6 @@ namespace RogueWave
 
             // find the height of the ground at the target position
             float maxTerrrainHeight = 8;
-            float yOffset = -1;
             if (Physics.Raycast(targetPosition + (Vector3.up * maxTerrrainHeight), Vector3.down, out RaycastHit hit, maxTerrrainHeight * 1.1f, 1 << 0))
             {
                 targetPosition.y = hit.point.y;

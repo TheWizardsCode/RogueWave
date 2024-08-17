@@ -344,7 +344,7 @@ namespace RogueWave
             spawnedEnemies.Remove(enemy);
         }
 
-        public void OnAliveIsChanged(bool isAlive)
+        public override void OnAliveIsChanged(bool isAlive)
         {
             if (!gameObject.activeSelf)
             {

@@ -31,9 +31,6 @@ namespace RogueWave
         [SerializeField, Tooltip("A multiplier to the challenge rating of enemeies that will be sent when the player is below the target kill score. The game difficulty setting will be used to read from this curve.")]
         private AnimationCurve challengeRatingMultiplierByDifficulty = AnimationCurve.Linear(0,0,2.5f,2.5f);
 
-        [SerializeField, Tooltip("Turn on debug features for the AI Director"), Foldout("Debug")]
-        bool isDebug = false;
-
         List<Spawner> spawners = new List<Spawner>();
         internal List<BasicEnemyController> enemies = new List<BasicEnemyController>();
         Dictionary<BasicEnemyController, List<BasicEnemyController>> squads = new Dictionary<BasicEnemyController, List<BasicEnemyController>>();
