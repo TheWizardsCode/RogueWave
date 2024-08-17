@@ -14,7 +14,10 @@ namespace WizardsCode.CommandTerminal
 
         private static void OnDestroy()
         {
-            cts.Cancel();
+            if (cts != null)
+            {
+                cts.Cancel();
+            }
         }
 
         private void Start()

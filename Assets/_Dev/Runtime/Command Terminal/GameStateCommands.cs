@@ -1,7 +1,6 @@
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 using RogueWave.GameStats;
 using RogueWave.Tutorial;
-using UnityEngine;
 using WizardsCode.CommandTerminal;
 
 namespace WizardsCode.RogueWave

@@ -222,6 +222,11 @@ namespace RogueWave
             }
             else
                 availableProfiles = new FileInfo[0];
+
+            if (currentProfile == string.Empty && availableProfiles.Length > 0)
+            {
+                LoadProfile(0);
+            }
         }
 
         public static void CreateNewProfile(string profileName)

@@ -41,6 +41,10 @@ namespace RogueWave
             get { return m_CurrentResources; }
             set
             {
+                if (value < 0)
+                {
+                    value = 0;
+                }
                 m_CurrentResources = value;
                 isDirty = true;
             }
