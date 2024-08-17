@@ -4,6 +4,7 @@ using RosgueWave.UI;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using WizardsCode.CommandTerminal;
 using WizardsCode.Common;
 using Random = UnityEngine.Random;
 
@@ -186,7 +187,7 @@ namespace RogueWave.Tutorial
             }
         }
 
-#if UNITY_EDITOR
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Reset Tutorial Progress", priority = 1)]
         public static void ClearTutorialProgress()
         {

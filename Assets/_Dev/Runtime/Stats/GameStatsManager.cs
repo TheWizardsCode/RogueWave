@@ -417,6 +417,7 @@ namespace RogueWave.GameStats
             OnAchievementUnlocked?.Invoke(achievement);
         }
 
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
         [Button("Reset Stats and Achievements (Play mode only)"), ShowIf("showDebug")]
         internal static void ResetStats()
         {
@@ -434,10 +435,9 @@ namespace RogueWave.GameStats
             }
         }
 
-#if UNITY_EDITOR
         [MenuItem("Tools/Rogue Wave/Data/Destructive/Reset Stats and Achievements")]
 #endif
-        private static void ResetLocalStatsAndAchievements()
+        public static void ResetLocalStatsAndAchievements()
         {
             GameStat[] gameStats = Resources.LoadAll<GameStat>("");
             foreach (GameStat stat in gameStats)
