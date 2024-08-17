@@ -55,6 +55,8 @@ namespace RogueWave.Procedural
             for (int i = 0; i < layers; i++)
             {
                 GameObject layer = new GameObject("Layer " + i);
+                layer.transform.SetParent(building.transform);
+
                 if (i == 0)
                 {
                     floorplan = upperLayerPolygons[Random.Range(0, upperLayerPolygons.Length)];
@@ -89,7 +91,6 @@ namespace RogueWave.Procedural
                 {
                     Generate(floorplan, numOfFloors, layer.transform, false);
                 }
-                layer.transform.SetParent(building.transform);
             }
 
             return building;
@@ -122,7 +123,7 @@ namespace RogueWave.Procedural
 
             if (generateFloor)
             {
-                GameObject floor = Instantiate(building.root.Find("Roof").gameObject, parent);
+                GameObject floor = Instantiate(building.Find("Roof").gameObject, parent);
                 floor.transform.localPosition = Vector3.zero;
                 floor.transform.localRotation = Quaternion.Euler(180, 0, 0);
             }

@@ -43,7 +43,7 @@ namespace RogueWave
                 float widthDistancePercentage = 1 - (Mathf.Abs(x - (tiles.GetLength(0) / 2.0f)) / tiles.GetLength(0));
                 float heightDistancePercentage = 1 - (Mathf.Abs(y - (tiles.GetLength(1) / 2.0f)) / tiles.GetLength(1));
 
-                int minFloors = Mathf.RoundToInt(generator.floors.y * widthDistancePercentage * heightDistancePercentage);
+                int minFloors = Mathf.RoundToInt(generator.floors.x * widthDistancePercentage * heightDistancePercentage);
                 int maxFloors = Mathf.RoundToInt(generator.floors.y * widthDistancePercentage * heightDistancePercentage);
 
                 generator.floors = new Vector2Int(Mathf.Max(minFloors, generator.floors.x), Mathf.Min(minFloors, generator.floors.y));
