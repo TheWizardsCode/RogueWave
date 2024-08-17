@@ -41,8 +41,6 @@ protected virtual void OnHealthChanged(float from, float to, bool critical, IDam
 }
 ```
 
-
-
 ## Optional Features
 
 Some features require additional open source libraries to be installed. The application will compile without these, but if you install the libraries as described below additional features will be enabled.
@@ -50,6 +48,10 @@ Some features require additional open source libraries to be installed. The appl
 ### Discord Integration
 
 Set the `DISCORD_ENABLED` script define symbol to enable Discord features.
+
+## Command Terminal
+
+The repository includes a Command Terminal to assist in testing and debugging. To get started hit the `` ` `` key. This will open the terminal (SHIFT+`` ` `` will open a larger terminal). Type `help` to see a list of available commands.
 
 ## Game Concept
 
