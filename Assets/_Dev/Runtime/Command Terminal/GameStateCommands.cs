@@ -3,7 +3,7 @@ using RogueWave.GameStats;
 using RogueWave.Tutorial;
 using WizardsCode.CommandTerminal;
 
-namespace WizardsCode.RogueWave
+namespace WizardsCode.RogueWave.CommandTerminal
 {
     public class GameStateCommands
     {

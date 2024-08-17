@@ -328,6 +328,26 @@ namespace RogueWave
                 return new BasicEnemyController[0];
             }
         }
+
+        /// <summary>
+        /// Immediately kill a percentage of all enemies in the level.
+        /// </summary>
+        /// <param name="percentage">The percentage, between 0 and 1, of enemies to kill.</param>
+        public void Kill(float percentage)
+        {
+            if (percentage < 0 || percentage > 1)
+            {
+                GameLog.LogError($"Invalid percentage {percentage} for Kill command. Must be between 0 and 1.");
+                return;
+            }
+
+            int enemiesToKill = Mathf.RoundToInt(enemies.Count * percentage);
+            for (int i = enemies.Count - 1; enemiesToKill > 0; i--)
+            {
+                enemies[i].healthManager.SetHealth(0, false, null);
+                enemiesToKill--;
+            }
+        }
     }
 
     internal struct KillReport

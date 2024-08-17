@@ -1727,6 +1727,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: ============ Development Tools (remove for release)
       objectReference: {fileID: 0}
+    - target: {fileID: 2342153769793436847, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
+      propertyPath: CommandAssemblies.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342153769793436847, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
+      propertyPath: CommandAssemblies.Array.data[0]
+      value: org.roguewave.commands.generic
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342153769793436847, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
+      propertyPath: CommandAssemblies.Array.data[1]
+      value: org.roguewave.commands.ingame
+      objectReference: {fileID: 0}
     - target: {fileID: 8143950224794198212, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
       propertyPath: m_LocalPosition.x
       value: 88.93662

@@ -1,11 +1,7 @@
 using RogueWave;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
 using WizardsCode.CommandTerminal;
 
-namespace WizardsCode.RogueWave
+namespace WizardsCode.RogueWave.CommandTerminal
 {
     public class ResourceCommands
     {

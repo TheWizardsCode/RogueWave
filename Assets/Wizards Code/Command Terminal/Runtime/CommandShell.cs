@@ -212,7 +212,6 @@ namespace WizardsCode.CommandTerminal
 
             foreach (var type in allTypes)
             {
-                bool isExecutable = false;
                 foreach (var method in type.GetMethods(method_flags))
                 {
                     var attribute = Attribute.GetCustomAttribute(
@@ -239,19 +238,7 @@ namespace WizardsCode.CommandTerminal
                     }
 
                     // By now we have confirmed this is an executable commands, so we can call OnDestroy on it.
-                    isExecutable = true;
                     continue;
-                }
-
-                if (isExecutable) {
-                    MethodInfo onDestroy = type.GetMethod("OnDestroy", method_flags);
-                    if (onDestroy != null)
-                    {
-                        onDestroy.Invoke(null, null);
-                    } else
-                    {
-                        Debug.LogWarning($"No Static OnDestroy method found on {type.Name}. Please add one and ensure the commands are being cleaned up properly");
-                    }
                 }
             }
         }

@@ -12,7 +12,7 @@ Create an empty game object and add the Terminal component to it. You can also a
 
 Command Terminal comes with a few useful commands, so we will start with those, later we will create our own commands. 
 
-Play your scene. Now you can open the terminal by pressing the backtick key, alternatively press SHIFT+backtick to open a larger terminal. The key used to open the terminal can be changed in the inspector of the Terminal component.
+Play your scene. Now you can open the terminal by pressing the backtick key, alternatively press SHIFT+backtick (`` ` ``) to open a larger terminal. The key used to open the terminal can be changed in the inspector of the Terminal component.
 
 You can now type `help` to see a list of all available commands. You can also type `help <command>` to get more information about a specific command.
 
@@ -20,14 +20,21 @@ Hit `TAB` to auto complete the command. If there are multiple commands that star
 
 The Up and Down arrow keys can be used to cycle through the command history.
 
+To exit the command terminal hit `` ` `` again.
+
 ## Creating your own commands
 
 There are two steps to including your own commands in the terminal. First you need to create a class that implements the commands, then you need to register the commands with the terminal.
 
 ### Creating a command class
 
-There are 3 options to register commands to be used in the Command Terminal.
+There are 3 options to register commands to be used in the Command Terminal. Regardless of the options you choose, it is recommended that you wrap all command code not required during gameplay in script defines tags, this prevents the terminal commands being shipped with your released game. Shipping command code that includes cheats might result in those cheats being exposed.
 
+```csharp
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+    // Command Terminal Code
+#endif
+```
 #### Option 1: Using the RegisterCommand attribute:
 
 The command method must be static (public or non-public). It may not be desirable to have static methods like this, however, where you can use them this is the simplest approach.  See Option 2 below for an approach that does not require static methods. Either way we recommend creating a standalone class that wraps you game code rather than including the commands in the game code itself.
@@ -113,9 +120,17 @@ static void FrontCommandListScenes(CommandArg[] args)
 
 ### Registering commands with the terminal
 
-If you use the `AddCommand` method  (option 2 above) you have already registered your command with the terminal, and you can skip this section. Otherwise you need to ensure that the terminal knows about these commands. 
+If you use the `AddCommand` method  (option 2 above) you have already registered your command with the terminal, and you can skip this section. Otherwise you need to ensure that the terminal knows about these commands. We use assembly definitions to do this.
 
-This means you need to add your codes assembly name(s) to the `Terminal` component inspector.
+This means you need to add your codes assembly name(s) to the `Terminal` component inspector. 
+
+The `AddCommand` approach has the advantage that you have full control over what commands are available and when, see below, but it does require you to maintain your commands in at least two separate locations. On the other hand the assembly approach removes duplication but at the cost of fine control over which commands are available where.
+
+#### Scene specific commands
+
+You may want to have some commands available in some scenes, but not others. You can achieve this with either registration approach. For the `AddCommand` approach you will need a command initializer that is unique to each scene and adds only the commands needed.
+
+If you are using the assembly definition approach simply place them in different assemblies and only load those assemblies in the scenes where they are needed. 
 
 # Complete Example
 
