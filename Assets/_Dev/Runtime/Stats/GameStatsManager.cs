@@ -450,8 +450,6 @@ namespace RogueWave.GameStats
             {
                 achievement.Reset();
             }
-
-            Debug.Log("Stats and achievements reset.");
         }
 
         #region EDITOR_ONLY

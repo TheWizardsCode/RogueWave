@@ -16,7 +16,7 @@ namespace RogueWave.GameStats
         Queue<AchievementNotification> notificationsQueue = new Queue<AchievementNotification>();
         AchievementNotification currentNotification;
 
-        private void Enable()
+        private void OnEnable()
         {
             GameStatsManager.OnAchievementUnlocked += OnAchievementUnlocked;
         }
