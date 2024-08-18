@@ -26,6 +26,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The UI element to display the enemy's health.")]
         private TextMeshProUGUI textHealth = null;
 
+        ScrollRect parentScrollRect;
+
         BasicEnemyController m_Enemy;
         internal BasicEnemyController enemy
         {
@@ -50,6 +52,7 @@ namespace RogueWave
 
         private void OnEnable()
         {
+            parentScrollRect = GetComponentInParent<ScrollRect>();
             GetComponent<UiStyledButton>().onClick.AddListener(ToggleDetails);
 
             RectTransform rt = transform as RectTransform;
@@ -84,6 +87,12 @@ namespace RogueWave
         {
             rt.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, expandedHeight);
             detailsContainer.gameObject.SetActive(true);
+
+            if (parentScrollRect != null)
+            {
+                Canvas.ForceUpdateCanvases();
+                parentScrollRect.content.anchoredPosition = (Vector2)parentScrollRect.transform.InverseTransformPoint(parentScrollRect.content.position) - (Vector2)parentScrollRect.transform.InverseTransformPoint(rt.position);
+            }
         }
     }
 }

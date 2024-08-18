@@ -1,5 +1,9 @@
 using NaughtyAttributes;
+using NeoFPS;
+using NeoSaveGames;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -9,8 +13,7 @@ namespace RogueWave
 {
     public class LevelUiController : MonoBehaviour
     {
-        [SerializeField, Tooltip("The text element to display the level description.")]
-        TMP_Text descriptionText;
+        [Header("Level Selection")]
         [SerializeField, Tooltip("The button to launch into the selected level.")]
         Button launchButton;
         [SerializeField, Tooltip("The image element for the enemies icon of the level.")]
@@ -20,10 +23,21 @@ namespace RogueWave
         [SerializeField, Tooltip("The sprite to use for a level with a medium Challenge Rating.")]
         Sprite highCRSprite;
 
+        [Header("Level Information")]
+        [SerializeField, Tooltip("The text element to display the level description.")]
+        TMP_Text descriptionText;
+
+        [Header("Enemies Information")]
+        [SerializeField, RequiredObjectProperty, Tooltip("The list of enemies in this level.")]
+        ScrollRect enemiesScrollRect = null;
+        [SerializeField, Tooltip("The UI element to use to represent an enemy. This will be cloned for each enemy.")]
+        EnemyDetails enemyDetailsPrototype;
+
         // An event that will be fired when the level is clicked on.
         public event System.Action<LevelUiController> OnLevelClicked;
 
         internal WfcDefinition levelDefinition;
+        private HashSet<BasicEnemyController> activeEnemies = new HashSet<BasicEnemyController>();
 
         public void Init(WfcDefinition definition)
         {
@@ -55,11 +69,15 @@ namespace RogueWave
 
         public void OnClick()
         {
-            if (descriptionText != null)
-            {
-                descriptionText.text = levelDefinition.Description;
-            }
+            UpdateLevelInformationPanel();
+            UpdateEnemyInformationPanel();
+            ConfigureLaunchButtons();
 
+            OnLevelClicked?.Invoke(this);
+        }
+
+        private void ConfigureLaunchButtons()
+        {
             launchButton.gameObject.SetActive(true);
             foreach (Transform sibling in transform.parent)
             {
@@ -69,8 +87,47 @@ namespace RogueWave
                     siblingLevel.launchButton.gameObject.SetActive(false);
                 }
             }
+        }
 
-            OnLevelClicked?.Invoke(this);
+        private void UpdateLevelInformationPanel()
+        {
+            if (descriptionText != null)
+            {
+                descriptionText.text = levelDefinition.Description;
+            }
+        }
+
+        private void UpdateEnemyInformationPanel()
+        {
+            foreach (RectTransform child in enemiesScrollRect.content)
+            {
+                Destroy(child.gameObject);
+            }
+            activeEnemies.Clear();
+            var sortedEnemies = new List<BasicEnemyController>();
+
+            foreach (WaveDefinition wave in levelDefinition.Waves)
+            {
+                foreach (EnemySpawnConfiguration enemySpawn in wave.enemies)
+                {
+                    BasicEnemyController enemy = enemySpawn.pooledEnemyPrefab.GetComponent<BasicEnemyController>();
+                    if (!activeEnemies.Contains(enemy))
+                    {
+                        sortedEnemies.Add(enemy);
+                        activeEnemies.Add(enemy);
+                    }
+                }
+            }
+
+            // Sort enemies by their name
+            sortedEnemies = sortedEnemies.OrderBy(enemy => enemy.name).ToList();
+
+            foreach (var enemy in sortedEnemies)
+            {
+                EnemyDetails element = Instantiate(enemyDetailsPrototype, enemiesScrollRect.content);
+                element.enemy = enemy;
+                element.gameObject.SetActive(true);
+            }
         }
     }
 }
