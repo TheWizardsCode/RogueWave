@@ -37,7 +37,12 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
 
         private void OnTabClicked()
         {
-            SetSelected(!isSelected, true);
+            if (isSelected)
+            {
+                return;
+            }
+
+            SetSelected(true, true);
         }
 
 

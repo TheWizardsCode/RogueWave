@@ -419,7 +419,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.58285296, g: 0.8490566, b: 0.56470275, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.47107995, g: 0.6431373, b: 0.45882353, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -464,7 +464,7 @@ GameObject:
   - component: {fileID: 4009737996491521180}
   - component: {fileID: 7951706669599985705}
   m_Layer: 5
-  m_Name: UI
+  m_Name: Level UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -516,14 +516,14 @@ MonoBehaviour:
   forceUnscaledTime: 0
   appearDelay_SpeedMultiplier: 1
   disappearDelay_SpeedMultiplier: 1
-  currentState: 3
+  currentState: 2
   useDelays: 1
   audioSource: {fileID: 0}
   openSound: {fileID: 0}
   closeSound: {fileID: 0}
   nestedIAM:
   - {fileID: 7163295193474825221}
-  waitAppear_Nested: 0
+  waitAppear_Nested: 1
   waitDisappear_Nested: 0
 --- !u!1 &791192981192641708
 GameObject:
@@ -736,6 +736,7 @@ GameObject:
   - component: {fileID: 2686077371650367878}
   - component: {fileID: 3198063814039055429}
   - component: {fileID: 6334398886721381907}
+  - component: {fileID: 4667784431944238318}
   m_Layer: 5
   m_Name: Enemies List
   m_TagString: Untagged
@@ -832,6 +833,27 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4667784431944238318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 973465930870289521}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 573961e380f210b4d9d02153ca5ffa5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectRef: {fileID: 973465930870289521}
+  timeAppear: 1
+  timeDisappear: 1
+  recycling: 0
+  sortID: 0
+  animator: {fileID: 0}
+  animClips: []
+  currentState: 3
+  isNested_IAM: 0
 --- !u!1 &1132524557042628885
 GameObject:
   m_ObjectHideFlags: 0
@@ -890,7 +912,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   animClips: []
   currentState: 3
-  isNested_IAM: 1
+  isNested_IAM: 0
 --- !u!1 &1280605043309703016
 GameObject:
   m_ObjectHideFlags: 0
@@ -1172,7 +1194,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &4605231492861106170
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3593,7 +3615,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   animClips: []
   currentState: 3
-  isNested_IAM: 1
+  isNested_IAM: 0
 --- !u!1 &3504999429425348518
 GameObject:
   m_ObjectHideFlags: 0
@@ -5170,7 +5192,7 @@ RectTransform:
   - {fileID: 3720138684135753865}
   - {fileID: 4009737996491521180}
   - {fileID: 8399867984617808743}
-  - {fileID: 8124480405478344044}
+  - {fileID: 1344808023395275491}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -5351,7 +5373,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interfaceAnimationManager: {fileID: 7951706669599985705}
   levelElementProtoytpe: {fileID: 1275088934796666396}
-  standbyMessage: {fileID: 6442378712113021163}
+  standbyPanel: {fileID: 1344808023395275491}
   campaignDefinition: {fileID: 11400000, guid: e1d6e9a426540b246af58b0d7e5d3eea, type: 2}
   parent: {fileID: 3694436805354368474}
 --- !u!1 &5436810409641528398
@@ -5590,9 +5612,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.58285296, g: 0.8490566, b: 0.56470275, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.47107995, g: 0.6431373, b: 0.45882353, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -5608,7 +5630,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 3902253122689747540}
+  m_TargetGraphic: {fileID: 4141648183426388809}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -6912,6 +6934,95 @@ MonoBehaviour:
   - {fileID: 7400000, guid: 334c2b59a93948d4683f4d03925fe1f9, type: 2}
   currentState: 3
   isNested_IAM: 0
+--- !u!1 &6311426579219448700
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1344808023395275491}
+  - component: {fileID: 5723767985548348506}
+  - component: {fileID: 7787922684321218560}
+  - component: {fileID: 4161306515378160183}
+  m_Layer: 5
+  m_Name: Standby Panel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1344808023395275491
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6311426579219448700}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 8124480405478344044}
+  m_Father: {fileID: 4957113254827503842}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &5723767985548348506
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6311426579219448700}
+  m_CullTransparentMesh: 1
+--- !u!114 &7787922684321218560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6311426579219448700}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.072445706, g: 0.34370923, b: 0.41509432, a: 0.8509804}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
+  m_Type: 1
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!225 &4161306515378160183
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6311426579219448700}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &7059166324888634683
 GameObject:
   m_ObjectHideFlags: 0
@@ -7061,7 +7172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   elementsList:
-  - {fileID: 0}
+  - {fileID: 4667784431944238318}
   autoStart: 1
   invertDelays: 1
   cloneDelays: 0
@@ -7078,7 +7189,7 @@ MonoBehaviour:
   openSound: {fileID: 0}
   closeSound: {fileID: 0}
   nestedIAM: []
-  waitAppear_Nested: 0
+  waitAppear_Nested: 1
   waitDisappear_Nested: 0
 --- !u!1 &7097660519219299161
 GameObject:
@@ -7499,12 +7610,12 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7308253686525154522}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 4957113254827503842}
+  m_Father: {fileID: 1344808023395275491}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -8385,9 +8496,9 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.58285296, g: 0.8490566, b: 0.56470275, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_SelectedColor: {r: 0.47107995, g: 0.6431373, b: 0.45882353, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
     m_FadeDuration: 0.1
@@ -8403,7 +8514,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 4652780822239015214}
+  m_TargetGraphic: {fileID: 4141648183426388809}
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
@@ -8903,7 +9014,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   animClips: []
   currentState: 3
-  isNested_IAM: 1
+  isNested_IAM: 0
 --- !u!1 &9080516566152927651
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,6 +3,7 @@ using NeoFPS;
 using NeoFPS.SinglePlayer;
 using RogueWave;
 using System;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,8 +18,8 @@ namespace WizardsCode.RogueWave
         private InterfaceAnimManager interfaceAnimationManager;
         [SerializeField, Tooltip("The prefab to use for the level elements in the UI.")]
         private LevelUiController levelElementProtoytpe;
-        [SerializeField, Tooltip("The stand by message for when the UI is appearing and disappearing.")]
-        private TextMeshProUGUI standbyMessage;
+        [SerializeField, Tooltip("The stand-by panel for when the UI is appearing and disappearing.")]
+        private RectTransform standbyPanel;
 
         [Header("Level Map")]
         [SerializeField, Tooltip("The campaign definition to use for the map."), Expandable]
@@ -39,17 +40,28 @@ namespace WizardsCode.RogueWave
         private void OnEnable()
         {
             NeoFpsInputManager.captureMouseCursor = false;
-            standbyMessage.gameObject.SetActive(true);
+            StartCoroutine(FadeStandyMessageIn());
             if (interfaceAnimationManager != null)
             {
                 interfaceAnimationManager.OnEndAppear += OnAppear;
-                interfaceAnimationManager.startAppear();
+                //interfaceAnimationManager.startAppear();
             }
         }
 
         private void OnAppear(InterfaceAnimManager _IAM)
         {
-            standbyMessage.gameObject.SetActive(false);
+            StartCoroutine(FadeStandyMessageOut());
+
+            // Select the current level
+            for (int i = 0; i < parent.childCount; i++)
+            {
+                if (i == RogueLiteManager.persistentData.currentGameLevel)
+                {
+                    Button button = parent.GetChild(i).GetComponent<Button>();
+                    EventSystem.current.SetSelectedGameObject(button.gameObject);
+                    button.onClick.Invoke();
+                }
+            }
         }
 
         private void OnDisable()
@@ -62,9 +74,32 @@ namespace WizardsCode.RogueWave
             }
         }
 
+        private IEnumerator FadeStandyMessageIn()
+        {
+            standbyPanel.gameObject.SetActive(true);
+            CanvasGroup canvasGroup = standbyPanel.GetComponent<CanvasGroup>();
+            while (canvasGroup.alpha < 1)
+            {
+                canvasGroup.alpha += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        private IEnumerator FadeStandyMessageOut()
+        {
+            CanvasGroup canvasGroup = standbyPanel.GetComponent<CanvasGroup>();
+            while (canvasGroup.alpha > 0)
+            {
+                canvasGroup.alpha -= Time.deltaTime;
+                yield return null;
+            }
+            standbyPanel.gameObject.SetActive(false);
+        }
+
         public void GenerateLevelAndSpawn()
         {
-            standbyMessage.gameObject.SetActive(true);
+
+            StartCoroutine(FadeStandyMessageIn());
             if (interfaceAnimationManager != null)
             {
                 interfaceAnimationManager.OnEndDisappear += _GenerateLevelAndSpawn;
@@ -100,14 +135,16 @@ namespace WizardsCode.RogueWave
                 }
             }
 
+            // Add the level UI elements for each level in this campaign
             int columnIndex = 0;
             foreach (WfcDefinition levelDefinition in campaignDefinition.levels)
             {
-                columnIndex++;
                 LevelUiController levelElement = Instantiate(levelElementProtoytpe, parent);
                 levelElement.Init(levelDefinition);
                 levelElement.name = levelDefinition.DisplayName;
                 levelElement.OnLevelClicked += OnLevelClicked;
+
+                columnIndex++;
             }
         }
 
