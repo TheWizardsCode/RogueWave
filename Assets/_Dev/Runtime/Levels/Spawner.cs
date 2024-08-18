@@ -368,6 +368,8 @@ namespace RogueWave
                     }
                 }
             }
+
+            base.OnAliveIsChanged(isAlive);
         }
 
         /// <summary>
