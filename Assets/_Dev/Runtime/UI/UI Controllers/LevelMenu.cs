@@ -106,7 +106,6 @@ namespace WizardsCode.RogueWave
         private void OnLevelClicked(LevelUiController controller)
         {
             RogueLiteManager.persistentData.currentGameLevel = Array.IndexOf(campaignDefinition.levels, controller.levelDefinition);
-
         }
     }
 }

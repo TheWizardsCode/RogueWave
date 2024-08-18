@@ -2,6 +2,7 @@ using log4net.Util;
 using NaughtyAttributes;
 using NeoFPS;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -84,6 +85,16 @@ namespace RogueWave
 
                 sb.AppendLine(DisplayName);
                 sb.AppendLine($"Challenge Rating of {challengeRating}");
+
+                HashSet<string> uniqueEnemies = new HashSet<string>();
+                foreach (WaveDefinition wave in waves)
+                {
+                    foreach (var enemy in wave.Enemies)
+                    {
+                        uniqueEnemies.Add(enemy.pooledEnemyPrefab.name);
+                    }
+                }
+                sb.AppendLine($"<size=60%>({string.Join(", ", uniqueEnemies)})</size>");
                 sb.AppendLine();
 
                 StringBuilder contains = new StringBuilder();
