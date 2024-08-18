@@ -40,9 +40,11 @@ namespace WizardsCode.RogueWave
         {
             NeoFpsInputManager.captureMouseCursor = false;
             standbyMessage.gameObject.SetActive(true);
-            interfaceAnimationManager.OnEndAppear += OnAppear;
-
-            interfaceAnimationManager.startAppear();
+            if (interfaceAnimationManager != null)
+            {
+                interfaceAnimationManager.OnEndAppear += OnAppear;
+                interfaceAnimationManager.startAppear();
+            }
         }
 
         private void OnAppear(InterfaceAnimManager _IAM)
@@ -53,15 +55,21 @@ namespace WizardsCode.RogueWave
         private void OnDisable()
         {
             NeoFpsInputManager.captureMouseCursor = true;
-            interfaceAnimationManager.OnEndAppear -= OnAppear;
-            interfaceAnimationManager.OnEndDisappear -= _GenerateLevelAndSpawn;
+            if (interfaceAnimationManager != null)
+            {
+                interfaceAnimationManager.OnEndAppear -= OnAppear;
+                interfaceAnimationManager.OnEndDisappear -= _GenerateLevelAndSpawn;
+            }
         }
 
         public void GenerateLevelAndSpawn()
         {
-            interfaceAnimationManager.OnEndDisappear += _GenerateLevelAndSpawn;
             standbyMessage.gameObject.SetActive(true);
-            interfaceAnimationManager.startDisappear();
+            if (interfaceAnimationManager != null)
+            {
+                interfaceAnimationManager.OnEndDisappear += _GenerateLevelAndSpawn;
+                interfaceAnimationManager.startDisappear();
+            }
         }
 
         private void _GenerateLevelAndSpawn(InterfaceAnimManager _IAM)
