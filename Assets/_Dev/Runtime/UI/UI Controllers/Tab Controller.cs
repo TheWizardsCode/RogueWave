@@ -31,8 +31,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
 
         private void Start()
         {
-            isSelected = !isSelected; // make it inverse as it will be toggled in the next line
-            OnTabClicked();
+            SetSelected(isSelected, false);
         }
 
         private void OnTabClicked()
