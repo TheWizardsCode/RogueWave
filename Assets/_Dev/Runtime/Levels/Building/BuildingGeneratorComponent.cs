@@ -123,8 +123,8 @@ namespace RogueWave.Procedural
             if (generateFloor)
             {
                 GameObject floor = Instantiate(building.Find("Roof").gameObject, parent);
+                floor.name = "Floor";
                 floor.transform.localPosition = Vector3.zero;
-                floor.transform.localRotation = Quaternion.Euler(180, 0, 0);
             }
 
             // Set UVs and colours
