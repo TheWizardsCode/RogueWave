@@ -1,9 +1,7 @@
-using log4net.Util;
 using NaughtyAttributes;
 using NeoFPS;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Serialization;

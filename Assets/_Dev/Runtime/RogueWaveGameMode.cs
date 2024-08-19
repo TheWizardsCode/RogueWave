@@ -601,6 +601,12 @@ namespace RogueWave
                 }
             }
 
+            // Ensure permanent starting recipes are added to the player
+            foreach (IRecipe recipe in _startingRecipesPermanent)
+            {
+                RogueLiteManager.persistentData.Add(recipe);
+            }
+
             // If the character died then the weapon build order may have weapons that were in the rundata and need to be removed.
             for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0; i--)
             {
@@ -615,7 +621,6 @@ namespace RogueWave
 
             List<IRecipe> recipes = new List<IRecipe>();
             recipes.AddRange(RogueLiteManager.runData.Recipes);
-            recipes.AddRange(_startingRecipesPermanent);
             recipes.AddRange(_startingRecipesRun);
 
             RogueLiteManager.runData.Loadout.Clear();
