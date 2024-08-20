@@ -16,6 +16,7 @@ using Lumpn.Discord;
 #endif
 using System.Collections;
 using UnityEngine.Serialization;
+using WizardsCode.CommandTerminal;
 
 namespace RogueWave.GameStats
 {

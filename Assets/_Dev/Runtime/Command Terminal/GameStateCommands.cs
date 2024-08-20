@@ -1,6 +1,8 @@
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 using RogueWave.GameStats;
 using RogueWave.Tutorial;
+using System.Linq;
+using UnityEngine;
 using WizardsCode.CommandTerminal;
 
 namespace WizardsCode.RogueWave.CommandTerminal
@@ -23,6 +25,37 @@ namespace WizardsCode.RogueWave.CommandTerminal
 
             GameStatsManager.ResetLocalStatsAndAchievements();
             Terminal.Log("Local stats and achievements cleared.");
+        }
+
+
+        [RegisterCommand(Help = "Dump stats to the console. If no parameter is provided then all stats will be displayed. If a parameter is provided it is search string for the displayname of the stat.", 
+            MinArgCount = 0, MaxArgCount = 1)]
+        static void DumpStats(CommandArg[] args)
+        {
+            if (Terminal.IssuedError) return;
+
+            GameStat[] gameStats = Resources.LoadAll<GameStat>("").OrderBy(stat => stat.displayName).ToArray();
+
+            foreach (GameStat stat in gameStats)
+            {
+                if (stat.key != null)
+                {
+                    if (args.Length == 1 && !stat.key.ToLower().Contains(args[0].ToString())) 
+                    {
+                        continue;
+                    }
+
+                    switch (stat.type)
+                    {
+                        case GameStat.StatType.Int:
+                            Terminal.Log($"{stat.key} = {stat.GetIntValue()}");
+                            break;
+                        case GameStat.StatType.Float:
+                            Terminal.Log($"{stat.key} = {stat.GetFloatValue()}");
+                            break;
+                    }
+                }
+            }
         }
     }
 }
