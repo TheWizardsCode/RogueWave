@@ -84,8 +84,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Bottlecap
-  description: Generally runs low along the ground. These things are reasonably fast
-    and can be a nuisance. But they need to get in very close to attack.
+  m_description: Generally runs low along the ground. These things are reasonably
+    fast and can be a nuisance. But they need to get in very close to attack.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 2
   requireLineOfSight: 1
   viewDistance: 60
@@ -95,7 +98,6 @@ MonoBehaviour:
   sensor: {fileID: 5256639003744301464}
   headLook: 1
   head: {fileID: 0}
-  headRotationSpeed: 2
   maxHeadRotation: 75
   returnToSpawner: 0
   seekDistance: 75
@@ -107,6 +109,7 @@ MonoBehaviour:
   spawnOnDamagePrototypes: []
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
+  registerWithAIDirector: 1
   squadRole: 1
   shouldExplodeOnDeath: 0
   deathExplosionRadius: 5
@@ -188,7 +191,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 100
+  MaxDistance: 50
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
