@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using RogueWave.GameStats;
 
 namespace RogueWave
 {
@@ -35,22 +36,13 @@ namespace RogueWave
             set { m_CurrentNanobotLevel = value; }
         }
 
-        [SerializeField] int m_CurrentResources = 0; // The current resources of the player, the player gains resources by destroying enemies and loses resources by dying
+        [Obsolete("Use the `Resources - Current Total` scriptable object instead. Need to get rid of this for OPTIMIZATION.")]
         public int currentResources
         {
-            get { return m_CurrentResources; }
+            get { return GameStatsManager.Instance.GetStat("RESOURCES").GetIntValue(); }
             set
             {
-                if (m_CurrentResources == value)
-                    return;
-
-                if (value < 0)
-                {
-                    value = 0;
-                }
-
-                m_CurrentResources = value;
-                isDirty = true;
+                GameStatsManager.Instance.GetStat("RESOURCES").SetValue(value);
             }
         }
 

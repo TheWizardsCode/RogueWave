@@ -17,6 +17,7 @@ using Lumpn.Discord;
 using System.Collections;
 using UnityEngine.Serialization;
 using WizardsCode.CommandTerminal;
+using WizardsCode.RogueWave;
 
 namespace RogueWave.GameStats
 {
@@ -41,6 +42,7 @@ namespace RogueWave.GameStats
 #endif
 
         private Achievement[] m_Achievements = new Achievement[0];
+        private GameStat[] m_GameStats = default;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]
@@ -69,7 +71,10 @@ namespace RogueWave.GameStats
                         m_Instance = new GameObject("Game Stat Manager").AddComponent<GameStatsManager>();
                     }
 
-                    DontDestroyOnLoad(m_Instance.gameObject);
+                    if (Application.isPlaying)
+                    {
+                        DontDestroyOnLoad(m_Instance.gameObject);
+                    }
                 }
 
                 return m_Instance;
@@ -121,8 +126,6 @@ namespace RogueWave.GameStats
         {
             DontDestroyOnLoad(gameObject);
 
-            m_Achievements = Resources.LoadAll<Achievement>("");
-
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
             try
             {
@@ -140,6 +143,12 @@ namespace RogueWave.GameStats
                 Debug.LogError("Steamworks failed to initialize: " + e.Message);
             }
 #endif
+        }
+
+        private void OnEnable()
+        {
+            m_GameStats = Resources.LoadAll<GameStat>("");
+            m_Achievements = Resources.LoadAll<Achievement>("");
         }
 
         private void OnDisable()
@@ -265,7 +274,7 @@ namespace RogueWave.GameStats
 
             sb.Clear();
             sb.AppendLine("Player Stats:");
-            foreach (GameStat stat in Resources.LoadAll<GameStat>(""))
+            foreach (GameStat stat in m_GameStats)
             {
                 if (stat.key != null)
                 {
@@ -286,8 +295,7 @@ namespace RogueWave.GameStats
             sb.Clear();
             sb.AppendLine("Score:");
             int totalScore = 0;
-            GameStat[] stats = Resources.LoadAll<GameStat>("");
-            foreach (GameStat stat in stats)
+            foreach (GameStat stat in m_GameStats)
             {
                 if (stat.contributeToScore)
                 {
@@ -316,8 +324,8 @@ namespace RogueWave.GameStats
 
         internal GameStat GetStat(string key)
         {
-            GameStat[] stats = Resources.LoadAll<GameStat>("");
-            foreach (GameStat stat in stats)
+            // OPTIMIZATION: This would be faster if it were a HashSet
+            foreach (GameStat stat in m_GameStats)
             {
                 if (stat.key == key)
                 {
@@ -368,7 +376,7 @@ namespace RogueWave.GameStats
         /// <param name="stat"></param>
         internal void IncrementCounter(GameStat stat, int amount)
         {
-            int value = stat.Increment(amount);
+            int value = stat.Add(amount);
             CheckAchievements(stat, value);
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
@@ -421,21 +429,14 @@ namespace RogueWave.GameStats
         [Button("Reset Stats and Achievements (Play mode only)"), ShowIf("showDebug")]
         internal static void ResetStats()
         {
-            if (Application.isPlaying)
-            {
-                ResetLocalStatsAndAchievements();
+            ResetLocalStatsAndAchievements();
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-                ResetSteamStats();
+            ResetSteamStats();
 #endif
-                Debug.Log("Stats and achievements reset.");
-            }
-            else
-            {
-                Debug.LogError("You can only reset Steam stats and achievements in play mode.");
-            }
+            Debug.Log("Stats and achievements reset.");
         }
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR
         [MenuItem("Tools/Rogue Wave/Data/Destructive/Reset Stats and Achievements")]
 #endif
         public static void ResetLocalStatsAndAchievements()
@@ -459,53 +460,45 @@ namespace RogueWave.GameStats
         [SerializeField]
         #pragma warning disable CS0414 // used in Button attribute
         bool showDebug = false;
-        #pragma warning restore CS0414
+#pragma warning restore CS0414
 
         [Button("Dump Stats and Achievements to Console"), ShowIf("showDebug")]
         private void DumpStatsAndAchievements()
         {
-            if (Application.isPlaying)
+            GameStat[] gameStats = m_GameStats;
+
+            foreach (GameStat stat in gameStats)
             {
-                GameStat[] gameStats = Resources.LoadAll<GameStat>("");
-
-                foreach (GameStat stat in gameStats)
+                if (stat.key != null)
                 {
-                    if (stat.key != null)
+                    switch (stat.type)
                     {
-                        switch (stat.type)
-                        {
-                            case GameStat.StatType.Int:
-                                Debug.Log($"Scriptable Object: {stat.key} = {stat.GetIntValue()}");
-                                break;
-                            case GameStat.StatType.Float:
-                                Debug.Log($"Scriptable Object: {stat.key} = {stat.GetFloatValue()}");
-                                break;
-                        }
-#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-                        DumpSteamStat(stat);
-#endif
-                    }
-                }
-
-                Achievement[] achievements = Resources.LoadAll<Achievement>("");
-                foreach (Achievement achievement in m_Achievements)
-                {
-                    if (achievement.isUnlocked)
-                    {
-                        Debug.Log($"Scriptable Object: {achievement.key} = unlocked at {achievement.timeOfUnlock}");
-                    }
-                    else
-                    {
-                        Debug.Log($"Scriptable Object: {achievement.key} = locked");
+                        case GameStat.StatType.Int:
+                            Debug.Log($"Scriptable Object: {stat.key} = {stat.GetIntValue()}");
+                            break;
+                        case GameStat.StatType.Float:
+                            Debug.Log($"Scriptable Object: {stat.key} = {stat.GetFloatValue()}");
+                            break;
                     }
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-                    DumpSteamAchievement(achievement);
+                    DumpSteamStat(stat);
 #endif
                 }
             }
-            else
+
+            foreach (Achievement achievement in m_Achievements)
             {
-                Debug.LogError("You can only dump stats and achievements in play mode.");
+                if (achievement.isUnlocked)
+                {
+                    Debug.Log($"Scriptable Object: {achievement.key} = unlocked at {achievement.timeOfUnlock}");
+                }
+                else
+                {
+                    Debug.Log($"Scriptable Object: {achievement.key} = locked");
+                }
+#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+                DumpSteamAchievement(achievement);
+#endif
             }
         }
 

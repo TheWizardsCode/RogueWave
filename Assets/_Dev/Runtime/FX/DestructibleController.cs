@@ -61,7 +61,7 @@ namespace RogueWave
             {
                 if (destructibleDestroyed != null)
                 {
-                    destructibleDestroyed.Increment();
+                    destructibleDestroyed.Add();
                 }
 
                 if (m_PooledScaledFXParticles != null ||  m_PooledScaledDestructionParticles != null)

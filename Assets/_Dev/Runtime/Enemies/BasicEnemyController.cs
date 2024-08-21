@@ -325,7 +325,7 @@ namespace RogueWave
 
             if (enemySpawnedStat != null && (!isPooled || fromPool)) // note that if the enemy is not pooled this means it is not counted. Handy for Spawners, but beware if you add other non-pooled enemies.
             {
-                enemySpawnedStat.Increment();
+                enemySpawnedStat.Add();
                 gameMode.RegisterEnemy(this);
             } 
             else
@@ -655,7 +655,7 @@ namespace RogueWave
 
             if (enemyKillsStat != null)
             {
-                enemyKillsStat.Increment();
+                enemyKillsStat.Add();
             }
 
             // OPTIMIZATION: cache PooledObject reference

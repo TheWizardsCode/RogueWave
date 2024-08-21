@@ -269,7 +269,7 @@ namespace RogueWave
 
             if (m_VictoryCount != null)
             {
-                m_VictoryCount.Increment();
+                m_VictoryCount.Add();
             }
 
             if (inGame)
@@ -305,12 +305,12 @@ namespace RogueWave
 
             if (m_VictoryCount != null)
             {
-                m_VictoryCount.Increment();
+                m_VictoryCount.Add();
             }
 
             if (m_PortalExitsCount != null)
             {
-                m_PortalExitsCount.Increment();
+                m_PortalExitsCount.Add();
             }
 
             if (inGame)
@@ -322,7 +322,7 @@ namespace RogueWave
             float timePlayed = Time.time - startTime;
             if (m_TimePlayedStat != null)
             {
-                m_TimePlayedStat.Increment(timePlayed);
+                m_TimePlayedStat.Add(timePlayed);
             }
 
 #if DISCORD_ENABLED
@@ -508,7 +508,7 @@ namespace RogueWave
                 RogueLiteManager.ResetRunData();
                 character.onIsAliveChanged -= OnCharacterIsAliveChanged;
 
-                m_DeathCount.Increment();
+                m_DeathCount.Add();
             }
         }
 

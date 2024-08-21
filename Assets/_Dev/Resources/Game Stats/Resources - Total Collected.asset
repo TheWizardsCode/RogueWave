@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9afae9e4114fbf34ba161e7affdc93a4, type: 3}
-  m_Name: Resources Collected
+  m_Name: Resources - Total Collected
   m_EditorClassIdentifier: 
   m_Key: RESOURCES_COLLECTED
   m_displayName: Resources collected
@@ -18,5 +18,9 @@ MonoBehaviour:
   m_StatType: 0
   m_DefaultValue: 0
   m_FormatString: 000000
+  onChangeEvent: {fileID: 0}
+  increasedAmount: {fileID: 0}
+  decreasedAmount: {fileID: 0}
   contributeToScore: 1
   m_ScoreMultiplier: 1
+  showDebug: 1

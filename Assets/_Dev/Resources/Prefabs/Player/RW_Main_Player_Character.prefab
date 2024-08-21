@@ -2743,8 +2743,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildingCooldown: 5
-  baseResourcesPerLevel: 100
-  resourcesPerLevelMultiplier: 1.5
   resourcesForLevel:
     serializedVersion: 2
     m_Curve:
@@ -2837,6 +2835,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 22a64249548edc144acafda75310d90b, type: 3}
   defaultPickupParticlePrefab: {fileID: 0}
   defaultRecipeName: {fileID: 0}
+  m_Resources: {fileID: 11400000, guid: 156918b1d19c26d4da8c3d5e89e832f0, type: 2}
   m_ResourcesCollected: {fileID: 11400000, guid: 0044ca86c5972d6498e847b647715df8, type: 2}
   m_CrystalResourcesCollected: {fileID: 11400000, guid: 86034a9fdd13f7842b0b6dc0a239f8ff, type: 2}
   m_ResourcesSpent: {fileID: 11400000, guid: e938987c3b55c9b4c9a19e879e249f3d, type: 2}

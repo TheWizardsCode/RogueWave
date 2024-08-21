@@ -14,8 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Key: TOTAL_TIME_IN_RUNS
   m_displayName: Time in runs
+  m_description: 
   m_StatType: 1
+  m_minValue: 0
   m_DefaultValue: 0
   m_FormatString: 00000
+  onChangeEvent: {fileID: 0}
+  increasedAmount: {fileID: 0}
+  decreasedAmount: {fileID: 0}
   contributeToScore: 1
   m_ScoreMultiplier: 2
+  showDebug: 0
