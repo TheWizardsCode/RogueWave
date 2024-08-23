@@ -31,6 +31,7 @@ namespace RogueWave.GameStats
         void OnEnable()
         {
             NeoFpsInputManager.captureMouseCursor = false;
+            RogueLiteManager.SaveProfile();
         }
 
         void OnDisable()

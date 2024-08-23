@@ -55,9 +55,9 @@ namespace RogueWave.GameStats
         [SerializeField, Tooltip("The amount to multiply this stat by when calculating the score."), ShowIf("contributeToScore")]
         int  m_ScoreMultiplier = 1;
 
-        [ShowNonSerializedField]
+        [SerializeField, ReadOnly]
         int m_intValue;
-        [ShowNonSerializedField]
+        [SerializeField, ReadOnly]
         float m_floatValue;
 
         public string key => m_Key;
@@ -168,7 +168,6 @@ namespace RogueWave.GameStats
         {
             if (m_StatType == StatType.Int)
             {
-                Debug.LogWarning("Asking to set a float value on an int stat. This will be rounded to an int.");
                 value = Mathf.RoundToInt(value);
             }
 
@@ -195,8 +194,6 @@ namespace RogueWave.GameStats
                     decreasedAmount.Add(-change);
                 }
             }
-
-            Debug.LogError("Currently not raising events for changes to float values.");
 
             GameStatsManager.isDirty = true;
             GameStatsManager.Instance.CheckAchievements(this, m_floatValue);

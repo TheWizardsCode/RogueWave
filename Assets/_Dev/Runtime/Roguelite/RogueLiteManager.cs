@@ -1,10 +1,14 @@
 using NaughtyAttributes;
 using NeoFPS;
+using ProceduralToolkit;
 using RogueWave.GameStats;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
+using System.Xml.Linq;
+using UnityEditor;
 using UnityEngine;
 
 namespace RogueWave
@@ -55,7 +59,8 @@ namespace RogueWave
         }
 #endif
 
-        const string k_Extension = "profileData";
+        const string k_ProfileExtension = "profileData";
+        const string k_StatsExtension = "statsData";
         const string k_Subfolder = "Profiles";
 
         private RuntimeBehaviour m_ProxyBehaviour = null;
@@ -216,7 +221,7 @@ namespace RogueWave
             // Get and sort an array of profile files with the correct extension
             if (directory != null)
             {
-                FileInfo[] result = directory.GetFiles("*." + k_Extension);
+                FileInfo[] result = directory.GetFiles("*." + k_ProfileExtension);
                 Array.Sort(result, (FileInfo f1, FileInfo f2) => { return f2.CreationTime.CompareTo(f1.CreationTime); });
                 availableProfiles = result;
             }
@@ -250,6 +255,8 @@ namespace RogueWave
 
         public static void LoadProfile(int index)
         {
+            SaveProfile();
+
             // Load the file if available and create new instance from json
             using (var stream = availableProfiles[index].OpenText())
             {
@@ -259,6 +266,39 @@ namespace RogueWave
 
             // Get the profile name
             currentProfile = GetProfileName(index);
+
+            // Load the stats from the saved files
+            string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
+            string path = string.Format("{0}{1}.{2}", folder, currentProfile, k_StatsExtension);
+            if (File.Exists(path))
+            {
+                string json = File.ReadAllText(path);
+                StatsWrapperArray wrapperArray = JsonUtility.FromJson<StatsWrapperArray>(json);
+                GameStat[] stats = Resources.LoadAll<GameStat>("");
+
+                for (int i = 0; i < wrapperArray.stats.Length; i++)
+                {
+                    for (int y = 0; y < stats.Length; y++)
+                    {
+                        if (wrapperArray.stats[i].key == stats[y].key)
+                        {
+                            switch (stats[y].type) {
+                                case GameStat.StatType.Float:
+                                    stats[y].SetValue(wrapperArray.stats[i].floatValue);
+                                    break;
+                                case GameStat.StatType.Int:
+                                    stats[y].SetValue(wrapperArray.stats[i].intValue);
+                                    break;
+                                default:
+                                    Debug.LogError("Cannot deserialize stat of type " + stats[y].type);
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            AssetDatabase.SaveAssets();
         }
 
         public static void SaveProfile()
@@ -291,11 +331,44 @@ namespace RogueWave
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            // Write the file from instance json
-            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", folder, currentProfile, k_Extension)))
+            // Write the profile data
+            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", folder, currentProfile, k_ProfileExtension)))
             {
                 string json = JsonUtility.ToJson(m_PersistentData, true);
                 stream.Write(json);
+            }
+            // Write the stats data
+            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", folder, currentProfile, k_StatsExtension)))
+            {
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("{\n\"stats\": [");
+                GameStat[] stats = Resources.LoadAll<GameStat>("");
+                for (int i = 0; i < stats.Length; i++)
+                {
+                    StatsWrapper wrapper = new StatsWrapper(stats[i].key);
+                    switch (stats[i].type)
+                    {
+                        case GameStat.StatType.Float:
+                            wrapper.floatValue = stats[i].GetFloatValue();
+                            break;
+                        case GameStat.StatType.Int:
+                            wrapper.intValue = stats[i].GetIntValue();
+                            break;
+                        default:
+                            Debug.LogError("Cannot serialize stat of type " + stats[i].type);
+                            break;
+                    }
+                    sb.Append(JsonUtility.ToJson(wrapper, true));
+                    if (i < stats.Length - 1)
+                    {
+                        sb.AppendLine(",");
+                    } else
+                    {
+                        sb.AppendLine();
+                    }
+                }
+                sb.AppendLine("]}");
+                stream.Write(sb.ToString());
             }
 
             // Wipe the instance dirty flag
@@ -303,6 +376,32 @@ namespace RogueWave
 
             // Update available saves
             UpdateAvailableProfiles();
+        }
+
+        [System.Serializable]
+        private class StatsWrapper
+        {
+            public string key;
+            public int intValue;
+            public float floatValue;
+
+        public StatsWrapper(string key)
+        {
+            this.key = key;
+        }
+
+        public StatsWrapper(string key, int intValue, float floatValue)
+            {
+                this.key = key;
+                this.intValue = intValue;
+                this.floatValue = floatValue;
+            }
+        }
+
+        [Serializable]
+        private class StatsWrapperArray
+        {
+            public StatsWrapper[] stats;
         }
     }
 }

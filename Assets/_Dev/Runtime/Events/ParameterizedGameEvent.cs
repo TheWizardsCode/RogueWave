@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +5,9 @@ namespace WizardsCode.RogueWave
 {
     /// <summary>
     /// A GameEvent is an arbitrary event that can be listened to with `GameEventListener` which will respond by
-    /// taking a defined action.
+    /// taking a defined action. 
+    /// 
+    /// The type for this generic event 
     /// </summary>
     public abstract class ParameterizedGameEvent<T> : ScriptableObject
     {

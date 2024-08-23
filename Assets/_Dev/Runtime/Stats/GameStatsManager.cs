@@ -41,8 +41,8 @@ namespace RogueWave.GameStats
         WebhookData developerDataWebhook;
 #endif
 
-        private Achievement[] m_Achievements = new Achievement[0];
-        private GameStat[] m_GameStats = default;
+        [SerializeField] private Achievement[] m_Achievements = new Achievement[0];
+        [SerializeField] private GameStat[] m_GameStats = default;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]

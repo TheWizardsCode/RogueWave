@@ -509,6 +509,8 @@ namespace RogueWave
                 character.onIsAliveChanged -= OnCharacterIsAliveChanged;
 
                 m_DeathCount.Add();
+
+                RogueLiteManager.SaveProfile();
             }
         }
 
@@ -666,6 +668,8 @@ namespace RogueWave
             {
                 NeoFpsAudioManager.PlayEffectAudioAtPosition(currentLevelDefinition.levelReadyAudioClips[Random.Range(0, currentLevelDefinition.levelReadyAudioClips.Length)], Camera.main.transform.position);
             }
+
+            RogueLiteManager.SaveProfile();
         }
 
         internal void RegisterPortal(PortalController portal)
@@ -681,6 +685,8 @@ namespace RogueWave
                 {
                     m_VictoryCoroutine = StartCoroutine(DelayedLevelCompleteCoroutine(m_VictoryDuration));
                 }
+
+                RogueLiteManager.SaveProfile();
             }
         }
 
