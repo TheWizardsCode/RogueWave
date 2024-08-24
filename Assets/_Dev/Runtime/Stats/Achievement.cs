@@ -24,7 +24,7 @@ namespace RogueWave.GameStats
 
         [Header("Tracking")]
         [SerializeField, Tooltip("The stat that this achievement is tracking.")]
-        GameStat m_StatToTrack;
+        IntGameStat m_StatToTrack;
         [SerializeField, Tooltip("The value that the stat must reach for the achievement to be unlocked.")]
         float m_TargetValue;
 
@@ -35,7 +35,7 @@ namespace RogueWave.GameStats
         public string displayName => m_DisplayName;
         public string description => m_Description;
         public Sprite icon => m_Icon;
-        public GameStat stat => m_StatToTrack;
+        public IntGameStat stat => m_StatToTrack;
         public float targetValue => m_TargetValue;
         public bool isUnlocked => m_IsUnlocked;
         public DateTime timeOfUnlock => m_TimeOfUnlock;

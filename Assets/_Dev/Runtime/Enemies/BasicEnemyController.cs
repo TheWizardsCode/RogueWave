@@ -100,9 +100,9 @@ namespace RogueWave
 
         // Game Stats
         [SerializeField, Tooltip("The GameStat to increment when an enemy is spawned."), Foldout("Game Stats"), Required]
-        internal GameStat enemySpawnedStat;
+        internal IntGameStat enemySpawnedStat;
         [SerializeField, Tooltip("The GameStat to increment when an enemy is killed."), Foldout("Game Stats"), Required]
-        internal GameStat enemyKillsStat;
+        internal IntGameStat enemyKillsStat;
 
         [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Editor Only")]
         bool isDebug;
@@ -325,7 +325,7 @@ namespace RogueWave
 
             if (enemySpawnedStat != null && (!isPooled || fromPool)) // note that if the enemy is not pooled this means it is not counted. Handy for Spawners, but beware if you add other non-pooled enemies.
             {
-                enemySpawnedStat.Add();
+                enemySpawnedStat.Add(1);
                 gameMode.RegisterEnemy(this);
             } 
             else
@@ -655,7 +655,7 @@ namespace RogueWave
 
             if (enemyKillsStat != null)
             {
-                enemyKillsStat.Add();
+                enemyKillsStat.Add(1);
             }
 
             // OPTIMIZATION: cache PooledObject reference

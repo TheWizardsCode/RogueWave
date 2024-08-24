@@ -51,13 +51,13 @@ namespace RogueWave
 
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
-        private GameStat m_VictoryCount;
+        private IntGameStat m_VictoryCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of portal exits in the game. A portal exist is when a player finds a portal and manages to exit through it.")]
-        private GameStat m_PortalExitsCount;
+        private IntGameStat m_PortalExitsCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of deaths in the game.")]
-        private GameStat m_DeathCount;
+        private IntGameStat m_DeathCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The time player stat for recording how long a player has been inside runs.")]
-        private GameStat m_TimePlayedStat;
+        private IntGameStat m_TimePlayedStat;
 
         [Header("Events")]
         [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
@@ -269,7 +269,7 @@ namespace RogueWave
 
             if (m_VictoryCount != null)
             {
-                m_VictoryCount.Add();
+                m_VictoryCount.Add(1);
             }
 
             if (inGame)
@@ -305,12 +305,12 @@ namespace RogueWave
 
             if (m_VictoryCount != null)
             {
-                m_VictoryCount.Add();
+                m_VictoryCount.Add(1);
             }
 
             if (m_PortalExitsCount != null)
             {
-                m_PortalExitsCount.Add();
+                m_PortalExitsCount.Add(1);
             }
 
             if (inGame)
@@ -322,7 +322,7 @@ namespace RogueWave
             float timePlayed = Time.time - startTime;
             if (m_TimePlayedStat != null)
             {
-                m_TimePlayedStat.Add(timePlayed);
+                m_TimePlayedStat.Add(Mathf.RoundToInt(timePlayed));
             }
 
 #if DISCORD_ENABLED
@@ -508,9 +508,9 @@ namespace RogueWave
                 RogueLiteManager.ResetRunData();
                 character.onIsAliveChanged -= OnCharacterIsAliveChanged;
 
-                m_DeathCount.Add();
+                m_DeathCount.Add(1);
 
-                RogueLiteManager.SaveProfile();
+                RogueLiteManager.persistentData.isDirty = true;
             }
         }
 
@@ -669,7 +669,7 @@ namespace RogueWave
                 NeoFpsAudioManager.PlayEffectAudioAtPosition(currentLevelDefinition.levelReadyAudioClips[Random.Range(0, currentLevelDefinition.levelReadyAudioClips.Length)], Camera.main.transform.position);
             }
 
-            RogueLiteManager.SaveProfile();
+            RogueLiteManager.persistentData.isDirty = true;
         }
 
         internal void RegisterPortal(PortalController portal)
@@ -686,6 +686,7 @@ namespace RogueWave
                     m_VictoryCoroutine = StartCoroutine(DelayedLevelCompleteCoroutine(m_VictoryDuration));
                 }
 
+                RogueLiteManager.persistentData.isDirty = true;
                 RogueLiteManager.SaveProfile();
             }
         }

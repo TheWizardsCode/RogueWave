@@ -1,10 +1,11 @@
 ﻿using NeoFPS;
 using UnityEngine;
 using UnityEngine.UI;
+using WizardsCode.RogueWave;
 
 namespace RogueWave
 {
-	public class HudGameStatusController : PlayerCharacterHudBase
+    public class HudGameStatusController : PlayerCharacterHudBase
     {
         [SerializeField, Tooltip("The resources UI section. This will be shown and hidden at appropriate times.")]
         private RectTransform m_ResourcesUI = null;
@@ -59,16 +60,12 @@ namespace RogueWave
         protected override void OnDestroy()
         {
             base.OnDestroy();
-
-            if (nanobotManager != null)
-                nanobotManager.onResourcesChanged -= OnResourcesChanged;
         }
 
         public override void OnPlayerCharacterChanged(ICharacter character)
         {
             if (nanobotManager != null)
             {
-                nanobotManager.onResourcesChanged -= OnResourcesChanged;
                 m_LevelStatusPanel.gameObject.SetActive(true);
             } else
             {
@@ -88,9 +85,6 @@ namespace RogueWave
             {
                 nanobotManager.onNanobotLevelUp += OnNanobotLevelUp;
                 OnNanobotLevelUp(RogueLiteManager.persistentData.currentNanobotLevel, 150);
-
-                nanobotManager.onResourcesChanged += OnResourcesChanged;
-                OnResourcesChanged(0f, nanobotManager.resources, nanobotManager.resources);
                 
                 m_ResourcesUI.gameObject.SetActive(true);
             }
@@ -113,9 +107,9 @@ namespace RogueWave
             }
         }
 
-		protected virtual void OnResourcesChanged (float from, float to, float resourcesUntilNextLevel)
+        public void OnResourcesChanged(IParameterizedGameEvent<int> e, int parameters)
         {
-            m_ResourcesText.text = ((int)to).ToString ();
+            m_ResourcesText.text = ((IntStatEvent)e).stat.ValueAsString;
         }
     }
 }

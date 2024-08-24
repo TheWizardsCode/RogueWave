@@ -39,7 +39,7 @@ namespace RogueWave
         [Obsolete("Use the `Resources - Current Total` scriptable object instead. Need to get rid of this for OPTIMIZATION.")]
         public int currentResources
         {
-            get { return GameStatsManager.Instance.GetStat("RESOURCES").GetIntValue(); }
+            get { return GameStatsManager.Instance.GetStat("RESOURCES").value; }
             set
             {
                 GameStatsManager.Instance.GetStat("RESOURCES").SetValue(value);

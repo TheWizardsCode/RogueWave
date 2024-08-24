@@ -95,7 +95,6 @@ namespace WizardsCode.RogueWave.UI
             ConfigureUI();
 
             RogueLiteManager.persistentData.isDirty = true;
-            RogueLiteManager.SaveProfile();
         }
 
         private void ConfigureMoveButtons()
@@ -154,7 +153,6 @@ namespace WizardsCode.RogueWave.UI
         {
             RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(index);
             RogueLiteManager.persistentData.isDirty = true;
-            RogueLiteManager.SaveProfile();
 
             ConfigureUI();
         }
@@ -163,7 +161,6 @@ namespace WizardsCode.RogueWave.UI
         {
             RogueLiteManager.persistentData.WeaponBuildOrder.Add(builds[index].weaponPickupRecipe.UniqueID);
             RogueLiteManager.persistentData.isDirty = true;
-            RogueLiteManager.SaveProfile();
 
             ConfigureUI();
         }

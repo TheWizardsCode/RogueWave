@@ -149,6 +149,7 @@ namespace RogueWave
 
         protected override void OnDestroy()
         {
+            RogueLiteManager.persistentData.isDirty = true; // set to true as a security in case we have any bugs not setting it
             SaveProfile();
 
             base.OnDestroy();
@@ -182,8 +183,7 @@ namespace RogueWave
                 {
                     yield return wait;
 
-                    if (m_PersistentData != null && m_PersistentData.isDirty)
-                        SaveProfile();
+                    SaveProfile();
                 }
             }
         }
@@ -255,6 +255,7 @@ namespace RogueWave
 
         public static void LoadProfile(int index)
         {
+            RogueLiteManager.persistentData.isDirty = true; // Set to true as a security in case we fogot to set it somewhere
             SaveProfile();
 
             // Load the file if available and create new instance from json
@@ -274,7 +275,7 @@ namespace RogueWave
             {
                 string json = File.ReadAllText(path);
                 StatsWrapperArray wrapperArray = JsonUtility.FromJson<StatsWrapperArray>(json);
-                GameStat[] stats = Resources.LoadAll<GameStat>("");
+                IntGameStat[] stats = Resources.LoadAll<IntGameStat>("");
 
                 for (int i = 0; i < wrapperArray.stats.Length; i++)
                 {
@@ -282,17 +283,7 @@ namespace RogueWave
                     {
                         if (wrapperArray.stats[i].key == stats[y].key)
                         {
-                            switch (stats[y].type) {
-                                case GameStat.StatType.Float:
-                                    stats[y].SetValue(wrapperArray.stats[i].floatValue);
-                                    break;
-                                case GameStat.StatType.Int:
-                                    stats[y].SetValue(wrapperArray.stats[i].intValue);
-                                    break;
-                                default:
-                                    Debug.LogError("Cannot deserialize stat of type " + stats[y].type);
-                                    break;
-                            }
+                            stats[y].SetValue(wrapperArray.stats[i].value);
                         }
                     }
                 }
@@ -322,6 +313,7 @@ namespace RogueWave
 //                }
 //            }
 //#endif
+
             // Only save if there have been changes
             if (persistentData == null || !persistentData.isDirty || currentProfile == string.Empty)
                 return;
@@ -337,27 +329,17 @@ namespace RogueWave
                 string json = JsonUtility.ToJson(m_PersistentData, true);
                 stream.Write(json);
             }
+
             // Write the stats data
             using (var stream = File.CreateText(string.Format("{0}{1}.{2}", folder, currentProfile, k_StatsExtension)))
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("{\n\"stats\": [");
-                GameStat[] stats = Resources.LoadAll<GameStat>("");
+                IntGameStat[] stats = Resources.LoadAll<IntGameStat>("");
                 for (int i = 0; i < stats.Length; i++)
                 {
                     StatsWrapper wrapper = new StatsWrapper(stats[i].key);
-                    switch (stats[i].type)
-                    {
-                        case GameStat.StatType.Float:
-                            wrapper.floatValue = stats[i].GetFloatValue();
-                            break;
-                        case GameStat.StatType.Int:
-                            wrapper.intValue = stats[i].GetIntValue();
-                            break;
-                        default:
-                            Debug.LogError("Cannot serialize stat of type " + stats[i].type);
-                            break;
-                    }
+                    wrapper.value = stats[i].value;
                     sb.Append(JsonUtility.ToJson(wrapper, true));
                     if (i < stats.Length - 1)
                     {
@@ -382,19 +364,11 @@ namespace RogueWave
         private class StatsWrapper
         {
             public string key;
-            public int intValue;
-            public float floatValue;
+            public int value;
 
-        public StatsWrapper(string key)
-        {
-            this.key = key;
-        }
-
-        public StatsWrapper(string key, int intValue, float floatValue)
+            public StatsWrapper(string key)
             {
                 this.key = key;
-                this.intValue = intValue;
-                this.floatValue = floatValue;
             }
         }
 

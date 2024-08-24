@@ -3,6 +3,6 @@ namespace WizardsCode.RogueWave
 {
     public interface IParameterizedGameEventListener<T>
     {
-        void OnEventRaised(ParameterizedGameEvent<T> e, T parameters);
+        void OnEventRaised(IParameterizedGameEvent<T> e, T parameters);
     }
 }

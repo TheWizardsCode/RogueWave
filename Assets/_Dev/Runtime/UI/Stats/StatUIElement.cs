@@ -7,15 +7,15 @@ namespace RogueWave.GameStats
         public TMPro.TextMeshProUGUI label;
         public TMPro.TextMeshProUGUI value;
 
-        GameStat m_stat;
-        public GameStat stat
+        IntGameStat m_stat;
+        public IntGameStat stat
         {
             get { return m_stat; }
             set
             {
                 m_stat = value;
                 SetLabel(m_stat.displayName);
-                SetValue(m_stat.GetValueAsString());
+                SetValue(m_stat.ValueAsString);
             }
         }
 

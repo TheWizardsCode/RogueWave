@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using RogueWave.GameStats;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace WizardsCode.RogueWave
@@ -11,9 +12,10 @@ namespace WizardsCode.RogueWave
     /// `GameEventListener` which can respond by invoking a `UnityEvent`.
     /// </summary>
     [CreateAssetMenu(fileName = "New Stat Event", menuName = "Rogue Wave/Events/Stat Event")]
-    public class IntStatEvent : ParameterizedGameEvent<int> {
+    public class IntStatEvent : ParameterizedGameEvent<int>
+    {
         [SerializeField, Tooltip("The stat being altered by this event."), Required]
-        internal GameStat stat;
+        internal IntGameStat stat;
     }
 
 }

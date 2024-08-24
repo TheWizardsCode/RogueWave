@@ -54,13 +54,13 @@ namespace RogueWave
 
         // Game Stats
         [SerializeField, Foldout("Game Stats"), Tooltip("The current total resources available to the player.")]
-        private GameStat m_Resources;
+        private IntGameStat m_Resources;
         [SerializeField, Foldout("Game Stats"), Tooltip("The unrefined crystal resources gathered.")]
-        private GameStat m_CrystalResourcesCollected;
+        private IntGameStat m_CrystalResourcesCollected;
         [SerializeField, Tooltip("The GameStat to increment when a recipe is called in during a run."), Foldout("Game Stats")]
-        internal GameStat m_RecipesCalledInStat;
+        internal IntGameStat m_RecipesCalledInStat;
         [SerializeField, Tooltip("The GameStat to store the maximum nanobot level the player has attained."), Foldout("Game Stats")]
-        internal GameStat m_MaxNanobotLevelStat;
+        internal IntGameStat m_MaxNanobotLevelStat;
 
         [SerializeField, Tooltip("Turn on debug features for the Nanobot Manager"), Foldout("Debug")]
         bool isDebug = false;
@@ -87,9 +87,6 @@ namespace RogueWave
 
         public delegate void OnBuildStarted(IRecipe recipe);
         public event OnBuildStarted onBuildStarted;
-
-        public delegate void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel);
-        public event OnResourcesChanged onResourcesChanged;
 
         public delegate void OnNanobotLevelUp(int level, int resourcesForNextLevel);
         public event OnNanobotLevelUp onNanobotLevelUp;
@@ -191,7 +188,6 @@ namespace RogueWave
             currentOfferRecipes = new IRecipe[numInGameRewards];
 
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
-            onResourcesChanged?.Invoke(0, 0, resourcesForNextNanobotLevel);
 
             foreach (var healthRecipe in healthRecipes)
             {
@@ -223,7 +219,7 @@ namespace RogueWave
                 foreach (string guid in RogueLiteManager.persistentData.WeaponBuildOrder)
                 {
                     RecipeManager.TryGetRecipe(guid, out IRecipe recipe);
-                    resources += recipe.BuildCost;
+                    m_Resources.Add(recipe.BuildCost);
                     TryRecipe(recipe);
                 }
             }
@@ -421,7 +417,7 @@ namespace RogueWave
 
                     if (m_RecipesCalledInStat)
                     {
-                        m_RecipesCalledInStat.Add();
+                        m_RecipesCalledInStat.Add(1);
                     }
 
                     Add(currentOfferRecipes[i]);
@@ -468,9 +464,9 @@ namespace RogueWave
                 rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
             }
 
-            if (m_MaxNanobotLevelStat != null && m_MaxNanobotLevelStat.GetIntValue() < RogueLiteManager.persistentData.currentNanobotLevel)
+            if (m_MaxNanobotLevelStat != null && m_MaxNanobotLevelStat.value < RogueLiteManager.persistentData.currentNanobotLevel)
             {
-                m_MaxNanobotLevelStat.Add();
+                m_MaxNanobotLevelStat.Add(1);
             }
 
             GameLog.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
@@ -555,7 +551,7 @@ namespace RogueWave
                     return false;
                 }
 
-                if (resources >= healthRecipes[i].BuildCost && healthRecipes[i].ShouldBuild)
+                if (m_Resources.value >= healthRecipes[i].BuildCost && healthRecipes[i].ShouldBuild)
                 {
                     float healAmount = Mathf.Min(1, healthRecipes[i].healAmountPerCent);
                     if (healAmount > chosenAmount)
@@ -653,7 +649,7 @@ namespace RogueWave
             {
                 // TODO: make a decision on whether to make a generic item in a more intelligent way
                 // TODO: can we make tests that are dependent on the pickup, e.g. when the pickup is triggered it will only be picked up if needed 
-                if (resources < itemRecipes[i].BuildCost)
+                if (m_Resources.value < itemRecipes[i].BuildCost)
                 {
                     continue;
                 }
@@ -684,7 +680,7 @@ namespace RogueWave
                     continue;
                 }
 
-                if (resources >= ammoRecipes[i].BuildCost && ammoRecipes[i].ShouldBuild)
+                if (m_Resources.value >= ammoRecipes[i].BuildCost && ammoRecipes[i].ShouldBuild)
                 {
                     float ammoAmount = Mathf.Min(1, ammoRecipes[i].ammoAmountPerCent);
                     if (ammoAmount > chosenAmount)
@@ -715,7 +711,7 @@ namespace RogueWave
                 return false;
             }
 
-            if (resources < recipe.BuildCost) 
+            if (m_Resources.value < recipe.BuildCost) 
             {
                 return false;
             }
@@ -732,7 +728,7 @@ namespace RogueWave
         internal IEnumerator BuildRecipe(IRecipe recipe)
         {
             isBuilding = true;
-            resources -= recipe.BuildCost;
+            m_Resources.Subtract(recipe.BuildCost);
 
             if (recipe.BuildStartedClip != null)
             {
@@ -890,28 +886,10 @@ namespace RogueWave
             return false;
         }
 
-
-        /// <summary>
-        /// The amount of resources the player currently has.
-        /// </summary>
-        public int resources
-        {
-            get { return m_Resources.GetIntValue(); }
-            private set
-            {
-                int from = resources - value;
-                m_Resources.SetValue(value);
-
-                // TODO: consider changing this to a resource change listener. This would allow us to deprecate this parameter for m_Resources.Get/SetValue()
-                if (onResourcesChanged != null)
-                    onResourcesChanged(from, value, resourcesForNextNanobotLevel);
-            }
-        }
-
         public void CollectResources(int amount, ResourceType resourceType)
         {
             resourcesForNextNanobotLevel -= amount;
-            resources += amount;
+            m_Resources.Add(amount);
 
             // TODO: This should be handled by the GameStat.SetValue() method where we collect other stats like this. Or perhaps it should be an event fired here....
             if (resourceType == ResourceType.Crystal)
@@ -929,7 +907,7 @@ namespace RogueWave
         [Button]
         private void Add10000Resources()
         {
-            resources += 10000;
+            m_Resources.Add(10000);
         }
 #endif
     }

@@ -9,10 +9,12 @@ namespace WizardsCode.RogueWave
     /// 
     /// The type for this generic event 
     /// </summary>
-    public abstract class ParameterizedGameEvent<T> : ScriptableObject
+    public class ParameterizedGameEvent<T> : ScriptableObject, IParameterizedGameEvent<T>
     {
         [SerializeField, TextArea, Tooltip("A description of this event. This has no gameplay value but is useful in the editor.")]
         private string description;
+        [SerializeField, TextArea, Tooltip("A desription of the parameters to be provided when the event is raised.")]
+        string parameters;
 
         private List<IParameterizedGameEventListener<T>> listeners = new List<IParameterizedGameEventListener<T>>();
 

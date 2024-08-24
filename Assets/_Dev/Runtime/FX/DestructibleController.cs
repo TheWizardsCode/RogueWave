@@ -34,7 +34,7 @@ namespace RogueWave
 
         // Game Stats
         [SerializeField, Tooltip("The GameStat to increment when this destructible is destroyed."), Foldout("Game Stats")]
-        internal GameStat destructibleDestroyed;
+        internal IntGameStat destructibleDestroyed;
 
         private BasicHealthManager m_HealthManager;
         private Renderer modelRenderer;
@@ -61,7 +61,7 @@ namespace RogueWave
             {
                 if (destructibleDestroyed != null)
                 {
-                    destructibleDestroyed.Add();
+                    destructibleDestroyed.Add(1);
                 }
 
                 if (m_PooledScaledFXParticles != null ||  m_PooledScaledDestructionParticles != null)

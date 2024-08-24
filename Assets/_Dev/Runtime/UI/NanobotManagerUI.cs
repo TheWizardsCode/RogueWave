@@ -4,6 +4,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using WizardsCode.RogueWave;
 using static RogueWave.NanobotManager;
 
 namespace RogueWave
@@ -50,7 +51,6 @@ namespace RogueWave
             {
                 nanobotManager.onRequestSent -= OnRequestSent;
                 nanobotManager.onBuildStarted -= OnBuildStarted;
-                nanobotManager.onResourcesChanged -= OnResourcesChanged;
                 nanobotManager.onStatusChanged -= OnStatusChanged;
                 nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
                 nanobotManager.onOfferChanged -= OnOfferChanged;
@@ -65,7 +65,6 @@ namespace RogueWave
             {
                 nanobotManager.onRequestSent += OnRequestSent;
                 nanobotManager.onBuildStarted += OnBuildStarted;
-                nanobotManager.onResourcesChanged += OnResourcesChanged;
                 nanobotManager.onStatusChanged -= OnStatusChanged;
                 nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
                 nanobotManager.onOfferChanged -= OnOfferChanged;
@@ -135,13 +134,13 @@ namespace RogueWave
             buildAndRequetProgressBar.Value = 0;
         }
 
-        protected virtual void OnResourcesChanged(float from, float to, float resourcesUntilNextLevel)
+        protected virtual void OnResourcesChanged(IntStatEvent e, int change)
         {   
-            if (from <= to)
+            if (change > 0)
             {
-                if (resourcesUntilNextLevel > 0)
+                if (nanobotManager.resourcesForNextNanobotLevel > 0)
                 {
-                    nanobotLevelProgressBar.Value = (int)(nanobotLevelProgressBar.MaxValue - resourcesUntilNextLevel);
+                    nanobotLevelProgressBar.Value = (int)(nanobotLevelProgressBar.MaxValue - nanobotManager.resourcesForNextNanobotLevel);
                 }
                 else
                 {

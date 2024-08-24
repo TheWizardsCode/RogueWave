@@ -42,7 +42,7 @@ namespace RogueWave.GameStats
 #endif
 
         [SerializeField] private Achievement[] m_Achievements = new Achievement[0];
-        [SerializeField] private GameStat[] m_GameStats = default;
+        [SerializeField] private IntGameStat[] m_GameStats = default;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]
@@ -147,7 +147,7 @@ namespace RogueWave.GameStats
 
         private void OnEnable()
         {
-            m_GameStats = Resources.LoadAll<GameStat>("");
+            m_GameStats = Resources.LoadAll<IntGameStat>("");
             m_Achievements = Resources.LoadAll<Achievement>("");
         }
 
@@ -274,19 +274,11 @@ namespace RogueWave.GameStats
 
             sb.Clear();
             sb.AppendLine("Player Stats:");
-            foreach (GameStat stat in m_GameStats)
+            foreach (IntGameStat stat in m_GameStats)
             {
                 if (stat.key != null)
                 {
-                    switch (stat.type)
-                    {
-                        case GameStat.StatType.Int:
-                            sb.Append($"  - {stat.key}: {stat.GetIntValue()}\n");
-                            break;
-                        case GameStat.StatType.Float:
-                            sb.Append($"  - {stat.key}: {stat.GetFloatValue()}\n");
-                            break;
-                    }
+                    sb.Append($"  - {stat.key}: {stat.value}\n");
                 }
             }
 
@@ -295,7 +287,7 @@ namespace RogueWave.GameStats
             sb.Clear();
             sb.AppendLine("Score:");
             int totalScore = 0;
-            foreach (GameStat stat in m_GameStats)
+            foreach (IntGameStat stat in m_GameStats)
             {
                 if (stat.contributeToScore)
                 {
@@ -322,10 +314,10 @@ namespace RogueWave.GameStats
             return chunks.ToArray();
         }
 
-        internal GameStat GetStat(string key)
+        internal IntGameStat GetStat(string key)
         {
             // OPTIMIZATION: This would be faster if it were a HashSet
-            foreach (GameStat stat in m_GameStats)
+            foreach (IntGameStat stat in m_GameStats)
             {
                 if (stat.key == key)
                 {
@@ -361,34 +353,7 @@ namespace RogueWave.GameStats
 #endif
         }
 
-        /// <summary>
-        /// Increments an integer counter by 1.
-        /// </summary>
-        /// <param name="stat"></param>
-        internal void IncrementCounter(GameStat stat)
-        {
-            IncrementCounter(stat, 1);
-        }
-
-        /// <summary>
-        /// Increments an integer counter by a set amount.
-        /// </summary>
-        /// <param name="stat"></param>
-        internal void IncrementCounter(GameStat stat, int amount)
-        {
-            int value = stat.Add(amount);
-            CheckAchievements(stat, value);
-
-#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-            if (!SteamClient.IsValid)
-                return;
-
-            SteamUserStats.AddStat(stat.key, amount);
-            isDirty = true;
-#endif
-        }
-
-        internal void CheckAchievements(GameStat stat, int value)
+        internal void CheckAchievements(IntGameStat stat, int value)
         {
             // OPTIMIZATION: This could be optimized by only checking achievements that are related to the stat that has changed. i.e. sort the achievements into a dictionary by stat and only check the relevant ones.
             // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
@@ -404,7 +369,7 @@ namespace RogueWave.GameStats
             }
         }
 
-        internal void CheckAchievements(GameStat stat, float value)
+        internal void CheckAchievements(IntGameStat stat, float value)
         {
             // OPTIMIZATION: This could be optimized by only checking achievements that are related to the stat that has changed. i.e. sort the achievements into a dictionary by stat and only check the relevant ones.
             // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
@@ -441,10 +406,10 @@ namespace RogueWave.GameStats
 #endif
         public static void ResetLocalStatsAndAchievements()
         {
-            GameStat[] gameStats = Resources.LoadAll<GameStat>("");
-            foreach (GameStat stat in gameStats)
+            IntGameStat[] gameStats = Resources.LoadAll<IntGameStat>("");
+            foreach (IntGameStat stat in gameStats)
             {
-                stat.Reset();
+                stat.SetValue(stat.defaultValue);
             }
 
             Achievement[] achievements = Resources.LoadAll<Achievement>("");
@@ -465,21 +430,13 @@ namespace RogueWave.GameStats
         [Button("Dump Stats and Achievements to Console"), ShowIf("showDebug")]
         private void DumpStatsAndAchievements()
         {
-            GameStat[] gameStats = m_GameStats;
+            IntGameStat[] gameStats = m_GameStats;
 
-            foreach (GameStat stat in gameStats)
+            foreach (IntGameStat stat in gameStats)
             {
                 if (stat.key != null)
                 {
-                    switch (stat.type)
-                    {
-                        case GameStat.StatType.Int:
-                            Debug.Log($"Scriptable Object: {stat.key} = {stat.GetIntValue()}");
-                            break;
-                        case GameStat.StatType.Float:
-                            Debug.Log($"Scriptable Object: {stat.key} = {stat.GetFloatValue()}");
-                            break;
-                    }
+                    Debug.Log($"Scriptable Object: {stat.key} = {stat.value}");
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
                     DumpSteamStat(stat);
 #endif
@@ -577,7 +534,7 @@ namespace RogueWave.GameStats
     internal struct ScoreCallculation
     {
         [SerializeField, Tooltip("The stat this scord caclulation is based on.")]
-        internal GameStat stat;
+        internal IntGameStat stat;
         [SerializeField, Tooltip("The number of points per unit of the stat.")]
         internal int pointsPerUnit;
     }

@@ -3,6 +3,7 @@ using NeoSaveGames.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using WizardsCode.RogueWave;
 
 namespace RogueWave.GameStats
 { 
@@ -16,9 +17,9 @@ namespace RogueWave.GameStats
         [SerializeField, Tooltip("The container to put the enemy stats in.")]
         RectTransform m_EnemiesContainer;
         [SerializeField, Tooltip("The stats to track in the enemy category.")]
-        GameStat[] m_EnemyStats;
+        IntGameStat[] m_EnemyStats;
         [SerializeField, Tooltip("The stats to track in the player category.")]
-        GameStat[] m_PlayerStats;
+        IntGameStat[] m_PlayerStats;
 
         [Header("Achievements")]
         [SerializeField, Tooltip("The container to put the achievements in.")]
@@ -31,6 +32,7 @@ namespace RogueWave.GameStats
         void OnEnable()
         {
             NeoFpsInputManager.captureMouseCursor = false;
+            RogueLiteManager.persistentData.isDirty = true; // Set to true as a security in case we fogot to set it somewhere
             RogueLiteManager.SaveProfile();
         }
 
@@ -84,9 +86,9 @@ namespace RogueWave.GameStats
             isInitialized = true;
         }
 
-        private void CreateStatElements(GameStat[] stats, Transform parent)
+        private void CreateStatElements(IntGameStat[] stats, Transform parent)
         {
-            foreach (GameStat stat in stats)
+            foreach (IntGameStat stat in stats)
             {
                 StatUIElement element = Instantiate(m_StatElementPrefab, transform);
                 element.stat = stat;

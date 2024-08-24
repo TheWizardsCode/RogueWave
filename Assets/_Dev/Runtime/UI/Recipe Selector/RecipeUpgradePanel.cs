@@ -117,8 +117,8 @@ namespace RogueWave.UI
             RogueLiteManager.persistentData.Add(offer);
             HubController.AddPermanentRecipe(offer);
             RogueLiteManager.persistentData.currentResources -= offer.BuyCost;
-            RogueLiteManager.SaveProfile();
-            
+            RogueLiteManager.persistentData.isDirty = true;
+
             offers.RemoveAll(o => o == offer);
             isDirty = true;
 

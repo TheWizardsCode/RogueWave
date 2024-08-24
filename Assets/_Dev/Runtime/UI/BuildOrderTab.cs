@@ -100,7 +100,6 @@ namespace RogueWave
             ConfigureUI();
 
             RogueLiteManager.persistentData.isDirty = true;
-            RogueLiteManager.SaveProfile();
         }
 
         private void ConfigureMoveButtons()
@@ -163,7 +162,6 @@ namespace RogueWave
         {
             RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(index);
             RogueLiteManager.persistentData.isDirty = true;
-            RogueLiteManager.SaveProfile();
 
             ConfigureUI();
         }
@@ -172,7 +170,6 @@ namespace RogueWave
         {
             RogueLiteManager.persistentData.WeaponBuildOrder.Add(builds[index].recipe.UniqueID);
             RogueLiteManager.persistentData.isDirty = true;
-            RogueLiteManager.SaveProfile();
 
             ConfigureUI();
         }

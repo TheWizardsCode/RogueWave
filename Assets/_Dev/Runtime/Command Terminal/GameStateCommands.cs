@@ -34,9 +34,9 @@ namespace WizardsCode.RogueWave.CommandTerminal
         {
             if (Terminal.IssuedError) return;
 
-            GameStat[] gameStats = Resources.LoadAll<GameStat>("").OrderBy(stat => stat.displayName).ToArray();
+            IntGameStat[] gameStats = Resources.LoadAll<IntGameStat>("").OrderBy(stat => stat.displayName).ToArray();
 
-            foreach (GameStat stat in gameStats)
+            foreach (IntGameStat stat in gameStats)
             {
                 if (stat.key != null)
                 {
@@ -45,15 +45,7 @@ namespace WizardsCode.RogueWave.CommandTerminal
                         continue;
                     }
 
-                    switch (stat.type)
-                    {
-                        case GameStat.StatType.Int:
-                            Terminal.Log($"{stat.key} = {stat.GetIntValue()}");
-                            break;
-                        case GameStat.StatType.Float:
-                            Terminal.Log($"{stat.key} = {stat.GetFloatValue()}");
-                            break;
-                    }
+                    Terminal.Log($"{stat.key} = {stat.value}");
                 }
             }
         }
