@@ -150,8 +150,13 @@ namespace RogueWave
 #endif
 
             List<T> candidates = new List<T>();
+            // OPTIMIZATION: We filter on `recipe.IsAvailable` it wouild be more efficient to split the recipes into `availablePowerupRecipes` and `unavailablePowerUpRecipes` on load, this would also allow us to have recipes that have dependencies in the `unavailablePowerups` list until dependencies are satisfied
             foreach (IRecipe recipe in powerupRecipes.Values)
             {
+                if (!recipe.IsAvailable)
+                {
+                    continue;
+                }
 
                 if (!allowUnaffordable && RogueLiteManager.persistentData.currentResources < recipe.BuyCost)
                 {

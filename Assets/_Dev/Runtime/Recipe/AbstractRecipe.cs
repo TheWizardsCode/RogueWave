@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using OggVorbisEncoder.Setup;
 using System;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -37,6 +38,8 @@ namespace RogueWave
         public int baseBuyCost = 500;
 
         [Header("Build")]
+        [SerializeField, Tooltip("Whether or not this recipe is available to be offered to the player.")]
+        bool isAvailable = true;
         [SerializeField, Tooltip("Powerups are recipes that can be offered between levels and, if purchased, become permanent.")]
         bool isPowerUp = false;
         [SerializeField, Tooltip("The cooldown time for this recipe (in seconds). If the nanobots have built this recipe, they cannot build it again until this time has passed.")]
@@ -108,6 +111,8 @@ namespace RogueWave
             get => level;
             set => level = value;
         }
+
+        public bool IsAvailable => isAvailable;
 
         public bool IsPowerUp => isPowerUp;
 
