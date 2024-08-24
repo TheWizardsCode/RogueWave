@@ -593,6 +593,11 @@ namespace RogueWave
             levelProgressBar.gameObject.SetActive(false);
             RogueLiteManager.persistentData.runNumber++;
 
+            if (RogueLiteManager.persistentData.runNumber == 1 && RogueLiteManager.persistentData.currentResources < 150) // this will be the players first run
+            {
+                RogueLiteManager.persistentData.currentResources = 150;
+            }
+
             // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {

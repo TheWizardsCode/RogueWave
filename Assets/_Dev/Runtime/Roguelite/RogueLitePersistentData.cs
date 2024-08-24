@@ -36,13 +36,25 @@ namespace RogueWave
             set { m_CurrentNanobotLevel = value; }
         }
 
-        [Obsolete("Use the `Resources - Current Total` scriptable object instead. Need to get rid of this for OPTIMIZATION.")]
+        IntGameStat m_CurrentResources;
         public int currentResources
         {
-            get { return GameStatsManager.Instance.GetStat("RESOURCES").value; }
+            get { return m_CurrentResources.value; }
             set
             {
-                GameStatsManager.Instance.GetStat("RESOURCES").SetValue(value);
+                if (value == m_CurrentResources.value)
+                {
+                    return;
+                }
+
+                int change = value - m_CurrentResources.value;
+                if (change > 0)
+                {
+                    m_CurrentResources.Add(change);
+                } else
+                {
+                    m_CurrentResources.Subtract(-change);
+                }
             }
         }
 
@@ -81,14 +93,9 @@ namespace RogueWave
         {
             currentNanobotLevel = 0;
             currentGameLevel = 0;
-            if (runNumber == 0 && currentResources < 150) // this will be the players first run
-            {
-                currentResources = 150;
-            }
-#if UNITY_EDITOR
-            //currentResources = 100000;
-            //Debug.Log("RogueLiteRunData: currentResources set to 100000 as we are running in the editor in debug mode.");
-#endif
+
+            // TODO: Remove hard coding of resource stat key
+            m_CurrentResources = GameStatsManager.Instance.GetStat("RESOURCES");
         }
 
         /// <summary>
