@@ -10,12 +10,8 @@ namespace RogueWave
     /// </summary>
     public class PawnHealthTracker : PlayerCharacterHudBase
     {
-        [SerializeField, Tooltip("The colour to use when the player is at full health.")]
-        [ColorUsage(true, true)]
-        Color fullHealthColour = Color.green;
-        [SerializeField, Tooltip("The colour to use when the player is at zero health.")]
-        [ColorUsage(true, true)]
-        Color noHealthColour = Color.red;
+        [SerializeField, Tooltip("The name of the health property in the shader.")]
+        string healthProperty = "_Health";
 
         private IHealthManager m_HealthManager = null;
         private Material material = null;
@@ -54,10 +50,7 @@ namespace RogueWave
         protected virtual void OnHealthChanged(float from, float to, bool critical, IDamageSource source)
         {
             float healthRatio = to / m_HealthManager.healthMax;
-            float adjustedHealthRatio = Mathf.Pow(healthRatio, 0.5f); // Adjust this exponent to change the rate of color change
-
-            Color healthColour = Color.Lerp(noHealthColour, fullHealthColour, adjustedHealthRatio);
-            material.SetColor("_Color", healthColour);
+            material.SetFloat("_Health", healthRatio);
         }
     }
 }

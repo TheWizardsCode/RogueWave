@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Body
+  m_Name: Sythos Body
   m_Shader: {fileID: -6465566751694194690, guid: 1f6e311bf58ab704e9fc35ff67f20dca, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -67,22 +67,27 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Fill_Amount: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.435
     - _GlossyReflections: 0
+    - _Health: 0.390489
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
+    - _Outline_Strength: 1
     - _Parallax: 0.02
-    - _Scroll_Speed: 0.17
+    - _Scroll_Speed: 0.018
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 0
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0, g: 2, b: 0, a: 1}
+    - _Color: {r: 16, g: 0, b: 0, a: 1}
     - _EmissionColor: {r: 0.06934188, g: 0.6320754, b: 0.04472231, a: 1}
+    - _Healthy_Colour: {r: 0.09672576, g: 0.4254902, b: 0.07843136, a: 0}
+    - _Unhealthy_Colour: {r: 0.15209824, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
 --- !u!114 &3010396395888753547
 MonoBehaviour:
