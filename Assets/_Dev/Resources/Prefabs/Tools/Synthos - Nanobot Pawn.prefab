@@ -101,8 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb299bddf94d3a44e954ac4eee7bba9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fullHealthColour: {r: 0, g: 1.4980392, b: 0, a: 1}
-  noHealthColour: {r: 16, g: 0, b: 0, a: 1}
+  healthProperty: _Health
 --- !u!114 &882116529043273726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,7 +343,8 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: c6cd785475375984fba8b469c3deae6a, type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 5866666021909216657, guid: 7742315453b3f62429a6213e6ef9f90e, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
