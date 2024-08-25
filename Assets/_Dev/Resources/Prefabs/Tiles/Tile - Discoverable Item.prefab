@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2002441999730550479}
-  - component: {fileID: 2542797727158204644}
+  - component: {fileID: -4389124811740532362}
   m_Layer: 0
   m_Name: Tile - Discoverable Item
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2542797727158204644
+--- !u!114 &-4389124811740532362
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,11 +41,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 2654456790820855860}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fdf8c640284aa64a96cb1e341f6da13, type: 3}
+  m_Script: {fileID: 11500000, guid: ed1179e1be5b1ac409f94da08bce8b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
-  spawnFurniture: 1
-  furnitureChance: 1
-  furniturePrefabs:
-  - {fileID: 133341777221481038, guid: 0cef081b81e1c3243bbf218f47c0fed8, type: 3}
+  groundSurface:
+    m_Value: 7
+  spawnFurniture: 0
+  furnitureChance: 0.25
+  furniturePrefabs: []
+  enemySpawnMultiplierByDifficulty:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 5
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 5
+      inSlope: 5
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  itemPrefab: {fileID: 3923178092932777060, guid: 0cef081b81e1c3243bbf218f47c0fed8, type: 3}

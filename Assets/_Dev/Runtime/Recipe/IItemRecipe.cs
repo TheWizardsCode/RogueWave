@@ -7,7 +7,7 @@ namespace RogueWave
     /// any UnityEngine.Component.
     /// </summary>
     /// <seealso cref="ItemRecipe{T}"/>"/>
-    internal interface IItemRecipe
+    internal interface IItemRecipe : IRecipe
     {
         public Component Item { get; }
     }

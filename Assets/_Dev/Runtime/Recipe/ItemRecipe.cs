@@ -1,8 +1,4 @@
-﻿using NaughtyAttributes;
-using NeoFPS;
-using System;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace RogueWave

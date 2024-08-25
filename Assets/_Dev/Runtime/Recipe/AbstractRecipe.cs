@@ -189,6 +189,9 @@ namespace RogueWave
 
         public ParticleSystem PickupParticles => pickupParticles;
 
+        /// <summary>
+        /// Calculate the wdight for this recipe in the current game curcumstances. Hiher weights are more likely to be offered to the player.
+        /// </summary>
         public float weight {
             get
             {

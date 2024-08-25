@@ -18,13 +18,13 @@ namespace RogueWave
         [SerializeField, Tooltip("The surface material for the ground of this tile.")]
         internal FpsSurfaceMaterial groundSurface = FpsSurfaceMaterial.Dust;
 
-        [Header("Tile Content")]
+        [Header("Tile Furniture")]
         [SerializeField, Tooltip("Spawn furniture on the tile. If true, the tile will be populated with furniture.")]
-        private bool spawnFurniture = false;
+        internal bool spawnFurniture = false;
         [SerializeField, Range(0, 1f), ShowIf("spawnFurniture"), Tooltip("The base chance for furniture to be present on this tile.")]
-        private float furnitureChance = 0.25f;
+        internal float furnitureChance = 0.25f;
         [SerializeField, ShowIf("spawnFurniture"), Tooltip("Prefabs that may be spawned on this tile. Only one of these, selected at random, will be generated.")]
-        private GameObject[] furniturePrefabs = null;
+        internal GameObject[] furniturePrefabs = null;
 
         [Header("Difficulty")]
         [SerializeField, Tooltip("A multiplier for the chance of an enemiy spawning on this tile. The based chance is set in the tile definition, this curve is used to adjust the chance based on the game difficulty.")]
@@ -64,10 +64,17 @@ namespace RogueWave
             if (spawnFurniture && furniturePrefabs.Length > 0 && Random.value < furnitureChance)
             {
                 GameObject tileContentPrefab = furniturePrefabs[Random.Range(0, furniturePrefabs.Length)];
-                Transform furniture = Instantiate(tileContentPrefab, transform).transform;
-                furniture.localPosition = new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileDepth / 2, tileDepth / 2)) + contentOffset;
-                furniture.localRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
+                PlaceItem(Instantiate(tileContentPrefab, transform).transform);
             }
+        }
+
+        /// <summary>
+        /// Sets the position of an item on the tile.
+        /// </summary>
+        internal void PlaceItem(Transform item)
+        {
+            item.localPosition = new Vector3(Random.Range(-tileWidth / 2, tileWidth / 2), 0, Random.Range(-tileDepth / 2, tileDepth / 2)) + contentOffset;
+            item.localRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
         }
 
         protected virtual void GenerateGround(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)

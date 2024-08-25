@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3923178092932777060}
   - component: {fileID: 5152927339323812257}
   - component: {fileID: 2625066169984258632}
+  - component: {fileID: -5325509639031573106}
   m_Layer: 0
   m_Name: Discoverable Item
   m_TagString: Untagged
@@ -28,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.9375, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 241009802324296380}
@@ -79,6 +80,22 @@ MonoBehaviour:
   resourcesDropChance: 1
   resourcesPrefab: {fileID: -2501011552690513102, guid: b0da73c1229f3a249bdd550c7a216e80, type: 3}
   destructibleDestroyed: {fileID: 11400000, guid: 86ee284fcf6350f40a966b3c4a000642, type: 2}
+--- !u!114 &-5325509639031573106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 133341777221481038}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80be1e78e44db4143ba7e05e45b1a1aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  possibleDrops:
+  - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
+  - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
+  fallbackRecipe: {fileID: 0}
 --- !u!1001 &347485660930647383
 PrefabInstance:
   m_ObjectHideFlags: 0
