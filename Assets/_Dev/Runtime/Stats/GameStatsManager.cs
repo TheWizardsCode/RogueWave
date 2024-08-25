@@ -68,7 +68,7 @@ namespace RogueWave.GameStats
                     m_Instance = FindFirstObjectByType<GameStatsManager>();
                     if (m_Instance == null)
                     {
-                        m_Instance = new GameObject("Game Stat Manager").AddComponent<GameStatsManager>();
+                        Debug.LogError("There is no GameStatsManager in the scene. Please add and configure one.");
                     }
 
                     if (Application.isPlaying)
@@ -147,6 +147,7 @@ namespace RogueWave.GameStats
 
         private void OnEnable()
         {
+            m_Instance = this;
             m_GameStats = Resources.LoadAll<IntGameStat>("");
             m_Achievements = Resources.LoadAll<Achievement>("");
         }
@@ -314,7 +315,7 @@ namespace RogueWave.GameStats
             return chunks.ToArray();
         }
 
-        internal IntGameStat GetStat(string key)
+        public IntGameStat GetStat(string key)
         {
             // OPTIMIZATION: This would be faster if it were a HashSet
             foreach (IntGameStat stat in m_GameStats)

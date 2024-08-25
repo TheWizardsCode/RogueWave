@@ -147,6 +147,9 @@ namespace RogueWave
         protected override void OnDestroy()
         {
             base.OnDestroy();
+
+            SaveGameData();
+            GameLog.ClearLog();
         }
 
         private void Update()
@@ -488,7 +491,8 @@ namespace RogueWave
                 }
             }
 
-            log.Append($"Resources: {RogueLiteManager.persistentData.currentResources}, ");
+            // TODO: Remove hard coding of resource stat key
+            log.Append($"Resources: {GameStatsManager.Instance.GetStat("RESOURCES").value}, ");
             log.Append($"Nanobot Level: {RogueLiteManager.persistentData.currentNanobotLevel}, ");
             log.Append($"Game Level: {RogueLiteManager.persistentData.currentGameLevel}, ");
             log.Append($"Run Number: {RogueLiteManager.persistentData.runNumber}, ");
@@ -593,9 +597,10 @@ namespace RogueWave
             levelProgressBar.gameObject.SetActive(false);
             RogueLiteManager.persistentData.runNumber++;
 
-            if (RogueLiteManager.persistentData.runNumber == 1 && RogueLiteManager.persistentData.currentResources < 150) // this will be the players first run
+            // TODO: Remove hard coding of resource stat key
+            if (RogueLiteManager.persistentData.runNumber == 1 && GameStatsManager.Instance.GetStat("RESOURCES").value < 150) // this will be the players first run
             {
-                RogueLiteManager.persistentData.currentResources = 150;
+                GameStatsManager.Instance.GetStat("RESOURCES").SetValue(150);
             }
 
             // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.

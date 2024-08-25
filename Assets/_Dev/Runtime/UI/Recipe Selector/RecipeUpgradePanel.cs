@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using System;
 using RogueWave;
 using System.Linq;
+using RogueWave.GameStats;
 
 namespace RogueWave.UI
 {
@@ -116,7 +117,7 @@ namespace RogueWave.UI
 
             RogueLiteManager.persistentData.Add(offer);
             HubController.AddPermanentRecipe(offer);
-            RogueLiteManager.persistentData.currentResources -= offer.BuyCost;
+            GameStatsManager.Instance.GetStat("RESOURCES").Subtract(offer.BuyCost);
             RogueLiteManager.persistentData.isDirty = true;
 
             offers.RemoveAll(o => o == offer);

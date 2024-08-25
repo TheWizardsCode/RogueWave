@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using RogueWave.GameStats;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -146,7 +147,7 @@ namespace RogueWave
             Debug.Log($"Getting offer candidates for {typeof(T)}." +
                 $"\nNanobot level: {RogueLiteManager.persistentData.currentNanobotLevel}" +
                 $"\nPowerup recipes: {powerupRecipes.Count}" +
-                $"\nResources: {RogueLiteManager.persistentData.currentResources}");
+                $"\nResources: {GameStatsManager.Instance.GetStat("RESOURCES")}");
 #endif
 
             List<T> candidates = new List<T>();
@@ -158,7 +159,7 @@ namespace RogueWave
                     continue;
                 }
 
-                if (!allowUnaffordable && RogueLiteManager.persistentData.currentResources < recipe.BuyCost)
+                if (!allowUnaffordable && GameStatsManager.Instance.GetStat("RESOURCES").value < recipe.BuyCost)
                 {
 #if UNITY_EDITOR
                     //Debug.Log($"Skip: {recipe} is too expensive for the player at a cost of {recipe.BuyCost}.");

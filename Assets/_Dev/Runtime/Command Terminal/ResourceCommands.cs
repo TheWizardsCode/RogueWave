@@ -1,4 +1,5 @@
 using RogueWave;
+using RogueWave.GameStats;
 using WizardsCode.CommandTerminal;
 
 namespace WizardsCode.RogueWave.CommandTerminal
@@ -20,7 +21,7 @@ namespace WizardsCode.RogueWave.CommandTerminal
                 resources = args[0].Int;
             }
 
-            RogueLiteManager.persistentData.currentResources += resources;
+            GameStatsManager.Instance.GetStat("RESOURCES").Add(resources);
             Terminal.Log($"Added {resources} resources to {RogueLiteManager.currentProfile}.");
         }
 
@@ -39,7 +40,7 @@ namespace WizardsCode.RogueWave.CommandTerminal
                 resources = args[0].Int;
             }
 
-            RogueLiteManager.persistentData.currentResources -= resources;
+            GameStatsManager.Instance.GetStat("RESOURCES").Subtract(resources);
             Terminal.Log($"Removed {resources} resources to {RogueLiteManager.currentProfile}.");
         }
     }

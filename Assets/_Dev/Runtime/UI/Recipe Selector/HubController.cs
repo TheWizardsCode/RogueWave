@@ -7,6 +7,7 @@ using UnityEngine.UI;
 using NaughtyAttributes;
 using NeoFPS.Samples;
 using System.Collections.ObjectModel;
+using RogueWave.GameStats;
 
 namespace RogueWave.UI
 {
@@ -43,7 +44,7 @@ namespace RogueWave.UI
             m_ContinueButton.onClick.AddListener(QuitSelectionUI);
             NeoFpsInputManager.captureMouseCursor = false;
 
-            GameLog.Info($"Entering Hub Scene with {RogueLiteManager.persistentData.currentResources} resources.");
+            GameLog.Info($"Entering Hub Scene with {GameStatsManager.Instance.GetStat("RESOURCES").value} resources.");
 
             clearPermanentRecipes();
             foreach (string recipeID in RogueLiteManager.persistentData.RecipeIds)
@@ -64,14 +65,14 @@ namespace RogueWave.UI
             m_ContinueButton.onClick.RemoveListener(QuitSelectionUI);
             NeoFpsInputManager.captureMouseCursor = true;
 
-            GameLog.Info($"Exiting Hub Scene with {RogueLiteManager.persistentData.currentResources} resources.");
+            GameLog.Info($"Exiting Hub Scene with {GameStatsManager.Instance.GetStat("RESOURCES").value} resources.");
         }
 
         private void OnGUI()
         {
             if (m_ResourcesText != null)
             {
-                m_ResourcesText.text = RogueLiteManager.persistentData.currentResources.ToString();
+                m_ResourcesText.text = GameStatsManager.Instance.GetStat("RESOURCES").ValueAsString;
             }
 
             if (m_GameLevelNumberText != null)

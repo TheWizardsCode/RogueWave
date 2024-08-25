@@ -1,5 +1,6 @@
 using NeoFPS.Samples;
 using RogueWave;
+using RogueWave.GameStats;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -74,7 +75,7 @@ namespace RogueWave.UI
             image.sprite = _recipe.HeroImage;
             details.description = recipe.Description;
             selectionButton.label = $"Buy for {_recipe.BuyCost}";
-            if (RogueLiteManager.persistentData.currentResources >= _recipe.BuyCost)
+            if (GameStatsManager.Instance.GetStat("RESOURCES").value >= _recipe.BuyCost)
             {
                 selectionButton.interactable = true;
             }
@@ -98,7 +99,7 @@ namespace RogueWave.UI
         {
             image.sprite = _recipe.Icon;
             selectionButton.label = $"Permanent ({recipe.BuyCost})";
-            if (RogueLiteManager.persistentData.currentResources < _recipe.BuyCost)
+            if (GameStatsManager.Instance.GetStat("RESOURCES").value < _recipe.BuyCost)
             {
                 selectionButton.interactable = false;
                 selectionButton.GetComponent<Image>().color = Color.red;
@@ -131,7 +132,7 @@ namespace RogueWave.UI
             RogueLiteManager.persistentData.Add(recipe);
             HubController.AddPermanentRecipe(recipe);
 
-            RogueLiteManager.persistentData.currentResources -= recipe.BuyCost;
+            GameStatsManager.Instance.GetStat("RESOURCES").Subtract(recipe.BuyCost);
 
             GameLog.Info($"Made {recipe} permanent.");
         }

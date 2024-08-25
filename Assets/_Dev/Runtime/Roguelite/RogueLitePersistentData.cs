@@ -36,28 +36,6 @@ namespace RogueWave
             set { m_CurrentNanobotLevel = value; }
         }
 
-        IntGameStat m_CurrentResources;
-        public int currentResources
-        {
-            get { return m_CurrentResources.value; }
-            set
-            {
-                if (value == m_CurrentResources.value)
-                {
-                    return;
-                }
-
-                int change = value - m_CurrentResources.value;
-                if (change > 0)
-                {
-                    m_CurrentResources.Add(change);
-                } else
-                {
-                    m_CurrentResources.Subtract(-change);
-                }
-            }
-        }
-
         public List<string> RecipeIds = new List<string>();
         public List<string> _weaponBuildOrderBackingField = new List<string>(); // this is public to ensure it is serialized. TODO: write a custom serialiser for this class to avoid this
 
@@ -93,9 +71,6 @@ namespace RogueWave
         {
             currentNanobotLevel = 0;
             currentGameLevel = 0;
-
-            // TODO: Remove hard coding of resource stat key
-            m_CurrentResources = GameStatsManager.Instance.GetStat("RESOURCES");
         }
 
         /// <summary>
