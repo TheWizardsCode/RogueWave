@@ -29,7 +29,9 @@ namespace RogueWave.GameStats
         [Header("Value Management")]
         [SerializeField, Tooltip("The default value for this stat.")]
         T m_DefaultValue = default;
-        [SerializeField, Tooltip("The formatting string to use when displaying a string representation of the stat.")]
+        [SerializeField, Tooltip("Is this a time in seconds?")]
+        internal bool isTime = false;
+        [SerializeField, HideIf("isTime"), Tooltip("The formatting string to use when displaying a string representation of the stat.")]
         internal string m_FormatString = "00000";
 
         [Header("Tracking")]

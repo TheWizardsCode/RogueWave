@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Key: TOTAL_TIME_IN_RUNS
   m_displayName: Time in runs
-  m_description: 
+  m_description: The total time this profile has spent in runs.
   m_DefaultValue: 0
+  isTime: 1
   m_FormatString: 00000
   onChangeEvent: {fileID: 0}
   increasedAmount: {fileID: 0}
   decreasedAmount: {fileID: 0}
   contributeToScore: 1
   m_ScoreMultiplier: 2
+  m_CurrentValue: 0

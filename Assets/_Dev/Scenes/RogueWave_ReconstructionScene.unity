@@ -37152,7 +37152,6 @@ GameObject:
   - component: {fileID: 1542123246}
   - component: {fileID: 1542123245}
   - component: {fileID: 1542123243}
-  - component: {fileID: 1542123248}
   m_Layer: 5
   m_Name: Stat Protoype
   m_TagString: Untagged
@@ -37172,7 +37171,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e645e14e64dae954e937ebaa4ef4b418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  disableDuringTutorial: 0
+  disableDuringTutorial: 1
   label: {fileID: 2130755552}
   value: {fileID: 456877140}
 --- !u!224 &1542123244
@@ -37260,19 +37259,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542123242}
   m_CullTransparentMesh: 1
---- !u!114 &1542123248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1542123242}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6953ac9c1880d67489e391311db650f9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  disableDuringTutorial: 1
 --- !u!1 &1548170415
 GameObject:
   m_ObjectHideFlags: 0

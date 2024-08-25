@@ -33,7 +33,14 @@ namespace RogueWave.GameStats
         {
             get
             {
-                return value.ToString(m_FormatString);
+                if (isTime)
+                {
+                    return TimeSpan.FromSeconds(value).ToString(@"hh\:mm\:ss");
+                }
+                else
+                {
+                    return value.ToString(m_FormatString);
+                }
             }
         }
 
