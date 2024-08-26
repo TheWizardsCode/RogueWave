@@ -16,8 +16,8 @@ using Lumpn.Discord;
 #endif
 using System.Collections;
 using UnityEngine.Serialization;
-using WizardsCode.CommandTerminal;
-using WizardsCode.RogueWave;
+using System.Linq;
+using Lumpn.Discord.Utils;
 
 namespace RogueWave.GameStats
 {
@@ -179,50 +179,116 @@ namespace RogueWave.GameStats
         {
             Webhook webhook = activeWebhook.CreateWebhook();
 
-            webhook.Send($"\n\n\n\nGame Stats Data for {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\n\n\n\n");
+            Message message = new Message();
+            message.username = "Rogue Wave";
 
+            Author author = new Author();
+            author.name = $"Rogue Wave v{Application.version} (Player ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()})";
+            
+            List<Embed> embeds = new List<Embed>();
+            bool isFirstEmbed = true;
             foreach (string chunk in chunks)
             {
-                if (chunk.Length > 2000)
-                {
-                    Debug.LogWarning("Data chunk too large to send to webhook. Data will be split across messages. Need a proper way to get the logs.");
-                    string[] lines = chunk.Split('\n');
-                    StringBuilder sb = new StringBuilder();
-                    foreach (string line in lines)
-                    {
-                        if (sb.Length > 1800 && line.Trim().StartsWith('-'))
-                        {
-                            StartCoroutine(webhook.Send($"```yaml\n# Partial\n{sb}```"));
-                            yield return new WaitForSeconds(0.5f);
-                            sb.Clear();
-                        }
-                        sb.Append(line);
-                    }
+                string[] lines = chunk.Split(new[] { '\n' }, StringSplitOptions.None);
 
-                    StartCoroutine(webhook.Send($"```yaml\n# Partial (Last)\n{sb}```"));
-                    yield return new WaitForSeconds(0.5f);
-                }
-                else
+                Embed embed = new Embed();
+                embed.author = author;
+                embed.title = lines[0];
+                embed.description = string.Join("\n", lines.Skip(1));
+                
+                if (isFirstEmbed)
                 {
-                    StartCoroutine(webhook.Send($"```yaml\n{chunk}```"));
-                    yield return new WaitForSeconds(0.5f);
+                    isFirstEmbed = false;
+                    embed.color = ColorUtils.ToColorCode(Color.green);
                 }
+                
+                embeds.Add(embed);
             }
 
-            webhook.Send($"\n\n\n\nEnd of data for {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\n\n\n\n");
+            //Field field = new Field();
+            //field.name = "Field Name";
+            //field.value = "Field Value";
+            //embed.fields = new Field[] { field };
+
+            message.embeds = embeds.ToArray();
+
+            yield return webhook.Send(message);
         }
 #endif
 
         private string[] GetDataAsYAML()
-        {// send a summary of the stats and achevements to a webhook
-         // OPTIMIZATION: This could be optimized by only sending the stats and achievements that have changed since the last time this was called.
-         // OPTIMIZATION: This could be further optimized by only sending the stats and achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to send.
+        {
+            // OPTIMIZATION: This could be optimized by only sending the stats and achievements that have changed since the last time this was called.
+            // OPTIMIZATION: This could be further optimized by only sending the stats and achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to send.
 
             List<string> chunks = new List<string>();
 
             StringBuilder sb = new StringBuilder();
-            sb.AppendLine("Machine Stats:");
 
+            sb.AppendLine("Summary Stats:");
+            //sb.AppendLine($"  - START_TIME: {startTime}");
+            //sb.AppendLine($"  - END_TIME: {endTime}");
+            int totalSeconds = Mathf.RoundToInt(endTime - startTime); 
+            int hours = totalSeconds / 3600;
+            int minutes = (totalSeconds % 3600) / 60;
+            int seconds = totalSeconds % 60;
+            sb.AppendLine($"  - PLAY_TIME: {hours}:{minutes}:{seconds}");
+
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Player Stats:");
+            foreach (IntGameStat stat in m_GameStats)
+            {
+                if (stat.key != null)
+                {
+                    sb.Append($"  - {stat.key}: {stat.value}\n");
+                }
+            }
+
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Achievements:");
+            foreach (Achievement achievement in m_Achievements)
+            {
+                string status = achievement.isUnlocked ? "Unlocked" : "Locked";
+                sb.AppendLine($"  - {achievement.key}: {status}");
+            }
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Score:");
+            int totalScore = 0;
+            foreach (IntGameStat stat in m_GameStats)
+            {
+                if (stat.contributeToScore)
+                {
+                    int score = stat.ScoreContribution;
+                    totalScore += score;
+                    sb.AppendLine($"  - {stat.key}: {score}");
+                }
+            }
+            sb.AppendLine($"  - Total Score: {totalScore}");
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Performance Stats:");
+            FPSCounter fps = FindObjectOfType<FPSCounter>();
+            if (fps != null)
+            {
+                sb.AppendLine($"  - AVERAGE_FPS: {fps.averageFPS}");
+                sb.AppendLine($"  - MIN_FPS: {fps.minFPS}");
+                sb.AppendLine($"  - MAX_FPS: {fps.maxFPS}");
+            }
+            else
+            {
+                sb.AppendLine("No FPS Counter found.");
+            }
+            chunks.Add(sb.ToString());
+
+            sb.Clear();
+            sb.AppendLine("Machine Stats:");
             sb.AppendLine($"  - UNIQUE_DEVICE_ID_HASH: {SystemInfo.deviceUniqueIdentifier.GetHashCode()}"); // Use a hash of the device ID to avoid sending the actual device ID which could be used to track a user.
             sb.AppendLine($"  - OS: {SystemInfo.operatingSystem}");
             sb.AppendLine($"  - CPU: {SystemInfo.processorType}");
@@ -251,66 +317,7 @@ namespace RogueWave.GameStats
             sb.AppendLine($"  - GENUINE: {Application.genuine}");
             chunks.Add(sb.ToString());
 
-            sb.Clear();
-            sb.AppendLine("Performance Stats:");
-            FPSCounter fps = FindObjectOfType<FPSCounter>();
-            if (fps != null)
-            {
-                sb.AppendLine($"  - AVERAGE_FPS: {fps.averageFPS}");
-                sb.AppendLine($"  - MIN_FPS: {fps.minFPS}");
-                sb.AppendLine($"  - MAX_FPS: {fps.maxFPS}");
-            }
-            else
-            {
-                sb.AppendLine("No FPS Counter found.");
-            }
-            chunks.Add(sb.ToString());
-
-            sb.Clear();
-            sb.AppendLine("Gameplay Stats:");
-            sb.AppendLine($"  - START_TIME: {startTime}");
-            sb.AppendLine($"  - END_TIME: {endTime}");
-            sb.AppendLine($"  - PLAY_TIME: {endTime - startTime}");
-            chunks.Add(sb.ToString());
-
-            sb.Clear();
-            sb.AppendLine("Player Stats:");
-            foreach (IntGameStat stat in m_GameStats)
-            {
-                if (stat.key != null)
-                {
-                    sb.Append($"  - {stat.key}: {stat.value}\n");
-                }
-            }
-
-            chunks.Add(sb.ToString());
-
-            sb.Clear();
-            sb.AppendLine("Score:");
-            int totalScore = 0;
-            foreach (IntGameStat stat in m_GameStats)
-            {
-                if (stat.contributeToScore)
-                {
-                    int score = stat.ScoreContribution;
-                    totalScore += score;
-                    sb.AppendLine($"  - {stat.key}: {score}");
-                }
-            }
-            sb.AppendLine($"  - Total Score: {totalScore}");
-            chunks.Add(sb.ToString());
-
-            sb.Clear();
-            sb.AppendLine("Achievements:");
-            foreach (Achievement achievement in m_Achievements)
-            {
-                string status = achievement.isUnlocked ? "Unlocked" : "Locked";
-                sb.AppendLine($"  - {achievement.key}: {status}");
-            }
-
-            chunks.Add(sb.ToString());
-
-            chunks.Add(GameLog.ToYAML());
+            // chunks.Add(GameLog.ToYAML());
 
             return chunks.ToArray();
         }
@@ -527,6 +534,12 @@ namespace RogueWave.GameStats
             AssetDatabase.Refresh();
         }
 #endif
+
+        [Button]
+        private void SendTestMessage()
+        {
+            SendDataToWebhook();    
+        }
 #endif
 #endregion
     }

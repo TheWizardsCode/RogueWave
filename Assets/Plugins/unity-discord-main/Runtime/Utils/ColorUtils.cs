@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Lumpn.Discord.Utils
 {
-    internal static class ColorUtils
+    public static class ColorUtils
     {
         /// <summary>
         /// Converts Unity colors to Discord colors.
