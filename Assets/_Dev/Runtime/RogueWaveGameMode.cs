@@ -148,7 +148,6 @@ namespace RogueWave
         {
             base.OnDestroy();
 
-            SaveGameData();
             GameLog.ClearLog();
         }
 
@@ -201,7 +200,7 @@ namespace RogueWave
         {
             LogGameState("Death");
 
-            SaveGameData();
+            SaveGameData("Death");
             GameLog.ClearLog();
 
             RogueLiteManager.ResetRunData();
@@ -218,7 +217,7 @@ namespace RogueWave
 
         void DelayedVictoryAction(bool usedPortal)
         {
-            SaveGameData();
+            SaveGameData("usedPortal");
             GameLog.ClearLog();
 
             if (usedPortal)
@@ -239,6 +238,7 @@ namespace RogueWave
         private IEnumerator DelayedLevelClearedCoroutine(float delay)
         {
             onLevelComplete?.Invoke();
+            SaveGameData("Level Cleared");
 
             // Temporary magnet buff to pull in victory rewards
             MagnetController magnet = null;
@@ -320,7 +320,11 @@ namespace RogueWave
                 DelayedVictoryAction(true);
         }
 
-        private void SaveGameData()
+        /// <summary>
+        /// Save the game data. The event name is used to identify the event that triggered the save
+        /// </summary>
+        /// <param name="eventName"></param>
+        private void SaveGameData(string eventName)
         {
             float timePlayed = Time.time - startTime;
             if (m_TimePlayedStat != null)
@@ -329,7 +333,7 @@ namespace RogueWave
             }
 
 #if DISCORD_ENABLED
-            GameStatsManager.Instance.SendDataToWebhook();
+            GameStatsManager.Instance.SendDataToWebhook(eventName);
 #endif
         }
 

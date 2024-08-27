@@ -1,5 +1,6 @@
 using NeoFPS;
 using NeoFPS.Samples;
+using RogueWave.GameStats;
 using System;
 using UnityEngine;
 
@@ -17,6 +18,11 @@ namespace RogueWave.UI
         protected override void OnEnable()
         {
             base.OnEnable();
+
+#if DISCORD_ENABLED
+            // TODO: should only do this if the game stats have changed since the last time they were sent
+            GameStatsManager.Instance.SendDataToWebhook("Main Menu `OnEnable`");
+#endif
             NeoFpsInputManager.captureMouseCursor = false;
         }
 

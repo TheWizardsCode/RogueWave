@@ -164,7 +164,11 @@ namespace RogueWave.GameStats
         }
 
 #if DISCORD_ENABLED
-        internal void SendDataToWebhook() 
+        /// <summary>
+        /// Send the stats to the discord server. The `eventName` is the name of the event that triggered the sending of the stats and will be included in the message.
+        /// </summary>
+        /// <param name="eventName"></param>
+        internal void SendDataToWebhook(string eventName) 
         {
             if (activeWebhook == null)
             {
@@ -172,10 +176,10 @@ namespace RogueWave.GameStats
             }
 
             string[] chunks = GetDataAsYAML();
-            StartCoroutine(SendDataToWebhookCoroutine(chunks));
+            StartCoroutine(SendDataToWebhookCoroutine(eventName, chunks));
         }
 
-        IEnumerator SendDataToWebhookCoroutine(string[] chunks)
+        IEnumerator SendDataToWebhookCoroutine(string eventName, string[] chunks)
         {
             Webhook webhook = activeWebhook.CreateWebhook();
 
@@ -183,7 +187,7 @@ namespace RogueWave.GameStats
             message.username = "Rogue Wave";
 
             Author author = new Author();
-            author.name = $"Rogue Wave v{Application.version} (Player ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()})";
+            author.name = $"Rogue Wave ({eventName}, Player ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()}) v{Application.version}";
             
             List<Embed> embeds = new List<Embed>();
             bool isFirstEmbed = true;
@@ -538,7 +542,7 @@ namespace RogueWave.GameStats
         [Button]
         private void SendTestMessage()
         {
-            SendDataToWebhook();    
+            SendDataToWebhook("Test From Inspector");    
         }
 #endif
 #endregion
