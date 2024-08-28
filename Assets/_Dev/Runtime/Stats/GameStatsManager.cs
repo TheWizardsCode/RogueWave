@@ -230,13 +230,15 @@ namespace RogueWave.GameStats
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("Summary Stats:");
-            //sb.AppendLine($"  - START_TIME: {startTime}");
-            //sb.AppendLine($"  - END_TIME: {endTime}");
-            int totalSeconds = Mathf.RoundToInt(endTime - startTime); 
+            int totalSeconds = Mathf.RoundToInt(endTime - startTime);
             int hours = totalSeconds / 3600;
             int minutes = (totalSeconds % 3600) / 60;
             int seconds = totalSeconds % 60;
             sb.AppendLine($"  - PLAY_TIME: {hours}:{minutes}:{seconds}");
+            sb.AppendLine($"  - RUNS_COMPLETED: {GameStatsManager.Instance.GetStat("RUNS_COMPLETED").ValueAsString}");
+            sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetStat("MAX_NANOBOT_LEVEL").ValueAsString}");
+            sb.AppendLine($"  - DEATH_COUNT: {GameStatsManager.Instance.GetStat("DEATH_COUNT").ValueAsString}");
+            sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetStat("RESOURCES_SPENT_IN_RUNS").ValueAsString}");
 
             chunks.Add(sb.ToString());
 
