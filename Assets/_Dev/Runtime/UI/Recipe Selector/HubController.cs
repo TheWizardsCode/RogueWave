@@ -53,6 +53,17 @@ namespace RogueWave.UI
                 {
                     AddPermanentRecipe(recipe);
                 }
+
+                for (int i = m_PermanentRecipes.Count - 1; i > 0; i--)
+                {
+                    if (m_PermanentRecipes[i] is WeaponRecipe weapon)
+                    {
+                        if (weapon.ammoRecipe != null)
+                        {
+                            m_PermanentRecipes.Remove(weapon.ammoRecipe);
+                        }
+                    }
+                }
             }
 
             ClearTemporaryRecipes();
@@ -106,8 +117,7 @@ namespace RogueWave.UI
         {
             m_TemporaryRecipes.AddRange(recipes);
 
-            // find all the weapon recipes and remove their ammo recipes from the temporary list
-            foreach (IRecipe recipe in m_TemporaryRecipes)
+            foreach (IRecipe recipe in recipes)
             {
                 if (recipe is WeaponRecipe weapon)
                 {
