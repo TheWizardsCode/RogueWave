@@ -31,7 +31,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 6656456429877012014}
   m_Father: {fileID: 6999855314944377791}
@@ -279,7 +279,7 @@ MonoBehaviour:
   damage: 25
   layers: 31
   model: {fileID: 3823717223021086877}
-  positionOffset: {x: 0.2, y: 0.7, z: 0}
+  positionOffset: {x: 0.2, y: 0.5, z: 0}
   m_FiringAudioSource: {fileID: 174474560804966223}
   fireAudioClip:
   - {fileID: 8300000, guid: 19c5e44abc952b447be5fa952e3e1e8b, type: 3}
@@ -288,7 +288,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5433e03159bbdf148b63b88cf7b97bc5, type: 3}
   - {fileID: 8300000, guid: 2f4c90a115a2a074abb9bcd74d3a2798, type: 3}
   - {fileID: 8300000, guid: f5898f79d4ae2af4abd29a4f8cbaa0e4, type: 3}
-  speed: 10
+  speed: 2.5
 --- !u!1 &5383906314099776678
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +405,7 @@ ParticleSystem:
   m_GameObject: {fileID: 5383906314099776678}
   serializedVersion: 8
   lengthInSec: 5
-  simulationSpeed: 0.5
+  simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
   ringBufferMode: 0
@@ -479,7 +479,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 1.75
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -650,7 +650,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 0.33
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -1114,7 +1114,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.4
+      value: 0.0001
       mode: 0
       spread: 0
       speed:
