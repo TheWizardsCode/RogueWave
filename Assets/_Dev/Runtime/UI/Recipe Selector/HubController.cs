@@ -105,6 +105,19 @@ namespace RogueWave.UI
         private void AddRangeOfTemporaryRecipes(List<IRecipe> recipes)
         {
             m_TemporaryRecipes.AddRange(recipes);
+
+            // find all the weapon recipes and remove their ammo recipes from the temporary list
+            foreach (IRecipe recipe in m_TemporaryRecipes)
+            {
+                if (recipe is WeaponRecipe weapon)
+                {
+                    if (weapon.ammoRecipe != null)
+                    {
+                        m_TemporaryRecipes.Remove(weapon.ammoRecipe);
+                    }
+                }
+            }
+
             isTemporryRecipesDirty = true;
         }
 
