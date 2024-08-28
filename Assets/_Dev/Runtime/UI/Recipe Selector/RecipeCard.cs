@@ -128,9 +128,19 @@ namespace RogueWave.UI
         {
             RogueLiteManager.runData.Remove(recipe);
             HubController.RemoveTemporaryRecipe(recipe);
-
             RogueLiteManager.persistentData.Add(recipe);
             HubController.AddPermanentRecipe(recipe);
+
+            if (recipe is WeaponRecipe weapon)
+            {
+                if (weapon.ammoRecipe != null)
+                {
+                    RogueLiteManager.runData.Remove(weapon.ammoRecipe);
+                    HubController.RemoveTemporaryRecipe(weapon.ammoRecipe);
+                    RogueLiteManager.persistentData.Add(weapon.ammoRecipe);
+                    HubController.AddPermanentRecipe(weapon.ammoRecipe);
+                }
+            }
 
             GameStatsManager.Instance.GetStat("RESOURCES").Subtract(recipe.BuyCost);
 
