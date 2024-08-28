@@ -374,7 +374,7 @@ namespace RogueWave
                 {
                     goalDestination = GetWanderDestination();
                 }
-                movementController.SetDestination(goalDestination, 1, squadLeader);
+                movementController.SetMovementGoals(goalDestination, 1, squadLeader);
                 return;
             }
 
@@ -390,11 +390,11 @@ namespace RogueWave
 
             if (underOrders)
             {
-                movementController.SetDestination(goalDestination, 1.5f, squadLeader);
+                movementController.SetMovementGoals(goalDestination, 1.5f, squadLeader);
             }
             else
             {
-                movementController.SetDestination(goalDestination, 1, squadLeader);
+                movementController.SetMovementGoals(goalDestination, 1, squadLeader);
             }
         }
 
@@ -451,7 +451,7 @@ namespace RogueWave
                         goalDestination = GetWanderDestination();
                     }
 
-                    movementController.SetDestination(goalDestination, 1, squadLeader);
+                    movementController.SetMovementGoals(goalDestination, 1, squadLeader);
                 }
 
                 RotateHead();

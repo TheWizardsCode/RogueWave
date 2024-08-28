@@ -116,7 +116,13 @@ namespace RogueWave
             }
         }
 
-        internal void SetDestination(Vector3 destination, float speedMultiplier, BasicEnemyController squadLeader)
+        /// <summary>
+        /// Set the movement goals for this object.
+        /// </summary>
+        /// <param name="destination">The destination to move towards.</param>
+        /// <param name="speedMultiplier">How fast to go, as a multiplier of the base speed.</param>
+        /// <param name="squadLeader">The squad leader, if one exists, that this object will follow orders from.</param>
+        internal void SetMovementGoals(Vector3 destination, float speedMultiplier, BasicEnemyController squadLeader)
         {
             this.destination = destination;
             this.currentSpeedMultiplier = speedMultiplier;

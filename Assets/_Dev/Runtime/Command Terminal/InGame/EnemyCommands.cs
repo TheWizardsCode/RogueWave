@@ -21,6 +21,22 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
             }
         }
 
+        [RegisterCommand(Help = "Spawn enemies up to a total challenge rating. Enemies will be selected from those available in the current wave. Default challenge rating is 8.", MinArgCount = 0, MaxArgCount = 1)]
+        static void SpawnEnemies(CommandArg[] args)
+        {
+            if (Terminal.IssuedError) return;
+
+            float challengeRating = 8;
+            if (args.Length > 0)
+            {
+                challengeRating = args[0].Float;
+            }
+
+            director.SpawnEnemies(challengeRating);
+            
+            Terminal.Log($"Spawned {challengeRating} enemies.");
+        }
+
         [RegisterCommand(Help = "Kill a % of enemies on this level. Default is 75.", MinArgCount = 1, MaxArgCount = 1)]
         static void KillPercentageEnemies(CommandArg[] args)
         {

@@ -29,7 +29,7 @@ namespace RogueWave
             "When the AI director detects that the current kill rate is below this value it will send more enemies to the player in order to pressure player."), CurveRange(0, 0.3f, 99, 10, EColor.Red)]
         private AnimationCurve targetSkillScoreByLevel;
         [SerializeField, Tooltip("A multiplier to the challenge rating of enemeies that will be sent when the player is below the target kill score. The game difficulty setting will be used to read from this curve.")]
-        private AnimationCurve challengeRatingMultiplierByDifficulty = AnimationCurve.Linear(0,0,2.5f,2.5f);
+        private AnimationCurve challengeRatingMultiplierByDifficulty = AnimationCurve.Linear(0,0,1f,1f);
 
         List<Spawner> spawners = new List<Spawner>();
         internal List<BasicEnemyController> enemies = new List<BasicEnemyController>();
@@ -151,49 +151,59 @@ namespace RogueWave
                     return;
                 }
 
+                GameLog.Info($"AIDirector: Sending existing enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
                 if (challengeRatingSent >= challengeRatingToSend)
-                {
-                    GameLog.Info($"AIDirector: Sending existing enemies with a total challenge rating of {challengeRatingSent} to the player as the currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
+                {   
                     return;
                 }
 
-                // Select the nearest 3 spawners to the player
-                Spawner[] nearestSpawners = null;
-                if (FpsSoloCharacter.localPlayerCharacter != null && spawners.Count > 3) {
-                    nearestSpawners = new Spawner[3];
-                    List<Spawner> sortedSpawners = new List<Spawner>(spawners);
-                    sortedSpawners.Sort((a, b) => Vector3.Distance(a.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position).CompareTo(Vector3.Distance(b.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position)));
-                    for (int i = 0; i < 3; i++)
-                    {
-                        nearestSpawners[i] = sortedSpawners[i];
-                    }
-                }
-                else if (spawners.Count > 0)
+                SpawnEnemies(challengeRatingToSend - challengeRatingSent);
+            }
+        }
+
+        /// <summary>
+        /// Spawn enemies to attack the player. They will spawned from the nearest three spawners to the player.
+        /// </summary>
+        /// <param name="challengeRatingToSpawn">The total challenge rating of enemies to be spawned.</param>
+        public void SpawnEnemies(float challengeRatingToSpawn)
+        {
+            // Select the nearest 3 spawners to the player
+            Spawner[] nearestSpawners = null;
+            if (FpsSoloCharacter.localPlayerCharacter != null && spawners.Count > 3)
+            {
+                nearestSpawners = new Spawner[3];
+                List<Spawner> sortedSpawners = new List<Spawner>(spawners);
+                sortedSpawners.Sort((a, b) => Vector3.Distance(a.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position).CompareTo(Vector3.Distance(b.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position)));
+                for (int i = 0; i < 3; i++)
                 {
-                    nearestSpawners = spawners.ToArray();
-                } 
+                    nearestSpawners[i] = sortedSpawners[i];
+                }
+            }
+            else if (spawners.Count > 0)
+            {
+                nearestSpawners = spawners.ToArray();
+            }
+            else
+            {
+                return;
+            }
+
+            // Send remaining enemies from the nearest spawners to the player
+            int challengeRatingSpawned = 0;
+            while (challengeRatingSpawned <= challengeRatingToSpawn)
+            {
+                BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy(true);
+                if (randomEnemy != null)
+                {
+                    challengeRatingSpawned += randomEnemy.challengeRating;
+                }
                 else
                 {
-                    return;
+                    break;
                 }
-
-                // Send remaining enemies from the nearest spawners to the player
-                int challengeRatingSpawned = 0;
-                int challendRatingToSpawn = Mathf.RoundToInt((challengeRatingToSend * 1.5f) - challengeRatingSent);
-                while (challengeRatingSpawned <= challendRatingToSpawn)
-                {
-                    BasicEnemyController randomEnemy = spawners[Random.Range(0, spawners.Count)].SpawnEnemy(true);
-                    if (randomEnemy != null)
-                    {
-                        challengeRatingSpawned += randomEnemy.challengeRating;
-                    } else
-                    {
-                        break;
-                    }
-                }
-
-                GameLog.Info($"AIDirector: Spawned existing enemies with a total challenge rating of {challengeRatingSent} and additional enemies with total challenge rating of {challengeRatingSpawned}.\nCurrent currentKillScore is {currentKillscore} (targetKillScore is {targetKillScore}).");
             }
+
+            GameLog.Info($"AIDirector: Spawned additional enemies with total challenge rating of {challengeRatingSpawned}.\nCurrent currentKillScore is {currentKillscore}.");
         }
 
         private void OnDestroy()
