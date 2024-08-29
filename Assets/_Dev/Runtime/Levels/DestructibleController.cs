@@ -55,7 +55,7 @@ namespace RogueWave
             m_HealthManager.onIsAliveChanged -= OnIsAliveChanged;
         }
 
-        protected void OnIsAliveChanged(bool isAlive)
+        protected virtual void OnIsAliveChanged(bool isAlive)
         {
             if (!isAlive)
             {

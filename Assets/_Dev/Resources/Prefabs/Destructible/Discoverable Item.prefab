@@ -10,8 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3923178092932777060}
   - component: {fileID: 5152927339323812257}
-  - component: {fileID: 2625066169984258632}
-  - component: {fileID: -5325509639031573106}
+  - component: {fileID: 2074453075706875857}
   m_Layer: 0
   m_Name: Discoverable Item
   m_TagString: Untagged
@@ -56,7 +55,7 @@ MonoBehaviour:
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2625066169984258632
+--- !u!114 &2074453075706875857
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -65,37 +64,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 133341777221481038}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8ce8b43c5b950394486e7a7c413c6fd8, type: 3}
+  m_Script: {fileID: 11500000, guid: 0445da4763d92834aa86abb9f4d4f985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PooledScaledDestructionParticles:
-  - {fileID: -5594314414105656951, guid: 615239656eb90aa4389b7e949717865e, type: 3}
-  m_PooledScaledFXParticles:
-  - {fileID: 7906642412134118403, guid: 62098df18ec583a4cb31526b6877eea1, type: 3}
-  m_ParticalDensity: 19.9
-  m_ExplosiveForce: 7.72
+  m_PooledScaledDestructionParticles: []
+  m_PooledScaledFXParticles: []
+  m_ParticalDensity: 25
+  m_ExplosiveForce: 3
   m_PooledUnscaledParticles: []
   m_DestroyedSound: []
   m_ImpactDamageMultiplier: 1
   resourcesDropChance: 1
-  resourcesPrefab: {fileID: -2501011552690513102, guid: b0da73c1229f3a249bdd550c7a216e80, type: 3}
-  destructibleDestroyed: {fileID: 11400000, guid: 86ee284fcf6350f40a966b3c4a000642, type: 2}
---- !u!114 &-5325509639031573106
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 133341777221481038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80be1e78e44db4143ba7e05e45b1a1aa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  resourcesPrefab: {fileID: 8288433013401571843, guid: e3b7aef0d1da71d468b7539e7641fa4e, type: 3}
+  destructibleDestroyed: {fileID: 0}
   possibleDrops:
   - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
   - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
-  fallbackRecipe: {fileID: 0}
 --- !u!1001 &347485660930647383
 PrefabInstance:
   m_ObjectHideFlags: 0
