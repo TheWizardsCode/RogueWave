@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace RogueWave
 {
-    public class EnemyLaser : MonoBehaviour
+    public class EnemyLaser : MonoBehaviour, IDamageSource
     {
         [Header("Weapon")]
         [SerializeField, Tooltip("The range of the weapon. If not within this range then it will not fire.")]
@@ -15,7 +15,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The amount of damage this weapon will do to the player per second.")]
         private float damageAmount = 5f;
         [SerializeField, Tooltip("The accuracy of the weapon. This is a random offset applied to the target position. The actual offset will be +/- this amount on each axis.")]
-        private float accuracy = 0.1f;
+        private float accuracy = 0.1f; 
+        [SerializeField, Tooltip("A description of the damage to use in logs, etc.")]
+        private string damageDescription = "Laser";
 
         [Header("Juice")]
         [SerializeField, Tooltip("The line renderer used to show the weapon firing.")]
@@ -25,7 +27,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The material to use for the laser when it is targeting the player but not doing damage.")]
         Material _targetingLaser;
         [SerializeField, Tooltip("The amount of time in seconds that the weapon will be visible when firing.")]
-        private float _fireDuration = 0.75f;
+        private float _fireDuration = 0.75f; 
+        
+        private DamageFilter _outDamageFilter = DamageFilter.AllDamageAllTeams;
 
         private float _timeToNextFiring = 0f;
 
@@ -94,6 +98,21 @@ namespace RogueWave
 
                 return null;
             }
+        }
+
+        public DamageFilter outDamageFilter
+        {
+            get { return _outDamageFilter; }
+            set { _outDamageFilter = value; }
+        }
+
+        IController IDamageSource.controller => null;
+
+        public Transform damageSourceTransform => transform;
+
+        public string description
+        {
+            get { return damageDescription; }
         }
 
         private void Start()
