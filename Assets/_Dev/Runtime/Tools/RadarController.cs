@@ -24,6 +24,8 @@ namespace RogueWave
             {
                 if (m_NanobotPawn == null)
                 {
+                    Texture2D dashTexture = GenerateDashTexture();
+
                     m_NanobotPawn = FindObjectOfType<NanobotPawnController>();
                     lineRenderers = new LineRenderer[radarBlipCount];
                     for (int i = 0; i < radarBlipCount; i++)
@@ -38,7 +40,7 @@ namespace RogueWave
                         lineRenderer.endWidth = 0.05f;
 
                         lineRenderer.textureMode = LineTextureMode.Tile;
-                        lineRenderer.material.mainTexture = GenerateDashTexture();
+                        lineRenderer.material.mainTexture = dashTexture;
                         lineRenderer.material.mainTextureScale = new Vector2(1f / lineRenderer.startWidth, 1.0f);
 
                         lineRenderers[i] = lineRenderer;
