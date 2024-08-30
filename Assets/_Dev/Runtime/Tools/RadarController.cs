@@ -36,6 +36,11 @@ namespace RogueWave
                         lineRenderer.positionCount = 2;
                         lineRenderer.startWidth = 0.01f;
                         lineRenderer.endWidth = 0.05f;
+
+                        lineRenderer.textureMode = LineTextureMode.Tile;
+                        lineRenderer.material.mainTexture = GenerateDashTexture();
+                        lineRenderer.material.mainTextureScale = new Vector2(1f / lineRenderer.startWidth, 1.0f);
+
                         lineRenderers[i] = lineRenderer;
                     }
                 }
@@ -68,6 +73,15 @@ namespace RogueWave
                 lineRenderers[i].startColor = Color.Lerp(Color.red, Color.yellow, detectedObject.Key / radarRadius);
                 lineRenderers[i].endColor = Color.Lerp(Color.red, Color.yellow, detectedObject.Key / radarRadius);
             }
+        }
+
+        private Texture2D GenerateDashTexture()
+        {
+            Texture2D texture = new Texture2D(2, 1);
+            texture.SetPixel(0, 0, Color.clear);
+            texture.SetPixel(1, 0, Color.white);
+            texture.Apply();
+            return texture;
         }
     }
 }
