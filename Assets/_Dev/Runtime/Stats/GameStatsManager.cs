@@ -41,8 +41,8 @@ namespace RogueWave.GameStats
         WebhookData developerDataWebhook;
 #endif
 
-        [SerializeField] private Achievement[] m_Achievements = new Achievement[0];
-        [SerializeField] private IntGameStat[] m_GameStats = default;
+        [SerializeField, ReadOnly] private Achievement[] m_Achievements = new Achievement[0];
+        [SerializeField, ReadOnly] private IntGameStat[] m_GameStats = default;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]
@@ -236,9 +236,10 @@ namespace RogueWave.GameStats
             int minutes = (totalSeconds % 3600) / 60;
             int seconds = totalSeconds % 60;
             sb.AppendLine($"  - PLAY_TIME: {hours}:{minutes}:{seconds}");
+            sb.AppendLine($"  - RUNS_STARTED: {GameStatsManager.Instance.GetStat("RUNS_STARTED").ValueAsString}");
             sb.AppendLine($"  - RUNS_COMPLETED: {GameStatsManager.Instance.GetStat("RUNS_COMPLETED").ValueAsString}");
-            sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetStat("MAX_NANOBOT_LEVEL").ValueAsString}");
             sb.AppendLine($"  - DEATH_COUNT: {GameStatsManager.Instance.GetStat("DEATH_COUNT").ValueAsString}");
+            sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetStat("MAX_NANOBOT_LEVEL").ValueAsString}");
             sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetStat("RESOURCES_SPENT_IN_RUNS").ValueAsString}");
             if (fps != null)
             {

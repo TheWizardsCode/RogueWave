@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e31ac7dbe2b44245b7a3db430cb72da, type: 3}
+  m_Name: Runs Started
+  m_EditorClassIdentifier: 
+  m_Key: RUNS_STARTED
+  m_displayName: Runs started
+  m_description: The total number of runs started, regardless of the outcome.
+  m_DefaultValue: 0
+  isTime: 0
+  m_FormatString: 00000
+  onChangeEvent: {fileID: 0}
+  increasedAmount: {fileID: 0}
+  decreasedAmount: {fileID: 0}
+  contributeToScore: 0
+  m_ScoreMultiplier: 1
+  m_CurrentValue: 0

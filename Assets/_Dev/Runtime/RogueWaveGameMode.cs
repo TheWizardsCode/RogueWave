@@ -50,6 +50,8 @@ namespace RogueWave
         CampaignDefinition campaign;
 
         // Game Stats
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The number of runs started, regardless of the outcome.")]
+        private IntGameStat m_RunCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
         private IntGameStat m_VictoryCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of portal exits in the game. A portal exist is when a player finds a portal and manages to exit through it.")]
@@ -412,6 +414,8 @@ namespace RogueWave
 
         protected override void OnCharacterSpawned(ICharacter character)
         {
+            m_RunCount.Add(1);
+
             // Configure the Level Progress Bar
             if (levelProgressBar.isActiveAndEnabled)
             {
