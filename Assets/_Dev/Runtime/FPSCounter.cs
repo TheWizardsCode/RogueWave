@@ -83,6 +83,11 @@ namespace RogueWave
             }
         }
 
+        public string ToYAML()
+        {
+            return $"FPS:\n  - AVERAGE_FPS: {averageFPS:.0}\n  - MIN_FPS: {minFPS:.0}\n  - MAX_FPS: {maxFPS:.0}";
+        }
+
 #if UNITY_EDITOR
         void OnGUI()
         {

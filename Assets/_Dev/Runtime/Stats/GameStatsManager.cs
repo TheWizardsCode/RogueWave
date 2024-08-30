@@ -225,6 +225,7 @@ namespace RogueWave.GameStats
             // OPTIMIZATION: This could be optimized by only sending the stats and achievements that have changed since the last time this was called.
             // OPTIMIZATION: This could be further optimized by only sending the stats and achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to send.
 
+            FPSCounter fps = FindObjectOfType<FPSCounter>();
             List<string> chunks = new List<string>();
 
             StringBuilder sb = new StringBuilder();
@@ -239,6 +240,12 @@ namespace RogueWave.GameStats
             sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetStat("MAX_NANOBOT_LEVEL").ValueAsString}");
             sb.AppendLine($"  - DEATH_COUNT: {GameStatsManager.Instance.GetStat("DEATH_COUNT").ValueAsString}");
             sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetStat("RESOURCES_SPENT_IN_RUNS").ValueAsString}");
+            if (fps != null)
+            {
+                sb.AppendLine(fps.ToYAML());
+            }
+            sb.AppendLine($"  - CPU: {SystemInfo.processorType}");
+            sb.AppendLine($"  - GPU: {SystemInfo.graphicsDeviceName}");
 
             chunks.Add(sb.ToString());
 
@@ -280,18 +287,15 @@ namespace RogueWave.GameStats
 
             sb.Clear();
             sb.AppendLine("Performance Stats:");
-            FPSCounter fps = FindObjectOfType<FPSCounter>();
             if (fps != null)
             {
-                sb.AppendLine($"  - AVERAGE_FPS: {fps.averageFPS}");
-                sb.AppendLine($"  - MIN_FPS: {fps.minFPS}");
-                sb.AppendLine($"  - MAX_FPS: {fps.maxFPS}");
+                sb.AppendLine(fps.ToYAML()); 
+                sb.AppendLine($"  - SCREEN_RESOLUTION: {Screen.currentResolution.width}x{Screen.currentResolution.height}");
+                sb.AppendLine($"  - CPU: {SystemInfo.processorType}");
+                sb.AppendLine($"  - GPU: {SystemInfo.graphicsDeviceName}");
+
+                chunks.Add(sb.ToString());
             }
-            else
-            {
-                sb.AppendLine("No FPS Counter found.");
-            }
-            chunks.Add(sb.ToString());
 
             sb.Clear();
             sb.AppendLine("Machine Stats:");
