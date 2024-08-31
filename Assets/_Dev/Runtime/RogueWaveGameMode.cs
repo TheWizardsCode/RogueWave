@@ -50,6 +50,8 @@ namespace RogueWave
         CampaignDefinition campaign;
 
         // Game Stats
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("A short textual log of the game results.")]
+        private StringGameStat m_GameLog;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The number of runs started, regardless of the outcome.")]
         private IntGameStat m_RunCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of succesful runs in the game.")]
@@ -202,6 +204,8 @@ namespace RogueWave
         {
             LogGameState("Death");
 
+            m_GameLog.Add("D, ");
+
             SaveGameData("Death");
             GameLog.ClearLog();
 
@@ -219,6 +223,8 @@ namespace RogueWave
 
         void DelayedVictoryAction(bool usedPortal)
         {
+            m_GameLog.Add("C, ");
+
             SaveGameData("usedPortal");
             GameLog.ClearLog();
 
@@ -462,6 +468,8 @@ namespace RogueWave
             healthManager.health = healthManager.healthMax;
 
             startTime = Time.time;
+
+            m_GameLog.Add($"{campaign.name}-{RogueLiteManager.persistentData.currentGameLevel}-");
 
             LogGameState("Character Spawned");
         }

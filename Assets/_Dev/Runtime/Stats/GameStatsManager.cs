@@ -241,6 +241,7 @@ namespace RogueWave.GameStats
             sb.AppendLine($"  - DEATH_COUNT: {GameStatsManager.Instance.GetStat("DEATH_COUNT").ValueAsString}");
             sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetStat("MAX_NANOBOT_LEVEL").ValueAsString}");
             sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetStat("RESOURCES_SPENT_IN_RUNS").ValueAsString}");
+            sb.AppendLine($"  - RUN_LOG: {GameStatsManager.Instance.GetStat("RUN_LOG").ValueAsString}");
             if (fps != null)
             {
                 sb.AppendLine(fps.ToYAML());
@@ -425,8 +426,14 @@ namespace RogueWave.GameStats
 #endif
         public static void ResetLocalStatsAndAchievements()
         {
-            IntGameStat[] gameStats = Resources.LoadAll<IntGameStat>("");
-            foreach (IntGameStat stat in gameStats)
+            IntGameStat[] intGameStats = Resources.LoadAll<IntGameStat>("");
+            foreach (IntGameStat stat in intGameStats)
+            {
+                stat.SetValue(stat.defaultValue);
+            }
+
+            StringGameStat[] strGameStats = Resources.LoadAll<StringGameStat>("");
+            foreach (StringGameStat stat in strGameStats)
             {
                 stat.SetValue(stat.defaultValue);
             }
