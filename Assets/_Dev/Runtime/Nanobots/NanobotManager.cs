@@ -862,7 +862,6 @@ namespace RogueWave
 
         private IEnumerator ApplyStatModifier(BaseStatRecipe statRecipe)
         {
-            yield return null;
             statRecipe.Apply();
 
             while (statRecipe.repeatEvery > 0)
