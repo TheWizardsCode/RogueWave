@@ -245,7 +245,7 @@ namespace WizardsCode.CommandTerminal
             Shell.DeregisterCommands(CommandAssemblies);
         }
 
-        void Start()
+        void Awake()
         {
             Buffer = new CommandLog(BufferSize);
             Shell = new CommandShell();

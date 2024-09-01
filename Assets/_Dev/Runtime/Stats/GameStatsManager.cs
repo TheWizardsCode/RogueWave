@@ -18,6 +18,7 @@ using System.Collections;
 using UnityEngine.Serialization;
 using System.Linq;
 using Lumpn.Discord.Utils;
+using WizardsCode.RogueWave;
 
 namespace RogueWave.GameStats
 {
@@ -42,7 +43,8 @@ namespace RogueWave.GameStats
 #endif
 
         [SerializeField, ReadOnly] private Achievement[] m_Achievements = new Achievement[0];
-        [SerializeField, ReadOnly] private IntGameStat[] m_GameStats = default;
+        [SerializeField, ReadOnly] private IntGameStat[] m_IntGameStats = default;
+        [SerializeField, ReadOnly] private StringGameStat[] m_StringGameStats = default;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]
@@ -148,7 +150,8 @@ namespace RogueWave.GameStats
         private void OnEnable()
         {
             m_Instance = this;
-            m_GameStats = Resources.LoadAll<IntGameStat>("");
+            m_IntGameStats = Resources.LoadAll<IntGameStat>("");
+            m_StringGameStats = Resources.LoadAll<StringGameStat>("");
             m_Achievements = Resources.LoadAll<Achievement>("");
         }
 
@@ -236,12 +239,12 @@ namespace RogueWave.GameStats
             int minutes = (totalSeconds % 3600) / 60;
             int seconds = totalSeconds % 60;
             sb.AppendLine($"  - PLAY_TIME: {hours}:{minutes}:{seconds}");
-            sb.AppendLine($"  - RUNS_STARTED: {GameStatsManager.Instance.GetStat("RUNS_STARTED").ValueAsString}");
-            sb.AppendLine($"  - RUNS_COMPLETED: {GameStatsManager.Instance.GetStat("RUNS_COMPLETED").ValueAsString}");
-            sb.AppendLine($"  - DEATH_COUNT: {GameStatsManager.Instance.GetStat("DEATH_COUNT").ValueAsString}");
-            sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetStat("MAX_NANOBOT_LEVEL").ValueAsString}");
-            sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetStat("RESOURCES_SPENT_IN_RUNS").ValueAsString}");
-            sb.AppendLine($"  - RUN_LOG: {GameStatsManager.Instance.GetStat("RUN_LOG").ValueAsString}");
+            sb.AppendLine($"  - RUNS_STARTED: {GameStatsManager.Instance.GetIntStat("RUNS_STARTED").ValueAsString}");
+            sb.AppendLine($"  - RUNS_COMPLETED: {GameStatsManager.Instance.GetIntStat("RUNS_COMPLETED").ValueAsString}");
+            sb.AppendLine($"  - DEATH_COUNT: {GameStatsManager.Instance.GetIntStat("DEATH_COUNT").ValueAsString}");
+            sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetIntStat("MAX_NANOBOT_LEVEL").ValueAsString}");
+            sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetIntStat("RESOURCES_SPENT_IN_RUNS").ValueAsString}");
+            sb.AppendLine($"  - RUN_LOG: {GameStatsManager.Instance.GetStringStat("RUN_LOG").ValueAsString}");
             if (fps != null)
             {
                 sb.AppendLine(fps.ToYAML());
@@ -253,7 +256,7 @@ namespace RogueWave.GameStats
 
             sb.Clear();
             sb.AppendLine("Player Stats:");
-            foreach (IntGameStat stat in m_GameStats)
+            foreach (IntGameStat stat in m_IntGameStats)
             {
                 if (stat.key != null)
                 {
@@ -275,7 +278,7 @@ namespace RogueWave.GameStats
             sb.Clear();
             sb.AppendLine("Score:");
             int totalScore = 0;
-            foreach (IntGameStat stat in m_GameStats)
+            foreach (IntGameStat stat in m_IntGameStats)
             {
                 if (stat.contributeToScore)
                 {
@@ -334,10 +337,24 @@ namespace RogueWave.GameStats
             return chunks.ToArray();
         }
 
-        public IntGameStat GetStat(string key)
+        public IntGameStat GetIntStat(string key)
         {
             // OPTIMIZATION: This would be faster if it were a HashSet
-            foreach (IntGameStat stat in m_GameStats)
+            foreach (IntGameStat stat in m_IntGameStats)
+            {
+                if (stat.key == key)
+                {
+                    return stat;
+                }
+            }
+
+            return null;
+        }
+
+        public StringGameStat GetStringStat(string key)
+        {
+            // OPTIMIZATION: This would be faster if it were a HashSet
+            foreach (StringGameStat stat in m_StringGameStats)
             {
                 if (stat.key == key)
                 {
@@ -456,7 +473,7 @@ namespace RogueWave.GameStats
         [Button("Dump Stats and Achievements to Console"), ShowIf("showDebug")]
         private void DumpStatsAndAchievements()
         {
-            IntGameStat[] gameStats = m_GameStats;
+            IntGameStat[] gameStats = m_IntGameStats;
 
             foreach (IntGameStat stat in gameStats)
             {

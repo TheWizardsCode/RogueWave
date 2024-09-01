@@ -147,7 +147,7 @@ namespace RogueWave
             Debug.Log($"Getting offer candidates for {typeof(T)}." +
                 $"\nNanobot level: {RogueLiteManager.persistentData.currentNanobotLevel}" +
                 $"\nPowerup recipes: {powerupRecipes.Count}" +
-                $"\nResources: {GameStatsManager.Instance.GetStat("RESOURCES")}");
+                $"\nResources: {GameStatsManager.Instance.GetIntStat("RESOURCES")}");
 #endif
 
             List<T> candidates = new List<T>();
@@ -159,7 +159,7 @@ namespace RogueWave
                     continue;
                 }
 
-                if (!allowUnaffordable && GameStatsManager.Instance.GetStat("RESOURCES").value < recipe.BuyCost)
+                if (!allowUnaffordable && GameStatsManager.Instance.GetIntStat("RESOURCES").value < recipe.BuyCost)
                 {
 #if UNITY_EDITOR
                     //Debug.Log($"Skip: {recipe} is too expensive for the player at a cost of {recipe.BuyCost}.");

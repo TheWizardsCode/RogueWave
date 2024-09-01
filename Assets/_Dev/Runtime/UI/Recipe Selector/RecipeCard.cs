@@ -75,7 +75,7 @@ namespace RogueWave.UI
             image.sprite = _recipe.HeroImage;
             details.description = recipe.Description;
             selectionButton.label = $"Buy for {_recipe.BuyCost}";
-            if (GameStatsManager.Instance.GetStat("RESOURCES").value >= _recipe.BuyCost)
+            if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= _recipe.BuyCost)
             {
                 selectionButton.interactable = true;
             }
@@ -99,7 +99,7 @@ namespace RogueWave.UI
         {
             image.sprite = _recipe.Icon;
             selectionButton.label = $"Permanent ({recipe.BuyCost})";
-            if (GameStatsManager.Instance.GetStat("RESOURCES").value < _recipe.BuyCost)
+            if (GameStatsManager.Instance.GetIntStat("RESOURCES").value < _recipe.BuyCost)
             {
                 selectionButton.interactable = false;
                 selectionButton.GetComponent<Image>().color = Color.red;
@@ -142,7 +142,7 @@ namespace RogueWave.UI
                 }
             }
 
-            GameStatsManager.Instance.GetStat("RESOURCES").Subtract(recipe.BuyCost);
+            GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(recipe.BuyCost);
 
             GameLog.Info($"Made {recipe} permanent.");
         }

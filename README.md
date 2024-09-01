@@ -10,10 +10,12 @@ Checkout this repo and open it in Unity. The first time you try to load it it wi
 
 Purchase and install the following assets from the Unity asset store (links below are affiliate links, would appreciate you clicking on them it costs you nothing and buys me coffee):
 
-* [250 Sci-fi Flat Icons (v1.0)](https://assetstore.unity.com/packages/slug/223031?aid=1101l866w) - Kat Grabowska
-* [Customizable SciFi Holo Interface (v1.6.2)](https://assetstore.unity.com/packages/slug/69794?aid=1101l866w) - Excelsior Assets
-* [NeoFPS: FPS Controller, Template & Toolkit (v1.1.28b)](https://assetstore.unity.com/packages/slug/150179?aid=1101l866w) - Yondernauts Games
-* [Sprite Shaders Ultimate (v6.6)](https://assetstore.unity.com/packages/slug/158988?aid=1101l866w) - Ekincan Tas
+  * [250 Sci-fi Flat Icons - Kat Grabowska](https://assetstore.unity.com/packages/slug/223031?aid=1101l866w&pubref=RogueWaveOpenSource)
+  * [Customizable SciFi Holo Interface - Excelsior Assets](https://assetstore.unity.com/packages/slug/69794?aid=1101l866w&pubref=RogueWaveOpenSource)
+  * [NeoFPS: FPS Controller, Template & Toolkit - Yondernauts Games](https://assetstore.unity.com/packages/slug/150179?aid=1101l866w&pubref=RogueWaveOpenSource)
+  * [Project Asset Manager - Doubling Technologies](https://assetstore.unity.com/packages/slug/126313?aid=1101l866w&pubref=RogueWaveOpenSource)
+  * [ProTips - Tooltip System - ModelShark Studio](https://assetstore.unity.com/packages/slug/44361?aid=1101l866w&pubref=RogueWaveOpenSource)
+  * [Sprite Shaders Ultimate - Ekincan Tas](https://assetstore.unity.com/packages/slug/158988?aid=1101l866w&pubref=RogueWaveOpenSource)
 
 ***Note*** that by default some of these assets will overwrite a few files that are provided by this repo. After importing you need revert any changes made by the import. The easiest way to do this is to import Neo FPS and then run the command `git restore .` in the root of the project directory.
 

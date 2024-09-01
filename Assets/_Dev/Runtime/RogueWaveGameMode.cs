@@ -202,6 +202,8 @@ namespace RogueWave
 
         protected override void DelayedDeathAction()
         {
+            MusicManager.Instance.PlayDeathMusic();
+
             LogGameState("Death");
 
             m_GameLog.Add("D, ");
@@ -245,6 +247,8 @@ namespace RogueWave
         /// <returns></returns>
         private IEnumerator DelayedLevelClearedCoroutine(float delay)
         {
+            MusicManager.Instance.PlayMenuMusic();
+
             onLevelComplete?.Invoke();
             SaveGameData("Level Cleared");
 
@@ -472,6 +476,8 @@ namespace RogueWave
             m_GameLog.Add($"{campaign.name}-{RogueLiteManager.persistentData.currentGameLevel}-");
 
             LogGameState("Character Spawned");
+
+            MusicManager.Instance.PlayCombatMusic();
         }
 
         private void LogGameState(string eventName)
@@ -508,7 +514,7 @@ namespace RogueWave
             }
 
             // TODO: Remove hard coding of resource stat key
-            log.Append($"Resources: {GameStatsManager.Instance.GetStat("RESOURCES").value}, ");
+            log.Append($"Resources: {GameStatsManager.Instance.GetIntStat("RESOURCES").value}, ");
             log.Append($"Nanobot Level: {RogueLiteManager.persistentData.currentNanobotLevel}, ");
             log.Append($"Game Level: {RogueLiteManager.persistentData.currentGameLevel}, ");
             log.Append($"Run Number: {RogueLiteManager.persistentData.runNumber}, ");
@@ -614,9 +620,9 @@ namespace RogueWave
             RogueLiteManager.persistentData.runNumber++;
 
             // TODO: Remove hard coding of resource stat key
-            if (RogueLiteManager.persistentData.runNumber == 1 && GameStatsManager.Instance.GetStat("RESOURCES").value < 150) // this will be the players first run
+            if (RogueLiteManager.persistentData.runNumber == 1 && GameStatsManager.Instance.GetIntStat("RESOURCES").value < 150) // this will be the players first run
             {
-                GameStatsManager.Instance.GetStat("RESOURCES").SetValue(150);
+                GameStatsManager.Instance.GetIntStat("RESOURCES").SetValue(150);
             }
 
             // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.
@@ -711,6 +717,8 @@ namespace RogueWave
                 {
                     m_VictoryCoroutine = StartCoroutine(DelayedLevelCompleteCoroutine(m_VictoryDuration));
                 }
+
+                MusicManager.Instance.PlayEscapeMusic();
 
                 RogueLiteManager.persistentData.isDirty = true;
                 RogueLiteManager.SaveProfile();
