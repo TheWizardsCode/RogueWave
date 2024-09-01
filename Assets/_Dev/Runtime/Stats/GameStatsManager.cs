@@ -70,7 +70,7 @@ namespace RogueWave.GameStats
                     m_Instance = FindFirstObjectByType<GameStatsManager>();
                     if (m_Instance == null)
                     {
-                        Debug.LogError("There is no GameStatsManager in the scene. Please add and configure one.");
+                        m_Instance = new GameObject("Game Stats Manager (Dynamically Created)").AddComponent<GameStatsManager>();
                     }
 
                     if (Application.isPlaying)

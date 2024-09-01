@@ -13,6 +13,8 @@ namespace RogueWave
         public Sprite HeroImage { get; }
         public string Category { get; }
         public int Level { get; }
+        public IRecipe[] Dependencies { get; }
+
 
         public Sprite Icon { get; }
         public bool IsPowerUp { get; }

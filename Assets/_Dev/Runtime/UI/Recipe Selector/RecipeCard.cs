@@ -1,8 +1,11 @@
+using Codice.Client.BaseCommands;
+using ModelShark;
 using NeoFPS.Samples;
 using RogueWave;
 using RogueWave.GameStats;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -30,6 +33,7 @@ namespace RogueWave.UI
         internal MultiInputButton selectionButton;
 
         internal int stackSize = 1;
+        TooltipTrigger tooltip;
 
         IRecipe _recipe;
         internal IRecipe recipe
@@ -47,6 +51,11 @@ namespace RogueWave.UI
                     gameObject.SetActive(true);
                 }
             }
+        }
+
+        private void Awake()
+        {
+            tooltip = GetComponent<TooltipTrigger>();
         }
 
         private void OnGUI()
@@ -73,7 +82,10 @@ namespace RogueWave.UI
         private void SetupOfferCard()
         {
             image.sprite = _recipe.HeroImage;
+
             details.description = recipe.Description;
+            tooltip.SetText("Description", details.description);
+
             selectionButton.label = $"Buy for {_recipe.BuyCost}";
             if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= _recipe.BuyCost)
             {
@@ -86,7 +98,63 @@ namespace RogueWave.UI
                 selectionButton.label = $"Insufficient Funds ({_recipe.BuyCost})";
             }
 
+            AddDependenciesToTooltip();
+            AddUnlocksToTooltip();
+
             SetUpCommonElements();
+        }
+
+        private void AddUnlocksToTooltip()
+        {
+            // OPTIMIZATION: configure this at build time and cache in the recipe object
+            StringBuilder sb = new StringBuilder();
+            foreach (IRecipe candidate in RecipeManager.allRecipes.Values)
+            {
+                if (candidate.Dependencies.Length > 0)
+                {
+                    foreach (var dep in candidate.Dependencies)
+                    {
+                        if (dep == _recipe)
+                        {
+                            if (candidate.Dependencies.Length > 1)
+                            {
+                                sb.AppendLine($"{candidate.DisplayName} (partial)");
+                            }
+                            else
+                            {
+                                sb.AppendLine(candidate.DisplayName);
+                            }
+
+                            break;
+                        }
+                    }
+                }
+            }
+            if (sb.Length > 0)
+            {
+                tooltip.SetText("Unlocks", sb.ToString());
+            }
+            else
+            {
+                tooltip.SetText("Unlocks", "None");
+            }
+        }
+
+        private void AddDependenciesToTooltip()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (_recipe.Dependencies.Length > 0)
+            {
+                foreach (var dep in _recipe.Dependencies)
+                {
+                    sb.AppendLine(dep.DisplayName);
+                }
+                tooltip.SetText("Dependencies", sb.ToString());
+            }
+            else
+            {
+                tooltip.SetText("Dependencies", "None");
+            }
         }
 
         private void SetupPermenantlyAcquiredCard()
@@ -105,22 +173,26 @@ namespace RogueWave.UI
                 selectionButton.GetComponent<Image>().color = Color.red;
             }
 
+            tooltip.SetText("Description", _recipe.Description);
+            AddDependenciesToTooltip();
+            AddUnlocksToTooltip();
+
             SetUpCommonElements();
         }
 
         private void SetUpCommonElements()
         {
             details.label = recipe.DisplayName;
+            tooltip.SetText("Title", details.label);
 
-            if (stackText != null)
+            if (recipe.IsStackable)
             {
-                if (recipe.IsStackable)
-                {
-                    stackText.label = $"{stackSize}/{recipe.MaxStack}";
-                } else
-                {
-                    stackText.label = string.Empty;
-                }
+                stackText.label = $"{stackSize}/{recipe.MaxStack}";
+                tooltip.SetText("Stack", $"({stackSize} of {recipe.MaxStack})");
+            } else
+            {
+                stackText.label = string.Empty;
+                tooltip.SetText("Stack", " ");              
             }
         }
 
