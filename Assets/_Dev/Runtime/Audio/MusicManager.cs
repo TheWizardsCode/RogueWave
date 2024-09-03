@@ -29,19 +29,15 @@ namespace RogueWave
         AudioSource source;
         int combatTrackIndex = 0;
         int menuTrackIndex = 0;
-        float originalVolume = 1f;
-        private bool isStopping = false;
         internal static MusicManager Instance;
         private MusicType currentType = MusicType.None;
         private MusicType nextType = MusicType.Menu;
-        private Coroutine musicCoroutine;
 
         private void Awake()
         {
             if (Instance == null)
             {
                 source = GetComponent<AudioSource>();
-                originalVolume = source.volume;
                 Instance = this;
                 DontDestroyOnLoad(gameObject);
             }
@@ -53,7 +49,7 @@ namespace RogueWave
 
         private void Start()
         {
-            musicCoroutine = StartCoroutine(PlayMusicCo());
+            StartCoroutine(PlayMusicCo());
         }
 
         public void PlayMenuMusic()
@@ -152,12 +148,9 @@ namespace RogueWave
 
         private IEnumerator StopMusicCo()
         {
-            isStopping = true;
-
             yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, AudioManager.Instance.mutedVolume, fadeDuration, 
                 () => {
                     source.Stop();
-                    isStopping = false;
                 });
         }
 

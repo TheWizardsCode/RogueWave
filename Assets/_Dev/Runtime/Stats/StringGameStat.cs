@@ -24,12 +24,9 @@ namespace RogueWave.GameStats
             }
         }
 
-        public override string ValueAsString
+        public override string ToString()
         {
-            get
-            {
-                return value;
-            }
+            return value;
         }
 
         public override string SetValue(string value)

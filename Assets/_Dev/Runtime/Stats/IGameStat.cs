@@ -12,7 +12,5 @@ namespace WizardsCode.RogueWave
         T Subtract(T change);
 
         int ScoreContribution { get; }
-
-        string ValueAsString { get; }
     }
 }

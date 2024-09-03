@@ -238,13 +238,14 @@ namespace RogueWave.GameStats
             int hours = totalSeconds / 3600;
             int minutes = (totalSeconds % 3600) / 60;
             int seconds = totalSeconds % 60;
-            sb.AppendLine($"  - PLAY_TIME: {hours}:{minutes}:{seconds}");
-            sb.AppendLine($"  - RUNS_STARTED: {GameStatsManager.Instance.GetIntStat("RUNS_STARTED").ValueAsString}");
-            sb.AppendLine($"  - RUNS_COMPLETED: {GameStatsManager.Instance.GetIntStat("RUNS_COMPLETED").ValueAsString}");
-            sb.AppendLine($"  - DEATH_COUNT: {GameStatsManager.Instance.GetIntStat("DEATH_COUNT").ValueAsString}");
-            sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetIntStat("MAX_NANOBOT_LEVEL").ValueAsString}");
-            sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetIntStat("RESOURCES_SPENT_IN_RUNS").ValueAsString}");
-            sb.AppendLine($"  - RUN_LOG: {GameStatsManager.Instance.GetStringStat("RUN_LOG").ValueAsString}");
+            sb.AppendLine($"  - Session time: {hours}:{minutes}:{seconds}");
+            sb.AppendLine($"  - TOTAL_TIME_IN_RUNS {GameStatsManager.Instance.GetIntStat("TOTAL_TIME_IN_RUNS".ToString())}");
+            sb.AppendLine($"  - RUNS_STARTED: {GameStatsManager.Instance.GetIntStat("RUNS_STARTED").ToString()}");
+            sb.AppendLine($"  - RUNS_COMPLETED: {GameStatsManager.Instance.GetIntStat("RUNS_COMPLETED").ToString()}");
+            sb.AppendLine($"  - DEATH_COUNT: {GameStatsManager.Instance.GetIntStat("DEATH_COUNT").ToString()}");
+            sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetIntStat("MAX_NANOBOT_LEVEL").ToString()}");
+            sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetIntStat("RESOURCES_SPENT_IN_RUNS").ToString()}");
+            sb.AppendLine($"  - RUN_LOG: {GameStatsManager.Instance.GetStringStat("RUN_LOG").ToString()}");
             if (fps != null)
             {
                 sb.AppendLine(fps.ToYAML());

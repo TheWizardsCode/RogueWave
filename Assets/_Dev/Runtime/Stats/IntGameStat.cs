@@ -49,18 +49,15 @@ namespace RogueWave.GameStats
             }
         }
 
-        public override string ValueAsString
+        public override string ToString()
         {
-            get
+            if (isTime)
             {
-                if (isTime)
-                {
-                    return TimeSpan.FromSeconds(value).ToString(@"hh\:mm\:ss");
-                }
-                else
-                {
-                    return value.ToString(m_FormatString);
-                }
+                return TimeSpan.FromSeconds(value).ToString(@"hh\:mm\:ss");
+            }
+            else
+            {
+                return value.ToString(m_FormatString);
             }
         }
 

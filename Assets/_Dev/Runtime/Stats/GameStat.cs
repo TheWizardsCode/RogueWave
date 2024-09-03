@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using WizardsCode.RogueWave;
@@ -111,8 +112,6 @@ namespace RogueWave.GameStats
             get { return m_description; }
             private set { m_description = value; }
         }
-
-        public abstract string ValueAsString { get; }
 
         public abstract int ScoreContribution { get; }
 

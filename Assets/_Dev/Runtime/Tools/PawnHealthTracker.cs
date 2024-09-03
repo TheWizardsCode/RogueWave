@@ -1,7 +1,5 @@
 using NeoFPS;
-using ProceduralToolkit;
 using UnityEngine;
-using static NeoFPS.HealthDelegates;
 
 namespace RogueWave
 {
@@ -10,9 +8,6 @@ namespace RogueWave
     /// </summary>
     public class PawnHealthTracker : PlayerCharacterHudBase
     {
-        [SerializeField, Tooltip("The name of the health property in the shader.")]
-        string healthProperty = "_Health";
-
         private IHealthManager m_HealthManager = null;
         private Material material = null;
 

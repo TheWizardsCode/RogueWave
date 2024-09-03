@@ -15,7 +15,7 @@ namespace RogueWave.GameStats
             {
                 m_stat = value;
                 SetLabel(m_stat.displayName);
-                SetValue(m_stat.ValueAsString);
+                SetValue(m_stat.ToString());
             }
         }
 

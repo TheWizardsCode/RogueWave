@@ -83,7 +83,7 @@ namespace RogueWave.UI
         {
             if (m_ResourcesText != null)
             {
-                m_ResourcesText.text = GameStatsManager.Instance.GetIntStat("RESOURCES").ValueAsString;
+                m_ResourcesText.text = GameStatsManager.Instance.GetIntStat("RESOURCES").ToString();
             }
 
             if (m_GameLevelNumberText != null)
