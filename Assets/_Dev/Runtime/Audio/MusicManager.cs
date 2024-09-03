@@ -9,6 +9,13 @@ namespace RogueWave
     [RequireComponent(typeof(AudioSource))]
     public class MusicManager : MonoBehaviour
     {
+        public enum MusicType
+        {
+            None,
+            Menu,
+            Combat
+        }
+
         [SerializeField, Tooltip("Music to play when in a menu screen.")]
         AudioClip[] menuTracks;
 
@@ -23,9 +30,11 @@ namespace RogueWave
         int combatTrackIndex = 0;
         int menuTrackIndex = 0;
         float originalVolume = 1f;
-        private bool isPlaying = false;
         private bool isStopping = false;
         internal static MusicManager Instance;
+        private MusicType currentType = MusicType.None;
+        private MusicType nextType = MusicType.Menu;
+        private Coroutine musicCoroutine;
 
         private void Awake()
         {
@@ -42,81 +51,97 @@ namespace RogueWave
             }
         }
 
+        private void Start()
+        {
+            musicCoroutine = StartCoroutine(PlayMusicCo());
+        }
+
         public void PlayMenuMusic()
         {
-            StartCoroutine(PlayMenuMusicCo());
+            nextType = MusicType.Menu;
         }
 
         public void PlayCombatMusic()
         {
-            StartCoroutine(PlayCombatMusicCo());
+            nextType = MusicType.Combat;
         }
 
-        IEnumerator PlayMenuMusicCo()
+        IEnumerator PlayMusicCo()
         {
-            if (isPlaying)
+            while (true)
             {
-                yield return StopMusicCo();
-            }
+                if (currentType == nextType) {
+                    float timeRemaining = 0;
+                    if (source.isPlaying)
+                    {
+                        timeRemaining = source.clip.length - source.time;
+                    }
 
-            while (isStopping)
-            {
-                yield return null;
-            }
+                    if (timeRemaining > 0)
+                    {
+                        yield return null;
+                    }
+                    else
+                    {
+                        if (currentType == MusicType.Menu)
+                        {
+                            yield return new WaitForSeconds(pauseDuration);
+                        }
 
-            isPlaying = true;
-            isStopping = false;
+                        AudioManager.ResetGroup(source.outputAudioMixerGroup, 0);
+                        source.clip = SelectNextClip();
+                        source.Play();
 
-            while (isPlaying)
-            {
-                AudioManager.ResetGroup(source.outputAudioMixerGroup, 0);
-
-                menuTrackIndex++;
-                if (menuTrackIndex >= menuTracks.Length)
+                        yield return null;
+                    }
+                } 
+                else
                 {
-                    menuTrackIndex = 0;
+                    switch (nextType)
+                    {
+                        case MusicType.None:
+                            yield return null;
+                            break;
+                        default:
+                            // mute current music
+                            yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, AudioManager.Instance.mutedVolume, fadeDuration);
+                            // start next track
+                            AudioManager.ResetGroup(source.outputAudioMixerGroup, 0);
+                            source.clip = SelectNextClip();
+                            source.Play();
+
+                            currentType = nextType;
+
+                            yield return null;
+
+                            break;
+                    }
                 }
-
-                source.clip = menuTracks[combatTrackIndex];
-                source.Play();
-
-                yield return new WaitForSeconds(source.clip.length - fadeDuration);
-
-                yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, AudioManager.Instance.mutedVolume, fadeDuration);
-
-                yield return new WaitForSeconds(pauseDuration);
             }
         }
 
-        IEnumerator PlayCombatMusicCo()
+        private AudioClip SelectNextClip()
         {
-            if (isPlaying)
+            switch (nextType)
             {
-                yield return StopMusicCo();
-            }
+                case MusicType.Menu:
+                    menuTrackIndex++;
+                    if (menuTrackIndex >= menuTracks.Length)
+                    {
+                        menuTrackIndex = 0;
+                    }
 
-            while (isStopping)
-            {
-                yield return null;
-            }
+                    return menuTracks[menuTrackIndex];
+                case MusicType.Combat:
+                    combatTrackIndex++;
+                    if (combatTrackIndex >= combatTracks.Length)
+                    {
+                        combatTrackIndex = 0;
+                    }
 
-            isPlaying = true;
-            isStopping = false;
-
-            while (isPlaying)
-            {
-                AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, originalVolume, fadeDuration);
-
-                combatTrackIndex++;
-                if (combatTrackIndex >= combatTracks.Length)
-                {
-                    combatTrackIndex = 0;
-                }
-
-                source.clip = combatTracks[combatTrackIndex];
-                source.Play();
-
-                yield return new WaitForSeconds(source.clip.length - fadeDuration);
+                    return combatTracks[combatTrackIndex];
+                default:
+                    return null;
             }
         }
 
@@ -132,7 +157,6 @@ namespace RogueWave
             yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, AudioManager.Instance.mutedVolume, fadeDuration, 
                 () => {
                     source.Stop();
-                    isPlaying = false; 
                     isStopping = false;
                 });
         }
