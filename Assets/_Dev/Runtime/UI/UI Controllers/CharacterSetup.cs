@@ -45,7 +45,7 @@ namespace WizardsCode.RogueWave
         {
             RecipeListUIElement recipeUI = Instantiate(buildItemPrototype, recipeList);
             recipeUI.recipe = recipe;
-            recipeUI.instances = count;
+            recipeUI.count = count;
             recipeUI.gameObject.SetActive(true);
         }
 

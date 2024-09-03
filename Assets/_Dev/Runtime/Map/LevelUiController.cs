@@ -1,16 +1,16 @@
-using NaughtyAttributes;
+using ModelShark;
 using NeoFPS;
-using NeoSaveGames;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using WizardsCode.RogueWave;
 
 namespace RogueWave
 {
+    [RequireComponent(typeof(TooltipTrigger))]
     public class LevelUiController : MonoBehaviour
     {
         [Header("Level Selection")]
@@ -54,6 +54,7 @@ namespace RogueWave
                 iconPrototype.sprite = highCRSprite;
             }
 
+            StringBuilder specialTileDescription = new StringBuilder();
             foreach (TileDefinition tile in levelDefinition.prePlacedTiles)
             {
                 if (tile.icon == null)
@@ -64,7 +65,29 @@ namespace RogueWave
                 Image icon = Instantiate(iconPrototype, iconPrototype.transform.parent);
                 icon.sprite = tile.icon;
                 icon.name = tile.name;
+
+                specialTileDescription.AppendLine($"  - {tile.name}");
             }
+
+            TooltipTrigger tooltip = GetComponent<TooltipTrigger>();
+            tooltip.SetText("Size", levelDefinition.mapSize.ToString());
+            tooltip.SetText("ChallengeRating", levelDefinition.challengeRating.ToString());
+            if (specialTileDescription.Length > 0)
+            {
+                tooltip.SetText("SpecialTiles", specialTileDescription.ToString());
+            } 
+            else
+            {
+                tooltip.SetText("SpecialTiles", " ");
+            }
+            StringBuilder sb = new StringBuilder();
+            int number = 1;
+            foreach (WaveDefinition wave in levelDefinition.waves)
+            {
+                sb.AppendLine($"  - {number}: {string.Join(", ", wave.enemies.Select(e => e.pooledEnemyPrefab.name))} (CR: {wave.CR})");
+                number++;
+            }
+            tooltip.SetText("Waves", sb.ToString());
         }
 
         public void OnClick()
