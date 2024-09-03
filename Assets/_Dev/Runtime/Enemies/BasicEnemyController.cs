@@ -311,7 +311,7 @@ namespace RogueWave
         {
             spawnPosition = transform.position;
             sqrSeekDistance = seekDistance * seekDistance;
-            aiDirector = FindObjectOfType<AIDirector>();
+            aiDirector = AIDirector.Instance;
         }
 
 

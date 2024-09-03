@@ -477,7 +477,10 @@ namespace RogueWave
 
             LogGameState("Character Spawned");
 
-            MusicManager.Instance.PlayCombatMusic();
+            if (MusicManager.Instance != null)
+            {
+                MusicManager.Instance.PlayCombatMusic();
+            }
         }
 
         private void LogGameState(string eventName)

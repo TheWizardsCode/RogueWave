@@ -1,6 +1,9 @@
 using NaughtyAttributes;
+using System;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
+using Random = UnityEngine.Random;
 
 namespace RogueWave
 {
@@ -104,7 +107,7 @@ namespace RogueWave
         private void Start()
         {
             currentSpeed = Random.Range(minSpeed, maxSpeed);
-            aiDirector = FindAnyObjectByType<AIDirector>();
+            aiDirector = AIDirector.Instance;
         }
 
         private void Update()
@@ -112,7 +115,12 @@ namespace RogueWave
             currentSqrDistanceToGoal = Vector3.SqrMagnitude(destination - transform.position);
             if (!hasArrived)
             {
-                MoveTowards(currentSpeedMultiplier, currentSquadLeader);
+                if (Time.frameCount % 3 == 0) {
+                    MoveTowards(currentSpeedMultiplier, currentSquadLeader);
+                } else
+                {
+                    transform.position += transform.forward * currentSpeed * currentSpeedMultiplier * Time.deltaTime;
+                }
             }
         }
 
@@ -129,7 +137,7 @@ namespace RogueWave
             this.currentSquadLeader = squadLeader;
         }
 
-        internal virtual void MoveTowards(float speedMultiplier, BasicEnemyController squadLeader)
+          internal virtual void MoveTowards(float speedMultiplier, BasicEnemyController squadLeader)
         {
             if (currentSqrDistanceToGoal < sqrSlowingDistance)
             {
@@ -137,7 +145,7 @@ namespace RogueWave
             }
             else if (currentSpeed < maxSpeed)
             {
-                currentSpeed = currentSpeed + Time.deltaTime * acceleration;
+                currentSpeed += Time.deltaTime * acceleration;
             }
 
             if (currentSpeed == 0)
@@ -147,7 +155,7 @@ namespace RogueWave
 
             Vector3 centerDirection = destination - transform.position;
             Vector3 avoidanceDirection = Vector3.zero;
-            BasicEnemyController[] squadMembers = aiDirector.GetSquadMembers(squadLeader);
+            Span<BasicEnemyController> squadMembers = aiDirector.GetSquadMembers(squadLeader).AsSpan();
             int squadSize = 0;
 
             if (squadLeader != null && squadLeader.movementController == this)
@@ -213,7 +221,7 @@ namespace RogueWave
             else if (obstacleDirection != Direction.None)
             {
                 transform.position += transform.forward * currentSpeed * 0.8f * Time.deltaTime;
-            } 
+            }
             else
             {
                 transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;

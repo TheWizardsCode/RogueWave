@@ -40,7 +40,7 @@ namespace RogueWave.GameStats
 
         public virtual T SetValue(T value)
         {
-            // OPTIMIZATION: This method should be overridden in subclasses in order to remove the need for this kind of validation.
+            // This method should be overridden in subclasses in order to remove the need for this kind of validation.
 #if UNITY_EDITOR
             Debug.LogWarning("An implementation of GameStat has not overrideen SetValue which has performance implications.");
 #endif
@@ -55,7 +55,7 @@ namespace RogueWave.GameStats
 
         public virtual T Add(T change)
         {
-            // OPTIMIZATION: This method should be overridden in subclasses in order to remove the need for `dynamic`, which has performance implications.
+            // This method should be overridden in subclasses in order to remove the need for `dynamic`, which has performance implications.
 #if UNITY_EDITOR
             Debug.LogWarning("An implementation of GameStat has not overrideen Add(change) which has performance implications.");
 #endif
@@ -74,7 +74,7 @@ namespace RogueWave.GameStats
 
         public virtual T Subtract(T change)
         {
-            // OPTIMIZATION: This method should be overridden in subclasses in order to remove the need for `dynamic`, which has performance implications.
+            // This method should be overridden in subclasses in order to remove the need for `dynamic`, which has performance implications.
 #if UNITY_EDITOR
             Debug.LogWarning("An implementation of GameStat has not overrideen Subtract(change) which has performance implications.");
 #endif

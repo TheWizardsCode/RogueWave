@@ -43,6 +43,26 @@ namespace RogueWave
         private BasicEnemyController enemyController;
         private RogueWaveGameMode gameMode;
 
+        private static AIDirector _instance;
+        public static AIDirector Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<AIDirector>();
+
+                    if (_instance == null)
+                    {
+                        GameObject singletonObject = new GameObject();
+                        _instance = singletonObject.AddComponent<AIDirector>();
+                        singletonObject.name = typeof(AIDirector).ToString() + " (Created Singleton)";
+                    }
+                }
+                return _instance;
+            }
+        }
+
         /// <summary>
         /// Returns the suspected location of the player based on the reports made by the enemies.
         /// </summary>
@@ -72,6 +92,15 @@ namespace RogueWave
 
         protected void Awake()
         {
+            if (_instance == null)
+            {
+                _instance = this;
+            }
+            else if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+
             gameMode = FindObjectOfType<RogueWaveGameMode>();
             gameMode.onSpawnerCreated.AddListener(OnSpawnerCreated);
             gameMode.onEnemySpawned.AddListener(OnEnemySpawned);

@@ -28,8 +28,7 @@ namespace RogueWave
         private void Awake()
         {
             m_controller = GetComponentInParent<BasicEnemyController>();
-            // OPTIMIZATION: don't use FindObjectOfType
-            m_director = FindObjectOfType<AIDirector>();
+            m_director = AIDirector.Instance;
             if (m_director == null)
             {
                 Debug.LogWarning("ScannerController: No AIDirector found in scene. Scanner functionality removed.");
