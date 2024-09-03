@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1625275255250310809}
   - component: {fileID: 1625275255236544883}
   m_Layer: 5
-  m_Name: Menu Tooltips - Recipe
+  m_Name: Menu Tooltips - Basic
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,7 +153,7 @@ MonoBehaviour:
   leftMiddle: {fileID: 21300000, guid: 1ca3347550f1734498ce28f5586d1b43, type: 3}
   rightMiddle: {fileID: 21300000, guid: 1ca3347550f1734498ce28f5586d1b43, type: 3}
   tipOffset: 10
-  mainTextContainer: {fileID: 0}
+  mainTextContainer: {fileID: 7781769699725094869}
 --- !u!1 &9022488059323998333
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,20 +220,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '%Title% %Stack%
-
-
-    %Description%
-
-
-    Dependencies
-
-    %Dependencies%
-
-
-    Unlocks
-
-    %Unlocks%'
+  m_text: '%BodyText%'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ed3bb678da7315840a7d338efa5389ea, type: 2}
   m_sharedMaterial: {fileID: -6742766265802831930, guid: ed3bb678da7315840a7d338efa5389ea, type: 2}

@@ -93,8 +93,10 @@ namespace RogueWave.UI
 
                     if (recipe.IsStackable)
                     {
-                        card.stackSize = HubController.permanentRecipes.Count(r => r.UniqueID == recipe.UniqueID);
-                        card.stackSize += HubController.temporaryRecipes.Count(r => r.UniqueID == recipe.UniqueID);
+                        card.stackSize = RogueLiteManager.GetTotalCount(recipe);
+                        // TODO: this is the old method of calculating the total count, remove if above works
+                        // card.stackSize = HubController.permanentRecipes.Count(r => r.UniqueID == recipe.UniqueID);
+                        // card.stackSize += HubController.temporaryRecipes.Count(r => r.UniqueID == recipe.UniqueID);
                         card.stackSize++;
                     }
 

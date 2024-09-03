@@ -3827,7 +3827,7 @@ RectTransform:
   m_Father: {fileID: 954123906091373034}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8703,7 +8703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &4698381018697598523
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9296,6 +9296,7 @@ GameObject:
   - component: {fileID: 7472948931958571782}
   - component: {fileID: 2370952109267297217}
   - component: {fileID: 5865698797953519469}
+  - component: {fileID: 7532683249547942607}
   m_Layer: 5
   m_Name: Recipe Element
   m_TagString: Untagged
@@ -9376,6 +9377,50 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   icon: {fileID: 8545695895702057409}
   nameText: {fileID: 4709317811276567924}
+--- !u!114 &7532683249547942607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8837694671035776675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61852c7f53876b54bb2d457342536fb9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipStyle: {fileID: 1625275255236544883, guid: 85a26a37357420f4297a3e2185451bca, type: 3}
+  parameterizedTextFields:
+  - name: Title
+    placeholder: '%Title%'
+    value: 
+  - name: Stack
+    placeholder: '%Stack%'
+    value: 
+  - name: Description
+    placeholder: '%Description%'
+    value: 
+  - name: Dependencies
+    placeholder: '%Dependencies%'
+    value: 
+  - name: Unlocks
+    placeholder: '%Unlocks%'
+    value: 
+  dynamicImageFields: []
+  dynamicSectionFields: []
+  isRemotelyActivated: 0
+  backgroundTint: {r: 1, g: 1, b: 1, a: 1}
+  shouldOverridePosition: 0
+  overridePositionType: 0
+  overridePositionVector: {x: 0, y: 0, z: 0}
+  overridePositionTransform: {fileID: 0}
+  tipPosition: 0
+  minTextWidth: 100
+  maxTextWidth: 350
+  staysOpen: 0
+  neverRotate: 0
+  isBlocking: 0
+  titleParameterName: Title
 --- !u!1 &8872872635219818835
 GameObject:
   m_ObjectHideFlags: 0

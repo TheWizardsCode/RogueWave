@@ -101,10 +101,10 @@ namespace RogueWave
         }
 
         /// <summary>
-        /// Get the number of instances of a supplied recipe that are in the player's current recipe collection.
+        /// Get the number of instances of a supplied recipe that are in the player's current recipe permanent + temporary collection.
         /// </summary>
         /// <param name="recipe">The recipe to count instances of.</param>
-        /// <returns>The number of times the recipse appears in the persistent data.</returns>
+        /// <returns>The number of times the recipse appears in the permanent + temporary collections..</returns>
         public int GetCount(IRecipe recipe)
         {
             return Recipes.Count(r => r == recipe);

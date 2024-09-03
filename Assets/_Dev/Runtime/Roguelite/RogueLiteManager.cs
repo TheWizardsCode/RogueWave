@@ -360,6 +360,20 @@ namespace RogueWave
             UpdateAvailableProfiles();
         }
 
+        /// <summary>
+        /// Get the total Count of a recipe in the player's current recipe permanent + temporary collection.
+        /// </summary>
+        /// <param name="recipe">The recipe to count.</param>
+        /// <returns>Total number of recipes held in current permanent and temporary collections.</returns>
+        /// <seealso cref="RogueLiteRunData.GetCount(IRecipe)"/>
+        /// <seealso cref="RogueLitePersistentData.GetCount(IRecipe)"/>
+        internal static int GetTotalCount(IRecipe recipe)
+        {
+            int total = runData.GetCount(recipe);
+            total += persistentData.GetCount(recipe);
+            return total;
+        }
+
         [System.Serializable]
         private class StatsWrapper
         {

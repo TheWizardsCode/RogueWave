@@ -118,6 +118,8 @@ namespace RogueWave
 
         public bool IsStackable => isStackable;
 
+        public int CurrentStack => RogueLiteManager.GetTotalCount(this);
+
         public int MaxStack => maxStack;
 
         public int BuyCost {

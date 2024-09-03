@@ -20,6 +20,8 @@ namespace RogueWave.UI
 
         private IReadOnlyList<IRecipe> recipes = new List<IRecipe>();
 
+        public object RogueLiteData { get; private set; }
+
         private void OnGUI()
         {
             switch (acquisitionType)
@@ -46,8 +48,10 @@ namespace RogueWave.UI
                     RecipeCard card = Instantiate(recipeCardPrototype, transform);
                     if (recipe.IsStackable)
                     {
-                        card.stackSize = HubController.permanentRecipes.Count(r => r.UniqueID == recipe.UniqueID);
-                        card.stackSize += HubController.temporaryRecipes.Count(r => r.UniqueID == recipe.UniqueID);
+                        card.stackSize = RogueLiteManager.GetTotalCount(recipe);
+                        // TODO: this is the old method of calculating the total count, remove if above works
+                        // card.stackSize = HubController.permanentRecipes.Count(r => r.UniqueID == recipe.UniqueID);
+                        // card.stackSize += HubController.temporaryRecipes.Count(r => r.UniqueID == recipe.UniqueID);
                     }
                     switch (acquisitionType)
                     {

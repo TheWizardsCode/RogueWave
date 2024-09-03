@@ -15,12 +15,12 @@ namespace RogueWave
         public int Level { get; }
         public IRecipe[] Dependencies { get; }
 
-
         public Sprite Icon { get; }
         public bool IsPowerUp { get; }
 
         public bool IsAvailable { get; }
         public bool IsStackable { get; }
+        public int CurrentStack { get; }
         public int MaxStack { get; }
         public int BuyCost { get; }
         public int BuildCost { get; }
