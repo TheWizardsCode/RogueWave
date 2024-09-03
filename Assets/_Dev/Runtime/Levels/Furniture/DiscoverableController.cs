@@ -25,7 +25,7 @@ namespace WizardsCode.RogueWave
                     continue;
                 }
 
-                if (recipe.Level < RogueLiteManager.persistentData.currentNanobotLevel || RogueLiteManager.runData.GetCount(recipe) >= recipe.MaxStack)
+                if (RogueLiteManager.runData.GetCount(recipe) >= recipe.MaxStack)
                 {
                     continue;
                 }
@@ -34,15 +34,11 @@ namespace WizardsCode.RogueWave
             }
 
 
-            if (weightedRandom.Count == 0)
-            {
-                recipe = resourcesPrefab as IItemRecipe;
-            }
-            else
+            if (weightedRandom.Count > 0)
             {
                 recipe = weightedRandom.GetRandom();
+                resourcesPrefab = recipe.Item.GetComponent<Pickup>();
             }
-            resourcesPrefab = recipe.Item.GetComponent<Pickup>();
 
             base.OnIsAliveChanged(isAlive);
         }
