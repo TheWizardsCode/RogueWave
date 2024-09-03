@@ -288,8 +288,6 @@ namespace RogueWave
                     }
                 }
             }
-
-            AssetDatabase.SaveAssets();
         }
 
         public static void SaveProfile()
