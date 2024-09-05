@@ -137,7 +137,7 @@ namespace RogueWave
             this.currentSquadLeader = squadLeader;
         }
 
-          internal virtual void MoveTowards(float speedMultiplier, BasicEnemyController squadLeader)
+        internal virtual void MoveTowards(float speedMultiplier, BasicEnemyController squadLeader)
         {
             if (currentSqrDistanceToGoal < sqrSlowingDistance)
             {

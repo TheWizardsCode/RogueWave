@@ -468,7 +468,10 @@ namespace RogueWave
         {
             if (!shouldAttack && timeOfNextDestinationChange < Time.timeSinceLevelLoad)
             {
-                return goalDestination;
+                if (goalDestination != Vector3.zero)
+                {
+                    return goalDestination;
+                }
             }
 
             Vector3 newPosition = targetPosition;
