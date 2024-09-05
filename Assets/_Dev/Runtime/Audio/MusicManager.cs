@@ -26,24 +26,25 @@ namespace RogueWave
         [SerializeField, Tooltip("Time to pause between tracks.")]
         float pauseDuration = 3f;
 
-        AudioSource source;
+        static AudioSource source;
         int combatTrackIndex = 0;
         int menuTrackIndex = 0;
-        internal static MusicManager Instance;
         private MusicType currentType = MusicType.None;
         private MusicType nextType = MusicType.Menu;
 
-        private void Awake()
+        static MusicManager m_Instance;
+        public static MusicManager Instance
         {
-            if (Instance == null)
+            get
             {
-                source = GetComponent<AudioSource>();
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
-            }
-            else
-            {
-                Destroy(gameObject);
+                if (m_Instance == null)
+                {
+                    m_Instance = FindAnyObjectByType<MusicManager>();
+                    source = m_Instance.GetComponent<AudioSource>();
+                    DontDestroyOnLoad(m_Instance);
+                }
+
+                return m_Instance;
             }
         }
 

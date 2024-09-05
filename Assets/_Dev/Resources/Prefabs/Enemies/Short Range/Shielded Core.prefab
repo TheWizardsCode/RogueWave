@@ -84,8 +84,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Shielded Core
-  description: Flies low and uses a short range laser. The weapon doesn't do much
+  m_description: Flies low and uses a short range laser. The weapon doesn't do much
     damage but these things have a habit of sneaking up behind you.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 2
   requireLineOfSight: 1
   viewDistance: 80
@@ -95,7 +98,6 @@ MonoBehaviour:
   sensor: {fileID: 8620451866325067554}
   headLook: 1
   head: {fileID: 0}
-  headRotationSpeed: 2
   maxHeadRotation: 75
   returnToSpawner: 0
   seekDistance: 60
@@ -107,6 +109,7 @@ MonoBehaviour:
   spawnOnDamagePrototypes: []
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
+  registerWithAIDirector: 1
   squadRole: 2
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 15
@@ -160,7 +163,7 @@ MonoBehaviour:
   minSpeed: 2
   maxSpeed: 5
   acceleration: 10
-  rotationSpeed: 1
+  rotationSpeed: 2
   minimumHeight: 2.5
   maximumHeight: 15
   squadAvoidanceDistance: 10

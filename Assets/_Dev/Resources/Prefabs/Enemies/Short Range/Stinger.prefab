@@ -85,10 +85,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Stinger
-  description: The stinger is small and fast. They will swarm the player looking
+  m_description: The stinger is small and fast. They will swarm the player looking
     for an opportunity to attack. When thy can they will explode on impact. Fortunately,
     this explosion is weak, but what these things lack in might they typically make
     up for in numbers.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 2
   requireLineOfSight: 1
   viewDistance: 20
@@ -98,7 +101,6 @@ MonoBehaviour:
   sensor: {fileID: 2378618927220723377}
   headLook: 1
   head: {fileID: 0}
-  headRotationSpeed: 2
   maxHeadRotation: 75
   returnToSpawner: 1
   seekDistance: 250
@@ -110,6 +112,7 @@ MonoBehaviour:
   spawnOnDamagePrototypes: []
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
+  registerWithAIDirector: 1
   squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 2
@@ -142,7 +145,7 @@ MonoBehaviour:
   minSpeed: 6
   maxSpeed: 9
   acceleration: 25
-  rotationSpeed: 2
+  rotationSpeed: 6
   minimumHeight: 1.5
   maximumHeight: 2
   squadAvoidanceDistance: 10

@@ -406,7 +406,7 @@ namespace RogueWave
             {
                 goalDestination = GetDestination(Target.position);
             }
-            else if (!underOrders && Time.frameCount % 5 == 0)
+            else if (!underOrders)
             {
                 // if line of sight is not required then update the destination at the appropriate time
                 if (!requireLineOfSight)
@@ -418,7 +418,7 @@ namespace RogueWave
                 {
                     isRecharging = false;
                 }
-                // else if the squad can see the player and the current destination is > 2x the optimal distance to the player then update the destination
+                // else current destination is < the seek distance (how far the enemy is willing to move from its "base") then we need a new destination
                 else if (sqrDistance < sqrSeekDistance)
                 {
                     if (SquadCanSeeTarget)
@@ -466,7 +466,7 @@ namespace RogueWave
         /// <returns>A position near the player that places the enemy at an optimal position to attack from.</returns>
         internal Vector3 GetDestination(Vector3 targetPosition)
         {
-            if (!shouldAttack && timeOfNextDestinationChange > Time.timeSinceLevelLoad)
+            if (!shouldAttack && timeOfNextDestinationChange < Time.timeSinceLevelLoad)
             {
                 return goalDestination;
             }

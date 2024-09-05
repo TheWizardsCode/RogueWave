@@ -84,8 +84,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Artillery
-  description: Slow moving, weak to attacks and keeps its distance. However, it bombards
-    the player with explosive shells that are reasonably accurate.
+  m_description: Slow moving, weak to attacks and keeps its distance. However, it
+    bombards the player with explosive shells that are reasonably accurate.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 2
   requireLineOfSight: 1
   viewDistance: 100
@@ -95,7 +98,6 @@ MonoBehaviour:
   sensor: {fileID: 1723859731166736551}
   headLook: 0
   head: {fileID: 0}
-  headRotationSpeed: 2
   maxHeadRotation: 75
   returnToSpawner: 0
   seekDistance: 30
@@ -107,6 +109,7 @@ MonoBehaviour:
   spawnOnDamagePrototypes: []
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
+  registerWithAIDirector: 1
   squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 30
@@ -139,7 +142,7 @@ MonoBehaviour:
   minSpeed: 1
   maxSpeed: 5
   acceleration: 10
-  rotationSpeed: 1
+  rotationSpeed: 2
   minimumHeight: 0.01
   maximumHeight: 0.02
   squadAvoidanceDistance: 10

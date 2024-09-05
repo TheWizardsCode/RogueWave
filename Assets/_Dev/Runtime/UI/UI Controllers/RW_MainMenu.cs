@@ -19,6 +19,8 @@ namespace RogueWave.UI
         {
             base.OnEnable();
 
+            MusicManager.Instance.PlayMenuMusic();
+
 #if DISCORD_ENABLED
             // TODO: should only do this if the game stats have changed since the last time they were sent
             GameStatsManager.Instance.SendDataToWebhook("Main Menu `OnEnable`");

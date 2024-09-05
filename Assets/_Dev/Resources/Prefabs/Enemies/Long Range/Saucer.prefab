@@ -84,9 +84,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Saucer
-  description: Stays high in the sky and attacks using a long range laser. The laser
-    takes a while to lock on and doesn't do much damage when it does., so these are
-    more of a nuisance than a threat.
+  m_description: Stays high in the sky and attacks using a long range laser. The
+    laser takes a while to lock on and doesn't do much damage when it does., so these
+    are more of a nuisance than a threat.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 3
   requireLineOfSight: 1
   viewDistance: 150
@@ -96,7 +99,6 @@ MonoBehaviour:
   sensor: {fileID: 436079867255219435}
   headLook: 1
   head: {fileID: 0}
-  headRotationSpeed: 2
   maxHeadRotation: 75
   returnToSpawner: 0
   seekDistance: 50
@@ -108,6 +110,7 @@ MonoBehaviour:
   spawnOnDamagePrototypes: []
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
+  registerWithAIDirector: 1
   squadRole: 0
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 10
@@ -140,7 +143,7 @@ MonoBehaviour:
   minSpeed: 1
   maxSpeed: 6
   acceleration: 10
-  rotationSpeed: 3
+  rotationSpeed: 8
   minimumHeight: 20
   maximumHeight: 50
   squadAvoidanceDistance: 10

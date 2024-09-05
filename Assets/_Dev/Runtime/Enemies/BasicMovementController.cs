@@ -58,7 +58,7 @@ namespace RogueWave
         private float sqrSlowingDistance;
         Vector3 _destination = Vector3.zero;
 
-        internal float currentSpeed;
+        internal float currentDesiredSpeed;
 
         BasicEnemyController enemyController;
 
@@ -106,7 +106,7 @@ namespace RogueWave
 
         private void Start()
         {
-            currentSpeed = Random.Range(minSpeed, maxSpeed);
+            currentDesiredSpeed = Random.Range(minSpeed, maxSpeed);
             aiDirector = AIDirector.Instance;
         }
 
@@ -119,7 +119,7 @@ namespace RogueWave
                     MoveTowards(currentSpeedMultiplier, currentSquadLeader);
                 } else
                 {
-                    transform.position += transform.forward * currentSpeed * currentSpeedMultiplier * Time.deltaTime;
+                    transform.position += transform.forward * currentDesiredSpeed * currentSpeedMultiplier * Time.deltaTime;
                 }
             }
         }
@@ -141,40 +141,45 @@ namespace RogueWave
         {
             if (currentSqrDistanceToGoal < sqrSlowingDistance)
             {
-                currentSpeed = Mathf.Max(0, currentSpeed - Time.deltaTime * acceleration);
+                currentDesiredSpeed = Mathf.Max(0, currentDesiredSpeed - Time.deltaTime * acceleration);
             }
-            else if (currentSpeed < maxSpeed)
+            else if (currentDesiredSpeed < maxSpeed)
             {
-                currentSpeed += Time.deltaTime * acceleration;
+                currentDesiredSpeed += Time.deltaTime * acceleration;
             }
 
-            if (currentSpeed == 0)
+            if (currentDesiredSpeed == 0)
             {
                 return;
             }
 
+            SetRotation(squadLeader);
+
+            if (obstacleDirection == Direction.All)
+            {
+                transform.position += transform.up * currentDesiredSpeed * Time.deltaTime;
+            }
+            else if (obstacleDirection != Direction.None)
+            {
+                transform.position += transform.forward * currentDesiredSpeed * 0.8f * Time.deltaTime;
+            }
+            else
+            {
+                transform.position += transform.forward * currentDesiredSpeed * speedMultiplier * Time.deltaTime;
+            }
+
+            AdjustHeight(destination, speedMultiplier);
+        }
+
+        private void SetRotation(BasicEnemyController squadLeader)
+        {
             Vector3 centerDirection = destination - transform.position;
             Vector3 avoidanceDirection = Vector3.zero;
             Span<BasicEnemyController> squadMembers = aiDirector.GetSquadMembers(squadLeader).AsSpan();
             int squadSize = 0;
 
-            if (squadLeader != null && squadLeader.movementController == this)
-            {
-                Vector3 directionToTarget = (destination - transform.position).normalized;
-                float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
-
-                if (dotProduct != 0)
-                {
-                    SetObstacleAvoidanceRotation(destination, avoidanceDirection);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
-                }
-            }
-            else
-            {
+            // if not the squad leader then avoid other squad members
+            if (squadLeader != null && squadLeader.movementController != this) {
                 foreach (BasicEnemyController enemy in squadMembers)
                 {
                     if (enemy != null && enemy != this)
@@ -192,42 +197,25 @@ namespace RogueWave
 
                 if (squadSize > 0)
                 {
-                    // TODO: centreDirection is never used!
+                    // TODO: centreDirection is never used - remove it?
                     centerDirection /= squadSize;
                     centerDirection = (centerDirection - transform.position).normalized;
                 }
-
-                Vector3 directionToTarget = (destination - transform.position).normalized;
-                float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
-
-                if (dotProduct != 0)
-                {
-                    SetObstacleAvoidanceRotation(destination, avoidanceDirection);
-                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-                }
-                else
-                {
-                    if (directionToTarget.sqrMagnitude > 0.0f)
-                    {
-                        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
-                    }
-                }
             }
 
-            if (obstacleDirection == Direction.All)
-            {
-                transform.position += transform.up * currentSpeed * Time.deltaTime;
-            }
-            else if (obstacleDirection != Direction.None)
-            {
-                transform.position += transform.forward * currentSpeed * 0.8f * Time.deltaTime;
-            }
-            else
-            {
-                transform.position += transform.forward * currentSpeed * speedMultiplier * Time.deltaTime;
-            }
+            Vector3 directionToTarget = (destination - transform.position).normalized;
+            float dotProduct = Vector3.Dot(transform.forward, directionToTarget);
 
-            AdjustHeight(destination, speedMultiplier);
+            SetObstacleAvoidanceRotation(destination, avoidanceDirection);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            //if (dotProduct != 1)
+            //{
+            //    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+            //}
+            //else
+            //{
+            //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
+            //}
         }
 
         /// <summary>
@@ -238,6 +226,7 @@ namespace RogueWave
         /// <returns></returns>
         private void SetObstacleAvoidanceRotation(Vector3 destination, Vector3 avoidanceDirection)
         {
+            // REFACTOR: This code has many side effects, need to rewrite to remove them.
             bool forwardBlocked = false;
             bool forwardRightBlocked = false;
             bool forwardLeftBlocked = false;
@@ -434,7 +423,7 @@ namespace RogueWave
             }
 
             verticalAngle = Mathf.Clamp(verticalAngle, -90, 90);
-            float rate = currentSpeed * Time.deltaTime * (Mathf.Abs(verticalAngle) / 90);
+            float rate = currentDesiredSpeed * Time.deltaTime * (Mathf.Abs(verticalAngle) / 90);
 
             if (distanceToObstacle > 0)
             {
@@ -476,7 +465,7 @@ namespace RogueWave
                 float heightDifference = transform.position.y - destination.y;
                 if (heightDifference > 0.2f || heightDifference < -0.2f)
                 {
-                    rate = currentSpeed * Time.deltaTime * 0.5f;
+                    rate = currentDesiredSpeed * Time.deltaTime * 0.5f;
                     if (destination.y > transform.position.y)
                     {
                         transform.position += Vector3.up * rate;

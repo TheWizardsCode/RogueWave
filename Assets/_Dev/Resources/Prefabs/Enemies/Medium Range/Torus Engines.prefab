@@ -53,9 +53,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Torus Engine
-  description: This is a large and powerful enemy, it fires infrequently and moves
+  m_description: This is a large and powerful enemy, it fires infrequently and moves
     slowly. But it is hard to destroy. However, when it is destroyed it will explode,
     damaging nearby enemies.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 1
   requireLineOfSight: 1
   viewDistance: 80
@@ -65,7 +68,6 @@ MonoBehaviour:
   sensor: {fileID: 6926119318600642585}
   headLook: 1
   head: {fileID: 0}
-  headRotationSpeed: 2
   maxHeadRotation: 75
   returnToSpawner: 0
   seekDistance: 50
@@ -77,6 +79,7 @@ MonoBehaviour:
   spawnOnDamagePrototypes: []
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
+  registerWithAIDirector: 1
   squadRole: 2
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 25
@@ -109,7 +112,7 @@ MonoBehaviour:
   minSpeed: 1
   maxSpeed: 3
   acceleration: 10
-  rotationSpeed: 1.5
+  rotationSpeed: 4
   minimumHeight: 3
   maximumHeight: 10
   squadAvoidanceDistance: 10

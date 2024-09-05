@@ -175,9 +175,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Caltrop
-  description: Moves very slowly towards the player until within a given distance.
+  m_description: Moves very slowly towards the player until within a given distance.
     Once within attack range will move quickly towards the player damaging on contact.
     Whhen they are attacking they no longer need line of sight.
+  strengths: 
+  weaknesses: 
+  attacks: 
   challengeRating: 2
   requireLineOfSight: 1
   viewDistance: 80
@@ -187,7 +190,6 @@ MonoBehaviour:
   sensor: {fileID: 1967564365263936831}
   headLook: 1
   head: {fileID: 0}
-  headRotationSpeed: 2
   maxHeadRotation: 75
   returnToSpawner: 0
   seekDistance: 100
@@ -199,6 +201,7 @@ MonoBehaviour:
   spawnOnDamagePrototypes: []
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
+  registerWithAIDirector: 1
   squadRole: 2
   shouldExplodeOnDeath: 1
   deathExplosionRadius: 10
@@ -233,7 +236,7 @@ MonoBehaviour:
   minSpeed: 1
   maxSpeed: 7
   acceleration: 10
-  rotationSpeed: 2
+  rotationSpeed: 5
   minimumHeight: 10
   maximumHeight: 30
   squadAvoidanceDistance: 10
