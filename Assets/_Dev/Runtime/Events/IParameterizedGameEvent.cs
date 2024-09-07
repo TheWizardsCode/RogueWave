@@ -9,8 +9,8 @@ namespace WizardsCode.RogueWave
     {
         void Raise(T parameters);
 
-        void RegisterListener(IParameterizedGameEventListener<T> listener);
+        void AddListener(IParameterizedGameEventListener<T> listener);
 
-        void UnregisterListener(IParameterizedGameEventListener<T> listener);
+        void RemoveListener(IParameterizedGameEventListener<T> listener);
     }
 }

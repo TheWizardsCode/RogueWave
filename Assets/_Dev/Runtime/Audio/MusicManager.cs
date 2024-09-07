@@ -6,7 +6,7 @@ using WizardsCode.RogueWave;
 
 namespace RogueWave
 {
-    [RequireComponent(typeof(AudioSource))]
+    [RequireComponent(typeof(AudioSource), typeof(AudioManager))]
     public class MusicManager : MonoBehaviour
     {
         public enum MusicType

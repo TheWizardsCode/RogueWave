@@ -206,11 +206,24 @@ namespace RogueWave
 
         private void NextWave()
         {
+#if UNITY_EDITOR
+            if (currentLevel.waves.Length == 0)
+            {
+                Debug.LogWarning("No waves defined in the level definition. If in a test level this may be deliberate and OK, if in a prod level this is an ERROR.");
+                return;
+            }
+#endif
+
             currentWaveIndex++;
             if (currentWaveIndex >= currentLevel.waves.Length)
             {
                 onAllWavesComplete?.Invoke();
-                if (!currentLevel.generateNewWaves)
+                if (currentLevel.generateNewWaves)
+                {
+                    currentWave = GenerateNewWave();
+                    return;
+                }
+                else
                 {
                     if (loopWaves)
                     {
@@ -224,8 +237,6 @@ namespace RogueWave
                         return;
                     }
                 }
-                currentWave = GenerateNewWave();
-                return;
             }
             //Debug.Log($"Starting wave {currentWaveIndex + 1} of {waves.Length}...");
             currentWave = currentLevel.waves[currentWaveIndex];

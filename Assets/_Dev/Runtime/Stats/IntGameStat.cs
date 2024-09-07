@@ -1,7 +1,6 @@
 using UnityEngine;
 using System;
 using NaughtyAttributes;
-using WizardsCode.RogueWave;
 
 namespace RogueWave.GameStats
 {
@@ -115,5 +114,19 @@ namespace RogueWave.GameStats
             }
             return value;
         }
+
+#if UNITY_EDITOR
+        [Button]
+        void TestAddOne()
+        {
+            Add(1);
+        }
+
+        [Button]
+        void TestSubtractOne()
+        {
+            Subtract(1);
+        }
+#endif
     }
 }

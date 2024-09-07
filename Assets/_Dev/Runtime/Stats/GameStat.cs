@@ -31,7 +31,7 @@ namespace RogueWave.GameStats
 
         [Header("Events")]
         [SerializeField, Tooltip("The event to raise when this stat is changed.")]
-        internal ParameterizedGameEvent<T> onChangeEvent;
+        internal ParameterizedGameEvent<T> onChangeEvent = default;
 
         public T m_CurrentValue = default;
         public T value { 

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,7 +10,7 @@ namespace WizardsCode.RogueWave
     /// 
     /// The type for this generic event 
     /// </summary>
-    public class ParameterizedGameEvent<T> : ScriptableObject, IParameterizedGameEvent<T>
+    public abstract class ParameterizedGameEvent<T> : ScriptableObject, IParameterizedGameEvent<T>
     {
         [SerializeField, TextArea, Tooltip("A description of this event. This has no gameplay value but is useful in the editor.")]
         private string description;
@@ -18,20 +19,20 @@ namespace WizardsCode.RogueWave
 
         private List<IParameterizedGameEventListener<T>> listeners = new List<IParameterizedGameEventListener<T>>();
 
-        public virtual void Raise(T parameters)
+        public virtual void Raise(T parameter)
         {
             for (int i = listeners.Count - 1; i >= 0; i--)
             {
-                listeners[i].OnEventRaised(this, parameters);
+                listeners[i].OnEventRaised(this, parameter);
             }
         }
 
-        public void RegisterListener(IParameterizedGameEventListener<T> listener)
+        public void AddListener(IParameterizedGameEventListener<T> listener)
         {
             listeners.Add(listener);
         }
 
-        public void UnregisterListener(IParameterizedGameEventListener<T> listener)
+        public void RemoveListener(IParameterizedGameEventListener<T> listener)
         {
             listeners.Remove(listener);
         }

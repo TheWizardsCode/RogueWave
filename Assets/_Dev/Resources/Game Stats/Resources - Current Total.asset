@@ -16,10 +16,11 @@ MonoBehaviour:
   m_displayName: Resources
   m_description: The current amount of resources available
   m_DefaultValue: 0
+  onChangeEvent: {fileID: 11400000, guid: 50ef60b24730d914792f84e9c22415c4, type: 2}
+  m_CurrentValue: 1013
+  isTime: 0
   m_FormatString: 0000000
-  onChangeEvent: {fileID: 11400000, guid: 04cc29c9078f2504a95e9d7ee407bc45, type: 2}
-  increasedAmount: {fileID: 11400000, guid: 0044ca86c5972d6498e847b647715df8, type: 2}
-  decreasedAmount: {fileID: 11400000, guid: e938987c3b55c9b4c9a19e879e249f3d, type: 2}
   contributeToScore: 1
   m_ScoreMultiplier: 1
-  m_CurrentValue: 230
+  increasedAmount: {fileID: 11400000, guid: 0044ca86c5972d6498e847b647715df8, type: 2}
+  decreasedAmount: {fileID: 11400000, guid: e938987c3b55c9b4c9a19e879e249f3d, type: 2}

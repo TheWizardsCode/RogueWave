@@ -19,6 +19,8 @@ using UnityEngine.Serialization;
 using System.Linq;
 using Lumpn.Discord.Utils;
 using WizardsCode.RogueWave;
+using NeoFPS;
+using UnityEngine.Events;
 
 namespace RogueWave.GameStats
 {
@@ -82,8 +84,6 @@ namespace RogueWave.GameStats
                 return m_Instance;
             }
         }
-
-        public static Action<Achievement> OnAchievementUnlocked { get; internal set; }
 
         public static string statsScene
         {
@@ -391,45 +391,7 @@ namespace RogueWave.GameStats
 #endif
         }
 
-        internal void CheckAchievements(IntGameStat stat, int value)
-        {
-            // OPTIMIZATION: This could be optimized by only checking achievements that are related to the stat that has changed. i.e. sort the achievements into a dictionary by stat and only check the relevant ones.
-            // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
-            foreach (Achievement achievement in m_Achievements)
-            {
-                if (!achievement.isUnlocked && achievement.stat == stat)
-                {
-                    if (value >= achievement.targetValue)
-                    {
-                        UnlockAchievement(achievement);
-                    }
-                }
-            }
-        }
-
-        internal void CheckAchievements(IntGameStat stat, float value)
-        {
-            // OPTIMIZATION: This could be optimized by only checking achievements that are related to the stat that has changed. i.e. sort the achievements into a dictionary by stat and only check the relevant ones.
-            // OPTIMIZATION: This could be further optimized by only checking achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to check.
-            foreach (Achievement achievement in m_Achievements)
-            {
-                if (!achievement.isUnlocked && achievement.stat == stat)
-                {
-                    if (value >= achievement.targetValue)
-                    {
-                        UnlockAchievement(achievement);
-                    }
-                }
-            }
-        }
-
-        private static void UnlockAchievement(Achievement achievement)
-        {
-            achievement.Unlock();
-            OnAchievementUnlocked?.Invoke(achievement);
-        }
-
-        [Button("Reset Stats and Achievements (Play mode only)"), ShowIf("showDebug")]
+        [Button("Reset Stats and Achievements"), ShowIf("showDebug")]
         internal static void ResetStats()
         {
             ResetLocalStatsAndAchievements();
@@ -577,7 +539,7 @@ namespace RogueWave.GameStats
             SendDataToWebhook("Test From Inspector");    
         }
 #endif
-#endregion
+        #endregion
     }
 
     [Serializable]

@@ -14,7 +14,7 @@ namespace WizardsCode.RogueWave
         {
             if (Event != null)
             {
-                Event.RegisterListener(this);
+                Event.AddListener(this);
             }
         }
 
@@ -22,7 +22,7 @@ namespace WizardsCode.RogueWave
         {
             if (Event != null)
             {
-                Event.UnregisterListener(this);
+                Event.RemoveListener(this);
             }
         }
 

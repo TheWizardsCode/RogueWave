@@ -35,19 +35,19 @@ namespace WizardsCode.RogueWave
 
         Dictionary<AudioMixerGroup, float> startingVolumes = new Dictionary<AudioMixerGroup, float>();
 
-        public static AudioManager Instance { get; private set; }
-
-        private void Awake()
+        private static AudioManager instance;
+        public static AudioManager Instance
         {
-            if (Instance == null)
+            get
             {
-                Instance = this;
-                DontDestroyOnLoad(gameObject);
+                if (instance == null)
+                {
+                    instance = FindObjectOfType<AudioManager>();
+                    DontDestroyOnLoad(instance);
+                }
+                return instance;
             }
-            else
-            {
-                Destroy(gameObject);
-            }
+            private set { instance = value; }
         }
 
         private void Start()

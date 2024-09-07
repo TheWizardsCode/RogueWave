@@ -17,6 +17,9 @@ namespace WizardsCode.RogueWave
 
         private List<IGameEventListener> listeners = new List<IGameEventListener>();
 
+        /// <summary>
+        /// Raise an event that has no target object.
+        /// </summary>
         public virtual void Raise()
         {
             for (int i = listeners.Count - 1; i >= 0; i--)

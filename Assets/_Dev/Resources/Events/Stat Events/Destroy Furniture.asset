@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5efb4cba2c97354e94fee3e3562a7f7, type: 3}
-  m_Name: Resources Changed
+  m_Name: Destroy Furniture
   m_EditorClassIdentifier: 
-  description: Resources have been collected or spent.
-  parameters: The integer change amount for the given stat.
-  stat: {fileID: 11400000, guid: 156918b1d19c26d4da8c3d5e89e832f0, type: 2}
+  description: Scene furniture has been destroyed.
+  parameters: The number of furniture items that have been destroyed.
+  stat: {fileID: 11400000, guid: 0863d8c1db6c8c042bcae75ad8ba3677, type: 2}
