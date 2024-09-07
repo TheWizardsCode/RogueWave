@@ -51,8 +51,8 @@ namespace RogueWave.Editor
             EditorGUILayout.LabelField(new GUIContent("Req", "Whether the enemy must sense the player to take action."), GUILayout.Width(15));
             EditorGUILayout.LabelField(new GUIContent("Dist", "The distance that the enemy can see."), GUILayout.Width(30));
             // Movement
-            EditorGUILayout.LabelField(new GUIContent("Max", "Max speed of the enemy."), GUILayout.Width(30));
             EditorGUILayout.LabelField(new GUIContent("Min", "Min speed of the enemy."), GUILayout.Width(30));
+            EditorGUILayout.LabelField(new GUIContent("Max", "Max speed of the enemy."), GUILayout.Width(30));
             EditorGUILayout.EndHorizontal();
             
             foreach (BasicEnemyController enemy in enemies)
