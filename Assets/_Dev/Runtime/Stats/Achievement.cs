@@ -72,7 +72,6 @@ namespace RogueWave.GameStats
 
         public void OnEventRaised(IParameterizedGameEvent<int> e, int change)
         {
-            Debug.Log("OnEventRaised");
             if (e is IntStatEvent intEvent && intEvent.stat == m_StatToTrack)
             {
                 if (intEvent.stat.value >= m_TargetValue)

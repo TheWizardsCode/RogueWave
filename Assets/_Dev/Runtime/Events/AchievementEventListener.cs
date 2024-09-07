@@ -28,7 +28,7 @@ namespace WizardsCode.RogueWave
 
         public virtual void OnEventRaised(Achievement achievement)
         {
-            Response.Invoke(achievement);
+            Response?.Invoke(achievement);
         }
     }
 }

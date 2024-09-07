@@ -134,7 +134,7 @@ namespace RogueWave
             buildAndRequetProgressBar.Value = 0;
         }
 
-        protected virtual void OnResourcesChanged(IntStatEvent e, int change)
+        public virtual void OnResourcesChanged(IParameterizedGameEvent<int> e, int change)
         {   
             if (change > 0)
             {

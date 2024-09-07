@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using RogueWave.GameStats;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace WizardsCode.RogueWave
