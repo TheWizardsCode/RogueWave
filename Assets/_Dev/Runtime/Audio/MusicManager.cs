@@ -50,6 +50,11 @@ namespace RogueWave
 
         private void Start()
         {
+            if (Instance == null)
+            {
+                Debug.LogError("MusicManager not found in scene. Please add one.");
+                return;
+            }
             StartCoroutine(PlayMusicCo());
         }
 

@@ -68,29 +68,24 @@ namespace RogueWave
                 {
                     //OPTIMIZATION: cache on start
                     MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-                    foreach (MeshRenderer meshRenderer in meshRenderers)
-                    {
-                        meshRenderer.enabled = false;
-                    }
 
                     //OPTIMIZATION: cache on start
                     Collider[] colliders = GetComponentsInChildren<Collider>();
-                    for (int i = 0; i < colliders.Length; i++)
-                    {
-                        colliders[i].enabled = false;
-                    }
 
                     int boundsMultiplier = 2 * (int)(meshRenderers[0].bounds.extents.x + meshRenderers[0].bounds.extents.y + meshRenderers[0].bounds.extents.z);
                     //Debug.Log($"Bounds multiplier {boundsMultiplier}");
 
-                    if (m_PooledScaledDestructionParticles != null)
-                    {
-                        SpawnScaledParticle<PooledObject>(m_PooledScaledDestructionParticles, meshRenderers[0], boundsMultiplier, true);
-                    }
+                    // Spawn the destruction particles
+                    SpawnDestructionParticles(meshRenderers[0], boundsMultiplier);
 
-                    if (m_PooledScaledFXParticles != null)
+                    // Disable the mesh renderer and colliders
+                    foreach (MeshRenderer meshRenderer in meshRenderers)
                     {
-                        SpawnScaledParticle<PooledObject>(m_PooledScaledFXParticles, meshRenderers[0], boundsMultiplier, false);
+                        meshRenderer.enabled = false;
+                    }
+                    for (int i = 0; i < colliders.Length; i++)
+                    {
+                        colliders[i].enabled = false;
                     }
 
                     if (m_DestroyedSound != null)
@@ -131,6 +126,18 @@ namespace RogueWave
                 }
 
                 Destroy(gameObject, 15);
+            }
+        }
+
+        private void SpawnDestructionParticles(MeshRenderer meshRenderer, int boundsMultiplier)
+        {
+            if (m_PooledScaledDestructionParticles != null)
+            {
+                SpawnScaledParticle<PooledObject>(m_PooledScaledDestructionParticles, meshRenderer, boundsMultiplier, true);
+            }
+            if (m_PooledScaledFXParticles != null)
+            {
+                SpawnScaledParticle<PooledObject>(m_PooledScaledFXParticles, meshRenderer, boundsMultiplier, false);
             }
         }
 

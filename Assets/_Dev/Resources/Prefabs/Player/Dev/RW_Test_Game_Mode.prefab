@@ -103,13 +103,13 @@ MonoBehaviour:
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   initialHealth: 40
   _startingRecipesPermanent:
-  - {fileID: 11400000, guid: eaac1bde8106d6c4eb2847d896423822, type: 2}
   - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
   - {fileID: 11400000, guid: 22e1bf5280e270b46a7e8df0dcca53e8, type: 2}
-  - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
   _startingRecipesRun: []
   m_generateLevelOnStart: 1
   campaign: {fileID: 11400000, guid: a6b18b6f111583d4d845ae1ced2ddc37, type: 2}
+  m_GameLog: {fileID: 11400000, guid: a64aa179fd7ec1f4bb9586fec27026ef, type: 2}
+  m_RunCount: {fileID: 11400000, guid: 61be915018e3ba9469bee0e78b8cc2ba, type: 2}
   m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
   m_PortalExitsCount: {fileID: 11400000, guid: dcd25387334f16c4e92d828dc31e508a, type: 2}
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
@@ -120,7 +120,6 @@ MonoBehaviour:
   onEnemySpawned:
     m_PersistentCalls:
       m_Calls: []
-  showDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
     spawnZones: []
@@ -253,7 +252,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  isDebug: 0
 --- !u!1 &6495454180581363533
 GameObject:
   m_ObjectHideFlags: 0
