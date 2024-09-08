@@ -796,7 +796,7 @@ GameObject:
   - component: {fileID: 831004774}
   - component: {fileID: 831004773}
   m_Layer: 0
-  m_Name: Scene Setup
+  m_Name: Scene Setup Commands
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -815,7 +815,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   executeOnStart: 0
-  commands: setmaxhealth 10000
+  commands: 'setmaxhealth 10000
+
+    ResourcesAdd 10000
+
+    PressEsc'
 --- !u!4 &831004774
 Transform:
   m_ObjectHideFlags: 0
@@ -2592,7 +2596,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2342153769793436847, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
       propertyPath: CommandAssemblies.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2342153769793436847, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
       propertyPath: CommandAssemblies.Array.data[0]
@@ -2601,6 +2605,10 @@ PrefabInstance:
     - target: {fileID: 2342153769793436847, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
       propertyPath: CommandAssemblies.Array.data[1]
       value: org.roguewave.commands.ingame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2342153769793436847, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
+      propertyPath: CommandAssemblies.Array.data[2]
+      value: org.wizardscode.roguewave.editor
       objectReference: {fileID: 0}
     - target: {fileID: 8143950224794198212, guid: ce9556a43f7f0734eb812e926fd949de, type: 3}
       propertyPath: m_LocalPosition.x
