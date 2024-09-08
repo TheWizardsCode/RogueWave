@@ -64,7 +64,6 @@ namespace WizardsCode.CommandTerminal
         bool input_fix;
         bool move_cursor;
         bool initial_open; // Used to focus on TextField when console opens
-        Rect window;
         float open_target;
         float real_window_size;
         string command_text;
@@ -316,12 +315,12 @@ namespace WizardsCode.CommandTerminal
             }
             
             Rect rect = new Rect(0, open_target - real_window_size, Screen.width, real_window_size);
-            window = GUILayout.Window(88, rect, DrawConsole, "", window_style);
+            GUILayout.Window(88, rect, DrawConsole, "", window_style);
         }
 
         void SetupWindow() {
             real_window_size = Screen.height * MaxHeight / 3;
-            window = new Rect(0, open_target - real_window_size, Screen.width, real_window_size);
+            new Rect(0, open_target - real_window_size, Screen.width, real_window_size);
 
             // Set background color
             Texture2D background_texture = new Texture2D(1, 1);

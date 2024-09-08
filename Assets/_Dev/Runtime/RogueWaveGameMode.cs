@@ -17,14 +17,20 @@ using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using NeoFPS.Samples;
 using WizardsCode.RogueWave;
+using WizardsCode.CommandTerminal;
 
 namespace RogueWave
 {
     public class RogueWaveGameMode : FpsSoloGameCustomisable, ISpawnZoneSelector, ILoadoutBuilder
     {
-        [Header("Pre-Spawn UI")]
+        [Header("Scene Setup")]
         [SerializeField, Tooltip("The pre-spawn popup prefab to use.")]
         private LevelMenu m_PreSpawnUI = null;
+        [SerializeField, Tooltip("If a `SceneSetupCommands` component is present in the scene, should the commands be executed when the player " +
+            "is spawned? Note that if the `SceneSetupCommands` object is set to execute on start it is likely you want to set this to false. " +
+            "However, in many cases you will want to execute commands against the player. In this case set the `SceneSetupCommands` to NOT " +
+            "execute on start and set this property to true.")]
+        private bool m_ExecuteSceneSetupCommandsOnSpawn = false;
 
         [Header("Victory")]
         [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
@@ -480,6 +486,12 @@ namespace RogueWave
             if (MusicManager.Instance != null)
             {
                 MusicManager.Instance.PlayCombatMusic();
+            }
+
+            if (m_ExecuteSceneSetupCommandsOnSpawn)
+            {
+                SceneSetupCommands sceneSetupCommands = FindObjectOfType<SceneSetupCommands>();
+                sceneSetupCommands.ExecuteCommands();
             }
         }
 
