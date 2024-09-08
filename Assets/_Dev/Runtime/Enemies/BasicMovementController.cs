@@ -35,11 +35,15 @@ namespace RogueWave
         [Header("Navigation")]
         [SerializeField, Tooltip("The distance the enemy will try to avoid obstacles by.")]
         internal float obstacleAvoidanceDistance = 2f;
+        [SerializeField, Tooltip("The layer mask to use for obstacle avoidance.")]
+        internal LayerMask avoidanceLayerMask = 10631697;
         [SerializeField, Tooltip("The distance the enemy needs to be from a target destination for it to be considered as arrived. This is important as large enemies, or ones with a slow trun speed might have difficulty getting to the precise target location. This can result in circular motion around the destination.")]
         internal float arrivalDistance = 1.5f;
 
         [SerializeField, Tooltip("Enable debuggging for this enemy."), Foldout("Editor Only")]
         bool isDebug;
+        [SerializeField, Tooltip("The collider to use for penetration checking."), Foldout("Editor Only")]
+        Collider penetrationCollider;
 
         enum Direction
         {
@@ -122,6 +126,39 @@ namespace RogueWave
                     transform.position += transform.forward * currentDesiredSpeed * currentSpeedMultiplier * Time.deltaTime;
                 }
             }
+
+#if UNITY_EDITOR
+            if (isDebug)
+            {
+                Collider[] nearbyColliders = Physics.OverlapSphere(transform.position, 5, avoidanceLayerMask);
+                foreach (var collider in nearbyColliders)
+                {
+                    Vector3 direction;
+                    float distance;
+
+                    bool isPenetrating = Physics.ComputePenetration(
+                        penetrationCollider, penetrationCollider.transform.position, penetrationCollider.transform.rotation,
+                        collider, collider.transform.position, collider.transform.rotation,
+                        out direction, out distance
+                    );
+
+                    if (isPenetrating && !collider.CompareTag("Ground"))
+                    {
+                        if (!transform.name.Contains(" (Penetrating"))
+                        {
+                            transform.name += $" (Penetrating '{collider.transform.name}')";
+                        }
+                        break;
+                    } else
+                    {
+                        if (transform.name.Contains(" (Penetrating"))
+                        {
+                            transform.name = transform.name.Substring(0, transform.name.IndexOf(" (Penetrating"));
+                        }
+                    }
+                }                  
+            }
+#endif
         }
 
         /// <summary>
@@ -161,7 +198,7 @@ namespace RogueWave
             }
             else if (obstacleDirection != Direction.None)
             {
-                transform.position += transform.forward * currentDesiredSpeed * 0.8f * Time.deltaTime;
+                transform.position += transform.forward * currentDesiredSpeed * Time.deltaTime;
             }
             else
             {
@@ -208,14 +245,6 @@ namespace RogueWave
 
             SetObstacleAvoidanceRotation(destination, avoidanceDirection);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            //if (dotProduct != 1)
-            //{
-            //    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-            //}
-            //else
-            //{
-            //    transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(directionToTarget), rotationSpeed * Time.deltaTime);
-            //}
         }
 
         /// <summary>
@@ -240,16 +269,31 @@ namespace RogueWave
             if (Physics.Raycast(ray, out RaycastHit forwardHit, obstacleAvoidanceDistance * 2, enemyController.sensorMask))
             {
                 forwardBlocked = forwardHit.collider.transform.root != enemyController.Target;
-            } 
+#if UNITY_EDITOR
+                if (isDebug)
+                {
+                    if (distanceToObstacle > 0)
+                    {
+                        Debug.DrawRay(enemyController.sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                    }
+                }
+#endif
+            }
 
             // check for obstacle to the forward left
             ray.direction = Quaternion.AngleAxis(-offsetAngleIncrement, transform.transform.up) * transform.forward;
             if (Physics.Raycast(ray, out RaycastHit leftForwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
             {
                 forwardLeftBlocked = leftForwardHit.collider.transform.root != enemyController.Target;
-            } else
-            {
-                forwardLeftBlocked = false;
+#if UNITY_EDITOR
+                if (isDebug)
+                {
+                    if (distanceToObstacle > 0)
+                    {
+                        Debug.DrawRay(enemyController.sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                    }
+                }
+#endif
             }
 
             // check for obstacle to the forward right
@@ -257,13 +301,21 @@ namespace RogueWave
             if (Physics.Raycast(ray, out RaycastHit rightForwardHit, obstacleAvoidanceDistance, enemyController.sensorMask))
             {
                 forwardRightBlocked = rightForwardHit.collider.transform.root != enemyController.Target;
-            } else
-            {
-                forwardRightBlocked = false;
+#if UNITY_EDITOR
+                if (isDebug)
+                {
+                    if (distanceToObstacle > 0)
+                    {
+                        Debug.DrawRay(enemyController.sensor.position, ray.direction * obstacleAvoidanceDistance, Color.red, 2);
+                    }
+                }
+#endif
             }
 
             if (forwardRightBlocked && forwardLeftBlocked)
             {
+                turnAngle = 180;
+
                 if (forwardBlocked)
                 {
                     obstacleDirection = Direction.All;
@@ -272,8 +324,6 @@ namespace RogueWave
                 else
                 {
                     obstacleDirection = Direction.BothHorizontal;
-
-                    turnAngle = 180;
 
                     if (Vector3.Dot(transform.right, destination - transform.position) > 0)
                     {
@@ -320,10 +370,12 @@ namespace RogueWave
                 if (distanceToObstacle < 1f)
                 {
                     targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * 1.5f, 0);
+                    currentDesiredSpeed *= 0.8f;
                 }
                 else
                 {
                     targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle, 0);
+                    currentDesiredSpeed *= 0.9f;
                 }
 #if UNITY_EDITOR
                 if (isDebug)

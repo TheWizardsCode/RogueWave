@@ -146,8 +146,12 @@ MonoBehaviour:
   maximumHeight: 10
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 4
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
-  isDebug: 0
+  isDebug: 1
+  penetrationCollider: {fileID: 5357359798638194086}
 --- !u!114 &5219187662690625511
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,5 +576,10 @@ PrefabInstance:
 --- !u!4 &1965897515796100135 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6817774594015439600, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
+  m_PrefabInstance: {fileID: 5032170605116415703}
+  m_PrefabAsset: {fileID: 0}
+--- !u!135 &5357359798638194086 stripped
+SphereCollider:
+  m_CorrespondingSourceObject: {fileID: 1120541826775380849, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
   m_PrefabInstance: {fileID: 5032170605116415703}
   m_PrefabAsset: {fileID: 0}
