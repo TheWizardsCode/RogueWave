@@ -378,7 +378,7 @@ namespace RogueWave
                 return;
             }
 
-            if (timeToUpdate || SquadCanSeeTarget)
+            if (timeToUpdate || SquadCanSeeTarget || movementController.hasArrived)
             {
                 UpdateDestination();
             }
