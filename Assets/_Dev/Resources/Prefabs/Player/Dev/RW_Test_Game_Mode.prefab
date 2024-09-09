@@ -96,8 +96,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DeathSequenceDuration: 5
-  m_Popup: {fileID: -2446305894394526636, guid: 3ff6e92f43d79ed4d9afc6a3afdacc58, type: 3}
+  m_Popup: {fileID: 0}
   m_PreSpawnUI: {fileID: 0}
+  m_ExecuteSceneSetupCommandsOnSpawn: 1
   m_VictoryDuration: 5
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
@@ -146,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb8d82964795e441a96e9e562ebbf2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpawnMode: 1
+  m_SpawnMode: 2
 --- !u!114 &905963099382226170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,20 +235,29 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2.5
-      outSlope: 2.5
-      tangentMode: 34
+      inSlope: 2.1262531
+      outSlope: 2.1262531
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
+      outWeight: 0.07822666
+    - serializedVersion: 3
+      time: 0.40145218
+      value: 0.9003154
+      inSlope: 0.7905908
+      outSlope: 0.7905908
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.09150397
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 2.5
+      time: 1
       value: 2.5
-      inSlope: 2.5
-      outSlope: 2.5
-      tangentMode: 34
+      inSlope: 5.8963146
+      outSlope: 5.8963146
+      tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0.02418214
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
