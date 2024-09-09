@@ -394,17 +394,6 @@ namespace RogueWave
                 levelGenerator.Generate(currentLevelDefinition, campaign.seed);
             }
 
-            int count = 1;
-            while (SpawnManager.GetNextSpawnPoint(false) == null)
-            {
-                levelGenerator.Generate(currentLevelDefinition, campaign.seed);
-                if (count++ > 10)
-                {
-                    Debug.LogError($"No valid spawn points found after {count} generations. This shouldn't happen.");
-                    break;
-                }
-            }
-
             base.OnStart();
 
             if (m_SpawnZones.currentIndex == -1 && m_SpawnZones.spawnZones.Length > 0)

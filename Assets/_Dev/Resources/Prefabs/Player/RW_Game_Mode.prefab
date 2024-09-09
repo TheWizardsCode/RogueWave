@@ -97,7 +97,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DeathSequenceDuration: 5
-  m_Popup: {fileID: -2446305894394526636, guid: 3ff6e92f43d79ed4d9afc6a3afdacc58, type: 3}
+  m_Popup: {fileID: 0}
+  m_PreSpawnUI: {fileID: 1715862449206160665, guid: ddf14a90891832a459b07cf9400c6ee7, type: 3}
+  m_ExecuteSceneSetupCommandsOnSpawn: 0
   m_VictoryDuration: 5
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
@@ -105,7 +107,10 @@ MonoBehaviour:
   _startingRecipesPermanent:
   - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
   _startingRecipesRun: []
+  m_generateLevelOnStart: 0
   campaign: {fileID: 11400000, guid: e1d6e9a426540b246af58b0d7e5d3eea, type: 2}
+  m_GameLog: {fileID: 11400000, guid: a64aa179fd7ec1f4bb9586fec27026ef, type: 2}
+  m_RunCount: {fileID: 11400000, guid: 61be915018e3ba9469bee0e78b8cc2ba, type: 2}
   m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
   m_PortalExitsCount: {fileID: 11400000, guid: dcd25387334f16c4e92d828dc31e508a, type: 2}
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
@@ -116,7 +121,6 @@ MonoBehaviour:
   onEnemySpawned:
     m_PersistentCalls:
       m_Calls: []
-  showDebug: 0
   m_SpawnZones:
     mapSprite: {fileID: 0}
     spawnZones: []
@@ -143,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb8d82964795e441a96e9e562ebbf2c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_SpawnMode: 1
+  m_SpawnMode: 2
 --- !u!114 &905963099382226170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,8 +220,30 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  difficultyMultiplier: 1
-  isDebug: 0
+  challengeRatingMultiplierByDifficulty:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 1
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6012438873311502382
 GameObject:
   m_ObjectHideFlags: 0

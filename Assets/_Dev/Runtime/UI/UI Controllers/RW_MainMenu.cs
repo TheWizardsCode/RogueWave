@@ -9,9 +9,9 @@ namespace RogueWave.UI
     public class RW_MainMenu : MainMenu
     {
         [SerializeField, Tooltip("The URL to open when the Wishlist button is clicked.")]
-        private string wishlistUrl = "https://store.steampowered.com/app/2895630/Rogue_Wave";
+        private string wishlistUrl = "steam://openurl/https://store.steampowered.com/app/2895630/Rogue_Wave";
         [SerializeField, Tooltip("The URL to open when the Follow button is clicked.")]
-        private string followUrl = "https://store.steampowered.com/app/2895630/Rogue_Wave";
+        private string followUrl = "steam://openurl/https://store.steampowered.com/app/2895630/Rogue_Wave";
         [SerializeField, Tooltip("The URL to open when the user clicks the 'Join Discord' button.")]
         private string joinDiscordUrl = "https://discord.gg/Mp6XAz9T6w";
 

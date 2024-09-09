@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using NeoFPS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,6 +132,13 @@ namespace RogueWave
         private bool isValidateLevel()
         {
             generationFailureReport = string.Empty;
+
+            // Check that there is at least one spawn point
+            if (SpawnManager.GetNextSpawnPoint(false) == null)
+            {
+                Debug.LogError($"No valid spawn points found in generatored level.");
+                return false;
+            }
 
             // Check that every tile, except the outer walls, has at least one non barrier neighbor.
             for (int x = 1; x < xSize - 1; x++)
