@@ -14,7 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - pooledEnemyPrefab: {fileID: 4805896124147963581, guid: 6ff1abb8aecc3ab459450253178136f4, type: 3}
+    baseWeight: 0.34
+  - pooledEnemyPrefab: {fileID: 816581867132793744, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
     baseWeight: 0.5
+  - pooledEnemyPrefab: {fileID: 1262851938715913811, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
+    baseWeight: 0.665
+  - pooledEnemyPrefab: {fileID: -7954991420487017679, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
+    baseWeight: 0.358
   spawnEventFrequency: 4
   numberToSpawn: 3
   waveDuration: 10

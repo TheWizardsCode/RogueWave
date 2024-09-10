@@ -33,7 +33,7 @@ namespace RogueWave
         internal TileDefinition wallTileDefinition;
 
         [Header("Enemies")]
-        [SerializeField, Tooltip("The waves of enemies to spawn in this level.")]
+        [SerializeField, Tooltip("The waves of enemies to spawn in this level."), Expandable]
         internal WaveDefinition[] waves;
         [SerializeField, Tooltip("The duration of the wait between each spawn wave in seconds.")]
         internal float waveWait = 5f;
