@@ -116,7 +116,7 @@ namespace RogueWave
                 DestructibleController destructibleController = contentObject.AddComponent<DestructibleController>();
                 destructibleController.m_PooledScaledDestructionParticles = new PooledObject[] { destructionParticles };
                 destructibleController.m_PooledScaledFXParticles = new PooledObject[] { smokeParticles };
-                destructibleController.resourcesPrefab = lootPrefab;
+                destructibleController.pickupPrototype = lootPrefab;
                 destructibleController.resourcesDropChance = 1;
 
                 healthManager.healthMax = health;

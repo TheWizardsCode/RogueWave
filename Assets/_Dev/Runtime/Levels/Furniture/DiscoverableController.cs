@@ -37,8 +37,10 @@ namespace WizardsCode.RogueWave
             if (weightedRandom.Count > 0)
             {
                 recipe = weightedRandom.GetRandom();
-                resourcesPrefab = recipe.Item.GetComponent<Pickup>();
+                pickupPrototype = recipe.Item.GetComponent<IPickup>();
             }
+
+            Debug.Log($"DiscoverableController.OnIsAliveChanged: {pickupPrototype}");
 
             base.OnIsAliveChanged(isAlive);
         }

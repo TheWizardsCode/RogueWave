@@ -30,7 +30,11 @@ namespace RogueWave
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         internal float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
-        internal Pickup resourcesPrefab;
+        internal IPickup pickupPrototype;
+        [SerializeField, Tooltip("Should the material on the resources dropped match the material on the object being destroyed?")]
+        internal bool inheritMaterial = true;
+        [SerializeField, Tooltip("Should the resources be pulled to the player using the magnet?")]
+        internal bool magnetizeResources = true;
 
         // Game Stats
         [SerializeField, Tooltip("The GameStat to increment when this destructible is destroyed."), Foldout("Game Stats")]
@@ -109,20 +113,38 @@ namespace RogueWave
                 }
 
                 // Drop resources
-                if (Random.value <= resourcesDropChance && resourcesPrefab != null)
+                if (Random.value <= resourcesDropChance && pickupPrototype != null)
                 {
                     Vector3 pos = transform.position;
                     pos.y = 0;
-                    // OPTIMIZATION: use pool for resources
-                    Pickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
-                    if (modelRenderer != null)
+
+                    GameObject resources = null;
+                    if (pickupPrototype is Pickup)
                     {
-                        var resourcesRenderer = resources.GetComponentInChildren<Renderer>();
+                        resources = Instantiate(pickupPrototype as Pickup, pos, Quaternion.identity).gameObject;
+                        
+                    }
+                    else if (pickupPrototype is ShieldPickup)
+                    {
+                        resources = Instantiate(pickupPrototype as ShieldPickup, pos, Quaternion.identity).gameObject;
+                    }
+                    else
+                    {
+                        Debug.LogError("Unknown resources pickup type in DestructibleController. No rewards dropped.");
+                        Destroy(gameObject, 15);
+                        return;
+                    }
+                    
+                    if (inheritMaterial && modelRenderer != null)
+                    {
+                        Renderer resourcesRenderer = resources.GetComponentInChildren<Renderer>();
                         if (resourcesRenderer != null)
                         {
                             resourcesRenderer.material = modelRenderer.material;
                         }
                     }
+
+                    resources.tag = magnetizeResources ? "MagneticPickup" : "Untagged";
                 }
 
                 Destroy(gameObject, 15);

@@ -24,6 +24,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 21
       objectReference: {fileID: 0}
+    - target: {fileID: 4834493956479568, guid: 15103c3503911004792652094ac61f4f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.75
+      objectReference: {fileID: 0}
     - target: {fileID: 4968529916689684, guid: 15103c3503911004792652094ac61f4f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -67,6 +71,10 @@ PrefabInstance:
     - target: {fileID: 4968529916689684, guid: 15103c3503911004792652094ac61f4f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65665921384879894, guid: 15103c3503911004792652094ac61f4f, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 82680790935207790, guid: 15103c3503911004792652094ac61f4f, type: 3}
       propertyPath: OutputAudioMixerGroup
@@ -112,6 +120,22 @@ PrefabInstance:
       propertyPath: m_OtherComponents.Array.data[0]
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 135367297193781062, guid: 15103c3503911004792652094ac61f4f, type: 3}
+      propertyPath: m_Radius
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 135367297193781062, guid: 15103c3503911004792652094ac61f4f, type: 3}
+      propertyPath: m_Center.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 135367297193781062, guid: 15103c3503911004792652094ac61f4f, type: 3}
+      propertyPath: m_Center.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7667383115803239796, guid: 15103c3503911004792652094ac61f4f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114267986181795046, guid: 15103c3503911004792652094ac61f4f, type: 3}
     - {fileID: 114288245259706156, guid: 15103c3503911004792652094ac61f4f, type: 3}
@@ -119,6 +143,7 @@ PrefabInstance:
     - {fileID: 114134691885233746, guid: 15103c3503911004792652094ac61f4f, type: 3}
     - {fileID: 114812711867920656, guid: 15103c3503911004792652094ac61f4f, type: 3}
     - {fileID: 54350471483907882, guid: 15103c3503911004792652094ac61f4f, type: 3}
+    - {fileID: 65665921384879894, guid: 15103c3503911004792652094ac61f4f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
@@ -128,6 +153,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1651731687865070, guid: 15103c3503911004792652094ac61f4f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3887845838377851277}
+    - targetCorrespondingSourceObject: {fileID: 1651731687865070, guid: 15103c3503911004792652094ac61f4f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1730654425322579634}
   m_SourcePrefab: {fileID: 100100000, guid: 15103c3503911004792652094ac61f4f, type: 3}
 --- !u!1 &4214695598018899262 stripped
 GameObject:
@@ -171,3 +199,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0e43043e50e45846bf430b85315b781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!135 &1730654425322579634
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4215017854572520756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 1, z: 0}

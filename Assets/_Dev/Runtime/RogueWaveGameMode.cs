@@ -491,7 +491,10 @@ namespace RogueWave
             if (m_ExecuteSceneSetupCommandsOnSpawn)
             {
                 SceneSetupCommands sceneSetupCommands = FindObjectOfType<SceneSetupCommands>();
-                sceneSetupCommands.ExecuteCommands();
+                if (sceneSetupCommands != null)
+                {
+                    sceneSetupCommands.ExecuteCommands();
+                }
             }
         }
 
