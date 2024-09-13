@@ -47,12 +47,12 @@ namespace RogueWave.GameStats
         
         private void OnEnable()
         {
-            stat.onChangeEvent.AddListener(this);
+            stat.onChangeEvent?.AddListener(this);
         }
 
         private void OnDisable()
         {
-            stat.onChangeEvent.RemoveListener(this);
+            stat.onChangeEvent?.RemoveListener(this);
         }
 
         internal void Reset()

@@ -12,11 +12,14 @@ namespace WizardsCode.RogueWave
         {
             // NOTE this requires the m_ChipsSystem and m_DustSystem to be made protected in the base class
 
-            var particleSystemRenderer = m_ChipsSystem.GetComponentInParent<ParticleSystemRenderer>();
-            Renderer renderer = hitObject.GetComponent<Renderer>();
-            if (particleSystemRenderer != null && renderer != null)
+            if (hitObject != null)
             {
-                particleSystemRenderer.material = renderer.material;
+                var particleSystemRenderer = m_ChipsSystem.GetComponentInParent<ParticleSystemRenderer>();
+                Renderer renderer = hitObject.GetComponent<Renderer>();
+                if (particleSystemRenderer != null && renderer != null)
+                {
+                    particleSystemRenderer.material = renderer.material;
+                }
             }
 
             base.Hit(hitObject, position, normal, ray, size, decal);

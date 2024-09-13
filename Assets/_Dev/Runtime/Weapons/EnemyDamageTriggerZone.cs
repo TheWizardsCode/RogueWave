@@ -45,7 +45,7 @@ namespace RogueWave
             if (surface != null)
             {
                 surfaceMaterial = surface.GetSurface();
-                SurfaceManager.ShowImpactFX(surfaceMaterial, transform.position, other.transform.forward);
+                //SurfaceManager.ShowImpactFX(surfaceMaterial, transform.position, other.transform.forward);
                 SurfaceManager.PlayImpactNoiseAtPosition(surfaceMaterial, transform.position, 1);
             }
 

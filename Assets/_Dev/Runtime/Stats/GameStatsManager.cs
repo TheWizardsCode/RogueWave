@@ -34,14 +34,18 @@ namespace RogueWave.GameStats
     [DisallowMultipleComponent]
     public class GameStatsManager : MonoBehaviour
     {
+        const string SORRA_THE_WIZARDS_CODE_DEVICE_ID = "4c8db7071bbe6233b16e57e563033f62f451fab1";
+
         [SerializeField, Tooltip("The scene to load when displaying stats for the player."), Scene]
         private string m_StatsScene = "RogueWave_StatsScene";
 #if DISCORD_ENABLED
-        [SerializeField, Tooltip("The URL of the webhook to send player stats and achievements to.")]
+        [SerializeField, Tooltip("The URL of the webhook to send real player data log to.")]
         [FormerlySerializedAs("webhookData")]
         WebhookData playerDataWebhook;
-        [SerializeField, Tooltip("The URL of the webhook to send developer stats and achievements to.")]
+        [SerializeField, Tooltip("The URL of the webhook to send developer data log to.")]
         WebhookData developerDataWebhook;
+        [SerializeField, Tooltip("The URL of the webhook to send Sorra's data log to.")]
+        WebhookData sorraDataWebhook;
 #endif
 
         [SerializeField, ReadOnly] private Achievement[] m_Achievements = new Achievement[0];
@@ -99,6 +103,10 @@ namespace RogueWave.GameStats
         {
             get
             {
+                if (SystemInfo.deviceUniqueIdentifier == SORRA_THE_WIZARDS_CODE_DEVICE_ID)
+                {
+                    return sorraDataWebhook;
+                }
 #if UNITY_EDITOR
                 return developerDataWebhook;
 #else
@@ -176,6 +184,11 @@ namespace RogueWave.GameStats
             if (activeWebhook == null)
             {
                 return;
+            }
+
+            if (SystemInfo.deviceUniqueIdentifier == SORRA_THE_WIZARDS_CODE_DEVICE_ID)
+            {
+
             }
 
             string[] chunks = GetDataAsYAML();
