@@ -18,8 +18,8 @@ MonoBehaviour:
     openFolderPostBuild: 1
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 45
-    buildVersion: 2024.06.14.278
+    buildCounter: 46
+    buildVersion: 2024.09.12.1887
     versionTemplate: $YEAR.$MONTH.$DAY.$SECONDS
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -31,7 +31,7 @@ MonoBehaviour:
       productName: Rogue Wave
       syncAppNameWithProduct: 1
       appBuildName: Rogue Wave
-      buildOptions: 0
+      buildOptions: 1
       customDefines: STEAMWORKS_DISABLED
       sceneList:
         releaseScenes:
@@ -124,7 +124,7 @@ MonoBehaviour:
       - enabled: 0
         childKeys:
         - DeveloperTest_NoSteamWorks/Linux/Linux x64
-      - enabled: 0
+      - enabled: 1
         childKeys:
         - DeveloperTest_NoSteamWorks/PC
         - DeveloperTest_NoSteamWorks/Linux
@@ -147,7 +147,7 @@ MonoBehaviour:
       - enabled: 0
         childKeys:
         - Release_NoSteamWorks/Linux/Linux x64
-      - enabled: 1
+      - enabled: 0
         childKeys:
         - Release_NoSteamWorks/PC
         - Release_NoSteamWorks/Linux

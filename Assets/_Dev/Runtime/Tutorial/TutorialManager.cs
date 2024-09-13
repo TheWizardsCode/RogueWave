@@ -187,8 +187,9 @@ namespace RogueWave.Tutorial
             }
         }
 
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
+#if UNITY_EDITOR
         [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Reset Tutorial Progress", priority = 1)]
+#endif
         public static void ClearTutorialProgress()
         {
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
@@ -196,6 +197,5 @@ namespace RogueWave.Tutorial
                 PlayerPrefs.DeleteKey(SCENE_PROGRESS_KEY_PREFIX + i.ToString());
             }
         }
-#endif
     }
 }

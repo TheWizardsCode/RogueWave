@@ -282,7 +282,7 @@ namespace WizardsCode.CommandTerminal
                 SetState(TerminalState.Close);
             }
 
-#if BUILD_TYPE_DEVELOPMENTBUILD || UNITY_EDITOR
+#if DEVELOPMENTBUILD || UNITY_EDITOR
             Shell.RuntimeLevel = 999999;
 #endif
         }
