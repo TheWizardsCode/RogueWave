@@ -66,7 +66,7 @@ namespace RogueWave
                 icon.sprite = tile.icon;
                 icon.name = tile.name;
 
-                specialTileDescription.AppendLine($"  - {tile.name}");
+                specialTileDescription.AppendLine($"  - {tile.DisplayName}");
             }
 
             TooltipTrigger tooltip = GetComponent<TooltipTrigger>();

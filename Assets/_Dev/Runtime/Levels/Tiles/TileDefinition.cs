@@ -53,8 +53,20 @@ namespace RogueWave
 
 
         [Header("UI")]
+        [SerializeField, Tooltip("The name of the tile as displayed in the UI.")]
+        string m_DisplayName = string.Empty;
         [SerializeField, Tooltip("The sprite to use when representing this tile, or a level containing this tile, in the UI.")]
         internal Sprite icon;
+
+        public string DisplayName {
+            get {
+                if (string.IsNullOrEmpty(m_DisplayName))
+                {
+                    return name;
+                }
+                return m_DisplayName; 
+            }
+        }
 
         internal BaseTile GetTileObject(Transform root)
         {

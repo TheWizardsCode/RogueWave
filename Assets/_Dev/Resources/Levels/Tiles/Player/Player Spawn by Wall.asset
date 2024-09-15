@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Player Spawn Alone
+  m_Name: Player Spawn by Wall
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 2542797727158204644, guid: 730b5b2aab3d5524a917c0156edcd76e, type: 3}
   isFlat: 1
@@ -24,26 +24,28 @@ MonoBehaviour:
     topRightBoundary: {x: 0.5, y: 1, z: 0.5}
     weight: 0.8
   xPositiveConstraints:
-  - tileDefinition: {fileID: 11400000, guid: 70b4321ff9fd26645abaf39d11a227f4, type: 2}
+  - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
       weight: 0.8
   xNegativeConstraints:
-  - tileDefinition: {fileID: 11400000, guid: 70b4321ff9fd26645abaf39d11a227f4, type: 2}
+  - tileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
       weight: 0.8
   zPositiveConstraints:
-  - tileDefinition: {fileID: 11400000, guid: 70b4321ff9fd26645abaf39d11a227f4, type: 2}
+  - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
       weight: 0.8
   zNegativeConstraints:
-  - tileDefinition: {fileID: 11400000, guid: 70b4321ff9fd26645abaf39d11a227f4, type: 2}
+  - tileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
       weight: 0.8
+  m_DisplayName: Player Spawn
+  icon: {fileID: 0}
