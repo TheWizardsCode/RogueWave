@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.TextCore.Text;
 
 namespace WizardsCode.CommandTerminal
@@ -16,23 +17,29 @@ namespace WizardsCode.CommandTerminal
     /// </summary>
     public class SceneSetupCommands : MonoBehaviour
     {
-        [SerializeField, Tooltip("Should the commands be executed when the object is loaded? If this is false then a call to ExecuteCommands() will be required.")]
-        private bool executeOnStart = true;
-        [SerializeField, Tooltip("The commands to execute when the scene is loaded."), TextArea(10, 30)]
-        private string commands;
+        [SerializeField, Tooltip("The commands to execute when this object awakens."), TextArea(10, 30)]
+        private string onAwakeScript;
+        [SerializeField, Tooltip("The commands to execute when this object is started."), TextArea(10, 30)]
+        private string onStartScript;
+
+        private void Awake()
+        {
+            ExecuteScript(onAwakeScript);
+        }
 
         private void Start()
         {
-            ExecuteCommands();
+            ExecuteScript(onStartScript);
         }
 
-        public void ExecuteCommands()
+        public void ExecuteScript(string script)
         {
-            string[] lines = commands.Split('\n');
-            foreach (string line in lines)
+            if (string.IsNullOrEmpty(script))
             {
-                Terminal.Shell.RunCommand(line);
+                return;
             }
+
+            TerminalCommands.RunScript(script);
         }
     }
 }

@@ -814,8 +814,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ef12f721b21bae488aa3c90b6e1400d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  executeOnStart: 0
-  commands: 
+  onAwakeScript: 'disablespawner
+
+    wait 5'
+  onStartScript: 
 --- !u!4 &831004774
 Transform:
   m_ObjectHideFlags: 0

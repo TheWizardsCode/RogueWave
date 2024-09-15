@@ -488,14 +488,15 @@ namespace RogueWave
                 MusicManager.Instance.PlayCombatMusic();
             }
 
-            if (m_ExecuteSceneSetupCommandsOnSpawn)
-            {
-                SceneSetupCommands sceneSetupCommands = FindObjectOfType<SceneSetupCommands>();
-                if (sceneSetupCommands != null)
-                {
-                    sceneSetupCommands.ExecuteCommands();
-                }
-            }
+            // We need to be able to execute commands against the player character. This is done by a SceneSetupCommands object in the scene. Currently this is not implemented.
+            //if (m_ExecuteSceneSetupCommandsOnSpawn)
+            //{
+            //    SceneSetupCommands sceneSetupCommands = FindObjectOfType<SceneSetupCommands>();
+            //    if (sceneSetupCommands != null)
+            //    {
+            //        sceneSetupCommands.ExecuteScript();
+            //    }
+            //}
         }
 
         private void LogGameState(string eventName)

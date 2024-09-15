@@ -236,16 +236,25 @@ namespace WizardsCode.CommandTerminal
 
             float _originalTimeScale = Terminal.Instance.TimeScale;
             Terminal.Instance.TimeScale = 1;
-            string[] lines = textAsset.text.Split('\n');
+            
+            if (token.IsCancellationRequested)
+            {
+                Terminal.Log("Cancelling run command");
+                Terminal.Instance.TimeScale = _originalTimeScale;
+                return;
+            }
+
+            string script = textAsset.text;
+            RunScript(script);
+
+            Terminal.Instance.TimeScale = _originalTimeScale;
+        }
+
+        public static async void RunScript(string script)
+        {
+            string[] lines = script.Split('\n');
             foreach (string line in lines)
             {
-                if (token.IsCancellationRequested)
-                {
-                    Terminal.Log("Cancelling run command");
-                    Terminal.Instance.TimeScale = _originalTimeScale;
-                    return;
-                }
-
                 if (line.StartsWith("#") || line.Trim().Length == 0)
                 {
                     continue;
@@ -273,8 +282,6 @@ namespace WizardsCode.CommandTerminal
                 Terminal.LogCommand(line);
                 Terminal.Shell.RunCommand(line);
             }
-
-            Terminal.Instance.TimeScale = _originalTimeScale;
         }
     }
 }
