@@ -98,6 +98,7 @@ namespace RogueWave.Editor
 
                 if (EditorGUI.EndChangeCheck())
                 {
+                    EditorUtility.SetDirty(enemy);
                     enemyEdited = true;
                 }
                 EditorGUILayout.EndHorizontal();

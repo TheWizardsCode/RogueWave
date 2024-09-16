@@ -25,6 +25,11 @@ namespace RogueWave.Editor
             UpdateRecipeList();
         }
 
+        private void OnDisable()
+        {
+            AssetDatabase.SaveAssets();
+        }
+
         private void UpdateRecipeList()
         {
             recipes = Resources.LoadAll<AbstractRecipe>("");
@@ -135,6 +140,7 @@ namespace RogueWave.Editor
 
                 if (EditorGUI.EndChangeCheck())
                 {
+                    EditorUtility.SetDirty(recipe);
                     recipeEdited = true;
                 }
                 EditorGUILayout.EndHorizontal();
