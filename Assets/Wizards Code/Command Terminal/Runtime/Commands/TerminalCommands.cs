@@ -234,20 +234,16 @@ namespace WizardsCode.CommandTerminal
                 return;
             }
 
-            float _originalTimeScale = Terminal.Instance.TimeScale;
             Terminal.Instance.TimeScale = 1;
             
             if (token.IsCancellationRequested)
             {
                 Terminal.Log("Cancelling run command");
-                Terminal.Instance.TimeScale = _originalTimeScale;
                 return;
             }
 
             string script = textAsset.text;
             RunScript(script);
-
-            Terminal.Instance.TimeScale = _originalTimeScale;
         }
 
         public static async void RunScript(string script)
