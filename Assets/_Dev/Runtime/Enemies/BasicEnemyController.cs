@@ -17,6 +17,8 @@ namespace RogueWave
 
         [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
         public string displayName = "TBD";
+        [SerializeField, Tooltip("The icon that represents this enemy in the UI.")]
+        public Sprite[] icon;
         [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI."), FormerlySerializedAs("description")]
         private string m_description = "TBD";
         [SerializeField, Tooltip("The strengths of this enemy as displayed in the UI.")]
@@ -124,19 +126,19 @@ namespace RogueWave
                 if (!string.IsNullOrEmpty(strengths))
                 {
                     sb.AppendLine();
-                    sb.Append("Strengths: ");
+                    //sb.Append("Strengths: ");
                     sb.AppendLine(strengths);
                 }
                 if (!string.IsNullOrEmpty(weaknesses))
                 {
                     sb.AppendLine();
-                    sb.Append("Weaknesses: ");
+                    //sb.Append("Weaknesses: ");
                     sb.AppendLine(weaknesses);
                 }
                 if (!string.IsNullOrEmpty(attacks))
                 {
                     sb.AppendLine();
-                    sb.Append("Attacks: ");
+                    //sb.Append("Attacks: ");
                     sb.AppendLine(attacks);
                 }
                 return sb.ToString(); 
@@ -724,5 +726,26 @@ namespace RogueWave
                 Gizmos.DrawLine(transform.position, squadLeader.transform.position);
             }
         }
+
+#if UNITY_EDITOR
+        [Button]
+        void UpdateIconsFromShowcase()
+        {
+            string path = "Assets/_Dev/ShowcaseCaptures";
+            string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:Texture {displayName}_");
+            if (guids.Length == 0)
+            {
+                return;
+            }
+
+            icon = new Sprite[guids.Length];
+            for (int i = 0; i < guids.Length; i++)
+            {
+                string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
+                icon[i] = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
+            }
+        }
+
+#endif
     }
 }

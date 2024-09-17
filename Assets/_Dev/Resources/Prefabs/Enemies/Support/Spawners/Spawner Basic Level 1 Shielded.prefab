@@ -4967,6 +4967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Shielded Spawner
+  icon: {fileID: 0}
   m_description: Creates enemies to track you down and destroy you.
   strengths: 
   weaknesses: 
@@ -5008,7 +5009,7 @@ MonoBehaviour:
   enemySpawnedStat: {fileID: 11400000, guid: f7ba2303ecb37cf42822c8034fc5db2c, type: 2}
   enemyKillsStat: {fileID: 11400000, guid: cad908daa7c443e489d72947ed5124d8, type: 2}
   isDebug: 0
-  includeInShowcase: 1
+  includeInShowcase: 0
   isBossSpawner: 1
   ignoreMaxAlive: 0
   activeRange: 0

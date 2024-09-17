@@ -84,6 +84,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Shielded Core
+  icon:
+  - {fileID: 21300000, guid: e21212750e377bb47869cff9cc222f47, type: 3}
+  - {fileID: 21300000, guid: cb998398b52737444ad07acbcd4885f2, type: 3}
+  - {fileID: 21300000, guid: ff734266634b08840ba6351261348810, type: 3}
+  - {fileID: 21300000, guid: 4bd357d9b1b2b1b40919dcffc4909450, type: 3}
+  - {fileID: 21300000, guid: 19cf0b9bf1dda604b8d63bbf4638f071, type: 3}
+  - {fileID: 21300000, guid: 451d556cd56757a43ad1a887663376bf, type: 3}
+  - {fileID: 21300000, guid: 7fdc987e40d4ad24eb92dae0dead8cfd, type: 3}
+  - {fileID: 21300000, guid: 05abc0f73f4f8854abb46bca9749d624, type: 3}
+  - {fileID: 21300000, guid: e274287648b741e4499eaf426ff20a33, type: 3}
+  - {fileID: 21300000, guid: 7050411673c13bf46ac1864871153695, type: 3}
   m_description: Flies low and uses a short range laser. The weapon doesn't do much
     damage but these things have a habit of sneaking up behind you.
   strengths: 
@@ -168,8 +179,12 @@ MonoBehaviour:
   maximumHeight: 15
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 10
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!82 &3993961177526658726
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,10 +1,15 @@
 using NeoFPS;
 using NeoFPS.ModularFirearms;
 using RogueWave;
+using System;
 using System.Collections;
+using System.Drawing.Imaging;
+using System.Drawing;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using System.IO;
+using NaughtyAttributes;
 
 namespace RogueWave.Editor
 {
@@ -50,8 +55,6 @@ namespace RogueWave.Editor
 
         IEnumerator Animate()
         {
-            yield return new WaitForSeconds(Random.Range(0, animationDuration * 0.2f));
-
             while (currentAnimationDuration > 0)
             {
                 currentAnimationDuration -= Time.deltaTime;

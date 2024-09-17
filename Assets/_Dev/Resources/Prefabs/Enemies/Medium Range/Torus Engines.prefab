@@ -53,6 +53,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Torus Engine
+  icon:
+  - {fileID: 21300000, guid: 7747f92e719597b49b8ca3e90d778bd9, type: 3}
+  - {fileID: 21300000, guid: ec114c7324f43de4d9d006802f860bf3, type: 3}
+  - {fileID: 21300000, guid: f2e316bc8e3e32840abe11db695e4ccd, type: 3}
+  - {fileID: 21300000, guid: 2bd407ebdd4d2964694e52c2096e873c, type: 3}
+  - {fileID: 21300000, guid: 9b734a076f9c602419475c2207bf756b, type: 3}
+  - {fileID: 21300000, guid: 16e0819c7e27a0446a4642c0caa246ad, type: 3}
+  - {fileID: 21300000, guid: cf5a1e7495e0ae645959166bb67fe848, type: 3}
+  - {fileID: 21300000, guid: a0be79bce48cbbb4a9c0da8289c9174b, type: 3}
+  - {fileID: 21300000, guid: 3ad8f7135d1c4414aaba709f43b00d2f, type: 3}
+  - {fileID: 21300000, guid: cc20c5baef0252d48afbfb2c6ca78991, type: 3}
   m_description: This is a large and powerful enemy, it fires infrequently and moves
     slowly. But it is hard to destroy. However, when it is destroyed it will explode,
     damaging nearby enemies.
@@ -117,8 +128,12 @@ MonoBehaviour:
   maximumHeight: 10
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 6
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &869951294456908153
 MonoBehaviour:
   m_ObjectHideFlags: 0

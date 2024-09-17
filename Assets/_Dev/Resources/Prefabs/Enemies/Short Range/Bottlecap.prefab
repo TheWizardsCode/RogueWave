@@ -84,6 +84,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Bottlecap
+  icon:
+  - {fileID: 21300000, guid: 5edb75ea78c6cbb46b9221357fb2ebd8, type: 3}
+  - {fileID: 21300000, guid: 75e37c336b73356499ac519bb9c7176f, type: 3}
+  - {fileID: 21300000, guid: 151e3919d7df53c4eb0a397e87a8eddd, type: 3}
+  - {fileID: 21300000, guid: e6891d0c963e3664eb858887077aa5df, type: 3}
+  - {fileID: 21300000, guid: 9f78e08b8e3e64543ac528df95600db4, type: 3}
+  - {fileID: 21300000, guid: 9e1c9eac4ac26a74489f53c7f5f80dc4, type: 3}
+  - {fileID: 21300000, guid: 18d85f5dd068f0546a7273c744385e29, type: 3}
+  - {fileID: 21300000, guid: 97393589067f0a84ab448159e8716348, type: 3}
+  - {fileID: 21300000, guid: b52079a17150b1c49be323394f239d7a, type: 3}
+  - {fileID: 21300000, guid: a22027719dd7d754ebdb9c3fdcaf4d5b, type: 3}
   m_description: Generally runs low along the ground. These things are reasonably
     fast and can be a nuisance. But they need to get in very close to attack.
   strengths: 
@@ -147,8 +158,12 @@ MonoBehaviour:
   maximumHeight: 3
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 4
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &5219187662690625511
 MonoBehaviour:
   m_ObjectHideFlags: 0

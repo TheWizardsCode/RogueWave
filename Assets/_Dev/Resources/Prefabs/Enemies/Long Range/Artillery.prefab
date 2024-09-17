@@ -84,6 +84,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Artillery
+  icon:
+  - {fileID: 21300000, guid: 0000d13e240163b4ab7fb904a5e35409, type: 3}
+  - {fileID: 21300000, guid: 5d8742f72d0350345980d6179c089fec, type: 3}
+  - {fileID: 21300000, guid: 604d7f318615e5e418a94b6a17bc3902, type: 3}
+  - {fileID: 21300000, guid: 14330640c5344d84fb60d4b699636f01, type: 3}
+  - {fileID: 21300000, guid: 426f06d42592f844c8a19c9474fad88d, type: 3}
+  - {fileID: 21300000, guid: 4fa638e5b5a4e304b8e8dc99c0a24f5b, type: 3}
+  - {fileID: 21300000, guid: 2e249ead07cd1bc4c93ae757d08253ea, type: 3}
+  - {fileID: 21300000, guid: bbb1818bd29333741873f7fc8010fcc3, type: 3}
+  - {fileID: 21300000, guid: eb815dcf329c7e741a93573c624f71de, type: 3}
+  - {fileID: 21300000, guid: 39eeaea027d036d40872a9ea22a11bd9, type: 3}
   m_description: Slow moving, weak to attacks and keeps its distance. However, it
     bombards the player with explosive shells that are reasonably accurate.
   strengths: 
@@ -147,8 +158,12 @@ MonoBehaviour:
   maximumHeight: 0.02
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 10
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &8117743476493717414
 MonoBehaviour:
   m_ObjectHideFlags: 0

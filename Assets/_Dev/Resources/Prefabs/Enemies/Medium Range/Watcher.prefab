@@ -84,6 +84,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Watcher
+  icon:
+  - {fileID: 21300000, guid: 98c52c0a60cf096469b79eaa220c4041, type: 3}
+  - {fileID: 21300000, guid: 25812a7aab20f9f418b88250bd2254cc, type: 3}
+  - {fileID: 21300000, guid: 030ad0bc3843c8d419fca8f29bbc5980, type: 3}
+  - {fileID: 21300000, guid: 5e5d2b878ea3add4280c288fd598d556, type: 3}
+  - {fileID: 21300000, guid: f5cdc4dc218ad1042abe3423cd5fde8d, type: 3}
+  - {fileID: 21300000, guid: c40848bce7525a84099e2a008c33d5fb, type: 3}
+  - {fileID: 21300000, guid: e63808abb964a164dbd07dcc81c7f68d, type: 3}
+  - {fileID: 21300000, guid: 2b80ab47098d9024eb4b0650cbc74196, type: 3}
+  - {fileID: 21300000, guid: 6b142496cfe1f9f4daa90a1034cd879a, type: 3}
+  - {fileID: 21300000, guid: 89d10f35e1adba2429b4fa9e0d1c0675, type: 3}
   m_description: The watcher tries to keep it's sensor on the player at all times.
     Watch out though, that sensor is also its weapon.
   strengths: 
@@ -147,8 +158,12 @@ MonoBehaviour:
   maximumHeight: 2
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 5
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &4842986420271360376
 MonoBehaviour:
   m_ObjectHideFlags: 0

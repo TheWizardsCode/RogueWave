@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Proximity Spawner
+  icon: {fileID: 0}
   m_description: A small spawner that operates when the player is nearby.
   strengths: 
   weaknesses: 
@@ -205,7 +206,6 @@ MonoBehaviour:
   sensor: {fileID: 0}
   headLook: 1
   head: {fileID: 0}
-  headRotationSpeed: 2
   maxHeadRotation: 75
   returnToSpawner: 0
   seekDistance: 30
@@ -234,7 +234,7 @@ MonoBehaviour:
   enemySpawnedStat: {fileID: 11400000, guid: f7ba2303ecb37cf42822c8034fc5db2c, type: 2}
   enemyKillsStat: {fileID: 11400000, guid: cad908daa7c443e489d72947ed5124d8, type: 2}
   isDebug: 0
-  includeInShowcase: 1
+  includeInShowcase: 0
   isBossSpawner: 0
   ignoreMaxAlive: 1
   activeRange: 15

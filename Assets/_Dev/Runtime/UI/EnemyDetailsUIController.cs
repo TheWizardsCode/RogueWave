@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace RogueWave
 {
-    public class EnemyDetails : MonoBehaviour
+    public class EnemyDetailsUIController : MonoBehaviour
     {
         [Header("Layout")]
         [SerializeField, Tooltip("The height of this element when collapsed.")]
@@ -19,6 +19,8 @@ namespace RogueWave
         [Header("Content")]
         [SerializeField, Tooltip("The UI element to display the enemy's name")]
         private TextMeshProUGUI textName = null;
+        [SerializeField, Tooltip("The sprite to display the enemy icon.")]
+        private Image imageIcon = null;
         [SerializeField, Tooltip("The UI element to display the enemy's detailed description.")]
         private TextMeshProUGUI textDetails = null;
         [SerializeField, Tooltip("The UI element to display the enemy's challenge rating.")]
@@ -26,7 +28,15 @@ namespace RogueWave
         [SerializeField, Tooltip("The UI element to display the enemy's health.")]
         private TextMeshProUGUI textHealth = null;
 
+        [Header("Defaults")]
+        [SerializeField, Tooltip("The default icon to use if the enemy does not have one.")]
+        private Sprite defaultIcon = null;
+
         ScrollRect parentScrollRect;
+
+        int iconIndex = 0;
+        float timeOfIconChange = 0f;
+        float iconChangeInterval = 0.4f;
 
         BasicEnemyController m_Enemy;
         internal BasicEnemyController enemy
@@ -43,10 +53,30 @@ namespace RogueWave
                 if (m_Enemy != null)
                 {
                     textName.text = m_Enemy.displayName;
+
+                    if (m_Enemy.icon.Length != 0)
+                    {
+                        imageIcon.sprite = m_Enemy.icon[iconIndex];
+                        timeOfIconChange = Time.time + iconChangeInterval;
+                    } else
+                    {
+                        imageIcon.sprite = defaultIcon;
+                    }
+
                     textDetails.text = m_Enemy.description;
                     textCR.text = m_Enemy.challengeRating.ToString("000");
                     textHealth.text = m_Enemy.GetComponent<BasicHealthManager>().healthMax.ToString("0000");
                 }
+            }
+        }
+
+        private void OnGUI()
+        {
+            if (timeOfIconChange <= Time.realtimeSinceStartup)
+            {
+                iconIndex = (iconIndex + 1) % m_Enemy.icon.Length;
+                imageIcon.sprite = m_Enemy.icon[iconIndex];
+                timeOfIconChange = Time.realtimeSinceStartup + iconChangeInterval;
             }
         }
 

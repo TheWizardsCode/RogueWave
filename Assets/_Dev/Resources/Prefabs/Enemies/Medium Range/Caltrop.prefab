@@ -175,9 +175,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Caltrop
-  m_description: Moves very slowly towards the player until within a given distance.
-    Once within attack range will move quickly towards the player damaging on contact.
-    Whhen they are attacking they no longer need line of sight.
+  icon:
+  - {fileID: 21300000, guid: 8eabfe66c6efcab4d82b65f38ec57e2b, type: 3}
+  - {fileID: 21300000, guid: 641e4a615c9c5dd48954f4ddcd1746d9, type: 3}
+  - {fileID: 21300000, guid: bb7c4cfb511acee45a996b8471c5aa31, type: 3}
+  - {fileID: 21300000, guid: 14fc706e9b8548645a9f0a712ff5b102, type: 3}
+  - {fileID: 21300000, guid: 52562f31b38592d459ec1c588e988bda, type: 3}
+  - {fileID: 21300000, guid: 8520b8f0896b1154b84f822a6d123135, type: 3}
+  - {fileID: 21300000, guid: a08f1352c2dbe3a41bc32ed190635227, type: 3}
+  - {fileID: 21300000, guid: a17352d00ef79674f8d6a1fd542b125e, type: 3}
+  - {fileID: 21300000, guid: d0bba7b212f525542bad93d33f5bd182, type: 3}
+  - {fileID: 21300000, guid: 00079cfe2f825ef42ab7e0f452f26b7a, type: 3}
+  m_description: Moves slowly hunting the enemy until within a given distance. Once
+    the enemy is in range they move quickly to attack. Fires fast moving and reasonably
+    powerful missiles.
   strengths: 
   weaknesses: 
   attacks: 
@@ -241,8 +252,12 @@ MonoBehaviour:
   maximumHeight: 30
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 7
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!82 &4676414208784409485
 AudioSource:
   m_ObjectHideFlags: 0

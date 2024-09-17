@@ -85,6 +85,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Stinger
+  icon:
+  - {fileID: 21300000, guid: b003e7256382c444883fadd8fadb3942, type: 3}
+  - {fileID: 21300000, guid: 69b09e0cbb1dfb544be3c507c29ed1ec, type: 3}
+  - {fileID: 21300000, guid: 15308bb50f1f8cc4fa5aab5c54a7247f, type: 3}
+  - {fileID: 21300000, guid: 661cb8f5ba7391541a663f25ec61442d, type: 3}
+  - {fileID: 21300000, guid: 611e03a4414ef754ab2e053b9a373980, type: 3}
+  - {fileID: 21300000, guid: 675dd4f755f4ec4439fd6273f86244a7, type: 3}
+  - {fileID: 21300000, guid: 4bea5a840be8e8e48bbb88ad594926cd, type: 3}
+  - {fileID: 21300000, guid: f493e2c376795f9439ff0c023d352c58, type: 3}
+  - {fileID: 21300000, guid: 13a0a4766cb92ce448f1e4cca3533301, type: 3}
+  - {fileID: 21300000, guid: b52483a35bd58274db4b1eaa12ff9190, type: 3}
   m_description: The stinger is small and fast. They will swarm the player looking
     for an opportunity to attack. When thy can they will explode on impact. Fortunately,
     this explosion is weak, but what these things lack in might they typically make
@@ -150,8 +161,12 @@ MonoBehaviour:
   maximumHeight: 2
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 1
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 0.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &5237131630887596602
 MonoBehaviour:
   m_ObjectHideFlags: 0

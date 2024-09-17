@@ -53,11 +53,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Bolt
-  m_description: The Bolt is large and slow. But they are pretty touch and pack a
+  icon:
+  - {fileID: 21300000, guid: 807df3e61a481b34685f2a51ec825d4f, type: 3}
+  - {fileID: 21300000, guid: e57a1fc90482f824db3dd71e9049310e, type: 3}
+  - {fileID: 21300000, guid: 3c6019146c88ec649bc8df2ce12d925e, type: 3}
+  - {fileID: 21300000, guid: b95ccb44d76f8d24ca68d749f1d75b89, type: 3}
+  - {fileID: 21300000, guid: a54352355c41c4e4c9da8b3165a58061, type: 3}
+  - {fileID: 21300000, guid: 6248a6eb4c3652a4f81df6cab45c8fe7, type: 3}
+  - {fileID: 21300000, guid: df14d728ec4c79747b22c00cb5c3f8a2, type: 3}
+  - {fileID: 21300000, guid: 1197af1c55ca89e48a4524eba73fe29b, type: 3}
+  - {fileID: 21300000, guid: 6cdee39a9a53208449bb0560b8b1b294, type: 3}
+  - {fileID: 21300000, guid: 4e22c3aef273380419ad08e31988b31b, type: 3}
+  m_description: The Bolt is large and slow. But they are pretty tough and pack a
     punch. Be careful of the scale of their explosion on death.
   strengths: 
   weaknesses: 
-  attacks: 
+  attacks: Attacks on contact.
   challengeRating: 2
   requireLineOfSight: 1
   viewDistance: 50
@@ -116,8 +127,12 @@ MonoBehaviour:
   maximumHeight: 5
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 5
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &5219187662690625511
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -53,6 +53,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Scanner
+  icon:
+  - {fileID: 21300000, guid: 8c1e52a25ef977c46a1c1b97ea8a0b10, type: 3}
+  - {fileID: 21300000, guid: 9c2f25b8220b9cc4b9514e1a0c90cbe7, type: 3}
+  - {fileID: 21300000, guid: 4f3ca5a5cc6c1fc46b7a004da6a3c529, type: 3}
+  - {fileID: 21300000, guid: b5acf1ed6fa19244aa8cc5c460201626, type: 3}
+  - {fileID: 21300000, guid: d039c5fc4022ef44aadb0d11f4dc6a53, type: 3}
+  - {fileID: 21300000, guid: 4c727a3792a8ac9459ba5d4d1c2a04a6, type: 3}
+  - {fileID: 21300000, guid: 3be0ff4b00566724e81eaa80a3f4fecd, type: 3}
+  - {fileID: 21300000, guid: 2ac88ab69a5ebac4e83f07a92df8fb07, type: 3}
+  - {fileID: 21300000, guid: 21353d49d8af4ee48a191e7d3bd60dd0, type: 3}
+  - {fileID: 21300000, guid: 843693cd6180e2147bd002382113da98, type: 3}
   m_description: The doughnut has sensors that mean it can detect and hunt down the
     player relentlessly. Fortunately it is not well armed.
   strengths: 
@@ -116,8 +127,12 @@ MonoBehaviour:
   maximumHeight: 40
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 10
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &5415787680099374018
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -84,6 +84,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Saucer
+  icon:
+  - {fileID: 21300000, guid: 3c71d57d2a0e98245ad5b821ef08be49, type: 3}
+  - {fileID: 21300000, guid: 1d571635a076b5d448da2c610f436e6a, type: 3}
+  - {fileID: 21300000, guid: dbf5d3b506c81d444a4adb209d1f9a20, type: 3}
+  - {fileID: 21300000, guid: 46223e1525583874e86a99fde7308078, type: 3}
+  - {fileID: 21300000, guid: afef3d87681972e4c8f5bc9577eb319c, type: 3}
+  - {fileID: 21300000, guid: 76f036bec2a71ff46aa2fdc510c798d4, type: 3}
+  - {fileID: 21300000, guid: 00999749b8382f1499041d609d22a83a, type: 3}
+  - {fileID: 21300000, guid: c805747735c76fb4abac5cbc464a0118, type: 3}
+  - {fileID: 21300000, guid: a14f1af08264ffc41a982334f5e6a3b4, type: 3}
+  - {fileID: 21300000, guid: 1934a9f85e33d0c4babc69de094dd9ee, type: 3}
   m_description: Stays high in the sky and attacks using a long range laser. The
     laser takes a while to lock on and doesn't do much damage when it does., so these
     are more of a nuisance than a threat.
@@ -148,8 +159,12 @@ MonoBehaviour:
   maximumHeight: 50
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 10
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &5219187662690625511
 MonoBehaviour:
   m_ObjectHideFlags: 0

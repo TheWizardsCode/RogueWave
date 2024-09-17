@@ -84,6 +84,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Gem Leader
+  icon:
+  - {fileID: 21300000, guid: cc610697fbfdfbe4b9fc0306f6ae7190, type: 3}
+  - {fileID: 21300000, guid: 77447e5828896f4449683feecdfac99b, type: 3}
+  - {fileID: 21300000, guid: 84c9f8779d76dbc4cb3dff7e46ed5f5a, type: 3}
+  - {fileID: 21300000, guid: c2ebe4646f8e50747ba481bf8b9f5466, type: 3}
+  - {fileID: 21300000, guid: 0651a5ba08b57704fb3606ef4527ce0d, type: 3}
+  - {fileID: 21300000, guid: 7e1ba55bff2d34744b54388ca900e939, type: 3}
+  - {fileID: 21300000, guid: 31f45f6791d50584f8004986d004ada5, type: 3}
+  - {fileID: 21300000, guid: 66b5323b5e02a0f48829ba0453abb4ae, type: 3}
+  - {fileID: 21300000, guid: ec6460389ea645f4e8397255ffa3850b, type: 3}
+  - {fileID: 21300000, guid: 67e3108246591c14dbd364fbaddf8210, type: 3}
   m_description: Moves slowly towards the enemy in a direct line and attacks on contact.
   strengths: 
   weaknesses: 
@@ -146,8 +157,12 @@ MonoBehaviour:
   maximumHeight: 10
   squadAvoidanceDistance: 10
   obstacleAvoidanceDistance: 4
+  avoidanceLayerMask:
+    serializedVersion: 2
+    m_Bits: 10631697
   arrivalDistance: 1.5
   isDebug: 0
+  penetrationCollider: {fileID: 0}
 --- !u!114 &5219187662690625511
 MonoBehaviour:
   m_ObjectHideFlags: 0

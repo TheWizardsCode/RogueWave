@@ -31,6 +31,8 @@ namespace RogueWave
             "However, in many cases you will want to execute commands against the player. In this case set the `SceneSetupCommands` to NOT " +
             "execute on start and set this property to true.")]
         private bool m_ExecuteSceneSetupCommandsOnSpawn = false;
+        [SerializeField, Tooltip("Should the player be spawned on start of the game?")]
+        private bool m_SpawnPlayerOnStart = true;
 
         [Header("Victory")]
         [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
@@ -77,8 +79,8 @@ namespace RogueWave
 
         public override bool spawnOnStart
         {
-            get { return true; }
-            set { }
+            get { return m_SpawnPlayerOnStart; }
+            set { m_SpawnPlayerOnStart = value; }
         }
 
         public virtual bool showPrespawnUI
@@ -146,10 +148,6 @@ namespace RogueWave
             levelGenerator = GetComponentInChildren<LevelGenerator>();
 
             levelProgressBar = FindObjectOfType<LevelProgressBar>(true);
-            if (levelProgressBar == null)
-            {
-                Debug.LogError("No LevelProgressBar found in the scene. Please add one to the scene.");
-            }
 
             base.Awake();
         }
@@ -635,7 +633,10 @@ namespace RogueWave
         #region Pre Spawn
         protected override bool PreSpawnStep()
         {
-            levelProgressBar.gameObject.SetActive(false);
+            if (levelProgressBar != null)
+            {
+                levelProgressBar.gameObject.SetActive(false);
+            }
             RogueLiteManager.persistentData.runNumber++;
 
             // TODO: Remove hard coding of resource stat key

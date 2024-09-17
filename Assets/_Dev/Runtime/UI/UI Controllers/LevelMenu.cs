@@ -26,7 +26,7 @@ namespace WizardsCode.RogueWave
         private CampaignDefinition campaignDefinition;
         [SerializeField, Tooltip("The parent object to hold the map.")]
         private RectTransform parent;
-        
+
         public override Selectable startingSelection
         {
             get { return null; }
