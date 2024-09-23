@@ -59,9 +59,9 @@ namespace RogueWave
         public UnityEvent onAllWavesComplete;
 
         List<BasicEnemyController> spawnedEnemies = new List<BasicEnemyController>();
-        List<ShieldGenerator> shieldGenerators = new List<ShieldGenerator>();
+        internal List<ShieldGenerator> shieldGenerators = new List<ShieldGenerator>();
 
-        private class ShieldGenerator
+        internal class ShieldGenerator
         {
             public IHealthManager healthManager;
             public GameObject gameObject;
@@ -134,7 +134,6 @@ namespace RogueWave
                 {
                     shieldGenerators.RemoveAt(i);
                 }
-
             }
         }
 
@@ -152,8 +151,6 @@ namespace RogueWave
                 currentLevel = levelDefinition;
             }
 
-            StartCoroutine(SpawnWaves());
-
             if (hasShield && shieldGenerator != null)
             {
                 for (int i = 0; i < numShieldGenerators; ++i)
@@ -165,6 +162,8 @@ namespace RogueWave
             }
 
             activeRangeSqr = activeRange * activeRange;
+
+            StartCoroutine(SpawnWaves());
         }
 
         void RegisterShieldGenerator(IHealthManager h)

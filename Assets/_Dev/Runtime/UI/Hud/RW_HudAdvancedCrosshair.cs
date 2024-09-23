@@ -17,7 +17,12 @@ namespace RogueWave
 
         private void OnDamageHandlerHit(IDamageHandler handler, IDamageSource source, Vector3 hitPoint, DamageResult result, float damage)
         {
-            Debug.Log($"{handler.name} was hit by {source} use crosshair {this.GetCurrentCrosshair()}");
+            if (result == DamageResult.Blocked)
+            {
+                return;
+            }
+
+            // Debug.Log($"{handler.name} was hit by {source} use crosshair {this.GetCurrentCrosshair()}");
             if (handler.GetComponentInParent<BuildingController>() != null)
             {
                 return;
