@@ -51,22 +51,20 @@ namespace RogueWave
         /// <returns>True if the recipe is added, false if not added because already present.</returns> 
         public bool Add(IRecipe recipe)
         {
+            recipe.Reset();
+
             if (Recipes.Contains(recipe))
             {
                 if (recipe.IsStackable == false)
                 {
-                    recipe.Reset();
                     return false;
                 }
                 
                 if (GetCount(recipe) >= recipe.MaxStack)
                 {
-                    recipe.Reset();
                     return false;
                 }
             }
-
-            recipe.Reset();
 
             if (recipe is WeaponRecipe weapon)
             {

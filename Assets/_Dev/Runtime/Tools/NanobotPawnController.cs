@@ -57,7 +57,7 @@ namespace RogueWave
         Queue<KeyValuePair<float, Collider>> m_collidersQueue = new Queue<KeyValuePair<float, Collider>>();
         bool isDetectionQueueInvalid = true;
 
-        private FpsSoloCharacter player;
+        internal FpsSoloCharacter player;
         private Animator animator;
 
         private float sqrArrivalDistance;
@@ -92,7 +92,8 @@ namespace RogueWave
         /// 
         /// If there are null colliders in the queue, they will be removed and the next collider will be peeked at.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The object at the front of the queue.</returns>
+        /// <seealso cref="GetNearestObject"/>
         public KeyValuePair<float, Collider> PeekDetectedObject()
         {
             if (sortedColliders.Count > 0 && sortedColliders.Peek().Value == null)
@@ -113,8 +114,17 @@ namespace RogueWave
             return new KeyValuePair<float, Collider>(colliderDistances[idx], colliders[idx]);
         }
 
+        /// <summary>
+        /// Get the nearest object of interest to the pawn.
+        /// </summary>
+        /// <returns>The object that is nearest to the pawn in world space.</returns>
         public KeyValuePair<float, Collider> GetNearestObject()
         {
+            if (sortedColliders.Count == 0)
+            {
+                return default(KeyValuePair<float, Collider>);
+            }
+
             if (sortedColliders.Peek().Value == null)
             {
                 sortedColliders.Dequeue();

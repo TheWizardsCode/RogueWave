@@ -3,6 +3,8 @@ using System.Reflection;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System.Text;
+using System.IO;
 
 namespace WizardsCode.CommandTerminal
 {
@@ -468,6 +470,43 @@ namespace WizardsCode.CommandTerminal
             }
 
             return arg;
+        }
+
+        internal string GetHelpText()
+        {
+            string currentGroup = string.Empty;
+
+            StringBuilder sb = new StringBuilder();
+
+            foreach (var command in Terminal.Shell.Commands)
+            {
+                if (command.Value.group != currentGroup)
+                {
+                    currentGroup = command.Value.group;
+                    if (string.IsNullOrEmpty(currentGroup))
+                    {
+                        currentGroup = "Misc";
+                    }
+                    sb.AppendLine("");
+                    sb.AppendLine($"## {currentGroup}");
+                    sb.AppendLine("");
+                }
+                sb.AppendLine($"  * {command.Key.ToLower().PadRight(26)} : Runtime Level {command.Value.runtimeLevel} : {command.Value.help.Trim()}");
+            }
+
+            try
+            {
+                string path = $"{Application.persistentDataPath}/help.md";
+                File.WriteAllText(path, sb.ToString());
+
+                Terminal.Log($"Help file written to {path}");
+            }
+            catch (System.Exception e)
+            {
+                Terminal.Log($"Failed to write help file: {e.Message}");
+            }
+
+            return sb.ToString();
         }
     }
 }

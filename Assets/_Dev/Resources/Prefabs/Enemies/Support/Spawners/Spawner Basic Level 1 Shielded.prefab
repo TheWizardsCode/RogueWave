@@ -4967,7 +4967,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   displayName: Shielded Spawner
-  icon: {fileID: 0}
+  icon:
+  - {fileID: 0}
   m_description: Creates enemies to track you down and destroy you.
   strengths: 
   weaknesses: 
@@ -5021,10 +5022,10 @@ MonoBehaviour:
   destroySpawnsOnDeath: 1
   loopWaves: 0
   hasShield: 1
+  shield: {fileID: 6696435298273498834}
   shieldGenerator: {fileID: -7296944252688237283, guid: 456db0fbe3114854ea9604e831d2c6fc, type: 3}
   numShieldGenerators: 1
   shieldGeneratorRPM: 22.5
-  shieldCollider: {fileID: 0}
   waveStartSound: {fileID: 8300000, guid: a31a162329454e24488754023b89ff41, type: 3}
   onSpawnerDestroyed:
     m_PersistentCalls:
@@ -15113,11 +15114,26 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114064292226105796, guid: 756bccbb5f460b44ab57f2ed4ba9cdc8, type: 3}
+      propertyPath: openCloseProgress
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 756bccbb5f460b44ab57f2ed4ba9cdc8, type: 3}
+--- !u!114 &6696435298273498834 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114064292226105796, guid: 756bccbb5f460b44ab57f2ed4ba9cdc8, type: 3}
+  m_PrefabInstance: {fileID: 6736180743334729494}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f72f68a574934620ae7d6251d31b5942, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &6734009679492949278 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4427261708284424, guid: 756bccbb5f460b44ab57f2ed4ba9cdc8, type: 3}

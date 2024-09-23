@@ -2,28 +2,10 @@ using NeoFPS.SinglePlayer;
 using NeoFPS;
 using System.Collections.Generic;
 using System.Reflection;
-using UnityEngine;
-using System.Runtime.CompilerServices;
-using System.Collections;
 using NeoFPS.Constants;
 
 namespace RogueWave
 {
-    public static class PooledObjectExtensions
-    {
-        public static void ReturnToPool(this PooledObject instance, float delay)
-        {
-            instance.StartCoroutine(DelayedReturnToPool(instance, delay));
-        }
-
-        private static IEnumerator DelayedReturnToPool(PooledObject instance, float delay)
-        {
-            yield return new WaitForSeconds(delay);
-            var methodInfo = typeof(PooledObject).GetMethod("ReturnToPool", BindingFlags.Public | BindingFlags.Instance);
-            methodInfo.Invoke(instance, null);
-        }
-    }
-
     public static class InteractivePickupExtension
     {
         public static FpsInventoryItemBase GetItemPrefab(this InteractivePickup instance)

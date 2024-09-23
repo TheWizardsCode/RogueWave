@@ -40,6 +40,10 @@ namespace RogueWave
                 if (m_Instance == null)
                 {
                     m_Instance = FindAnyObjectByType<MusicManager>();
+                    if (m_Instance == null)
+                    {
+                        Debug.LogError("MusicManager is being referenced, but there isn't one present in the scene. Add one to make this error go away.");
+                    }
                     source = m_Instance.GetComponent<AudioSource>();
                     DontDestroyOnLoad(m_Instance);
                 }
@@ -139,6 +143,11 @@ namespace RogueWave
                     if (combatTrackIndex >= combatTracks.Length)
                     {
                         combatTrackIndex = 0;
+                    }
+
+                    if (combatTracks.Length == 0)
+                    {
+                        return null;
                     }
 
                     return combatTracks[combatTrackIndex];

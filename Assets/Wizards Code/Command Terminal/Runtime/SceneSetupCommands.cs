@@ -15,6 +15,7 @@ namespace WizardsCode.CommandTerminal
     /// It is often a good idea to have this script last in the Script Execution Order so that all other scripts
     /// are loaded before the commands are executed.
     /// </summary>
+    [DefaultExecutionOrder(1000)]
     public class SceneSetupCommands : MonoBehaviour
     {
         [SerializeField, Tooltip("The commands to execute when this object awakens."), TextArea(10, 30)]

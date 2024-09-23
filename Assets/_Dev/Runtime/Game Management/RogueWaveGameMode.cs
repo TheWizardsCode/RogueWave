@@ -26,11 +26,6 @@ namespace RogueWave
         [Header("Scene Setup")]
         [SerializeField, Tooltip("The pre-spawn popup prefab to use.")]
         private LevelMenu m_PreSpawnUI = null;
-        [SerializeField, Tooltip("If a `SceneSetupCommands` component is present in the scene, should the commands be executed when the player " +
-            "is spawned? Note that if the `SceneSetupCommands` object is set to execute on start it is likely you want to set this to false. " +
-            "However, in many cases you will want to execute commands against the player. In this case set the `SceneSetupCommands` to NOT " +
-            "execute on start and set this property to true.")]
-        private bool m_ExecuteSceneSetupCommandsOnSpawn = false;
         [SerializeField, Tooltip("Should the player be spawned on start of the game?")]
         private bool m_SpawnPlayerOnStart = true;
 

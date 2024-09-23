@@ -10,11 +10,11 @@ using Random = UnityEngine.Random;
 namespace RogueWave
 {
     /// <summary>
-    /// EnemyJuicer is responsible for adding juice to the game when an enemy is spawned, injured, killed or other events.
+    /// FXJuicer is responsible for adding juice to a gameobject when it is spawned, injured, killed or other events.
     /// 
-    /// Place it anywhere on an enemy and ensure that the Juics sections of the config are setup. The juics will be added at the location of this components transform.
+    /// Place it anywhere on an object and ensure that the Juices sections of the config are setup. The juices will be added at the location of this components transform.
     /// </summary>
-    public class EnemyJuicer : MonoBehaviour
+    public class FXJuicer : MonoBehaviour
     {
         [Header("Setup")]
         [SerializeField, Tooltip("The audio source for this enemy.")]
@@ -34,6 +34,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The sound to play when the enemy is killed.")]
         internal AudioClip[] deathClips;
 
+        // REFACTOR: remove this coupling between the enemy controller and the juicer
         BasicEnemyController controller;
 
         /// <summary>

@@ -10,12 +10,16 @@ Checkout this repo and open it in Unity. The first time you try to load it it wi
 
 Purchase and install the following assets from the Unity asset store (links below are affiliate links, would appreciate you clicking on them it costs you nothing and buys me coffee):
 
-  * [250 Sci-fi Flat Icons - Kat Grabowska](https://assetstore.unity.com/packages/slug/223031?aid=1101l866w&pubref=RogueWaveOpenSource)
-  * [Customizable SciFi Holo Interface - Excelsior Assets](https://assetstore.unity.com/packages/slug/69794?aid=1101l866w&pubref=RogueWaveOpenSource)
-  * [NeoFPS: FPS Controller, Template & Toolkit - Yondernauts Games](https://assetstore.unity.com/packages/slug/150179?aid=1101l866w&pubref=RogueWaveOpenSource)
-  * [Project Asset Manager - Doubling Technologies](https://assetstore.unity.com/packages/slug/126313?aid=1101l866w&pubref=RogueWaveOpenSource)
-  * [ProTips - Tooltip System - ModelShark Studio](https://assetstore.unity.com/packages/slug/44361?aid=1101l866w&pubref=RogueWaveOpenSource)
-  * [Sprite Shaders Ultimate - Ekincan Tas](https://assetstore.unity.com/packages/slug/158988?aid=1101l866w&pubref=RogueWaveOpenSource)
+  * 250 Sci-fi Flat Icons - Kat Grabowska https://assetstore.unity.com/packages/slug/223031?aid=1101l866w
+  * Customizable SciFi Holo Interface - Excelsior Assets https://assetstore.unity.com/packages/slug/69794?aid=1101l866w
+  * ForceField Effects - SineVFX https://assetstore.unity.com/packages/slug/123431?aid=1101l866w
+  * Mystic Arsenal - Kenneth "Archanor" Foldal Moe https://assetstore.unity.com/packages/slug/100969?aid=1101l866w
+  * NeoFPS: FPS Controller, Template & Toolkit - Yondernauts Games https://assetstore.unity.com/packages/slug/150179?aid=1101l866w
+  * Power-up FX - Archanor VFX https://assetstore.unity.com/packages/slug/152740?aid=1101l866w
+  * Project Asset Manager - Doubling Technologies https://assetstore.unity.com/packages/slug/126313?aid=1101l866w
+  * ProTips - Tooltip System - ModelShark Studio https://assetstore.unity.com/packages/slug/44361?aid=1101l866w
+  * Sprite Shaders Ultimate - Ekincan Tas https://assetstore.unity.com/packages/slug/158988?aid=1101l866w
+  * Variety FX 2.0 - Archanor VFX https://assetstore.unity.com/packages/slug/235241?aid=1101l866w
 
 ***Note*** that by default some of these assets will overwrite a few files that are provided by this repo. After importing you need revert any changes made by the import. The easiest way to do this is to import Neo FPS and then run the command `git restore .` in the root of the project directory.
 

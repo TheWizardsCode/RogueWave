@@ -1,7 +1,7 @@
 using NeoFPS;
 using UnityEngine;
 
-namespace RogueWave
+namespace WizardsCode.RogueWave
 {
     public class DestructorBeam : PassiveWeapon
     {

@@ -4,6 +4,9 @@ using UnityEngine.Assertions;
 using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using System.ComponentModel;
+using NaughtyAttributes;
+using ReadOnlyAttribute = NaughtyAttributes.ReadOnlyAttribute;
 
 namespace WizardsCode.CommandTerminal
 {
@@ -30,7 +33,7 @@ namespace WizardsCode.CommandTerminal
         [SerializeField]
         [Range(0, 1)]
         float SmallTerminalRatio = 0.33f;
-        
+
         [SerializeField] string ToggleHotkey      = "`";
         [SerializeField] string ToggleFullHotkey  = "#`";
         [SerializeField] int BufferSize           = 512;
@@ -58,6 +61,9 @@ namespace WizardsCode.CommandTerminal
         [Header("Events")]
         [SerializeField, Tooltip("Whenever a Log is recorded it will also be passed to this event.")]
         public LogEvent OnLog;
+
+        [TextArea(minLines: 10, maxLines: 20), Tooltip("This is the output of the `help` command. It will be updated each time the application is run so that it reflects the currently available commands.")]
+        public string HelpText = "Each time the application is started this text will update to the latest version.";
 
         TerminalState state;
         TextEditor editor_state;
@@ -265,6 +271,7 @@ namespace WizardsCode.CommandTerminal
             SetupLabels();
 
             Shell.RegisterCommands(CommandAssemblies);
+            HelpText = Shell.GetHelpText();
 
             if (IssuedError) {
                 Log(TerminalLogType.Error, "Error: {0}", Shell.IssuedErrorMessage);

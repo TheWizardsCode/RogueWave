@@ -37,14 +37,14 @@ namespace RogueWave
         [Header("Shield")]
         [SerializeField, Tooltip("Should this spawner generate a shield to protect itself?")]
         bool hasShield = true;
+        [SerializeField, ShowIf("hasShield"), Tooltip("The root of the shield object. This will be disabled when the shield generators are all gone.")]
+        internal ForceFieldController shield;
         [SerializeField, ShowIf("hasShield"), Tooltip("Shield generators are models that will orbit the spawner and create a shield. The player must destroy the generators to destroy the shield and thus get t othe spawner.")]
         PooledObject shieldGenerator;
         [SerializeField, ShowIf("hasShield"), Tooltip("How many generators this shield should have.")]
         internal int numShieldGenerators = 3;
         [SerializeField, ShowIf("hasShield"), Tooltip("The speed of the shield generators, in revolutions per minute.")]
         internal float shieldGeneratorRPM = 45f;
-        [SerializeField, ShowIf("hasShield"), Tooltip("The model and collider that will represent the shield.")]
-        internal Collider shieldCollider;
 
         [Header("Juice")]
         [SerializeField, Tooltip("The sound to play when a new spawning wave is starting.")]
@@ -184,21 +184,17 @@ namespace RogueWave
                 --livingShieldGenerators;
             }
 
-            if (shieldCollider != null)
+            if (shield != null)
             {
                 if (livingShieldGenerators == 0 && oldLivingShieldGenerators != 0)
                 {
-                    // Disable the shield
-                    shieldCollider.enabled = false;
-                    shieldCollider.gameObject.SetActive(false); // TODO: Shader
+                    shield.gameObject.SetActive(false);
                 }
                 else
                 {
                     if (livingShieldGenerators != 0 && oldLivingShieldGenerators == 0)
                     {
-                        // Enable the shield
-                        shieldCollider.enabled = true;
-                        shieldCollider.gameObject.SetActive(true); // TODO: Shader
+                        shield.gameObject.SetActive(true);
                     }
                 }
             }

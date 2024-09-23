@@ -731,7 +731,6 @@ namespace RogueWave
         [Button]
         void UpdateIconsFromShowcase()
         {
-            string path = "Assets/_Dev/ShowcaseCaptures";
             string[] guids = UnityEditor.AssetDatabase.FindAssets($"t:Texture {displayName}_");
             if (guids.Length == 0)
             {

@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
 using System.Linq;
 using UnityEngine;
+using WizardsCode.RogueWave;
 
 namespace RogueWave
 {

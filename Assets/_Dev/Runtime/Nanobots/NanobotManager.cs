@@ -414,14 +414,10 @@ namespace RogueWave
                     yield return Announce(clip);
 
                     RogueLiteManager.runData.Add(currentOfferRecipes[i]);
-
-                    if (m_RecipesCalledInStat)
-                    {
-                        m_RecipesCalledInStat.Add(1);
-                    }
-
                     Add(currentOfferRecipes[i]);
 
+                    m_RecipesCalledInStat.Add(1);
+                    
                     status = Status.Collecting;
 
                     break;
@@ -801,7 +797,7 @@ namespace RogueWave
         /// Adds the recipe to the list of recipes available to these nanobots on this run.
         /// </summary>
         /// <param name="recipe">The recipe to add.</param>
-        internal void Add(IRecipe recipe)
+        public void Add(IRecipe recipe)
         {
             if (recipe == null)
             {

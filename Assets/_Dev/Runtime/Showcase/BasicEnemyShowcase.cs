@@ -15,8 +15,6 @@ namespace RogueWave.Editor
 {
     public class BasicEnemyShowcase : MonoBehaviour
     {
-        [SerializeField, Tooltip("The duration of the animation routine.")]
-        float animationDuration = 5f;
         [SerializeField, Tooltip("The speed at which the object should rotate.")]
         float rotationSpeed = 20f;
 
