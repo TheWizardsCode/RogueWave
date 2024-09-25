@@ -523,7 +523,8 @@ namespace WizardsCode.CommandTerminal
                 }
             } else
             {
-                command_text = input + completions[shortestIndex];
+                command_text = input + completions[shortestIndex] + " ";
+                CursorToEnd();
                 Log($"\nNo more completions found");
                 ResetScrollPosition();
             }
