@@ -123,8 +123,7 @@ namespace WizardsCode.RogueWave
 
             if (m_FiringAudioSource != null && fireAudioClip.Length > 0)
             {
-                m_FiringAudioSource.clip = fireAudioClip[Random.Range(0, fireAudioClip.Length)];
-                m_FiringAudioSource.Play();
+                m_FiringAudioSource.PlayOneShot(fireAudioClip[Random.Range(0, fireAudioClip.Length)]);
             }
         }
     }

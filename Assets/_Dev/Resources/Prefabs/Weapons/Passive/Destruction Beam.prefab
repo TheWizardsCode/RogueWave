@@ -173,13 +173,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 525bfe88613ebd44baff222a3feec385, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Cooldown: 3
-  range: 15
-  damage: 25
-  layers: 31
+  m_Cooldown: 4
   model: {fileID: 0}
   positionOffset: {x: 0, y: 0.7, z: 0}
-  m_FiringAudioSource: {fileID: 0}
+  muzzleFlash: {fileID: 0}
+  m_FiringAudioSource: {fileID: 7501934216320606734}
   fireAudioClip:
   - {fileID: 8300000, guid: d2017356dd23e5144a1da78a28daf106, type: 3}
   - {fileID: 8300000, guid: ddddf12885cf18c4daa3147281315620, type: 3}
@@ -192,6 +190,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 42e99d6648b651b428b1c01872fee482, type: 3}
   - {fileID: 8300000, guid: f1f4e8cda95fbaf4ca8cfbdb96caa412, type: 3}
   hitAudioClip: []
+  m_Speed: 5
+  layers:
+    serializedVersion: 2
+    m_Bits: 2147483648
+  range: 15
+  damage: 25
   beamCount: 2
   beamSize: 2
   beamDuration: 0.25

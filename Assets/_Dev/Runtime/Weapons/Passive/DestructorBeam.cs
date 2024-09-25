@@ -56,6 +56,7 @@ namespace WizardsCode.RogueWave
 
         public override void Fire()
         {
+            PlayFireSFX();
             FireBeams();
         }
 
