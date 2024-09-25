@@ -64,8 +64,7 @@ namespace RogueWave.GameStats
         internal static bool isDirty;
 
         private List<Spawner> m_Spawners = new List<Spawner>();
-        private float startTime;
-        private float endTime;
+        private static float endTime;
 
         private static GameStatsManager m_Instance;
         public static GameStatsManager Instance {
@@ -247,7 +246,7 @@ namespace RogueWave.GameStats
             StringBuilder sb = new StringBuilder();
 
             sb.AppendLine("Summary Stats:");
-            int totalSeconds = Mathf.RoundToInt(endTime - startTime);
+            int totalSeconds = Mathf.RoundToInt(endTime);
             int hours = totalSeconds / 3600;
             int minutes = (totalSeconds % 3600) / 60;
             int seconds = totalSeconds % 60;
@@ -381,13 +380,8 @@ namespace RogueWave.GameStats
 
         private void Update()
         {
-            if (startTime == 0)
-            {
-                startTime = Time.time;
-            } else
-            {
-                endTime = Time.time;
-            }
+            Debug.Log("endtime is " + endTime);
+            endTime = Time.realtimeSinceStartup;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
             m_TimeToNextSteamStatStore -= Time.deltaTime;

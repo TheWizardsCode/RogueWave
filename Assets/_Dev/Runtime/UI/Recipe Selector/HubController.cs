@@ -102,7 +102,7 @@ namespace RogueWave.UI
                 m_ContinueButton.interactable = false;
             } else
             {
-                m_ContinueButton.label = "Continue to Loadout Builder";
+                m_ContinueButton.label = "Prepare for Nanotransfer";
                 m_ContinueButton.interactable = true;
             }
         }
