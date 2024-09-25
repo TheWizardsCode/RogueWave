@@ -240,7 +240,6 @@ namespace RogueWave.GameStats
             // OPTIMIZATION: This could be optimized by only sending the stats and achievements that have changed since the last time this was called.
             // OPTIMIZATION: This could be further optimized by only sending the stats and achievements that are not yet unlocked, i.e. once an achievement has been unlocked it can be removed from the list of achievements to send.
 
-            FPSCounter fps = FindObjectOfType<FPSCounter>();
             List<string> chunks = new List<string>();
 
             StringBuilder sb = new StringBuilder();
@@ -258,10 +257,13 @@ namespace RogueWave.GameStats
             sb.AppendLine($"  - MAX_NANOBOT_LEVEL: {GameStatsManager.Instance.GetIntStat("MAX_NANOBOT_LEVEL").ToString()}");
             sb.AppendLine($"  - RESOURCES_SPENT_IN_RUNS: {GameStatsManager.Instance.GetIntStat("RESOURCES_SPENT_IN_RUNS").ToString()}");
             sb.AppendLine($"  - RUN_LOG: {GameStatsManager.Instance.GetStringStat("RUN_LOG").ToString()}");
+            
+            FPSCounter fps = FindObjectOfType<FPSCounter>();
             if (fps != null)
             {
                 sb.AppendLine(fps.ToYAML());
             }
+            
             sb.AppendLine($"  - CPU: {SystemInfo.processorType}");
             sb.AppendLine($"  - GPU: {SystemInfo.graphicsDeviceName}");
 

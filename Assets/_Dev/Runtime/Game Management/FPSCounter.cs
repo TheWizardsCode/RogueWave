@@ -38,9 +38,38 @@ namespace RogueWave
         public float maxFPS { get; private set; }
         
         GUIStyle style = new GUIStyle();
+        private static FPSCounter _instance;
+
+        public static FPSCounter Instance
+        {
+            get
+            {
+                if (_instance == null)
+                {
+                    _instance = FindObjectOfType<FPSCounter>();
+                    if (_instance == null)
+                    {
+                        GameObject singletonObject = new GameObject();
+                        _instance = singletonObject.AddComponent<FPSCounter>();
+                        singletonObject.name = typeof(FPSCounter).ToString() + " (Singleton)";
+                    }
+                }
+                return _instance;
+            }
+        }
 
         private void Awake()
         {
+            if (_instance == null)
+            {
+                _instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else if (_instance != this)
+            {
+                Destroy(gameObject);
+            }
+
             minFPS = 500;
             maxFPS = 0;
 #if UNITY_EDITOR
