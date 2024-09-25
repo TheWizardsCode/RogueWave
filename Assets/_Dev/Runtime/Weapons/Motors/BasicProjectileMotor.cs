@@ -22,6 +22,7 @@ namespace WizardsCode.RogueWave
         private float endTime;
 
         PooledObject pooledObject;
+        LayerMask layerMask;
 
         private void Start()
         {
@@ -43,11 +44,12 @@ namespace WizardsCode.RogueWave
             isInitialized = false;
         }
 
-        internal virtual void Initialize(float speed, float lifeTime)
+        internal virtual void Initialize(float speed, float lifeTime, LayerMask layerMask)
         {
             isInitialized = true;
             this.speed = speed;
             this.lifeTime = lifeTime;
+            this.layerMask = layerMask;
         }
 
         protected virtual void Update()

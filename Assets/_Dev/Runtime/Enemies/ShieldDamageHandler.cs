@@ -21,9 +21,11 @@ namespace WizardsCode.RogueWave
         ParticleSystem hitEffect;
         [SerializeField, Tooltip("The generator feedback particle to play when the shield is hit. This will be placed on the generator itself.")]
         PooledObject generatorFeedbackPrototype;
+        
 
         Spawner spawner;
         List<BasicDamageHandler> generatorDamageHandlers = new List<BasicDamageHandler>();
+        int layerMask;
 
         protected void Start()
         {

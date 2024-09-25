@@ -88,7 +88,7 @@ namespace WizardsCode.RogueWave
                 Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
                 Vector3 endPoint;
 
-                if (Physics.BoxCast(transform.position, new Vector3(beamSize, beamSize, beamSize), direction, out hit, Quaternion.identity, range, layerMask))
+                if (Physics.BoxCast(transform.position, new Vector3(beamSize, beamSize, beamSize), direction, out hit, Quaternion.identity, range, layers))
                 {
                     IDamageHandler damageHandler = hit.transform.GetComponent<IDamageHandler>();
 

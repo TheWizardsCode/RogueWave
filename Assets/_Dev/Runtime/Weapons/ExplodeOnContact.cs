@@ -24,6 +24,7 @@ namespace WizardsCode.RogueWave
         bool isInitialized = false;
         [ShowNonSerializedField, Tooltip("The maximum damage that can be done by this explosion.")]
         private float m_MaxDamage = 10;
+        private LayerMask m_LayerMask;
         [ShowNonSerializedField, Tooltip("The maximum force that can be applied by this explosion.")]
         private float m_MaxForce = 5;
 
@@ -66,11 +67,12 @@ namespace WizardsCode.RogueWave
             isInitialized = false;
         }
 
-        internal void Initialize(float maxDamage)
+        internal void Initialize(float maxDamage, LayerMask layerMask)
         {
             isInitialized = true;
             m_MaxDamage = maxDamage;
             // m_MaxForce = maxForce;
+            m_LayerMask = layerMask;
         }
 
         protected void OnTriggerEnter(Collider other)
@@ -79,6 +81,13 @@ namespace WizardsCode.RogueWave
             {
                 Debug.LogError($"ExplodeOnContact on {this.name} has not been initialized. This component must  be set up by calling `Initialize(...)` before use. Using default settings for now.");
             }
+
+            // check if the other object is on the layermask
+            if ((m_LayerMask.value & 1 << other.gameObject.layer) == 0)
+            {
+                return;
+            }
+
             RWPooledExplosion explosion = PoolManager.GetPooledObject<RWPooledExplosion>(enemyHitBehaviourProtype, transform.position, Quaternion.identity);
             explosion.Explode(m_MaxDamage, m_MaxForce, this);
             

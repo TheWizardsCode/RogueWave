@@ -104,7 +104,8 @@ MonoBehaviour:
   m_DestroyedSound: []
   m_ImpactDamageMultiplier: 1
   resourcesDropChance: 0.15
-  resourcesPrefab: {fileID: 8288433013401571843, guid: 1e3f10b1661d2824f9723d38774a1f76, type: 3}
+  inheritMaterial: 1
+  magnetizeResources: 1
   destructibleDestroyed: {fileID: 0}
 --- !u!114 &3898584599779303888
 MonoBehaviour:
@@ -214,7 +215,6 @@ MonoBehaviour:
   detectionLayerMask:
     serializedVersion: 2
     m_Bits: 2147483648
-  attackTrigger: Attack
   canMove: 0
   movementDampingDistance: 2
   rotationDamping: 20
@@ -408,24 +408,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 5748684770216489787}
     m_Modifications:
     - target: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
-      propertyPath: damage
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
       propertyPath: m_Cooldown
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
-      propertyPath: positionOffset.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
-      propertyPath: positionOffset.y
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4913093833536451016, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
       propertyPath: m_Name
-      value: Fireball
+      value: Passive Weapon - Fireball
       objectReference: {fileID: 0}
     - target: {fileID: 6999855314944377791, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
       propertyPath: m_LocalPosition.x

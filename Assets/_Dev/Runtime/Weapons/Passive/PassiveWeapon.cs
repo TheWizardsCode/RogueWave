@@ -43,7 +43,6 @@ namespace WizardsCode.RogueWave
         internal float damage = 50f;
 
         internal float m_NextFireTime = 0;
-        internal int layerMask;
 
         internal enum State
         {
@@ -69,7 +68,6 @@ namespace WizardsCode.RogueWave
 
         internal virtual void Awake()
         {
-            layerMask = 1 << layers;
             if (m_FiringAudioSource == null)
             {
                 m_FiringAudioSource = GetComponent<AudioSource>();

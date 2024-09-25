@@ -24,15 +24,15 @@ namespace WizardsCode.RogueWave
             }
         }
 
-        internal override void Initialize(float speed, float lifeTime)
+        internal override void Initialize(float speed, float lifeTime, LayerMask layerMask)
         {
-            base.Initialize(speed, lifeTime);
+            base.Initialize(speed, lifeTime, layerMask);
             isInitialized = false; // it's not sufficient to initialize the base class, we need to reset the flag to ensure that the target is also set.
         }
 
-        internal void Initialize(float speed, float lifeTime, Transform target)
+        internal void Initialize(float speed, float lifeTime, Transform target, LayerMask layerMask)
         {
-            Initialize(speed, lifeTime);
+            Initialize(speed, lifeTime, layerMask);
             m_Target = target;
             isInitialized = true;
         }
