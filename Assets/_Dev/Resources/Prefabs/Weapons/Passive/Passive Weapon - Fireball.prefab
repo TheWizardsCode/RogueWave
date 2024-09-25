@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32ec75250b9c4c9488596ffa71dd4129, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Cooldown: 10
+  m_Cooldown: 4
   model: {fileID: 3823717223021086877}
   positionOffset: {x: 0.1, y: 0.1, z: 0}
   muzzleFlash: {fileID: 5380242092739307958}
@@ -251,12 +251,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 5433e03159bbdf148b63b88cf7b97bc5, type: 3}
   - {fileID: 8300000, guid: 2f4c90a115a2a074abb9bcd74d3a2798, type: 3}
   - {fileID: 8300000, guid: f5898f79d4ae2af4abd29a4f8cbaa0e4, type: 3}
-  m_Speed: 15
+  m_Speed: 13
   layers:
     serializedVersion: 2
     m_Bits: 2147483649
-  range: 20
-  damage: 50
+  range: 25
+  damage: 100
   m_ProjectilePrototype: {fileID: 114313776099250690, guid: 0fbe48859fe5c694db2d53b985ea6ace, type: 3}
 --- !u!1 &5383906314099776678
 GameObject:

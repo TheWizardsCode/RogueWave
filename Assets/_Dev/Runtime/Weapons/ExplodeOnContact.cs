@@ -14,13 +14,15 @@ namespace WizardsCode.RogueWave
     /// </summary>
     public class ExplodeOnContact : MonoBehaviour, IDamageSource
     {
+        [InfoBox("This behaviour will cause the object to explode when it comes into contact with another object. The settings of this component (e.g. damage, area of effect and layermask) can be set by calling the `Initiatlize` method, the values shown below are the defaults unless the application is running.")]
+
         [SerializeField, Tooltip("A description of the damage to use in logs, etc.")]
         private string damageDescription = "Fireball";
 
         [SerializeField, Tooltip("The prototype for the explosion to be created when the object comes into contact with another object."), Required]
         PooledObject enemyHitBehaviourProtype;
 
-        [ShowNonSerializedField, Tooltip("Inidcates if this explosion has been initialized. In the editor this will be false but it should be true when the object is enabled in game.")]
+        [ShowNonSerializedField, Tooltip("Indicates if this explosion has been initialized. In the editor this will be false but it should be true when the object is enabled in game.")]
         bool isInitialized = false;
         [ShowNonSerializedField, Tooltip("The maximum damage that can be done by this explosion.")]
         private float m_MaxDamage = 10;

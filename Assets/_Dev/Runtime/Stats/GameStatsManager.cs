@@ -382,7 +382,6 @@ namespace RogueWave.GameStats
 
         private void Update()
         {
-            Debug.Log("endtime is " + endTime);
             endTime = Time.realtimeSinceStartup;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
