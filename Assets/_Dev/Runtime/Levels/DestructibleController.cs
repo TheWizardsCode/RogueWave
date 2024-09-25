@@ -106,8 +106,8 @@ namespace RogueWave
                 {
                     for (int d = 0; d < m_PooledUnscaledParticles.Length; d++)
                     {
-                       PooledObject pooledObject = PoolManager.GetPooledObject<PooledObject>(m_PooledUnscaledParticles[d], transform.position, Quaternion.identity);
-                       pooledObject.transform.localPosition = Vector3.zero;
+                        PooledObject pooledObject = PoolManager.GetPooledObject<PooledObject>(m_PooledUnscaledParticles[d]);
+                        pooledObject.transform.position += transform.position;
 
                     }
                 }
