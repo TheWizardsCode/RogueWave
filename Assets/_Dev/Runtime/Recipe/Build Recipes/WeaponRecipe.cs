@@ -7,7 +7,7 @@ using NaughtyAttributes;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Weapon Pickup Recipe", menuName = "Rogue Wave/Recipe/Weapon Pickup", order = 108)]
-    public class WeaponRecipe : ItemRecipe<InventoryItemPickup>
+    public class WeaponRecipe : GenericItemRecipe<InventoryItemPickup>
     {
         [Header("Weapon")]
         [SerializeField, Tooltip("If true then the weapon will be put to the top of the loadout build order when purchased, otherwise it will be put in the second slot.")]

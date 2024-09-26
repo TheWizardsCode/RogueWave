@@ -14,7 +14,7 @@ namespace RogueWave
     /// <seealso cref="WeaponRecipe"/>
     /// <seealso cref="ToolRecipe"/>
     [CreateAssetMenu(fileName = "Item Pickup Recipe", menuName = "Rogue Wave/Recipe/Generic Item Pickup", order = 100)]
-    public class ItemRecipe : ItemRecipe<Pickup>
+    public class ItemRecipe : GenericItemRecipe<Pickup>
     {
         public override string Category => "Item";
     }

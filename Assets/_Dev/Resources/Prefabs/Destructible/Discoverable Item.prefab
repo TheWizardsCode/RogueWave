@@ -78,12 +78,14 @@ MonoBehaviour:
   resourcesDropChance: 1
   inheritMaterial: 0
   magnetizeResources: 0
-  destructibleDestroyed: {fileID: 0}
+  destructibleDestroyed: {fileID: 11400000, guid: 86ee284fcf6350f40a966b3c4a000642, type: 2}
   possibleDrops:
   - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
   - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
   - {fileID: 11400000, guid: 23f23a2febaa4e84689ae70c6270a724, type: 2}
   - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
+  - {fileID: 11400000, guid: ce0062bb3be66384cb6435600114f267, type: 2}
+  - {fileID: 0}
 --- !u!1001 &347485660930647383
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -144,6 +146,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 59182dec930354e448b994c73e36e24f, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 5dc5638d5fbe5e64db101508e2e1e8f4, type: 2}
     - target: {fileID: 919132149155446097, guid: 59182dec930354e448b994c73e36e24f, type: 3}
       propertyPath: m_Name
       value: torusScales2

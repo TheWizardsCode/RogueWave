@@ -7,7 +7,7 @@ using UnityEngine;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Ammo Pickup Recipe", menuName = "Rogue Wave/Recipe/Ammo Pickup", order = 110)]
-    public class AmmoRecipe : ItemRecipe<Pickup>
+    public class AmmoRecipe : GenericItemRecipe<Pickup>
     {
         [SerializeField, Tooltip("The ammo type this recipe creates.")]
         private SharedAmmoType ammo;

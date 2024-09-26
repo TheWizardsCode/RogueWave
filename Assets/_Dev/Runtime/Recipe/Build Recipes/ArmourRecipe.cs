@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Armour Pickup Recipe", menuName = "Rogue Wave/Recipe/Armour Pickup", order = 110)]
-    public class ArmourRecipe : ItemRecipe<InventoryItemPickup>
+    public class ArmourRecipe : GenericItemRecipe<InventoryItemPickup>
     {
         [SerializeField, FpsInventoryKey, Tooltip("The inventory ID of the armour type")]
         private int m_InventoryID = 0;

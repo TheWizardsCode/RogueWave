@@ -3,7 +3,7 @@ using UnityEngine;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Passive Item Pickup Recipe", menuName = "Rogue Wave/Recipe/Passive Item Pickup", order = 106)]
-    public class PassiveItemRecipe : ItemRecipe<PassivePickup>
+    public class PassiveItemRecipe : GenericItemRecipe<PassivePickup>
     {
         public override string Category => "Passive Item";
 

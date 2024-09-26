@@ -7,7 +7,7 @@ using UnityEngine;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Health Pickup Recipe", menuName = "Rogue Wave/Recipe/Health Pickup", order = 115)]
-    public class HealthPickupRecipe : ItemRecipe<HealthPickup>
+    public class HealthPickupRecipe : GenericItemRecipe<HealthPickup>
     {
         public override string Category => "Health";
 
