@@ -31,7 +31,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         internal float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The collection of pickup recipes from which the discovered item will be chosen. If none are valid for this player then the resources prefab will be used.")]
-        List<AbstractRecipe> possibleDrops = null;
+        internal List<AbstractRecipe> possibleDrops = null;
         [SerializeField, Tooltip("Should the material on the resources dropped match the material on the object being destroyed?")]
         internal bool inheritMaterial = true;
         [SerializeField, Tooltip("Should the resources be pulled to the player using the magnet?")]
@@ -46,7 +46,7 @@ namespace RogueWave
         private MeshRenderer[] meshRenderers;
         private Collider[] colliders;
         private ParticleSystem[] particles;
-        internal IPickup pickupPrototype;
+        IPickup pickupPrototype;
 
         private void Awake()
         {

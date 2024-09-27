@@ -49,6 +49,30 @@ MonoBehaviour:
   spawnFurniture: 0
   furnitureChance: 0.25
   furniturePrefabs: []
+  enemySpawnMultiplierByDifficulty:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 5
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 5
+      inSlope: 5
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
   surface:
     m_Value: 1
   structureMaterial: {fileID: 2100000, guid: dadd4775bfe952d49b6faca11bbf098f, type: 2}
@@ -57,6 +81,8 @@ MonoBehaviour:
   health: 300
   destructionParticles: {fileID: -5221352478806724427, guid: d4df130c679ef6e4293dc9a9d7250294, type: 3}
   smokeParticles: {fileID: -1879706516398249802, guid: d0d4fce4cdd4ddf4798a6c50afb74622, type: 3}
-  lootPrefab: {fileID: 8288433013401571843, guid: c5e67adb717297b479a13c4672a13627, type: 3}
+  possibleLoot:
+  - {fileID: 11400000, guid: 0e4d41dead0dcc04289034c16c60cd2a, type: 2}
+  - {fileID: 11400000, guid: e0d8a4706959ddc438229775769f2ddd, type: 2}
   validConnections:
   - {fileID: -643772105435015575}

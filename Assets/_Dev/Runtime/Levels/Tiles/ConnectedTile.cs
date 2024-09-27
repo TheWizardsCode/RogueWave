@@ -34,7 +34,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The scaled smoke particles object to use when this structure is destroyed."), ShowIf("destructible")]
         PooledObject smokeParticles;
         [SerializeField, Tooltip("The pickup to drop when this structure is destroyed."), ShowIf("destructible")]
-        Pickup lootPrefab;
+        List<AbstractRecipe> possibleLoot;
         [SerializeField, Tooltip("Define the tiles that this kind of tile will create a flow structure (wall, path, fence etc.) to if they are neighbours.")]
         BaseTile[] validConnections;
 
@@ -116,7 +116,7 @@ namespace RogueWave
                 DestructibleController destructibleController = contentObject.AddComponent<DestructibleController>();
                 destructibleController.m_PooledScaledDestructionParticles = new PooledObject[] { destructionParticles };
                 destructibleController.m_PooledScaledFXParticles = new PooledObject[] { smokeParticles };
-                destructibleController.pickupPrototype = lootPrefab;
+                destructibleController.possibleDrops = possibleLoot;
                 destructibleController.resourcesDropChance = 1;
 
                 healthManager.healthMax = health;
