@@ -1,8 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
-using UnityEngine.Serialization;
-using UnityEngine.TextCore.Text;
 
 namespace WizardsCode.CommandTerminal
 {
@@ -22,6 +19,8 @@ namespace WizardsCode.CommandTerminal
         private string onAwakeScript;
         [SerializeField, Tooltip("The commands to execute when this object is started."), TextArea(10, 30)]
         private string onStartScript;
+        [SerializeField, Tooltip("A set of commands to run on demand. Click the button below to run them. Can be edited and run at runtime."), TextArea(10, 30)]
+        private string onDemandScript;
 
         private void Awake()
         {
@@ -41,6 +40,12 @@ namespace WizardsCode.CommandTerminal
             }
 
             TerminalCommands.RunScript(script);
+        }
+
+        [Button]
+        public void RunOnDemandScript()
+        {
+            ExecuteScript(onDemandScript);
         }
     }
 }

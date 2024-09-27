@@ -17,7 +17,6 @@ using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using NeoFPS.Samples;
 using WizardsCode.RogueWave;
-using WizardsCode.CommandTerminal;
 
 namespace RogueWave
 {
@@ -67,6 +66,8 @@ namespace RogueWave
         private IntGameStat m_TimePlayedStat;
 
         [Header("Events")]
+        [SerializeField, Tooltip("Game event to fire when the player spawns into the level.")]
+        GameEvent playerSpawnedEvent;
         [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
         public UnityEvent<Spawner> onSpawnerCreated;
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
@@ -490,6 +491,8 @@ namespace RogueWave
             //        sceneSetupCommands.ExecuteScript();
             //    }
             //}
+
+            playerSpawnedEvent.Raise();
         }
 
         private void LogGameState(string eventName)

@@ -29,7 +29,8 @@ Transform:
   m_LocalPosition: {x: 88.93662, y: 51.281796, z: 78.69005}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3037961620388726236}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2342153769793436847
@@ -62,6 +63,109 @@ MonoBehaviour:
   ErrorColor: {r: 1, g: 0, b: 0, a: 1}
   CommandAssemblies:
   - org.roguewave.commands.generic
+  - org.roguewave.commands.ingame
+  - org.wizardscode.roguewave.editor
   OnLog:
     m_PersistentCalls:
       m_Calls: []
+  HelpText: The Command Terminal is a powerful tool for interacting with your game
+    at runtime. It allows you to run commands, watch variables, and interact with
+    your game in ways that are not possible with the Unity Editor alone. The terminal
+    is opened by pressing the ` key. You can then type commands into the terminal
+    and press return to execute them. The terminal will provide auto-completion for
+    commands and will remember the history of commands you have entered. The terminal
+    will also display log messages from your game, including errors and warnings.
+    You can also watch variables and have commands run at regular intervals. The
+    terminal is a powerful tool for debugging and testing your game. You can close
+    the terminal by pressing the ` key again, or by pressing the escape key. The
+    terminal will remember the state it was in when you close it, so if you open
+    it again it will be in the same state as when you closed it. The terminal is
+    a powerful tool for debugging and testing your game.
+--- !u!1 &7179172674893492890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3037961620388726236}
+  - component: {fileID: 1700158152240725983}
+  - component: {fileID: 292237068170440168}
+  m_Layer: 0
+  m_Name: Scene Setup Commands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3037961620388726236
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179172674893492890}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -88.93662, y: -51.281796, z: -78.69005}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8143950224794198212}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1700158152240725983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179172674893492890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ef12f721b21bae488aa3c90b6e1400d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onAwakeScript: '
+
+'
+  onStartScript: 
+  onDemandScript: 'open
+
+    disablespawning
+
+    killpercentageenemies 1
+
+    addtemporaryrecipe
+    46
+
+    addtemporaryrecipe 42'
+--- !u!114 &292237068170440168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7179172674893492890}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b8ec45cfa52bd24c854b031c9ecddf4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: 62734dc33d914fe498082946709a707d, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1700158152240725983}
+        m_TargetAssemblyTypeName: WizardsCode.CommandTerminal.SceneSetupCommands,
+          wizardscode.commandterminal
+        m_MethodName: RunOnDemandScript
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
