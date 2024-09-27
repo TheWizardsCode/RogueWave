@@ -3,6 +3,7 @@ using NeoFPS;
 using UnityEngine.Serialization;
 using RogueWave.GameStats;
 using NaughtyAttributes;
+using System.Collections.Generic;
 
 namespace RogueWave
 {
@@ -29,8 +30,8 @@ namespace RogueWave
         [Header("Rewards")]
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         internal float resourcesDropChance = 0.5f;
-        [SerializeField, Tooltip("The resources this enemy drops when killed.")]
-        internal IPickup pickupPrototype;
+        [SerializeField, Tooltip("The collection of pickup recipes from which the discovered item will be chosen. If none are valid for this player then the resources prefab will be used.")]
+        List<AbstractRecipe> possibleDrops = null;
         [SerializeField, Tooltip("Should the material on the resources dropped match the material on the object being destroyed?")]
         internal bool inheritMaterial = true;
         [SerializeField, Tooltip("Should the resources be pulled to the player using the magnet?")]
@@ -45,6 +46,7 @@ namespace RogueWave
         private MeshRenderer[] meshRenderers;
         private Collider[] colliders;
         private ParticleSystem[] particles;
+        internal IPickup pickupPrototype;
 
         private void Awake()
         {
@@ -130,42 +132,80 @@ namespace RogueWave
                     }
                 }
 
-                // Drop resources
-                if (Random.value <= resourcesDropChance && pickupPrototype != null)
-                {
-                    Vector3 pos = transform.position;
-                    pos.y = 0;
-
-                    GameObject resources = null;
-                    if (pickupPrototype is Pickup)
-                    {
-                        resources = Instantiate(pickupPrototype as Pickup, pos, Quaternion.identity).gameObject;
-                        
-                    }
-                    else if (pickupPrototype is ShieldPickup)
-                    {
-                        resources = Instantiate(pickupPrototype as ShieldPickup, pos, Quaternion.identity).gameObject;
-                    }
-                    else
-                    {
-                        Debug.LogError("Unknown resources pickup type in DestructibleController. No rewards dropped.");
-                        Destroy(gameObject, 15);
-                        return;
-                    }
-                    
-                    if (inheritMaterial && modelRenderer != null)
-                    {
-                        Renderer resourcesRenderer = resources.GetComponentInChildren<Renderer>();
-                        if (resourcesRenderer != null)
-                        {
-                            resourcesRenderer.material = modelRenderer.material;
-                        }
-                    }
-
-                    resources.tag = magnetizeResources ? "MagneticPickup" : "Untagged";
-                }
+                SetRewards();
+                DropRewards();
 
                 Destroy(gameObject, ttl + 0.5f);
+            }
+        }
+
+        void SetRewards()
+        {
+            // Calculate weights for the possible drops, skipping any that the player already has the maximum number of.
+            IItemRecipe recipe = null;
+            WeightedRandom<IItemRecipe> weightedRandom = new WeightedRandom<IItemRecipe>();
+            for (int i = possibleDrops.Count - 1; i >= 0; i--)
+            {
+                recipe = possibleDrops[i] as IItemRecipe;
+                if (recipe == null)
+                {
+                    Debug.LogError($"{possibleDrops[i]} in a DiscoverableItem is not a valid recipe for a pickup item. Removing it.");
+                    possibleDrops.RemoveAt(i);
+                    continue;
+                }
+
+                if (RogueLiteManager.runData.GetCount(recipe) >= recipe.MaxStack)
+                {
+                    continue;
+                }
+
+                weightedRandom.Add(recipe, recipe.weight);
+            }
+
+
+            if (weightedRandom.Count > 0)
+            {
+                recipe = weightedRandom.GetRandom();
+                pickupPrototype = recipe.Item.GetComponent<IPickup>();
+            }
+
+            Debug.Log($"DiscoverableController.OnIsAliveChanged: {pickupPrototype}");
+        }
+
+        void DropRewards()
+        {
+            if (Random.value <= resourcesDropChance && pickupPrototype != null)
+            {
+                Vector3 pos = transform.position;
+                pos.y = 0;
+
+                GameObject resources = null;
+                if (pickupPrototype is Pickup)
+                {
+                    resources = Instantiate(pickupPrototype as Pickup, pos, Quaternion.identity).gameObject;
+
+                }
+                else if (pickupPrototype is ShieldPickup)
+                {
+                    resources = Instantiate(pickupPrototype as ShieldPickup, pos, Quaternion.identity).gameObject;
+                }
+                else
+                {
+                    Debug.LogError("Unknown resources pickup type in DestructibleController. No rewards dropped.");
+                    Destroy(gameObject, 15);
+                    return;
+                }
+
+                if (inheritMaterial && modelRenderer != null)
+                {
+                    Renderer resourcesRenderer = resources.GetComponentInChildren<Renderer>();
+                    if (resourcesRenderer != null)
+                    {
+                        resourcesRenderer.material = modelRenderer.material;
+                    }
+                }
+
+                resources.tag = magnetizeResources ? "MagneticPickup" : "Untagged";
             }
         }
 
