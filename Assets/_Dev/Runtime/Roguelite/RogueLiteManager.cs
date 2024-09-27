@@ -1,14 +1,10 @@
 using NaughtyAttributes;
 using NeoFPS;
-using ProceduralToolkit;
 using RogueWave.GameStats;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using System.Xml.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace RogueWave
@@ -31,6 +27,10 @@ namespace RogueWave
             get { return instance.m_reconstructionScene; }
         }
 
+        static string ProfilesFolderPath {
+            get { return string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder); }
+        }
+
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void LoadRogueLiteManager()
         {
@@ -42,15 +42,13 @@ namespace RogueWave
         [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Explore To Profiles Folder", priority = 0)]
         static void ExploreToProfilesFolder()
         {
-            string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
-            Application.OpenURL(folder);
+            Application.OpenURL(ProfilesFolderPath);
         }
 
         [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Delete Profiles", priority = 1)]
         static void DeleteProfiles()
         {
-            string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
-            DirectoryInfo directory = new DirectoryInfo(folder);
+            DirectoryInfo directory = new DirectoryInfo(ProfilesFolderPath);
             if (directory.Exists)
             {
                 directory.Delete(true);
@@ -215,8 +213,7 @@ namespace RogueWave
         internal static void UpdateAvailableProfiles()
         {
             // Get or create the profiles folder
-            string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
-            DirectoryInfo directory = Directory.Exists(folder) ? new DirectoryInfo(folder) : Directory.CreateDirectory(folder);
+            DirectoryInfo directory = Directory.Exists(ProfilesFolderPath) ? new DirectoryInfo(ProfilesFolderPath) : Directory.CreateDirectory(ProfilesFolderPath);
 
             // Get and sort an array of profile files with the correct extension
             if (directory != null)
@@ -269,8 +266,7 @@ namespace RogueWave
             currentProfile = GetProfileName(index);
 
             // Load the stats from the saved files
-            string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
-            string path = string.Format("{0}{1}.{2}", folder, currentProfile, k_StatsExtension);
+            string path = string.Format("{0}{1}.{2}", ProfilesFolderPath, currentProfile, k_StatsExtension);
             if (File.Exists(path))
             {
                 string json = File.ReadAllText(path);
@@ -317,19 +313,18 @@ namespace RogueWave
                 return;
 
             // Check the folder exists
-            string folder = string.Format("{0}\\{1}\\", Application.persistentDataPath, k_Subfolder);
-            if (!Directory.Exists(folder))
-                Directory.CreateDirectory(folder);
+            if (!Directory.Exists(ProfilesFolderPath))
+                Directory.CreateDirectory(ProfilesFolderPath);
 
             // Write the profile data
-            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", folder, currentProfile, k_ProfileExtension)))
+            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", ProfilesFolderPath, currentProfile, k_ProfileExtension)))
             {
                 string json = JsonUtility.ToJson(m_PersistentData, true);
                 stream.Write(json);
             }
 
             // Write the stats data
-            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", folder, currentProfile, k_StatsExtension)))
+            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", ProfilesFolderPath, currentProfile, k_StatsExtension)))
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("{\n\"stats\": [");
