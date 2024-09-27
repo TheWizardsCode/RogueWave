@@ -42,10 +42,20 @@ namespace RogueWave
 
         private BasicHealthManager m_HealthManager;
         private Renderer modelRenderer;
+        private MeshRenderer[] meshRenderers;
+        private Collider[] colliders;
+        private ParticleSystem[] particles;
 
         private void Awake()
         {
             modelRenderer = GetComponentInChildren<Renderer>();
+        }
+
+        private void Start()
+        {
+            meshRenderers = GetComponentsInChildren<MeshRenderer>();
+            colliders = GetComponentsInChildren<Collider>();
+            particles = GetComponentsInChildren<ParticleSystem>();
         }
 
         private void OnEnable()
@@ -61,6 +71,15 @@ namespace RogueWave
 
         protected virtual void OnIsAliveChanged(bool isAlive)
         {
+            float ttl = 0;
+            foreach (ParticleSystem ps in particles)
+            {
+                if (ps.main.duration > ttl)
+                {
+                    ttl = ps.main.duration;
+                }
+            }
+
             if (!isAlive)
             {
                 if (destructibleDestroyed != null)
@@ -70,17 +89,10 @@ namespace RogueWave
 
                 if (m_PooledScaledFXParticles != null ||  m_PooledScaledDestructionParticles != null)
                 {
-                    //OPTIMIZATION: cache on start
-                    MeshRenderer[] meshRenderers = GetComponentsInChildren<MeshRenderer>();
-
-                    //OPTIMIZATION: cache on start
-                    Collider[] colliders = GetComponentsInChildren<Collider>();
-
                     int boundsMultiplier = 2 * (int)(meshRenderers[0].bounds.extents.x + meshRenderers[0].bounds.extents.y + meshRenderers[0].bounds.extents.z);
                     //Debug.Log($"Bounds multiplier {boundsMultiplier}");
 
-                    // Spawn the destruction particles
-                    SpawnDestructionParticles(meshRenderers[0], boundsMultiplier);
+                    ttl = SpawnDestructionParticles(meshRenderers[0], boundsMultiplier);
 
                     // Disable the mesh renderer and colliders
                     foreach (MeshRenderer meshRenderer in meshRenderers)
@@ -90,6 +102,13 @@ namespace RogueWave
                     for (int i = 0; i < colliders.Length; i++)
                     {
                         colliders[i].enabled = false;
+                    }
+
+                    // Stop any particle systems
+                    foreach (ParticleSystem ps in particles)
+                    {
+                        ParticleSystem.EmissionModule emissionModule = ps.emission;
+                        emissionModule.enabled = false;
                     }
 
                     if (m_DestroyedSound != null)
@@ -108,7 +127,6 @@ namespace RogueWave
                     {
                         PooledObject pooledObject = PoolManager.GetPooledObject<PooledObject>(m_PooledUnscaledParticles[d]);
                         pooledObject.transform.position += transform.position;
-
                     }
                 }
 
@@ -147,24 +165,45 @@ namespace RogueWave
                     resources.tag = magnetizeResources ? "MagneticPickup" : "Untagged";
                 }
 
-                Destroy(gameObject, 15);
+                Destroy(gameObject, ttl + 0.5f);
             }
         }
 
-        private void SpawnDestructionParticles(MeshRenderer meshRenderer, int boundsMultiplier)
+        /// <summary>
+        /// Spawns destruction particles based on the provided mesh renderer and bounds multiplier.
+        /// </summary>
+        /// <param name="meshRenderer">The mesh renderer of the object being destroyed.</param>
+        /// <param name="boundsMultiplier">A multiplier based on the bounds of the object to determine particle density.</param>
+        /// <returns>The time-to-live (TTL) of the longest particle system spawned.</returns>
+        /// <seealso cref="SpawnScaledParticle{T}(PooledObject[], MeshRenderer, int, bool)"/>
+        private float SpawnDestructionParticles(MeshRenderer meshRenderer, int boundsMultiplier)
         {
             if (m_PooledScaledDestructionParticles != null)
             {
-                SpawnScaledParticle<PooledObject>(m_PooledScaledDestructionParticles, meshRenderer, boundsMultiplier, true);
+                return SpawnScaledParticle<PooledObject>(m_PooledScaledDestructionParticles, meshRenderer, boundsMultiplier, true);
             }
             if (m_PooledScaledFXParticles != null)
             {
-                SpawnScaledParticle<PooledObject>(m_PooledScaledFXParticles, meshRenderer, boundsMultiplier, false);
+                return SpawnScaledParticle<PooledObject>(m_PooledScaledFXParticles, meshRenderer, boundsMultiplier, false);
             }
+
+            return 0;
         }
 
-        private void SpawnScaledParticle<T>(PooledObject[] particleSystems,  MeshRenderer meshRenderer, int boundsMultiplier, bool inheritColour) where T : PooledObject
+        /// <summary>
+        /// Spawns scaled particles based on the provided particle systems, mesh renderer, and bounds multiplier.
+        /// </summary>
+        /// <typeparam name="T">The type of the pooled object.</typeparam>
+        /// <param name="particleSystems">The array of particle systems to spawn.</param>
+        /// <param name="meshRenderer">The mesh renderer of the object being destroyed.</param>
+        /// <param name="boundsMultiplier">A multiplier based on the bounds of the object to determine particle density.</param>
+        /// <param name="inheritColour">Whether the particles should inherit the color of the mesh renderer's material.</param>
+        /// <returns>The time-to-live (TTL) of the longest particle system spawned.</returns>
+        /// <seealso cref="SpawnDestructionParticles(MeshRenderer, int)"/>
+        private float SpawnScaledParticle<T>(PooledObject[] particleSystems,  MeshRenderer meshRenderer, int boundsMultiplier, bool inheritColour) where T : PooledObject
         {
+            float ttl = 0;
+
             for (int d = 0; d < particleSystems.Length; d++)
             {
                 T pooledObject = PoolManager.GetPooledObject<T>(particleSystems[d], transform.position, Quaternion.identity);
@@ -223,7 +262,13 @@ namespace RogueWave
                 }
 
                 pooledObject.ReturnToPool(longestDuration);
+
+                if (longestDuration > ttl)
+                {
+                    ttl = longestDuration;
+                }
             }
+            return ttl + 1;
         }
 
         private void OnCollisionEnter(Collision collision)

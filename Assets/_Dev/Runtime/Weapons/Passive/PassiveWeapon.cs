@@ -82,7 +82,9 @@ namespace WizardsCode.RogueWave
 
         public virtual bool isReadyToFire
         {
-            get { 
+            get {
+                if (nanobotPawn == null) return false;
+
                 if (currentState == State.Firing)
                 {
                     return false;
@@ -112,7 +114,6 @@ namespace WizardsCode.RogueWave
                 muzzleFlash.Play();
             }
         }
-
 
         internal void PlayFireSFX()
         {

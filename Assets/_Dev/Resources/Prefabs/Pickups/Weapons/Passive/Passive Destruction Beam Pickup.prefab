@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7882223539810213671}
   - component: {fileID: 6803384081294311902}
   - component: {fileID: 6577608380947301008}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 4597160888235780910}
   - component: {fileID: 5846457087140679691}
   - component: {fileID: 7903400511340730340}
-  m_Layer: 0
+  m_Layer: 21
   m_Name: Passive Destruction Beam Pickup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -224,6 +224,18 @@ PrefabInstance:
     - target: {fileID: 1111285374248116, guid: 2a8aea48fd37ca04abba105487b9bea6, type: 3}
       propertyPath: m_Name
       value: QstOrbNeon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1111285374248116, guid: 2a8aea48fd37ca04abba105487b9bea6, type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1162213870837794, guid: 2a8aea48fd37ca04abba105487b9bea6, type: 3}
+      propertyPath: m_Layer
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570012866942100, guid: 2a8aea48fd37ca04abba105487b9bea6, type: 3}
+      propertyPath: m_Layer
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 4699515830468162, guid: 2a8aea48fd37ca04abba105487b9bea6, type: 3}
       propertyPath: m_LocalScale.x

@@ -3335,6 +3335,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
+      propertyPath: _startingRecipesPermanent.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 5c01213201fd72b4e806db0dd061f6f3, type: 3}
       propertyPath: m_SpawnZones.spawnZones.Array.data[0].m_DisplayName
       value: Test
       objectReference: {fileID: 0}
@@ -3427,14 +3435,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Discoverable Item
       objectReference: {fileID: 0}
-    - target: {fileID: 2074453075706875857, guid: 0cef081b81e1c3243bbf218f47c0fed8, type: 3}
-      propertyPath: possibleDrops.Array.size
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2074453075706875857, guid: 0cef081b81e1c3243bbf218f47c0fed8, type: 3}
-      propertyPath: possibleDrops.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: 0e4d41dead0dcc04289034c16c60cd2a, type: 2}
     - target: {fileID: 3923178092932777060, guid: 0cef081b81e1c3243bbf218f47c0fed8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 70
