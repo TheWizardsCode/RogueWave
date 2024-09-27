@@ -22,6 +22,12 @@ namespace RogueWave
         [SerializeField, Tooltip("The scene to load when the player enters the portal."), Scene]
         private string m_portalScene = "RogueWave_PortalUsed";
 
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void Init()
+        {
+            currentProfile = null;
+        }
+
         public static string reconstructionScene
         {
             get { return instance.m_reconstructionScene; }
