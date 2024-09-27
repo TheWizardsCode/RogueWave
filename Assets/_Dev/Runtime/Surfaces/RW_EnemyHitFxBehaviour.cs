@@ -1,8 +1,5 @@
 using NeoFPS;
-using RogueWave;
-using Steamworks;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
 
 namespace WizardsCode.RogueWave
 {

@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using NeoFPS;
-using PlasticPipe.PlasticProtocol.Messages;
 using UnityEngine;
 
 namespace WizardsCode.RogueWave

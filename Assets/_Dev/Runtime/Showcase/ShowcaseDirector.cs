@@ -10,7 +10,8 @@ using UnityEngine;
 namespace RogueWave.Editor
 {
      public class ShowcaseDirector : MonoBehaviour
-    {
+     {
+#if UNITY_EDITOR
         [SerializeField, Tooltip("The parent transforms to spawn the enemies under.")]
         BasicEnemyShowcase[] enemyShowcaseSpots;
 
@@ -142,14 +143,15 @@ namespace RogueWave.Editor
                     imagePaths.Add(path);
                 }
             }
-
             AssetDatabase.Refresh();
 
             foreach (string imagePath in imagePaths)
             {
                 AssetDatabase.ImportAsset(imagePath);
+
                 TextureImporter textureImporter = (TextureImporter)UnityEditor.AssetImporter.GetAtPath(imagePath);
                 textureImporter.textureType = TextureImporterType.Sprite;
+
                 AssetDatabase.WriteImportSettingsIfDirty(imagePath);
 
                 Debug.Log("Sprite of screenshot saved to: " + imagePath);
@@ -174,5 +176,6 @@ namespace RogueWave.Editor
                 }
             }
         }
+#endif
     }
 }
