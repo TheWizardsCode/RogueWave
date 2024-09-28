@@ -492,7 +492,7 @@ namespace RogueWave
             //    }
             //}
 
-            playerSpawnedEvent.Raise();
+            playerSpawnedEvent?.Raise();
         }
 
         private void LogGameState(string eventName)

@@ -99,7 +99,7 @@ MonoBehaviour:
   m_DeathSequenceDuration: 5
   m_Popup: {fileID: 0}
   m_PreSpawnUI: {fileID: 1715862449206160665, guid: ddf14a90891832a459b07cf9400c6ee7, type: 3}
-  m_ExecuteSceneSetupCommandsOnSpawn: 0
+  m_SpawnPlayerOnStart: 1
   m_VictoryDuration: 5
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
@@ -115,6 +115,7 @@ MonoBehaviour:
   m_PortalExitsCount: {fileID: 11400000, guid: dcd25387334f16c4e92d828dc31e508a, type: 2}
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
   m_TimePlayedStat: {fileID: 11400000, guid: cd470668f69eda34db38f3129ed8601f, type: 2}
+  playerSpawnedEvent: {fileID: 11400000, guid: 62734dc33d914fe498082946709a707d, type: 2}
   onSpawnerCreated:
     m_PersistentCalls:
       m_Calls: []

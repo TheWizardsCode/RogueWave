@@ -127,7 +127,9 @@ namespace WizardsCode.CommandTerminal
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("Failed to load assembly " + assembly + " " + e.Message);
+#if UNITY_EDITOR
+                    Debug.LogError("Command Ternminal failed to load assembly " + assembly + " " + e.Message);
+#endif
                 }
             }   
 
