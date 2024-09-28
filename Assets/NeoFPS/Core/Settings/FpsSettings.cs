@@ -6,7 +6,9 @@ namespace NeoFPS
 {
 	public class FpsSettings
     {
-        public static FpsPlaystyleSettings playstyle { get; private set; }
+        public static FpsPlaystyleSettings playstyle { 
+            get; 
+            private set; }
         public static FpsAudioSettings audio { get; private set; }
 		public static FpsGameplaySettings gameplay { get; private set; }
 		public static FpsGraphicsSettings graphics { get; private set; }

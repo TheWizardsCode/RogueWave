@@ -1,20 +1,20 @@
+using NAudio.Mixer;
 using NaughtyAttributes;
 using NeoFPS;
+using NeoFPSEditor.Samples;
 using RogueWave;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace WizardsCode.RogueWave
 {
+    [DefaultExecutionOrder(80)]
     public class AudioManager : MonoBehaviour
-    {
-        [Header("Volume Settings")]
-        [SerializeField, Range(-100, -60), Tooltip("The volume to set when a group is faded out.")]
-        internal float mutedVolume = -80;
-
+    {   
         [Header("Audio Mixer Groups")]
         [SerializeField, Tooltip("Master group is the final group in the chain. All other groups ulitmately route this this group.")]
         internal AudioMixerGroup master;
@@ -33,6 +33,7 @@ namespace WizardsCode.RogueWave
         [SerializeField, Tooltip("2D effects are computationally cheaper than spatial effects but are less effective in creating spatial awareness.")]
         internal AudioMixerGroup twoDimensional;
 
+        static float mutedVolume = -80;
         Dictionary<AudioMixerGroup, float> startingVolumes = new Dictionary<AudioMixerGroup, float>();
 
         private static AudioManager instance;
@@ -42,6 +43,7 @@ namespace WizardsCode.RogueWave
             {
                 if (instance == null)
                 {
+                    GameObject settingsObject = FpsSettings.runtimeSettingsObject; // ensure the settings object is created
                     instance = FindObjectOfType<AudioManager>();
                     DontDestroyOnLoad(instance);
                 }
@@ -82,8 +84,10 @@ namespace WizardsCode.RogueWave
             Instance.StartCoroutine(FadeGroupCoroutine(group, Instance.startingVolumes[group], duration));
         }
 
-        internal static IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetVolume, float duration, Action callback = null)
+        internal static IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetValue, float duration, Action callback = null)
         {
+            float targetVolume = ConvertToVolume(targetValue);
+
             if (duration <= 0)
             {
                 group.audioMixer.SetFloat(group.name + "Volume", targetVolume);
@@ -103,11 +107,24 @@ namespace WizardsCode.RogueWave
             callback?.Invoke();
         }
 
-        internal static void FadeAllExceptNanobots(float targetVolume, float fadeDuration, Action callback = null)
+        internal static void FadeAllExceptNanobots(float targetValue, float fadeDuration, Action callback = null)
         {
+            float targetVolume = ConvertToVolume(targetValue);
+
             Instance.StartCoroutine(FadeGroupCoroutine(Instance.music, targetVolume, fadeDuration, callback));
             Instance.StartCoroutine(FadeGroupCoroutine(Instance.ui, targetVolume, fadeDuration, callback));
             Instance.StartCoroutine(FadeGroupCoroutine(Instance.effectsMaster, targetVolume, fadeDuration, callback));
+        }
+
+        static float ConvertToVolume(float targetValue) {
+            if (targetValue < 0.001)
+            {
+                return mutedVolume;
+            }
+            else
+            {
+                return Mathf.Log10(targetValue) * 20f;
+            }
         }
 
 #if UNITY_EDITOR

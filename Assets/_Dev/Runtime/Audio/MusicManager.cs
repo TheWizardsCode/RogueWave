@@ -1,3 +1,4 @@
+using NeoFPS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using WizardsCode.RogueWave;
 namespace RogueWave
 {
     [RequireComponent(typeof(AudioSource), typeof(AudioManager))]
+    [DefaultExecutionOrder(100)]
     public class MusicManager : MonoBehaviour
     {
         public enum MusicType
@@ -76,7 +78,9 @@ namespace RogueWave
         {
             while (true)
             {
-                if (currentType == nextType) {
+                // OPTIMIZATION: Only play music when the volume is not muted
+                if (currentType == nextType) 
+                {
                     float timeRemaining = 0;
                     if (source.isPlaying)
                     {
@@ -94,7 +98,7 @@ namespace RogueWave
                             yield return new WaitForSeconds(pauseDuration);
                         }
 
-                        AudioManager.ResetGroup(source.outputAudioMixerGroup, 0);
+                        AudioManager.ResetGroup(source.outputAudioMixerGroup, FpsSettings.audio.musicVolume);
                         source.clip = SelectNextClip();
                         source.Play();
 
@@ -110,9 +114,9 @@ namespace RogueWave
                             break;
                         default:
                             // mute current music
-                            yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, AudioManager.Instance.mutedVolume, fadeDuration);
+                            yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, 0, fadeDuration);
                             // start next track
-                            AudioManager.ResetGroup(source.outputAudioMixerGroup, 0);
+                            AudioManager.ResetGroup(source.outputAudioMixerGroup, FpsSettings.audio.musicVolume);
                             source.clip = SelectNextClip();
                             source.Play();
 
@@ -163,7 +167,7 @@ namespace RogueWave
 
         private IEnumerator StopMusicCo()
         {
-            yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, AudioManager.Instance.mutedVolume, fadeDuration, 
+            yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, 0, fadeDuration, 
                 () => {
                     source.Stop();
                 });
@@ -171,7 +175,7 @@ namespace RogueWave
 
         internal void PlayEscapeMusic()
         {
-            AudioManager.FadeAllExceptNanobots(AudioManager.Instance.mutedVolume, 1);
+            AudioManager.FadeAllExceptNanobots(0, 1);
             PlayMenuMusic();
         }
 
