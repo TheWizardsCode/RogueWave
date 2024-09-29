@@ -218,16 +218,21 @@ namespace RogueWave
         /// <seealso cref="SpawnScaledParticle{T}(PooledObject[], MeshRenderer, int, bool)"/>
         private float SpawnDestructionParticles(MeshRenderer meshRenderer, int boundsMultiplier)
         {
+            float ttl = 0;
             if (m_PooledScaledDestructionParticles != null)
             {
-                return SpawnScaledParticle<PooledObject>(m_PooledScaledDestructionParticles, meshRenderer, boundsMultiplier, true);
+                ttl = SpawnScaledParticle<PooledObject>(m_PooledScaledDestructionParticles, meshRenderer, boundsMultiplier, true);
             }
             if (m_PooledScaledFXParticles != null)
             {
-                return SpawnScaledParticle<PooledObject>(m_PooledScaledFXParticles, meshRenderer, boundsMultiplier, false);
+                float newTTL = SpawnScaledParticle<PooledObject>(m_PooledScaledFXParticles, meshRenderer, boundsMultiplier, false);
+                if (newTTL > ttl)
+                {
+                    ttl = newTTL;
+                }
             }
 
-            return 0;
+            return ttl;
         }
 
         /// <summary>
