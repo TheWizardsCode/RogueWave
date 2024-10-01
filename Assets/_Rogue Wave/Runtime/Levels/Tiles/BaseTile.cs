@@ -14,6 +14,9 @@ namespace RogueWave
     /// </summary>
     public class BaseTile : MonoBehaviour
     {
+        [SerializeField, Tooltip("The number of map tiles that this tile occupies in the level. This is used to determine the size of the tile.")]
+        Vector3 m_TileArea = Vector3.one;
+
         [Header("Ground")]
         [SerializeField, Tooltip("The surface material for the ground of this tile.")]
         internal FpsSurfaceMaterial groundSurface = FpsSurfaceMaterial.Dust;
@@ -27,7 +30,7 @@ namespace RogueWave
         internal GameObject[] furniturePrefabs = null;
 
         [Header("Difficulty")]
-        [SerializeField, Tooltip("A multiplier for the chance of an enemiy spawning on this tile. The based chance is set in the tile definition, this curve is used to adjust the chance based on the game difficulty.")]
+        [SerializeField, Tooltip("A multiplier for the chance of an enemiy spawning on this tile. The basd chance is set in the tile definition, this curve is used to adjust the chance based on the game difficulty.")]
         AnimationCurve enemySpawnMultiplierByDifficulty = AnimationCurve.Linear(0,0,1,5);
 
         protected LevelGenerator levelGenerator;
@@ -48,6 +51,8 @@ namespace RogueWave
                 return m_aiDirector;
             }
         }
+
+        internal Vector3 TileArea => m_TileArea;
 
         public void Generate(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
@@ -86,7 +91,7 @@ namespace RogueWave
             MeshDraft draft;
             if (tileDefinition.isFlat)
             {
-                draft = MeshDraft.Plane(tileWidth, tileDepth);
+                draft = MeshDraft.Plane(tileWidth * tileDefinition.TileArea.x, tileDepth * tileDefinition.TileArea.z);
             }
             else
             {
@@ -95,6 +100,7 @@ namespace RogueWave
             draft.name = "Ground";
 
             ground.AddComponent<MeshFilter>().mesh = draft.ToMesh();
+            // TODO: get the material from the surface
             ground.AddComponent<MeshRenderer>().material = tileDefinition.groundMaterial;
             ground.AddComponent<MeshCollider>();
 
@@ -110,11 +116,14 @@ namespace RogueWave
             Gradient gradient = ColorE.Gradient(Color.black, Color.white);
             Vector2 noiseOffset = new Vector2(Random.Range(0f, 100f), Random.Range(0f, 100f));
 
-            int xSegments = Mathf.CeilToInt(tileWidth / tileDefinition.noiseCellSize);
-            int zSegments = Mathf.CeilToInt(tileDepth / tileDefinition.noiseCellSize);
+            float width = tileWidth * tileDefinition.TileArea.x;
+            float depth = tileDepth * tileDefinition.TileArea.z;
 
-            float xStep = tileWidth / (xSegments - 1);
-            float zStep = tileDepth / (zSegments - 1);
+            int xSegments = Mathf.CeilToInt(width / tileDefinition.noiseCellSize);
+            int zSegments = Mathf.CeilToInt(depth / tileDefinition.noiseCellSize);
+
+            float xStep = width / (xSegments - 1);
+            float zStep = depth / (zSegments - 1);
             int vertexCount = 6 * (xSegments - 1) * (zSegments - 1);
             var draft = new MeshDraft
             {

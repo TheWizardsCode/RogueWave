@@ -423,6 +423,22 @@ namespace RogueWave
         {
             bool isValid = tile.constraints.IsValidLocatoin(new Vector3Int(x, 0, y), xSize, ySize);
 
+            //Check there is enough space for the tile
+            if (tile.TileArea != Vector3.one)
+            {
+                for (int i = 0; i < tile.TileArea.x; i++)
+                {
+                    for (int j = 0; j < tile.TileArea.z; j++)
+                    {
+                        // TODO: should really be checking for adjacent tiles on each cell not just the spawn position
+                        if (x + i >= xSize || y + j >= ySize || tiles[x + i, y + j] != null)
+                        {
+                            isValid = false;
+                        }
+                    }
+                }
+            }
+
             // Check X Positive direction
             if (isValid && x < xSize - 1)
             {
@@ -630,6 +646,21 @@ namespace RogueWave
             //Debug.Log($"Instantiating tile of type {tile.tileDefinition} at ({x}, {y}) of {root}");
 
             tiles[x, y] = tile;
+
+            // if this tile covers more than one cell then we need to instantiate the other tiles too
+            if (tileDefinition.TileArea != Vector3.one)
+            {
+                for (int i = 0; i < tileDefinition.TileArea.x; i++)
+                {
+                    for (int j = 0; j < tileDefinition.TileArea.z; j++)
+                    {
+                        if (i != 0 || j != 0)
+                        {
+                            tiles[x + i, y + j] = tile;
+                        }
+                    }
+                }
+            }
         }
 
         internal void Clear()

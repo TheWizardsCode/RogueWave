@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Central Park (2x1) Right
+  m_Name: 2x2 Placed Block
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 2542797727158204644, guid: 0b44acfef2353054fbf9c01abbfd82db, type: 3}
+  tilePrefab: {fileID: 2542797727158204644, guid: a127ba4add2a2364493c5383c2d9943e, type: 3}
   isFlat: 1
   tileHeight: 3.04
   noiseCellSize: 0.842
@@ -24,12 +24,7 @@ MonoBehaviour:
     topRightBoundary: {x: 1, y: 1, z: 1}
     weight: 0.8
   xPositiveConstraints: []
-  xNegativeConstraints:
-  - tileDefinition: {fileID: 11400000, guid: 96e7fd26b5322fd43acf1c73da0a6475, type: 2}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 1
+  xNegativeConstraints: []
   zPositiveConstraints: []
   zNegativeConstraints: []
   m_DisplayName: Empty Level

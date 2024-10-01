@@ -58,6 +58,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The sprite to use when representing this tile, or a level containing this tile, in the UI.")]
         internal Sprite icon;
 
+        internal Vector3 TileArea => tilePrefab.TileArea;
+
         public string DisplayName {
             get {
                 if (string.IsNullOrEmpty(m_DisplayName))
