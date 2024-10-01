@@ -18,10 +18,10 @@ namespace RogueWave
         [Header("Size and Layout")]
         [SerializeField, Tooltip("The seed to use for the level generation. If this is set to <= 0 then a random seed will be used.")]
         internal int seed = 0;
-        [SerializeField, Tooltip("The size of the lot to generate the level in. This is used to determine the size of the level geometry. Each tile should fill this space.")]
-        internal Vector2 lotSize = new Vector2(50f, 50f);
+        [SerializeField, Tooltip("A lot is a single cell in the overall level. This is used to determine the size of the level geometry. Each single tile used in the level should fill this space.")]
+        internal Vector2 lotSize = new Vector2(25f, 25f);
         [SerializeField, Tooltip("The size of the level in tiles."), FormerlySerializedAs("size")]
-        internal Vector2Int mapSize = new Vector2Int(20, 20);
+        internal Vector2Int mapSize = new Vector2Int(10, 10);
         [SerializeField, Tooltip("If true then the entire level will be enclosed by a wall.")]
         internal bool encloseLevel = true;
 

@@ -10,19 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Recursive Test Level 1 - 100 x 100 Lots - 4 x 4
+  m_Name: Two Horizontal Placed Tiles
   m_EditorClassIdentifier: 
   seed: 0
-  lotSize: {x: 100, y: 100}
-  mapSize: {x: 5, y: 5}
-  encloseLevel: 1
-  defaultTileDefinition: {fileID: 11400000, guid: f3dbf46cc958ce844824f6fdca22a2af, type: 2}
-  wallTileDefinition: {fileID: 11400000, guid: 2480a9d2a10152847b7ade4451dde1a0, type: 2}
-  waves:
-  - {fileID: 11400000, guid: bcc18c73d27157f4ab2b2842e1cf7563, type: 2}
+  lotSize: {x: 25, y: 25}
+  mapSize: {x: 10, y: 10}
+  encloseLevel: 0
+  defaultTileDefinition: {fileID: 11400000, guid: 70b4321ff9fd26645abaf39d11a227f4, type: 2}
+  wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  waves: []
   waveWait: 5
   generateNewWaves: 0
   maxAlive: 200
   generateLevelOnSpawn: 1
   prePlacedTiles:
-  - {fileID: 11400000, guid: d06759628af557e42b3babe3e8f4909e, type: 2}
+  - {fileID: 11400000, guid: f61be12424cea4f4e9ef0b84d64fcd18, type: 2}
+  levelReadyAudioClips: []
+  levelCompleteAudioClips: []
+  deathAudioClips: []

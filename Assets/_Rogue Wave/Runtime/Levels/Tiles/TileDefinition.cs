@@ -135,7 +135,7 @@ namespace RogueWave
 
 #if UNITY_EDITOR
         [Button]
-        private void ClearAllExceptXDirection()
+        private void ClearAllConstraintsExceptXPositiveDirection()
         {
             xNegativeConstraints.Clear();
             zPositiveConstraints.Clear();
@@ -155,6 +155,38 @@ namespace RogueWave
             if (zNegativeConstraints.Count == 0)
             {
                 zNegativeConstraints = xPositiveConstraints.Select(c => new TileNeighbour { tileDefinition = c.tileDefinition, constraints = c.constraints }).ToList();
+            }
+        }
+
+        void OnValidate()
+        {
+            if (constraints == null)
+            {
+                constraints = new TileConstraint();
+            }
+            if (constraints.bottomLeftBoundary.x < 0)
+            {
+                constraints.bottomLeftBoundary.x = 0;
+            }
+            if (constraints.bottomLeftBoundary.y < 0)
+            {
+                constraints.bottomLeftBoundary.y = 0;
+            }
+            if (constraints.bottomLeftBoundary.z < 0)
+            {
+                constraints.bottomLeftBoundary.z = 0;
+            }
+            if (constraints.topRightBoundary.x > 1)
+            {
+                constraints.topRightBoundary.x = 1;
+            }
+            if (constraints.topRightBoundary.y > 1)
+            {
+                constraints.topRightBoundary.y = 1;
+            }
+            if (constraints.topRightBoundary.z > 1)
+            {
+                constraints.topRightBoundary.z = 1;
             }
         }
 #endif

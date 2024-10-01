@@ -112,7 +112,7 @@ namespace RogueWave
 #if UNITY_EDITOR
                 if (fastFail)
                 {
-                    GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. {generationFailureReport} In normal gameplay this would be regenerated.");
+                    GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. {generationFailureReport} In normal gameplay this would be regenerated. In the editor we fast fail to avoid endless loops during level development.");
                 }
 #else
                 GameLog.LogError($"Level with seed {seed} using {levelDefinition} is not valid. {generationFailureReport} Regenerating.");
