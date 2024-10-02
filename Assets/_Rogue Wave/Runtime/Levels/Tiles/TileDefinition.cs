@@ -58,7 +58,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The sprite to use when representing this tile, or a level containing this tile, in the UI.")]
         internal Sprite icon;
 
-        internal Vector3 TileArea => tilePrefab.TileArea;
+        internal Vector3 TileArea {
+            get => tilePrefab is MultiCellTile multiCellTilePrefab ? multiCellTilePrefab.TileArea : Vector3.one;
+        }
 
         public string DisplayName {
             get {
@@ -223,12 +225,60 @@ namespace RogueWave
             weight = 0.5f;
         }
 
-        internal bool IsValidLocatoin(Vector3Int tileCoords, int xSize, int ySize)
+        /// <summary>
+        /// Check if a tile can be placed at a given location.
+        /// </summary>
+        /// <param name="tileCoords">The coordinates of the location to test.</param>
+        /// <param name="xSize">The size of the map on the x axis</param>
+        /// <param name="ySize">The size of the map on the y (aka z) axis</param>
+        /// <param name="isEnclosed">If the map is enclosed on the outer tiles or not.</param>
+        /// <returns></returns>
+        internal bool IsValidLocation(Vector3Int tileCoords, int xSize, int ySize, bool isEnclosed)
         {
+
+            int bottomLeftX = Mathf.RoundToInt(bottomLeftBoundary.x * xSize);
+            int topRightX = Mathf.RoundToInt(topRightBoundary.x * xSize);
+            int bottomLeftZ = Mathf.RoundToInt(bottomLeftBoundary.z * ySize);
+            int topRightZ = Mathf.RoundToInt(topRightBoundary.z * ySize);
+
+            // Ensure it is in the bounds of the map, accounting for enclosing tiles if required
+            if (isEnclosed)
+            {
+                bottomLeftX = Mathf.Clamp(bottomLeftX, 1, xSize - 2);
+                topRightX = Mathf.Clamp(topRightX, 1, xSize - 2);
+                bottomLeftZ = Mathf.Clamp(bottomLeftZ, 1, ySize - 2);
+                topRightZ = Mathf.Clamp(topRightZ, 1, ySize - 2);
+            }
+            else
+            {
+                bottomLeftX = Mathf.Clamp(bottomLeftX, 0, xSize - 1);
+                topRightX = Mathf.Clamp(topRightX, 0, xSize - 1);
+                bottomLeftZ = Mathf.Clamp(bottomLeftZ, 0, ySize - 1);
+                topRightZ = Mathf.Clamp(topRightZ, 0, ySize - 1);
+            }
+
             // if the tile is outside the bounds of the level then it cannot be placed.
-            if (tileCoords.x < bottomLeftBoundary.x * xSize || tileCoords.x > topRightBoundary.x * xSize
-                || tileCoords.y < bottomLeftBoundary.y * ySize || tileCoords.y > topRightBoundary.y * ySize
-                || tileCoords.z < bottomLeftBoundary.z * ySize || tileCoords.z > topRightBoundary.z * ySize)
+            if (tileCoords.x < bottomLeftX)
+            {
+                return false;
+            }
+            if (tileCoords.x > topRightX)
+            {
+                return false;
+            }
+            if (tileCoords.y < Mathf.RoundToInt(bottomLeftBoundary.y * ySize))
+            {
+                return false;
+            }
+            if (tileCoords.y > Mathf.RoundToInt(topRightBoundary.y * ySize))
+            {
+                return false;
+            }
+            if (tileCoords.z < bottomLeftZ)
+            {
+                return false;
+            }
+            if (tileCoords.z > topRightZ)
             {
                 return false;
             }

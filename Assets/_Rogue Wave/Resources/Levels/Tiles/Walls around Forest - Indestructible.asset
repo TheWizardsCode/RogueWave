@@ -10,62 +10,42 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Forest Glade
+  m_Name: Walls around Forest - Indestructible
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 2542797727158204644, guid: 0b44acfef2353054fbf9c01abbfd82db, type: 3}
-  isFlat: 0
-  tileHeight: 3.04
-  noiseCellSize: 0.842
-  noiseFrequency: 6.48
+  tilePrefab: {fileID: -643772105435015575, guid: 646ed8d4dd198bb49881ec6ff095f93e, type: 3}
+  isFlat: 1
+  tileHeight: 1
+  noiseCellSize: 0.5
+  noiseFrequency: 3
   groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
   enemySpawnChance: 0
   constraints:
     bottomLeftBoundary: {x: 0, y: 0, z: 0}
     topRightBoundary: {x: 1, y: 1, z: 1}
-    weight: 0.8
+    weight: 0.5
   xPositiveConstraints:
-  - tileDefinition: {fileID: 11400000}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.426
   - tileDefinition: {fileID: 11400000, guid: 5d01d1101da7caf438911fcd75d8f6d3, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.224
+      weight: 0.5
   xNegativeConstraints:
-  - tileDefinition: {fileID: 11400000}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.426
   - tileDefinition: {fileID: 11400000, guid: 5d01d1101da7caf438911fcd75d8f6d3, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.224
+      weight: 0.5
   zPositiveConstraints:
-  - tileDefinition: {fileID: 11400000}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.426
   - tileDefinition: {fileID: 11400000, guid: 5d01d1101da7caf438911fcd75d8f6d3, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.224
+      weight: 0.5
   zNegativeConstraints:
-  - tileDefinition: {fileID: 11400000}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.426
   - tileDefinition: {fileID: 11400000, guid: 5d01d1101da7caf438911fcd75d8f6d3, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.224
-  m_DisplayName: Empty Level
+      weight: 0.5
+  m_DisplayName: Wall
   icon: {fileID: 0}

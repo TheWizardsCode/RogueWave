@@ -198,8 +198,29 @@ namespace RogueWave
                 {
                     tries++;
 
-                    int x = Random.Range(Mathf.RoundToInt(tile.constraints.bottomLeftBoundary.x * xSize), Mathf.RoundToInt(tile.constraints.topRightBoundary.x * xSize));
-                    int z = Random.Range(Mathf.RoundToInt(tile.constraints.bottomLeftBoundary.z * ySize), Mathf.RoundToInt(tile.constraints.topRightBoundary.z * ySize));
+                    int bottomLeftX = Mathf.RoundToInt(tile.constraints.bottomLeftBoundary.x * xSize);
+                    int topRightX = Mathf.RoundToInt(tile.constraints.topRightBoundary.x * xSize);
+                    int bottomLeftZ = Mathf.RoundToInt(tile.constraints.bottomLeftBoundary.z * ySize);
+                    int topRightZ = Mathf.RoundToInt(tile.constraints.topRightBoundary.z * ySize);
+
+                    // Ensure it is in the bounds of the map, accounting for enclosing tiles if required
+                    if (levelDefinition.encloseLevel)
+                    {
+                        bottomLeftX = Mathf.Clamp(bottomLeftX, 1, xSize - 2);
+                        topRightX = Mathf.Clamp(topRightX, 1, xSize - 2);
+                        bottomLeftZ = Mathf.Clamp(bottomLeftZ, 1, ySize - 2);
+                        topRightZ = Mathf.Clamp(topRightZ, 1, ySize - 2);
+                    } 
+                    else
+                    {
+                        bottomLeftX = Mathf.Clamp(bottomLeftX, 0, xSize - 1);
+                        topRightX = Mathf.Clamp(topRightX, 0, xSize - 1);
+                        bottomLeftZ = Mathf.Clamp(bottomLeftZ, 0, ySize - 1);
+                        topRightZ = Mathf.Clamp(topRightZ, 0, ySize - 1);
+                    }
+
+                    int x = Random.Range(bottomLeftX, topRightX);
+                    int z = Random.Range(bottomLeftZ, topRightZ);
 
                     // TODO: we should be checking that this tile is valid here as we may have already placed a tile
                     if (tiles[x, z] == null && IsValidTileFor(x, z, tile))
@@ -221,7 +242,7 @@ namespace RogueWave
                             {
                                 isPlaced = true;
                                 InstantiateTile(tile, x, y);
-                                Debug.Log($"Placed fixed tile {tile.name} at ({x}, {y})");
+                                // Debug.Log($"Placed fixed tile {tile.name} at ({x}, {y})");
                             }
                         }
                     }
@@ -421,7 +442,7 @@ namespace RogueWave
         /// <returns></returns>
         private bool IsValidTileFor(int x, int y, TileDefinition tile)
         {
-            bool isValid = tile.constraints.IsValidLocatoin(new Vector3Int(x, 0, y), xSize, ySize);
+            bool isValid = tile.constraints.IsValidLocation(new Vector3Int(x, 0, y), xSize, ySize, levelDefinition.encloseLevel);
 
             //Check there is enough space for the tile
             if (tile.TileArea != Vector3.one)
@@ -444,7 +465,7 @@ namespace RogueWave
             {
                 TileDefinition otherTile = tiles[x + 1, y]?.tileDefinition;
 
-                if (otherTile != null)
+                if (otherTile != null && otherTile != levelDefinition.wallTileDefinition)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.XNegative).FirstOrDefault(t => t == tile);
 
@@ -472,7 +493,7 @@ namespace RogueWave
             {
                 TileDefinition otherTile = tiles[x - 1, y]?.tileDefinition;
 
-                if (otherTile != null)
+                if (otherTile != null && otherTile != levelDefinition.wallTileDefinition)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.XPositive).FirstOrDefault(t => t == tile);
 
@@ -500,7 +521,7 @@ namespace RogueWave
             {
                 TileDefinition otherTile = tiles[x, y + 1]?.tileDefinition;
 
-                if (otherTile != null)
+                if (otherTile != null && otherTile != levelDefinition.wallTileDefinition)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.YNegative).FirstOrDefault(t => t == tile);
 
@@ -528,7 +549,7 @@ namespace RogueWave
             {
                 TileDefinition otherTile = tiles[x, y - 1]?.tileDefinition;
 
-                if (otherTile != null)
+                if (otherTile != null && otherTile != levelDefinition.wallTileDefinition)
                 {
                     TileDefinition candidate = otherTile.GetTileCandidates(TileDefinition.Direction.YPositive).FirstOrDefault(t => t == tile);
 

@@ -10,62 +10,62 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Forest
+  m_Name: 3x3 Central Enemy Spawner  with buildings Placed Block
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 2542797727158204644, guid: 995848d0d8300e44993789ad8bab61da, type: 3}
-  isFlat: 0
+  tilePrefab: {fileID: 4991774553734080440, guid: 3fc119a423483874c8c2e2c8c8bd42bd, type: 3}
+  isFlat: 1
   tileHeight: 3.04
   noiseCellSize: 0.842
   noiseFrequency: 6.48
   groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
   enemySpawnChance: 0
   constraints:
-    bottomLeftBoundary: {x: 0, y: 0, z: 0}
-    topRightBoundary: {x: 1, y: 1, z: 1}
+    bottomLeftBoundary: {x: 0.4, y: 0, z: 0.4}
+    topRightBoundary: {x: 0.4, y: 0, z: 0.4}
     weight: 0.8
   xPositiveConstraints:
-  - tileDefinition: {fileID: 11400000}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.495
   - tileDefinition: {fileID: 11400000, guid: 8c46c3f90739ab8478ee6f9d13b715a9, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.15
+      weight: 1
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.371
   xNegativeConstraints:
-  - tileDefinition: {fileID: 11400000}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.495
   - tileDefinition: {fileID: 11400000, guid: 8c46c3f90739ab8478ee6f9d13b715a9, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.15
+      weight: 1
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.371
   zPositiveConstraints:
-  - tileDefinition: {fileID: 11400000}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.495
   - tileDefinition: {fileID: 11400000, guid: 8c46c3f90739ab8478ee6f9d13b715a9, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.15
+      weight: 1
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.371
   zNegativeConstraints:
-  - tileDefinition: {fileID: 11400000}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.495
   - tileDefinition: {fileID: 11400000, guid: 8c46c3f90739ab8478ee6f9d13b715a9, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.15
+      weight: 1
+  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.371
   m_DisplayName: Empty Level
   icon: {fileID: 0}

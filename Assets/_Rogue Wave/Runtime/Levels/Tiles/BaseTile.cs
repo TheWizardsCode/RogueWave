@@ -14,9 +14,6 @@ namespace RogueWave
     /// </summary>
     public class BaseTile : MonoBehaviour
     {
-        [SerializeField, Tooltip("The number of map tiles that this tile occupies in the level. This is used to determine the size of the tile.")]
-        Vector3 m_TileArea = Vector3.one;
-
         [Header("Ground")]
         [SerializeField, Tooltip("The surface material for the ground of this tile.")]
         internal FpsSurfaceMaterial groundSurface = FpsSurfaceMaterial.Dust;
@@ -38,6 +35,7 @@ namespace RogueWave
         protected float tileDepth = 25f;
 
         public TileDefinition tileDefinition { get; internal set; }
+        internal virtual Vector3 TileArea => Vector3.one;
 
         private AIDirector m_aiDirector;
         private AIDirector aiDirector
@@ -52,9 +50,7 @@ namespace RogueWave
             }
         }
 
-        internal Vector3 TileArea => m_TileArea;
-
-        public void Generate(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
+        public virtual void Generate(int x, int y, BaseTile[,] tiles, LevelGenerator levelGenerator)
         {
             this.levelGenerator = levelGenerator;
             tileWidth = levelGenerator.levelDefinition.lotSize.x;
@@ -91,7 +87,7 @@ namespace RogueWave
             MeshDraft draft;
             if (tileDefinition.isFlat)
             {
-                draft = MeshDraft.Plane(tileWidth * tileDefinition.TileArea.x, tileDepth * tileDefinition.TileArea.z);
+                draft = MeshDraft.Plane(tileWidth * TileArea.x, tileDepth * TileArea.z);
             }
             else
             {
