@@ -18,6 +18,8 @@ namespace WizardsCode.RogueWave
 
         [SerializeField, Tooltip("A description of the damage to use in logs, etc.")]
         private string damageDescription = "Fireball";
+        [SerializeField, Tooltip("The damage filter to apply to the damage caused by this explosion. Only teams in this filter will be damaged by this weapon.")]
+        private DamageFilter _outDamageFilter = DamageFilter.AllDamageAllTeams;
 
         [SerializeField, Tooltip("The prototype for the explosion to be created when the object comes into contact with another object."), Required]
         PooledObject enemyHitBehaviourProtype;
@@ -29,8 +31,6 @@ namespace WizardsCode.RogueWave
         private LayerMask m_LayerMask;
         [ShowNonSerializedField, Tooltip("The maximum force that can be applied by this explosion.")]
         private float m_MaxForce = 5;
-
-        private DamageFilter _outDamageFilter = DamageFilter.AllDamageAllTeams;
         private PooledObject poolObject;
 
         public DamageFilter outDamageFilter

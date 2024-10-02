@@ -909,7 +909,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4166307933146951041}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 518d9bee85267a2419df6c8aa895ece3, type: 3}
+  m_Script: {fileID: 11500000, guid: 45761752b80639f4f8e4e1aa1519bd2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Multiplier: 1.5
@@ -919,6 +919,8 @@ MonoBehaviour:
   m_InventoryID: 157789892
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1.5
+  m_InDamageFilter:
+    m_Value: 65279
 --- !u!1 &4166312674587079531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1067,7 +1069,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4166717377054399289}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 518d9bee85267a2419df6c8aa895ece3, type: 3}
+  m_Script: {fileID: 11500000, guid: 45761752b80639f4f8e4e1aa1519bd2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Multiplier: 1
@@ -1077,6 +1079,8 @@ MonoBehaviour:
   m_InventoryID: 353087605
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1
+  m_InDamageFilter:
+    m_Value: 65279
 --- !u!1 &4166872335050492885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1549,7 +1553,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4166923167818112693}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 518d9bee85267a2419df6c8aa895ece3, type: 3}
+  m_Script: {fileID: 11500000, guid: 45761752b80639f4f8e4e1aa1519bd2f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Multiplier: 0.75
@@ -1559,6 +1563,8 @@ MonoBehaviour:
   m_InventoryID: 353087605
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1
+  m_InDamageFilter:
+    m_Value: 65279
 --- !u!1 &4167708424366983049
 GameObject:
   m_ObjectHideFlags: 0
@@ -2836,9 +2842,7 @@ MonoBehaviour:
   defaultPickupParticlePrefab: {fileID: 0}
   defaultRecipeName: {fileID: 0}
   m_Resources: {fileID: 11400000, guid: 156918b1d19c26d4da8c3d5e89e832f0, type: 2}
-  m_ResourcesCollected: {fileID: 11400000, guid: 0044ca86c5972d6498e847b647715df8, type: 2}
   m_CrystalResourcesCollected: {fileID: 11400000, guid: 86034a9fdd13f7842b0b6dc0a239f8ff, type: 2}
-  m_ResourcesSpent: {fileID: 11400000, guid: e938987c3b55c9b4c9a19e879e249f3d, type: 2}
   m_RecipesCalledInStat: {fileID: 11400000, guid: bfad8e21722d95142963889ba796f542, type: 2}
   m_MaxNanobotLevelStat: {fileID: 11400000, guid: 307294a8a5ca90041b6a5d50e42ca0b6, type: 2}
   isDebug: 0
