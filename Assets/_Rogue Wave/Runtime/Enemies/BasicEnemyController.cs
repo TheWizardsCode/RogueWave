@@ -89,7 +89,7 @@ namespace RogueWave
         internal float explosionForceOnDeath = 15;
 
         [Header("Rewards")]
-        [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
+        [SerializeField, Tooltip("The chance of dropping a reward when killed."), Range(0, 1)]
         internal float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed.")]
         internal ResourcesPickup resourcesPrefab;
@@ -118,6 +118,8 @@ namespace RogueWave
         private float sqrSeekDistance;
 
         internal BasicMovementController movementController;
+
+        public float ResourceDropChange { get => resourcesDropChance; set => resourcesDropChance = value; }
 
         public string description { 
             get {

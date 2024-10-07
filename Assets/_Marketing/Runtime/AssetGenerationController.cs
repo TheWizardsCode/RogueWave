@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -8,19 +7,22 @@ namespace WizardsCode.Marketing
     public class AssetGenerationController : MonoBehaviour
     {
         [SerializeField, Tooltip("The asset descriptor for the asset to be generated.")]
-        private AssetDescriptor assetDescriptor;
+        private AssetDescriptor[] assetDescriptors;
 
         private IEnumerator Start()
         {
-            StartCoroutine(assetDescriptor.GenerateHeroFrame());
-            if (assetDescriptor.GetType() != typeof(AssetDescriptor))
+            foreach (AssetDescriptor assetDescriptor in assetDescriptors)
             {
-                StartCoroutine(assetDescriptor.GenerateAsset());
-            }
+                StartCoroutine(assetDescriptor.GenerateHeroFrame());
+                if (assetDescriptor.GetType() != typeof(AssetDescriptor))
+                {
+                    StartCoroutine(assetDescriptor.GenerateAsset());
+                }
 
-            while (assetDescriptor.IsRecording)
-            {
-                yield return null;
+                while (assetDescriptor.IsRecording)
+                {
+                    yield return null;
+                }
             }
 
 #if UNITY_EDITOR

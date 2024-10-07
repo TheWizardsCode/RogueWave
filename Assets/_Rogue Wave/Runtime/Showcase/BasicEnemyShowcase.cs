@@ -1,29 +1,35 @@
 using NeoFPS;
 using NeoFPS.ModularFirearms;
-using RogueWave;
-using System;
 using System.Collections;
-using System.Drawing.Imaging;
-using System.Drawing;
 using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
-using System.IO;
 using NaughtyAttributes;
 
 namespace RogueWave.Editor
 {
     public class BasicEnemyShowcase : MonoBehaviour
     {
+        [Header("Showcase Settings")]
+        [SerializeField, Tooltip("Should this showcase be started automatically? If set to false then an external manager needs to start the showcase using the StartShowcase coroutine.")]
+        bool startAutomatically = false;
+        [SerializeField, Tooltip("The prefab of the enemy to showcase.")]
+        BasicEnemyController enemy;
         [SerializeField, Tooltip("The speed at which the object should rotate.")]
         float rotationSpeed = 20f;
-
+        [SerializeField, Tooltip("The duration of the showcase. Before this time the enemies health will be reduced to zero to simulate death. The time allocated for the death is set below in Death Duration.")]
+        float showcaseDuration = 6;
+        [SerializeField, Tooltip("The duration of the death animation.")]
+        float deathDuration = 1;
+        
         [Header("UI")]
-        [SerializeField, Tooltip("The text component to display the name of the enemy. If null this will be ignored for this enemy.")]
+        [SerializeField, Tooltip("Should the UI be displayed for this enemy?")]
+        bool showUI = true;
+        [SerializeField, Tooltip("The text component to display the name of the enemy. If null this will be ignored for this enemy."), ShowIf("showUI")]
         TMP_Text nameText;
-        [SerializeField, Tooltip("The text component to display the description of the enemy. If null this will be ignored for this enemy.")]
+        [SerializeField, Tooltip("The text component to display the description of the enemy. If null this will be ignored for this enemy."), ShowIf("showUI")]
         TMP_Text descriptionText;
-        [SerializeField, Tooltip("The text component to display the challenge rating of the enemy. If null this will be ignored for this enemy.")]
+        [SerializeField, Tooltip("The text component to display the challenge rating of the enemy. If null this will be ignored for this enemy."), ShowIf("showUI")]
         TMP_Text challengeRatingText;
 
         private EnemyLaser laser;
@@ -32,10 +38,22 @@ namespace RogueWave.Editor
         private BasicEnemyController enemyController;
 
         float currentAnimationDuration;
+        private BasicMovementController movementController;
 
-        internal IEnumerator StartShowcase()
+        private void Start()
         {
-            currentAnimationDuration = 5f;
+            movementController = GetComponentInChildren<BasicMovementController>();
+            movementController.enabled = false;
+
+            if (startAutomatically)
+            {
+                StartCoroutine(StartShowcase());
+            }
+        }
+
+        public IEnumerator StartShowcase()
+        {
+            currentAnimationDuration = showcaseDuration - deathDuration;
 
             Setup();
 
@@ -51,6 +69,11 @@ namespace RogueWave.Editor
             TearDown();
         }
 
+        public void StopShowcase()
+        {
+            DestroyImmediate(enemyController.gameObject);
+        }
+
         IEnumerator Animate()
         {
             while (currentAnimationDuration > 0)
@@ -64,6 +87,7 @@ namespace RogueWave.Editor
             if (healthManager != null)
             {
                 healthManager.AddDamage(10000);
+                yield return new WaitForSeconds(deathDuration);
             }
         }
 
@@ -113,6 +137,16 @@ namespace RogueWave.Editor
                 {
                     movementController.enabled = false;
                 }
+            }
+
+            SetupUI();
+        }
+
+        private void SetupUI()
+        {
+            if (!showUI)
+            {
+                return;
             }
 
             if (nameText != null)

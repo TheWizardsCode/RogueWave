@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1093ca616b327e4d9d55296eb0ebe77, type: 3}
   m_Name: Steam Main Steam Capsule
   m_EditorClassIdentifier: 
-  assetName: Steam Header Capsule
-  description: 'Usage: This appears at the top of the store page, in the ''Recommended
+  m_AssetName: Steam Header Capsule
+  m_Description: 'Usage: This appears at the top of the store page, in the ''Recommended
     For You'' section, in browse views on Big Picture mode, and for Daily Deals if
     applicable.
 
@@ -43,8 +43,19 @@ MonoBehaviour:
     then Artwork Overrides will allow you to upload bespoke capsule images to market
     something specific in your game, and then have those special images automatically
     expire after a set timespan.'
-  resolution: {x: 920, y: 430}
-  startFrame: 1
-  endFrame: 60
-  gifQuality: 90
-  isLooping: 1
+  m_Resolution: {x: 920, y: 430}
+  m_FrameRate: 60
+  m_HeroFrame: 25
+  m_FramesEitherSideOfHero: 3
+  m_StartTime: 0
+  m_EndTime: 2
+  m_CameraPosition: {x: 2.77, y: 1.285, z: 3.2}
+  m_CameraRotation: {x: 13.252595, y: 254.33795, z: 0.004194448}
+  m_LogoEnabled: 1
+  m_LogoPosition: {x: -41.421272, y: -23.808979, z: 41.641556}
+  m_LogoRotation: {x: 34.548756, y: 252.97021, z: 9.732688}
+  m_FogEnabled: 1
+  m_BackgroundPosition: {x: -886.8, y: -125.8, z: -148.5}
+  m_BackgroundRotation: {x: 77.600006, y: 74.85001, z: 179.54202}
+  m_GifQuality: 90
+  m_IsLooping: 1
