@@ -1,18 +1,33 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
-public class AssetGenerationController : MonoBehaviour
+namespace WizardsCode.Marketing
 {
-    // Start is called before the first frame update
-    void Start()
+    public class AssetGenerationController : MonoBehaviour
     {
-        
-    }
+        [SerializeField, Tooltip("The asset descriptor for the asset to be generated.")]
+        private AssetDescriptor assetDescriptor;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        private IEnumerator Start()
+        {
+            StartCoroutine(assetDescriptor.GenerateHeroFrame());
+            if (assetDescriptor.GetType() != typeof(AssetDescriptor))
+            {
+                StartCoroutine(assetDescriptor.GenerateAsset());
+            }
+
+            while (assetDescriptor.IsRecording)
+            {
+                yield return null;
+            }
+
+#if UNITY_EDITOR
+            EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
     }
 }
