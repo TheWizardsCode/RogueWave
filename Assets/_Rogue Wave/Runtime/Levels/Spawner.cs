@@ -87,7 +87,6 @@ namespace RogueWave
         internal WaveDefinition currentWave;
         internal WaveDefinition lastWave => currentLevel.waves[currentLevel.waves.Length - 1];
 
-
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
         private AudioSource audioSource;

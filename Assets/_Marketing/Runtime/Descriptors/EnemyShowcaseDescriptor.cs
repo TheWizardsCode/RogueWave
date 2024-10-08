@@ -38,7 +38,11 @@ namespace WizardsCode.Marketing
                 BasicEnemyController enemy = Instantiate(enemyPrefab, showcase.transform);
                 enemy.ResourceDropChange = 0;
 
-                enemy.GetComponent<BasicMovementController>().enabled = false;
+                BasicMovementController movementController = enemy.GetComponent<BasicMovementController>();
+                if (movementController != null)
+                {
+                    movementController.enabled = false;
+                }
 
                 CoroutineHelper.Instance.StartCoroutine(showcase.StartShowcase());
             }
