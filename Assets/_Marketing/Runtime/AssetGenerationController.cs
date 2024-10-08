@@ -23,6 +23,8 @@ namespace WizardsCode.Marketing
                 {
                     yield return null;
                 }
+
+                yield return new WaitForSeconds(1);
             }
 
 #if UNITY_EDITOR
