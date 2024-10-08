@@ -535,7 +535,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &550282988
 Transform:
   m_ObjectHideFlags: 0
@@ -959,7 +959,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8388608
   _maskDownsampling: 1
-  isRendering: 1
+  isRendering: 0
   fogRenderer: {fileID: 806939408}
   _fogOfWarEnabled: 0
   _fogOfWarCenter: {x: 0, y: 0, z: 0}
@@ -1454,7 +1454,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8388608
   _maskDownsampling: 1
-  isRendering: 1
+  isRendering: 0
   fogRenderer: {fileID: 806939408}
   _fogOfWarEnabled: 0
   _fogOfWarCenter: {x: 0, y: 0, z: 0}
@@ -1633,7 +1633,7 @@ Transform:
   m_GameObject: {fileID: 806939404}
   serializedVersion: 2
   m_LocalRotation: {x: -0.06968778, y: 0.79153675, z: -0.09197377, w: -0.6001284}
-  m_LocalPosition: {x: 2.77, y: 1.285, z: 3.2}
+  m_LocalPosition: {x: 3.69, y: 2.15, z: 0.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1731,15 +1731,7 @@ MonoBehaviour:
   _fogAreaSortingMode: 0
   _fogAreaRenderOrder: 1
   pointLightParams:
-  - light: {fileID: 0}
-    lightParams: {fileID: 0}
-    range: 0
-    rangeMultiplier: 1
-    intensity: 1
-    intensityMultiplier: 1
-    position: {x: 0, y: 0, z: 0}
-    color: {r: 1, g: 1, b: 0, a: 1}
-  - light: {fileID: 0}
+  - light: {fileID: 1193212526}
     lightParams: {fileID: 0}
     range: 0
     rangeMultiplier: 1
@@ -1755,7 +1747,7 @@ MonoBehaviour:
     intensityMultiplier: 1
     position: {x: 0, y: 0, z: 0}
     color: {r: 1, g: 1, b: 0, a: 1}
-  - light: {fileID: 1193212526}
+  - light: {fileID: 550261540}
     lightParams: {fileID: 0}
     range: 0
     rangeMultiplier: 1
@@ -1763,7 +1755,15 @@ MonoBehaviour:
     intensityMultiplier: 1
     position: {x: 0, y: 0, z: 0}
     color: {r: 1, g: 1, b: 0, a: 1}
-  - light: {fileID: 550261540}
+  - light: {fileID: 0}
+    lightParams: {fileID: 0}
+    range: 0
+    rangeMultiplier: 1
+    intensity: 1
+    intensityMultiplier: 1
+    position: {x: 0, y: 0, z: 0}
+    color: {r: 1, g: 1, b: 0, a: 1}
+  - light: {fileID: 0}
     lightParams: {fileID: 0}
     range: 0
     rangeMultiplier: 1
@@ -2632,7 +2632,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8388608
   _maskDownsampling: 1
-  isRendering: 1
+  isRendering: 0
   fogRenderer: {fileID: 806939408}
   _fogOfWarEnabled: 0
   _fogOfWarCenter: {x: 0, y: 0, z: 0}
@@ -3042,7 +3042,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8388608
   _maskDownsampling: 1
-  isRendering: 1
+  isRendering: 0
   fogRenderer: {fileID: 806939408}
   _fogOfWarEnabled: 0
   _fogOfWarCenter: {x: 0, y: 0, z: 0}
@@ -3213,7 +3213,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2053935310
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3221,8 +3221,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2053935309}
-  m_LocalRotation: {x: -0.000000059604645, y: 0.11684978, z: -0.000000040978193, w: -0.99314964}
-  m_LocalPosition: {x: 0, y: 0, z: -130.14005}
+  m_LocalRotation: {x: -0.00000014901161, y: 0.11684978, z: -0.00000021234155, w: -0.9931497}
+  m_LocalPosition: {x: 0, y: 0, z: -130.14009}
   m_LocalScale: {x: 0.40000004, y: 0.3225807, z: 0.3225807}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -3527,7 +3527,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8388608
   _maskDownsampling: 1
-  isRendering: 1
+  isRendering: 0
   fogRenderer: {fileID: 806939408}
   _fogOfWarEnabled: 0
   _fogOfWarCenter: {x: 0, y: 0, z: 0}

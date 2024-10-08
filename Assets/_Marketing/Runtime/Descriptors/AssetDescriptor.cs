@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 namespace WizardsCode.Marketing
@@ -45,16 +46,54 @@ namespace WizardsCode.Marketing
         Vector3 m_BackgroundPosition;
         [SerializeField, Tooltip("The rotation of the background during this asset capture."), Foldout("Scene Setup")]
         Vector3 m_BackgroundRotation;
+        [SerializeField, HideInInspector]
+        internal int heroCount = 0;
 
         internal string AssetName => m_AssetName;
         internal string Description => m_Description;
         internal Vector2Int Resolution => m_Resolution;
         internal float FrameRate => m_FrameRate;
         internal int HeroFrame => m_HeroFrame;
+        internal int FramesEitherSideOfHero => m_FramesEitherSideOfHero;
         internal float StartTime => m_StartTime;
         internal float EndTime => m_EndTime;
         
         public bool IsRecording { get; set; }
+
+        public string HeroPath
+        {
+            get
+            {
+                return $"Assets/Recordings/{AssetName}/{SceneName}/Still/";
+            }
+        }
+
+        public string HeroFilename
+        {
+            get
+            {
+                string date = DateTime.Now.ToString("yyyy-MM-dd");
+                return $"{SceneName}_{AssetName}_{date}_{heroCount.ToString("D4")}_Hero_";
+            }
+        }
+
+        protected string SceneName
+        {
+            get
+            {
+                string sceneName = "Unknown Scene";
+                for (int i = 0; i < SceneManager.sceneCount; i++)
+                {
+                    Scene scene = SceneManager.GetSceneAt(i);
+                    if (scene.isLoaded && scene.name != "Stage")
+                    {
+                        sceneName = scene.name;
+                    }
+                }
+
+                return sceneName;
+            }
+        }
 
         public virtual IEnumerator GenerateAsset(Action callback = null)
         {
@@ -65,6 +104,7 @@ namespace WizardsCode.Marketing
 
         public virtual IEnumerator GenerateHeroFrame(Action callback = null)
         {
+            heroCount++;
             LoadSceneSetup();
 
             IsRecording = true;
@@ -77,7 +117,7 @@ namespace WizardsCode.Marketing
                 yield return null;
             }
 
-            recorder.RecordImages(Resolution, m_FramesEitherSideOfHero + 1);
+            recorder.RecordImages(this);
             yield return recorder;
 
             while (Time.frameCount < targetFrame + (2 * m_FramesEitherSideOfHero))
@@ -156,6 +196,9 @@ namespace WizardsCode.Marketing
                     m_BackgroundPosition = backgroundController.transform.position;
                     m_BackgroundRotation = backgroundController.transform.eulerAngles;
                 }
+
+                UnityEditor.EditorUtility.SetDirty(this);
+                UnityEditor.AssetDatabase.SaveAssets();
             }
         }
     }

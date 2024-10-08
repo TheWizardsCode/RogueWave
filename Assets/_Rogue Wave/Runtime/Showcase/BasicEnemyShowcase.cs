@@ -8,6 +8,7 @@ using NaughtyAttributes;
 
 namespace RogueWave.Editor
 {
+    [DefaultExecutionOrder(1000)]
     public class BasicEnemyShowcase : MonoBehaviour
     {
         [Header("Showcase Settings")]
@@ -42,9 +43,6 @@ namespace RogueWave.Editor
 
         private void Start()
         {
-            movementController = GetComponentInChildren<BasicMovementController>();
-            movementController.enabled = false;
-
             if (startAutomatically)
             {
                 StartCoroutine(StartShowcase());
@@ -71,7 +69,10 @@ namespace RogueWave.Editor
 
         public void StopShowcase()
         {
-            DestroyImmediate(enemyController.gameObject);
+            if (enemyController != null)
+            {
+                DestroyImmediate(enemyController.gameObject);
+            }
         }
 
         IEnumerator Animate()
@@ -132,11 +133,14 @@ namespace RogueWave.Editor
             enemyController = GetComponentInChildren<BasicEnemyController>();
             if (enemyController != null)
             {
-                BasicMovementController movementController = GetComponentInChildren<BasicMovementController>();
+                movementController = GetComponentInChildren<BasicMovementController>();
                 if (movementController != null)
                 {
                     movementController.enabled = false;
                 }
+            } else
+            {
+                Debug.LogError($"No enemy controller for {this} to showcase.");
             }
 
             SetupUI();

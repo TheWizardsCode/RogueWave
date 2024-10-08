@@ -1,3 +1,4 @@
+using Codice.Client.BaseCommands;
 using System;
 using UnityEditor.Recorder;
 using UnityEditor.Recorder.Encoder;
@@ -39,7 +40,7 @@ namespace WizardsCode.Marketing
             }
         }
 
-        public void RecordImages(Vector2Int resolution, int numberOfFrames)
+        public void RecordImages(AssetDescriptor descriptor)
         {
             controller = new RecorderController(ScriptableObject.CreateInstance<RecorderControllerSettings>());
 
@@ -47,23 +48,20 @@ namespace WizardsCode.Marketing
             imageRecorderSettings.name = "Image Recorder";
             imageRecorderSettings.Enabled = true;
 
-            string sceneName = GetSceneName();
-            string date = DateTime.Now.ToString("yyyyMMdd");
-            string time = DateTime.Now.ToString("HHmmss");
-            imageRecorderSettings.OutputFile = $"Assets/Recordings/{assetName}/{sceneName}/Still/{assetName}_{sceneName}_{date}_{time}_Hero<Frame>";
+            imageRecorderSettings.OutputFile = $"{descriptor.HeroPath}{descriptor.HeroFilename}<Frame>";
 
             imageRecorderSettings.OutputFormat = ImageRecorderSettings.ImageRecorderOutputFormat.PNG;
             imageRecorderSettings.imageInputSettings = new GameViewInputSettings
             {
-                OutputWidth = resolution.x,
-                OutputHeight = resolution.y
+                OutputWidth = descriptor.Resolution.x,
+                OutputHeight = descriptor.Resolution.y
             };
 
             imageRecorderSettings.RecordMode = RecordMode.FrameInterval;
             imageRecorderSettings.FrameRate = frameRate;
             imageRecorderSettings.CapFrameRate = true;
             imageRecorderSettings.StartFrame = 0;
-            imageRecorderSettings.EndFrame = 2 * (numberOfFrames - 1) + 1;
+            imageRecorderSettings.EndFrame = 2 * descriptor.FramesEitherSideOfHero + 1;
 
             controller.Settings.AddRecorderSettings(imageRecorderSettings);
 
@@ -86,7 +84,16 @@ namespace WizardsCode.Marketing
             return sceneName;
         }
 
-        public void RecordGIF(float startTime, float endTime, uint quality, bool isLooping, Vector2Int resolution)
+        /// <summary>
+        /// Record a GIF of the scene.
+        /// </summary>
+        /// <param name="startTime">The time to start recording, measured from the frame in which this method is called.</param>
+        /// <param name="endTime">The time to stop recording, measured from the frame in which this method is called.</param>
+        /// <param name="quality">The quality of the GIF from 1 to 100, 100 being best.</param>
+        /// <param name="isLooping">True if the GIF is to loop, otherwise it is a one shot.</param>
+        /// <param name="resolution">The resolution in width (x) x height(y).</param>
+        /// <returns>The path to the GIF file on disk.</returns>
+        public void RecordGIF(GifAssetDescriptor descriptor)
         {
             controller = new RecorderController(ScriptableObject.CreateInstance<RecorderControllerSettings>());
 
@@ -96,27 +103,24 @@ namespace WizardsCode.Marketing
 
             var gifEncoderSettings = new GifEncoderSettings
             {
-                Quality = quality,
-                Loop = isLooping
+                Quality = descriptor.GifQuality,
+                Loop = descriptor.IsLooping
             };
             movieRecorderSettings.EncoderSettings = gifEncoderSettings;
 
-            string sceneName = GetSceneName();
-            string date = DateTime.Now.ToString("yyyyMMdd");
-            string time = DateTime.Now.ToString("HHmmss");
-            movieRecorderSettings.OutputFile = $"Assets/Recordings/{assetName}/{sceneName}/GIF/{sceneName}_{date}_{time}";
+            movieRecorderSettings.OutputFile = descriptor.GifPath + descriptor.GifFilename;
 
             movieRecorderSettings.ImageInputSettings = new GameViewInputSettings
             {
-                OutputWidth = resolution.x,
-                OutputHeight = resolution.y
+                OutputWidth = descriptor.Resolution.x,
+                OutputHeight = descriptor.Resolution.y
             };
 
             movieRecorderSettings.RecordMode = RecordMode.TimeInterval;
             movieRecorderSettings.FrameRate = frameRate;
             movieRecorderSettings.CapFrameRate = true;
-            movieRecorderSettings.StartTime = startTime;
-            movieRecorderSettings.EndTime = endTime;
+            movieRecorderSettings.StartTime = Time.time + descriptor.StartTime;
+            movieRecorderSettings.EndTime = descriptor.EndTime;
 
             controller.Settings.AddRecorderSettings(movieRecorderSettings);
 
