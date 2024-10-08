@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42be710ab6053094f9661d2ddd218bb5, type: 3}
   m_Name: Enemy Showcase - Spawner
   m_EditorClassIdentifier: 
-  m_AssetName: Proximity Spawner - Enemy Icon
+  m_AssetName: Spawner - Enemy Icon
   m_Description: Large scale icons representing an enemy.
   m_Resolution: {x: 512, y: 512}
-  m_FrameRate: 60
-  m_HeroFrame: 50
+  m_FrameRate: 30
+  m_HeroFrame: 65
   m_FramesEitherSideOfHero: 3
   m_StartTime: 0
-  m_EndTime: 5
+  m_EndTime: 5.2
   m_CameraPosition: {x: 19.92, y: 1.56, z: 5.14}
   m_CameraRotation: {x: 0.9207096, y: 254.9552, z: 358.78787}
   m_LogoEnabled: 0
@@ -28,10 +28,10 @@ MonoBehaviour:
   m_FogEnabled: 0
   m_BackgroundPosition: {x: -954, y: 193, z: -167}
   m_BackgroundRotation: {x: 77.600006, y: 74.85004, z: 179.54204}
-  heroCount: 3
+  heroCount: 9
   m_GifQuality: 90
   m_IsLooping: 1
   m_SaveAsLargeSpriteSheet: 1
   m_SaveAsSmallSpriteSheet: 1
-  gifCount: 3
-  enemyPrefab: {fileID: 6576056135945926902, guid: 8580e7bc57d7d9a4e9cc17120733b0c9, type: 3}
+  gifCount: 9
+  enemyPrefab: {fileID: 6576056135945926902, guid: da64e2bbd6874d14286e56a61d08e938, type: 3}

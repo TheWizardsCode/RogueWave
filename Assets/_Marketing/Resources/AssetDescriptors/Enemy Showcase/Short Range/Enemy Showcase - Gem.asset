@@ -15,7 +15,7 @@ MonoBehaviour:
   m_AssetName: Gem  - Enemy Icon
   m_Description: Large scale icons representing an enemy.
   m_Resolution: {x: 512, y: 512}
-  m_FrameRate: 60
+  m_FrameRate: 30
   m_HeroFrame: 1
   m_FramesEitherSideOfHero: 3
   m_StartTime: 0
@@ -28,8 +28,10 @@ MonoBehaviour:
   m_FogEnabled: 0
   m_BackgroundPosition: {x: -886.8, y: -125.8, z: -148.5}
   m_BackgroundRotation: {x: 77.6, y: 74.85, z: 179.542}
+  heroCount: 1
   m_GifQuality: 90
   m_IsLooping: 1
   m_SaveAsLargeSpriteSheet: 1
   m_SaveAsSmallSpriteSheet: 1
+  gifCount: 1
   enemyPrefab: {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
