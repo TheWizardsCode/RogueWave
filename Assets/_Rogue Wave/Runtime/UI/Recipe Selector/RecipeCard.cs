@@ -16,6 +16,8 @@ namespace RogueWave.UI
             AcquiredTemporaryMini
         }
 
+        [SerializeField, Tooltip("The UI style for this element.")]
+        internal UiStyle style;
         [SerializeField, Tooltip("The type of card this is.")]
         internal RecipeCardType cardType;
         [SerializeField, Tooltip("The UI element for displaying the image for this recipe.")]
@@ -101,7 +103,7 @@ namespace RogueWave.UI
             else
             {
                 selectionButton.interactable = false;
-                selectionButton.GetComponent<Image>().color = Color.red;
+                selectionButton.GetComponent<Image>().color = style.colours.disabled;
                 selectionButton.label = $"Insufficient Funds ({_recipe.BuyCost})";
             }
 

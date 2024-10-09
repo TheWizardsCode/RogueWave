@@ -1,13 +1,7 @@
 using NeoFPS.SinglePlayer;
 using NeoFPS;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NeoSaveGames.SceneManagement;
-using NaughtyAttributes;
-using System;
-using RogueWave;
-using System.Linq;
 using RogueWave.GameStats;
 
 namespace RogueWave.UI
@@ -45,14 +39,7 @@ namespace RogueWave.UI
 
         void Start()
         {
-            int weapons = 0;
-            if (RogueLiteManager.persistentData.runNumber == 0)
-            {
-                weapons = 1;
-            }
-
-            offers = RecipeManager.GetOffers(m_NumberOfOffers, weapons);
-            isDirty = true;
+            RerollOffers();
 
             if (FpsSoloCharacter.localPlayerCharacter == null)
             {
@@ -60,6 +47,18 @@ namespace RogueWave.UI
             }
 
             hubController = GetComponentInParent<HubController>();
+        }
+
+        internal void RerollOffers()
+        {
+            int requiredWeapons = 0;
+            if (RogueLiteManager.persistentData.runNumber == 0)
+            {
+                requiredWeapons = 1;
+            }
+
+            offers = RecipeManager.GetOffers(m_NumberOfOffers, requiredWeapons);
+            isDirty = true;
         }
 
         private void OnGUI()
@@ -94,9 +93,6 @@ namespace RogueWave.UI
                     if (recipe.IsStackable)
                     {
                         card.stackSize = RogueLiteManager.GetTotalCount(recipe);
-                        // TODO: this is the old method of calculating the total count, remove if above works
-                        // card.stackSize = HubController.permanentRecipes.Count(r => r.UniqueID == recipe.UniqueID);
-                        // card.stackSize += HubController.temporaryRecipes.Count(r => r.UniqueID == recipe.UniqueID);
                         card.stackSize++;
                     }
 

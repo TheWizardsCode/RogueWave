@@ -6,6 +6,7 @@ public class DevManagementWindow : EditorWindow
 {
     private const string k_MarketingStageScene = "Assets/_Marketing/Scenes/Stage.unity";
     private const string k_PlaytestScene = "Assets/_Dev/Scenes Dev/Playtest Dev.unity";
+    private const string k_LevelDevScene = "Assets/_Dev/Scenes Dev/Level Dev.unity";
     private const string k_MainGameScene = "Assets/_Rogue Wave/Scenes/RogueWave_MainMenu.unity";
     private const string k_EnemyShowcaseScene = "Assets/_Marketing/Scenes/Meet the Enemies.unity";
 
@@ -31,10 +32,26 @@ public class DevManagementWindow : EditorWindow
             StartApplication();
         }
 
-        if (GUILayout.Button("Launch Main"))
+        if (GUILayout.Button("Launch Main Scene"))
         {
             LoadScene(new string[] { k_MainGameScene });
             StartApplication();
+        }
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        if (GUILayout.Button("Open Prod Scenes Folder"))
+        {
+            var scenesFolder = AssetDatabase.LoadAssetAtPath<Object>(k_MainGameScene);
+            EditorGUIUtility.PingObject(scenesFolder);
+            Selection.activeObject = scenesFolder;
+        }
+
+        if (GUILayout.Button("Open Dev Scenes Folder"))
+        {
+            var scenesFolder = AssetDatabase.LoadAssetAtPath<Object>(k_LevelDevScene);
+            EditorGUIUtility.PingObject(scenesFolder);
+            Selection.activeObject = scenesFolder;
         }
         GUILayout.EndHorizontal();
     }

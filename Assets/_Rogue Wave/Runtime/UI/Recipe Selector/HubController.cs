@@ -14,6 +14,8 @@ namespace RogueWave.UI
     public class HubController : MonoBehaviour
     {
         [Header("UI Elements")]
+        [SerializeField, Tooltip("The UI Style to adopt in this part of the UI")]
+        UiStyle style;
         [SerializeField, Tooltip("The number of resources currently available to the player. If this is null then it is assumed that the resources should not be shown.")]
         private Text m_ResourcesText = null;
         [SerializeField, Tooltip("The text readout for the current game level number.")]
@@ -22,6 +24,10 @@ namespace RogueWave.UI
         private TMPro.TMP_Text m_NanobotLevelNumberText = null;
         [SerializeField, Tooltip("The button to move the player to the next screen on the way into combat.")]
         private MultiInputButton m_ContinueButton = null;
+        [SerializeField, Tooltip("A button that will cause a new set of offers to be created, at a cost.")]
+        private MultiInputButton m_RerollButton = null;
+        [SerializeField, Tooltip("The cost of rerolling the offers.")]
+        private int m_RerollCost = 350;
 
         static List<IRecipe> m_PermanentRecipes = new List<IRecipe>();
         static List<IRecipe> m_TemporaryRecipes = new List<IRecipe>();
@@ -42,6 +48,8 @@ namespace RogueWave.UI
         private void OnEnable()
         {
             m_ContinueButton.onClick.AddListener(QuitSelectionUI);
+            m_RerollButton.onClick.AddListener(RerollOffers);
+
             NeoFpsInputManager.captureMouseCursor = false;
 
             GameLog.Info($"Entering Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").value} resources.");
@@ -74,6 +82,8 @@ namespace RogueWave.UI
         private void OnDisable()
         {
             m_ContinueButton.onClick.RemoveListener(QuitSelectionUI);
+            m_RerollButton.onClick.RemoveListener(RerollOffers);
+
             NeoFpsInputManager.captureMouseCursor = true;
 
             GameLog.Info($"Exiting Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").value} resources.");
@@ -104,6 +114,31 @@ namespace RogueWave.UI
             {
                 m_ContinueButton.label = "Prepare for Nanotransfer";
                 m_ContinueButton.interactable = true;
+            }
+
+            if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= m_RerollCost)
+            {
+                m_RerollButton.interactable = true;
+                m_RerollButton.GetComponent<Image>().color = style.colours.normal;
+            }
+            else
+            {
+                m_RerollButton.interactable = false;
+                m_RerollButton.GetComponent<Image>().color = style.colours.disabled;
+            }
+        }
+
+        private void RerollOffers()
+        {
+            if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= m_RerollCost)
+            {
+                GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(m_RerollCost);
+
+                RecipeUpgradePanel upgrades = FindObjectOfType<RecipeUpgradePanel>();
+                if (upgrades != null)
+                {
+                    upgrades.RerollOffers();
+                }
             }
         }
 
