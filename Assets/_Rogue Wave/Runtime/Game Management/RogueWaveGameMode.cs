@@ -17,6 +17,7 @@ using UnityEngine.Serialization;
 using UnityEngine.SceneManagement;
 using NeoFPS.Samples;
 using WizardsCode.RogueWave;
+using System.Linq;
 
 namespace RogueWave
 {
@@ -48,8 +49,8 @@ namespace RogueWave
         [Header("Level Management")]
         [SerializeField, Tooltip("If true the level will be generated when the game mode starts.")]
         bool m_generateLevelOnStart = false;
-        [SerializeField, Tooltip("The campaign definitions which defines the levels to play in order, which in turn defines the enemies, geometry and more for each level."), Expandable]
-        CampaignDefinition campaign;
+        [SerializeField, Tooltip("The campaign definitions which defines the levels to play in order, which in turn defines the enemies, geometry and more for each level."), Expandable, FormerlySerializedAs("campaign")]
+        CampaignDefinition m_Campaign;
 
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("A short textual log of the game results.")]
@@ -83,6 +84,25 @@ namespace RogueWave
         {
             get { return m_PreSpawnUI != null; }
         }
+
+        public AbstractRecipe[] StartingPermanentRecipes
+        {
+            get { return _startingRecipesPermanent; }
+            set
+            {
+                _startingRecipesPermanent = _startingRecipesPermanent.Concat(value).ToArray();
+            }
+        }
+
+        public AbstractRecipe[] StartingRunRecipes
+        {
+            get { return _startingRecipesRun; }
+            set {
+                _startingRecipesRun = _startingRecipesRun.Concat(value).ToArray();
+            }
+        }
+
+        public CampaignDefinition Campaign => m_Campaign;
 
         private AIDirector m_aiDirector;
         private AIDirector aiDirector
@@ -130,10 +150,10 @@ namespace RogueWave
         public WfcDefinition currentLevelDefinition
         {
             get { 
-                if (campaign.levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
-                    return campaign.levels[campaign.levels.Length - 1]; 
+                if (m_Campaign.levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
+                    return m_Campaign.levels[m_Campaign.levels.Length - 1]; 
                 else
-                    return campaign.levels[RogueLiteManager.persistentData.currentGameLevel];
+                    return m_Campaign.levels[RogueLiteManager.persistentData.currentGameLevel];
             }
         }
 
@@ -385,7 +405,7 @@ namespace RogueWave
         {
             if (m_generateLevelOnStart)
             {
-                levelGenerator.Generate(currentLevelDefinition, campaign.seed);
+                levelGenerator.Generate(currentLevelDefinition, m_Campaign.seed);
             }
 
             base.OnStart();
@@ -438,9 +458,8 @@ namespace RogueWave
 
             timeInLevel = 0;
 
-            // Configure the character
+            // Configure the character health management
             character.onIsAliveChanged += OnCharacterIsAliveChanged;
-
             BasicHealthManager healthManager = character.GetComponent<BasicHealthManager>();
             healthManager.healthMax = initialHealth;
 
@@ -454,12 +473,13 @@ namespace RogueWave
                 }
             }
 
-            if (SceneManager.GetActiveScene().name == RogueLiteManager.combatScene)
-            {
+            // This test for the combat scene meant the player loadout was not being applied in test and demo scenes, but why was it here in the first place since the player only spawns into scenes where they are going into combat. Can we remove this? 10/8/24
+            // if (SceneManager.GetActiveScene().name == RogueLiteManager.combatScene)
+            // {
                 FpsInventoryLoadout loadout = ConfigureLoadout();
                 if (loadout != null)
                     character.GetComponent<IInventory>()?.ApplyLoadout(loadout);
-            }
+            // }
 
             // Add nanobot recipes
             NanobotManager manager = character.GetComponent<NanobotManager>();
@@ -473,7 +493,7 @@ namespace RogueWave
 
             startTime = Time.time;
 
-            m_GameLog.Add($"{campaign.name}-{RogueLiteManager.persistentData.currentGameLevel}-");
+            m_GameLog.Add($"{m_Campaign.name}-{RogueLiteManager.persistentData.currentGameLevel}-");
 
             LogGameState("Character Spawned");
 
@@ -631,12 +651,15 @@ namespace RogueWave
         #region Pre Spawn
         protected override bool PreSpawnStep()
         {
+            // TODO: Are we going to have a level progress bar in the game? If note we should remove it rather than just disable it
             if (levelProgressBar != null)
             {
                 levelProgressBar.gameObject.SetActive(false);
             }
+
             RogueLiteManager.persistentData.runNumber++;
 
+            // If this is the first run then we need to ensure the player has a minimum amount of resources
             // TODO: Remove hard coding of resource stat key
             if (RogueLiteManager.persistentData.runNumber == 1 && GameStatsManager.Instance.GetIntStat("RESOURCES").value < 150) // this will be the players first run
             {
@@ -653,7 +676,7 @@ namespace RogueWave
                 }
             }
 
-            // Ensure permanent starting recipes are added to the player
+            // Ensure Game Mode permanent starting recipes are added to the player
             foreach (IRecipe recipe in _startingRecipesPermanent)
             {
                 RogueLiteManager.persistentData.Add(recipe);
@@ -671,29 +694,37 @@ namespace RogueWave
                 }
             }
 
+            // Gather together all the run recipes, both from previous runs and from the starting recipes for this run's Game Mode
             List<IRecipe> recipes = new List<IRecipe>();
             recipes.AddRange(RogueLiteManager.runData.Recipes);
             recipes.AddRange(_startingRecipesRun);
 
+            // Reset loadout so that no weapons are available on start
             RogueLiteManager.runData.Loadout.Clear();
+
+            // Ensure the build order contains all the weapons that are available in this run, ones that are already present are not touched, but ones that are missing are added.
             for (int i = 0; i < recipes.Count; i++)
             {
                 if (recipes[i] is WeaponRecipe && !RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipes[i].UniqueID))
                 {
                     RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipes[i].UniqueID);
                 }
+
+                // Ensure that the player has all the recipes available to them in this run
+                RogueLiteManager.runData.Recipes.Add(recipes[i]);
             }
 
+            // Ensure the player has all the permanaent recipes available to them in this run and that they are correctly configured for the run
             for (int i = 0; i < _startingRecipesPermanent.Length; i++)
             {
                 RogueLiteManager.persistentData.Add(_startingRecipesPermanent[i]);
             }
-
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
                 ConfigureRecipeForRun(RogueLiteManager.persistentData.RecipeIds[i]);
             }
 
+            // if we are showing a pre-spawn UI then we need to show it now
             if (showPrespawnUI)
             {
                 LevelMenu ui = PrefabPopupContainer.ShowPrefabPopup(m_PreSpawnUI);
@@ -711,7 +742,7 @@ namespace RogueWave
         {
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
-                levelGenerator.Generate(currentLevelDefinition, campaign.seed);
+                levelGenerator.Generate(currentLevelDefinition, m_Campaign.seed);
             }
 
             if (currentLevelDefinition.levelReadyAudioClips != null && currentLevelDefinition.levelReadyAudioClips.Length > 0)

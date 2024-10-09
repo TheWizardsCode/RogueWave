@@ -130,6 +130,11 @@ namespace RogueWave
             }
         }
 
+        public void MuteMusic()
+        {
+            AudioManager.FadeGroup(source.outputAudioMixerGroup, -80, fadeDuration);
+        }
+
         private AudioClip SelectNextClip()
         {
             switch (nextType)

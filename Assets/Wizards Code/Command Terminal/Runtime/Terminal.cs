@@ -4,9 +4,6 @@ using UnityEngine.Assertions;
 using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
-using System.ComponentModel;
-using NaughtyAttributes;
-using ReadOnlyAttribute = NaughtyAttributes.ReadOnlyAttribute;
 
 namespace WizardsCode.CommandTerminal
 {

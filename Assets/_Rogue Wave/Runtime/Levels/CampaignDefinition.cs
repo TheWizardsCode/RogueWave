@@ -14,5 +14,10 @@ namespace RogueWave
         internal int seed = -1;
         [SerializeField, Tooltip("The level definitions which define the enemies, geometry and more for each level within the campaign."), Expandable]
         internal WfcDefinition[] levels;
+
+        public void SetLevel(WfcDefinition level, int index = 0)
+        {
+            levels[index] = level;
+        }
     }
 }

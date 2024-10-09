@@ -1,4 +1,3 @@
-using Codice.Utils;
 using NaughtyAttributes;
 using System;
 using System.Collections;
@@ -8,28 +7,34 @@ using UnityEngine.Serialization;
 
 namespace WizardsCode.Marketing
 {
+    [CreateAssetMenu(fileName = "New Asset Descriptor", menuName = "Wizards Code/Marketing/Generic Asset Descriptor")]
     public class AssetDescriptor : ScriptableObject
     {
-        [Header("Metadata")]
-        [SerializeField, Tooltip("A name to be used in filenames and other references."), FormerlySerializedAs("assetName")]
+        //[Header("Metadata")]
+        [SerializeField, Tooltip("A name to be used in filenames and other references."), BoxGroup("Metadata"), FormerlySerializedAs("assetName")]
         string m_AssetName;
-        [SerializeField, Tooltip("The description of the asset, used as a reminder for why this is needed."), TextArea(10,25), FormerlySerializedAs("description")]
+        [SerializeField, Tooltip("The description of the asset, used as a reminder for why this is needed."), TextArea(3,8), BoxGroup("Metadata"), FormerlySerializedAs("description")]
         string m_Description;
 
-        [Header("Asset Settings")]
-        [SerializeField, Tooltip("The resolution of the asset in pixels.")]
+        [HorizontalLine(color: EColor.Gray)]
+
+        //[Header("Asset Settings")]
+        [SerializeField, Tooltip("The resolution of the asset in pixels."), BoxGroup("Asset Settings")]
         Vector2Int m_Resolution = new Vector2Int(1920, 1080);
-        [SerializeField, Tooltip("The target frame rate for the asset. If the asset is only a helo image then this is the frame rate of the rendering of frames around the hero frame.")]
+        [SerializeField, Tooltip("The target frame rate for the asset. If the asset is only a helo image then this is the frame rate of the rendering of frames around the hero frame."), BoxGroup("Asset Settings")]
         float m_FrameRate = 60;
-        [SerializeField, Tooltip("The hero frame is the one that is most pleasing within the sequence. This frame, and one either side, will always be captured as a still, regardless of the kind of asset being generated.")]
+        [SerializeField, Tooltip("The hero frame is the one that is most pleasing within the sequence. This frame, and one either side, will always be captured as a still, regardless of the kind of asset being generated."), BoxGroup("Asset Settings")]
         int m_HeroFrame = 30;
-        [SerializeField, Tooltip("How many frames to capture before and after the hero frame.")]
+        [SerializeField, Tooltip("How many frames to capture before and after the hero frame."), BoxGroup("Asset Settings")]
         int m_FramesEitherSideOfHero = 3;
-        [SerializeField, Tooltip("The time, in game time, when the asset recording starts. You should leave enough frames for the scene to \"warm up\".")]
+        [SerializeField, Tooltip("The time, in game time, when the asset recording starts. You should leave enough frames for the scene to \"warm up\"."), BoxGroup("Asset Settings")]
         float m_StartTime = 0;
-        [SerializeField, Tooltip("The time, in game time, when the asset recording stops..")]
+        [SerializeField, Tooltip("The time, in game time, when the asset recording stops.."), BoxGroup("Asset Settings")]
         float m_EndTime = 2;
 
+        [HorizontalLine(color: EColor.Gray)]
+
+        //[Header("Scene Setup")]
         [SerializeField, Tooltip("The camera position for the asset capture."), Foldout("Scene Setup")]
         Vector3 m_CameraPosition = Vector3.zero;
         [SerializeField, Tooltip("The camera rotation for the asset capture."), Foldout("Scene Setup")]
@@ -141,7 +146,7 @@ namespace WizardsCode.Marketing
         }
 
         [Button()]
-        void LoadSceneSetup()
+        public virtual void LoadSceneSetup()
         {
             Camera.main.transform.position = m_CameraPosition;
             Camera.main.transform.eulerAngles = m_CameraRotation;

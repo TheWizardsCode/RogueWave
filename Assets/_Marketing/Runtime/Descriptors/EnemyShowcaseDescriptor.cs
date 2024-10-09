@@ -6,6 +6,7 @@ using UnityEngine;
 
 namespace WizardsCode.Marketing
 {
+    [CreateAssetMenu(fileName = "New Enemy Showcase Descriptor", menuName = "Wizards Code/Marketing/Enemy Showcase Descriptor")]
     public class EnemyShowcaseDescriptor : GifAssetDescriptor
     {
         [Header("Enemy Showcase Settings")]
