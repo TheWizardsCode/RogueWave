@@ -75,7 +75,7 @@ namespace WizardsCode.Marketing
             RecorderUtils recorder = new RecorderUtils();
             recorder.RecordGIF(this);
 
-            while (Time.time - sessionStartTime <= EndTime)
+            while (Time.time - sessionStartTime <= VideoEndTime)
             {
                 yield return null;
             }

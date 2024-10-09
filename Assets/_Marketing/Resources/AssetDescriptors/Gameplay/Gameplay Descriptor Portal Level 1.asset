@@ -16,13 +16,16 @@ MonoBehaviour:
   m_Description: Sets up the end game where the player is battling for entrance to
     the area with the portal within.
   m_Resolution: {x: 1920, y: 1080}
-  m_FrameRate: 24
-  m_CaptureHeroImage: 1
+  m_FrameRate: 60
+  m_CaptureHeroImage: 0
   m_HeroFrame: 90
   m_FramesEitherSideOfHero: 3
+  m_CaptureImageSequence: 0
+  m_ImageSequenceStartTime: 0
+  m_ImageSequenceEndTime: 10
   m_CaptureVideo: 0
-  m_StartTime: 0
-  m_EndTime: 0
+  m_VideoStartTime: 0
+  m_VideoEndTime: 10
   m_CameraPosition: {x: 0, y: 0, z: 0}
   m_CameraRotation: {x: 0, y: 0, z: 0}
   m_LogoEnabled: 1
@@ -32,7 +35,8 @@ MonoBehaviour:
   m_BackgroundPosition: {x: 0, y: 0, z: 0}
   m_BackgroundRotation: {x: 0, y: 0, z: 0}
   heroCount: 17
-  videoCount: 3
+  imageSequenceCount: 2
+  videoCount: 4
   m_LevelDefinition: {fileID: 11400000, guid: 4d920e59a2c95624eb76646df96e4ffc, type: 2}
   m_TerminalCommands: 'KillPercentageEnemies 1
 

@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using NeoFPS;
 using WizardsCode.CommandTerminal;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 namespace WizardsCode.Marketing
 {
@@ -50,23 +51,10 @@ namespace WizardsCode.Marketing
 
         private RogueWaveGameMode gameMode;
 
-        [Button]
-        void SetPlayerStart()
-        {
-            SceneView sceneView = SceneView.lastActiveSceneView;
-            m_PlayerStartPosition = sceneView.camera.transform.position;
-            // the y value will be checked on teleport to ensure it is valid, set high now to ensure we are above anything generated in this space
-            m_PlayerStartRotation.y = 1000; 
-            m_PlayerStartRotation = Quaternion.Euler(0, sceneView.camera.transform.rotation.eulerAngles.y, 0);
-        }
-
-        [Button]
-        public void StartGameplay()
+        public override void LoadSceneSetup()
         {
             base.LoadSceneSetup();
-
-            EditorSceneManager.OpenScene("Assets/_Dev/Scenes Dev/Playtest Dev.unity");
-
+            
             gameMode = FindObjectOfType<RogueWaveGameMode>();
 
             // Configure the level
@@ -87,9 +75,22 @@ namespace WizardsCode.Marketing
             _ = StartGamePlay();
         }
 
+        [Button]
+        void SetPlayerStart()
+        {
+            SceneView sceneView = SceneView.lastActiveSceneView;
+            m_PlayerStartPosition = sceneView.camera.transform.position;
+            // the y value will be checked on teleport to ensure it is valid, set high now to ensure we are above anything generated in this space
+            m_PlayerStartRotation.y = 1000; 
+            m_PlayerStartRotation = Quaternion.Euler(0, sceneView.camera.transform.rotation.eulerAngles.y, 0);
+        }
+
         public async Task StartGamePlay()
         {
-            EditorApplication.isPlaying = true;
+            if (!Application.isPlaying)
+            {
+                EditorApplication.isPlaying = true;
+            }
 
             int waitIterations = 10000;
             while (waitIterations > 0 && FpsSoloCharacter.localPlayerCharacter == null)

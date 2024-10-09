@@ -25,13 +25,13 @@ namespace WizardsCode.Marketing
             }
         }
 
-        public void RecordImages(AssetDescriptor descriptor)
+        public void RecordHeroImage(AssetDescriptor descriptor)
         {
             RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
             controller = new RecorderController(controllerSettings);
 
             ImageRecorderSettings settings = ScriptableObject.CreateInstance<ImageRecorderSettings>();
-            settings.name = "Image Recorder";
+            settings.name = "Hero Image Recorder";
             settings.Enabled = true;
 
             settings.OutputFormat = ImageRecorderSettings.ImageRecorderOutputFormat.PNG;
@@ -47,26 +47,44 @@ namespace WizardsCode.Marketing
             controllerSettings.SetRecordModeToFrameInterval(0, 2 * descriptor.FramesEitherSideOfHero + 1); // start is 0 as we only start this recorder when at the right frame
             controllerSettings.AddRecorderSettings(settings);
             
-            settings.OutputFile = $"{descriptor.HeroPath}{descriptor.HeroFilename}<Frame>";
+            settings.OutputFile = $"{descriptor.HeroPath}{descriptor.HeroFilename}";
 
             RecorderOptions.VerboseMode = false;
             controller.PrepareRecording();
             controller.StartRecording();
         }
 
-        private static string GetSceneName()
+        /// <summary>
+        /// Record an image sequence of the scene.
+        /// </summary>
+        /// <param name="descriptor">The descriptor for the image sequence to record. This contains all the details needed to configure the GIF recorder.</param>
+        public void RecordImageSequence(AssetDescriptor descriptor)
         {
-            string sceneName = "Unknown Scene";
-            for (int i = 0; i < SceneManager.sceneCount; i++)
-            {
-                Scene scene = SceneManager.GetSceneAt(i);
-                if (scene.isLoaded && scene.name != "Stage")
-                {
-                    sceneName = scene.name;
-                }
-            }
+            RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
+            controller = new RecorderController(controllerSettings);
 
-            return sceneName;
+            ImageRecorderSettings settings = ScriptableObject.CreateInstance<ImageRecorderSettings>();
+            settings.name = "Image Sequence Recorder";
+            settings.Enabled = true;
+
+            settings.OutputFormat = ImageRecorderSettings.ImageRecorderOutputFormat.PNG;
+            settings.CaptureAlpha = true;
+
+            settings.imageInputSettings = new GameViewInputSettings
+            {
+                OutputWidth = descriptor.Resolution.x,
+                OutputHeight = descriptor.Resolution.y
+            };
+
+            controllerSettings.SetRecordModeToManual();
+            controllerSettings.FrameRate = descriptor.FrameRate;
+            controllerSettings.AddRecorderSettings(settings);
+
+            settings.OutputFile = descriptor.ImageSequencePath + descriptor.ImageSequenceFilename;
+
+            RecorderOptions.VerboseMode = false;
+            controller.PrepareRecording();
+            controller.StartRecording();
         }
 
         /// <summary>
@@ -136,7 +154,7 @@ namespace WizardsCode.Marketing
             settings.OutputFile = descriptor.GifPath + descriptor.GifFilename;
 
             controllerSettings.AddRecorderSettings(settings);
-            controllerSettings.SetRecordModeToTimeInterval(Time.time + descriptor.StartTime, descriptor.EndTime);
+            controllerSettings.SetRecordModeToTimeInterval(Time.time + descriptor.VideoStartTime, descriptor.VideoEndTime);
             controllerSettings.FrameRate = descriptor.FrameRate;
 
             RecorderOptions.VerboseMode = false;
