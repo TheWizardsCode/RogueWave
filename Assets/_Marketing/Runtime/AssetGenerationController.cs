@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -6,7 +7,7 @@ namespace WizardsCode.Marketing
 {
     public class AssetGenerationController : MonoBehaviour
     {
-        [SerializeField, Tooltip("The asset descriptor for the asset to be generated.")]
+        [SerializeField, Tooltip("The asset descriptor for the asset to be generated."), Expandable]
         private AssetDescriptor[] assetDescriptors;
 
         private IEnumerator Start()

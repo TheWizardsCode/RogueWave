@@ -107,7 +107,7 @@ namespace WizardsCode.Marketing
                 SceneView sceneView = SceneView.lastActiveSceneView;
                 m_PlayerStartPosition = sceneView.camera.transform.position;
                 // the y value will be checked on teleport to ensure it is valid, set high now to ensure we are above anything generated in this space
-                m_PlayerStartRotation.y = 1000;
+                m_PlayerStartPosition.y = 1000;
                 m_PlayerStartRotation = Quaternion.Euler(0, sceneView.camera.transform.rotation.eulerAngles.y, 0);
             }
         }
