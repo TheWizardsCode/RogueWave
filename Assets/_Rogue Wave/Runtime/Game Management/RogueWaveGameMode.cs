@@ -98,7 +98,7 @@ namespace RogueWave
         {
             get { return _startingRecipesRun; }
             set {
-                _startingRecipesRun = _startingRecipesRun.Concat(value).ToArray();
+                _startingRecipesRun = value;
             }
         }
 
@@ -699,7 +699,10 @@ namespace RogueWave
             recipes.AddRange(RogueLiteManager.runData.Recipes);
             recipes.AddRange(_startingRecipesRun);
 
-            // Reset loadout so that no weapons are available on start
+            // Reset the run data to ensure we don't keep adding stackables on subsequent runs, the current run data will be added back below
+            RogueLiteManager.runData.Recipes.Clear();
+
+            // Reset loadout so that it can be reset for this run based on the builder order and any new weapons added since the last run
             RogueLiteManager.runData.Loadout.Clear();
 
             // Ensure the build order contains all the weapons that are available in this run, ones that are already present are not touched, but ones that are missing are added.

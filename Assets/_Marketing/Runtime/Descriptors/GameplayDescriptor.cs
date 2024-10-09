@@ -78,6 +78,8 @@ namespace WizardsCode.Marketing
             campaign.SetLevel(m_LevelDefinition);
 
             // Configure the player
+            RogueLiteManager.runData.Recipes.Clear();
+            gameMode.StartingRunRecipes = new AbstractRecipe[0];
             gameMode.StartingRunRecipes = m_Recipes;
             EditorUtility.SetDirty(gameMode);
 
@@ -87,7 +89,13 @@ namespace WizardsCode.Marketing
         public async Task StartGamePlay()
         {
             EditorApplication.isPlaying = true;
-            await Task.Delay(2000);
+
+            int waitIterations = 10000;
+            while (waitIterations > 0 && FpsSoloCharacter.localPlayerCharacter == null)
+            {
+                waitIterations--;
+                await Task.Delay(100);
+            }
 
             // Execute terminal commands
             if (!string.IsNullOrEmpty(m_TerminalCommands))
