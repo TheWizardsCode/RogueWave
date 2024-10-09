@@ -360,6 +360,7 @@ GameObject:
   - component: {fileID: 136003028}
   - component: {fileID: 136003027}
   - component: {fileID: 136003026}
+  - component: {fileID: 136003029}
   m_Layer: 5
   m_Name: Reroll
   m_TagString: Untagged
@@ -479,6 +480,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 136003024}
   m_CullTransparentMesh: 1
+--- !u!114 &136003029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 136003024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99a9e0f405bff84884c4884261df263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipStyle: {fileID: 1625275255236544883, guid: 1bc9cb4c88dfff64ca3a613af995d352, type: 3}
+  parameterizedTextFields:
+  - name: BodyText
+    placeholder: '%BodyText%'
+    value: 'Don''t like the offers the home world is sending?
+
+
+      The nanobots
+      can reopen the channel and ask for some new offers, but it will cost.'
+  dynamicImageFields: []
+  dynamicSectionFields: []
+  isRemotelyActivated: 0
+  backgroundTint: {r: 1, g: 1, b: 1, a: 1}
+  shouldOverridePosition: 0
+  overridePositionType: 1
+  overridePositionVector: {x: 0, y: 0, z: 0}
+  overridePositionTransform: {fileID: 0}
+  tipPosition: 5
+  minTextWidth: 200
+  maxTextWidth: 300
+  staysOpen: 0
+  neverRotate: 0
+  isBlocking: 0
 --- !u!1 &145987572
 GameObject:
   m_ObjectHideFlags: 0
@@ -2194,6 +2230,7 @@ GameObject:
   - component: {fileID: 1509369221}
   - component: {fileID: 1509369220}
   - component: {fileID: 1509369222}
+  - component: {fileID: 1509369223}
   m_Layer: 5
   m_Name: Move to Select Level
   m_TagString: Untagged
@@ -2313,6 +2350,42 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1509369223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509369217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99a9e0f405bff84884c4884261df263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipStyle: {fileID: 1625275255236544883, guid: 1bc9cb4c88dfff64ca3a613af995d352, type: 3}
+  parameterizedTextFields:
+  - name: BodyText
+    placeholder: '%BodyText%'
+    value: 'Done with upgrades? Time to take another run. Gather resources. Get more
+      upgrades. Find the portal home.
+
+
+      Don''t worry if you are about to die,
+      we''ll bring you back here before it''s too late.'
+  dynamicImageFields: []
+  dynamicSectionFields: []
+  isRemotelyActivated: 0
+  backgroundTint: {r: 1, g: 1, b: 1, a: 1}
+  shouldOverridePosition: 0
+  overridePositionType: 0
+  overridePositionVector: {x: 0, y: 0, z: 0}
+  overridePositionTransform: {fileID: 0}
+  tipPosition: 5
+  minTextWidth: 200
+  maxTextWidth: 300
+  staysOpen: 0
+  neverRotate: 0
+  isBlocking: 0
 --- !u!1 &1537294150
 GameObject:
   m_ObjectHideFlags: 0
@@ -2622,6 +2695,7 @@ GameObject:
   - component: {fileID: 1650402612}
   - component: {fileID: 1650402611}
   - component: {fileID: 1650402610}
+  - component: {fileID: 1650402613}
   m_Layer: 5
   m_Name: Temporarily Acquired Recipes
   m_TagString: Untagged
@@ -2718,6 +2792,39 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650402608}
   m_CullTransparentMesh: 1
+--- !u!114 &1650402613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650402608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99a9e0f405bff84884c4884261df263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipStyle: {fileID: 1625275255236544883, guid: 1bc9cb4c88dfff64ca3a613af995d352, type: 3}
+  parameterizedTextFields:
+  - name: BodyText
+    placeholder: '%BodyText%'
+    value: "Any items gathered in runs will appear here. Be aware that if we need
+      to evacuate you to avoid death you will lose these items. \n\nYou can upgrade
+      them to permanent items, for a cost."
+  dynamicImageFields: []
+  dynamicSectionFields: []
+  isRemotelyActivated: 0
+  backgroundTint: {r: 1, g: 1, b: 1, a: 1}
+  shouldOverridePosition: 0
+  overridePositionType: 0
+  overridePositionVector: {x: 0, y: 0, z: 0}
+  overridePositionTransform: {fileID: 0}
+  tipPosition: 5
+  minTextWidth: 200
+  maxTextWidth: 300
+  staysOpen: 0
+  neverRotate: 0
+  isBlocking: 0
 --- !u!1 &1694608399
 GameObject:
   m_ObjectHideFlags: 0
@@ -2835,6 +2942,7 @@ GameObject:
   - component: {fileID: 1757256562}
   - component: {fileID: 1757256561}
   - component: {fileID: 1757256560}
+  - component: {fileID: 1757256563}
   m_Layer: 5
   m_Name: Permanent Recipes
   m_TagString: Untagged
@@ -2931,6 +3039,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1757256558}
   m_CullTransparentMesh: 1
+--- !u!114 &1757256563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1757256558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f99a9e0f405bff84884c4884261df263, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tooltipStyle: {fileID: 1625275255236544883, guid: 1bc9cb4c88dfff64ca3a613af995d352, type: 3}
+  parameterizedTextFields:
+  - name: BodyText
+    placeholder: '%BodyText%'
+    value: 'Items that we have permanently encoded into your brain will appear here.
+
+
+      These
+      items will survive a near death evacuation.'
+  dynamicImageFields: []
+  dynamicSectionFields: []
+  isRemotelyActivated: 0
+  backgroundTint: {r: 1, g: 1, b: 1, a: 1}
+  shouldOverridePosition: 0
+  overridePositionType: 0
+  overridePositionVector: {x: 0, y: 0, z: 0}
+  overridePositionTransform: {fileID: 0}
+  tipPosition: 5
+  minTextWidth: 200
+  maxTextWidth: 300
+  staysOpen: 0
+  neverRotate: 0
+  isBlocking: 0
 --- !u!1 &1762966424
 GameObject:
   m_ObjectHideFlags: 0
