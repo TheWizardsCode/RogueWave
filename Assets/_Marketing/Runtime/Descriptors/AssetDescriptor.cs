@@ -18,19 +18,25 @@ namespace WizardsCode.Marketing
 
         [HorizontalLine(color: EColor.Gray)]
 
-        //[Header("Asset Settings")]
-        [SerializeField, Tooltip("The resolution of the asset in pixels."), BoxGroup("Asset Settings")]
+        //[Header("Visual Asset Settings")]
+        [SerializeField, Tooltip("The resolution of all the assets in pixels."), BoxGroup("Asset Settings")]
         Vector2Int m_Resolution = new Vector2Int(1920, 1080);
-        [SerializeField, Tooltip("The target frame rate for the asset. If the asset is only a helo image then this is the frame rate of the rendering of frames around the hero frame."), BoxGroup("Asset Settings")]
+        [SerializeField, Tooltip("The target frame rate for the recorders used to capture these assets. A common frame rate must be used across all assets, so set this to the highest rate needed."), BoxGroup("Asset Settings")]
         float m_FrameRate = 60;
-        [SerializeField, Tooltip("The hero frame is the one that is most pleasing within the sequence. This frame, and one either side, will always be captured as a still, regardless of the kind of asset being generated."), BoxGroup("Asset Settings")]
+
+        [SerializeField, Tooltip("Capture a hero image? A hero image is a single frame at a specific spot."), BoxGroup("Hero Image")]
+        bool m_CaptureHeroImage = true;
+        [SerializeField, Tooltip("The hero frame is the one that is most pleasing within the sequence. This frame, and one either side, will always be captured as a still, regardless of the kind of asset being generated."), BoxGroup("Hero Image"), ShowIf("m_CaptureHeroImage")]
         int m_HeroFrame = 30;
-        [SerializeField, Tooltip("How many frames to capture before and after the hero frame."), BoxGroup("Asset Settings")]
+        [SerializeField, Tooltip("How many frames to capture before and after the hero frame."), BoxGroup("Hero Image"), ShowIf("m_CaptureHeroImage")]
         int m_FramesEitherSideOfHero = 3;
-        [SerializeField, Tooltip("The time, in game time, when the asset recording starts. You should leave enough frames for the scene to \"warm up\"."), BoxGroup("Asset Settings")]
+
+        [SerializeField, Tooltip("Capture a video?"), BoxGroup("Video")]
+        bool m_CaptureVideo = true;
+        [SerializeField, Tooltip("The time, in game time, when the asset recording starts. You should leave enough frames for the scene to \"warm up\"."), BoxGroup("Video"), ShowIf("m_CaptureVideo")]
         float m_StartTime = 0;
-        [SerializeField, Tooltip("The time, in game time, when the asset recording stops.."), BoxGroup("Asset Settings")]
-        float m_EndTime = 2;
+        [SerializeField, Tooltip("The time, in game time, when the asset recording stops. If this is 0 then the recording will only stop when the application stops."), BoxGroup("Video"), ShowIf("m_CaptureVideo")]
+        float m_EndTime = 30;
 
         [HorizontalLine(color: EColor.Gray)]
 
@@ -53,17 +59,58 @@ namespace WizardsCode.Marketing
         Vector3 m_BackgroundRotation;
         [SerializeField, HideInInspector]
         internal int heroCount = 0;
+        [SerializeField, HideInInspector]
+        internal int videoCount = 0;
 
         internal string AssetName => m_AssetName;
         internal string Description => m_Description;
         internal Vector2Int Resolution => m_Resolution;
         internal float FrameRate => m_FrameRate;
+        internal bool CaptureHeroImage => m_CaptureHeroImage;
         internal int HeroFrame => m_HeroFrame;
         internal int FramesEitherSideOfHero => m_FramesEitherSideOfHero;
+        internal bool CaptureVideo => m_CaptureVideo;
         internal float StartTime => m_StartTime;
         internal float EndTime => m_EndTime;
-        
-        public bool IsRecording { get; set; }
+
+        private RecorderUtils videoRecorder;
+        private Action videoStoppedCallback;
+        private float videoSessionStartTime = 0;
+
+        int m_ActiveRecordings = 0;
+        public bool IsRecording {
+            get
+            {
+                return m_ActiveRecordings > 0;
+            } 
+            set
+            {
+                if (value)
+                {
+                    m_ActiveRecordings++;
+                } else
+                {
+                    m_ActiveRecordings--;
+                }
+            } 
+        }
+
+        public string VideoPath
+        {
+            get
+            {
+                return $"Assets/Recordings/{AssetName}/{SceneName}/Video/";
+            }
+        }
+
+        public string VideoFilename
+        {
+            get
+            {
+                string date = DateTime.Now.ToString("yyyy-MM-dd");
+                return $"{SceneName}_{AssetName}_{date}_{videoCount.ToString("D4")}";
+            }
+        }
 
         public string HeroPath
         {
@@ -100,22 +147,69 @@ namespace WizardsCode.Marketing
             }
         }
 
+        private void OnDisable()
+        {
+            if (videoRecorder != null && IsRecording)
+            {
+                videoRecorder.StopRecording();
+                IsRecording = false;
+                videoStoppedCallback?.Invoke();
+            }
+        }
+
         public virtual IEnumerator GenerateAsset(Action callback = null)
         {
             LoadSceneSetup();
 
-            yield return GenerateHeroFrame(callback);
+            // Start both coroutines in parallel
+            var videoCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateVideo(callback));
+            var heroFrameCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateHeroFrame(callback));
+
+            // Wait for both coroutines to complete
+            yield return videoCoroutine;
+            yield return heroFrameCoroutine;
+        }
+
+        public virtual IEnumerator GenerateVideo(Action callback = null)
+        {
+            if (!CaptureVideo)
+            {
+                yield break;
+            }
+
+            videoCount++;
+            videoStoppedCallback = callback;
+
+            IsRecording = true;
+            videoSessionStartTime = Time.time;
+
+            videoRecorder = new RecorderUtils();
+            videoRecorder.RecordVideo(this);
+
+            while (EndTime == 0 || Time.time - videoSessionStartTime <= EndTime)
+            {
+                yield return null;
+            }
+
+            videoRecorder.StopRecording();
+            IsRecording = false;
+            videoStoppedCallback?.Invoke();
         }
 
         public virtual IEnumerator GenerateHeroFrame(Action callback = null)
         {
+            if (!CaptureHeroImage)
+            {
+                yield break;
+            }
+
             heroCount++;
             LoadSceneSetup();
 
             IsRecording = true;
             int targetFrame = HeroFrame + Time.frameCount;
 
-            RecorderUtils recorder = new RecorderUtils(AssetName, FrameRate);
+            RecorderUtils recorder = new RecorderUtils();
 
             while (Time.frameCount <= targetFrame - m_FramesEitherSideOfHero)
             {

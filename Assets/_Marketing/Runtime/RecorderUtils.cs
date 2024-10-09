@@ -1,5 +1,3 @@
-using Codice.Client.BaseCommands;
-using System;
 using UnityEditor.Recorder;
 using UnityEditor.Recorder.Encoder;
 using UnityEditor.Recorder.Input;
@@ -13,20 +11,7 @@ namespace WizardsCode.Marketing
     /// </summary>
     public class RecorderUtils
     {
-        string assetName = string.Empty;
-        float frameRate = 60;
-
-        RecorderController controller;
-
-        public RecorderUtils(string assetName, float frameRate)
-        {
-            this.frameRate = frameRate;
-            this.assetName = assetName;
-            if (string.IsNullOrEmpty(assetName))
-            {
-                assetName = "Misc";
-            }
-        }
+        private RecorderController controller;
 
         public bool IsRecording
         {
@@ -42,29 +27,29 @@ namespace WizardsCode.Marketing
 
         public void RecordImages(AssetDescriptor descriptor)
         {
-            controller = new RecorderController(ScriptableObject.CreateInstance<RecorderControllerSettings>());
+            RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
+            controller = new RecorderController(controllerSettings);
 
-            var imageRecorderSettings = ScriptableObject.CreateInstance<ImageRecorderSettings>();
-            imageRecorderSettings.name = "Image Recorder";
-            imageRecorderSettings.Enabled = true;
+            ImageRecorderSettings settings = ScriptableObject.CreateInstance<ImageRecorderSettings>();
+            settings.name = "Image Recorder";
+            settings.Enabled = true;
 
-            imageRecorderSettings.OutputFile = $"{descriptor.HeroPath}{descriptor.HeroFilename}<Frame>";
+            settings.OutputFormat = ImageRecorderSettings.ImageRecorderOutputFormat.PNG;
+            settings.CaptureAlpha = true;
 
-            imageRecorderSettings.OutputFormat = ImageRecorderSettings.ImageRecorderOutputFormat.PNG;
-            imageRecorderSettings.imageInputSettings = new GameViewInputSettings
+            settings.imageInputSettings = new GameViewInputSettings
             {
                 OutputWidth = descriptor.Resolution.x,
                 OutputHeight = descriptor.Resolution.y
             };
 
-            imageRecorderSettings.RecordMode = RecordMode.FrameInterval;
-            imageRecorderSettings.FrameRate = frameRate;
-            imageRecorderSettings.CapFrameRate = true;
-            imageRecorderSettings.StartFrame = 0;
-            imageRecorderSettings.EndFrame = 2 * descriptor.FramesEitherSideOfHero + 1;
+            controllerSettings.FrameRate = descriptor.FrameRate;
+            controllerSettings.SetRecordModeToFrameInterval(0, 2 * descriptor.FramesEitherSideOfHero + 1); // start is 0 as we only start this recorder when at the right frame
+            controllerSettings.AddRecorderSettings(settings);
+            
+            settings.OutputFile = $"{descriptor.HeroPath}{descriptor.HeroFilename}<Frame>";
 
-            controller.Settings.AddRecorderSettings(imageRecorderSettings);
-
+            RecorderOptions.VerboseMode = false;
             controller.PrepareRecording();
             controller.StartRecording();
         }
@@ -85,45 +70,76 @@ namespace WizardsCode.Marketing
         }
 
         /// <summary>
+        /// Record a video of the scene.
+        /// </summary>
+        /// <param name="descriptor">The descriptor for the video to record. This contains all the details needed to configure the GIF recorder.</param>
+        public void RecordVideo(AssetDescriptor descriptor)
+        {
+            RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
+            controller = new RecorderController(controllerSettings);
+
+            MovieRecorderSettings settings = ScriptableObject.CreateInstance<MovieRecorderSettings>();
+            settings.name = "Video Recorder";
+            settings.Enabled = true;
+
+            settings.EncoderSettings = new CoreEncoderSettings
+            {
+                EncodingQuality = CoreEncoderSettings.VideoEncodingQuality.High,
+                Codec = CoreEncoderSettings.OutputCodec.WEBM
+            };
+            settings.CaptureAlpha = true;
+
+            settings.ImageInputSettings = new GameViewInputSettings
+            {
+                OutputWidth = descriptor.Resolution.x,
+                OutputHeight = descriptor.Resolution.y,
+                FlipFinalOutput = false,
+            };
+
+            controllerSettings.SetRecordModeToManual();
+            controllerSettings.FrameRate = descriptor.FrameRate;
+            controllerSettings.AddRecorderSettings(settings);
+
+            settings.OutputFile = descriptor.VideoPath + descriptor.VideoFilename;
+
+            RecorderOptions.VerboseMode = false;
+            controller.PrepareRecording();
+            controller.StartRecording();
+        }
+
+        /// <summary>
         /// Record a GIF of the scene.
         /// </summary>
-        /// <param name="startTime">The time to start recording, measured from the frame in which this method is called.</param>
-        /// <param name="endTime">The time to stop recording, measured from the frame in which this method is called.</param>
-        /// <param name="quality">The quality of the GIF from 1 to 100, 100 being best.</param>
-        /// <param name="isLooping">True if the GIF is to loop, otherwise it is a one shot.</param>
-        /// <param name="resolution">The resolution in width (x) x height(y).</param>
-        /// <returns>The path to the GIF file on disk.</returns>
+        /// <param name="descriptor">The descriptor for the GIF to record. This contains all the details needed to configure the GIF recorder.</param>
         public void RecordGIF(GifAssetDescriptor descriptor)
         {
-            controller = new RecorderController(ScriptableObject.CreateInstance<RecorderControllerSettings>());
+            RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
+            controller = new RecorderController(controllerSettings);
 
-            var movieRecorderSettings = ScriptableObject.CreateInstance<MovieRecorderSettings>();
-            movieRecorderSettings.name = "Gif Recorder";
-            movieRecorderSettings.Enabled = true;
+            MovieRecorderSettings settings = ScriptableObject.CreateInstance<MovieRecorderSettings>();
+            settings.name = "Gif Recorder";
+            settings.Enabled = true;
 
-            var gifEncoderSettings = new GifEncoderSettings
+            settings.EncoderSettings = new GifEncoderSettings
             {
                 Quality = descriptor.GifQuality,
                 Loop = descriptor.IsLooping
             };
-            movieRecorderSettings.EncoderSettings = gifEncoderSettings;
+            settings.CaptureAlpha = true;
 
-            movieRecorderSettings.OutputFile = descriptor.GifPath + descriptor.GifFilename;
-
-            movieRecorderSettings.ImageInputSettings = new GameViewInputSettings
+            settings.ImageInputSettings = new GameViewInputSettings
             {
                 OutputWidth = descriptor.Resolution.x,
                 OutputHeight = descriptor.Resolution.y
             };
 
-            movieRecorderSettings.RecordMode = RecordMode.TimeInterval;
-            movieRecorderSettings.FrameRate = frameRate;
-            movieRecorderSettings.CapFrameRate = true;
-            movieRecorderSettings.StartTime = Time.time + descriptor.StartTime;
-            movieRecorderSettings.EndTime = descriptor.EndTime;
+            settings.OutputFile = descriptor.GifPath + descriptor.GifFilename;
 
-            controller.Settings.AddRecorderSettings(movieRecorderSettings);
+            controllerSettings.AddRecorderSettings(settings);
+            controllerSettings.SetRecordModeToTimeInterval(Time.time + descriptor.StartTime, descriptor.EndTime);
+            controllerSettings.FrameRate = descriptor.FrameRate;
 
+            RecorderOptions.VerboseMode = false;
             controller.PrepareRecording();
             controller.StartRecording();
         }

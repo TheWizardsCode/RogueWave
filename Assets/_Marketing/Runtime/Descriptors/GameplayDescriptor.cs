@@ -9,6 +9,7 @@ using System;
 using System.Threading.Tasks;
 using NeoFPS;
 using WizardsCode.CommandTerminal;
+using System.Collections;
 
 namespace WizardsCode.Marketing
 {
@@ -20,7 +21,7 @@ namespace WizardsCode.Marketing
         //[Header("Level Settings")]
         [SerializeField, Tooltip("The level definition to use when generating this level."), BoxGroup("Level Settings")]
         WfcDefinition m_LevelDefinition;
-        [SerializeField, Tooltip("Terminal commands to execute once the player has spawned in."), TextArea(5,10), BoxGroup("Level Settings")]
+        [SerializeField, Tooltip("Terminal commands to execute once the player has spawned in."), TextArea(5, 10), BoxGroup("Level Settings")]
         string m_TerminalCommands;
 
         [HorizontalLine(color: EColor.Gray)]
@@ -44,7 +45,7 @@ namespace WizardsCode.Marketing
         //[Header("Input Settings")]
         [SerializeField, Tooltip("Should mouse smoothing be enabled for this gameplay setting."), BoxGroup("Input Settings")]
         bool enableMouseSmoothing = false;
-        [SerializeField, Tooltip("The amount of mouse smoothing to apply."), Range(0.01f,1), BoxGroup("Input Settings"), ShowIf("enableMouseSmoothing")]
+        [SerializeField, Tooltip("The amount of mouse smoothing to apply."), Range(0.01f, 1), BoxGroup("Input Settings"), ShowIf("enableMouseSmoothing")]
         float mouseSmoothingAmount = 0.5f;
 
         private RogueWaveGameMode gameMode;

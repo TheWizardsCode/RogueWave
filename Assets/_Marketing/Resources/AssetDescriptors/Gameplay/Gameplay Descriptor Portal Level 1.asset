@@ -15,10 +15,12 @@ MonoBehaviour:
   m_AssetName: Portal Level 1
   m_Description: Sets up the end game where the player is battling for entrance to
     the area with the portal within.
-  m_Resolution: {x: 1280, y: 720}
+  m_Resolution: {x: 1920, y: 1080}
   m_FrameRate: 24
+  m_CaptureHeroImage: 1
   m_HeroFrame: 90
   m_FramesEitherSideOfHero: 3
+  m_CaptureVideo: 0
   m_StartTime: 0
   m_EndTime: 0
   m_CameraPosition: {x: 0, y: 0, z: 0}
@@ -29,7 +31,8 @@ MonoBehaviour:
   m_FogEnabled: 1
   m_BackgroundPosition: {x: 0, y: 0, z: 0}
   m_BackgroundRotation: {x: 0, y: 0, z: 0}
-  heroCount: 0
+  heroCount: 17
+  videoCount: 3
   m_LevelDefinition: {fileID: 11400000, guid: 4d920e59a2c95624eb76646df96e4ffc, type: 2}
   m_TerminalCommands: 'KillPercentageEnemies 1
 
@@ -44,13 +47,13 @@ MonoBehaviour:
   m_PlayerStartPosition: {x: 143.63727, y: 1000, z: 171.145}
   m_PlayerStartRotation: {x: 0, y: 0.9926636, z: 0, w: -0.120908946}
   m_Recipes:
+  - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
+  - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
+  - {fileID: 11400000, guid: 22e1bf5280e270b46a7e8df0dcca53e8, type: 2}
   - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
   - {fileID: 11400000, guid: 8b52b568428411a48939cecc08f13b34, type: 2}
   - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
   - {fileID: 11400000, guid: 7b94b7a186577ef40b4a1cbac90ef8a3, type: 2}
-  - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
-  - {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
-  - {fileID: 11400000, guid: 22e1bf5280e270b46a7e8df0dcca53e8, type: 2}
   - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
   - {fileID: 11400000, guid: e891444cd697d9043b22260fee238dc6, type: 2}
   - {fileID: 11400000, guid: e0f5c51c554f5674abd75a303fed82cd, type: 2}

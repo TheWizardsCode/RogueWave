@@ -1,4 +1,5 @@
 using Codice.Client.Common;
+using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,14 +16,16 @@ namespace WizardsCode.Marketing
     [CreateAssetMenu(fileName = "New Gif Asset Descriptor", menuName = "Wizards Code/Marketing/Gif Asset Descriptor")]
     public class GifAssetDescriptor : AssetDescriptor
     {
-        [Header("Gif Settings")]
-        [SerializeField, Tooltip("The quality of the gif. From 1 to 100.")]
+        //[Header("Gif Settings")]
+        [SerializeField, Tooltip("Capture GIF?"), BoxGroup("GIF")]
+        bool m_CaptureGif = true;
+        [SerializeField, Tooltip("The quality of the gif. From 1 to 100."), BoxGroup("GIF"), ShowIf("m_CaptureGif")]
         uint m_GifQuality = 90;
-        [SerializeField, Tooltip("Whether the GIF is a loop (true) or a single shot (false).")]
+        [SerializeField, Tooltip("Whether the GIF is a loop (true) or a single shot (false)."), BoxGroup("GIF"), ShowIf("m_CaptureGif")]
         bool m_IsLooping = true;
-        [SerializeField, Tooltip("Save the GIF as a sprite sheet (128x128 images) as well as a GIF?")]
+        [SerializeField, Tooltip("Save the GIF as a sprite sheet (128x128 images) as well as a GIF?"), BoxGroup("GIF"), ShowIf("m_CaptureGif")]
         bool m_SaveAsLargeSpriteSheet = false;
-        [SerializeField, Tooltip("Save the GIF as a sprite sheet (64x64 images) as well as a GIF?")]
+        [SerializeField, Tooltip("Save the GIF as a sprite sheet (64x64 images) as well as a GIF?"), BoxGroup("GIF"), ShowIf("m_CaptureGif")]
         bool m_SaveAsSmallSpriteSheet = false;
         [SerializeField, HideInInspector]
         int gifCount = 0;
@@ -69,7 +72,7 @@ namespace WizardsCode.Marketing
             IsRecording = true;
             sessionStartTime = Time.time;
 
-            RecorderUtils recorder = new RecorderUtils(AssetName, FrameRate);
+            RecorderUtils recorder = new RecorderUtils();
             recorder.RecordGIF(this);
 
             while (Time.time - sessionStartTime <= EndTime)
@@ -78,7 +81,6 @@ namespace WizardsCode.Marketing
             }
 
             recorder.StopRecording();
-
             IsRecording = false;
 
             if (m_SaveAsLargeSpriteSheet)
