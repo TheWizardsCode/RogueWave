@@ -75,14 +75,41 @@ namespace WizardsCode.Marketing
             _ = StartGamePlay();
         }
 
+        public override void SaveSceneSetup()
+        {
+            base.SaveSceneSetup();
+
+            SetPlayerStart();
+
+            enableMouseSmoothing = FpsSettings.input.enableMouseSmoothing;
+            mouseSmoothingAmount = FpsSettings.input.mouseSmoothing;
+            
+            gameMode = FindObjectOfType<RogueWaveGameMode>();
+
+            CampaignDefinition campaign = gameMode.Campaign;
+            if (campaign.name.StartsWith("Test"))
+            {
+                m_LevelDefinition = campaign.GetLevel();
+            }
+            else
+            {
+                EditorUtility.DisplayDialog("Error", "You must set the campaign to a test campaign before saving a gameplay session. This process overwrites settings and is destructive.", "OK");
+            }
+
+            m_Recipes = gameMode.StartingRunRecipes;
+        }
+
         [Button]
         void SetPlayerStart()
         {
-            SceneView sceneView = SceneView.lastActiveSceneView;
-            m_PlayerStartPosition = sceneView.camera.transform.position;
-            // the y value will be checked on teleport to ensure it is valid, set high now to ensure we are above anything generated in this space
-            m_PlayerStartRotation.y = 1000; 
-            m_PlayerStartRotation = Quaternion.Euler(0, sceneView.camera.transform.rotation.eulerAngles.y, 0);
+            if (EditorUtility.DisplayDialog("Confirm Action", "Are you sure you want to set the player start position?", "Yes", "No"))
+            {
+                SceneView sceneView = SceneView.lastActiveSceneView;
+                m_PlayerStartPosition = sceneView.camera.transform.position;
+                // the y value will be checked on teleport to ensure it is valid, set high now to ensure we are above anything generated in this space
+                m_PlayerStartRotation.y = 1000;
+                m_PlayerStartRotation = Quaternion.Euler(0, sceneView.camera.transform.rotation.eulerAngles.y, 0);
+            }
         }
 
         public async Task StartGamePlay()

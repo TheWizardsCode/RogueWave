@@ -19,9 +19,9 @@ namespace WizardsCode.Marketing
         [HorizontalLine(color: EColor.Gray)]
 
         //[Header("Visual Asset Settings")]
-        [SerializeField, Tooltip("The resolution of all the assets in pixels."), BoxGroup("Asset Settings")]
+        [SerializeField, Tooltip("The resolution of all the assets in pixels."), BoxGroup("Visual Asset Settings")]
         Vector2Int m_Resolution = new Vector2Int(1920, 1080);
-        [SerializeField, Tooltip("The target frame rate for the recorders used to capture these assets. A common frame rate must be used across all assets, so set this to the highest rate needed."), BoxGroup("Asset Settings")]
+        [SerializeField, Tooltip("The target frame rate for the recorders used to capture these assets. A common frame rate must be used across all assets, so set this to the highest rate needed."), BoxGroup("Visual Asset Settings")]
         float m_FrameRate = 60;
 
         [SerializeField, Tooltip("Capture a hero image? A hero image is a single frame at a specific spot."), BoxGroup("Hero Image")]
@@ -329,7 +329,7 @@ namespace WizardsCode.Marketing
         }
 
         [Button()]
-        internal void SaveSceneSetup()
+        public virtual void SaveSceneSetup()
         {
             if (UnityEditor.EditorUtility.DisplayDialog($"{AssetName} Save Scene Setup", $"Are you sure you want to save the current scene setup to \"{AssetName}\"?", "Yes", "No"))
             {

@@ -19,5 +19,9 @@ namespace RogueWave
         {
             levels[index] = level;
         }
+
+        public WfcDefinition GetLevel(int index = 0) {
+            return levels[index];
+        }
     }
 }
