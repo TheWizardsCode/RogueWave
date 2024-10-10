@@ -154,6 +154,11 @@ public class DevManagementWindow : EditorWindow
         GUILayout.EndVertical();
 
         GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
+        if (GUILayout.Button("Open Playtest Scene"))
+        {
+            LoadScene(new string[] { k_PlaytestScene });
+        }
+
         if (GUILayout.Button("Open Dev Scenes Folder"))
         {
             var scenesFolder = AssetDatabase.LoadAssetAtPath<Object>(k_LevelDevScene);

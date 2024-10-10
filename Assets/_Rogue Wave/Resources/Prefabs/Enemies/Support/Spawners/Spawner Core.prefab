@@ -14747,6 +14747,7 @@ GameObject:
   - component: {fileID: 3811573852758236270}
   - component: {fileID: 501987497811792753}
   - component: {fileID: 5900621554048162266}
+  - component: {fileID: 2539204941664982779}
   m_Layer: 30
   m_Name: Spawner Core
   m_TagString: Untagged
@@ -14809,3 +14810,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Multiplier: 1
   m_Critical: 0
+--- !u!114 &2539204941664982779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7157545920386278075}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f584881cb0f56e47a64c6a27ce99298, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Surface:
+    m_Value: 8

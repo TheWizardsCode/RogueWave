@@ -12,7 +12,7 @@ namespace WizardsCode.RogueWave
             if (hitObject != null)
             {
                 var particleSystemRenderer = m_ChipsSystem.GetComponentInParent<ParticleSystemRenderer>();
-                Renderer renderer = hitObject.GetComponent<Renderer>();
+                Renderer renderer = hitObject.GetComponentInChildren<Renderer>();
                 if (particleSystemRenderer != null && renderer != null)
                 {
                     particleSystemRenderer.material = renderer.material;
