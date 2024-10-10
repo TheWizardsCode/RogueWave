@@ -45,6 +45,7 @@ public class DevManagementWindow : EditorWindow
                     }
                 }
 
+                EditorUtility.SetDirty(this);
                 Repaint();
             }
         }
@@ -77,6 +78,7 @@ public class DevManagementWindow : EditorWindow
             lastSelectedItems.RemoveAt(10);
         }
 
+        EditorUtility.SetDirty(this);
         Repaint();
     }
 
