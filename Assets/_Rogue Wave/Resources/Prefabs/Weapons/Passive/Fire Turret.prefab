@@ -104,6 +104,7 @@ MonoBehaviour:
   m_DestroyedSound: []
   m_ImpactDamageMultiplier: 1
   resourcesDropChance: 0.15
+  possibleDrops: []
   inheritMaterial: 1
   magnetizeResources: 1
   destructibleDestroyed: {fileID: 0}
@@ -407,6 +408,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5748684770216489787}
     m_Modifications:
+    - target: {fileID: 174474560804966223, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
+      propertyPath: MaxDistance
+      value: 75
+      objectReference: {fileID: 0}
     - target: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
       propertyPath: range
       value: 30

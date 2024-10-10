@@ -23,6 +23,8 @@ namespace RogueWave
         enum voiceDescriptionLevel { Silent, Low, Medium, High }
 
         [Header("Building")]
+        [SerializeField, Tooltip("A modifier curve used to change various values in the NanobotManager based on game difficulty, such as build cooldown and build speed.")]
+        private AnimationCurve difficultyModifier = AnimationCurve.Linear(0, 1, 1, 1);
         [SerializeField, Tooltip("Cooldown between recipe builds.")]
         private float buildingCooldown = 4;
         [SerializeField, Tooltip("The resources needed to reach the next nanobot level."), CurveRange(0, 100, 99, 50000, EColor.Green)]
@@ -494,7 +496,7 @@ namespace RogueWave
         /// <param name="recipeName">OPTIONAL: if not null then these recipe name clips will be announced after the main clip</param>
         private IEnumerator Announce(AudioClip mainClip, AudioClip[] recipeNames)
         {
-            if (voiceDescription != voiceDescriptionLevel.Silent && SceneManager.GetActiveScene().name != RogueLiteManager.combatScene)
+            if (voiceDescription == voiceDescriptionLevel.Silent)
             {
                 yield break;
             }
@@ -744,7 +746,7 @@ namespace RogueWave
             GameLog.Info($"Building {recipe.DisplayName}");
 
             onBuildStarted?.Invoke(recipe);
-            yield return new WaitForSeconds(recipe.TimeToBuild);
+            yield return new WaitForSeconds(recipe.TimeToBuild * difficultyModifier.Evaluate(FpsSettings.playstyle.difficulty));
 
             IItemRecipe itemRecipe = recipe as IItemRecipe;
             if (itemRecipe != null)
@@ -790,7 +792,7 @@ namespace RogueWave
             recipe.BuildFinished();
 
             isBuilding = false;
-            timeOfNextBuiild = Time.timeSinceLevelLoad + buildingCooldown;
+            timeOfNextBuiild = Time.timeSinceLevelLoad + (buildingCooldown * difficultyModifier.Evaluate(FpsSettings.playstyle.difficulty));
         }
 
         /// <summary>

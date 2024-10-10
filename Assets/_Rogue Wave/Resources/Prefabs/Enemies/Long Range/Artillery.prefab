@@ -102,7 +102,7 @@ MonoBehaviour:
   attacks: 
   challengeRating: 2
   requireLineOfSight: 1
-  viewDistance: 100
+  viewDistance: 50
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160264705
@@ -111,8 +111,8 @@ MonoBehaviour:
   head: {fileID: 0}
   maxHeadRotation: 75
   returnToSpawner: 0
-  seekDistance: 30
-  optimalDistanceFromPlayer: 50
+  seekDistance: 20
+  optimalDistanceFromPlayer: 40
   destinationUpdateFrequency: 15
   spawnOnDamageEnabled: 0
   spawnOnDamageAroundAttacker: 0

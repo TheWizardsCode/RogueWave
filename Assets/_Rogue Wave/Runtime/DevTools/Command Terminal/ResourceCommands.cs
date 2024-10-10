@@ -7,7 +7,7 @@ namespace WizardsCode.RogueWave.CommandTerminal
     public class ResourceCommands
     {
         [RegisterCommand(Help = "Add resources to the current profile, Defaulting to 10000, but can be set as a parameter.", MinArgCount = 0, MaxArgCount = 1)]
-        public static void ResourcesAdd(CommandArg[] args)
+        public static void AddResources(CommandArg[] args)
         {
             if (string.IsNullOrEmpty(RogueLiteManager.currentProfile))
             {
@@ -26,7 +26,7 @@ namespace WizardsCode.RogueWave.CommandTerminal
         }
 
         [RegisterCommand(Help = "Remove resources from the current profile, Defaulting to 10000, but can be set as a parameter. Resource will not go below 0.", MinArgCount = 0, MaxArgCount = 1)]
-        public static void ResourcesRemove(CommandArg[] args)
+        public static void RemoveResources(CommandArg[] args)
         {
             if (string.IsNullOrEmpty(RogueLiteManager.currentProfile))
             {

@@ -95,7 +95,7 @@ namespace RogueWave.UI
 
             details.description = recipe.Description;
 
-            selectionButton.label = $"Buy for {_recipe.BuyCost}";
+            selectionButton.label = $"Encode with {_recipe.BuyCost} Resources";
             if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= _recipe.BuyCost)
             {
                 selectionButton.interactable = true;
@@ -104,7 +104,7 @@ namespace RogueWave.UI
             {
                 selectionButton.interactable = false;
                 selectionButton.GetComponent<Image>().color = style.colours.disabled;
-                selectionButton.label = $"Insufficient Funds ({_recipe.BuyCost})";
+                selectionButton.label = $"Insufficient Resources ({_recipe.BuyCost})";
             }
 
             SetUpCommonElements();

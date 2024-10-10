@@ -11,6 +11,7 @@ using NeoFPS;
 using WizardsCode.CommandTerminal;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using WizardsCode.RogueWave;
 
 namespace WizardsCode.Marketing
 {
@@ -141,7 +142,7 @@ namespace WizardsCode.Marketing
 
             if (m_MuteMusic)
             {
-                MusicManager.Instance.MuteMusic();
+                AudioManager.Instance.MuteMusicForSession();
             }
 
             FpsSettings.input.enableMouseSmoothing = enableMouseSmoothing;

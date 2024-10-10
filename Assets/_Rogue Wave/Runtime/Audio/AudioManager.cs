@@ -31,7 +31,7 @@ namespace WizardsCode.RogueWave
         internal AudioMixerGroup twoDimensional;
 
         static float mutedVolume = -80;
-        Dictionary<AudioMixerGroup, float> startingVolumes = new Dictionary<AudioMixerGroup, float>();
+        Dictionary<AudioMixerGroup, float> currentVolumes = new Dictionary<AudioMixerGroup, float>();
 
         private static AudioManager instance;
         public static AudioManager Instance
@@ -53,22 +53,22 @@ namespace WizardsCode.RogueWave
         {
             float startingVolume;
 
-            startingVolumes[master] = FpsSettings.audio.masterVolume;
-            startingVolumes[music] = FpsSettings.audio.musicVolume;
-            startingVolumes[ambience] = FpsSettings.audio.ambienceVolume;
-            startingVolumes[effectsMaster] = FpsSettings.audio.effectsVolume;
+            currentVolumes[master] = FpsSettings.audio.masterVolume;
+            currentVolumes[music] = FpsSettings.audio.musicVolume;
+            currentVolumes[ambience] = FpsSettings.audio.ambienceVolume;
+            currentVolumes[effectsMaster] = FpsSettings.audio.effectsVolume;
 
             ui.audioMixer.GetFloat(ui.name + "Volume", out startingVolume); 
-            startingVolumes[ui] = startingVolume;
+            currentVolumes[ui] = startingVolume;
            
             nanobots.audioMixer.GetFloat(nanobots.name + "Volume", out startingVolume);
-            startingVolumes[nanobots] = startingVolume;
+            currentVolumes[nanobots] = startingVolume;
             
             spatial.audioMixer.GetFloat(spatial.name + "Volume", out startingVolume);
-            startingVolumes[spatial] = startingVolume;
+            currentVolumes[spatial] = startingVolume;
 
             twoDimensional.audioMixer.GetFloat(twoDimensional.name + "Volume", out startingVolume);
-            startingVolumes[twoDimensional] = startingVolume;
+            currentVolumes[twoDimensional] = startingVolume;
         }
 
         public static void FadeGroup(AudioMixerGroup group, float targetVolume, float duration)
@@ -78,7 +78,7 @@ namespace WizardsCode.RogueWave
 
         public static void ResetGroup(AudioMixerGroup group, float duration)
         {
-            Instance.StartCoroutine(FadeGroupCoroutine(group, Instance.startingVolumes[group], duration));
+            Instance.StartCoroutine(FadeGroupCoroutine(group, Instance.currentVolumes[group], duration));
         }
 
         internal static IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetValue, float duration, Action callback = null)
@@ -122,6 +122,24 @@ namespace WizardsCode.RogueWave
             {
                 return Mathf.Log10(targetValue) * 20f;
             }
+        }
+
+        /// <summary>
+        /// Mute the music group.
+        /// </summary>
+        /// ,param name="fadeDuration">The duration of the fade in seconds.Set to 0 for instant, defaults to 2.</param>
+        internal static IEnumerator MuteMusic(float fadeDuration = 2)
+        {
+            yield return FadeGroupCoroutine(Instance.music, mutedVolume, fadeDuration);
+        }
+
+        /// <summary>
+        /// Mute the music group for the duration of the session. It will only be unmuted if the music volume setting is changed.
+        /// </summary>
+        public void MuteMusicForSession()
+        {
+            currentVolumes[music] = mutedVolume;
+            MuteMusic();
         }
 
 #if UNITY_EDITOR

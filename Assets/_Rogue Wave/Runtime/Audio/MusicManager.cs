@@ -113,8 +113,10 @@ namespace RogueWave
                             yield return null;
                             break;
                         default:
-                            // mute current music
-                            yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, 0, fadeDuration);
+                            // mute then stop current music
+                            yield return AudioManager.MuteMusic();
+                            source.Stop();
+
                             // start next track
                             AudioManager.ResetGroup(source.outputAudioMixerGroup, FpsSettings.audio.musicVolume);
                             source.clip = SelectNextClip();
@@ -128,11 +130,6 @@ namespace RogueWave
                     }
                 }
             }
-        }
-
-        public void MuteMusic()
-        {
-            AudioManager.FadeGroup(source.outputAudioMixerGroup, -80, fadeDuration);
         }
 
         private AudioClip SelectNextClip()
