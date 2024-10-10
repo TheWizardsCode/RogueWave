@@ -660,9 +660,9 @@ namespace RogueWave
 
         private void InstantiateTile(TileDefinition tileDefinition, int x, int y)
         {
-            BaseTile tile = tileDefinition.GetTileObject(root.transform);
+            BaseTile tile = tileDefinition.GetTileObject(root.transform, TileCoordinatesToWorldPosition(x, y));
             tile.name = $"{tileDefinition.name} ({x}. {y})";
-            tile.transform.localPosition = TileCoordinatesToWorldPosition(x, y);
+            //tile.transform.localPosition = TileCoordinatesToWorldPosition(x, y);
             
             //Debug.Log($"Instantiating tile of type {tile.tileDefinition} at ({x}, {y}) of {root}");
 

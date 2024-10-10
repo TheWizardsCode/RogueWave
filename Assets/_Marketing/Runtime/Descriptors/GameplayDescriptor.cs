@@ -20,7 +20,7 @@ namespace WizardsCode.Marketing
         [HorizontalLine(color: EColor.Gray)]
 
         //[Header("Level Settings")]
-        [SerializeField, Tooltip("The level definition to use when generating this level."), BoxGroup("Level Settings")]
+        [SerializeField, Tooltip("The level definition to use when generating this level."), Expandable, BoxGroup("Level Settings")]
         WfcDefinition m_LevelDefinition;
         [SerializeField, Tooltip("Terminal commands to execute once the player has spawned in."), TextArea(5, 10), BoxGroup("Level Settings")]
         string m_TerminalCommands;

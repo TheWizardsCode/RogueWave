@@ -312,6 +312,7 @@ namespace RogueWave
 #endif
             }
 
+            Vector3 normalizedDirectionToTarget = (destination - transform.position).normalized;
             if (forwardRightBlocked && forwardLeftBlocked)
             {
                 turnAngle = 180;
@@ -325,16 +326,18 @@ namespace RogueWave
                 {
                     obstacleDirection = Direction.BothHorizontal;
 
-                    if (Vector3.Dot(transform.right, destination - transform.position) > 0)
+                    // move the transform to the side with the most space
+                    if (rightForwardHit.distance > leftForwardHit.distance)
                     {
-                        distanceToObstacle = rightForwardHit.distance;
-                        obstacleDirection = Direction.Right;
-                    }
-                    else
+                        transform.position += transform.right * currentDesiredSpeed * 0.05f * Time.deltaTime;
+                    } else
                     {
-                        distanceToObstacle = leftForwardHit.distance;
-                        obstacleDirection = Direction.Left;
+                        transform.position -= transform.right * currentDesiredSpeed * 0.05f * Time.deltaTime;
                     }
+
+                    targetRotation = transform.rotation;
+
+                    return;
                 }
             }
             else if (forwardRightBlocked)
@@ -352,10 +355,9 @@ namespace RogueWave
             else
             {
                 obstacleDirection = Direction.None;
-                Vector3 directionToTarget = destination - transform.position;
-                directionToTarget.y = 0;
+                normalizedDirectionToTarget.y = 0;
                 avoidanceDirection.y = 0;
-                Vector3 direction = (directionToTarget + avoidanceDirection).normalized;
+                Vector3 direction = (normalizedDirectionToTarget + avoidanceDirection.normalized).normalized;
                 if (direction != Vector3.zero && direction.sqrMagnitude > 0.0f)
                 {
                     targetRotation = Quaternion.LookRotation(direction);
@@ -370,12 +372,12 @@ namespace RogueWave
                 if (distanceToObstacle < 1f)
                 {
                     targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle * 1.5f, 0);
-                    currentDesiredSpeed *= 0.8f;
+                    currentDesiredSpeed *= 0.7f;
                 }
                 else
                 {
                     targetRotation = transform.rotation * Quaternion.Euler(0, turnAngle, 0);
-                    currentDesiredSpeed *= 0.9f;
+                    //currentDesiredSpeed *= 0.9f;
                 }
 #if UNITY_EDITOR
                 if (isDebug)
@@ -528,6 +530,12 @@ namespace RogueWave
                     }
                 }
             }
+        }
+
+        private void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, obstacleAvoidanceDistance);
         }
     }
 }

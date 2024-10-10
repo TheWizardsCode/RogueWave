@@ -72,9 +72,9 @@ namespace RogueWave
             }
         }
 
-        internal BaseTile GetTileObject(Transform root)
+        internal BaseTile GetTileObject(Transform root, Vector3 position)
         {
-            GameObject go = Instantiate(tilePrefab.gameObject, root);
+            GameObject go = Instantiate(tilePrefab.gameObject, position, Quaternion.identity, root);
 
             BaseTile tile = go.GetComponent<BaseTile>();
             tile.tileDefinition = this;

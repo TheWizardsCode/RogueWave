@@ -5,8 +5,11 @@ using UnityEngine;
 
 namespace WizardsCode.Marketing
 {
+    [DefaultExecutionOrder(-1000)]
     public class AssetGenerationController : MonoBehaviour
     {
+        [SerializeField, Tooltip("If true the application will quit when all assets have been generated.")]
+        private bool stopOnAssetCompletion = true;
         [SerializeField, Tooltip("The asset descriptor for the asset to be generated."), Expandable]
         private AssetDescriptor[] assetDescriptors;
 
@@ -28,11 +31,14 @@ namespace WizardsCode.Marketing
                 yield return new WaitForSeconds(1);
             }
 
+            if (stopOnAssetCompletion)
+            {
 #if UNITY_EDITOR
-            EditorApplication.isPlaying = false;
+                EditorApplication.isPlaying = false;
 #else
             Application.Quit();
 #endif
+            }
         }
     }
 }
