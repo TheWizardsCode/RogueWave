@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using NeoFPS;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -15,6 +16,8 @@ namespace WizardsCode.Marketing
 
         private IEnumerator Start()
         {
+            NeoFpsInputManager.captureMouseCursor = true;
+
             foreach (AssetDescriptor assetDescriptor in assetDescriptors)
             {
                 StartCoroutine(assetDescriptor.GenerateHeroFrame());

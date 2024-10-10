@@ -21,7 +21,6 @@ namespace WizardsCode.RogueWave
         ParticleSystem hitEffect;
         [SerializeField, Tooltip("The generator feedback particle to play when the shield is hit. This will be placed on the generator itself.")]
         PooledObject generatorFeedbackPrototype;
-        
 
         Spawner spawner;
         List<BasicDamageHandler> generatorDamageHandlers = new List<BasicDamageHandler>();
@@ -91,9 +90,9 @@ namespace WizardsCode.RogueWave
 
             for (int i = 0; i < spawner.shieldGenerators.Count; i++)
             {
-                if (spawner.shieldGenerators[i].gameObject)
+                if (spawner.shieldGenerators[i].gameObject.activeSelf)
                 {
-                    ParticleSystem fx = PoolManager.GetPooledObject<ParticleSystem>(generatorFeedbackPrototype, generatorDamageHandlers.Last().transform.position, Quaternion.identity);
+                    ParticleSystem fx = PoolManager.GetPooledObject<ParticleSystem>(generatorFeedbackPrototype, generatorDamageHandlers[i].transform.position, Quaternion.identity);
                     PoolManager.ReturnObjectDelayed(fx.GetComponent<PooledObject>(), 1.5f);
                 }
             }
