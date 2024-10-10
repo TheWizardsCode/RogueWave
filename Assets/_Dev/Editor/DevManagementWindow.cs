@@ -152,16 +152,16 @@ public class DevManagementWindow : EditorWindow
         GUILayout.EndVertical();
 
         GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
-        if (GUILayout.Button("Open Prod Scenes Folder"))
+        if (GUILayout.Button("Open Dev Scenes Folder"))
         {
-            var scenesFolder = AssetDatabase.LoadAssetAtPath<Object>(k_MainGameScene);
+            var scenesFolder = AssetDatabase.LoadAssetAtPath<Object>(k_LevelDevScene);
             EditorGUIUtility.PingObject(scenesFolder);
             Selection.activeObject = scenesFolder;
         }
 
-        if (GUILayout.Button("Open Dev Scenes Folder"))
+        if (GUILayout.Button("Open Prod Scenes Folder"))
         {
-            var scenesFolder = AssetDatabase.LoadAssetAtPath<Object>(k_LevelDevScene);
+            var scenesFolder = AssetDatabase.LoadAssetAtPath<Object>(k_MainGameScene);
             EditorGUIUtility.PingObject(scenesFolder);
             Selection.activeObject = scenesFolder;
         }
