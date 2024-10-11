@@ -4,8 +4,7 @@ using UnityEngine;
 
 namespace RogueWave { 
     [CreateAssetMenu(fileName = "Shield Damage Mitigation Recipe", menuName = "Rogue Wave/Recipe/Shield Damage Mitigation Recipe", order = 1)]
-    // REFACTOR: can we remove this and make it a BaseStatRecipe instead?
-    public class ShieldDamageMitigationRecipe : GenericStatRecipe<MonoBehaviour>
+    public class ShieldDamageMitigationRecipe : BaseStatRecipe
     {
         [SerializeField, Tooltip("The amount to add to the current damage mitigation of the shields.")]
         float additionalDamageMitigation = 0.1f;

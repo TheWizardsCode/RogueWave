@@ -8,8 +8,6 @@ namespace RogueWave
 {
     /// <summary>
     /// A stat recipe will upgrade an objects stats.
-    /// <seealso cref="GenericStatRecipe{T}"/>
-    /// 
     /// </summary>
     public abstract class BaseStatRecipe : AbstractRecipe
     {
@@ -23,7 +21,7 @@ namespace RogueWave
         float parameterMultiplier = 1.10f;
         [SerializeField, Tooltip("The time in seconds to wait before repeating the modifier. A value of 0 will only apply the modifier once."), MinValue(0f), ShowIf("isNamedParameterModifier")]
         internal float repeatEvery = 0f;
-        
+
         public override string Category => "Base Stat";
 
         public override string TechnicalSummary {

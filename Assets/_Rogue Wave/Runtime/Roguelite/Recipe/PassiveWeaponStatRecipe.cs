@@ -7,9 +7,10 @@ using WizardsCode.RogueWave;
 namespace RogueWave
 {
     [CreateAssetMenu(fileName = "Weapon Stat Recipe", menuName = "Rogue Wave/Recipe/Passive Item Stat")]
-    public class PassiveWeaponStatRecipe : GenericStatRecipe<PassiveWeapon>
+    public class PassiveWeaponStatRecipe : BaseStatRecipe
     {
-        // REFACTOR: remove the need for this class and use the BaseStatRecipe instead - following should be named parameter modifiers
+        [SerializeField, Tooltip("A prototype used to find the target to apply this stat modifier to.")]
+        internal PassiveWeapon targetPrototype;
         [Header("Weapon Modifiers")]
         [SerializeField, Tooltip("If true, this recipe will set a range modifier for the weapon.")]
         bool isRangeModifier = false;

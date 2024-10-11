@@ -1,4 +1,5 @@
 using NaughtyAttributes;
+using NeoFPS.SinglePlayer;
 using System.Reflection;
 using System.Text;
 using UnityEngine;
@@ -9,8 +10,7 @@ namespace RogueWave
     /// Modify a stat on the motion graph.
     /// </summary>
     [CreateAssetMenu(fileName = "Movement Stat Recipe", menuName = "Rogue Wave/Recipe/Movement Stat", order = 1)]
-    // REFACTOR: can we remove this and make it a BaseStatRecipe instead?
-    public class MotionGraphRecipe : GenericStatRecipe<MonoBehaviour>
+    public class MotionGraphRecipe : BaseStatRecipe
     {
         [SerializeField, Tooltip("The name of the stat to modify.")]
         internal string statName = string.Empty;
@@ -22,6 +22,19 @@ namespace RogueWave
         float additionalPostMultiplyAdd = 0f;
 
         public override string Category => "Movement";
+
+        MovementUpgradeManager _movementUpgradeManager;
+        internal MovementUpgradeManager movementUpgradeManager
+        {
+            get
+            {
+                if (_movementUpgradeManager == null)
+                {
+                    _movementUpgradeManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<MovementUpgradeManager>();
+                }
+                return _movementUpgradeManager;
+            }
+        }
 
         public override string TechnicalSummary
         {
