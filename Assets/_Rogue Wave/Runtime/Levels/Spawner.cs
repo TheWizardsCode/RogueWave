@@ -303,6 +303,30 @@ namespace RogueWave
         }
 
         /// <summary>
+        /// Spawn a specific enemy prefab at this spawner.
+        /// </summary>
+        /// <param name="prefab"></param>
+        /// <param name="maxAliveOverride"></param>
+        /// <returns>A reference to the instance spawned, null if it could not be spawned.</returns>
+        internal BasicEnemyController SpawnEnemy(BasicEnemyController prefab, bool maxAliveOverride = false)
+        {
+            Vector3 spawnPosition = transform.position + (Random.insideUnitSphere * spawnRadius * spawnPositionMultiplier);
+            if (currentWave == null)
+            {
+                currentWave = gameMode.GetEnemyWaveFromBossSpawner();
+            }
+
+            // OPTIMIZATION: We are doing a GetComponent here, which is slow. We do the opposite in the other SpawnEnemy(override) method. We should refactor this to be consistent.
+            BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prefab.GetComponent<PooledObject>(), spawnPosition, Quaternion.identity);
+            enemy.onDeath.AddListener(OnEnemyDeath);
+
+            spawnedEnemies.Add(enemy);
+            onEnemySpawned?.Invoke(enemy);
+
+            return enemy;
+        }
+
+        /// <summary>
         /// Spawn an enemy if this spawner is actively spawning and the max alive count has not been reached (unless we are ignoring the max alive count according to the optional `maxAliveOverride` parameter).
         /// </summary>
         /// <param name="maxAliveOverride">If true then the max alive count will be ignored and thus an enemy will always be spawned unless the spawner is currently inactive.</param>
@@ -335,11 +359,8 @@ namespace RogueWave
                 Debug.LogError("No enemy prefab found in wave definition.");
                 return null;
             }
-            BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prefab, spawnPosition, Quaternion.identity);
-            enemy.onDeath.AddListener(OnEnemyDeath);
-
-            spawnedEnemies.Add(enemy);
-            onEnemySpawned?.Invoke(enemy);
+            // OPTIMIZATION: We are doing a GetComponent here, which is slow. We do the opposite in the other SpawnEnemy(pooled, override) method. We should refactor this to be consistent.
+            BasicEnemyController enemy = SpawnEnemy(prefab.GetComponent<BasicEnemyController>(), maxAliveOverride);
 
             return enemy;
         }

@@ -36,10 +36,15 @@ MonoBehaviour:
   heroCount: 17
   imageSequenceCount: 2
   videoCount: 4
-  m_LevelDefinition: {fileID: 11400000, guid: 0b9628c45a935dd4695701360be1f27e, type: 2}
-  m_TerminalCommands: '#KillPercentageEnemies 1
+  m_LevelDefinition: {fileID: 11400000, guid: e77665de19e25d44eb55f1412ec3b018, type: 2}
+  m_TerminalCommands: 'KillPercentageEnemies 1
 
-    #DisableSpawning'
+    DisableSpawning
+
+    wait 1
+
+    spawnenemy
+    Saucer'
   m_PlayerStartPosition: {x: 43.099586, y: 1000, z: 23.756985}
   m_PlayerStartRotation: {x: 0, y: 0.6849333, z: 0, w: 0.7286058}
   m_Recipes:

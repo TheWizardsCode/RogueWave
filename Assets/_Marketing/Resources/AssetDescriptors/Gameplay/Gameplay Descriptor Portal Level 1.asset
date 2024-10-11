@@ -38,7 +38,14 @@ MonoBehaviour:
   imageSequenceCount: 3
   videoCount: 6
   m_LevelDefinition: {fileID: 11400000, guid: 4d920e59a2c95624eb76646df96e4ffc, type: 2}
-  m_TerminalCommands: 
+  m_TerminalCommands: 'killpercentageenemies 1
+
+    disablespawning
+
+    wait 1
+
+    spawn
+    saucer'
   m_PlayerStartPosition: {x: 150.63867, y: 1000, z: 229.26137}
   m_PlayerStartRotation: {x: 0, y: 0.99681777, z: 0, w: 0.07971423}
   m_Recipes:

@@ -28,7 +28,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The attacks of this enemy as displayed in the UI.")]
         private string attacks = string.Empty;
         [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat.")]
-        internal int challengeRating = 1;
+        public int challengeRating = 1;
 
         [Header("Senses")]
         [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight OR if they are a part of a squad in which at least one squad member has line of sight. If true will only attack if this enemy has lince of sight. If false they will always seek and attack out the player.")]

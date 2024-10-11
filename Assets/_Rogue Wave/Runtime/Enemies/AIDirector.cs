@@ -2,9 +2,9 @@ using NaughtyAttributes;
 using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using static RogueWave.BasicEnemyController;
-using Debug = UnityEngine.Debug;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -196,28 +196,13 @@ namespace RogueWave
         /// <param name="challengeRatingToSpawn">The total challenge rating of enemies to be spawned.</param>
         public void SpawnEnemies(float challengeRatingToSpawn)
         {
-            // Select the nearest 3 spawners to the player
-            Spawner[] nearestSpawners = null;
-            if (FpsSoloCharacter.localPlayerCharacter != null && spawners.Count > 3)
-            {
-                nearestSpawners = new Spawner[3];
-                List<Spawner> sortedSpawners = new List<Spawner>(spawners);
-                sortedSpawners.Sort((a, b) => Vector3.Distance(a.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position).CompareTo(Vector3.Distance(b.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position)));
-                for (int i = 0; i < 3; i++)
-                {
-                    nearestSpawners[i] = sortedSpawners[i];
-                }
-            }
-            else if (spawners.Count > 0)
-            {
-                nearestSpawners = spawners.ToArray();
-            }
-            else
+            Spawner[] nearestSpawners = GetNearbySpawners(3);
+            if (nearestSpawners.Length == 0)
             {
                 return;
             }
-
-            // Send remaining enemies from the nearest spawners to the player
+            
+            // Spawn enemies from the nearest spawners until the challenge rating is reached
             int challengeRatingSpawned = 0;
             while (challengeRatingSpawned <= challengeRatingToSpawn)
             {
@@ -233,6 +218,20 @@ namespace RogueWave
             }
 
             GameLog.Info($"AIDirector: Spawned additional enemies with total challenge rating of {challengeRatingSpawned}.\nCurrent currentKillScore is {currentKillscore}.");
+        }
+
+        private Spawner[] GetNearbySpawners(int spawnerCount)
+        {
+            // OPTIMIZATION: cache the results and only recalculate when the player has moved more than 10 units.
+            List<Spawner> sortedSpawners = new List<Spawner>(spawners);
+            if (FpsSoloCharacter.localPlayerCharacter != null && spawners.Count > spawnerCount)
+            {
+                sortedSpawners.Sort((a, b) => Vector3.Distance(a.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position).CompareTo(Vector3.Distance(b.transform.position, FpsSoloCharacter.localPlayerCharacter.transform.position)));
+                // remove the spawners that are too far away by discarding all after the spawnerCount
+                sortedSpawners.RemoveRange(spawnerCount, sortedSpawners.Count - spawnerCount);
+            }
+
+            return sortedSpawners.ToArray();
         }
 
         private void OnDestroy()
@@ -404,6 +403,55 @@ namespace RogueWave
             foreach (Spawner spawner in spawners)
             {
                 spawner.spawningEnabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Get a list of enemies that can be spawned by the spawners near the player.
+        /// </summary>
+        public BasicEnemyController[] GetSpawnerAvailableEnemies()
+        {
+            Spawner[] nearbySpawners = GetNearbySpawners(3);
+            if (nearbySpawners.Length == 0)
+            {
+                return new BasicEnemyController[0];
+            }
+
+            List<BasicEnemyController> result = new List<BasicEnemyController>();
+            foreach (Spawner spawner in nearbySpawners)
+            {
+                foreach (EnemySpawnConfiguration spawnConfig in spawner.currentWave.enemies)
+                {
+                    if (!result.Contains(spawnConfig.pooledEnemyPrefab.GetComponent<BasicEnemyController>()))
+                    {
+                        result.Add(spawnConfig.pooledEnemyPrefab.GetComponent<BasicEnemyController>());
+                    }
+                }
+            }
+            return result.ToArray();
+        }
+
+        /// <summary>
+        /// Spawn a specific enemy at a spawner near the player.
+        /// </summary>
+        /// <param name="enemy"></param>
+        /// <param name="count"></param>
+        /// <exception cref="System.NotImplementedException"></exception>
+        public void SpawnEnemiesNearPlayer(BasicEnemyController enemy, int count)
+        {
+            Spawner[] nearbySpawners = GetNearbySpawners(3);
+            for (int i = 0; i < count; i++)
+            {
+                foreach (Spawner spawner in nearbySpawners)
+                {
+                    if (spawner.currentWave.enemies.Any(e => e.pooledEnemyPrefab.GetComponent<BasicEnemyController>() == enemy))
+                    {
+                        if (spawner.SpawnEnemy(enemy, true))
+                        {
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
