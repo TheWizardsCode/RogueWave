@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
   complements: []
   baseBuyCost: 600
+  isAvailable: 1
   isPowerUp: 1
   cooldown: 10
   isStackable: 1
@@ -39,7 +40,9 @@ MonoBehaviour:
   uniqueID: 9b1a8645-2003-4597-a5cf-5d3f7a1f4dbc
   isNamedParameterModifier: 1
   parameterName: m_Cooldown
+  hasAdditiveModifier: 0
   parameterModifier: 0
+  hasMultiplier: 1
   parameterMultiplier: 0.9
   repeatEvery: 0
   targetPrototype: {fileID: 6852470632378416659, guid: b1fd13fd853554e4286729b3b69c7bee, type: 3}

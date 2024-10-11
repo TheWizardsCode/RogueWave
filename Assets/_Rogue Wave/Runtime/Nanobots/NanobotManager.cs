@@ -25,6 +25,8 @@ namespace RogueWave
         [Header("Building")]
         [SerializeField, Tooltip("A modifier curve used to change various values in the NanobotManager based on game difficulty, such as build cooldown and build speed.")]
         private AnimationCurve difficultyModifier = AnimationCurve.Linear(0, 1, 1, 1);
+        [SerializeField, Tooltip("A modifier for the build time. This can be used by upgrades and buffs to decrease or increase build times.")]
+        private float buildTimeModifier = 1;
         [SerializeField, Tooltip("Cooldown between recipe builds.")]
         private float buildingCooldown = 4;
         [SerializeField, Tooltip("The resources needed to reach the next nanobot level."), CurveRange(0, 100, 99, 50000, EColor.Green)]
@@ -746,7 +748,7 @@ namespace RogueWave
             GameLog.Info($"Building {recipe.DisplayName}");
 
             onBuildStarted?.Invoke(recipe);
-            yield return new WaitForSeconds(recipe.TimeToBuild * difficultyModifier.Evaluate(FpsSettings.playstyle.difficulty));
+            yield return new WaitForSeconds(recipe.TimeToBuild * buildTimeModifier * difficultyModifier.Evaluate(FpsSettings.playstyle.difficulty));
 
             IItemRecipe itemRecipe = recipe as IItemRecipe;
             if (itemRecipe != null)
@@ -862,7 +864,7 @@ namespace RogueWave
         {
             statRecipe.Apply();
 
-            while (statRecipe.repeatEvery > 0)
+            while (statRecipe.isRepeating && statRecipe.repeatEvery > 0)
             {
                 yield return new WaitForSeconds(statRecipe.repeatEvery);
                 statRecipe.Apply();

@@ -15,11 +15,17 @@ namespace RogueWave
         bool isNamedParameterModifier = false;
         [SerializeField, Tooltip("The name of a parameter in the weapon to modify."), ShowIf("isNamedParameterModifier")]
         string parameterName;
-        [SerializeField, Tooltip("The modifier to apply to the parameter. Note that while this is a float value, if the target parameter is an integer it will be rounded to int."), ShowIf("isNamedParameterModifier")]
+        [SerializeField, Tooltip("Apply a additive/subractive modifier (this will be applied BEFORE any multiplier)."), ShowIf("isNamedParameterModifier")]
+        bool hasAdditiveModifier = false;
+        [SerializeField, Tooltip("The modifier to apply to the parameter. Note that while this is a float value, if the target parameter is an integer it will be rounded to int."), ShowIf(EConditionOperator.And, "isNamedParameterModifier", "hasAdditiveModifier")]
         float parameterModifier = 1f;
-        [SerializeField, Tooltip("The multiplier to apply to the parameter. This is applied after any modifier value. If the parameter is an int value the result will be rounded to an int."), ShowIf("isNamedParameterModifier")]
-        float parameterMultiplier = 1.10f;
-        [SerializeField, Tooltip("The time in seconds to wait before repeating the modifier. A value of 0 will only apply the modifier once."), MinValue(0f), ShowIf("isNamedParameterModifier")]
+        [SerializeField, Tooltip("Apply a multiplier (this will be applied AFTER any additive/subtractive modifier)."), ShowIf("isNamedParameterModifier")]
+        bool hasMultiplier = false;
+        [SerializeField, Tooltip("The multiplier to apply to the parameter. This is applied after any modifier value. If the parameter is an int value the result will be rounded to an int."), ShowIf(EConditionOperator.And, "isNamedParameterModifier", "hasMultiplier")]
+        float parameterMultiplier = 1f;
+        [SerializeField, Tooltip("Is this a One Shot modifier or should it be repeated."), ShowIf("isNamedParameterModifier")]
+        internal bool isRepeating = true;
+        [SerializeField, Tooltip("The time in seconds to wait before repeating the modifier. A value of 0 will only apply the modifier once."), MinValue(0f), ShowIf(EConditionOperator.And, "isNamedParameterModifier", "isRepeating")]
         internal float repeatEvery = 0f;
 
         public override string Category => "Base Stat";
@@ -31,17 +37,17 @@ namespace RogueWave
                 {
                     StringBuilder sb = new StringBuilder();
                     sb.Append(ConvertToReadableString(parameterName));
-                    if (parameterModifier != 0)
+                    if (hasAdditiveModifier && parameterModifier != 0)
                     {
                         sb.Append(" + ");
                         sb.Append(parameterModifier);
                     }
-                    if (parameterMultiplier != 1)
+                    if (hasMultiplier && parameterMultiplier != 1)
                     {
                         sb.Append(" * ");
                         sb.Append(parameterMultiplier);
                     }
-                    if (repeatEvery > 0)
+                    if (isRepeating && repeatEvery > 0)
                     {
                         sb.Append(" every ");
                         sb.Append(repeatEvery);
@@ -88,15 +94,27 @@ namespace RogueWave
                     object fieldValue = field.GetValue(target);
                     if (fieldValue is float value)
                     {
-                        value += parameterModifier;
-                        value *= parameterMultiplier;
+                        if (hasAdditiveModifier)
+                        {
+                            value += parameterModifier;
+                        }
+                        if (hasMultiplier)
+                        {
+                            value *= parameterMultiplier;
+                        }
                         field.SetValue(target, value);
                         isSet = true;
                     }
                     else if (fieldValue is int intValue)
                     {
-                        intValue += Mathf.RoundToInt(parameterModifier);
-                        intValue = Mathf.RoundToInt(intValue * parameterMultiplier);
+                        if (hasAdditiveModifier)
+                        {
+                            intValue += Mathf.RoundToInt(parameterModifier);
+                        }
+                        if (hasMultiplier)
+                        {
+                            intValue = Mathf.RoundToInt(intValue * parameterMultiplier);
+                        }
                         field.SetValue(target, intValue);
                         isSet = true;
                     }
@@ -109,15 +127,27 @@ namespace RogueWave
                         object propertyValue = property.GetValue(target);
                         if (propertyValue is float value)
                         {
-                            value += parameterModifier;
-                            value *= parameterMultiplier;
+                            if (hasAdditiveModifier)
+                            {
+                                value += parameterModifier;
+                            }
+                            if (hasMultiplier)
+                            {
+                                value *= parameterMultiplier;
+                            }
                             property.SetValue(target, value);
                             isSet = true;
                         }
                         else if (propertyValue is int intValue)
                         {
-                            intValue += Mathf.RoundToInt(parameterModifier);
-                            intValue = Mathf.RoundToInt(intValue * parameterMultiplier);
+                            if (hasAdditiveModifier)
+                            {
+                                intValue += Mathf.RoundToInt(parameterModifier);
+                            }
+                            if (hasMultiplier)
+                            {
+                                intValue = Mathf.RoundToInt(intValue * parameterMultiplier);
+                            }
                             property.SetValue(target, intValue);
                             isSet = true;
                         }
