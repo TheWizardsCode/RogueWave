@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
+  m_Name: Level 1
+  m_EditorClassIdentifier: 
+  seed: 0
+  lotSize: {x: 25, y: 25}
+  mapSize: {x: 10, y: 10}
+  encloseLevel: 1
+  defaultTileDefinition: {fileID: 11400000, guid: 5d01d1101da7caf438911fcd75d8f6d3, type: 2}
+  wallTileDefinition: {fileID: 11400000, guid: 6b8a6fdd6346fdb47a892c051ac67382, type: 2}
+  waves:
+  - {fileID: 11400000, guid: f51a760483f0a594cbf7f8f10a11fdd7, type: 2}
+  waveWait: 5
+  generateNewWaves: 0
+  maxAlive: 200
+  generateLevelOnSpawn: 1
+  prePlacedTiles:
+  - {fileID: 11400000, guid: fb0c96709df571946ac3c5ab66afd137, type: 2}
+  - {fileID: 11400000, guid: db7d2aa9075717e4390141c737c47ceb, type: 2}
+  levelReadyAudioClips: []
+  levelCompleteAudioClips: []
+  deathAudioClips: []

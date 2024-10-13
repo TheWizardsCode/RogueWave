@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9173466c2b1873b46a6dc2bb3df303bb, type: 3}
+  m_Name: Health Pickup 50 Recipe
+  m_EditorClassIdentifier: 
+  displayName: Adrenaline Shot
+  announcerVoicelineForName: Adrenaline Shot.
+  description: This could bring you back from the brink.
+  heroImage: {fileID: 21300000, guid: 1ee0273cdc1bb8747ab6a013612aabd4, type: 3}
+  icon: {fileID: 21300000, guid: 2c5f49689475b5448820854eb9123260, type: 3}
+  level: 7
+  baseWeight: 0.3
+  dependencies:
+  - {fileID: 11400000, guid: 54f96e0540cf6bb41a06fdbff74ac37e, type: 2}
+  complements: []
+  baseBuyCost: 300
+  isAvailable: 1
+  isPowerUp: 1
+  cooldown: 7
+  isStackable: 0
+  maxStack: 1
+  buildCost: 50
+  timeToBuild: 7
+  nameClips:
+  - {fileID: 8300000, guid: 583cf0a87f0dd354fb8f112dcd6ba3b2, type: 3}
+  - {fileID: 8300000, guid: 0d9ead15b0210bc4d9a99aa15bd51b6c, type: 3}
+  - {fileID: 8300000, guid: 4692e6fdd02336b44a881e6ea3b8003b, type: 3}
+  - {fileID: 8300000, guid: 2c1ded57f9b8a754e84707b4da4cc241, type: 3}
+  - {fileID: 8300000, guid: e0b6a3eb32908634a92cc416a42823ef, type: 3}
+  - {fileID: 8300000, guid: 36cf697bdf5b72443889aaddef489e8b, type: 3}
+  - {fileID: 8300000, guid: 583f94a660fba544b9faa13a1dc34043, type: 3}
+  - {fileID: 8300000, guid: 814791d9c99c5dd43856f1d285c029f9, type: 3}
+  - {fileID: 8300000, guid: eb305f6bf495d174f90517135e9ed1a8, type: 3}
+  - {fileID: 8300000, guid: 374c07d9d49b2534db17bd28205c625d, type: 3}
+  - {fileID: 8300000, guid: 64277dd04d7cc494a9307808bbd52268, type: 3}
+  - {fileID: 8300000, guid: 1bd0b0b4705bdf647a7cb0deb46f981e, type: 3}
+  buildStartedClips:
+  - {fileID: 8300000, guid: 4cfa5201532b8804386629272d6c2251, type: 3}
+  - {fileID: 8300000, guid: 82c6b2d4f96469a4a8a1f08f33a09a10, type: 3}
+  - {fileID: 8300000, guid: a4e8a072afd2e8b459e98525bd36e129, type: 3}
+  - {fileID: 8300000, guid: 6c5a1b48cf3e2ef46956cec8232dad92, type: 3}
+  - {fileID: 8300000, guid: c327bd01caf5cd44ea97d7affea5eee5, type: 3}
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 5b797da1-ef2a-4ff2-80b2-2ede4b9c7441
+  pickup: {fileID: 114608595035019784, guid: beb4857a551173b4db77f79ab4897781, type: 3}

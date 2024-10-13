@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a45c9647589ddd646ab4be34481c3372, type: 3}
+  m_Name: Passive Fireball Cooldown -10%
+  m_EditorClassIdentifier: 
+  displayName: Inferno Frenzy
+  announcerVoicelineForName: Inferno Frenzy
+  description: Reduce the Fireball cooldown by 10%.
+  heroImage: {fileID: 21300000, guid: 3f7a960ea72588a4e9302428e6e97918, type: 3}
+  icon: {fileID: 21300000, guid: 97b8d06a46802bf4f95924a1bdd23f8e, type: 3}
+  level: 1
+  baseWeight: 0.6
+  dependencies:
+  - {fileID: 11400000, guid: e3b996310a9e0fc429a0418a082ef552, type: 2}
+  complements: []
+  baseBuyCost: 600
+  isAvailable: 1
+  isPowerUp: 1
+  cooldown: 10
+  isStackable: 1
+  maxStack: 10
+  buildCost: 60
+  timeToBuild: 5
+  nameClips:
+  - {fileID: 8300000, guid: d0ec24523c576b941b0647a4afcbb75e, type: 3}
+  - {fileID: 8300000, guid: d2f9a4360f089414c9db970ce5e58be3, type: 3}
+  - {fileID: 8300000, guid: a21355af1cfc70f4393638b6ba7392a6, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: b0222496-8902-422e-94ce-26c035976175
+  isNamedParameterModifier: 1
+  parameterName: m_Cooldown
+  hasAdditiveModifier: 0
+  parameterModifier: 0
+  hasMultiplier: 1
+  parameterMultiplier: 0.9
+  repeatEvery: 0
+  targetPrototype: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
+  isRangeModifier: 0
+  rangeMultiplier: 1.1
+  isDamageModifier: 0
+  damageMultiplier: 1.1

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
+  m_Name: All Enemies Test Level
+  m_EditorClassIdentifier: 
+  seed: 0
+  lotSize: {x: 25, y: 25}
+  mapSize: {x: 4, y: 4}
+  encloseLevel: 1
+  defaultTileDefinition: {fileID: 11400000, guid: 244a18d649d4f494498689d213467fe8, type: 2}
+  wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  waves:
+  - {fileID: 11400000, guid: bd84317d13229284d95ed786dd40201b, type: 2}
+  waveWait: 5
+  generateNewWaves: 0
+  maxAlive: 200
+  generateLevelOnSpawn: 1
+  prePlacedTiles:
+  - {fileID: 11400000, guid: 36524afaf6902a848acf1fc3b4496020, type: 2}
+  - {fileID: 11400000, guid: 0f4f28047d8dc914fbf432a957b9ae5d, type: 2}
+  levelReadyAudioClips: []
+  levelCompleteAudioClips: []
+  deathAudioClips: []

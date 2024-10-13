@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4fb7e8d73d55b64da4e54ddec76f479, type: 3}
+  m_Name: Self Healing
+  m_EditorClassIdentifier: 
+  displayName: Self Healing
+  announcerVoicelineForName: Self Healing
+  description: Heal a small amount every few moments
+  heroImage: {fileID: 21300000, guid: fbccb7262be5c2244b218a0d7a1151c2, type: 3}
+  icon: {fileID: 21300000, guid: 35ba0b02c2fd9ef4695964ab5da3d954, type: 3}
+  level: 8
+  baseWeight: 0.5
+  dependencies: []
+  complements: []
+  baseBuyCost: 1000
+  isAvailable: 1
+  isPowerUp: 1
+  cooldown: 10
+  isStackable: 1
+  maxStack: 10
+  buildCost: 50
+  timeToBuild: 5
+  nameClips:
+  - {fileID: 8300000, guid: 449747d04bcc3814a8efd5e613d5e9d5, type: 3}
+  - {fileID: 8300000, guid: dc1a390679d3283489c085aa64ad6326, type: 3}
+  - {fileID: 8300000, guid: de39615afcf24de499ff31a1ffee96b0, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: ca8a1979-9539-4210-9172-8149030b36ad
+  isNamedParameterModifier: 1
+  parameterName: health
+  hasAdditiveModifier: 1
+  parameterModifier: 1
+  hasMultiplier: 0
+  parameterMultiplier: 1
+  isRepeating: 1
+  repeatEvery: 5

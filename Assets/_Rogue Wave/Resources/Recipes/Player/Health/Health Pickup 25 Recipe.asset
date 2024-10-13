@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9173466c2b1873b46a6dc2bb3df303bb, type: 3}
+  m_Name: Health Pickup 25 Recipe
+  m_EditorClassIdentifier: 
+  displayName: Medkit
+  announcerVoicelineForName: Medkit.
+  description: Sometimes you need more than a bandage. Here's a medkit.
+  heroImage: {fileID: 21300000, guid: fa3e8406e0540b147b0041f41fd4f36b, type: 3}
+  icon: {fileID: 21300000, guid: 9dce108e76b3f7b4da06e96a59a9581d, type: 3}
+  level: 5
+  baseWeight: 0.5
+  dependencies:
+  - {fileID: 11400000, guid: acfc3b4061ccfed46b45124f93446649, type: 2}
+  complements: []
+  baseBuyCost: 150
+  isAvailable: 1
+  isPowerUp: 1
+  cooldown: 6
+  isStackable: 0
+  maxStack: 1
+  buildCost: 50
+  timeToBuild: 5.5
+  nameClips:
+  - {fileID: 8300000, guid: 3ed9a3a679d930a4b8d549bdb3e58b9e, type: 3}
+  - {fileID: 8300000, guid: ae26f46da8e7f954eaa4eaf5a1cb233c, type: 3}
+  - {fileID: 8300000, guid: 80a9bb674c37cc94c8fc2102879bedcb, type: 3}
+  - {fileID: 8300000, guid: f8d7e260f794e5041a9ab078d4438050, type: 3}
+  - {fileID: 8300000, guid: 41aa66212c8005c4d9ab28eda3cbeb52, type: 3}
+  - {fileID: 8300000, guid: 30beb8ec068749045be368c7c38e17a2, type: 3}
+  - {fileID: 8300000, guid: f380676704f5e624293c3476354db34e, type: 3}
+  - {fileID: 8300000, guid: 9c7cc5df5981b4f4e953d5ed48b4a232, type: 3}
+  - {fileID: 8300000, guid: 55442f5cd049ef54eabf367fbb3c9d6f, type: 3}
+  - {fileID: 8300000, guid: 110c70b5b4a289d4584870065081cd56, type: 3}
+  - {fileID: 8300000, guid: a489a92a4755063438da75a273004610, type: 3}
+  - {fileID: 8300000, guid: 2c25d1389713c974cacc7d131650b07e, type: 3}
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: 64a6fe8c-474b-42c9-967c-17b46bf497f8
+  pickup: {fileID: 114608595035019784, guid: ec080938cf493944fb6b703bb303a0ad, type: 3}

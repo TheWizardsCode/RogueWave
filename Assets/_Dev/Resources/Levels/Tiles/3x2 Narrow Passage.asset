@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
+  m_Name: 3x2 Narrow Passage
+  m_EditorClassIdentifier: 
+  tilePrefab: {fileID: 4991774553734080440, guid: d68d4a67fd5198d4eb140f889d1ecbdb, type: 3}
+  isFlat: 1
+  tileHeight: 3.04
+  noiseCellSize: 0.842
+  noiseFrequency: 6.48
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
+  enemySpawnChance: 1
+  constraints:
+    bottomLeftBoundary: {x: 0.25, y: 0, z: 0.25}
+    topRightBoundary: {x: 0.75, y: 1, z: 0.75}
+    weight: 0.8
+  xPositiveConstraints: []
+  xNegativeConstraints: []
+  zPositiveConstraints: []
+  zNegativeConstraints: []
+  m_DisplayName: Empty Level
+  icon: {fileID: 0}

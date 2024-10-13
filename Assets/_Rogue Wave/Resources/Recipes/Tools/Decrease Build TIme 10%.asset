@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fd616e50e524949a80d8f915bc5285, type: 3}
+  m_Name: Decrease Build TIme 10%
+  m_EditorClassIdentifier: 
+  displayName: Decrease Build TIme 10%
+  announcerVoicelineForName: Decrease Build TIme
+  description: Decrease the build time of all items by 10%.
+  heroImage: {fileID: 0}
+  icon: {fileID: 0}
+  level: 1
+  baseWeight: 0.2
+  dependencies: []
+  complements: []
+  baseBuyCost: 500
+  isAvailable: 1
+  isPowerUp: 1
+  cooldown: 10
+  isStackable: 1
+  maxStack: 10
+  buildCost: 50
+  timeToBuild: 5
+  nameClips: []
+  buildStartedClips: []
+  buildCompleteClips: []
+  pickupParticles: {fileID: 0}
+  uniqueID: c5cc2aae-954c-4d48-a977-409c08d35c1d
+  isNamedParameterModifier: 1
+  parameterName: buildTimeModifier
+  hasAdditiveModifier: 0
+  parameterModifier: 0
+  hasMultiplier: 1
+  parameterMultiplier: 0.9
+  repeatEvery: 0
