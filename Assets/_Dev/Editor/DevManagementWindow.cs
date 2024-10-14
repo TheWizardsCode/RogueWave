@@ -135,8 +135,6 @@ public class DevManagementWindow : EditorWindow
 
     private void OnDeveloperGUI()
     {
-        GUILayout.Label("Developer", EditorStyles.boldLabel);
-
         GUILayout.BeginHorizontal();
 
         GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
