@@ -1,7 +1,7 @@
-using Codice.ThemeImages;
 using NaughtyAttributes;
 using NeoFPS;
 using RogueWave;
+using System;
 using UnityEngine;
 
 namespace WizardsCode.RogueWave
@@ -10,7 +10,8 @@ namespace WizardsCode.RogueWave
     /// Scripable Effects are effects are Scriptable Objects that define a set of VFX and SFX.
     /// Instances of this class can be assigned to controller components, such as the WeaponJuice component.
     /// </summary>
-    [CreateAssetMenu(fileName = "New Scripted Effect", menuName = "Rogue Wave/FX/Scripted Effect")]
+    //[CreateAssetMenu(fileName = "New Scripted Effect", menuName = "Rogue Wave/FX/Scripted Effect")]
+    [Obsolete("User MMFeel instead.")]
     public class ScriptableEffect : ScriptableObject
     {
         enum StopAction

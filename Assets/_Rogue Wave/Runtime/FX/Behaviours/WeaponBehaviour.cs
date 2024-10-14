@@ -33,6 +33,7 @@ namespace WizardsCode.RogueWave
         private bool isStopping;
         private float endTime = float.MaxValue;
 
+
         protected virtual void OnEnable()
         {
             feelPlayer = GetComponent<MMF_Player>();
@@ -75,7 +76,7 @@ namespace WizardsCode.RogueWave
             feelPlayer?.StopFeedbacks();
             if (audioClips.Length > 0 && audioSource != null)
             {
-                StartCoroutine(AudioManager.FadeOut(audioSource, 0.2f));
+                AudioManager.FadeOut(audioSource, 0.2f);
             }
 
             behaviourStopped?.Raise();

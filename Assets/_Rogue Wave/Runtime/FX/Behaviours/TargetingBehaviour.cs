@@ -152,6 +152,12 @@ namespace WizardsCode.RogueWave
             UpdateEffects(true);
         }
 
+        protected override void OnDisable()
+        {
+            base.OnDisable();
+            StopBehaviour();
+        }
+
         /// <summary>
         /// Start attempting to lock on to a target.
         /// </summary>

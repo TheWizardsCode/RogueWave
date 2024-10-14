@@ -67,7 +67,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6004605724691275000}
-  - {fileID: 972661095886016019}
+  - {fileID: 2903406794393099178}
   - {fileID: 436079867255219435}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -360,7 +360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_OnOverflow: 0
---- !u!1001 &1315779539987502643
+--- !u!1001 &5718146309274036536
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -368,59 +368,63 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1450764596457488462}
     m_Modifications:
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 4628640681948178397, guid: f560863934a29ac479b469271860bf5d, type: 3}
+      propertyPath: audioPosition
+      value: 
+      objectReference: {fileID: 1450764596457488462}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.68
+      value: -1.414
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalRotation.y
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4475757418089012447, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
+    - target: {fileID: 7751926680038219542, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_Name
-      value: Laser
+      value: Saucer Primary Weapon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
---- !u!4 &972661095886016019 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: f560863934a29ac479b469271860bf5d, type: 3}
+--- !u!4 &2903406794393099178 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 2250956042404780064, guid: 08204ba3d6f692944acfb515c04255ac, type: 3}
-  m_PrefabInstance: {fileID: 1315779539987502643}
+  m_CorrespondingSourceObject: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
+  m_PrefabInstance: {fileID: 5718146309274036536}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6115356588732414739
 PrefabInstance:
