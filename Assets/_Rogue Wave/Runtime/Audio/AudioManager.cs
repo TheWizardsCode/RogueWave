@@ -103,7 +103,12 @@ namespace WizardsCode.RogueWave
             callback?.Invoke();
         }
 
-        internal static IEnumerator FadeOut(AudioSource audioSource, float duration)
+        public static void FadeOut(AudioSource audioSource, float duration)
+        {
+            Instance.StartCoroutine(FadeOutCo(audioSource, duration));
+        }
+
+        private static IEnumerator FadeOutCo(AudioSource audioSource, float duration)
         {
             float startVolume = audioSource.volume;
             float time = 0;
