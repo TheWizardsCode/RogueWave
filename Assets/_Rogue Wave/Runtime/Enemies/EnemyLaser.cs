@@ -1,8 +1,13 @@
+using NaughtyAttributes;
 using NeoFPS;
+using System;
 using UnityEngine;
+using WizardsCode.RogueWave;
+using Random = UnityEngine.Random;
 
 namespace RogueWave
 {
+    [Obsolete("Use WeaponEffectController instead")]
     public class EnemyLaser : MonoBehaviour, IDamageSource
     {
         [Header("Weapon")]
@@ -19,13 +24,11 @@ namespace RogueWave
         [SerializeField, Tooltip("A description of the damage to use in logs, etc.")]
         private string damageDescription = "Laser";
 
-        [Header("Juice")]
-        [SerializeField, Tooltip("The line renderer used to show the weapon firing.")]
-        LineRenderer _lineRenderer;
-        [SerializeField, Tooltip("The material to use for the laser when it is firing and doing damage on contact.")]
-        Material _damagingLaser;
-        [SerializeField, Tooltip("The material to use for the laser when it is targeting the player but not doing damage.")]
-        Material _targetingLaser;
+        [Header("Visuals")]
+        [SerializeField, Tooltip("The effects to use when the weapon is seeking a target.")]
+        private ScriptableEffect _WeaponTargetingFX;
+        [SerializeField, Tooltip("The effects to use when the weapon is firing.")]
+        private ScriptableEffect _WeaponFiringFX;
         [SerializeField, Tooltip("The amount of time in seconds that the weapon will be visible when firing.")]
         private float _fireDuration = 0.75f; 
         
@@ -66,14 +69,25 @@ namespace RogueWave
                         HideLaser();
                         break;
                     case State.LockingOn:
-                        _lineRenderer.material = _targetingLaser;
+                        if (_WeaponTargetingFX != null)
+                        {
+                            _WeaponTargetingFX.Spawn(transform.position, Quaternion.identity, controller);
+                        }
                         _remainingShotTime = _fireDuration;
                         break;
                     case State.LockedOn:
-                        _lineRenderer.material = _targetingLaser;
+                        if (_WeaponTargetingFX != null)
+                        {
+                            _WeaponTargetingFX.Stop();
+                        }
+                        Debug.LogWarning("TODO: Locked on FX");
                         break;
                     case State.Firing:
-                        _lineRenderer.material = _damagingLaser;
+                        HideLaser();
+                        if (_WeaponFiringFX != null)
+                        {
+                            _WeaponFiringFX.Spawn(transform.position, Quaternion.identity, controller);
+                        }
                         _remainingShotTime = _fireDuration;
                         break;
                 }
@@ -87,7 +101,7 @@ namespace RogueWave
         {
             get
             {
-                Vector3 direction = (_lineRenderer.GetPosition(1) - transform.position).normalized;
+                Vector3 direction = (controller.Target.position - transform.position).normalized;
                 if (Physics.Raycast(transform.position, direction, out RaycastHit _hit))
                 {
                     if (_hit.collider.CompareTag("Player"))
@@ -193,7 +207,8 @@ namespace RogueWave
 
         void HideLaser()
         {
-            _lineRenderer.enabled = false;
+            Debug.LogWarning("TODO: Hide Laser");
+
         }
 
         void UpdateLaser()
@@ -226,9 +241,10 @@ namespace RogueWave
             _targetedPos = controller.Target.position;
             _targetedPos += accuracyOffset;
 
-            _lineRenderer.SetPosition(0, transform.position);
-            _lineRenderer.SetPosition(1, Vector3.Slerp(_lineRenderer.GetPosition(1), _targetedPos, _targetingSpeed * Time.deltaTime));
-            _lineRenderer.enabled = true;
+            Debug.LogWarning("TODO: move laser to targeted position");
+            //_lineRenderer.SetPosition(0, transform.position);
+            //_lineRenderer.SetPosition(1, Vector3.Slerp(_lineRenderer.GetPosition(1), _targetedPos, _targetingSpeed * Time.deltaTime));
+            //_lineRenderer.enabled = true;
         }
     }
 }

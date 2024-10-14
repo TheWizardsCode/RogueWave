@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2772710991694823938}
   m_Layer: 14
   m_Name: CarryAnchor
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 8764730682041146853}
   m_Layer: 14
   m_Name: Offset
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 4163967368386619670}
   m_Layer: 14
   m_Name: AimTransform
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -171,7 +171,7 @@ GameObject:
   - component: {fileID: 431969483957157934}
   m_Layer: 0
   m_Name: BodyAudioSources
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -410,7 +410,7 @@ GameObject:
   - component: {fileID: 4050181510603379593}
   m_Layer: 26
   m_Name: SeekerTarget_03_Feet
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -465,7 +465,7 @@ GameObject:
   - component: {fileID: 3390124182285569037}
   m_Layer: 0
   m_Name: FootRoot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -707,7 +707,7 @@ GameObject:
   - component: {fileID: 4050878757196604725}
   m_Layer: 26
   m_Name: SeekerTarget_02_Torso
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -760,7 +760,7 @@ GameObject:
   - component: {fileID: 3588899173480238120}
   m_Layer: 0
   m_Name: Aimer
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -828,7 +828,7 @@ GameObject:
   - component: {fileID: 50597256276883898}
   m_Layer: 16
   m_Name: HeadDamageCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -919,7 +919,7 @@ MonoBehaviour:
   m_InventoryID: 157789892
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1.5
-  m_InDamageFilter:
+  m_PlayerInDamageFilter:
     m_Value: 65279
 --- !u!1 &4166312674587079531
 GameObject:
@@ -933,7 +933,7 @@ GameObject:
   - component: {fileID: 4049876643496651265}
   m_Layer: 26
   m_Name: SeekerTarget_01_Head
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -989,7 +989,7 @@ GameObject:
   - component: {fileID: 3164031575372010448}
   m_Layer: 16
   m_Name: UpperBodyDamageCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1079,7 +1079,7 @@ MonoBehaviour:
   m_InventoryID: 353087605
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1
-  m_InDamageFilter:
+  m_PlayerInDamageFilter:
     m_Value: 65279
 --- !u!1 &4166872335050492885
 GameObject:
@@ -1098,7 +1098,7 @@ GameObject:
   - component: {fileID: 1592417020733536103}
   m_Layer: 0
   m_Name: BodySpring
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1473,7 +1473,7 @@ GameObject:
   - component: {fileID: 5277135824510154139}
   m_Layer: 16
   m_Name: LowerBodyDamageCollider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1563,7 +1563,7 @@ MonoBehaviour:
   m_InventoryID: 353087605
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1
-  m_InDamageFilter:
+  m_PlayerInDamageFilter:
     m_Value: 65279
 --- !u!1 &4167708424366983049
 GameObject:
@@ -1893,7 +1893,7 @@ GameObject:
   - component: {fileID: 4053938695673121823}
   m_Layer: 0
   m_Name: ItemRoot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1963,7 +1963,7 @@ GameObject:
   - component: {fileID: 4054332162571951359}
   m_Layer: 14
   m_Name: PlayerCameraRoot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2180,7 +2180,7 @@ GameObject:
   - component: {fileID: 4054233941332996555}
   m_Layer: 0
   m_Name: UpperBodyRoot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2716,6 +2716,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 750a797d8f5dd2f4dad9dd839ee9f7eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  difficultyModifier:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  buildTimeModifier: 1
   buildingCooldown: 5
   resourcesForLevel:
     serializedVersion: 2
@@ -3029,7 +3054,7 @@ GameObject:
   - component: {fileID: 4162471131328030125}
   m_Layer: 0
   m_Name: DropTransform
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

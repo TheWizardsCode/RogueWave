@@ -10,6 +10,7 @@ using RogueWave.GameStats;
 using Random = UnityEngine.Random;
 using UnityEngine.SceneManagement;
 using System;
+using WizardsCode.RogueWave;
 
 namespace RogueWave
 {
@@ -505,7 +506,7 @@ namespace RogueWave
 
             //Debug.Log($"Announcing {mainClip.name} with recipe name {recipeName?.name}");
 
-            NeoFpsAudioManager.PlayEffectAudioAtPosition(mainClip, transform.position, 1);
+            AudioManager.PlayNanobotOneShot(mainClip);
             yield return new WaitForSeconds(mainClip.length);
 
             if (recipeNames == null || recipeNames.Length == 0 || voiceDescription < voiceDescriptionLevel.Medium)
@@ -522,7 +523,7 @@ namespace RogueWave
                 }
                 else
                 {
-                    NeoFpsAudioManager.PlayEffectAudioAtPosition(recipeName, transform.position, 1);
+                    AudioManager.PlayNanobotOneShot(recipeName);
                     yield return new WaitForSeconds(recipeName.length + 0.3f);
                 }
             }

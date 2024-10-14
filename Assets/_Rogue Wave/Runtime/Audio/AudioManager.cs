@@ -3,7 +3,6 @@ using NeoFPS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -104,6 +103,19 @@ namespace WizardsCode.RogueWave
             callback?.Invoke();
         }
 
+        internal static IEnumerator FadeOut(AudioSource audioSource, float duration)
+        {
+            float startVolume = audioSource.volume;
+            float time = 0;
+            while (time < duration)
+            {
+                time += Time.deltaTime;
+                audioSource.volume = Mathf.Lerp(startVolume, 0, time / duration);
+                yield return null;
+            }
+            audioSource.Stop();
+        }
+
         internal static void FadeAllExceptNanobots(float targetValue, float fadeDuration, Action callback = null)
         {
             float targetVolume = ConvertToVolume(targetValue);
@@ -141,6 +153,55 @@ namespace WizardsCode.RogueWave
             currentVolumes[music] = mutedVolume;
             MuteMusic();
         }
+
+
+        #region Play SFX
+        internal static AudioSource Play3DEnemyOneShot(AudioClip audioClip, Vector3 position)
+        {
+            var source = NeoFpsAudioManager.Get3DAudioSource();
+            if (source == null)
+                return null;
+
+            source.transform.position = position;
+            source.PlayOneShot(audioClip);
+
+            return source;
+        }
+
+        internal static AudioSource Play2DEnemyOneShot(AudioClip audioClip)
+        {
+            var source = NeoFpsAudioManager.Get2DAudioSource();
+            if (source == null)
+                return null;
+
+            source.PlayOneShot(audioClip);
+
+            return source;
+        }
+
+        internal static AudioSource PlayNanobotOneShot(AudioClip audioClip)
+        {
+            var source = NeoFpsAudioManager.Get2DAudioSource();
+            if (source == null)
+                return null;
+
+            source.PlayOneShot(audioClip);
+
+            return source;
+        }
+
+        internal static AudioSource PlayAmbience(AudioClip audioClip, Vector3 position)
+        {
+            var source = NeoFpsAudioManager.Get3DAudioSource();
+            if (source == null)
+                return null;
+
+            source.transform.position = position;
+            source.PlayOneShot(audioClip);
+
+            return source;
+        }
+        #endregion
 
 #if UNITY_EDITOR
         [Button("Fade Music")]

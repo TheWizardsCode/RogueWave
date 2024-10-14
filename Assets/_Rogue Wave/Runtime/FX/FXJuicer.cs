@@ -1,10 +1,6 @@
 using NeoFPS;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
-using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -14,7 +10,8 @@ namespace RogueWave
     /// 
     /// Place it anywhere on an object and ensure that the Juices sections of the config are setup. The juices will be added at the location of this components transform.
     /// </summary>
-    public class FXJuicer : MonoBehaviour
+    [Obsolete("Use More Mountains Feel instead.")]
+    public class FXJuicer : PooledObject
     {
         [Header("Setup")]
         [SerializeField, Tooltip("The audio source for this enemy.")]
@@ -35,7 +32,33 @@ namespace RogueWave
         internal AudioClip[] deathClips;
 
         // REFACTOR: remove this coupling between the enemy controller and the juicer
-        BasicEnemyController controller;
+        BasicEnemyController _ownerController;
+        public BasicEnemyController OwnerController
+        {
+            get { 
+                if (_ownerController == null)
+                {
+                    _ownerController = GetComponentInParent<BasicEnemyController>();
+
+                    if (_ownerController == null)
+                    {
+                        Debug.LogError("FXJuicer cannot find the owning BasicEnemyController. " +
+                            "If this is not a component in the parent hierarchy is must be explicitly set by calling `OwnerController = controller`");
+                        return null;
+                    }
+                }
+                return _ownerController; 
+            }
+            set {
+                if (_ownerController != null && _ownerController != value)
+                {
+                    _ownerController.onDeath.RemoveListener(OnDeath);
+                }
+
+                _ownerController = value;
+                _ownerController.onDeath.AddListener(OnDeath);
+            }
+        }
 
         /// <summary>
         /// The drone is the sound that plays when the enemy is alive.
@@ -46,20 +69,13 @@ namespace RogueWave
             get { return _droneClip; }
         }
 
-        private void Awake()
-        {
-            controller = GetComponentInParent<BasicEnemyController>();
-        }
-
         private void OnEnable()
         {
-            controller.onDeath.AddListener(OnDeath);
             StartAudio();
         }
 
         private void OnDisable()
         {
-            controller.onDeath.RemoveListener(OnDeath);
             StopAudio();
         }
 
@@ -121,21 +137,21 @@ namespace RogueWave
         {
             Vector3 pos = transform.position + juiceOffset;
             ParticleSystem deathParticle = PoolManager.GetPooledObject<ParticleSystem>(deathJuicePrefab, pos, Quaternion.identity);
-            if (controller.parentRenderer != null)
+            if (OwnerController.parentRenderer != null)
             {
                 var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();
                 if (particleSystemRenderer != null)
                 {
-                    particleSystemRenderer.material = controller.parentRenderer.material;
+                    particleSystemRenderer.material = OwnerController.parentRenderer.material;
                 }
             }
             deathParticle.Play();
 
-            if (controller.shouldExplodeOnDeath)
+            if (OwnerController.shouldExplodeOnDeath)
             {
                 PooledExplosion explosion = deathParticle.GetComponentInChildren<PooledExplosion>();
-                explosion.radius = controller.deathExplosionRadius;
-                explosion.Explode(controller.explosionDamageOnDeath, controller.explosionForceOnDeath, null);
+                explosion.radius = OwnerController.deathExplosionRadius;
+                explosion.Explode(OwnerController.explosionDamageOnDeath, OwnerController.explosionForceOnDeath, null);
             }
         }
     }

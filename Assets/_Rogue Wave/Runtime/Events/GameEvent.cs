@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,6 +17,7 @@ namespace WizardsCode.RogueWave
         private string description;
 
         private List<IGameEventListener> listeners = new List<IGameEventListener>();
+        private List<Action> actions = new List<Action>();
 
         /// <summary>
         /// Raise an event that has no target object.
@@ -26,6 +28,21 @@ namespace WizardsCode.RogueWave
             {
                 listeners[i].OnEventRaised();
             }
+
+            for (int i = actions.Count - 1; i >= 0; i--)
+            {
+                actions[i].Invoke();
+            }
+        }
+
+        public void RegisterListener(Action callback)
+        {
+            actions.Add(callback);
+        }
+
+        public void UnregisterListener(Action callback)
+        {
+            actions.Remove(callback);
         }
 
         public void RegisterListener(IGameEventListener listener)

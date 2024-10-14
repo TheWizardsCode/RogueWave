@@ -190,11 +190,9 @@ namespace WizardsCode.Marketing
             }
         }
 
-        public virtual IEnumerator GenerateAsset(Action callback = null)
+        public virtual IEnumerator GenerateRequiredAssets(Action callback = null)
         {
-            LoadSceneSetup();
-
-            // Start both coroutines in parallel
+            // Start generation coroutines in parallel
             var videoCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateVideo(callback));
             var heroFrameCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateHeroFrame(callback));
             var imageSequenceCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateImageSequence(callback));
@@ -265,7 +263,6 @@ namespace WizardsCode.Marketing
             }
 
             heroCount++;
-            LoadSceneSetup();
 
             IsRecording = true;
             int targetFrame = HeroFrame + Time.frameCount;

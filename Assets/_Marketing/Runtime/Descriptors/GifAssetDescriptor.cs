@@ -66,7 +66,7 @@ namespace WizardsCode.Marketing
             }
         }
 
-        public override IEnumerator GenerateAsset(Action callback = null)
+        public override IEnumerator GenerateRequiredAssets(Action callback = null)
         {
             gifCount++;
             IsRecording = true;

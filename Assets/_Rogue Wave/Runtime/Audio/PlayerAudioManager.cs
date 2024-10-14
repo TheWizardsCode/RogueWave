@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WizardsCode.RogueWave;
 using Random = UnityEngine.Random;
 
 namespace RogueWave
@@ -45,7 +46,7 @@ namespace RogueWave
                 if (chargeDown != null)
                 {
                     AudioClip clip = chargeDown[Random.Range(0, chargeDown.Length)];
-                    NeoFpsAudioManager.PlayEffectAudioAtPosition(clip, transform.position);
+                    AudioManager.PlayNanobotOneShot(clip);
                     earliestTimeOfNextShieldSound = Time.timeSinceLevelLoad + clip.length + 0.2f;
                 }
             }
@@ -54,7 +55,7 @@ namespace RogueWave
                 if (chargeUp != null)
                 {
                     AudioClip clip = chargeUp[Random.Range(0, chargeUp.Length)];
-                    NeoFpsAudioManager.PlayEffectAudioAtPosition(clip, transform.position);
+                    AudioManager.PlayNanobotOneShot(clip);
                     earliestTimeOfNextShieldSound = Time.timeSinceLevelLoad + clip.length + 0.2f;
                 }
             }

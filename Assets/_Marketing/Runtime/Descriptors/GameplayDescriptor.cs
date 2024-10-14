@@ -68,8 +68,8 @@ namespace WizardsCode.Marketing
             campaign.SetLevel(m_LevelDefinition);
 
             // Configure the player
+            RogueLiteManager.persistentData.RecipeIds.Clear();
             RogueLiteManager.runData.Recipes.Clear();
-            gameMode.StartingRunRecipes = new AbstractRecipe[0];
             gameMode.StartingRunRecipes = m_Recipes;
             EditorUtility.SetDirty(gameMode);
 

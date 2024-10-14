@@ -20,10 +20,12 @@ namespace WizardsCode.Marketing
 
             foreach (AssetDescriptor assetDescriptor in assetDescriptors)
             {
+                assetDescriptor.LoadSceneSetup();
+
                 StartCoroutine(assetDescriptor.GenerateHeroFrame());
                 if (assetDescriptor.GetType() != typeof(AssetDescriptor))
                 {
-                    StartCoroutine(assetDescriptor.GenerateAsset());
+                    StartCoroutine(assetDescriptor.GenerateRequiredAssets());
                 }
 
                 while (assetDescriptor.IsRecording)

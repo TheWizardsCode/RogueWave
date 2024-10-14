@@ -45,7 +45,11 @@ MonoBehaviour:
     wait 1
 
     spawn
-    saucer'
+    saucer
+
+    wait 1
+
+    setmaxhealth 10000'
   m_PlayerStartPosition: {x: 150.63867, y: 1000, z: 229.26137}
   m_PlayerStartRotation: {x: 0, y: 0.99681777, z: 0, w: 0.07971423}
   m_Recipes:
@@ -54,20 +58,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 22e1bf5280e270b46a7e8df0dcca53e8, type: 2}
   - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
   - {fileID: 11400000, guid: 8b52b568428411a48939cecc08f13b34, type: 2}
-  - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
-  - {fileID: 11400000, guid: 7b94b7a186577ef40b4a1cbac90ef8a3, type: 2}
-  - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
-  - {fileID: 11400000, guid: e891444cd697d9043b22260fee238dc6, type: 2}
-  - {fileID: 11400000, guid: e0f5c51c554f5674abd75a303fed82cd, type: 2}
-  - {fileID: 11400000, guid: e0f5c51c554f5674abd75a303fed82cd, type: 2}
-  - {fileID: 11400000, guid: e0f5c51c554f5674abd75a303fed82cd, type: 2}
-  - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
-  - {fileID: 11400000, guid: 5c4cf58c50533af428a09d24d4e7f698, type: 2}
-  - {fileID: 11400000, guid: f58637f47efc134419ca8b9024e090d6, type: 2}
-  - {fileID: 11400000, guid: f58637f47efc134419ca8b9024e090d6, type: 2}
-  - {fileID: 11400000, guid: 43e5013eeae2b234ca2d2f50d3254e3b, type: 2}
-  - {fileID: 11400000, guid: 43e5013eeae2b234ca2d2f50d3254e3b, type: 2}
-  - {fileID: 11400000, guid: 43e5013eeae2b234ca2d2f50d3254e3b, type: 2}
   - {fileID: 11400000, guid: b7dab938896fc29438fccfb0264b6f3b, type: 2}
   - {fileID: 11400000, guid: 3f74a6743cf4d9e45b231c97899f5d7a, type: 2}
   - {fileID: 11400000, guid: 3f74a6743cf4d9e45b231c97899f5d7a, type: 2}
@@ -85,6 +75,18 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 23a0325c8bb6a334d8082e5c163e5408, type: 2}
   - {fileID: 11400000, guid: 63db726cd6cb7e14eaf506d41ab93140, type: 2}
   - {fileID: 11400000, guid: 9d4982a4a5a73aa4d91e295c0a955d8f, type: 2}
+  - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
+  - {fileID: 11400000, guid: d165cfe542f03bf47a7272bf88b12218, type: 2}
+  - {fileID: 11400000, guid: e891444cd697d9043b22260fee238dc6, type: 2}
+  - {fileID: 11400000, guid: 0715c783f484d174cb9528d11a3fa1b9, type: 2}
+  - {fileID: 11400000, guid: e0f5c51c554f5674abd75a303fed82cd, type: 2}
+  - {fileID: 11400000, guid: dce04263fa8686f48a3b1bc689fa26c9, type: 2}
+  - {fileID: 11400000, guid: dce04263fa8686f48a3b1bc689fa26c9, type: 2}
+  - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
+  - {fileID: 11400000, guid: 5c4cf58c50533af428a09d24d4e7f698, type: 2}
+  - {fileID: 11400000, guid: 5c4cf58c50533af428a09d24d4e7f698, type: 2}
+  - {fileID: 11400000, guid: 43e5013eeae2b234ca2d2f50d3254e3b, type: 2}
+  - {fileID: 11400000, guid: 43e5013eeae2b234ca2d2f50d3254e3b, type: 2}
   m_MuteMusic: 1
   enableMouseSmoothing: 1
   mouseSmoothingAmount: 0.5

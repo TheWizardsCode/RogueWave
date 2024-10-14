@@ -20,9 +20,9 @@ namespace WizardsCode.Marketing
             return base.GenerateHeroFrame(callback);
         }
 
-        public override IEnumerator GenerateAsset(Action callback = null)
+        public override IEnumerator GenerateRequiredAssets(Action callback = null)
         {
-            yield return base.GenerateAsset(() => StopShowcase(callback));
+            yield return base.GenerateRequiredAssets(() => StopShowcase(callback));
         }
 
         private void StartShowcase()
