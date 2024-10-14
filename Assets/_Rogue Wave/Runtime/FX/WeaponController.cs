@@ -43,7 +43,7 @@ namespace WizardsCode.RogueWave
 
         //[Header("Meta Data")]
         [SerializeField, Tooltip("The type of ammunition defines how the weapone FX are displayed and how damage is done."), BoxGroup("Meta Data")]
-        AmmunitionType _ammunitionType = AmmunitionType.HitScan;
+        AmmunitionType ammunitionType = AmmunitionType.HitScan;
         [SerializeField, Tooltip("The action to take when the effect is stopped."), BoxGroup("Meta Data")]
         StopAction _stopAction = StopAction.None; [SerializeField, Tooltip("The range of the weapon. If not within this range then it will not fire."), BoxGroup("Targeting")]
         float _Range = 50f;
@@ -65,7 +65,7 @@ namespace WizardsCode.RogueWave
         private GameEvent onTargetAcquired;
 
         //[Header("Weapon Firing")]
-        [SerializeField, Tooltip("The speed of the projectile."), BoxGroup("Weapon Firing"), ShowIf("_ammunitionType", AmmunitionType.HitScan)]
+        [SerializeField, Tooltip("The speed of the projectile."), BoxGroup("Weapon Firing"), HideIf("_ammunitionType", AmmunitionType.HitScan)]
         private float _projectileSpeed = 10f;
         [SerializeField, Tooltip("How long the weapon must spend in an idle state between attempted lockons or firings."), BoxGroup("Weapon Firing")]
         private float _cooldown = 1f;
@@ -240,13 +240,13 @@ break;
 
         private void LateUpdate()
         {
-            switch (_ammunitionType)
+            switch (ammunitionType)
             {
                 case AmmunitionType.HitScan:
                     UpdateWeaponState();
                     break;
                 default:
-                    Debug.LogError($"Unsupported ammunition type: {_ammunitionType}");
+                    Debug.LogError($"Unsupported ammunition type: {ammunitionType}");
                     break;
             }
         }
