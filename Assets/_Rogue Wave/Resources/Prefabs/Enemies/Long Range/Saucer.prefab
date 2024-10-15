@@ -43,9 +43,8 @@ GameObject:
   - component: {fileID: 4070675553001932281}
   - component: {fileID: -2601143761875727349}
   - component: {fileID: 5219187662690625511}
-  - component: {fileID: 7054961101329663811}
   - component: {fileID: 7903795175863034719}
-  - component: {fileID: 2046567764634707367}
+  - component: {fileID: 8726431756802365566}
   m_Layer: 31
   m_Name: Saucer
   m_TagString: AI
@@ -83,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735e4c1315dedbc4a869e8dc7e67a4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 0
   displayName: Saucer
   icon:
   - {fileID: 21300000, guid: 3c71d57d2a0e98245ad5b821ef08be49, type: 3}
@@ -123,7 +123,11 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 1
   squadRole: 0
-  shouldExplodeOnDeath: 1
+  droneClip: {fileID: 0}
+  deathClips: []
+  deathJuicePrefab: {fileID: 0}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  causeAreDamageOnDeath: 0
   deathExplosionRadius: 10
   explosionDamageOnDeath: 40
   explosionForceOnDeath: 15
@@ -186,7 +190,27 @@ MonoBehaviour:
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!82 &7054961101329663811
+--- !u!114 &7903795175863034719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7985948857531989657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OnOverflow: 1
+  audioSource: {fileID: 0}
+  _droneClip: {fileID: 0}
+  droneVolume: 1
+  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  deathClips:
+  - {fileID: 8300000, guid: 33bbe4beab9fa6c4482604cc3d1f4ced, type: 3}
+--- !u!82 &8726431756802365566
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -287,7 +311,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -327,39 +351,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &7903795175863034719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985948857531989657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 1
-  audioSource: {fileID: 7054961101329663811}
-  _droneClip: {fileID: 0}
-  droneVolume: 1
-  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
-  juiceOffset: {x: 0, y: 0, z: 0}
-  deathClips:
-  - {fileID: 8300000, guid: 33bbe4beab9fa6c4482604cc3d1f4ced, type: 3}
---- !u!114 &2046567764634707367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985948857531989657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 0
 --- !u!1001 &5718146309274036536
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -368,10 +359,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1450764596457488462}
     m_Modifications:
-    - target: {fileID: 4628640681948178397, guid: f560863934a29ac479b469271860bf5d, type: 3}
+    - target: {fileID: 4891461475832706190, guid: f560863934a29ac479b469271860bf5d, type: 3}
+      propertyPath: _enemyController
+      value: 
+      objectReference: {fileID: 4070675553001932281}
+    - target: {fileID: 6958229884170470655, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: audioPosition
       value: 
-      objectReference: {fileID: 1450764596457488462}
+      objectReference: {fileID: 6004605724691275000}
     - target: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -496,7 +491,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 5ba0ace889d035c46881b8838d2ecfb7, type: 2}
     - target: {fileID: 919132149155446097, guid: 1298c6460d67b9347ba0b8f268004d18, type: 3}
       propertyPath: m_Name
-      value: saucer
+      value: Saucer Model
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1298c6460d67b9347ba0b8f268004d18, type: 3}
       propertyPath: m_Layer

@@ -8,93 +8,104 @@ using RogueWave.GameStats;
 using Random = UnityEngine.Random;
 using UnityEngine.Serialization;
 using System.Text;
+using WizardsCode.RogueWave;
 
 namespace RogueWave
 {
-    public class BasicEnemyController : MonoBehaviour
+    [RequireComponent(typeof(AudioSource))]
+    public class BasicEnemyController : PooledObject
     {
         internal enum SquadRole { None, Fodder, Leader, /* Heavy, Sniper, Medic, Scout*/ }
 
-        [SerializeField, Tooltip("The name of this enemy as displayed in the UI.")]
+        //[Header("Metadata")]
+        [SerializeField, Tooltip("The name of this enemy as displayed in the UI."), BoxGroup("Metadata")]
         public string displayName = "TBD";
-        [SerializeField, Tooltip("The icon that represents this enemy in the UI.")]
+        [SerializeField, Tooltip("The icon that represents this enemy in the UI."), BoxGroup("Metadata")]
         public Sprite[] icon;
-        [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI."), FormerlySerializedAs("description")]
+        [SerializeField, TextArea, Tooltip("The description of this enemy as displayed in the UI."), FormerlySerializedAs("description"), BoxGroup("Metadata")]
         private string m_description = "TBD";
-        [SerializeField, Tooltip("The strengths of this enemy as displayed in the UI.")]
+        [SerializeField, Tooltip("The strengths of this enemy as displayed in the UI."), BoxGroup("Metadata")]
         private string strengths = string.Empty;
-        [SerializeField, Tooltip("The weaknesses of this enemy as displayed in the UI.")]
+        [SerializeField, Tooltip("The weaknesses of this enemy as displayed in the UI."), BoxGroup("Metadata")]
         private string weaknesses = string.Empty;
-        [SerializeField, Tooltip("The attacks of this enemy as displayed in the UI.")]
+        [SerializeField, Tooltip("The attacks of this enemy as displayed in the UI."), BoxGroup("Metadata")]
         private string attacks = string.Empty;
-        [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat.")]
+        [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat."), BoxGroup("Metadata")]
         public int challengeRating = 1;
 
-        [Header("Senses")]
-        [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight OR if they are a part of a squad in which at least one squad member has line of sight. If true will only attack if this enemy has lince of sight. If false they will always seek and attack out the player.")]
+        //[Header("Senses")]
+        [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight OR if they are a part of a squad in which at least one squad member has line of sight. If true will only attack if this enemy has lince of sight. If false they will always seek and attack out the player."), BoxGroup("Senses")]
         internal bool requireLineOfSight = true;
-        [SerializeField, Tooltip("The maximum distance the character can see"), ShowIf("requireLineOfSight")]
+        [SerializeField, Tooltip("The maximum distance the character can see"), ShowIf("requireLineOfSight"), BoxGroup("Senses")]
         internal float viewDistance = 30f;
-        [SerializeField, Tooltip("The layers the character can see"), ShowIf("requireLineOfSight")]
+        [SerializeField, Tooltip("The layers the character can see"), ShowIf("requireLineOfSight"), BoxGroup("Senses")]
         internal LayerMask sensorMask = 0;
-        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), ShowIf("requireLineOfSight")]
+        [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), ShowIf("requireLineOfSight"), BoxGroup("Senses")]
         internal Transform sensor;
 
-        [Header("Animation")]
-        [SerializeField, Tooltip("If true the enemy will rotate their head to face the player.")]
+        //[Header("Animation")]
+        [SerializeField, Tooltip("If true the enemy will rotate their head to face the player."), BoxGroup("Animation")]
         internal bool headLook = true;
-        [SerializeField, Tooltip("The head of the enemy. If set then this object will be rotated to face the player."), ShowIf("headLook")]
+        [SerializeField, Tooltip("The head of the enemy. If set then this object will be rotated to face the player."), ShowIf("headLook"), BoxGroup("Animation")]
         Transform head;
-        [SerializeField, Tooltip("The maximum rotation of the head either side of forward."), Range(0, 180), ShowIf("headLook")]
+        [SerializeField, Tooltip("The maximum rotation of the head either side of forward."), Range(0, 180), ShowIf("headLook"), BoxGroup("Animation")]
         float maxHeadRotation = 75;
 
-        [Header("Seek Behaviour")]
-        [SerializeField, Tooltip("If true the enemy will return to their spawn point when they go beyond their seek distance.")]
+        //[Header("Seek Behaviour")]
+        [SerializeField, Tooltip("If true the enemy will return to their spawn point when they go beyond their seek distance."), BoxGroup("Seek Behaviour")]
         internal bool returnToSpawner = false;
-        [SerializeField, Tooltip("If chasing a player and the player gets this far away from the enemy then the enemy will return to their spawn point and resume their normal behaviour.")]
+        [SerializeField, Tooltip("If chasing a player and the player gets this far away from the enemy then the enemy will return to their spawn point and resume their normal behaviour."), BoxGroup("Seek Behaviour")]
         internal float seekDistance = 30;
-        [SerializeField, Tooltip("How close to the player will this enemy try to get?")]
+        [SerializeField, Tooltip("How close to the player will this enemy try to get?"), BoxGroup("Seek Behaviour")]
         internal float optimalDistanceFromPlayer = 0.2f;
-        [SerializeField, Tooltip("How often the destination will be updated.")]
+        [SerializeField, Tooltip("How often the destination will be updated."), BoxGroup("Seek Behaviour")]
         private float destinationUpdateFrequency = 2f;
 
-        [Header("Defensive Behaviour")]
-        [SerializeField, Tooltip("If true then this enemy will spawn defensive units when it takes damage.")]
+        //[Header("Defensive Behaviour")]
+        [SerializeField, Tooltip("If true then this enemy will spawn defensive units when it takes damage."), BoxGroup("Defensive Behaviour")]
         internal bool spawnOnDamageEnabled = false;
-        [SerializeField, Tooltip("If true defensive units will be spawned around the attacking unit. If false they will be spawned around this unit."), ShowIf("spawnOnDamageEnabled")]
+        [SerializeField, Tooltip("If true defensive units will be spawned around the attacking unit. If false they will be spawned around this unit."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
         internal bool spawnOnDamageAroundAttacker = false;
-        [SerializeField, Tooltip("The distance from the spawn point (damage source or this unit) that defensive units will be spawned. they will always spawn between the damage source and this enemy."), ShowIf("spawnOnDamageEnabled")]
+        [SerializeField, Tooltip("The distance from the spawn point (damage source or this unit) that defensive units will be spawned. they will always spawn between the damage source and this enemy."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
         internal float spawnOnDamageDistance = 10;
-        [SerializeField, Tooltip("Prototype to use to spawn defensive units when this enemy takes damage. This might be, for example, new enemies that will attack the thing doing damage."), ShowIf("spawnOnDamageEnabled")]
+        [SerializeField, Tooltip("Prototype to use to spawn defensive units when this enemy takes damage. This might be, for example, new enemies that will attack the thing doing damage."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
         internal PooledObject[] spawnOnDamagePrototypes;
-        [SerializeField, Tooltip("The amount of damage the enemy must take before spawning defensive units."), ShowIf("spawnOnDamageEnabled")]
+        [SerializeField, Tooltip("The amount of damage the enemy must take before spawning defensive units."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
         internal float spawnOnDamageThreshold = 10;
-        [SerializeField, Tooltip("The number of defensive units to spawn when this enemy takes damage."), ShowIf("spawnOnDamageEnabled")]
+        [SerializeField, Tooltip("The number of defensive units to spawn when this enemy takes damage."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
         internal int spawnOnDamageCount = 3;
 
-        [Header("SquadBehaviour")]
-        [SerializeField, Tooltip("If true then this enemy will register with the AI director and be available to recieve orders. If false the AI director will not give this enemy orders.")]
+        //[Header("SquadBehaviour")]
+        [SerializeField, Tooltip("If true then this enemy will register with the AI director and be available to recieve orders. If false the AI director will not give this enemy orders."), BoxGroup("SquadBehaviour")]
         internal bool registerWithAIDirector = true;
-        [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy."), ShowIf("registerWithAIDirector")]
+        [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy."), ShowIf("registerWithAIDirector"), BoxGroup("SquadBehaviour")]
         internal SquadRole squadRole = SquadRole.Fodder;
 
-        [Header("Juice")]
-        [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed.")]
-        internal bool shouldExplodeOnDeath = false;
-        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The radius of the explosion when the enemy dies.")]
+        //[Header("Juice")]
+        [SerializeField, Tooltip("A looping sound to play continuously while the enemy is alive."), BoxGroup("Juice")]
+        internal AudioClip droneClip;
+        [SerializeField, Tooltip("The sound to play when the enemy is killed."), BoxGroup("Juice")]
+        internal AudioClip[] deathClips;
+        [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions."), BoxGroup("Juice")]
+        internal PooledObject deathJuicePrefab;
+        [SerializeField, Tooltip("The offset from the enemy's position to spawn the juice."), BoxGroup("Juice")]
+        internal Vector3 juiceOffset = Vector3.zero;
+        [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed."), BoxGroup("Juice")]
+        internal bool causeAreDamageOnDeath = false;
+        [SerializeField, Tooltip("The radius of the explosion when the enemy dies."), ShowIf("causeAreDamageOnDeath"), BoxGroup("Juice")]
         internal float deathExplosionRadius = 5f;
-        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The amount of damage the enemy does when it explodes on death.")]
+        [SerializeField, Tooltip("The amount of damage the enemy does when it explodes on death."), ShowIf("causeAreDamageOnDeath"), BoxGroup("Juice")]
         internal float explosionDamageOnDeath = 20;
-        [SerializeField, ShowIf("shouldExplodeOnDeath"), Tooltip("The force of the explosion when the enemy dies.")]
+        [SerializeField, Tooltip("The force of the explosion when the enemy dies."), ShowIf("causeAreDamageOnDeath"), BoxGroup("Juice")]
         internal float explosionForceOnDeath = 15;
 
-        [Header("Rewards")]
-        [SerializeField, Tooltip("The chance of dropping a reward when killed."), Range(0, 1)]
+        //[Header("Rewards")]
+        [SerializeField, Tooltip("The chance of dropping a reward when killed."), Range(0, 1), BoxGroup("Loot")]
         internal float resourcesDropChance = 0.5f;
-        [SerializeField, Tooltip("The resources this enemy drops when killed.")]
+        [SerializeField, Tooltip("The resources this enemy drops when killed."), BoxGroup("Loot")]
         internal ResourcesPickup resourcesPrefab;
 
-        [Header("Core Events")]
+        //[Header("Core Events")]
         [SerializeField, Tooltip("The event to trigger when this enemy dies."), Foldout("Events")]
         public UnityEvent<BasicEnemyController> onDeath;
         [SerializeField, Tooltip("The event to trigger when this enemy is destroyed."), Foldout("Events")]
@@ -298,13 +309,17 @@ namespace RogueWave
         private bool isPooled = false;
         internal RogueWaveGameMode gameMode;
 
-        protected virtual void Awake()
+        protected override void Awake()
         {
-            pooledObject = GetComponent<PooledObject>();
+            base.Awake();
+
+            pooledObject = this;
 
             gameMode = FindObjectOfType<RogueWaveGameMode>();
 
             movementController = GetComponent<BasicMovementController>();
+
+            audioSource = GetComponent<AudioSource>();
 
 #if ! UNITY_EDITOR
             isDebug = false;
@@ -349,6 +364,8 @@ namespace RogueWave
             destinationMinY = gameMode.currentLevelDefinition.lotSize.y;
             destinationMaxX = (gameMode.currentLevelDefinition.mapSize.x - 1) * gameMode.currentLevelDefinition.lotSize.x;
             destinationMaxY = (gameMode.currentLevelDefinition.mapSize.y - 1) * gameMode.currentLevelDefinition.lotSize.y;
+
+            StartDroneAudio();
         }
 
         protected virtual void OnDisable()
@@ -361,6 +378,54 @@ namespace RogueWave
 
             onDestroyed?.Invoke();
             onDestroyed.RemoveAllListeners();
+
+            AudioManager.Stop(audioSource);
+        }
+        void OnDeath()
+        {
+            if (deathJuicePrefab != null)
+            {
+                DeathVFX();
+            }
+
+            if (deathClips.Length == 0)
+            {
+                return;
+            }
+
+            AudioManager.Play3DOneShot(audioSource, deathClips[Random.Range(0, deathClips.Length)], transform.position);
+        }
+        private void StartDroneAudio()
+        {
+            if (droneClip == null)
+            {
+                return;
+            }
+
+            AudioManager.Play3DLooping(audioSource, droneClip, transform);
+        }
+
+
+        private void DeathVFX()
+        {
+            Vector3 pos = transform.position + juiceOffset;
+            ParticleSystem deathParticle = PoolManager.GetPooledObject<ParticleSystem>(deathJuicePrefab, pos, Quaternion.identity);
+            if (parentRenderer != null)
+            {
+                var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();
+                if (particleSystemRenderer != null)
+                {
+                    particleSystemRenderer.material = parentRenderer.material;
+                }
+            }
+            deathParticle.Play();
+
+            if (causeAreDamageOnDeath)
+            {
+                PooledExplosion explosion = deathParticle.GetComponentInChildren<PooledExplosion>();
+                explosion.radius = deathExplosionRadius;
+                explosion.Explode(explosionDamageOnDeath, explosionForceOnDeath, null);
+            }
         }
 
         protected virtual void Update()
@@ -530,6 +595,7 @@ namespace RogueWave
         private float destinationMinY;
         private float destinationMaxX;
         private float destinationMaxY;
+        private AudioSource audioSource;
 
         private bool IsValidDestination(Vector3 destination, float avoidanceDistance)
         {
@@ -658,6 +724,7 @@ namespace RogueWave
                 }
             }
 
+            OnDeath();
             onDeath?.Invoke(this);
 
             if (enemyKillsStat != null)

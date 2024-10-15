@@ -3,13 +3,14 @@ using UnityEngine;
 
 namespace WizardsCode.RogueWave
 {
-    public class LineWeaponBehaviour : WeaponBehaviour
+    public class LineWeaponBehaviour : BasicWeaponBehaviour
     {
+        // Effects
         [SerializeField, Tooltip("A line renderer to show what enemy is locking on and where they are currently targeting."), Required, BoxGroup("Effects")]
         private LineRenderer _lineRenderer;
 
         protected LineRenderer lineRenderer { get => _lineRenderer; }
-
+        
         protected override void OnEnable()
         {
             base.OnEnable();
@@ -23,19 +24,13 @@ namespace WizardsCode.RogueWave
         public override void StartBehaviour(Transform target)
         {
             base.StartBehaviour(target);
-            if (lineRenderer != null)
-            {
-                lineRenderer.enabled = true;
-            }
+            lineRenderer.enabled = true;
         }
 
         public override void StopBehaviour()
         {
             base.StopBehaviour();
-            if (lineRenderer != null)
-            {
-                lineRenderer.enabled = false;
-            }
+            lineRenderer.enabled = false;
         }
 
         /// <summary>

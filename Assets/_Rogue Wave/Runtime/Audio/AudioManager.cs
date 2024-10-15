@@ -103,12 +103,24 @@ namespace WizardsCode.RogueWave
             callback?.Invoke();
         }
 
-        public static void FadeOut(AudioSource audioSource, float duration)
+        /// <summary>
+        /// If the audio source is playing then fade out over 0.1s and then stop it.
+        /// </summary>
+        /// <param name="source">The source to stop</param>
+        public static void Stop(AudioSource source)
         {
-            Instance.StartCoroutine(FadeOutCo(audioSource, duration));
+            if (source.isPlaying)
+            {
+                Instance.StartCoroutine(FadeOutCo(source, 0.1f, true));
+            }
         }
 
-        private static IEnumerator FadeOutCo(AudioSource audioSource, float duration)
+        public static void FadeOut(AudioSource audioSource, float duration, bool stopWhenFaded = true)
+        {
+            Instance.StartCoroutine(FadeOutCo(audioSource, duration, stopWhenFaded));
+        }
+
+        private static IEnumerator FadeOutCo(AudioSource audioSource, float duration, bool stopWhenFaded)
         {
             float startVolume = audioSource.volume;
             float time = 0;
@@ -118,7 +130,11 @@ namespace WizardsCode.RogueWave
                 audioSource.volume = Mathf.Lerp(startVolume, 0, time / duration);
                 yield return null;
             }
-            audioSource.Stop();
+
+            if (stopWhenFaded)
+            {
+                audioSource.Stop();
+            }
         }
 
         internal static void FadeAllExceptNanobots(float targetValue, float fadeDuration, Action callback = null)
@@ -161,36 +177,108 @@ namespace WizardsCode.RogueWave
 
 
         #region Play SFX
-        internal static AudioSource Play3DEnemyOneShot(AudioClip audioClip, Vector3 position)
+
+        /// <summary>
+        /// Play a one shot sound effect in 3D space using a provided AudioSource.
+        /// </summary>
+        /// <param name="source">The audio source with which to play the sound.</param>
+        /// <param name="clip">The clip to play.</param>
+        /// <param name="position">The position at which to play the clip.</param>
+        /// <seealso cref="Play3DOneShot(AudioClip, Vector3)"/>
+        internal static void Play3DOneShot(AudioSource source, AudioClip clip, Vector3 position)
+        {
+            source.transform.SetParent(null);
+            source.loop = false;
+            source.transform.position = position;
+            source.PlayOneShot(clip);
+        }
+
+        /// <summary>
+        /// Play a one shot sound effect in 3D space using a pooled audio source.
+        /// </summary>
+        /// <param name="clip">The clip to play.</param>
+        /// <param name="position">The position at which to play the clip.</param>
+        /// <returns>The audio source that is playing the sound.</returns>
+        /// <seealso cref="Play3DOneShot(AudioSource, AudioClip, Vector3)"/>"/>
+        internal static AudioSource Play3DEnemyOneShot(AudioClip clip, Vector3 position)
         {
             var source = NeoFpsAudioManager.Get3DAudioSource();
             if (source == null)
                 return null;
 
-            source.transform.position = position;
-            source.PlayOneShot(audioClip);
+            Play3DOneShot(source, clip, position);
+            
+            return source;
+        }
+
+        /// <summary>
+        /// Play a looping sound effect in 3D space using a provided audio source.
+        /// </summary>
+        /// <param name="source">The audio source with which to play the sound.</param>
+        /// <param name="clip">The clip to play.</param>
+        /// <param name="parent">The parent transform the audio source should follow.</param>
+        /// <seealso cref="Play3DLooping(AudioClip, Transform)"/>
+        internal static void Play3DLooping(AudioSource source, AudioClip clip, Transform parent)
+        {
+            source.transform.SetParent(parent);
+            source.transform.localPosition = Vector3.zero;
+            source.loop = true;
+            source.PlayOneShot(clip);
+        }
+
+        /// <summary>
+        /// Play a looping sound effect in 3D space using a pooled audio source.
+        /// </summary>
+        /// <param name="clip">The clip to play.</param>
+        /// <param name="parent">The parent transform the audio source should follow.</param>
+        /// <returns>The audio source used.</returns>
+        /// <seealso cref="Play3DLooping(AudioSource, AudioClip, Transform)"/>
+        internal static AudioSource Play3DLooping(AudioClip clip, Transform parent)
+        {
+            var source = NeoFpsAudioManager.Get3DAudioSource();
+            if (source == null)
+                return null;
+
+            Play3DLooping(source, clip, parent);
 
             return source;
         }
 
-        internal static AudioSource Play2DEnemyOneShot(AudioClip audioClip)
+        /// <summary>
+        /// Play a one shot sound effect in 2D space using a provided AudioSource.
+        /// </summary>
+        /// <param name="source">The audio source with which to play the sound.</param>
+        /// <param name="clip">The clip to play.</param>
+        /// <seealso cref="Play2DOneShot(AudioClip)"/>
+        internal static void Play2DOneShot(AudioSource source, AudioClip clip)
+        {
+            source.PlayOneShot(clip);
+        }
+
+        /// <summary>
+        /// Play a one shot sound effect in 2D space using a pooled audio source.
+        /// </summary>
+        /// <param name="clip">The clip to play.</param>
+        /// <returns>The audio source that is playing the sound.</returns>
+        /// <seealso cref="Play2DOneShot(AudioSource source, AudioClip clip)"/>
+        internal static AudioSource Play2DEnemyOneShot(AudioClip clip)
         {
             var source = NeoFpsAudioManager.Get2DAudioSource();
             if (source == null)
                 return null;
 
-            source.PlayOneShot(audioClip);
+            Play2DOneShot(source, clip);
 
             return source;
         }
 
-        internal static AudioSource PlayNanobotOneShot(AudioClip audioClip)
+        internal static AudioSource PlayNanobotOneShot(AudioClip clip)
         {
             var source = NeoFpsAudioManager.Get2DAudioSource();
             if (source == null)
                 return null;
 
-            source.PlayOneShot(audioClip);
+            source.PlayOneShot(clip);
 
             return source;
         }

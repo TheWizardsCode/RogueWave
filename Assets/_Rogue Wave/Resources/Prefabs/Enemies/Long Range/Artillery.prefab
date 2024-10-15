@@ -45,7 +45,6 @@ GameObject:
   - component: {fileID: 8117743476493717414}
   - component: {fileID: 4984582729786400570}
   - component: {fileID: 5810921381151261361}
-  - component: {fileID: -7954991420487017679}
   m_Layer: 31
   m_Name: Artillery
   m_TagString: AI
@@ -83,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735e4c1315dedbc4a869e8dc7e67a4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 0
   displayName: Artillery
   icon:
   - {fileID: 21300000, guid: 0000d13e240163b4ab7fb904a5e35409, type: 3}
@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 1
   audioSource: {fileID: 4984582729786400570}
   _droneClip: {fileID: 0}
   droneVolume: 1
@@ -349,19 +350,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
   - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
---- !u!114 &-7954991420487017679
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7238103921518997512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 0
 --- !u!1001 &6957053980484623106
 PrefabInstance:
   m_ObjectHideFlags: 0

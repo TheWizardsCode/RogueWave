@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 0
   displayName: Shielded Spawner
   icon:
   - {fileID: 0}
@@ -78,7 +79,11 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 0
   squadRole: 0
-  shouldExplodeOnDeath: 1
+  droneClip: {fileID: 0}
+  deathClips: []
+  deathJuicePrefab: {fileID: 0}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  causeAreDamageOnDeath: 0
   deathExplosionRadius: 15
   explosionDamageOnDeath: 30
   explosionForceOnDeath: 25
@@ -106,7 +111,7 @@ MonoBehaviour:
   loopWaves: 0
   hasShield: 1
   shield: {fileID: 6696435298273498834}
-  shieldGenerator: {fileID: -7296944252688237283, guid: 456db0fbe3114854ea9604e831d2c6fc, type: 3}
+  shieldGenerator: {fileID: 4555997216275955981, guid: 456db0fbe3114854ea9604e831d2c6fc, type: 3}
   numShieldGenerators: 1
   shieldGeneratorRPM: 22.5
   waveStartSound: {fileID: 8300000, guid: a31a162329454e24488754023b89ff41, type: 3}
@@ -248,6 +253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 1
   audioSource: {fileID: 4880692556491869283}
   _droneClip: {fileID: 0}
   droneVolume: 1

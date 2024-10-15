@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 5219187662690625511}
   - component: {fileID: 5570795577165164235}
   - component: {fileID: 6755938055751181905}
-  - component: {fileID: -3253544322625595672}
   m_Layer: 31
   m_Name: Bolt
   m_TagString: AI
@@ -52,6 +51,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 735e4c1315dedbc4a869e8dc7e67a4e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 0
   displayName: Bolt
   icon:
   - {fileID: 21300000, guid: 807df3e61a481b34685f2a51ec825d4f, type: 3}
@@ -307,6 +307,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 1
   audioSource: {fileID: 5570795577165164235}
   _droneClip: {fileID: 8300000, guid: ea744d978cea3a542b7a61cc08136dd4, type: 3}
   droneVolume: 1
@@ -318,19 +319,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
   - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
---- !u!114 &-3253544322625595672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985948857531989657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 309373a31de2d7249a98b2f2e55f67d3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 0
 --- !u!1 &8500651545726619052
 GameObject:
   m_ObjectHideFlags: 0

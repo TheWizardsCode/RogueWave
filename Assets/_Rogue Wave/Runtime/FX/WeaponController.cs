@@ -1,7 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS;
 using RogueWave;
-using System;
 using UnityEngine;
 
 namespace WizardsCode.RogueWave
@@ -11,13 +10,6 @@ namespace WizardsCode.RogueWave
     /// </summary>
     public class WeaponController : MonoBehaviour, IDamageSource
     {
-        enum StopAction
-        {
-            None,
-            //Deactivate,
-            //Destroy
-        }
-
         enum AmmunitionType
         {
             HitScan,
@@ -26,7 +18,7 @@ namespace WizardsCode.RogueWave
             //Area
         }
 
-        public enum FiringState
+        enum WeaponState
         {
             Initializing,
             Idle,
@@ -41,40 +33,25 @@ namespace WizardsCode.RogueWave
             KryptoFxRealisticEffectsPack3
         }
 
-        //[Header("Meta Data")]
+        // Meta Data
+        [SerializeField, Tooltip("The enemy controller that is using this weapon."), Required, BoxGroup("Meta Data")]
+        BasicEnemyController _enemyController;
         [SerializeField, Tooltip("The type of ammunition defines how the weapone FX are displayed and how damage is done."), BoxGroup("Meta Data")]
         AmmunitionType ammunitionType = AmmunitionType.HitScan;
-        [SerializeField, Tooltip("The action to take when the effect is stopped."), BoxGroup("Meta Data")]
-        StopAction _stopAction = StopAction.None; [SerializeField, Tooltip("The range of the weapon. If not within this range then it will not fire."), BoxGroup("Targeting")]
+        [SerializeField, Tooltip("The range of the weapon. If not within this range then it will not fire."), BoxGroup("Targeting")]
         float _Range = 50f;
 
-        //[Header("Behaviours")]
-        [SerializeField, Tooltip("The MM Feel Player that is used to control the weapons idle effects."), BoxGroup("Behaviours")]
-        WeaponBehaviour _idleBehaviour;
-        [SerializeField, Tooltip("The MM Feel Player that is used to control the weapons locking on effects."), BoxGroup("Behaviours")]
+        // Behaviours
+        [SerializeField, Tooltip("The behaviour that is used to control the weapons idle effects."), BoxGroup("Behaviours")]
+        BasicWeaponBehaviour _idleBehaviour;
+        [SerializeField, Tooltip("The behaviour that is used to control the weapons locking on effects."), BoxGroup("Behaviours")]
         TargetingBehaviour _targetingBehaviour;
-        [SerializeField, Tooltip("The MM Feel Player that is used to control the weapons firing effects."), BoxGroup("Behaviours")]
-        WeaponBehaviour _firingBehaviour;
-        [SerializeField, Tooltip("The MM Feel Player that is used to control the weapons cooldown effects."), BoxGroup("Behaviours")]
-        WeaponBehaviour _cooldownBehaviour;
+        [SerializeField, Tooltip("The behaviour that is used to control the weapons firing effects."), BoxGroup("Behaviours")]
+        BasicWeaponBehaviour _firingBehaviour;
+        [SerializeField, Tooltip("The behaviour that is used to control the weapons reload effects."), BoxGroup("Behaviours")]
+        BasicWeaponBehaviour _reloadBehaviour;
 
-        //[Header("Weapon Targeting")]
-        [SerializeField, Tooltip("The event to listent to for when the weapon aborts targeting."), BoxGroup("Weapon Targeting")]
-        private GameEvent onTargetingAborted;
-        [SerializeField, Tooltip("The event to listen to for when the weapon is ready to fire."), BoxGroup("Weapon Targeting")]
-        private GameEvent onTargetAcquired;
-
-        //[Header("Weapon Firing")]
-        [SerializeField, Tooltip("The speed of the projectile."), BoxGroup("Weapon Firing"), HideIf("_ammunitionType", AmmunitionType.HitScan)]
-        private float _projectileSpeed = 10f;
-        [SerializeField, Tooltip("How long the weapon must spend in an idle state between attempted lockons or firings."), BoxGroup("Weapon Firing")]
-        private float _cooldown = 1f;
-        [SerializeField, Tooltip("The event to listen to for when the weapon inflicts damage. This is used to trigger the damage on the target."), BoxGroup("Weapon Firing")]
-        private GameEvent onDamageInflicted;
-
-        //[Header("Damage")]
-        [SerializeField, Tooltip("The amount of damage this weapon will do to the player per second."), BoxGroup("Damage")]
-        private float damageAmount = 5f;
+        // Damage
         [SerializeField, Tooltip("A description of the damage to use in logs, etc."), BoxGroup("Damage")]
         private string _damageDescription = "Laser";
         [SerializeField, Tooltip("The teams this weapon will damage."), BoxGroup("Damage")]
@@ -87,213 +64,156 @@ namespace WizardsCode.RogueWave
 
         public DamageFilter outDamageFilter { get => _outDamageFilter; set => _outDamageFilter = value; }
 
-        BasicEnemyController _enemyController;
+        
         public IController controller { 
             get { return null; }
         }
-
-        private float _earliestTimeOfNextStateChange;
 
         public float range => _Range;
 
         private Vector3 _targetedPosition;
         public Vector3 targetPosition => _targetedPosition;
 
-        public float projectileSpeed => _projectileSpeed;
         public LayerMask layerMask => _layerMask;
 
         public Transform damageSourceTransform => transform;
 
         public string description => _damageDescription;
 
-        private FiringState _state = FiringState.Initializing;
-        public FiringState State
+        private WeaponState _currentState = WeaponState.Initializing;
+        private WeaponState State
         {
-            get => _state;
+            get => _currentState;
             set
             {
-                if (_state == value)
+                if (_currentState == value)
                 {
                     return;
                 }
 
-                switch (_state)
+                switch (_currentState)
                 {
-                    case FiringState.Initializing:
+                    case WeaponState.Initializing:
                         break;
-                    case FiringState.Idle:
+                    case WeaponState.Idle:
                         _idleBehaviour?.StopBehaviour();
-break;
-                    case FiringState.Targeting:
+                        break;
+                    case WeaponState.Targeting:
                         _targetingBehaviour?.StopBehaviour();
                         break;
-                    case FiringState.Firing:
+                    case WeaponState.Firing:
                         _firingBehaviour?.StopBehaviour();
                         break;
-                    case FiringState.Cooldown:
-                        _cooldownBehaviour?.StopBehaviour();
+                    case WeaponState.Cooldown:
+                        _reloadBehaviour?.StopBehaviour();
                         break;
                     default:
-                        Debug.LogError($"Unsupported state: {_state}");
+                        Debug.LogError($"Unsupported state: {_currentState}");
                         break;
                 }
 
-                _state = value;
+                _currentState = value;
                 //Debug.Log("Changing WeaponController state to " + value);
                 switch (value)
                 {
-                    case FiringState.Initializing:
+                    case WeaponState.Initializing:
                         break;
-                    case FiringState.Idle:
-                        _earliestTimeOfNextStateChange = Time.time + _cooldown;
-
+                    case WeaponState.Idle:
                         _idleBehaviour?.StartBehaviour(null);
 
                         break;
-                    case FiringState.Targeting:
+                    case WeaponState.Targeting:
                         _targetingBehaviour?.StartBehaviour(_enemyController.Target);
                         
                         break;
-                    case FiringState.Firing:
-                        _earliestTimeOfNextStateChange = Time.time;
-                        
+                    case WeaponState.Firing:
                         _firingBehaviour?.StartBehaviour(_enemyController.Target);
 
                         break;
-                    case FiringState.Cooldown:
-                        _earliestTimeOfNextStateChange = Time.time + _cooldown;
-
-                        _cooldownBehaviour?.StartBehaviour(null);
+                    case WeaponState.Cooldown:
+                        _reloadBehaviour?.StartBehaviour(null);
 
                         break;
                     default:
-                        Debug.LogError($"Unsupported state: {_state}");
+                        Debug.LogError($"Unsupported state: {_currentState}");
                         break;
                 }
             }
+        }
+
+        internal void OnTargetAcquired(RaycastHit targetHit)
+        {
+            _targetingHit = targetHit;
+            State = WeaponState.Firing;
+        }
+
+        
+        private void Awake()
+        {
+            State = WeaponState.Idle;
         }
 
         private void OnEnable()
         {
-            if (onTargetAcquired != null)
-            {
-                onTargetAcquired.RegisterListener(OnTargetAcquired);
-            }
-            if (onTargetingAborted != null)
-            {
-                onTargetingAborted.RegisterListener(OnTargetingAborted);
-            }
-            if (onDamageInflicted != null)
-            {
-                onDamageInflicted.RegisterListener(OnDamageInflicted);
-            }
+            _idleBehaviour?.onBehaviourStopped.AddListener(() => State = WeaponState.Targeting);
+
+            _targetingBehaviour?.onTargetAcquired.AddListener(OnTargetAcquired);
+            _targetingBehaviour?.onTargetingAborted.AddListener(() => State = WeaponState.Idle);
+
+            _firingBehaviour?.onBehaviourStopped.AddListener(() => State = WeaponState.Cooldown);
+
+            _reloadBehaviour?.onBehaviourStopped.AddListener(() => State = WeaponState.Idle);
+
+            State = WeaponState.Idle;
         }
 
         private void OnDisable()
         {
-            if (onTargetAcquired != null)
-            {
-                onTargetAcquired.UnregisterListener(OnTargetAcquired);
-            }
-            if (onTargetingAborted != null)
-            {
-                onTargetingAborted.UnregisterListener(OnTargetingAborted);
-            }
-            if (onDamageInflicted != null)
-            {
-                onDamageInflicted.UnregisterListener(OnDamageInflicted);
-            }
-        }
+            _idleBehaviour?.onBehaviourStopped.RemoveListener(() => State = WeaponState.Targeting);
 
-        public void OnTargetAcquired()
-        {
-            State = FiringState.Firing;
-            _targetingHit = (RaycastHit)_targetingBehaviour.targetHit; // we know it is not null because we are being notified of the target acquired event
-        }
+            _targetingBehaviour?.onTargetAcquired.RemoveListener(OnTargetAcquired);
+            _targetingBehaviour?.onTargetingAborted.RemoveListener(() => State = WeaponState.Idle);
 
-        private void OnTargetingAborted()
-        {
-            State = FiringState.Idle;
-        }
+            _firingBehaviour?.onBehaviourStopped.RemoveListener(() => State = WeaponState.Cooldown);
 
-        private void OnDamageInflicted()
-        {
-            IDamageHandler damageHandler = _targetingHit.collider.GetComponent<IDamageHandler>();
-            if (damageHandler != null)
-            {
-                damageHandler.AddDamage(damageAmount); ;
-            }
-
-            State = FiringState.Cooldown;
-        }
-
-        private void Awake()
-        {
-            State = FiringState.Idle;
+            _reloadBehaviour?.onBehaviourStopped.RemoveListener(() => State = WeaponState.Idle);
         }
 
         private void Start()
         {
+            if (_enemyController == null)
+            {
+                Debug.Break();
+            }
+
             _enemyController = GetComponentInParent<BasicEnemyController>();
+
             _sqrRange = _Range * _Range;
         }
 
         private void LateUpdate()
         {
-            switch (ammunitionType)
-            {
-                case AmmunitionType.HitScan:
-                    UpdateWeaponState();
-                    break;
-                default:
-                    Debug.LogError($"Unsupported ammunition type: {ammunitionType}");
-                    break;
-            }
+            ValidateWeaponState();
         }
 
         /// <summary>
-        /// Handles the update code for a projectile weapon.
+        /// Checks to see that the current state is still valid. If not it will change the state to Idle.
         /// </summary>
-        private void UpdateWeaponState()
+        private void ValidateWeaponState()
         {
             if (_enemyController.Target == null) return;
 
             float sqrDistance = (_enemyController.Target.position - transform.position).sqrMagnitude;
             if (sqrDistance > _sqrRange)
             {
-                State = FiringState.Idle;
+                State = WeaponState.Idle;
                 return;
             }
 
             if (_enemyController.requireLineOfSight && _enemyController.CanSeeTarget == false)
             {
-                State = FiringState.Idle;
+                State = WeaponState.Idle;
                 return;
-            }
-
-            float targetingRange = _Range * 1.5f;
-            switch (State)
-            {
-                case FiringState.Idle:
-                    if (_earliestTimeOfNextStateChange <= Time.time && sqrDistance < _sqrRange)
-                    {
-                        State = FiringState.Targeting;
-                    }
-
-                    return;
-                case FiringState.Targeting:
-                    break;
-                case FiringState.Firing:
-                    break;
-                case FiringState.Cooldown:
-                    if (_earliestTimeOfNextStateChange <= Time.time)
-                    {
-                        State = FiringState.Idle;
-                    }
-                    break;
-                default:
-                    Debug.LogError($"Unsupported state: {State}");
-                    break;
             }
         }
     }

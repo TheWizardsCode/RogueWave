@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5864541434280312083}
   - component: {fileID: 3837185094213580663}
+  - component: {fileID: 4837087175109867765}
   m_Layer: 0
-  m_Name: Cooldown Effect
+  m_Name: Reloading Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,12 +46,201 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasFixedDuration: 1
-  duration: 0.5
+  duration: 1
   is3DSound: 0
   audioClips: []
   audioPosition: {fileID: 0}
-  behaviourStarted: {fileID: 0}
-  behaviourStopped: {fileID: 0}
+  onBehaviourStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onBehaviourStopped:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4837087175109867765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1966332802290986923}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Feedbacks: []
+  InitializationMode: 2
+  AutoInitialization: 1
+  SafeMode: 3
+  Direction: 0
+  AutoChangeDirectionOnEnd: 0
+  AutoPlayOnStart: 0
+  AutoPlayOnEnable: 0
+  ForceTimescaleMode: 0
+  ForcedTimescaleMode: 1
+  DurationMultiplier: 1
+  TimescaleMultiplier: 1
+  RandomizeDuration: 0
+  RandomDurationMultiplier: {x: 0.5, y: 1.5}
+  DisplayFullDurationDetails: 0
+  PlayerTimescaleMode: 1
+  OnlyPlayIfWithinRange: 0
+  RangeCenter: {fileID: 0}
+  RangeDistance: 5
+  UseRangeFalloff: 0
+  RangeFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  RemapRangeFalloff: {x: 0, y: 1}
+  IgnoreRangeEvents: 0
+  CooldownDuration: 0
+  InitialDelay: 0
+  CanPlay: 1
+  CanPlayWhileAlreadyPlaying: 1
+  ChanceToPlay: 100
+  FeedbacksIntensity: 1
+  Events:
+    TriggerMMFeedbacksEvents: 0
+    TriggerUnityEvents: 1
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPause:
+      m_PersistentCalls:
+        m_Calls: []
+    OnResume:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRevert:
+      m_PersistentCalls:
+        m_Calls: []
+    OnComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRestoreInitialValues:
+      m_PersistentCalls:
+        m_Calls: []
+    OnSkipToTheEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInitializationComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    OnEnable:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDisable:
+      m_PersistentCalls:
+        m_Calls: []
+  DebugActive: 0
+  FeedbacksList:
+  - rid: 901320603475116033
+  KeepPlayModeChanges: 0
+  PerformanceMode: 0
+  StopFeedbacksOnDisable: 0
+  PlayCount: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 901320603475116033
+      type: {class: MMF_DebugLog, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
+      data:
+        Active: 1
+        UniqueID: 1045843524
+        Label: Log
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          PlayCount: 0
+          LimitPlayCount: 0
+          MaxPlayCount: 3
+          SetPlayCountToZeroOnReset: 0
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        AutomaticShakerSetupButton:
+          ButtonText: 
+        Owner: {fileID: 4837087175109867765}
+        DebugActive: 0
+        DebugLogMode: 0
+        DebugMessage: Cooldown
+        DebugColor: {r: 0.5999999, g: 0.42840827, b: 0.28415084, a: 1}
+        DisplayFrameCount: 1
 --- !u!1 &3766547356409997989
 GameObject:
   m_ObjectHideFlags: 0
@@ -266,7 +456,9 @@ MonoBehaviour:
         Owner: {fileID: 8764228641185137168}
         DebugActive: 0
         DebugLogMode: 0
-        DebugMessage: Entering Idle
+        DebugMessage: 'Idle
+
+'
         DebugColor: {r: 0, g: 1, b: 1, a: 1}
         DisplayFrameCount: 1
 --- !u!114 &5385099096533258292
@@ -286,8 +478,12 @@ MonoBehaviour:
   is3DSound: 0
   audioClips: []
   audioPosition: {fileID: 0}
-  behaviourStarted: {fileID: 0}
-  behaviourStopped: {fileID: 0}
+  onBehaviourStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onBehaviourStopped:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &3902200030266840854
 GameObject:
   m_ObjectHideFlags: 0
@@ -298,6 +494,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2415817997429568607}
   - component: {fileID: 5174792241681189803}
+  - component: {fileID: 1133331952382421762}
   m_Layer: 0
   m_Name: Targeting Behaviour
   m_TagString: Untagged
@@ -339,23 +536,216 @@ MonoBehaviour:
   audioClips:
   - {fileID: 8300000, guid: b13a053592624ae41b3cab0859d2b956, type: 3}
   audioPosition: {fileID: 1015627487563728816}
-  behaviourStarted: {fileID: 0}
-  behaviourStopped: {fileID: 0}
+  onBehaviourStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onBehaviourStopped:
+    m_PersistentCalls:
+      m_Calls: []
   _lineRenderer: {fileID: 4034177425105375564}
   _Range: 50
   accuracy: 5
   _targetingFrequency: 5
   maxTimeToTryToLocateTarget: 5
   _targetingSpeed: 1
-  onTargetingAborted: {fileID: 11400000, guid: b130cdf2b5a866e4cbdfd27d6fc8cc2c, type: 2}
   _lockOnTime: 2
-  onTargetAcquired: {fileID: 11400000, guid: 519734fc1ca7e3940b3a1a3fb1b4b21b, type: 2}
   _deactivateDelay: 0.5
   _targetingLineMaterial: {fileID: 2100000, guid: db288b7186c8d464ba91137a7ceabf26, type: 2}
   _lockedOnLineMaterial: {fileID: 2100000, guid: da019b7535a430743843759da308b157, type: 2}
   _targetingMeshRenderer: {fileID: 5747696083368194562}
   _targetingMaterial: {fileID: 2100000, guid: ba0ccff2fad803c489c8d110765cd57c, type: 2}
   _lockedOnMaterial: {fileID: 2100000, guid: 8208bb6876e82ba449107e6dde81bf48, type: 2}
+  onTargetAcquired:
+    m_PersistentCalls:
+      m_Calls: []
+  onTargetingAborted:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &1133331952382421762
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3902200030266840854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6da43522623d4704e979466dc7650b65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Feedbacks: []
+  InitializationMode: 2
+  AutoInitialization: 1
+  SafeMode: 3
+  Direction: 0
+  AutoChangeDirectionOnEnd: 0
+  AutoPlayOnStart: 0
+  AutoPlayOnEnable: 0
+  ForceTimescaleMode: 0
+  ForcedTimescaleMode: 1
+  DurationMultiplier: 1
+  TimescaleMultiplier: 1
+  RandomizeDuration: 0
+  RandomDurationMultiplier: {x: 0.5, y: 1.5}
+  DisplayFullDurationDetails: 0
+  PlayerTimescaleMode: 1
+  OnlyPlayIfWithinRange: 0
+  RangeCenter: {fileID: 0}
+  RangeDistance: 5
+  UseRangeFalloff: 0
+  RangeFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  RemapRangeFalloff: {x: 0, y: 1}
+  IgnoreRangeEvents: 0
+  CooldownDuration: 0
+  InitialDelay: 0
+  CanPlay: 1
+  CanPlayWhileAlreadyPlaying: 1
+  ChanceToPlay: 100
+  FeedbacksIntensity: 1
+  Events:
+    TriggerMMFeedbacksEvents: 0
+    TriggerUnityEvents: 1
+    OnPlay:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPause:
+      m_PersistentCalls:
+        m_Calls: []
+    OnResume:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRevert:
+      m_PersistentCalls:
+        m_Calls: []
+    OnComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRestoreInitialValues:
+      m_PersistentCalls:
+        m_Calls: []
+    OnSkipToTheEnd:
+      m_PersistentCalls:
+        m_Calls: []
+    OnInitializationComplete:
+      m_PersistentCalls:
+        m_Calls: []
+    OnEnable:
+      m_PersistentCalls:
+        m_Calls: []
+    OnDisable:
+      m_PersistentCalls:
+        m_Calls: []
+  DebugActive: 0
+  FeedbacksList:
+  - rid: 901320603475116034
+  KeepPlayModeChanges: 0
+  PerformanceMode: 0
+  StopFeedbacksOnDisable: 0
+  PlayCount: 0
+  references:
+    version: 2
+    RefIds:
+    - rid: 901320603475116034
+      type: {class: MMF_DebugLog, ns: MoreMountains.Feedbacks, asm: MoreMountains.Tools}
+      data:
+        Active: 1
+        UniqueID: 289538062
+        Label: Log
+        ChannelMode: 0
+        Channel: 0
+        MMChannelDefinition: {fileID: 0}
+        Chance: 100
+        DisplayColor: {r: 0, g: 0, b: 0, a: 1}
+        Timing:
+          TimescaleMode: 0
+          ExcludeFromHoldingPauses: 0
+          ContributeToTotalDuration: 1
+          InitialDelay: 0
+          CooldownDuration: 0
+          InterruptsOnStop: 1
+          NumberOfRepeats: 0
+          RepeatForever: 0
+          DelayBetweenRepeats: 1
+          PlayCount: 0
+          LimitPlayCount: 0
+          MaxPlayCount: 3
+          SetPlayCountToZeroOnReset: 0
+          MMFeedbacksDirectionCondition: 0
+          PlayDirection: 0
+          ConstantIntensity: 0
+          UseIntensityInterval: 0
+          IntensityIntervalMin: 0
+          IntensityIntervalMax: 0
+          Sequence: {fileID: 0}
+          TrackID: 0
+          Quantized: 0
+          TargetBPM: 120
+        AutomatedTargetAcquisition:
+          Mode: 0
+          ChildIndex: 0
+        RandomizeOutput: 0
+        RandomMultiplier: {x: 0.8, y: 1}
+        RandomizeDuration: 0
+        RandomDurationMultiplier: {x: 0.5, y: 2}
+        UseRange: 0
+        RangeDistance: 5
+        UseRangeFalloff: 0
+        RangeFalloff:
+          serializedVersion: 2
+          m_Curve:
+          - serializedVersion: 3
+            time: 0
+            value: 1
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          - serializedVersion: 3
+            time: 1
+            value: 0
+            inSlope: 0
+            outSlope: 0
+            tangentMode: 0
+            weightedMode: 0
+            inWeight: 0
+            outWeight: 0
+          m_PreInfinity: 2
+          m_PostInfinity: 2
+          m_RotationOrder: 4
+        RemapRangeFalloff: {x: 0, y: 1}
+        AutomaticShakerSetupButton:
+          ButtonText: 
+        Owner: {fileID: 1133331952382421762}
+        DebugActive: 0
+        DebugLogMode: 0
+        DebugMessage: Targeting
+        DebugColor: {r: 1, g: 0.5524826, b: 0, a: 1}
+        DisplayFrameCount: 1
 --- !u!1 &6577047056080864841
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,7 +907,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7751926680038219542}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.414, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -540,19 +930,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27788a06660820645bcb6389a2ba8533, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _ammunitionType: 0
-  _stopAction: 1
+  _enemyController: {fileID: 0}
+  ammunitionType: 0
   _Range: 50
   _idleBehaviour: {fileID: 5385099096533258292}
   _targetingBehaviour: {fileID: 5174792241681189803}
-  _firingBehaviour: {fileID: 4628640681948178397}
-  _cooldownBehaviour: {fileID: 0}
-  onTargetingAborted: {fileID: 11400000, guid: b130cdf2b5a866e4cbdfd27d6fc8cc2c, type: 2}
-  onTargetAcquired: {fileID: 11400000, guid: 519734fc1ca7e3940b3a1a3fb1b4b21b, type: 2}
-  _projectileSpeed: 10
-  _cooldown: 1
-  onDamageInflicted: {fileID: 11400000, guid: 1c9565470056e4540a93a67a8797ce80, type: 2}
-  damageAmount: 2
+  _firingBehaviour: {fileID: 6958229884170470655}
+  _reloadBehaviour: {fileID: 3837185094213580663}
   _damageDescription: Laser
   _outDamageFilter:
     m_Value: 257
@@ -568,7 +952,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 544800523758647137}
-  - component: {fileID: 4628640681948178397}
+  - component: {fileID: 6958229884170470655}
   - component: {fileID: 4840459096332880733}
   m_Layer: 0
   m_Name: Firing Effect
@@ -593,7 +977,7 @@ Transform:
   - {fileID: 5560902429179941264}
   m_Father: {fileID: 7426460924174463634}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4628640681948178397
+--- !u!114 &6958229884170470655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -602,7 +986,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8328840312462376449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc81cd681080a524cab7ff7beb719bf3, type: 3}
+  m_Script: {fileID: 11500000, guid: 302aa5c529dce2043bfb938ef5e3a320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   hasFixedDuration: 1
@@ -620,9 +1004,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 287a336866fedbb4eb96743c008efee1, type: 3}
   - {fileID: 8300000, guid: 9c1f15c54666b5d4588ff90dc53d88db, type: 3}
   audioPosition: {fileID: 0}
-  behaviourStarted: {fileID: 0}
-  behaviourStopped: {fileID: 11400000, guid: 1c9565470056e4540a93a67a8797ce80, type: 2}
+  onBehaviourStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  onBehaviourStopped:
+    m_PersistentCalls:
+      m_Calls: []
   _lineRenderer: {fileID: 622874551345259145}
+  damageAmount: 2
 --- !u!114 &4840459096332880733
 MonoBehaviour:
   m_ObjectHideFlags: 0

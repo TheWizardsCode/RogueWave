@@ -2,6 +2,7 @@ using NaughtyAttributes;
 using NeoFPS;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 namespace WizardsCode.RogueWave
@@ -39,15 +40,11 @@ namespace WizardsCode.RogueWave
         protected float maxTimeToTryToLocateTarget = 5f;
         [SerializeField, Tooltip("How quickly the weapon will get a lock on the target."), BoxGroup("Targeting")]
         private float _targetingSpeed = 10f;
-        [SerializeField, Tooltip("A callback that is called when the weapon has aborted the targeting process."), BoxGroup("Targeting")]
-        private GameEvent onTargetingAborted;
-
+        
         //[Header("Acquiring")]
         [SerializeField, Tooltip("The time between strting the lockon process and the end of that process."), BoxGroup("Acquiring")]
         private float _lockOnTime = 1.5f;
-        [SerializeField, Tooltip("The event to invoke when the weapon has acquired a target. The RaycaseHit that marks the point of contact can be retried with the parameter `targetHit`."), BoxGroup("Acquiring")]
-        private GameEvent onTargetAcquired;
-
+        
         //[Header("Deactivate")]
         [SerializeField, Tooltip("The time the weapon will remain locked on to the target after the lock on process is complete. This should be long enough to allow the firing process to begin and any targeting/deactivating effects to complete, which is managed by another behaviour."), BoxGroup("Deactivation")]
         private float _deactivateDelay = 0.5f;
@@ -63,6 +60,12 @@ namespace WizardsCode.RogueWave
         private Material _targetingMaterial;
         [SerializeField, Tooltip("The LineRenderer material to use when the weapon is locked on."), BoxGroup("Effects")]
         private Material _lockedOnMaterial;
+
+        // Events
+        [SerializeField, Tooltip("The event to invoke when the weapon has acquired a target. The RaycaseHit that marks the point of contact can be retried with the parameter `targetHit`."), Foldout("Events")]
+        public UnityEvent<RaycastHit> onTargetAcquired;
+        [SerializeField, Tooltip("A callback that is called when the weapon has aborted the targeting process."), Foldout("Events")]
+        public UnityEvent onTargetingAborted;
 
         private TargetingOnState _state = TargetingOnState.Idle;
         private float _startTime;
@@ -94,7 +97,7 @@ namespace WizardsCode.RogueWave
                     case TargetingOnState.Idle:
                         targetHit = null;
                         lineRenderer.gameObject.SetActive(false);
-                        onTargetingAborted?.Raise();
+                        onTargetingAborted?.Invoke();
                         break;
                     case TargetingOnState.Targeting:
                         lineRenderer.gameObject.SetActive(true);
@@ -210,7 +213,7 @@ namespace WizardsCode.RogueWave
                         if (Time.time - _startTime > _lockOnTime)
                         {
                             State = TargetingOnState.Acquired;
-                            onTargetAcquired?.Raise();
+                            onTargetAcquired?.Invoke((RaycastHit)targetHit);
                         }
                     } 
                     else

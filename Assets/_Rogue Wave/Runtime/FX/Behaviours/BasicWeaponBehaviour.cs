@@ -1,15 +1,15 @@
 using MoreMountains.Feedbacks;
 using NaughtyAttributes;
-using NeoFPS.Samples.SinglePlayer.MultiScene;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace WizardsCode.RogueWave
 {
-    public class WeaponBehaviour : MonoBehaviour
+    public class BasicWeaponBehaviour : MonoBehaviour
     {
-        [SerializeField, Tooltip("Should this behaviour have a fixed duration or should it be stopped manually by calling `StopNebhaviour`? Note, even if set to a fixed duration it can still be stopped early with `StopBehaviour`."), BoxGroup("Effects")]
+        [SerializeField, Tooltip("Should this behaviour have a fixed duration or should it be stopped manually by calling `StopNebhaviour`? Note, even if set to a fixed duration it can still be stopped early with `StopBehaviour`."), BoxGroup("Metadata")]
         private bool hasFixedDuration = true;
-        [SerializeField, Tooltip("The duration the behaviour should be active after it has been started. Set to 0 to leave it active until the behaviour is stopped."), ShowIf("hasFixedDuration"), BoxGroup("Effects")]
+        [SerializeField, Tooltip("The duration the behaviour should be active after it has been started. Set to 0 to leave it active until the behaviour is stopped."), ShowIf("hasFixedDuration"), BoxGroup("Metadata")]
         private float duration = 0.5f;
 
         //[Header("Audio")]
@@ -21,18 +21,18 @@ namespace WizardsCode.RogueWave
         [SerializeField, Tooltip("The object to attach the audio to if it is a 3D sound. If this is left empty then the audio will be played as 2D sound with no position."), ShowIf("is3DSound"), BoxGroup("Audio")]
         private Transform audioPosition;
 
-        //[Header("Events")]
-        [SerializeField, Tooltip("An event that will be triggered when this behaviour is started. Note that this is a generic start event, it is fired by all behaviours and may not represent what you are looking for in some specific use cases. Look for other events available."), BoxGroup("Events")]
-        private GameEvent behaviourStarted;
-        [SerializeField, Tooltip("An event that will be triggered when this behaviour is stopped. Note that this is a generic stop event, it is fired by all behaviours and may not represent what you are looking for in some specific use cases. Look for other events available."), BoxGroup("Events")]
-        private GameEvent behaviourStopped;
+        // Events
+        [SerializeField, Tooltip("An event that will be triggered when this behaviour is started. Note that this is a generic start event, it is fired by all behaviours and may not represent what you are looking for in some specific use cases. Look for other events available."), Foldout("Events")]
+        public UnityEvent onBehaviourStarted;
+        [SerializeField, Tooltip("An event that will be triggered when this behaviour is stopped. Note that this is a generic stop event, it is fired by all behaviours and may not represent what you are looking for in some specific use cases. Look for other events available."), Foldout("Events")]
+        public UnityEvent onBehaviourStopped;
 
         protected MMF_Player feelPlayer;
         protected AudioSource audioSource;
         protected Transform target;
-        private bool isStopping;
+        private bool isRunning = false;
+        private bool isStopping = false;
         private float endTime = float.MaxValue;
-
 
         protected virtual void OnEnable()
         {
@@ -48,6 +48,7 @@ namespace WizardsCode.RogueWave
         {
             endTime = Time.time + duration;
 
+            isRunning = true;
             isStopping = false;
 
             this.target = target;
@@ -65,63 +66,42 @@ namespace WizardsCode.RogueWave
                 }
             }
 
-            behaviourStarted?.Raise();
+            onBehaviourStarted?.Invoke();
         }
 
         public virtual void StopBehaviour()
         {
             if (isStopping) return;
 
+            isRunning = false;
             isStopping = true;
+
             feelPlayer?.StopFeedbacks();
             if (audioClips.Length > 0 && audioSource != null)
             {
                 AudioManager.FadeOut(audioSource, 0.2f);
             }
 
-            behaviourStopped?.Raise();
+            onBehaviourStopped?.Invoke();
         }
 
         protected virtual void Update()
         {
+            if (!isRunning) return;
+
             if (hasFixedDuration && !isStopping && endTime <= Time.time)
             {
                 StopBehaviour();
             }
 
+
+            // OPTIMIZATION: Control how frequently this updates
             UpdateEffects(false);
         }
 
         protected virtual void UpdateEffects(bool force)
         {
-            // OPTIMIZATION: Do we want to update the effects every frame?
+            // Subclasses should override this to update effects
         }
-
-#if UNITY_EDITOR
-        bool HasValidAudio()
-        {
-            if (audioClips.Length == 0)
-            {
-                return true;
-            }
-
-            foreach (AudioClip clip in audioClips)
-            {
-                if (clip == null)
-                {
-                    Debug.LogError($"At least one Audio clip is null.");
-                    return false;
-                }
-
-                if (is3DSound && clip.channels > 1)
-                {
-                    Debug.LogError("Clip " + clip.name + " has more than one channel but is set to be played as a 3D sound. It should only have one channel.");
-                    return false;
-                }
-            }
-
-            return true;
-        }
-#endif
     }
 }

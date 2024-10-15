@@ -191,8 +191,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1665053a590bc224e879e6668e1269b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_OnOverflow: 0
   displayName: Proximity Spawner
-  icon: {fileID: 0}
+  icon:
+  - {fileID: 0}
   m_description: A small spawner that operates when the player is nearby.
   strengths: 
   weaknesses: 
@@ -246,10 +248,10 @@ MonoBehaviour:
   destroySpawnsOnDeath: 0
   loopWaves: 1
   hasShield: 0
+  shield: {fileID: 0}
   shieldGenerator: {fileID: 0}
   numShieldGenerators: 3
   shieldGeneratorRPM: 22.5
-  shieldCollider: {fileID: 0}
   waveStartSound: {fileID: 0}
   onSpawnerDestroyed:
     m_PersistentCalls:

@@ -5,6 +5,7 @@ using TMPro;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using NaughtyAttributes;
+using WizardsCode.RogueWave;
 
 namespace RogueWave.Editor
 {
@@ -33,7 +34,7 @@ namespace RogueWave.Editor
         [SerializeField, Tooltip("The text component to display the challenge rating of the enemy. If null this will be ignored for this enemy."), ShowIf("showUI")]
         TMP_Text challengeRatingText;
 
-        private EnemyLaser laser;
+        private WeaponController weapon;
         private BaseTriggerBehaviour trigger;
         private BasicHealthManager healthManager;
         private BasicEnemyController enemyController;
@@ -106,12 +107,13 @@ namespace RogueWave.Editor
                     trigger.Release();
                     yield return new WaitForSeconds(0.8f + Random.Range(-0.1f, 0.1f));
                 }
-            } else if (laser != null)
+            } else if (weapon != null)
             {
                 while (currentAnimationDuration > 0)
                 {
-                    laser.state = EnemyLaser.State.Firing;
-                    yield return new WaitForSeconds(0.8f + Random.Range(-0.1f, 0.1f));
+                    Debug.LogError("Need to update the demo firing in BasicEnemyShowcase to use the new weapon system.");
+                    //weapon.State = WeaponController.FiringState.Targeting;
+                    //yield return new WaitForSeconds(0.8f + Random.Range(-0.1f, 0.1f));
                 }
             }
         }
@@ -127,7 +129,7 @@ namespace RogueWave.Editor
 
         private void Setup()
         {
-            laser = GetComponentInChildren<EnemyLaser>();
+            weapon = GetComponentInChildren<WeaponController>();
             trigger = GetComponentInChildren<BaseTriggerBehaviour>();
             healthManager = GetComponentInChildren<BasicHealthManager>();
             enemyController = GetComponentInChildren<BasicEnemyController>();
