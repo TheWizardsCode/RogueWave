@@ -206,7 +206,14 @@ public class DevManagementWindow : EditorWindow
 
     void LoadScene(string[] scenePaths)
     {
-        EditorSceneManager.SaveOpenScenes();
+        if (EditorSceneManager.GetActiveScene().isDirty)
+        {
+            if (EditorUtility.DisplayDialog("Unsaved Changes", "The current scene has unsaved changes. Do you want to save them?", "Save", "Don't Save"))
+            {
+                EditorSceneManager.SaveOpenScenes();
+            }
+        }
+
         bool isFirstScene = true;
         foreach (string scenePath in scenePaths)
         {
