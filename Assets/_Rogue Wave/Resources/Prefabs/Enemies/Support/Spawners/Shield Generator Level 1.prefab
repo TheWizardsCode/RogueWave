@@ -101,10 +101,15 @@ MonoBehaviour:
   registerWithAIDirector: 0
   squadRole: 0
   droneClip: {fileID: 0}
-  deathClips: []
-  deathJuicePrefab: {fileID: 0}
+  deathClips:
+  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
+  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
+  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
+  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
+  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
+  deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
-  causeAreDamageOnDeath: 0
+  causeDamageOnDeath: 0
   deathExplosionRadius: 5
   explosionDamageOnDeath: 10
   explosionForceOnDeath: 7

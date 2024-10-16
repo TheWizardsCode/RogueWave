@@ -13,11 +13,11 @@ namespace WizardsCode.Marketing
         [SerializeField, Tooltip("The enemy prefab to showcase.")]
         private BasicEnemyController enemyPrefab;
 
-        public override IEnumerator GenerateHeroFrame(Action callback = null)
+        public override IEnumerator GenerateHeroAtFixedFrame(Action callback = null)
         {
             StartShowcase();
 
-            return base.GenerateHeroFrame(callback);
+            return base.GenerateHeroAtFixedFrame(callback);
         }
 
         public override IEnumerator GenerateRequiredAssets(Action callback = null)

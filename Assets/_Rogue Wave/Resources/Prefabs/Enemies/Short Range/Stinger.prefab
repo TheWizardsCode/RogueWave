@@ -125,7 +125,12 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 1
   squadRole: 0
-  shouldExplodeOnDeath: 1
+  droneClip: {fileID: 0}
+  deathClips:
+  - {fileID: 8300000, guid: bc177244095a48042876135f2f094f38, type: 3}
+  deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
+  causeDamageOnDeath: 0
   deathExplosionRadius: 2
   explosionDamageOnDeath: 3
   explosionForceOnDeath: 20

@@ -1,7 +1,11 @@
+using RogueWave;
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 public class DevManagementWindow : EditorWindow
 {
@@ -16,6 +20,7 @@ public class DevManagementWindow : EditorWindow
 
     [SerializeField]
     private List<Object> accessedFolders = new List<Object>();
+    private Vector2 scrollPosition;
 
     private void OnEnable()
     {
@@ -90,10 +95,14 @@ public class DevManagementWindow : EditorWindow
 
     void OnGUI()
     {
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition, GUILayout.Width(position.width), GUILayout.ExpandHeight(true));
         OnDeveloperGUI();
         Separator();
 
         OnMarketingGUI();
+
+        OnValidationGUI();
+        GUILayout.EndScrollView();
     }
 
     private static void Separator()
@@ -108,7 +117,7 @@ public class DevManagementWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
+        GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
         for (int i = accessedFolders.Count - 1; i >= 0; i--)
         {
             Object folder = accessedFolders[i];
@@ -119,7 +128,7 @@ public class DevManagementWindow : EditorWindow
         }
         GUILayout.EndVertical();
 
-        GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
+        GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
         for (int i = 0; i < lastSelectedItems.Count; i++)
         {
             Object item = lastSelectedItems[i];
@@ -137,7 +146,7 @@ public class DevManagementWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
+        GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
         if (GUILayout.Button("Launch Playtest"))
         {
             LoadScene(new string[] { k_PlaytestScene });
@@ -151,7 +160,7 @@ public class DevManagementWindow : EditorWindow
         }
         GUILayout.EndVertical();
 
-        GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
+        GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
         if (GUILayout.Button("Open Playtest Scene"))
         {
             LoadScene(new string[] { k_PlaytestScene });
@@ -183,7 +192,7 @@ public class DevManagementWindow : EditorWindow
         GUILayout.Label("Marketing", EditorStyles.boldLabel);
         GUILayout.BeginHorizontal();
 
-        GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
+        GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
         if (GUILayout.Button("Launch Enemy Showcase"))
         {
             LoadScene(new string[] { k_MarketingStageScene, k_EnemyShowcaseScene });
@@ -191,7 +200,7 @@ public class DevManagementWindow : EditorWindow
         }
         GUILayout.EndVertical();
 
-        GUILayout.BeginVertical(GUILayout.Width(position.width * 0.5f));
+        GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
         if (GUILayout.Button("Open Marketing Scenes"))
         {
             LoadScene(new string[] { k_MarketingStageScene });
@@ -202,7 +211,79 @@ public class DevManagementWindow : EditorWindow
         GUILayout.EndVertical();
 
         GUILayout.EndHorizontal();
+
     }
+
+    private void OnValidationGUI()
+    {
+        GUILayout.Label("Validation", EditorStyles.boldLabel);
+        GUILayout.BeginHorizontal();
+
+        GUILayout.BeginVertical(GUILayout.ExpandWidth(true));
+        if (GUILayout.Button("Validate Everything"))
+        {
+            // Clear the console
+            var logEntries = System.Type.GetType("UnityEditor.LogEntries, UnityEditor.dll");
+            var clearMethod = logEntries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+            clearMethod.Invoke(null, null);
+
+            bool isValid = isValid = ValidateComponents<BasicEnemyController>();
+            if (isValid)
+            {
+                Debug.Log("All Enemy tests passed.");
+            }
+
+            isValid = ValidateComponents<RWPooledExplosion>();
+            if (isValid)
+            {
+                Debug.Log("All Pooled Explosion tests passed.");
+            }
+        }
+        GUILayout.EndVertical();
+
+        GUILayout.EndHorizontal();
+    }
+
+    private static bool ValidateComponents<T>() where T : Component
+    {
+        string[] guids = AssetDatabase.FindAssets("t:Prefab", new[] { "Assets/_Dev", "Assets/_Marketing", "Assets/_Rogue Wave" });
+
+        foreach (string guid in guids)
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            GameObject prefab = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+
+            T testComponent = prefab.GetComponent<T>();
+            if (testComponent != null)
+            {
+                Type type = testComponent.GetType();
+                MethodInfo methodInfo = type.GetMethod("IsValid", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
+                if (methodInfo != null)
+                {
+                    object[] parameters = new object[] { null, null };
+                    bool result = (bool)methodInfo.Invoke(testComponent, parameters);
+
+                    string message = (string)parameters[0];
+                    Component component = (Component)parameters[1];
+
+                    if (!result)
+                    {
+                        Debug.LogError($"`{component.name}` is invalid because: {message}", component);
+                        return false;
+                    }
+                }
+                else
+                {
+                    Debug.LogError("IsValid method not found.");
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
 
     void LoadScene(string[] scenePaths)
     {
@@ -224,6 +305,9 @@ public class DevManagementWindow : EditorWindow
 
     void StartApplication()
     {
+        AssetDatabase.Refresh();
+        EditorUtility.RequestScriptReload();
+
         EditorApplication.isPlaying = true;
     }
 }

@@ -14,15 +14,28 @@ namespace WizardsCode.Marketing
         [SerializeField, Tooltip("The asset descriptor for the asset to be generated."), Expandable]
         private AssetDescriptor[] assetDescriptors;
 
+        private void OnDisable()
+        {
+            AssetDatabase.Refresh();
+        }
+
         private IEnumerator Start()
         {
             NeoFpsInputManager.captureMouseCursor = true;
 
             foreach (AssetDescriptor assetDescriptor in assetDescriptors)
             {
+                if (assetDescriptor.CaptureScreenshotOnGameEvent)
+                {
+                    assetDescriptor.ScreenshotGameEvent.RegisterListener(() =>
+                    {
+                        StartCoroutine(assetDescriptor.GenerateScreenshot());
+                    });
+                }
+
                 assetDescriptor.LoadSceneSetup();
 
-                StartCoroutine(assetDescriptor.GenerateHeroFrame());
+                StartCoroutine(assetDescriptor.GenerateHeroAtFixedFrame());
                 if (assetDescriptor.GetType() != typeof(AssetDescriptor))
                 {
                     StartCoroutine(assetDescriptor.GenerateRequiredAssets());

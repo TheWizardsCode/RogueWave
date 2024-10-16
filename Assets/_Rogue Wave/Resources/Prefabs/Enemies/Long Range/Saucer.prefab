@@ -43,7 +43,6 @@ GameObject:
   - component: {fileID: 4070675553001932281}
   - component: {fileID: -2601143761875727349}
   - component: {fileID: 5219187662690625511}
-  - component: {fileID: 7903795175863034719}
   - component: {fileID: 8726431756802365566}
   m_Layer: 31
   m_Name: Saucer
@@ -108,7 +107,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2160264705
   sensor: {fileID: 436079867255219435}
-  headLook: 1
+  headLook: 0
   head: {fileID: 0}
   maxHeadRotation: 75
   returnToSpawner: 0
@@ -122,12 +121,17 @@ MonoBehaviour:
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 3
   registerWithAIDirector: 1
-  squadRole: 0
+  squadRole: 1
   droneClip: {fileID: 0}
-  deathClips: []
-  deathJuicePrefab: {fileID: 0}
+  deathClips:
+  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
+  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
+  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
+  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
+  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
+  deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
-  causeAreDamageOnDeath: 0
+  causeDamageOnDeath: 1
   deathExplosionRadius: 10
   explosionDamageOnDeath: 40
   explosionForceOnDeath: 15
@@ -190,26 +194,6 @@ MonoBehaviour:
   m_OnIsAliveChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &7903795175863034719
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7985948857531989657}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 1
-  audioSource: {fileID: 0}
-  _droneClip: {fileID: 0}
-  droneVolume: 1
-  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
-  juiceOffset: {x: 0, y: 0, z: 0}
-  deathClips:
-  - {fileID: 8300000, guid: 33bbe4beab9fa6c4482604cc3d1f4ced, type: 3}
 --- !u!82 &8726431756802365566
 AudioSource:
   m_ObjectHideFlags: 0
@@ -363,6 +347,14 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 4070675553001932281}
+    - target: {fileID: 6958229884170470655, guid: f560863934a29ac479b469271860bf5d, type: 3}
+      propertyPath: duration
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6958229884170470655, guid: f560863934a29ac479b469271860bf5d, type: 3}
+      propertyPath: has3DSound
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6958229884170470655, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: audioPosition
       value: 

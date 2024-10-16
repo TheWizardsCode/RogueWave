@@ -25,7 +25,51 @@ namespace WizardsCode.Marketing
             }
         }
 
-        public void RecordHeroImage(AssetDescriptor descriptor)
+        /// <summary>
+        /// Record screenshots of the scene at the current frame. By default this will record a single screenshot.
+        /// If you want more than 1 set the totalNumberOfScreenshots parameter.
+        /// </summary>
+        public void RecordScreenshot(AssetDescriptor descriptor)
+        {
+            RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
+            controller = new RecorderController(controllerSettings);
+
+            ImageRecorderSettings settings = ScriptableObject.CreateInstance<ImageRecorderSettings>();
+            settings.name = "Screenshot Image Recorder";
+            settings.Enabled = true;
+
+            settings.OutputFormat = ImageRecorderSettings.ImageRecorderOutputFormat.PNG;
+            settings.CaptureAlpha = true;
+
+            settings.imageInputSettings = new GameViewInputSettings
+            {
+                OutputWidth = descriptor.Resolution.x,
+                OutputHeight = descriptor.Resolution.y
+            };
+
+            if (descriptor.ScreenshotCount > 1)
+            {
+                controllerSettings.SetRecordModeToFrameInterval(0, descriptor.screenshotCount - 1);
+            }
+            else
+            {
+                controllerSettings.SetRecordModeToSingleFrame(0);
+            }
+            controllerSettings.AddRecorderSettings(settings);
+
+            settings.OutputFile = $"{descriptor.ScreenshotPath}{descriptor.ScreenshotFilename}";
+
+            RecorderOptions.VerboseMode = true;
+            controller.PrepareRecording();
+            controller.StartRecording();
+        }
+
+        /// <summary>
+        /// Record a set of hero images of the scene as defined by the AssetDescriptor.
+        /// This will usually be an image at a fixed frame, with a limited number of frames either side of the hero frame.
+        /// </summary>
+        /// <param name="descriptor">The descriptor of the image to capture.</param>
+        public void RecordHeroImages(AssetDescriptor descriptor)
         {
             RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
             controller = new RecorderController(controllerSettings);
@@ -49,7 +93,7 @@ namespace WizardsCode.Marketing
             
             settings.OutputFile = $"{descriptor.HeroPath}{descriptor.HeroFilename}";
 
-            RecorderOptions.VerboseMode = false;
+            RecorderOptions.VerboseMode = true;
             controller.PrepareRecording();
             controller.StartRecording();
         }

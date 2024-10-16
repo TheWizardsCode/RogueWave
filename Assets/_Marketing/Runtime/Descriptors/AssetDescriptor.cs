@@ -1,9 +1,11 @@
 using NaughtyAttributes;
+using Steamworks;
 using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
+using WizardsCode.RogueWave;
 
 namespace WizardsCode.Marketing
 {
@@ -18,18 +20,21 @@ namespace WizardsCode.Marketing
 
         [HorizontalLine(color: EColor.Gray)]
 
-        //[Header("Visual Asset Settings")]
-        [SerializeField, Tooltip("The resolution of all the assets in pixels."), BoxGroup("Visual Asset Settings")]
-        Vector2Int m_Resolution = new Vector2Int(1920, 1080);
-        [SerializeField, Tooltip("The target frame rate for the recorders used to capture these assets. A common frame rate must be used across all assets, so set this to the highest rate needed."), BoxGroup("Visual Asset Settings")]
-        float m_FrameRate = 60;
-
-        [SerializeField, Tooltip("Capture a hero image? A hero image is a single frame at a specific spot."), BoxGroup("Hero Image")]
-        bool m_CaptureHeroImage = true;
-        [SerializeField, Tooltip("The hero frame is the one that is most pleasing within the sequence. This frame, and one either side, will always be captured as a still, regardless of the kind of asset being generated."), BoxGroup("Hero Image"), ShowIf("m_CaptureHeroImage")]
+        // Hero Images
+        [SerializeField, Tooltip("Capture a hero image on a fixed frame?"), FormerlySerializedAs("m_CaptureHeroImage"), BoxGroup("Hero Image")]
+        bool m_CaptureHeroImageOnFixedFrame = false;
+        [SerializeField, Tooltip("The hero frame is the one that is most pleasing within the sequence. This frame, and one either side, will always be captured as a still, regardless of the kind of asset being generated."), BoxGroup("Hero Image"), ShowIf("m_CaptureHeroImageOnFixedFrame")]
         int m_HeroFrame = 30;
-        [SerializeField, Tooltip("How many frames to capture before and after the hero frame."), BoxGroup("Hero Image"), ShowIf("m_CaptureHeroImage")]
-        int m_FramesEitherSideOfHero = 3;
+        [SerializeField, Tooltip("How many frames to capture before and after the fixed frame hero."), BoxGroup("Hero Image"), ShowIf("m_CaptureHeroImageOnFixedFrame")]
+        int m_FramesEitherSideOfFixedFrameHero = 3;
+        [SerializeField, Tooltip("Capture a hero image on a Game Event?"), BoxGroup("Hero Image")]
+        bool m_CaptureScreenshotOnGameEvent = false;
+        [SerializeField, Tooltip("The Game Event to trigger the capture of a hero image."), BoxGroup("Hero Image"), ShowIf("m_CaptureScreenshotOnGameEvent")]
+        GameEvent m_HeroImageGameEvent;
+        [SerializeField, Tooltip("The number of screenshots to take when the game event is triggered."), BoxGroup("Hero Image"), ShowIf("m_CaptureScreenshotOnGameEvent")]
+        int m_ScreenshotCount = 3;
+        [SerializeField, Tooltip("Minimum number of frames between screenshots."), BoxGroup("Hero Image"), ShowIf("m_CaptureScreenshotOnGameEvent")]
+        int m_MinimumFramesBetweenScreenshots = 30;
 
         [SerializeField, Tooltip("Capture an image sequence?"), BoxGroup("Image Sequence")]
         bool m_CaptureImageSequence = false;
@@ -45,7 +50,11 @@ namespace WizardsCode.Marketing
         [SerializeField, Tooltip("The time, in game time, when the video recording stops. If this is 0 then the recording will only stop when the application stops."), BoxGroup("Video"), ShowIf("m_CaptureVideo")]
         float m_VideoEndTime = 30;
 
-        [HorizontalLine(color: EColor.Gray)]
+        // Resolution
+        [SerializeField, Tooltip("The resolution of all the assets in pixels."), ShowIf(EConditionOperator.Or, "m_CaptureHeroImageOnFixedFrame", "m_CaptureScreenshotOnGameEvent", "m_CaptureImageSequence", "m_CaptureVideo"), BoxGroup("Resolution")]
+        Vector2Int m_Resolution = new Vector2Int(1920, 1080);
+        [SerializeField, Tooltip("The target frame rate for the recorders used to capture these assets. A common frame rate must be used across all assets, so set this to the highest rate needed."), ShowIf(EConditionOperator.Or, "m_CaptureHeroImageOnFixedFrame", "m_CaptureScreenshotOnGameEvent", "m_CaptureImageSequence", "m_CaptureVideo"), BoxGroup("Resolution")]
+        float m_FrameRate = 30;
 
         //[Header("Scene Setup")]
         [SerializeField, Tooltip("The camera position for the asset capture."), Foldout("Scene Setup")]
@@ -67,6 +76,8 @@ namespace WizardsCode.Marketing
         [SerializeField, HideInInspector]
         internal int heroCount = 0;
         [SerializeField, HideInInspector]
+        internal int screenshotCount = 0;
+        [SerializeField, HideInInspector]
         internal int imageSequenceCount = 0;
         [SerializeField, HideInInspector]
         internal int videoCount = 0;
@@ -75,9 +86,15 @@ namespace WizardsCode.Marketing
         internal string Description => m_Description;
         internal Vector2Int Resolution => m_Resolution;
         internal float FrameRate => m_FrameRate;
-        internal bool CaptureHeroImage => m_CaptureHeroImage;
+
+        internal bool CaptureHeroImageOnFixedFrame => m_CaptureHeroImageOnFixedFrame;
         internal int HeroFrame => m_HeroFrame;
-        internal int FramesEitherSideOfHero => m_FramesEitherSideOfHero;
+        internal int FramesEitherSideOfHero => m_FramesEitherSideOfFixedFrameHero;
+        
+        internal bool CaptureScreenshotOnGameEvent => m_CaptureScreenshotOnGameEvent;
+        internal GameEvent ScreenshotGameEvent => m_HeroImageGameEvent;
+        internal int ScreenshotCount => m_ScreenshotCount;
+        
         internal bool CaptureImageSequence => m_CaptureImageSequence;
         internal float ImageSequenceStartTime => m_ImageSequenceStartTime;
         internal float ImageSequenceEndTime => m_ImageSequenceEndTime;
@@ -92,6 +109,7 @@ namespace WizardsCode.Marketing
         private RecorderUtils imageSequenceRecorder;
         private Action imageSequenceStoppedCallback;
         private float imageSequenceSessionStartTime = 0;
+        private int nextPermittedScreenshotFrame = 0;
 
         int m_ActiveRecordings = 0;
         public bool IsRecording {
@@ -162,6 +180,23 @@ namespace WizardsCode.Marketing
             }
         }
 
+        public string ScreenshotPath
+        {
+            get
+            {
+                return $"Assets/Recordings/{AssetName}/{SceneName}/Screenshot/";
+            }
+        }
+
+        public string ScreenshotFilename
+        {
+            get
+            {
+                string date = DateTime.Now.ToString("yyyy-MM-dd");
+                return $"{SceneName}_{AssetName}_{date}_{screenshotCount.ToString("D4")}_Screenshot_<Frame>";
+            }
+        }
+
         protected string SceneName
         {
             get
@@ -194,7 +229,7 @@ namespace WizardsCode.Marketing
         {
             // Start generation coroutines in parallel
             var videoCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateVideo(callback));
-            var heroFrameCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateHeroFrame(callback));
+            var heroFrameCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateHeroAtFixedFrame(callback));
             var imageSequenceCoroutine = CoroutineHelper.Instance.StartCoroutine(GenerateImageSequence(callback));
 
             // Wait for both coroutines to complete
@@ -255,9 +290,42 @@ namespace WizardsCode.Marketing
             imageSequenceStoppedCallback?.Invoke();
         }
 
-        public virtual IEnumerator GenerateHeroFrame(Action callback = null)
+        /// <summary>
+        /// Capture a screenshot image of the current frame.
+        /// </summary>
+        /// <param name="callback">This will be called when the image has been saved</param>
+        /// <returns>The coroutine handling the process.</returns>
+        public virtual IEnumerator GenerateScreenshot(Action callback = null)
         {
-            if (!CaptureHeroImage)
+            if (!CaptureScreenshotOnGameEvent || nextPermittedScreenshotFrame > Time.frameCount )
+            {
+                yield break;
+            }
+
+            nextPermittedScreenshotFrame = Time.frameCount + m_MinimumFramesBetweenScreenshots + ScreenshotCount;
+            screenshotCount++;
+            IsRecording = true;
+            yield return new WaitForEndOfFrame();
+
+            RecorderUtils recorder = new RecorderUtils();
+            recorder.RecordScreenshot(this);
+            yield return recorder;
+
+            int frameCount = ScreenshotCount;
+            while (frameCount >= 0)
+            {
+                yield return null;
+                frameCount--;
+            }
+
+            recorder.StopRecording();
+
+            callback?.Invoke();
+        }
+
+        public virtual IEnumerator GenerateHeroAtFixedFrame(Action callback = null)
+        {
+            if (!m_CaptureHeroImageOnFixedFrame)
             {
                 yield break;
             }
@@ -269,15 +337,15 @@ namespace WizardsCode.Marketing
 
             RecorderUtils recorder = new RecorderUtils();
 
-            while (Time.frameCount <= targetFrame - m_FramesEitherSideOfHero)
+            while (Time.frameCount <= targetFrame - m_FramesEitherSideOfFixedFrameHero)
             {
                 yield return null;
             }
 
-            recorder.RecordHeroImage(this);
+            recorder.RecordHeroImages(this);
             yield return recorder;
 
-            while (Time.frameCount < targetFrame + (2 * m_FramesEitherSideOfHero))
+            while (Time.frameCount < targetFrame + (2 * m_FramesEitherSideOfFixedFrameHero))
             {
                 yield return null;
             }

@@ -17,7 +17,9 @@ namespace RogueWave
     {
         internal enum SquadRole { None, Fodder, Leader, /* Heavy, Sniper, Medic, Scout*/ }
 
-        //[Header("Metadata")]
+        // Metadata
+        [ValidateInput("Validate", "This enemy is not valid, run the validator in the Dev Management Window for details.")]
+
         [SerializeField, Tooltip("The name of this enemy as displayed in the UI."), BoxGroup("Metadata")]
         public string displayName = "TBD";
         [SerializeField, Tooltip("The icon that represents this enemy in the UI."), BoxGroup("Metadata")]
@@ -33,7 +35,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat."), BoxGroup("Metadata")]
         public int challengeRating = 1;
 
-        //[Header("Senses")]
+        // Senses
         [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight OR if they are a part of a squad in which at least one squad member has line of sight. If true will only attack if this enemy has lince of sight. If false they will always seek and attack out the player."), BoxGroup("Senses")]
         internal bool requireLineOfSight = true;
         [SerializeField, Tooltip("The maximum distance the character can see"), ShowIf("requireLineOfSight"), BoxGroup("Senses")]
@@ -43,7 +45,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The source of the sensor array for this enemy. Note this must be inside the enemies collider."), ShowIf("requireLineOfSight"), BoxGroup("Senses")]
         internal Transform sensor;
 
-        //[Header("Animation")]
+        // Animation
         [SerializeField, Tooltip("If true the enemy will rotate their head to face the player."), BoxGroup("Animation")]
         internal bool headLook = true;
         [SerializeField, Tooltip("The head of the enemy. If set then this object will be rotated to face the player."), ShowIf("headLook"), BoxGroup("Animation")]
@@ -51,7 +53,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The maximum rotation of the head either side of forward."), Range(0, 180), ShowIf("headLook"), BoxGroup("Animation")]
         float maxHeadRotation = 75;
 
-        //[Header("Seek Behaviour")]
+        // Seek Behaviour
         [SerializeField, Tooltip("If true the enemy will return to their spawn point when they go beyond their seek distance."), BoxGroup("Seek Behaviour")]
         internal bool returnToSpawner = false;
         [SerializeField, Tooltip("If chasing a player and the player gets this far away from the enemy then the enemy will return to their spawn point and resume their normal behaviour."), BoxGroup("Seek Behaviour")]
@@ -61,7 +63,7 @@ namespace RogueWave
         [SerializeField, Tooltip("How often the destination will be updated."), BoxGroup("Seek Behaviour")]
         private float destinationUpdateFrequency = 2f;
 
-        //[Header("Defensive Behaviour")]
+        // Defensive Behaviour
         [SerializeField, Tooltip("If true then this enemy will spawn defensive units when it takes damage."), BoxGroup("Defensive Behaviour")]
         internal bool spawnOnDamageEnabled = false;
         [SerializeField, Tooltip("If true defensive units will be spawned around the attacking unit. If false they will be spawned around this unit."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
@@ -75,37 +77,37 @@ namespace RogueWave
         [SerializeField, Tooltip("The number of defensive units to spawn when this enemy takes damage."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
         internal int spawnOnDamageCount = 3;
 
-        //[Header("SquadBehaviour")]
+        // SquadBehaviour
         [SerializeField, Tooltip("If true then this enemy will register with the AI director and be available to recieve orders. If false the AI director will not give this enemy orders."), BoxGroup("SquadBehaviour")]
         internal bool registerWithAIDirector = true;
         [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy."), ShowIf("registerWithAIDirector"), BoxGroup("SquadBehaviour")]
         internal SquadRole squadRole = SquadRole.Fodder;
 
-        //[Header("Juice")]
+        // Juice
         [SerializeField, Tooltip("A looping sound to play continuously while the enemy is alive."), BoxGroup("Juice")]
         internal AudioClip droneClip;
         [SerializeField, Tooltip("The sound to play when the enemy is killed."), BoxGroup("Juice")]
         internal AudioClip[] deathClips;
-        [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions."), BoxGroup("Juice")]
-        internal PooledObject deathJuicePrefab;
+        [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions."), Required, BoxGroup("Juice")]
+        internal PooledExplosion deathJuicePrefab;
         [SerializeField, Tooltip("The offset from the enemy's position to spawn the juice."), BoxGroup("Juice")]
         internal Vector3 juiceOffset = Vector3.zero;
         [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed."), BoxGroup("Juice")]
-        internal bool causeAreDamageOnDeath = false;
-        [SerializeField, Tooltip("The radius of the explosion when the enemy dies."), ShowIf("causeAreDamageOnDeath"), BoxGroup("Juice")]
+        internal bool causeDamageOnDeath = false;
+        [SerializeField, Tooltip("The radius of the explosion when the enemy dies."), ShowIf("causeDamageOnDeath"), BoxGroup("Juice")]
         internal float deathExplosionRadius = 5f;
-        [SerializeField, Tooltip("The amount of damage the enemy does when it explodes on death."), ShowIf("causeAreDamageOnDeath"), BoxGroup("Juice")]
+        [SerializeField, Tooltip("The amount of damage the enemy does when it explodes on death."), ShowIf("causeDamageOnDeath"), BoxGroup("Juice")]
         internal float explosionDamageOnDeath = 20;
-        [SerializeField, Tooltip("The force of the explosion when the enemy dies."), ShowIf("causeAreDamageOnDeath"), BoxGroup("Juice")]
+        [SerializeField, Tooltip("The force of the explosion when the enemy dies."), ShowIf("causeDamageOnDeath"), BoxGroup("Juice")]
         internal float explosionForceOnDeath = 15;
 
-        //[Header("Rewards")]
+        // Rewards
         [SerializeField, Tooltip("The chance of dropping a reward when killed."), Range(0, 1), BoxGroup("Loot")]
         internal float resourcesDropChance = 0.5f;
         [SerializeField, Tooltip("The resources this enemy drops when killed."), BoxGroup("Loot")]
         internal ResourcesPickup resourcesPrefab;
 
-        //[Header("Core Events")]
+        // Core Events
         [SerializeField, Tooltip("The event to trigger when this enemy dies."), Foldout("Events")]
         public UnityEvent<BasicEnemyController> onDeath;
         [SerializeField, Tooltip("The event to trigger when this enemy is destroyed."), Foldout("Events")]
@@ -127,6 +129,7 @@ namespace RogueWave
         internal float timeOfNextDestinationChange = 0;
         internal Vector3 goalDestination = Vector3.zero;
         private float sqrSeekDistance;
+        private PooledObject _deathExplosionPrototype;
 
         internal BasicMovementController movementController;
 
@@ -314,6 +317,7 @@ namespace RogueWave
             base.Awake();
 
             pooledObject = this;
+            _deathExplosionPrototype = deathJuicePrefab.GetComponent<PooledObject>(); ;
 
             gameMode = FindObjectOfType<RogueWaveGameMode>();
 
@@ -409,20 +413,11 @@ namespace RogueWave
         private void DeathVFX()
         {
             Vector3 pos = transform.position + juiceOffset;
-            ParticleSystem deathParticle = PoolManager.GetPooledObject<ParticleSystem>(deathJuicePrefab, pos, Quaternion.identity);
-            if (parentRenderer != null)
-            {
-                var particleSystemRenderer = deathParticle.GetComponent<ParticleSystemRenderer>();
-                if (particleSystemRenderer != null)
-                {
-                    particleSystemRenderer.material = parentRenderer.material;
-                }
-            }
-            deathParticle.Play();
+            RWPooledExplosion explosion = PoolManager.GetPooledObject<RWPooledExplosion>(_deathExplosionPrototype, pos, Quaternion.identity);
+            explosion.ParticleMaterial = parentRenderer.material;
 
-            if (causeAreDamageOnDeath)
+            if (causeDamageOnDeath)
             {
-                PooledExplosion explosion = deathParticle.GetComponentInChildren<PooledExplosion>();
                 explosion.radius = deathExplosionRadius;
                 explosion.Explode(explosionDamageOnDeath, explosionForceOnDeath, null);
             }
@@ -812,6 +807,66 @@ namespace RogueWave
                 string assetPath = UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i]);
                 icon[i] = UnityEditor.AssetDatabase.LoadAssetAtPath<Sprite>(assetPath);
             }
+        }
+
+        public bool Validate()
+        {
+            return IsValid(out string message, out Component component);
+        }
+
+        public virtual bool IsValid(out string message, out Component component)
+        {
+            message = string.Empty;
+            component = null;
+
+            if (causeDamageOnDeath && deathExplosionRadius < 0.1f)
+            {
+                component = this;
+                message = "Death explosion radius is too small.";
+                return false;
+            }
+            if (causeDamageOnDeath && explosionDamageOnDeath < 1)
+            {
+                component = this;
+                message = "Explosion damage on death is too small.";
+                return false;
+            }
+            if (causeDamageOnDeath && explosionForceOnDeath < 1)
+            {
+                component = this;
+                message = "Explosion force on death is too small.";
+                return false;
+            }
+            if (deathJuicePrefab == null)
+            {
+                component = this;
+                message = "No death juice prefab defined.";
+                return false;
+            }
+            if (deathClips.Length == 0)
+            {
+                component = this;
+                message = "No death audio clips defined.";
+                return false;
+            }
+            if (spawnOnDamageEnabled && spawnOnDamagePrototypes.Length == 0)
+            {
+                component = this;
+                message = "Spawn On Damage is enabled, but no spawn on damage prototypes defined.";
+                return false;
+            }
+
+            BasicWeaponBehaviour[] weapons = GetComponentsInChildren<BasicWeaponBehaviour>();
+            foreach (BasicWeaponBehaviour weapon in weapons)
+            {
+                if (!weapon.IsValid(out message))
+                {
+                    component = weapon;
+                    return false;
+                }
+            }
+
+            return true;
         }
 
 #endif

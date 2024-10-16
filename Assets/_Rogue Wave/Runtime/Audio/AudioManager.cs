@@ -221,7 +221,6 @@ namespace WizardsCode.RogueWave
         internal static void Play3DLooping(AudioSource source, AudioClip clip, Transform parent)
         {
             source.transform.SetParent(parent);
-            source.transform.localPosition = Vector3.zero;
             source.loop = true;
             source.PlayOneShot(clip);
         }
