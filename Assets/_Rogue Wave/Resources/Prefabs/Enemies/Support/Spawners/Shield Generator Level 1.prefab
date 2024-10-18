@@ -78,6 +78,7 @@ MonoBehaviour:
   weaknesses: 
   attacks: 
   challengeRating: 1
+  isAvailableToWaveDefinitions: 0
   requireLineOfSight: 0
   viewDistance: 30
   sensorMask:
@@ -91,15 +92,22 @@ MonoBehaviour:
   seekDistance: 30
   optimalDistanceFromPlayer: 0.2
   destinationUpdateFrequency: 2
-  spawnOnDamageEnabled: 1
+  spawnDefensiveUnitsOnDamage: 1
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 1
   spawnOnDamagePrototypes:
-  - {fileID: 0}
+  - {fileID: 345053429947516849, guid: e27c6e9bdf229c44083a8aa474b34b60, type: 3}
   spawnOnDamageThreshold: 10
   spawnOnDamageCount: 2
   registerWithAIDirector: 0
   squadRole: 0
+  causeDamageOnDeath: 0
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 10
+  explosionForceOnDeath: 7
+  awarenessAudioType: 0
+  barkClips: []
+  barkFrequency: {x: 5, y: 10}
   droneClip: {fileID: 0}
   deathClips:
   - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
@@ -109,10 +117,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
-  causeDamageOnDeath: 0
-  deathExplosionRadius: 5
-  explosionDamageOnDeath: 10
-  explosionForceOnDeath: 7
   resourcesDropChance: 0.5
   resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}
   onDeath:
@@ -235,7 +239,6 @@ GameObject:
   - component: {fileID: 5516949363616115288}
   - component: {fileID: 631714007282967770}
   - component: {fileID: 5642523666447883031}
-  - component: {fileID: 5620064431566530618}
   - component: {fileID: 8147921263850287627}
   m_Layer: 30
   m_Name: shield_gen
@@ -359,30 +362,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_DissolveTime: 1
---- !u!114 &5620064431566530618
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3351190687941056451}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 1
-  audioSource: {fileID: 0}
-  _droneClip: {fileID: 0}
-  droneVolume: 1
-  deathJuicePrefab: {fileID: 2842660081239373315, guid: 4c8f8c0a37ea5d54ba46372f423d5350, type: 3}
-  juiceOffset: {x: 0, y: 0.5, z: 0}
-  deathClips:
-  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
-  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
-  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
-  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
-  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
 --- !u!114 &8147921263850287627
 MonoBehaviour:
   m_ObjectHideFlags: 0

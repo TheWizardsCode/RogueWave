@@ -60,11 +60,11 @@ namespace WizardsCode.RogueWave
             {
                 if (has3DSound)
                 {
-                    audioSource = AudioManager.Play3DEnemyOneShot(audioClips[Random.Range(0, audioClips.Length)], audioPosition.position);
+                    audioSource = AudioManager.Play3DOneShot(audioClips[Random.Range(0, audioClips.Length)], audioPosition.position);
                 }
                 else
                 {
-                    audioSource = AudioManager.Play2DEnemyOneShot(audioClips[Random.Range(0, audioClips.Length)]);
+                    audioSource = AudioManager.Play2DOneShot(audioClips[Random.Range(0, audioClips.Length)]);
                 }
             }
 

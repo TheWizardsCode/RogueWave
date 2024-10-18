@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Caltrops
   m_EditorClassIdentifier: 
   enemies:
-  - pooledEnemyPrefab: {fileID: 816581867132793744, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
+  - pooledEnemyPrefab: {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
     baseWeight: 0.5
   spawnEventFrequency: 4
   numberToSpawn: 3
   waveDuration: 15
   spawnOrder: 0
+  challengeRating: 11
+  targetChallengeRating: 0

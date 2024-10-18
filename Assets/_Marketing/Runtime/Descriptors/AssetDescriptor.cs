@@ -301,6 +301,7 @@ namespace WizardsCode.Marketing
             {
                 yield break;
             }
+            Debug.Log("Screenshot triggered");
 
             nextPermittedScreenshotFrame = Time.frameCount + m_MinimumFramesBetweenScreenshots + ScreenshotCount;
             screenshotCount++;

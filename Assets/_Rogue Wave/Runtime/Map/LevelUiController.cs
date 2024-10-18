@@ -84,7 +84,7 @@ namespace RogueWave
             int number = 1;
             foreach (WaveDefinition wave in levelDefinition.waves)
             {
-                sb.AppendLine($"  - {number}: {string.Join(", ", wave.enemies.Select(e => e.pooledEnemyPrefab.name))} (CR: {wave.CR})");
+                sb.AppendLine($"  - {number}: {string.Join(", ", wave.enemies.Select(e => e.pooledEnemyPrefab.name))} (CR: {wave.ChallengeRating})");
                 number++;
             }
             tooltip.SetText("Waves", sb.ToString());

@@ -122,19 +122,27 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 1
   squadRole: 1
-  droneClip: {fileID: 0}
-  deathClips:
-  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
-  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
-  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
-  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
-  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
-  deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
-  juiceOffset: {x: 0, y: 0, z: 0}
   causeDamageOnDeath: 1
   deathExplosionRadius: 10
   explosionDamageOnDeath: 40
   explosionForceOnDeath: 15
+  barkClips:
+  - {fileID: 8300000, guid: f5b1bb06d39c46645bbd899b2c225bc5, type: 3}
+  - {fileID: 8300000, guid: fdbf81f87c8dd684ea5aec13d8e42ea0, type: 3}
+  - {fileID: 8300000, guid: 528269e7dde4a4b4ea84341dc2cfeb13, type: 3}
+  - {fileID: 8300000, guid: a37a8316cf47dbe46b222ed0bd1021c3, type: 3}
+  - {fileID: 8300000, guid: 3d136317ab5333e429ca9624643e5f7d, type: 3}
+  - {fileID: 8300000, guid: ee3fc4bbec877f34eba6d995581b1867, type: 3}
+  - {fileID: 8300000, guid: 3ab50e5dac2a3e044b341044bd34b86b, type: 3}
+  - {fileID: 8300000, guid: 41198a0eb7b4e074ea936ba97f86efcc, type: 3}
+  - {fileID: 8300000, guid: 38ca829b929ba4a4187729e86438119d, type: 3}
+  - {fileID: 8300000, guid: d1678a2c3c437134c85daf88cc53d361, type: 3}
+  barkFrequency: {x: 7.6263075, y: 12.626308}
+  droneClip: {fileID: 0}
+  deathClips:
+  - {fileID: 8300000, guid: 33bbe4beab9fa6c4482604cc3d1f4ced, type: 3}
+  deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
+  juiceOffset: {x: 0, y: 0, z: 0}
   resourcesDropChance: 0.85
   resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
   onDeath:

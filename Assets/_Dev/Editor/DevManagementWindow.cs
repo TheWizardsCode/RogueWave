@@ -223,11 +223,11 @@ public class DevManagementWindow : EditorWindow
         if (GUILayout.Button("Validate Everything"))
         {
             // Clear the console
-            var logEntries = System.Type.GetType("UnityEditor.LogEntries, UnityEditor.dll");
-            var clearMethod = logEntries.GetMethod("Clear", System.Reflection.BindingFlags.Static | System.Reflection.BindingFlags.Public);
+            Type logEntries = Type.GetType("UnityEditor.LogEntries, UnityEditor.dll");
+            MethodInfo clearMethod = logEntries.GetMethod("Clear", BindingFlags.Static | BindingFlags.Public);
             clearMethod.Invoke(null, null);
 
-            bool isValid = isValid = ValidateComponents<BasicEnemyController>();
+            bool isValid = ValidateComponents<BasicEnemyController>();
             if (isValid)
             {
                 Debug.Log("All Enemy tests passed.");
@@ -309,5 +309,25 @@ public class DevManagementWindow : EditorWindow
         EditorUtility.RequestScriptReload();
 
         EditorApplication.isPlaying = true;
+    }
+
+    [MenuItem("Tools/Wizards Code/Detect Missing Scripts")]
+    public static void DetectMissingScripts()
+    {
+        GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
+        foreach (GameObject go in allGameObjects)
+        {
+            if (PrefabUtility.GetPrefabAssetType(go) != PrefabAssetType.NotAPrefab)
+            {
+                Component[] components = go.GetComponents<Component>();
+                for (int i = 0; i < components.Length; i++)
+                {
+                    if (components[i] == null)
+                    {
+                        Debug.LogWarning($"Missing script found in GameObject: {go.name}", go);
+                    }
+                }
+            }
+        }
     }
 }

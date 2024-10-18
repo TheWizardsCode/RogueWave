@@ -113,7 +113,7 @@ MonoBehaviour:
   seekDistance: 60
   optimalDistanceFromPlayer: 5
   destinationUpdateFrequency: 10
-  spawnOnDamageEnabled: 0
+  spawnDefensiveUnitsOnDamage: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
   spawnOnDamagePrototypes: []
@@ -121,7 +121,24 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 1
   squadRole: 1
-  droneClip: {fileID: 8300000, guid: 33bbe4beab9fa6c4482604cc3d1f4ced, type: 3}
+  causeDamageOnDeath: 1
+  deathExplosionRadius: 15
+  explosionDamageOnDeath: 30
+  explosionForceOnDeath: 15
+  awarenessAudioType: 1
+  barkClips:
+  - {fileID: 8300000, guid: c0aa12487f88dd54f96ab52f699db27e, type: 3}
+  - {fileID: 8300000, guid: 1c714553c46d07140ab9509b6334620c, type: 3}
+  - {fileID: 8300000, guid: 20c25b7f9dab46e4f98b8e420f2fccb8, type: 3}
+  - {fileID: 8300000, guid: 2db4e8f61dca0ba4395bc521e8703551, type: 3}
+  - {fileID: 8300000, guid: 50d3a0dd645ad0f4a8c0a9cd06157ddc, type: 3}
+  - {fileID: 8300000, guid: 3bbac13583f41eb49885f07e40f2a5bb, type: 3}
+  - {fileID: 8300000, guid: d9c375883f2cc5b4a8e40dccab2bc6e1, type: 3}
+  - {fileID: 8300000, guid: a053fedb977fce142b8d08950609bf44, type: 3}
+  - {fileID: 8300000, guid: 9099bb4f0c6794f4e9b869c46c1231e5, type: 3}
+  - {fileID: 8300000, guid: 600682a3b2b8d4343a2c55c187741b7e, type: 3}
+  barkFrequency: {x: 5, y: 10}
+  droneClip: {fileID: 0}
   deathClips:
   - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
   - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
@@ -130,10 +147,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
-  causeDamageOnDeath: 1
-  deathExplosionRadius: 15
-  explosionDamageOnDeath: 30
-  explosionForceOnDeath: 15
   resourcesDropChance: 0.9
   resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
   onDeath:

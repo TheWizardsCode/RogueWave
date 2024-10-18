@@ -34,6 +34,8 @@ namespace RogueWave
         private string attacks = string.Empty;
         [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat."), BoxGroup("Metadata")]
         public int challengeRating = 1;
+        [SerializeField, Tooltip("Should this enemy be included in wave definitions? If this is set to false then the enemy can only be placed in levels under special circumstances."), BoxGroup("Metadata")]
+        public bool isAvailableToWaveDefinitions = true;
 
         // Senses
         [SerializeField, Tooltip("If true, the enemy will only move towards the player if they have line of sight OR if they are a part of a squad in which at least one squad member has line of sight. If true will only attack if this enemy has lince of sight. If false they will always seek and attack out the player."), BoxGroup("Senses")]
@@ -65,16 +67,16 @@ namespace RogueWave
 
         // Defensive Behaviour
         [SerializeField, Tooltip("If true then this enemy will spawn defensive units when it takes damage."), BoxGroup("Defensive Behaviour")]
-        internal bool spawnOnDamageEnabled = false;
-        [SerializeField, Tooltip("If true defensive units will be spawned around the attacking unit. If false they will be spawned around this unit."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
+        internal bool spawnDefensiveUnitsOnDamage = false;
+        [SerializeField, Tooltip("If true defensive units will be spawned around the attacking unit. If false they will be spawned around this unit."), ShowIf("spawnDefensiveUnitsOnDamage"), BoxGroup("Defensive Behaviour")]
         internal bool spawnOnDamageAroundAttacker = false;
-        [SerializeField, Tooltip("The distance from the spawn point (damage source or this unit) that defensive units will be spawned. they will always spawn between the damage source and this enemy."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
+        [SerializeField, Tooltip("The distance from the spawn point (damage source or this unit) that defensive units will be spawned. they will always spawn between the damage source and this enemy."), ShowIf("spawnDefensiveUnitsOnDamage"), BoxGroup("Defensive Behaviour")]
         internal float spawnOnDamageDistance = 10;
-        [SerializeField, Tooltip("Prototype to use to spawn defensive units when this enemy takes damage. This might be, for example, new enemies that will attack the thing doing damage."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
+        [SerializeField, Tooltip("Prototype to use to spawn defensive units when this enemy takes damage. This might be, for example, new enemies that will attack the thing doing damage."), ShowIf("spawnDefensiveUnitsOnDamage"), BoxGroup("Defensive Behaviour")]
         internal PooledObject[] spawnOnDamagePrototypes;
-        [SerializeField, Tooltip("The amount of damage the enemy must take before spawning defensive units."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
+        [SerializeField, Tooltip("The amount of damage the enemy must take before spawning defensive units."), ShowIf("spawnDefensiveUnitsOnDamage"), BoxGroup("Defensive Behaviour")]
         internal float spawnOnDamageThreshold = 10;
-        [SerializeField, Tooltip("The number of defensive units to spawn when this enemy takes damage."), ShowIf("spawnOnDamageEnabled"), BoxGroup("Defensive Behaviour")]
+        [SerializeField, Tooltip("The number of defensive units to spawn when this enemy takes damage."), ShowIf("spawnDefensiveUnitsOnDamage"), BoxGroup("Defensive Behaviour")]
         internal int spawnOnDamageCount = 3;
 
         // SquadBehaviour
@@ -83,23 +85,34 @@ namespace RogueWave
         [SerializeField, Tooltip("The role this enemy plays in a squad. This is used by the AI Director to determine how to deploy the enemy."), ShowIf("registerWithAIDirector"), BoxGroup("SquadBehaviour")]
         internal SquadRole squadRole = SquadRole.Fodder;
 
-        // Juice
-        [SerializeField, Tooltip("A looping sound to play continuously while the enemy is alive."), BoxGroup("Juice")]
-        internal AudioClip droneClip;
-        [SerializeField, Tooltip("The sound to play when the enemy is killed."), BoxGroup("Juice")]
-        internal AudioClip[] deathClips;
-        [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions."), Required, BoxGroup("Juice")]
-        internal PooledExplosion deathJuicePrefab;
-        [SerializeField, Tooltip("The offset from the enemy's position to spawn the juice."), BoxGroup("Juice")]
-        internal Vector3 juiceOffset = Vector3.zero;
-        [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed."), BoxGroup("Juice")]
+        // Death Behaviour
+        [SerializeField, Tooltip("Set to true to generate a damaging and/or knock back explosion when the enemy is killed."), BoxGroup("Death Behaviour")]
         internal bool causeDamageOnDeath = false;
-        [SerializeField, Tooltip("The radius of the explosion when the enemy dies."), ShowIf("causeDamageOnDeath"), BoxGroup("Juice")]
+        [SerializeField, Tooltip("The radius of the explosion when the enemy dies."), ShowIf("causeDamageOnDeath"), BoxGroup("Death Behaviour")]
         internal float deathExplosionRadius = 5f;
-        [SerializeField, Tooltip("The amount of damage the enemy does when it explodes on death."), ShowIf("causeDamageOnDeath"), BoxGroup("Juice")]
+        [SerializeField, Tooltip("The amount of damage the enemy does when it explodes on death."), ShowIf("causeDamageOnDeath"), BoxGroup("Death Behaviour")]
         internal float explosionDamageOnDeath = 20;
-        [SerializeField, Tooltip("The force of the explosion when the enemy dies."), ShowIf("causeDamageOnDeath"), BoxGroup("Juice")]
+        [SerializeField, Tooltip("The force of the explosion when the enemy dies."), ShowIf("causeDamageOnDeath"), BoxGroup("Death Behaviour")]
         internal float explosionForceOnDeath = 15;
+
+        // Audio Juice
+        enum AwarenessAudioType { None, Bark, Drone }
+        [SerializeField, Tooltip("The type of audio to play when the enemy is aware of the player."), BoxGroup("Audio Juice")]
+        AwarenessAudioType awarenessAudioType = AwarenessAudioType.Bark;
+        [SerializeField, Tooltip("Sounds to make periodically while the enemy is alive."), ShowIf("awarenessAudioType", AwarenessAudioType.Bark), BoxGroup("Audio Juice")]
+        internal AudioClip[] barkClips = default;
+        [SerializeField, Tooltip("The frequency at which to bark."), MinMaxSlider(0.5f, 30f), ShowIf("awarenessAudioType", AwarenessAudioType.Bark), BoxGroup("Audio Juice")]
+        internal Vector2 barkFrequency = new Vector2(5, 10);
+        [SerializeField, Tooltip("A looping sound to play continuously while the enemy is alive. Can be null."), ShowIf("awarenessAudioType", AwarenessAudioType.Drone), BoxGroup("Audio Juice")]
+        internal AudioClip droneClip;
+        [SerializeField, Tooltip("The sound to play when the enemy is killed."), BoxGroup("Audio Juice")]
+        internal AudioClip[] deathClips;
+
+        // Visual Juice
+        [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions."), Required, BoxGroup("Visual Juice")]
+        internal PooledExplosion deathJuicePrefab;
+        [SerializeField, Tooltip("The offset from the enemy's position to spawn the juice."), BoxGroup("Visual Juice")]
+        internal Vector3 juiceOffset = Vector3.zero;
 
         // Rewards
         [SerializeField, Tooltip("The chance of dropping a reward when killed."), Range(0, 1), BoxGroup("Loot")]
@@ -135,7 +148,7 @@ namespace RogueWave
 
         public float ResourceDropChange { get => resourcesDropChance; set => resourcesDropChance = value; }
 
-        public string description { 
+        public string description {
             get {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine(m_description);
@@ -157,8 +170,8 @@ namespace RogueWave
                     //sb.Append("Attacks: ");
                     sb.AppendLine(attacks);
                 }
-                return sb.ToString(); 
-            } 
+                return sb.ToString();
+            }
         }
 
         Transform _target;
@@ -177,14 +190,14 @@ namespace RogueWave
         internal bool shouldUpdateDestination
         {
             get {
-                return Time.timeSinceLevelLoad > timeOfNextDestinationChange; 
+                return Time.timeSinceLevelLoad > timeOfNextDestinationChange;
             }
         }
 
         internal virtual bool shouldAttack
         {
             get
-            { 
+            {
                 if (requireLineOfSight)
                 {
                     return CanSeeTarget;
@@ -350,7 +363,7 @@ namespace RogueWave
             {
                 enemySpawnedStat.Add(1);
                 gameMode.RegisterEnemy(this);
-            } 
+            }
             else
             {
                 fromPool = true;
@@ -383,7 +396,7 @@ namespace RogueWave
             onDestroyed?.Invoke();
             onDestroyed.RemoveAllListeners();
 
-            AudioManager.Stop(audioSource);
+            //AudioManager.Stop(audioSource);
         }
         void OnDeath()
         {
@@ -397,16 +410,16 @@ namespace RogueWave
                 return;
             }
 
-            AudioManager.Play3DOneShot(audioSource, deathClips[Random.Range(0, deathClips.Length)], transform.position);
+            AudioManager.Play3DOneShot(deathClips[Random.Range(0, deathClips.Length)], transform.position);
         }
         private void StartDroneAudio()
         {
-            if (droneClip == null)
+            if (awarenessAudioType != AwarenessAudioType.Drone || droneClip == null)
             {
                 return;
             }
 
-            AudioManager.Play3DLooping(audioSource, droneClip, transform);
+            AudioManager.PlayLooping(audioSource, droneClip);
         }
 
 
@@ -425,16 +438,36 @@ namespace RogueWave
 
         protected virtual void Update()
         {
-            if (movementController == null)
+            if (movementController != null)
+            {
+                UpdateMovement();
+            }
+
+            if (awarenessAudioType == AwarenessAudioType.Bark && Time.timeSinceLevelLoad > timeOfNextBark)
+            {
+                PlayBark();
+            }
+        }
+
+        private void PlayBark()
+        {
+            // OPTIMIZATION: Only play barks if the player is within a certain distance
+            // OPTIMIZATION: Only play a bark if another enemy of the same type has NOT played a bark in the last barkFrequency.x seconds
+            if (audioSource.isPlaying)
             {
                 return;
             }
+            AudioManager.PlayOneShot(audioSource, barkClips[Random.Range(0, barkClips.Length)]);
+            timeOfNextBark = Time.timeSinceLevelLoad + Random.Range(barkFrequency.x, barkFrequency.y);
+        }
 
-            bool timeToUpdate = shouldUpdateDestination;
+        private void UpdateMovement()
+        {
+            bool isTimeToUpdateDestination = shouldUpdateDestination;
 
             if (Target == null)
             {
-                if (timeToUpdate)
+                if (isTimeToUpdateDestination)
                 {
                     goalDestination = GetWanderDestination();
                 }
@@ -442,7 +475,7 @@ namespace RogueWave
                 return;
             }
 
-            if (timeToUpdate || SquadCanSeeTarget || movementController.hasArrived)
+            if (isTimeToUpdateDestination || SquadCanSeeTarget || movementController.hasArrived)
             {
                 UpdateDestination();
             }
@@ -591,6 +624,7 @@ namespace RogueWave
         private float destinationMaxX;
         private float destinationMaxY;
         private AudioSource audioSource;
+        private float timeOfNextBark;
 
         private bool IsValidDestination(Vector3 destination, float avoidanceDistance)
         {
@@ -635,7 +669,7 @@ namespace RogueWave
 
         private void OnHealthChanged(float from, float to, bool critical, IDamageSource source)
         {
-            if (spawnOnDamageEnabled == false)
+            if (spawnDefensiveUnitsOnDamage == false)
             {
                 return;
             }
@@ -819,6 +853,39 @@ namespace RogueWave
             message = string.Empty;
             component = null;
 
+            if (!ValidateDeathBehaviours(out message, out component))
+            {
+                return false;
+            }
+
+            if (!ValidateFX(out message, out component))
+            {
+                return false;
+            }
+
+            if (!ValidateAnimation(out message, out component))
+            {
+                return false;
+            }
+
+            if (!ValidateWeapons(out message, out component))
+            {
+                return false;
+            }
+
+            if (!ValidateSpawnDefensiveUnits(out message, out component))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        bool ValidateDeathBehaviours(out string message, out Component component)
+        {
+            component = null;
+            message = string.Empty;
+
             if (causeDamageOnDeath && deathExplosionRadius < 0.1f)
             {
                 component = this;
@@ -837,24 +904,64 @@ namespace RogueWave
                 message = "Explosion force on death is too small.";
                 return false;
             }
+
+            return true;
+        }
+
+        bool ValidateFX(out string message, out Component component)
+        {
+            component = null;
+            message = string.Empty;
+
+            if (awarenessAudioType == AwarenessAudioType.Bark && (barkClips == null || barkClips.Length == 0)) {
+                component = this;
+                message = "Awareness audio type is set to Bark, but there are no bark audio clips.";
+                return false;
+            }
+
+            if (awarenessAudioType == AwarenessAudioType.Drone && droneClip == null)
+            {
+                component = this;
+                message = "Awareness audio type is set to drone, but there is no drone audio clip.";
+                return false;
+            }
+
             if (deathJuicePrefab == null)
             {
                 component = this;
                 message = "No death juice prefab defined.";
                 return false;
             }
+
             if (deathClips.Length == 0)
             {
                 component = this;
                 message = "No death audio clips defined.";
                 return false;
             }
-            if (spawnOnDamageEnabled && spawnOnDamagePrototypes.Length == 0)
+
+            return true;
+        }
+
+        bool ValidateAnimation(out string message, out Component component)
+        {
+            component = null;
+            message = string.Empty;
+
+            if (headLook && head == null)
             {
                 component = this;
-                message = "Spawn On Damage is enabled, but no spawn on damage prototypes defined.";
+                message = "Head look is set to true, but no head object is defined.";
                 return false;
             }
+
+            return true;
+        }
+
+        bool ValidateWeapons(out string message, out Component component)
+        {
+            component = null;
+            message = string.Empty;
 
             BasicWeaponBehaviour[] weapons = GetComponentsInChildren<BasicWeaponBehaviour>();
             foreach (BasicWeaponBehaviour weapon in weapons)
@@ -865,10 +972,35 @@ namespace RogueWave
                     return false;
                 }
             }
-
             return true;
         }
 
+        bool ValidateSpawnDefensiveUnits(out string message, out Component component)
+        {
+            component = null;
+            message = string.Empty;
+
+            if (spawnDefensiveUnitsOnDamage)
+            {
+                if (spawnOnDamagePrototypes.Length == 0)
+                {
+                    component = this;
+                    message = "Spawn Defesive Units on Damage is set to true, but there are no prototypes to spawn.";
+                }
+
+                foreach (PooledObject obj in spawnOnDamagePrototypes)
+                {
+                    if (obj == null)
+                    {
+                        component = this;
+                        message = "At least one of the prototypes for defensive units spawned on damage is null.";
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 #endif
     }
 }

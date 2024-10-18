@@ -200,20 +200,21 @@ MonoBehaviour:
   weaknesses: 
   attacks: 
   challengeRating: 4
+  isAvailableToWaveDefinitions: 0
   requireLineOfSight: 0
   viewDistance: 30
   sensorMask:
     serializedVersion: 2
     m_Bits: 0
   sensor: {fileID: 0}
-  headLook: 1
+  headLook: 0
   head: {fileID: 0}
   maxHeadRotation: 75
   returnToSpawner: 0
   seekDistance: 30
   optimalDistanceFromPlayer: 0.2
   destinationUpdateFrequency: 2
-  spawnOnDamageEnabled: 0
+  spawnDefensiveUnitsOnDamage: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
   spawnOnDamagePrototypes: []
@@ -221,6 +222,23 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 0
   squadRole: 0
+  causeDamageOnDeath: 0
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 20
+  explosionForceOnDeath: 15
+  awarenessAudioType: 1
+  barkClips:
+  - {fileID: 8300000, guid: ab62f4f41215ca948b6a479130d39797, type: 3}
+  - {fileID: 8300000, guid: a8edb81eb13fb5a49bf07a31a2ca3775, type: 3}
+  - {fileID: 8300000, guid: 1ae9a18955041ab43b9967854d4a9876, type: 3}
+  - {fileID: 8300000, guid: d676dfb805d94db4ba283e787df707ad, type: 3}
+  - {fileID: 8300000, guid: 804325d194fee284cb4ef9400a08d945, type: 3}
+  - {fileID: 8300000, guid: fb140f343ee71c3478c879382ed9f02f, type: 3}
+  - {fileID: 8300000, guid: 9bb94d292aad9bf438d8895557c5ddf4, type: 3}
+  - {fileID: 8300000, guid: 0bdbd45c6a5f97341afb4b08f0f6c000, type: 3}
+  - {fileID: 8300000, guid: 53b7e1fd954c6954fbf7e535e2cec946, type: 3}
+  - {fileID: 8300000, guid: 0e58c39ad0f267f4f8c2737fe9213d51, type: 3}
+  barkFrequency: {x: 5, y: 10}
   droneClip: {fileID: 0}
   deathClips:
   - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
@@ -230,10 +248,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
-  causeDamageOnDeath: 0
-  deathExplosionRadius: 5
-  explosionDamageOnDeath: 20
-  explosionForceOnDeath: 15
   resourcesDropChance: 0.5
   resourcesPrefab: {fileID: 8288433013401571843, guid: e3b7aef0d1da71d468b7539e7641fa4e, type: 3}
   onDeath:

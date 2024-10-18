@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Level 7 Wave 11 Definition
   m_EditorClassIdentifier: 
   enemies:
-  - pooledEnemyPrefab: {fileID: -7954991420487017679, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
-    baseWeight: 0.5
-  spawnEventFrequency: 4
-  numberToSpawn: 3
-  waveDuration: 10
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
+    baseWeight: 0.01745314
+  spawnEventFrequency: 1.75
+  numberToSpawn: 13
+  waveDuration: 10.75
   spawnOrder: 0
+  challengeRating: 80
+  targetChallengeRating: 80

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6576056135945926902}
   - component: {fileID: 2142438204395784425}
   - component: {fileID: 4880692556491869283}
-  - component: {fileID: 8691472257596452135}
   m_Layer: 30
   m_Name: Spawner Basic Level 3 Shielded
   m_TagString: AI
@@ -58,6 +57,7 @@ MonoBehaviour:
   weaknesses: 
   attacks: 
   challengeRating: 3
+  isAvailableToWaveDefinitions: 0
   requireLineOfSight: 0
   viewDistance: 30
   sensorMask:
@@ -71,7 +71,7 @@ MonoBehaviour:
   seekDistance: 30
   optimalDistanceFromPlayer: 0.2
   destinationUpdateFrequency: 2
-  spawnOnDamageEnabled: 0
+  spawnDefensiveUnitsOnDamage: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
   spawnOnDamagePrototypes: []
@@ -79,15 +79,18 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 0
   squadRole: 0
+  causeDamageOnDeath: 0
+  deathExplosionRadius: 15
+  explosionDamageOnDeath: 30
+  explosionForceOnDeath: 25
+  awarenessAudioType: 0
+  barkClips: []
+  barkFrequency: {x: 5, y: 10}
   droneClip: {fileID: 0}
   deathClips:
   - {fileID: 8300000, guid: 29b8716f1852f9b41adc80f3fa1e206b, type: 3}
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
-  causeDamageOnDeath: 0
-  deathExplosionRadius: 15
-  explosionDamageOnDeath: 30
-  explosionForceOnDeath: 25
   resourcesDropChance: 0.7
   resourcesPrefab: {fileID: 8288433013401571843, guid: caf9459c819d25843b1b923efddbb709, type: 3}
   onDeath:
@@ -112,7 +115,7 @@ MonoBehaviour:
   loopWaves: 0
   hasShield: 1
   shield: {fileID: 1359785739229595182}
-  shieldGenerator: {fileID: -7296944252688237283, guid: 456db0fbe3114854ea9604e831d2c6fc, type: 3}
+  shieldGenerator: {fileID: 4555997216275955981, guid: 456db0fbe3114854ea9604e831d2c6fc, type: 3}
   numShieldGenerators: 3
   shieldGeneratorRPM: 22.5
   waveStartSound: {fileID: 8300000, guid: a31a162329454e24488754023b89ff41, type: 3}
@@ -242,26 +245,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8691472257596452135
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299311784649714057}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 1
-  audioSource: {fileID: 4880692556491869283}
-  _droneClip: {fileID: 0}
-  droneVolume: 1
-  deathJuicePrefab: {fileID: 2524701439248955567, guid: ecf74d541dbf5cb40a417278326c0f1e, type: 3}
-  juiceOffset: {x: 0, y: 0, z: 0}
-  deathClips:
-  - {fileID: 8300000, guid: 29b8716f1852f9b41adc80f3fa1e206b, type: 3}
 --- !u!1001 &1390434924646729706
 PrefabInstance:
   m_ObjectHideFlags: 0

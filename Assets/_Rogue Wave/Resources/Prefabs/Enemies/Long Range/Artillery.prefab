@@ -44,7 +44,6 @@ GameObject:
   - component: {fileID: -8565869409486272005}
   - component: {fileID: 8117743476493717414}
   - component: {fileID: 4984582729786400570}
-  - component: {fileID: 5810921381151261361}
   m_Layer: 31
   m_Name: Artillery
   m_TagString: AI
@@ -101,6 +100,7 @@ MonoBehaviour:
   weaknesses: 
   attacks: 
   challengeRating: 2
+  isAvailableToWaveDefinitions: 1
   requireLineOfSight: 1
   viewDistance: 50
   sensorMask:
@@ -114,7 +114,7 @@ MonoBehaviour:
   seekDistance: 20
   optimalDistanceFromPlayer: 40
   destinationUpdateFrequency: 15
-  spawnOnDamageEnabled: 0
+  spawnDefensiveUnitsOnDamage: 0
   spawnOnDamageAroundAttacker: 0
   spawnOnDamageDistance: 10
   spawnOnDamagePrototypes: []
@@ -122,6 +122,23 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 1
   squadRole: 0
+  causeDamageOnDeath: 0
+  deathExplosionRadius: 30
+  explosionDamageOnDeath: 20
+  explosionForceOnDeath: 15
+  awarenessAudioType: 1
+  barkClips:
+  - {fileID: 8300000, guid: 7830274bb18a16647a26b7df18c0e73d, type: 3}
+  - {fileID: 8300000, guid: f4cac311951c6fc4e831ccfe78cc6769, type: 3}
+  - {fileID: 8300000, guid: 7b847f236b9c1894d85bcc910c7ff19f, type: 3}
+  - {fileID: 8300000, guid: 0e9df1d1f85a79543947a10ac9bd94e8, type: 3}
+  - {fileID: 8300000, guid: 7fbb67e6f54af3a47b65f3616344a6f7, type: 3}
+  - {fileID: 8300000, guid: a380b076d4f005e49b6f380175943c43, type: 3}
+  - {fileID: 8300000, guid: ed8feb6e4d1997e46ad8b1b7119d7d3c, type: 3}
+  - {fileID: 8300000, guid: ab6345a460641e3419a43dbeb55d6acb, type: 3}
+  - {fileID: 8300000, guid: 05b4696eaac975046bd255523784b570, type: 3}
+  - {fileID: 8300000, guid: b15ad5d4f0fdfcb4ba5a41584215eb2e, type: 3}
+  barkFrequency: {x: 5, y: 10}
   droneClip: {fileID: 0}
   deathClips:
   - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
@@ -131,10 +148,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   juiceOffset: {x: 0, y: 0, z: 0}
-  causeDamageOnDeath: 0
-  deathExplosionRadius: 30
-  explosionDamageOnDeath: 20
-  explosionForceOnDeath: 15
   resourcesDropChance: 0.9
   resourcesPrefab: {fileID: 8288433013401571843, guid: 273c17fb78a75db47a22c3e1280c0217, type: 3}
   onDeath:
@@ -204,7 +217,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 243059815924327020, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 7830274bb18a16647a26b7df18c0e73d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -335,30 +348,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5810921381151261361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7238103921518997512}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 1
-  audioSource: {fileID: 4984582729786400570}
-  _droneClip: {fileID: 0}
-  droneVolume: 1
-  deathJuicePrefab: {fileID: 2842660081239373315, guid: b961d8d3b49f87d40a54883cb13daab3, type: 3}
-  juiceOffset: {x: 0, y: 2, z: 0}
-  deathClips:
-  - {fileID: 8300000, guid: 0a1de67c5382add469eae178ece5e6e5, type: 3}
-  - {fileID: 8300000, guid: 4197e96eb4509f146ae6420f3172c8b1, type: 3}
-  - {fileID: 8300000, guid: 8444f39ba82065641832f740cc017832, type: 3}
-  - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
-  - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
 --- !u!1001 &6957053980484623106
 PrefabInstance:
   m_ObjectHideFlags: 0

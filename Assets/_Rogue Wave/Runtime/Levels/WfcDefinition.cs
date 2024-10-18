@@ -68,7 +68,7 @@ namespace RogueWave
                 int cr = 0;
                 foreach (var wave in waves)
                 {
-                    cr += wave.CR;
+                    cr += wave.ChallengeRating;
                 }
 
                 return cr;
