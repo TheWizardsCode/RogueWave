@@ -1,7 +1,9 @@
+using PlasticPipe.PlasticProtocol.Messages;
 using RogueWave;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -311,23 +313,73 @@ public class DevManagementWindow : EditorWindow
         EditorApplication.isPlaying = true;
     }
 
+
+
+    /// <summary>
+    /// Detects missing scripts in the project folders, logging the results to the console..
+    /// </summary>
     [MenuItem("Tools/Wizards Code/Detect Missing Scripts")]
     public static void DetectMissingScripts()
     {
-        GameObject[] allGameObjects = Resources.FindObjectsOfTypeAll<GameObject>();
-        foreach (GameObject go in allGameObjects)
+        string[] folders = new string[] { "Assets/_Dev", "Assets/_Marketing", "Assets/_Rogue Wave" };
+        List<GameObject> invalidObjects = DetectMissingScripts(folders);
+    }
+
+    /// <summary>
+    /// Detects missing scripts in the specified folders and logs warnings for each GameObject with missing scripts.
+    /// </summary>
+    /// <param name="folders">An array of folder paths to search for prefabs.</param>
+    /// <returns>A list of GameObjects that have missing scripts.</returns>
+    public static List<GameObject> DetectMissingScripts(string[] folders)
+    {
+        int step = 0;;
+
+        EditorUtility.DisplayProgressBar("Detecting Missing Scripts", "Searching for prefabs to validate", 0.0f);
+
+        step++;
+        string[] guids = AssetDatabase.FindAssets("t:Prefab", folders);
+
+        int numOfSteps = guids.Length;
+        EditorUtility.DisplayProgressBar("Detecting Missing Scripts", $"Found {guids.Length} Game Objects to validate", step / numOfSteps);
+        
+        List<GameObject> invalidObjects = new List<GameObject>();
+        List<GameObject> validOgbjects = new List<GameObject>();
+        foreach (string guid in guids)
         {
-            if (PrefabUtility.GetPrefabAssetType(go) != PrefabAssetType.NotAPrefab)
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            GameObject go = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+
+            Component[] components = go.GetComponents<Component>();
+            for (int i = 0; i < components.Length; i++)
             {
-                Component[] components = go.GetComponents<Component>();
-                for (int i = 0; i < components.Length; i++)
+                if (components[i] == null)
                 {
-                    if (components[i] == null)
-                    {
-                        Debug.LogWarning($"Missing script found in GameObject: {go.name}", go);
-                    }
+                    invalidObjects.Add(go);
+                    Debug.LogError($"Missing script found in GameObject: {go.name}", go);
+                }
+                else
+                {
+                    validOgbjects.Add(go);
                 }
             }
+
+            step++;
+            EditorUtility.DisplayProgressBar("Detecting Missing Scripts", $"{invalidObjects.Count} of {guids.Length} are invalid", step / numOfSteps);
         }
+
+
+        if (invalidObjects.Count == 0)
+        {
+            EditorUtility.DisplayDialog("Missing Scripts Detection", $"No missing scripts found in {validOgbjects.Count} Game Objects.", "OK");
+            Debug.Log("No missing scripts found.");
+        } else
+        {
+            EditorUtility.DisplayDialog("Missing Scripts Detection", $"Found {invalidObjects.Count} of {validOgbjects.Count} GameObjects have missing scripts. See details in the console", "OK");
+        }
+        EditorUtility.ClearProgressBar();
+        
+
+
+        return invalidObjects;
     }
 }

@@ -3,13 +3,11 @@ using NeoFPS;
 using NeoFPS.SinglePlayer;
 using System.Collections;
 using System.Collections.Generic;
-using System.Transactions;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace RogueWave
 {
-    [RequireComponent(typeof(AudioSource))]
     public class Spawner : BasicEnemyController
     {
         [Header("Spawn Behaviours")]
@@ -89,14 +87,13 @@ namespace RogueWave
 
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
-        private AudioSource audioSource;
         internal bool spawningEnabled = true;
 
         protected override void Awake()
         {
             base.Awake();
 
-            audioSource = GetComponent<AudioSource>();
+            m_AudioSource = GetComponent<AudioSource>();
             gameMode.RegisterSpawner(this);
         }
 
@@ -238,8 +235,8 @@ namespace RogueWave
 
             if (waveStartSound != null)
             {
-                audioSource.clip = waveStartSound;
-                audioSource.Play();
+                m_AudioSource.clip = waveStartSound;
+                m_AudioSource.Play();
             }
         }
 

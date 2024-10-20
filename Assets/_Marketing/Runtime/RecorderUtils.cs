@@ -1,17 +1,18 @@
+using System;
+using UnityEditor;
 using UnityEditor.Recorder;
 using UnityEditor.Recorder.Encoder;
 using UnityEditor.Recorder.Input;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace WizardsCode.Marketing
 {
-    /// <summary>
-    /// Provides convenience methods for working with the Unity Recorder.
-    /// </summary>
+    [Obsolete("The functionality of this call should move into AssetDescriptor")]
     public class RecorderUtils
     {
         private RecorderController controller;
+        private RecordingSession session;
+        private RecordingSession recordingSession;
 
         public bool IsRecording
         {
@@ -29,7 +30,7 @@ namespace WizardsCode.Marketing
         /// Record screenshots of the scene at the current frame. By default this will record a single screenshot.
         /// If you want more than 1 set the totalNumberOfScreenshots parameter.
         /// </summary>
-        public void RecordScreenshot(AssetDescriptor descriptor)
+        public void RecordScreenshot(ScreenshotOnEventAssetDescriptor descriptor)
         {
             RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
             controller = new RecorderController(controllerSettings);
@@ -69,7 +70,7 @@ namespace WizardsCode.Marketing
         /// This will usually be an image at a fixed frame, with a limited number of frames either side of the hero frame.
         /// </summary>
         /// <param name="descriptor">The descriptor of the image to capture.</param>
-        public void RecordHeroImages(AssetDescriptor descriptor)
+        public void RecordHeroImages(HeroImageAssetDescriptor descriptor)
         {
             RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
             controller = new RecorderController(controllerSettings);
@@ -99,43 +100,10 @@ namespace WizardsCode.Marketing
         }
 
         /// <summary>
-        /// Record an image sequence of the scene.
-        /// </summary>
-        /// <param name="descriptor">The descriptor for the image sequence to record. This contains all the details needed to configure the GIF recorder.</param>
-        public void RecordImageSequence(AssetDescriptor descriptor)
-        {
-            RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
-            controller = new RecorderController(controllerSettings);
-
-            ImageRecorderSettings settings = ScriptableObject.CreateInstance<ImageRecorderSettings>();
-            settings.name = "Image Sequence Recorder";
-            settings.Enabled = true;
-
-            settings.OutputFormat = ImageRecorderSettings.ImageRecorderOutputFormat.PNG;
-            settings.CaptureAlpha = true;
-
-            settings.imageInputSettings = new GameViewInputSettings
-            {
-                OutputWidth = descriptor.Resolution.x,
-                OutputHeight = descriptor.Resolution.y
-            };
-
-            controllerSettings.SetRecordModeToManual();
-            controllerSettings.FrameRate = descriptor.FrameRate;
-            controllerSettings.AddRecorderSettings(settings);
-
-            settings.OutputFile = descriptor.ImageSequencePath + descriptor.ImageSequenceFilename;
-
-            RecorderOptions.VerboseMode = false;
-            controller.PrepareRecording();
-            controller.StartRecording();
-        }
-
-        /// <summary>
         /// Record a video of the scene.
         /// </summary>
         /// <param name="descriptor">The descriptor for the video to record. This contains all the details needed to configure the GIF recorder.</param>
-        public void RecordVideo(AssetDescriptor descriptor)
+        public void RecordVideo(VideoAssetDescriptor descriptor)
         {
             RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
             controller = new RecorderController(controllerSettings);
@@ -179,7 +147,7 @@ namespace WizardsCode.Marketing
             controller = new RecorderController(controllerSettings);
 
             MovieRecorderSettings settings = ScriptableObject.CreateInstance<MovieRecorderSettings>();
-            settings.name = "Gif Recorder";
+            settings.name = "Gif Recorder for " + descriptor.AssetName;
             settings.Enabled = true;
 
             settings.EncoderSettings = new GifEncoderSettings
@@ -198,7 +166,7 @@ namespace WizardsCode.Marketing
             settings.OutputFile = descriptor.GifPath + descriptor.GifFilename;
 
             controllerSettings.AddRecorderSettings(settings);
-            controllerSettings.SetRecordModeToTimeInterval(Time.time + descriptor.VideoStartTime, descriptor.VideoEndTime);
+            controllerSettings.SetRecordModeToTimeInterval(Time.time + descriptor.GifStartTime, descriptor.GifEndTime);
             controllerSettings.FrameRate = descriptor.FrameRate;
 
             RecorderOptions.VerboseMode = false;
@@ -211,10 +179,7 @@ namespace WizardsCode.Marketing
             if (controller.IsRecording())
             {
                 controller.StopRecording();
-            }
-            else
-            {
-                Debug.LogWarning("Attempted to stop recording, but the encoder was not recording.");
+                controller = null;
             }
         }
     }

@@ -10,28 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42be710ab6053094f9661d2ddd218bb5, type: 3}
-  m_Name: Enemy Showcase - Bottlecap
+  m_Name: Enemy Showcase - Shielded Core - GIF
   m_EditorClassIdentifier: 
-  m_AssetName: Bottlecap - Enemy Icon
+  m_AssetName: Shielded Core - Enemy Icon
   m_Description: Large scale icons representing an enemy.
   m_Resolution: {x: 512, y: 512}
-  m_FrameRate: 30
-  m_HeroFrame: 1
-  m_FramesEitherSideOfHero: 3
-  m_StartTime: 0
-  m_EndTime: 5.6
-  m_CameraPosition: {x: 2.7, y: 1.66, z: 0.29}
+  m_CameraPosition: {x: 2.97, y: 1.58, z: 0.37}
   m_CameraRotation: {x: 13.252595, y: 254.33795, z: 0.004194448}
   m_LogoEnabled: 0
-  m_LogoPosition: {x: -41.421227, y: -23.80899, z: 41.64151}
-  m_LogoRotation: {x: 34.54877, y: 252.97021, z: 9.732709}
+  m_LogoPosition: {x: -41.421196, y: -23.808979, z: 41.64151}
+  m_LogoRotation: {x: 34.54877, y: 252.97021, z: 9.732713}
   m_FogEnabled: 0
   m_BackgroundPosition: {x: -886.8, y: -125.8, z: -148.5}
-  m_BackgroundRotation: {x: 77.600006, y: 74.85001, z: 179.54202}
-  heroCount: 1
+  m_BackgroundRotation: {x: 77.600006, y: 74.85003, z: 179.54202}
+  heroCount: 4
+  screenshotCount: 0
+  imageSequenceCount: 0
+  videoCount: 0
+  m_GifStartTime: 0
+  m_GifEndTime: 6
   m_GifQuality: 90
   m_IsLooping: 1
-  m_SaveAsLargeSpriteSheet: 1
-  m_SaveAsSmallSpriteSheet: 1
-  gifCount: 1
-  enemyPrefab: {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
+  m_SaveAsLargeSpriteSheet: 0
+  m_SaveAsSmallSpriteSheet: 0
+  gifCount: 26
+  m_FrameRate: 30
+  enemyPrefab: {fileID: 2718792272166400357, guid: 3746b354cbd2ebf48bc933b85f6205b9, type: 3}

@@ -19,6 +19,8 @@ namespace RogueWave.Editor
         BasicEnemyController enemy;
         [SerializeField, Tooltip("The speed at which the object should rotate.")]
         float rotationSpeed = 20f;
+        [SerializeField, Tooltip("Should the enemy fire its weapon during the showcase?")]
+        bool fireWeapon = false;
         [SerializeField, Tooltip("The duration of the showcase. Before this time the enemies health will be reduced to zero to simulate death. The time allocated for the death is set below in Death Duration.")]
         float showcaseDuration = 6;
         [SerializeField, Tooltip("The duration of the death animation.")]
@@ -95,6 +97,11 @@ namespace RogueWave.Editor
 
         IEnumerator Shoot()
         {
+            if (!fireWeapon)
+            {
+                yield break;
+            }
+
             yield return new WaitForSeconds(0.5f);
 
             if (trigger != null)
@@ -107,7 +114,8 @@ namespace RogueWave.Editor
                     trigger.Release();
                     yield return new WaitForSeconds(0.8f + Random.Range(-0.1f, 0.1f));
                 }
-            } else if (weapon != null)
+            } 
+            else if (weapon != null)
             {
                 while (currentAnimationDuration > 0)
                 {

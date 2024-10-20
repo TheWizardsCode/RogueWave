@@ -100,9 +100,10 @@ namespace RogueWave
 
                         AudioManager.ResetGroup(source.outputAudioMixerGroup, FpsSettings.audio.musicVolume);
                         source.clip = SelectNextClip();
-                        source.Play();
-
-                        yield return null;
+                        if (source.clip != null)
+                        {
+                            source.Play();
+                        }
                     }
                 } 
                 else
@@ -120,7 +121,10 @@ namespace RogueWave
                             // start next track
                             AudioManager.ResetGroup(source.outputAudioMixerGroup, FpsSettings.audio.musicVolume);
                             source.clip = SelectNextClip();
-                            source.Play();
+                            if (source.clip != null)
+                            {
+                                source.Stop();
+                            }
 
                             currentType = nextType;
 
@@ -137,6 +141,11 @@ namespace RogueWave
             switch (nextType)
             {
                 case MusicType.Menu:
+                    if (menuTracks.Length == 0)
+                    {
+                        return null;
+                    }
+
                     menuTrackIndex++;
                     if (menuTrackIndex >= menuTracks.Length)
                     {
@@ -145,6 +154,11 @@ namespace RogueWave
 
                     return menuTracks[menuTrackIndex];
                 case MusicType.Combat:
+                    if (combatTracks.Length == 0)
+                    {
+                        return null;
+                    }
+
                     combatTrackIndex++;
                     if (combatTrackIndex >= combatTracks.Length)
                     {

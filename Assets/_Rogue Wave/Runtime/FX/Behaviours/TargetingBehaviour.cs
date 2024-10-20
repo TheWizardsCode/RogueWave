@@ -179,7 +179,10 @@ namespace WizardsCode.RogueWave
             _accuracyOffset.x += Random.Range(-accuracy, accuracy);
             _accuracyOffset.z += Random.Range(-accuracy, accuracy);
 
-            TargetedPosition = this.target.position + _accuracyOffset;
+            if (target != null)
+            {
+                TargetedPosition = target.position + _accuracyOffset;
+            }
         }
 
         protected override void Update()
@@ -189,7 +192,14 @@ namespace WizardsCode.RogueWave
                 return;
             }
 
-            UpdateTargeting();
+            if (target == null)
+            {
+                State = TargetingOnState.Idle;
+            }
+            else
+            {
+                UpdateTargeting();
+            }
             
             switch (_state)
             {

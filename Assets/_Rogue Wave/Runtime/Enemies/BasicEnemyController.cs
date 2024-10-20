@@ -112,7 +112,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The Game object which has the juice to add when the enemy is killed, for example any particles, sounds or explosions."), Required, BoxGroup("Visual Juice")]
         internal PooledExplosion deathJuicePrefab;
         [SerializeField, Tooltip("The offset from the enemy's position to spawn the juice."), BoxGroup("Visual Juice")]
-        internal Vector3 juiceOffset = Vector3.zero;
+        internal Vector3 deathJuiceOffset = new Vector3(0, 1, 0);
 
         // Rewards
         [SerializeField, Tooltip("The chance of dropping a reward when killed."), Range(0, 1), BoxGroup("Loot")]
@@ -336,7 +336,7 @@ namespace RogueWave
 
             movementController = GetComponent<BasicMovementController>();
 
-            audioSource = GetComponent<AudioSource>();
+            m_AudioSource = GetComponent<AudioSource>();
 
 #if ! UNITY_EDITOR
             isDebug = false;
@@ -395,8 +395,6 @@ namespace RogueWave
 
             onDestroyed?.Invoke();
             onDestroyed.RemoveAllListeners();
-
-            //AudioManager.Stop(audioSource);
         }
         void OnDeath()
         {
@@ -419,13 +417,13 @@ namespace RogueWave
                 return;
             }
 
-            AudioManager.PlayLooping(audioSource, droneClip);
+            AudioManager.PlayLooping(m_AudioSource, droneClip);
         }
 
 
         private void DeathVFX()
         {
-            Vector3 pos = transform.position + juiceOffset;
+            Vector3 pos = transform.position + deathJuiceOffset;
             RWPooledExplosion explosion = PoolManager.GetPooledObject<RWPooledExplosion>(_deathExplosionPrototype, pos, Quaternion.identity);
             explosion.ParticleMaterial = parentRenderer.material;
 
@@ -453,11 +451,11 @@ namespace RogueWave
         {
             // OPTIMIZATION: Only play barks if the player is within a certain distance
             // OPTIMIZATION: Only play a bark if another enemy of the same type has NOT played a bark in the last barkFrequency.x seconds
-            if (audioSource.isPlaying)
+            if (m_AudioSource.isPlaying)
             {
                 return;
             }
-            AudioManager.PlayOneShot(audioSource, barkClips[Random.Range(0, barkClips.Length)]);
+            AudioManager.PlayOneShot(m_AudioSource, barkClips[Random.Range(0, barkClips.Length)]);
             timeOfNextBark = Time.timeSinceLevelLoad + Random.Range(barkFrequency.x, barkFrequency.y);
         }
 
@@ -623,7 +621,7 @@ namespace RogueWave
         private float destinationMinY;
         private float destinationMaxX;
         private float destinationMaxY;
-        private AudioSource audioSource;
+        protected AudioSource m_AudioSource;
         private float timeOfNextBark;
 
         private bool IsValidDestination(Vector3 destination, float avoidanceDistance)

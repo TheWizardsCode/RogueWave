@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using RogueWave;
-using UnityEditor.SceneManagement;
 using UnityEditor;
 using UnityEngine;
 using NeoFPS.SinglePlayer;
@@ -9,14 +8,12 @@ using System;
 using System.Threading.Tasks;
 using NeoFPS;
 using WizardsCode.CommandTerminal;
-using System.Collections;
-using UnityEngine.SceneManagement;
 using WizardsCode.RogueWave;
 
 namespace WizardsCode.Marketing
 {
     [CreateAssetMenu(fileName = "New Gameplay Descriptor", menuName = "Wizards Code/Marketing/Gameplay Descriptor")]
-    public class GameplayDescriptor : AssetDescriptor
+    public class GameplayDescriptor : ScreenshotOnEventAssetDescriptor
     {
         [HorizontalLine(color: EColor.Gray)]
 

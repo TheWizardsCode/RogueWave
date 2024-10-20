@@ -25,29 +25,26 @@ namespace WizardsCode.Marketing
 
             foreach (AssetDescriptor assetDescriptor in assetDescriptors)
             {
-                if (assetDescriptor.CaptureScreenshotOnGameEvent)
-                {
-                    assetDescriptor.ScreenshotGameEvent.RegisterListener(() =>
-                    {
-                        StartCoroutine(assetDescriptor.GenerateScreenshot());
-                    });
-                }
-
                 assetDescriptor.LoadSceneSetup();
 
-                StartCoroutine(assetDescriptor.GenerateHeroAtFixedFrame());
-                if (assetDescriptor.GetType() != typeof(AssetDescriptor))
+                if (assetDescriptor is ScreenshotOnEventAssetDescriptor screenshotOnEventAssetDescriptor)
                 {
-                    StartCoroutine(assetDescriptor.GenerateRequiredAssets());
+                    screenshotOnEventAssetDescriptor.ScreenshotGameEvent.RegisterListener(() =>
+                    {
+                        StartCoroutine(screenshotOnEventAssetDescriptor.GenerateAsset());
+                    });
+                }
+                else
+                {
+                    StartCoroutine(assetDescriptor.GenerateAsset());
                 }
 
-                while (assetDescriptor.IsRecording)
-                {
-                    yield return null;
-                }
+                yield return new WaitForSeconds(assetDescriptor.RecordingDuration + 1);
 
-                yield return new WaitForSeconds(1);
+                yield return new WaitUntil(() => assetDescriptor.IsRecording == false);
             }
+
+            AssetDatabase.Refresh();
 
             if (stopOnAssetCompletion)
             {

@@ -14,12 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AssetName: Spawner - Enemy Icon
   m_Description: Large scale icons representing an enemy.
+  m_CaptureHeroImageOnFixedFrame: 0
+  m_HeroFrame: 65
+  m_FramesEitherSideOfFixedFrameHero: 3
+  m_CaptureScreenshotOnGameEvent: 0
+  m_HeroImageGameEvent: {fileID: 0}
+  m_ScreenshotCount: 3
+  m_MinimumFramesBetweenScreenshots: 30
+  m_CaptureImageSequence: 0
+  m_ImageSequenceStartTime: 0
+  m_ImageSequenceEndTime: 30
+  m_CaptureVideo: 0
+  m_VideoStartTime: 0
+  m_VideoEndTime: 30
   m_Resolution: {x: 512, y: 512}
   m_FrameRate: 30
-  m_HeroFrame: 65
-  m_FramesEitherSideOfHero: 3
-  m_StartTime: 0
-  m_EndTime: 5.2
   m_CameraPosition: {x: 19.92, y: 1.56, z: 5.14}
   m_CameraRotation: {x: 0.9207096, y: 254.9552, z: 358.78787}
   m_LogoEnabled: 0
@@ -29,9 +38,15 @@ MonoBehaviour:
   m_BackgroundPosition: {x: -954, y: 193, z: -167}
   m_BackgroundRotation: {x: 77.600006, y: 74.85004, z: 179.54204}
   heroCount: 9
+  screenshotCount: 0
+  imageSequenceCount: 0
+  videoCount: 0
+  m_CaptureGif: 1
+  m_GifStartTime: 0
+  m_GifEndTime: 6
   m_GifQuality: 90
   m_IsLooping: 1
   m_SaveAsLargeSpriteSheet: 1
   m_SaveAsSmallSpriteSheet: 1
-  gifCount: 9
+  gifCount: 12
   enemyPrefab: {fileID: 6576056135945926902, guid: da64e2bbd6874d14286e56a61d08e938, type: 3}

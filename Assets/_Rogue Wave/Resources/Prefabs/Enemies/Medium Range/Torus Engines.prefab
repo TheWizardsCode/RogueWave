@@ -92,7 +92,7 @@ MonoBehaviour:
   spawnOnDamageCount: 3
   registerWithAIDirector: 1
   squadRole: 2
-  causeDamageOnDeath: 0
+  causeDamageOnDeath: 1
   deathExplosionRadius: 25
   explosionDamageOnDeath: 50
   explosionForceOnDeath: 40
@@ -117,7 +117,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
-  juiceOffset: {x: 0, y: 0, z: 0}
+  deathJuiceOffset: {x: 0, y: 1, z: 0}
   resourcesDropChance: 0.9
   resourcesPrefab: {fileID: 8288433013401571843, guid: e3b7aef0d1da71d468b7539e7641fa4e, type: 3}
   onDeath:

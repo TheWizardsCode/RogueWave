@@ -255,6 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 503d73a4736c9314dae686b1b72b8364, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stopOnAssetCompletion: 1
   assetDescriptors:
   - {fileID: 11400000, guid: dbffb8c29f6f92e4f98fbc70b6c092b4, type: 2}
   - {fileID: 11400000, guid: e68ade0fb9c52d040b8a50bfbc5b062e, type: 2}
@@ -279,7 +280,7 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -342,6 +343,7 @@ MonoBehaviour:
   startAutomatically: 0
   enemy: {fileID: 0}
   rotationSpeed: 20
+  fireWeapon: 0
   showcaseDuration: 5
   deathDuration: 0.25
   showUI: 0

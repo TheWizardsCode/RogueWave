@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3511296970022460544}
   - component: {fileID: 3466286257108509764}
-  - component: {fileID: -6456762342147018391}
   m_Layer: 0
   m_Name: Basic Red Laser FX
   m_TagString: Untagged
@@ -137,22 +136,3 @@ LineRenderer:
   m_UseWorldSpace: 1
   m_Loop: 0
   m_ApplyActiveColorSpace: 1
---- !u!114 &-6456762342147018391
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5241612775959142730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf719187e694779419e8e2c30fa06d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_OnOverflow: 1
-  audioSource: {fileID: 0}
-  _droneClip: {fileID: 0}
-  droneVolume: 1
-  deathJuicePrefab: {fileID: 0}
-  juiceOffset: {x: 0, y: 0, z: 0}
-  deathClips: []

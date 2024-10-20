@@ -1,3 +1,4 @@
+using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +12,7 @@ namespace WizardsCode.RogueWave
     /// 
     /// <seealso cref="ParameterizedGameEvent{T}"/>
     /// </summary>
-    [CreateAssetMenu(fileName = "New Game Event", menuName ="Rogue Wave/Events/Game Event")]
+    [CreateAssetMenu(fileName = "New Game Event", menuName = "Rogue Wave/Events/Game Event")]
     public class GameEvent : ScriptableObject
     {
         [SerializeField, TextArea, Tooltip("A description of this event. This has no gameplay value but is useful in the editor.")]
@@ -54,6 +55,12 @@ namespace WizardsCode.RogueWave
         public void UnregisterListener(IGameEventListener listener)
         {
             listeners.Remove(listener);
+        }
+
+        [Button]
+        private void RaiseEvent()
+        {
+            Raise();
         }
     }
 }

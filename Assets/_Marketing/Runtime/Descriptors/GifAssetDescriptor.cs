@@ -1,14 +1,15 @@
-using Codice.Client.Common;
 using NaughtyAttributes;
+using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading;
+using UnityEditor.Recorder.Encoder;
+using UnityEditor.Recorder.Input;
+using UnityEditor.Recorder;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Time = UnityEngine.Time;
 
 namespace WizardsCode.Marketing
@@ -17,23 +18,28 @@ namespace WizardsCode.Marketing
     public class GifAssetDescriptor : AssetDescriptor
     {
         //[Header("Gif Settings")]
-        [SerializeField, Tooltip("Capture GIF?"), BoxGroup("GIF")]
-        bool m_CaptureGif = true;
-        [SerializeField, Tooltip("The quality of the gif. From 1 to 100."), BoxGroup("GIF"), ShowIf("m_CaptureGif")]
+        [SerializeField, Tooltip("The time, in game time, when the GIF recording starts. You should leave enough frames for the scene to \"warm up\"."), BoxGroup("GIF")]
+        float m_GifStartTime = 0;
+        [SerializeField, Tooltip("The time, in game time, when the GIF recording stops. If this is 0 then the recording will only stop when the application stops."), BoxGroup("GIF")]
+        float m_GifEndTime =5;
+        [SerializeField, Tooltip("The quality of the gif. From 1 to 100."), BoxGroup("GIF")]
         uint m_GifQuality = 90;
-        [SerializeField, Tooltip("Whether the GIF is a loop (true) or a single shot (false)."), BoxGroup("GIF"), ShowIf("m_CaptureGif")]
+        [SerializeField, Tooltip("Whether the GIF is a loop (true) or a single shot (false)."), BoxGroup("GIF")]
         bool m_IsLooping = true;
-        [SerializeField, Tooltip("Save the GIF as a sprite sheet (128x128 images) as well as a GIF?"), BoxGroup("GIF"), ShowIf("m_CaptureGif")]
+        [SerializeField, Tooltip("Save the GIF as a sprite sheet (128x128 images) as well as a GIF?"), BoxGroup("GIF")]
         bool m_SaveAsLargeSpriteSheet = false;
-        [SerializeField, Tooltip("Save the GIF as a sprite sheet (64x64 images) as well as a GIF?"), BoxGroup("GIF"), ShowIf("m_CaptureGif")]
+        [SerializeField, Tooltip("Save the GIF as a sprite sheet (64x64 images) as well as a GIF?"), BoxGroup("GIF")]
         bool m_SaveAsSmallSpriteSheet = false;
         [SerializeField, HideInInspector]
         int gifCount = 0;
+        [SerializeField, Tooltip("The target frame rate of the GIF."), BoxGroup("GIF")]
+        float m_FrameRate = 30;
 
+        internal float GifStartTime => m_GifStartTime;
+        internal float GifEndTime => m_GifEndTime;
         internal uint GifQuality => m_GifQuality;
         internal bool IsLooping => m_IsLooping;
-
-        private float sessionStartTime = 0;
+        internal float FrameRate => m_FrameRate;
 
         public string GifPath
         {
@@ -66,22 +72,31 @@ namespace WizardsCode.Marketing
             }
         }
 
-        public override IEnumerator GenerateRequiredAssets(Action callback = null)
+        public override bool IsRecording
+        {
+            get
+            {
+                if (controller == null)
+                {
+                    return false;
+                }
+
+                return controller.IsRecording();
+            }
+        }
+
+        public override IEnumerator GenerateAsset(Action callback = null)
         {
             gifCount++;
-            IsRecording = true;
             sessionStartTime = Time.time;
 
-            RecorderUtils recorder = new RecorderUtils();
-            recorder.RecordGIF(this);
+            RecordGIF();
 
-            while (Time.time - sessionStartTime <= VideoEndTime)
+            while (controller.IsRecording())
             {
                 yield return null;
             }
-
-            recorder.StopRecording();
-            IsRecording = false;
+            StopRecording();
 
             if (m_SaveAsLargeSpriteSheet)
             {
@@ -93,6 +108,40 @@ namespace WizardsCode.Marketing
             }
 
             callback?.Invoke();
+            StopRecording();
+        }
+
+        private void RecordGIF()
+        {
+            RecorderControllerSettings controllerSettings = ScriptableObject.CreateInstance<RecorderControllerSettings>();
+            controller = new RecorderController(controllerSettings);
+
+            MovieRecorderSettings settings = ScriptableObject.CreateInstance<MovieRecorderSettings>();
+            settings.name = "Gif Recorder for " + AssetName;
+            settings.Enabled = true;
+
+            settings.EncoderSettings = new GifEncoderSettings
+            {
+                Quality = GifQuality,
+                Loop = IsLooping
+            };
+            settings.CaptureAlpha = true;
+
+            settings.ImageInputSettings = new GameViewInputSettings
+            {
+                OutputWidth = Resolution.x,
+                OutputHeight = Resolution.y
+            };
+
+            settings.OutputFile = GifPath + GifFilename;
+
+            controllerSettings.AddRecorderSettings(settings);
+            controllerSettings.SetRecordModeToTimeInterval(GifStartTime, GifEndTime);
+            controllerSettings.FrameRate = FrameRate;
+
+            RecorderOptions.VerboseMode = false;
+            controller.PrepareRecording();
+            controller.StartRecording();
         }
 
         #region Save as Spritesheet
@@ -104,7 +153,9 @@ namespace WizardsCode.Marketing
             SaveSpritesheet(spritesheet, $"{SpritesheetPath}/{GifFilename}_Spritesheet_{imageWidth}x{imageHeight}.png");
         }
 
-        List<Texture2D> LoadGif(string path)
+        public override float RecordingDuration => GifEndTime - GifStartTime;
+
+        List <Texture2D> LoadGif(string path)
         {
             byte[] data = File.ReadAllBytes(path);
             List<Texture2D> frames = new List<Texture2D>();
@@ -159,7 +210,6 @@ namespace WizardsCode.Marketing
 
             return result;
         }
-
 
         void SaveSpritesheet(Texture2D spritesheet, string path)
         {
