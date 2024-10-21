@@ -445,11 +445,6 @@ namespace RogueWave
         [Button("Level Up the Nanobots")]
         private void LevelUp()
         {
-            if (RogueLiteManager.persistentData.runNumber == 1)
-            {
-                return;
-            }
-
             RogueLiteManager.persistentData.currentNanobotLevel++;
 
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();

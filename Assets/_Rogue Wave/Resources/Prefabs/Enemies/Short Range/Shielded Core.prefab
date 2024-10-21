@@ -100,8 +100,9 @@ MonoBehaviour:
   weaknesses: 
   attacks: 
   challengeRating: 2
+  isAvailableToWaveDefinitions: 1
   requireLineOfSight: 1
-  viewDistance: 80
+  viewDistance: 30
   sensorMask:
     serializedVersion: 2
     m_Bits: 2160264705
@@ -110,7 +111,7 @@ MonoBehaviour:
   head: {fileID: 0}
   maxHeadRotation: 75
   returnToSpawner: 0
-  seekDistance: 60
+  seekDistance: 30
   optimalDistanceFromPlayer: 5
   destinationUpdateFrequency: 10
   spawnDefensiveUnitsOnDamage: 0
@@ -122,8 +123,8 @@ MonoBehaviour:
   registerWithAIDirector: 1
   squadRole: 1
   causeDamageOnDeath: 1
-  deathExplosionRadius: 15
-  explosionDamageOnDeath: 30
+  deathExplosionRadius: 5
+  explosionDamageOnDeath: 10
   explosionForceOnDeath: 15
   awarenessAudioType: 1
   barkClips:
@@ -146,7 +147,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 54d105434dfebf5488a65894f6dc6d1b, type: 3}
   - {fileID: 8300000, guid: 36f38d4fc6992e24db6c1c5ba4cf5987, type: 3}
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
-  juiceOffset: {x: 0, y: 0, z: 0}
+  deathJuiceOffset: {x: 0, y: 1, z: 0}
   resourcesDropChance: 0.9
   resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
   onDeath:
@@ -561,34 +562,6 @@ PrefabInstance:
       propertyPath: _enemyController
       value: 
       objectReference: {fileID: 2718792272166400357}
-    - target: {fileID: 5174792241681189803, guid: f560863934a29ac479b469271860bf5d, type: 3}
-      propertyPath: accuracy
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174792241681189803, guid: f560863934a29ac479b469271860bf5d, type: 3}
-      propertyPath: has3DSound
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174792241681189803, guid: f560863934a29ac479b469271860bf5d, type: 3}
-      propertyPath: audioPosition
-      value: 
-      objectReference: {fileID: 4806220665156479653}
-    - target: {fileID: 5174792241681189803, guid: f560863934a29ac479b469271860bf5d, type: 3}
-      propertyPath: _targetingFrequency
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 5174792241681189803, guid: f560863934a29ac479b469271860bf5d, type: 3}
-      propertyPath: maxTimeToTryToLocateTarget
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 6958229884170470655, guid: f560863934a29ac479b469271860bf5d, type: 3}
-      propertyPath: has3DSound
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6958229884170470655, guid: f560863934a29ac479b469271860bf5d, type: 3}
-      propertyPath: damageAmount
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6958229884170470655, guid: f560863934a29ac479b469271860bf5d, type: 3}
       propertyPath: audioPosition
       value: 
@@ -645,10 +618,5 @@ PrefabInstance:
 --- !u!4 &3151126897055506311 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7426460924174463634, guid: f560863934a29ac479b469271860bf5d, type: 3}
-  m_PrefabInstance: {fileID: 5524540062530858261}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4806220665156479653 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1015627487563728816, guid: f560863934a29ac479b469271860bf5d, type: 3}
   m_PrefabInstance: {fileID: 5524540062530858261}
   m_PrefabAsset: {fileID: 0}

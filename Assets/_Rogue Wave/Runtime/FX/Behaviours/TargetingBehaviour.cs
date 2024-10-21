@@ -249,6 +249,13 @@ namespace WizardsCode.RogueWave
         {
             if (_timeOfNextTargetingUpdate < Time.time)
             {
+                if (!weaponController.enemyController.CanSeeTarget)
+                {
+                    _targetingMeshRenderer.enabled = false;
+                    return;
+                }
+                _targetingMeshRenderer.enabled = true;
+
                 _timeOfNextTargetingUpdate += _targetingFrequency;
 
                 _accuracyOffset = Vector3.zero;

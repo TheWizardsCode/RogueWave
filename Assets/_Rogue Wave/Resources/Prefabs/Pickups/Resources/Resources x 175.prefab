@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 2884321158284053124}
   - component: {fileID: 8288433013401571843}
   m_Layer: 21
-  m_Name: Resources x 40
+  m_Name: Resources x 175
   m_TagString: MagneticPickup
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -146,8 +146,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2912010182690139430}
   m_Father: {fileID: 0}
@@ -307,11 +307,11 @@ MonoBehaviour:
     m_Keys: 
     m_Values: []
     m_GameObject: {fileID: 2884321158284053124}
-  m_PrefabStrongID: 1507663933
+  m_PrefabStrongID: -741998019
   expandChildObjects: 0
   expandNeoComponents: 0
   expandOtherComponents: 0
-  prefabGuid: 273c17fb78a75db47a22c3e1280c0217
+  prefabGuid: e3b7aef0d1da71d468b7539e7641fa4e
 --- !u!114 &8288433013401571843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ResourceType: 0
-  m_ResourcesAmount: 40
+  m_ResourcesAmount: 175
   resourceMultiplierByLevel:
     serializedVersion: 2
     m_Curve:

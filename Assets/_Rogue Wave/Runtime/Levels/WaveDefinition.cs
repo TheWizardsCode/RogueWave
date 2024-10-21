@@ -53,15 +53,21 @@ namespace RogueWave
             get
             {
 #if UNITY_EDITOR
-                challengeRating = 0;
+                float totalWeight = 0;
+                foreach (EnemySpawnConfiguration spawnConfig in enemies)
+                {
+                    totalWeight += spawnConfig.baseWeight;
+                }
+
+                float floatCR = 0;
                 foreach (EnemySpawnConfiguration spawnConfig in enemies)
                 {
                     BasicEnemyController enemy = spawnConfig.pooledEnemyPrefab.GetComponent<BasicEnemyController>();
-                    challengeRating += Mathf.Clamp(Mathf.RoundToInt(enemy.challengeRating * spawnConfig.baseWeight), 1, int.MaxValue);
+                    floatCR += enemy.challengeRating * (spawnConfig.baseWeight / totalWeight);
                 }
-                challengeRating /= enemies.Length;
+                floatCR /= enemies.Length;
 
-                challengeRating *= Mathf.RoundToInt(numberToSpawn * (waveDuration / spawnEventFrequency));
+                challengeRating = Mathf.RoundToInt(floatCR * numberToSpawn * (waveDuration / spawnEventFrequency));
 #endif
 
                 return challengeRating;
@@ -121,11 +127,23 @@ namespace RogueWave
                     enemy.baseWeight = 0.01f;
                 }
             }
+
+            if (targetChallengeRating <= 0)
+            {
+                if (challengeRating == 0)
+                {
+                    targetChallengeRating = 15;
+                } else
+                {
+                    targetChallengeRating = challengeRating;
+                }
+            }
         }
 
+        [Button]
         private void UpdateCR()
         {
-            challengeRating = ChallengeRating;
+            challengeRating = ChallengeRating; // force a recalculation of the challenge rating
         }
 
         [HorizontalLine(color: EColor.Blue)]
@@ -133,8 +151,11 @@ namespace RogueWave
         [SerializeField, Tooltip("The targetchallenge rating for this wave. This value is used to randomize the enemies in the wave when the button below is clicked.")]
         int targetChallengeRating = 0;
 
+        [SerializeField, Tooltip("When balancing the wave with the 'Balance Wave' button below, should the enemy types be randomized? If this is false only the rate of spawning and duration will be adjusted.")]
+        bool randomizeEnemyTypes = true;
+
         [Button()]
-        private void RandomizeWave()
+        private void BalanceWave()
         {
             if (targetChallengeRating <= 0)
             {
@@ -142,41 +163,50 @@ namespace RogueWave
                 return;
             }
 
-            // get all the BaseEnemyController prefabs in the project
-            List<PooledObject> enemyCandidates = new List<PooledObject>();
-            string[] guids = AssetDatabase.FindAssets("t:Prefab");
-            foreach (string guid in guids)
+            if (randomizeEnemyTypes)
             {
-                string path = AssetDatabase.GUIDToAssetPath(guid);
-                GameObject obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                BasicEnemyController controller = obj.GetComponent<BasicEnemyController>();
-                if (controller != null && controller.isAvailableToWaveDefinitions)
+
+                // get all the BaseEnemyController prefabs in the project
+                List<PooledObject> enemyCandidates = new List<PooledObject>();
+                string[] guids = AssetDatabase.FindAssets("t:Prefab");
+                foreach (string guid in guids)
                 {
-                    enemyCandidates.Add(obj.GetComponent<PooledObject>());
+                    string path = AssetDatabase.GUIDToAssetPath(guid);
+                    GameObject obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                    BasicEnemyController controller = obj.GetComponent<BasicEnemyController>();
+                    if (controller != null && controller.isAvailableToWaveDefinitions)
+                    {
+                        enemyCandidates.Add(obj.GetComponent<PooledObject>());
+                    }
+                }
+
+                // Randomize the enemies
+                for (int i = 0; i < enemies.Length; i++)
+                {
+                    int candidateIndex = Random.Range(0, enemyCandidates.Count);
+                    enemies[i].pooledEnemyPrefab = enemyCandidates[candidateIndex];
+                    enemies[i].baseWeight = Random.Range(0.01f, 1f);
+
+                    enemyCandidates.RemoveAt(candidateIndex);
                 }
             }
 
-            // Randomize the enemies
-            for(int i = 0; i < enemies.Length; i++)
-            {
-                int candidateIndex = Random.Range(0, enemyCandidates.Count);
-                enemies[i].pooledEnemyPrefab = enemyCandidates[candidateIndex];
-                enemies[i].baseWeight = Random.Range(0.01f, 1f);
-
-                enemyCandidates.RemoveAt(candidateIndex);
-            }
-
             // adjust the spawn rate, numbers and duration to hit the desired challenge rating
+            spawnEventFrequency = Random.Range(1.0f, 4.0f);
+            numberToSpawn = Random.Range(2, 15);
+            int iterations = 1000;
             int currentChallengeRating = ChallengeRating;
-            while (currentChallengeRating != targetChallengeRating)
+            while (currentChallengeRating != targetChallengeRating && iterations > 0)
             {
-                int parameterToChange = Random.Range(0, 3);
+                iterations--;
+
+                int parameterToChange = Random.Range(0, 2);
                 switch (parameterToChange)
                 {
                     case 0:
                         if (currentChallengeRating < targetChallengeRating)
                         {
-                            spawnEventFrequency -= 0.25f;
+                            spawnEventFrequency = Mathf.Clamp(spawnEventFrequency - 0.25f, 1, float.MaxValue);
                         }
                         else
                         {
@@ -190,19 +220,24 @@ namespace RogueWave
                         }
                         else
                         {
-                            numberToSpawn -= 1;
+                            numberToSpawn = Mathf.Clamp(numberToSpawn - 1, 1, int.MaxValue);
                         }
                         break;
-                    case 2:
-                        if (currentChallengeRating < targetChallengeRating)
-                        {
-                            waveDuration += 0.25f;
-                        }
-                        else
-                        {
-                            waveDuration -= 0.25f;
-                        }
-                        break;
+                    //case 2:
+                    //    if (currentChallengeRating < targetChallengeRating)
+                    //    {
+                    //        waveDuration += 0.25f;
+                    //    }
+                    //    else
+                    //    {
+                    //        waveDuration -= 0.25f;
+                    //    }
+                    //    break;
+                }
+
+                if (iterations == 0)
+                {
+                    EditorUtility.DisplayDialog("Error", "Failed to balance wave. Try again, possibly with different parameters.", "OK");
                 }
 
                 currentChallengeRating = ChallengeRating;

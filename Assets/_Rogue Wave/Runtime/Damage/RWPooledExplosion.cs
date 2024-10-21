@@ -9,9 +9,12 @@ using WizardsCode.RogueWave;
 namespace RogueWave
 {
     [RequireComponent(typeof(PooledObject))]
-    public class RWPooledExplosion : PooledExplosion
+    public class RWPooledExplosion : PooledExplosion, IDamageSource
     {
-        [SerializeField, Tooltip("This list of particles will be adjested for the FX based on the object the explosion is triggered by. For example, they will have their colour adapted to match."), BoxGroup("Setup")]
+        [SerializeField, Tooltip("The Damage Filter that determines what can be damaged by this enemy."), BoxGroup("Damage")]
+        private DamageFilter m_ExplosionDamageFilter = DamageFilter.AllNotTeam1;
+
+        [SerializeField, Tooltip("This list of particles will be adjested for the FX based on the object the explosion is triggered by. For example, they will have their colour adapted to match."), BoxGroup("Effects")]
         ParticleSystem[] _customizableParticles;
 
         [SerializeField, Tooltip("A game event to raise whenever the explosion is triggered."), BoxGroup("Events")]
@@ -22,6 +25,19 @@ namespace RogueWave
         protected static List<IHealthManager> s_HealthManagers = new List<IHealthManager>(8);
 
         internal PooledObject PooledObject => m_PooledObject;
+        #region IDamageSource implementation
+        public new DamageFilter outDamageFilter
+        {
+            get
+            {
+                return m_ExplosionDamageFilter;
+            }
+            set
+            {
+                m_ExplosionDamageFilter = value;
+            }
+        }
+        #endregion
 
         protected override void Awake()
         {

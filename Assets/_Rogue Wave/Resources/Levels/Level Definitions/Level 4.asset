@@ -19,17 +19,16 @@ MonoBehaviour:
   defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   waves:
-  - {fileID: 11400000, guid: 8ba987bbb206e844f9c44927cb06a78d, type: 2}
   - {fileID: 11400000, guid: 36437a8c64c95a541b55b88fe8e67543, type: 2}
+  - {fileID: 11400000, guid: 8ba987bbb206e844f9c44927cb06a78d, type: 2}
   waveWait: 5
-  generateNewWaves: 0
+  generateNewWaves: 1
   maxAlive: 60
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: 81887eb3a9196564fa5e365286f704f0, type: 2}
   - {fileID: 11400000, guid: d06759628af557e42b3babe3e8f4909e, type: 2}
   - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
-  icon: {fileID: 21300000, guid: 0a1a29a3eda11c94f8587c537fd450e3, type: 3}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
   deathAudioClips: []

@@ -10,7 +10,10 @@ namespace WizardsCode.RogueWave
     {
         [ValidateInput("Validate", "This behaviour is not valid, run the validator in the Dev Management Window for details.")]
 
-        [SerializeField, Tooltip("Should this behaviour have a fixed duration or should it be stopped manually by calling `StopNebhaviour`? Note, even if set to a fixed duration it can still be stopped early with `StopBehaviour`."), BoxGroup("Metadata")]
+        [SerializeField, Tooltip("Weapon controller that this behaviour is attached to."), BoxGroup("Metadata")]
+        internal WeaponController weaponController;
+
+        [SerializeField, Tooltip("Should this behaviour have a fixed duration or should it be stopped manually by calling `StopBehaviour`? Note, even if set to a fixed duration it can still be stopped early with `StopBehaviour`."), BoxGroup("Metadata")]
         private bool hasFixedDuration = true;
         [SerializeField, Tooltip("The duration the behaviour should be active after it has been started. Set to 0 to leave it active until the behaviour is stopped."), ShowIf("hasFixedDuration"), BoxGroup("Metadata")]
         private float duration = 0.5f;

@@ -1,8 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS;
 using RogueWave;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace WizardsCode.RogueWave

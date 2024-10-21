@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e073079e8f526469328c07d3d04e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponController: {fileID: 4891461475832706190}
   hasFixedDuration: 1
   duration: 1
   has3DSound: 0
@@ -206,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7e073079e8f526469328c07d3d04e87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponController: {fileID: 4891461475832706190}
   hasFixedDuration: 1
   duration: 0.5
   has3DSound: 0
@@ -262,9 +264,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac528002bfb88f847aa0b2eb42190285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponController: {fileID: 4891461475832706190}
   hasFixedDuration: 0
   duration: 0
-  has3DSound: 0
+  has3DSound: 1
   audioClips:
   - {fileID: 8300000, guid: b13a053592624ae41b3cab0859d2b956, type: 3}
   audioPosition: {fileID: 1015627487563728816}
@@ -276,9 +279,9 @@ MonoBehaviour:
       m_Calls: []
   _lineRenderer: {fileID: 4034177425105375564}
   _Range: 50
-  accuracy: 5
-  _targetingFrequency: 5
-  maxTimeToTryToLocateTarget: 5
+  accuracy: 4
+  _targetingFrequency: 3
+  maxTimeToTryToLocateTarget: 4
   _targetingSpeed: 1
   _lockOnTime: 2
   _deactivateDelay: 0.5
@@ -535,9 +538,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 302aa5c529dce2043bfb938ef5e3a320, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponController: {fileID: 4891461475832706190}
   hasFixedDuration: 1
   duration: 0.25
-  has3DSound: 0
+  has3DSound: 1
   audioClips:
   - {fileID: 8300000, guid: d5858b46d1990b545b59fc70cd69eeb5, type: 3}
   - {fileID: 8300000, guid: 22b6a6e7305b15e47933720155d4291a, type: 3}
@@ -557,7 +561,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   _lineRenderer: {fileID: 622874551345259145}
-  damageAmount: 2
+  damageAmount: 1
 --- !u!1001 &569421691018229000
 PrefabInstance:
   m_ObjectHideFlags: 0

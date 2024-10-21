@@ -62,9 +62,10 @@ namespace WizardsCode.RogueWave
         private float _sqrRange;
         private RaycastHit _targetingHit;
 
+        internal BasicEnemyController enemyController => _enemyController;
+
         public DamageFilter outDamageFilter { get => _outDamageFilter; set => _outDamageFilter = value; }
 
-        
         public IController controller { 
             get { return null; }
         }
@@ -147,7 +148,6 @@ namespace WizardsCode.RogueWave
             State = WeaponState.Firing;
         }
 
-        
         private void Awake()
         {
             State = WeaponState.Idle;
@@ -181,11 +181,6 @@ namespace WizardsCode.RogueWave
 
         private void Start()
         {
-            if (_enemyController == null)
-            {
-                Debug.Break();
-            }
-
             _enemyController = GetComponentInParent<BasicEnemyController>();
 
             _sqrRange = _Range * _Range;

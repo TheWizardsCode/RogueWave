@@ -14,11 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemies:
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
-    baseWeight: 0.5
+    baseWeight: 0.668
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
-    baseWeight: 0.131
-  spawnEventFrequency: 4
-  numberToSpawn: 3
-  waveDuration: 15
+    baseWeight: 0.396
+  spawnEventFrequency: 3.2026863
+  numberToSpawn: 8
+  waveDuration: 10
   spawnOrder: 0
-  challengeRating: 17
+  challengeRating: 12
+  targetChallengeRating: 12
+  randomizeEnemyTypes: 0

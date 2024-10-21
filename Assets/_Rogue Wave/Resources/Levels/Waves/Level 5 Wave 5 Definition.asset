@@ -21,8 +21,10 @@ MonoBehaviour:
     baseWeight: 0.383
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
     baseWeight: 0.5
-  spawnEventFrequency: 4
+  spawnEventFrequency: 2.5
   numberToSpawn: 3
   waveDuration: 20
   spawnOrder: 0
-  challengeRating: 30
+  challengeRating: 18
+  targetChallengeRating: 18
+  randomizeEnemyTypes: 0

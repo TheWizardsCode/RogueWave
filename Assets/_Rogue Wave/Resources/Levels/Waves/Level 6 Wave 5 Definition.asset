@@ -13,15 +13,16 @@ MonoBehaviour:
   m_Name: Level 6 Wave 5 Definition
   m_EditorClassIdentifier: 
   enemies:
+  - pooledEnemyPrefab: {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
+    baseWeight: 0.482
   - pooledEnemyPrefab: {fileID: 3259290649580598187, guid: 6ff1abb8aecc3ab459450253178136f4, type: 3}
-    baseWeight: 0.51482147
+    baseWeight: 0.324
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
-    baseWeight: 0.81403226
-  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 9df54c08e26d9e64583aefeb1cd720b7, type: 3}
-    baseWeight: 0.35388282
-  spawnEventFrequency: 3.8000002
-  numberToSpawn: 9
+    baseWeight: 0.9489193
+  spawnEventFrequency: 1.9939146
+  numberToSpawn: 6
   waveDuration: 21
   spawnOrder: 0
   challengeRating: 50
   targetChallengeRating: 50
+  randomizeEnemyTypes: 0

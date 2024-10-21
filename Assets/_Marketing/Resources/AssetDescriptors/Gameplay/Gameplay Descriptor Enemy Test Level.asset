@@ -15,21 +15,7 @@ MonoBehaviour:
   m_AssetName: Enemy Test
   m_Description: A generic test scene that provides a spawner and a very small play
     area. Great for testing enemies.
-  m_CaptureHeroImageOnFixedFrame: 0
-  m_HeroFrame: 90
-  m_FramesEitherSideOfFixedFrameHero: 6
-  m_CaptureScreenshotOnGameEvent: 1
-  m_HeroImageGameEvent: {fileID: 11400000, guid: 3fbb0d7d8b4f19548b8dff71a5b20ec1, type: 2}
-  m_ScreenshotCount: 3
-  m_MinimumFramesBetweenScreenshots: 60
-  m_CaptureImageSequence: 0
-  m_ImageSequenceStartTime: 0
-  m_ImageSequenceEndTime: 10
-  m_CaptureVideo: 0
-  m_VideoStartTime: 0
-  m_VideoEndTime: 10
   m_Resolution: {x: 960, y: 540}
-  m_FrameRate: 24
   m_CameraPosition: {x: 0, y: 0, z: 0}
   m_CameraRotation: {x: 0, y: 0, z: 0}
   m_LogoEnabled: 0
@@ -39,9 +25,13 @@ MonoBehaviour:
   m_BackgroundPosition: {x: 0, y: 0, z: 0}
   m_BackgroundRotation: {x: 0, y: 0, z: 0}
   heroCount: 21
-  screenshotCount: 61
+  screenshotCount: 69
   imageSequenceCount: 2
   videoCount: 4
+  m_HeroImageGameEvent: {fileID: 11400000, guid: 3fbb0d7d8b4f19548b8dff71a5b20ec1, type: 2}
+  m_ScreenshotCount: 3
+  m_MinimumFramesBetweenScreenshots: 60
+  m_FrameRate: 24
   m_LevelDefinition: {fileID: 11400000, guid: e77665de19e25d44eb55f1412ec3b018, type: 2}
   m_TerminalCommands: '#KillPercentageEnemies 1
 
