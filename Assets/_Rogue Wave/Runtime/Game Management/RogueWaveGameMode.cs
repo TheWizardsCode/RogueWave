@@ -442,6 +442,11 @@ namespace RogueWave
             return m_LoadoutBuilder.GetLoadout();
         }
 
+        protected override bool GetFriendlyFire()
+        {
+            return false;
+        }
+
         protected override void OnCharacterSpawned(ICharacter character)
         {
             m_RunCount.Add(1);
