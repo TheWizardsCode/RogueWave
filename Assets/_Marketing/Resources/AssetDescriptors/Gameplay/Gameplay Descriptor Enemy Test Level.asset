@@ -25,7 +25,7 @@ MonoBehaviour:
   m_BackgroundPosition: {x: 0, y: 0, z: 0}
   m_BackgroundRotation: {x: 0, y: 0, z: 0}
   heroCount: 21
-  screenshotCount: 69
+  screenshotCount: 71
   imageSequenceCount: 2
   videoCount: 4
   m_HeroImageGameEvent: {fileID: 11400000, guid: 3fbb0d7d8b4f19548b8dff71a5b20ec1, type: 2}
@@ -33,16 +33,14 @@ MonoBehaviour:
   m_MinimumFramesBetweenScreenshots: 60
   m_FrameRate: 24
   m_LevelDefinition: {fileID: 11400000, guid: e77665de19e25d44eb55f1412ec3b018, type: 2}
-  m_TerminalCommands: '#KillPercentageEnemies 1
+  m_TerminalCommands: 'KillPercentageEnemies 1
 
-    #DisableSpawning
+    DisableSpawning
 
     wait 1
 
-    #spawnenemy
-    Saucer
-
-    setmaxhealth 10000'
+    setmaxhealth
+    10000'
   m_PlayerStartPosition: {x: 43.099586, y: 1000, z: 23.756985}
   m_PlayerStartRotation: {x: 0, y: 0.6849333, z: 0, w: 0.7286058}
   m_Recipes:
@@ -59,6 +57,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 313a2a278bab86c49ac1b126c99e8aa3, type: 2}
   - {fileID: 11400000, guid: 17019a4969b23484387e64b19935cf83, type: 2}
   - {fileID: 11400000, guid: 17019a4969b23484387e64b19935cf83, type: 2}
+  - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
   m_MuteMusic: 1
   enableMouseSmoothing: 1
   mouseSmoothingAmount: 0.5

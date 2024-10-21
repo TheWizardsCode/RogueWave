@@ -12,7 +12,7 @@ namespace RogueWave
     public class RWPooledExplosion : PooledExplosion, IDamageSource
     {
         [SerializeField, Tooltip("The Damage Filter that determines what can be damaged by this enemy."), BoxGroup("Damage")]
-        private DamageFilter m_ExplosionDamageFilter = DamageFilter.AllNotTeam1;
+        private DamageFilter m_ExplosionDamageFilter = DamageFilter.AllNotPlayer;
 
         [SerializeField, Tooltip("This list of particles will be adjested for the FX based on the object the explosion is triggered by. For example, they will have their colour adapted to match."), BoxGroup("Effects")]
         ParticleSystem[] _customizableParticles;

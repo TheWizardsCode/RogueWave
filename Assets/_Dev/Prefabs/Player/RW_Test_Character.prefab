@@ -919,8 +919,8 @@ MonoBehaviour:
   m_InventoryID: 157789892
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1.5
-  m_InDamageFilter:
-    m_Value: 65279
+  m_PlayerInDamageFilter:
+    m_Value: 32511
 --- !u!1 &4166312674587079531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1079,8 +1079,8 @@ MonoBehaviour:
   m_InventoryID: 353087605
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1
-  m_InDamageFilter:
-    m_Value: 65279
+  m_PlayerInDamageFilter:
+    m_Value: 32511
 --- !u!1 &4166872335050492885
 GameObject:
   m_ObjectHideFlags: 0
@@ -1563,8 +1563,8 @@ MonoBehaviour:
   m_InventoryID: 353087605
   m_DamageMitigation: 0.75
   m_ArmourDamageMultiplier: 1
-  m_InDamageFilter:
-    m_Value: 65279
+  m_PlayerInDamageFilter:
+    m_Value: 32511
 --- !u!1 &4167708424366983049
 GameObject:
   m_ObjectHideFlags: 0
@@ -2524,7 +2524,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Health: 1
   m_HealthMax: 1
-  m_CanDamageSelf: 1
+  m_CanDamageSelf: 0
   m_OnHealthChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2749,6 +2749,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  buildTimeModifier: 1
   buildingCooldown: 5
   resourcesForLevel:
     serializedVersion: 2
