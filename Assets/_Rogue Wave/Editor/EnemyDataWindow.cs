@@ -66,7 +66,7 @@ namespace RogueWave.Editor
                 EditorGUI.BeginChangeCheck();
 
                 // Meta Data
-                enemy.challengeRating = EditorGUILayout.IntField(enemy.challengeRating, GUILayout.Width(20));
+                EditorGUILayout.LabelField(enemy.challengeRating.ToString(), GUILayout.Width(20));
                 if (GUILayout.Button(enemy.displayName, GUILayout.Width(200)))
                 {
                     EditorGUIUtility.PingObject(enemy);

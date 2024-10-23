@@ -16,13 +16,15 @@ MonoBehaviour:
   lotSize: {x: 25, y: 25}
   mapSize: {x: 10, y: 10}
   encloseLevel: 1
-  defaultTileDefinition: {fileID: 11400000, guid: 5d01d1101da7caf438911fcd75d8f6d3, type: 2}
-  wallTileDefinition: {fileID: 11400000, guid: 6b8a6fdd6346fdb47a892c051ac67382, type: 2}
+  defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
+  wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   waves:
   - {fileID: 11400000, guid: f51a760483f0a594cbf7f8f10a11fdd7, type: 2}
+  - {fileID: 11400000, guid: efa9b60a6bfc27345a901230912dd0f0, type: 2}
+  - {fileID: 11400000, guid: 707c686ffa6fff143a5253045f104420, type: 2}
   waveWait: 5
   generateNewWaves: 1
-  maxAlive: 200
+  maxAlive: 110
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: fb0c96709df571946ac3c5ab66afd137, type: 2}
@@ -30,3 +32,146 @@ MonoBehaviour:
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
   deathAudioClips: []
+  levelWaveGenerationConfiguration:
+    flow:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.1
+        value: 0.2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.2
+        value: 0.1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.3
+        value: 0.4
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.4
+        value: 0.2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5
+        value: 0.6
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.6
+        value: 0.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.7
+        value: 0.7
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.8
+        value: 0.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.9
+        value: 0.9
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.95
+        value: 0.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    levelNumber: 1
+    MapSize: {x: 10, y: 10}
+    numberOfWaves: 3
+    startingChallengeRating: 100
+    peakChallengeRating: 200
+    prePlacedTiles:
+    - {fileID: 11400000, guid: fb0c96709df571946ac3c5ab66afd137, type: 2}
+    - {fileID: 11400000, guid: db7d2aa9075717e4390141c737c47ceb, type: 2}
+    enemies:
+    - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
+    - {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
+    - {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
+    - {fileID: 9165906392841844883, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
+    - {fileID: 4070675553001932281, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
+    - {fileID: 2718792272166400357, guid: 3746b354cbd2ebf48bc933b85f6205b9, type: 3}
+    - {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
+    - {fileID: 4070675553001932281, guid: 9df54c08e26d9e64583aefeb1cd720b7, type: 3}
+    - {fileID: 3259290649580598187, guid: 6ff1abb8aecc3ab459450253178136f4, type: 3}
+    earliestWavePercentage:
+    - 0.01
+    - 0.11
+    - 0.34
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0
+    - 0

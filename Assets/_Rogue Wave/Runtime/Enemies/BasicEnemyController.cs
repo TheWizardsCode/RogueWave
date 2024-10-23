@@ -32,8 +32,6 @@ namespace RogueWave
         private string weaknesses = string.Empty;
         [SerializeField, Tooltip("The attacks of this enemy as displayed in the UI."), BoxGroup("Metadata")]
         private string attacks = string.Empty;
-        [SerializeField, Tooltip("The level of this enemy. Higher level enemies will be more difficult to defeat."), BoxGroup("Metadata")]
-        public int challengeRating = 1;
         [SerializeField, Tooltip("Should this enemy be included in wave definitions? If this is set to false then the enemy can only be placed in levels under special circumstances."), BoxGroup("Metadata")]
         public bool isAvailableToWaveDefinitions = true;
 
@@ -171,6 +169,87 @@ namespace RogueWave
                     sb.AppendLine(attacks);
                 }
                 return sb.ToString();
+            }
+        }
+
+        int m_ChallengeRating = 0;
+        [ShowNativeProperty]
+        public int challengeRating
+        {
+            get
+            {
+                if (m_ChallengeRating == 0)
+                {
+                    float defensiveRating = 0;
+                    // calculate defensive rating
+                    healthManager = GetComponent<BasicHealthManager>();
+                    if (healthManager != null)
+                    {
+                        defensiveRating = healthManager.healthMax / 10;
+                    }
+                    if (requireLineOfSight)
+                    {
+                        defensiveRating += viewDistance / 10;
+                    }
+                    else
+                    {
+                        defensiveRating += 5;
+                    }
+                    if (returnToSpawner)
+                    {
+                        defensiveRating += seekDistance / 10;
+                    }
+                    else
+                    {
+                        defensiveRating += 15;
+                    }
+                    if (spawnDefensiveUnitsOnDamage)
+                    {
+                        // TODO: strength of defensive units should have an impact on the challenge rating
+                        defensiveRating += 10;
+                    }
+
+                    // calculate mobility rating
+                    float movementRating = 0;
+                    BasicMovementController movementController = GetComponent<BasicMovementController>();
+                    if (movementController != null)
+                    {
+                        movementRating += movementController.minSpeed / 10;
+                        movementRating += movementController.maxSpeed / 10;
+                        movementRating += optimalDistanceFromPlayer / 10;
+                        movementRating += movementController.minimumHeight / 20;
+                    }
+                    else
+                    {
+                        movementRating -= 20;
+                    }
+
+                    // calculate offensive rating
+                    float offensiveRating = 0;
+                    IWeaponFiringBehaviour[] weapons = GetComponentsInChildren<IWeaponFiringBehaviour>();
+                    if (weapons.Length == 0)
+                    {
+                        offensiveRating = 5;
+                    }
+                    else
+                    {
+                        foreach (IWeaponFiringBehaviour weapon in weapons)
+                        {
+                            if (weapon.DamageOverTime)
+                            {
+                                offensiveRating += weapon.DamageAmount;
+                            }
+                            else
+                            {
+                                offensiveRating += weapon.DamageAmount * 10;
+                            }
+                        }
+                    }
+
+                    m_ChallengeRating = Mathf.RoundToInt((defensiveRating + movementRating + offensiveRating) / 2);
+                }
+
+                return m_ChallengeRating;
             }
         }
 
@@ -337,6 +416,8 @@ namespace RogueWave
             movementController = GetComponent<BasicMovementController>();
 
             m_AudioSource = GetComponent<AudioSource>();
+
+            ForceUpdateChallengeRating();
 
 #if ! UNITY_EDITOR
             isDebug = false;
@@ -823,7 +904,15 @@ namespace RogueWave
             }
         }
 
+        [Button]
+        void ForceUpdateChallengeRating()
+        {
+            m_ChallengeRating = 0;
+            _ = challengeRating;
+        }
+
 #if UNITY_EDITOR
+
         [Button]
         void UpdateIconsFromShowcase()
         {

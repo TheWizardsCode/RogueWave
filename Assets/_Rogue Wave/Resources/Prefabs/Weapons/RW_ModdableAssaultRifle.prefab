@@ -6640,10 +6640,10 @@ MonoBehaviour:
   m_OnRecoil:
     m_PersistentCalls:
       m_Calls: []
-  m_HipAccuracyKick: 0.1
-  m_HipAccuracyRecover: 0.85
-  m_SightedAccuracyKick: 0.05
-  m_SightedAccuracyRecover: 0.75
+  m_HipAccuracyKick: 0.75
+  m_HipAccuracyRecover: 0.5
+  m_SightedAccuracyKick: 0.1
+  m_SightedAccuracyRecover: 1
   m_AdditiveTransform: {fileID: 0}
   m_HipFireRecoil:
     expanded: 1
@@ -7016,7 +7016,7 @@ MonoBehaviour:
   m_ActivationMode: 0
   m_AimUpAudio: {fileID: 8300000, guid: e900513d446e494419d05fb5bef3f55f, type: 3}
   m_AimDownAudio: {fileID: 8300000, guid: 06f431d6438fef74cb42133b81509829, type: 3}
-  m_HipAccuracyCap: 1
+  m_HipAccuracyCap: 0.75
   m_AimedAccuracyCap: 1
   m_CanAimWhileReloading: 0
   m_OnAimUp:

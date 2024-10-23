@@ -154,8 +154,18 @@ namespace RogueWave
         [SerializeField, Tooltip("When balancing the wave with the 'Balance Wave' button below, should the enemy types be randomized? If this is false only the rate of spawning and duration will be adjusted.")]
         bool randomizeEnemyTypes = true;
 
+        private List<BasicEnemyController> availableEnemies = new List<BasicEnemyController>();
+
+        public void GenerateWave(int targetChallengeRating, bool randomizeEnemyTypes, BasicEnemyController[] availableEnemies)
+        {
+            this.targetChallengeRating = targetChallengeRating;
+            this.randomizeEnemyTypes = randomizeEnemyTypes;
+            this.availableEnemies = availableEnemies.ToList<BasicEnemyController>();
+            BalanceWave(true);
+        }
+
         [Button()]
-        private void BalanceWave()
+        private void BalanceWave(bool forceTargetUpdate = false)
         {
             if (targetChallengeRating <= 0)
             {
@@ -165,36 +175,35 @@ namespace RogueWave
 
             if (randomizeEnemyTypes)
             {
-
-                // get all the BaseEnemyController prefabs in the project
-                List<PooledObject> enemyCandidates = new List<PooledObject>();
-                string[] guids = AssetDatabase.FindAssets("t:Prefab");
-                foreach (string guid in guids)
+                if (availableEnemies.Count == 0)
                 {
-                    string path = AssetDatabase.GUIDToAssetPath(guid);
-                    GameObject obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
-                    BasicEnemyController controller = obj.GetComponent<BasicEnemyController>();
-                    if (controller != null && controller.isAvailableToWaveDefinitions)
-                    {
-                        enemyCandidates.Add(obj.GetComponent<PooledObject>());
-                    }
+                    LoadAllEnemies();
                 }
 
                 // Randomize the enemies
+                if (enemies == null || enemies.Length == 0 || enemies.Length > availableEnemies.Count)
+                {
+                    enemies = new EnemySpawnConfiguration[Random.Range(Mathf.Min(availableEnemies.Count, 3), Mathf.Min(availableEnemies.Count, 5))];
+                }
+
                 for (int i = 0; i < enemies.Length; i++)
                 {
-                    int candidateIndex = Random.Range(0, enemyCandidates.Count);
-                    enemies[i].pooledEnemyPrefab = enemyCandidates[candidateIndex];
+                    int candidateIndex = Random.Range(0, availableEnemies.Count);
+                    if (enemies[i] == null)
+                    {
+                        enemies[i] = new EnemySpawnConfiguration();
+                    }
+                    enemies[i].pooledEnemyPrefab = availableEnemies[candidateIndex];
                     enemies[i].baseWeight = Random.Range(0.01f, 1f);
 
-                    enemyCandidates.RemoveAt(candidateIndex);
+                    availableEnemies.RemoveAt(candidateIndex);
                 }
             }
 
             // adjust the spawn rate, numbers and duration to hit the desired challenge rating
             spawnEventFrequency = Random.Range(1.0f, 4.0f);
             numberToSpawn = Random.Range(2, 15);
-            int iterations = 1000;
+            int iterations = 5000;
             int currentChallengeRating = ChallengeRating;
             while (currentChallengeRating != targetChallengeRating && iterations > 0)
             {
@@ -237,10 +246,34 @@ namespace RogueWave
 
                 if (iterations == 0)
                 {
-                    EditorUtility.DisplayDialog("Error", "Failed to balance wave. Try again, possibly with different parameters.", "OK");
+                    if (forceTargetUpdate)
+                    {
+                        targetChallengeRating = ChallengeRating;
+                    } 
+                    else if (EditorUtility.DisplayDialog("Error", "Failed to fully balance wave the wave. What would you like to do?", $"Make current CR of {ChallengeRating} the Target", "Adjust the target and try again"))
+                    {
+                        targetChallengeRating = ChallengeRating;
+                    }
                 }
 
+
                 currentChallengeRating = ChallengeRating;
+                availableEnemies.Clear();
+            }
+        }
+
+        private void LoadAllEnemies()
+        {
+            string[] guids = AssetDatabase.FindAssets("t:Prefab");
+            foreach (string guid in guids)
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                GameObject obj = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+                BasicEnemyController controller = obj.GetComponent<BasicEnemyController>();
+                if (controller != null && controller.isAvailableToWaveDefinitions)
+                {
+                    availableEnemies.Add(obj.GetComponent<BasicEnemyController>());
+                }
             }
         }
 #endif

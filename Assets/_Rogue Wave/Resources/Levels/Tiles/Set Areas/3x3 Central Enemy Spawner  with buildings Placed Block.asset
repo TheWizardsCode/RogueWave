@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
   m_Name: 3x3 Central Enemy Spawner  with buildings Placed Block
   m_EditorClassIdentifier: 
+  m_DisplayName: Downtown Spawner
+  m_Description: A small city in the middle of a forest is home to a spawner.
+  icon: {fileID: 0}
   tilePrefab: {fileID: 4991774553734080440, guid: 3fc119a423483874c8c2e2c8c8bd42bd, type: 3}
   isFlat: 1
   tileHeight: 3.04
@@ -67,5 +70,3 @@ MonoBehaviour:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
       weight: 0.371
-  m_DisplayName: Empty Level
-  icon: {fileID: 0}

@@ -10,30 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Top Left -Level 3 Spawner
+  m_Name: Anywhere - Level 1 Enemy Spawner
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 4840245277533164759, guid: 3bb7115df90dcdf499b461abc47192c4, type: 3}
-  isFlat: 0
-  tileHeight: 5
-  noiseCellSize: 0.75
+  tilePrefab: {fileID: 4840245277533164759, guid: badcfbe7566108c4caa59e48d134560b, type: 3}
+  isFlat: 1
+  tileHeight: 1
+  noiseCellSize: 0.5
   noiseFrequency: 3
-  groundMaterial: {fileID: 2100000, guid: 4c1dfe560ac75954ab5bbf2b42b92077, type: 2}
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
   enemySpawnChance: 0
   constraints:
-    bottomLeftBoundary: {x: 0, y: 0, z: 0.5}
-    topRightBoundary: {x: 0.5, y: 1, z: 1}
+    bottomLeftBoundary: {x: 0, y: 0, z: 0}
+    topRightBoundary: {x: 1, y: 1, z: 1}
     weight: 0.5
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.63
-  - tileDefinition: {fileID: 11400000, guid: edfab2d889a225e41aa6f72c713636fd, type: 2}
-    constraints:
-      bottomLeftBoundary: {x: 0, y: 0, z: 0}
-      topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.329
+      weight: 0.5
   xNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
     constraints:

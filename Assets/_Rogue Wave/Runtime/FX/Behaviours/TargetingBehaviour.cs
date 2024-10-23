@@ -18,7 +18,7 @@ namespace WizardsCode.RogueWave
     /// Weapon controllers will also want to subscribe to the OnTargetingAborted when the targeting process is aborted
     /// Weapon controllers should also call StartBehaviour to start the targeting process.
     /// </summary>
-    /// <see cref="WeaponController"/>"
+    /// <see cref="BasicWeaponController"/>"
     public class TargetingBehaviour : LineWeaponBehaviour
     {
         protected enum TargetingOnState
@@ -42,7 +42,7 @@ namespace WizardsCode.RogueWave
         private float _targetingSpeed = 10f;
         
         //[Header("Acquiring")]
-        [SerializeField, Tooltip("The time between strting the lockon process and the end of that process."), BoxGroup("Acquiring")]
+        [SerializeField, Tooltip("The time between starting the lockon process and the end of that process. If the enemy has not locked on at the end of this time then it aborts the attempt."), BoxGroup("Acquiring")]
         private float _lockOnTime = 1.5f;
         
         //[Header("Deactivate")]

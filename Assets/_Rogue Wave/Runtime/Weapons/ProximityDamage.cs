@@ -1,4 +1,3 @@
-using NaughtyAttributes;
 using NeoFPS;
 using System.Collections.Generic;
 using UnityEngine;

@@ -25,22 +25,24 @@ MonoBehaviour:
   m_BackgroundPosition: {x: 0, y: 0, z: 0}
   m_BackgroundRotation: {x: 0, y: 0, z: 0}
   heroCount: 21
-  screenshotCount: 75
+  screenshotCount: 76
   imageSequenceCount: 2
   videoCount: 4
   m_HeroImageGameEvent: {fileID: 11400000, guid: 3fbb0d7d8b4f19548b8dff71a5b20ec1, type: 2}
   m_ScreenshotCount: 3
   m_MinimumFramesBetweenScreenshots: 60
   m_FrameRate: 24
-  m_LevelDefinition: {fileID: 11400000, guid: e77665de19e25d44eb55f1412ec3b018, type: 2}
+  m_LevelDefinition: {fileID: 11400000, guid: 1db357c8e85b1d94d9350fcc9ae60dd3, type: 2}
   m_TerminalCommands: '# KillPercentageEnemies 1
 
     # DisableSpawning
 
+
     wait
     1
 
-    setmaxhealth 10000'
+
+    #setmaxhealth 10000'
   m_PlayerStartPosition: {x: 43.099586, y: 1000, z: 23.756985}
   m_PlayerStartRotation: {x: 0, y: 0.6849333, z: 0, w: 0.7286058}
   m_Recipes:

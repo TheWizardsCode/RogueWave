@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Level 7 Wave 9 Definition
   m_EditorClassIdentifier: 
   enemies:
-  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
-    baseWeight: 0.17279741
-  spawnEventFrequency: 1.25
-  numberToSpawn: 7
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 9df54c08e26d9e64583aefeb1cd720b7, type: 3}
+    baseWeight: 0.4963389
+  - pooledEnemyPrefab: {fileID: 3259290649580598187, guid: 6ff1abb8aecc3ab459450253178136f4, type: 3}
+    baseWeight: 0.62004656
+  spawnEventFrequency: 9.75
+  numberToSpawn: 28
   waveDuration: 14.25
   spawnOrder: 0
-  challengeRating: 80
-  targetChallengeRating: 80
-  randomizeEnemyTypes: 0
+  challengeRating: 650
+  targetChallengeRating: 650
+  randomizeEnemyTypes: 1

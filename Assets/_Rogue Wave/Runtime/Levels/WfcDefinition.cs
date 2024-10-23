@@ -56,6 +56,9 @@ namespace RogueWave
         [SerializeField, Tooltip("The audio to play when the level is failed. This might include a Nanobot announcement about the level, for example.")]
         internal AudioClip[] deathAudioClips = new AudioClip[0];
 
+        [SerializeField, Tooltip("The configuration to use if this level is to be re-generated using the Level Wave Generator.")]
+        public LevelWaveGenerationConfiguration levelWaveGenerationConfiguration;
+
         public string DisplayName => name;
 
         /// <summary>
@@ -115,11 +118,30 @@ namespace RogueWave
             }
         }
 
-        public WaveDefinition[] Waves => waves;
+        public Vector2Int MapSize {
+            get => mapSize;
+            set => mapSize = value;
+        }
+
+        public WaveDefinition[] Waves
+        {
+            get => waves;
+            set => waves = value;
+        }
+
 
         public float WaveWait => waveWait;
 
-        public bool GenerateNewWaves => generateNewWaves;
+        public int MaxAlive
+        {
+            get => maxAlive;
+            set => maxAlive = value;
+        }
+
+        public bool GenerateNewWaves { 
+            get => generateNewWaves;
+            set => generateNewWaves = value;
+        }
 
         internal float Duration
         {
@@ -148,5 +170,19 @@ namespace RogueWave
             }
             return waves[0].GetNextEnemy(); ;
         }
+    }
+
+    [Serializable]
+    public class LevelWaveGenerationConfiguration
+    {
+        public AnimationCurve flow = new AnimationCurve();
+        public int levelNumber = 1;
+        public Vector2Int MapSize = new Vector2Int(10, 10);
+        public int numberOfWaves = 5;
+        public int startingChallengeRating = 500;
+        public int peakChallengeRating = 1000;
+        public TileDefinition[] prePlacedTiles;
+        public BasicEnemyController[] enemies = new BasicEnemyController[0];
+        public float[] earliestWavePercentage = new float [0];
     }
 }

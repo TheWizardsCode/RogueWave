@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
-  m_Name: Central Area - Level 1 Spawner
+  m_Name: Bottom Left - Level 3 Enemy Spawner
   m_EditorClassIdentifier: 
-  tilePrefab: {fileID: 4840245277533164759, guid: badcfbe7566108c4caa59e48d134560b, type: 3}
+  tilePrefab: {fileID: 4840245277533164759, guid: 3bb7115df90dcdf499b461abc47192c4, type: 3}
   isFlat: 0
   tileHeight: 5
   noiseCellSize: 0.75
@@ -20,9 +20,9 @@ MonoBehaviour:
   groundMaterial: {fileID: 2100000, guid: 4c1dfe560ac75954ab5bbf2b42b92077, type: 2}
   enemySpawnChance: 0
   constraints:
-    bottomLeftBoundary: {x: 0.5, y: 0, z: 0.5}
+    bottomLeftBoundary: {x: 0, y: 0, z: 0}
     topRightBoundary: {x: 1, y: 1, z: 1}
-    weight: 0.8
+    weight: 0.5
   xPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
     constraints:
@@ -39,18 +39,18 @@ MonoBehaviour:
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.8
+      weight: 0.5
   zPositiveConstraints:
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.8
+      weight: 0.5
   zNegativeConstraints:
   - tileDefinition: {fileID: 11400000, guid: aed12ac410786e2408426fc8eb7163ad, type: 2}
     constraints:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
-      weight: 0.8
+      weight: 0.5
   m_DisplayName: Spawner
   icon: {fileID: 0}

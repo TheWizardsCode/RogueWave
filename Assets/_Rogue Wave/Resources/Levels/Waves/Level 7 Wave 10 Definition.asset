@@ -13,12 +13,14 @@ MonoBehaviour:
   m_Name: Level 7 Wave 10 Definition
   m_EditorClassIdentifier: 
   enemies:
+  - pooledEnemyPrefab: {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
+    baseWeight: 0.05950668
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 9df54c08e26d9e64583aefeb1cd720b7, type: 3}
-    baseWeight: 0.039850798
-  spawnEventFrequency: 1.5
-  numberToSpawn: 10
+    baseWeight: 0.113989435
+  spawnEventFrequency: 8
+  numberToSpawn: 37
   waveDuration: 12
   spawnOrder: 0
-  challengeRating: 240
-  targetChallengeRating: 80
-  randomizeEnemyTypes: 0
+  challengeRating: 637
+  targetChallengeRating: 637
+  randomizeEnemyTypes: 1

@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05fde312255415440b722ae6c2cc41ea, type: 3}
+  m_Name: Level 8 Wave 12 Definition
+  m_EditorClassIdentifier: 
+  enemies:
+  - pooledEnemyPrefab: {fileID: 9165906392841844883, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
+    baseWeight: 0.5056822
+  - pooledEnemyPrefab: {fileID: 3259290649580598187, guid: 6ff1abb8aecc3ab459450253178136f4, type: 3}
+    baseWeight: 0.15676878
+  - pooledEnemyPrefab: {fileID: 2718792272166400357, guid: 3746b354cbd2ebf48bc933b85f6205b9, type: 3}
+    baseWeight: 0.19580556
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
+    baseWeight: 0.777399
+  spawnEventFrequency: 6
+  numberToSpawn: 107
+  waveDuration: 10
+  spawnOrder: 0
+  challengeRating: 800
+  targetChallengeRating: 800
+  randomizeEnemyTypes: 1

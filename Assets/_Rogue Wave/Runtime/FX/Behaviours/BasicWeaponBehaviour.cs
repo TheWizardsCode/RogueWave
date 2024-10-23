@@ -11,7 +11,7 @@ namespace WizardsCode.RogueWave
         [ValidateInput("Validate", "This behaviour is not valid, run the validator in the Dev Management Window for details.")]
 
         [SerializeField, Tooltip("Weapon controller that this behaviour is attached to."), BoxGroup("Metadata")]
-        internal WeaponController weaponController;
+        internal BasicWeaponController weaponController;
 
         [SerializeField, Tooltip("Should this behaviour have a fixed duration or should it be stopped manually by calling `StopBehaviour`? Note, even if set to a fixed duration it can still be stopped early with `StopBehaviour`."), BoxGroup("Metadata")]
         private bool hasFixedDuration = true;

@@ -13,18 +13,16 @@ MonoBehaviour:
   m_Name: Level 6 Wave 3 Definition
   m_EditorClassIdentifier: 
   enemies:
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
+    baseWeight: 0.039222237
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
+    baseWeight: 0.90362054
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
-    baseWeight: 0.66610503
-  - pooledEnemyPrefab: {fileID: 9165906392841844883, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
-    baseWeight: 0.24364844
-  - pooledEnemyPrefab: {fileID: 3259290649580598187, guid: 6ff1abb8aecc3ab459450253178136f4, type: 3}
-    baseWeight: 0.63608444
-  - pooledEnemyPrefab: {fileID: 2718792272166400357, guid: 3746b354cbd2ebf48bc933b85f6205b9, type: 3}
-    baseWeight: 0.6251522
-  spawnEventFrequency: 2.3303246
-  numberToSpawn: 15
+    baseWeight: 0.02039649
+  spawnEventFrequency: 2.75
+  numberToSpawn: 25
   waveDuration: 7.75
   spawnOrder: 0
-  challengeRating: 34
-  targetChallengeRating: 34
-  randomizeEnemyTypes: 0
+  challengeRating: 331
+  targetChallengeRating: 331
+  randomizeEnemyTypes: 1

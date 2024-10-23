@@ -8,7 +8,7 @@ namespace WizardsCode.RogueWave
     /// <summary>
     /// The WeaponController is responsible for managing the state of a weapon as it seeks to destroy a target. 
     /// </summary>
-    public class WeaponController : MonoBehaviour, IDamageSource
+    public class BasicWeaponController : MonoBehaviour, IDamageSource
     {
         enum AmmunitionType
         {
@@ -63,6 +63,7 @@ namespace WizardsCode.RogueWave
         private RaycastHit _targetingHit;
 
         internal BasicEnemyController enemyController => _enemyController;
+        internal BasicWeaponBehaviour weaponFiringBehaviour => _firingBehaviour;
 
         public DamageFilter outDamageFilter { get => _outDamageFilter; set => _outDamageFilter = value; }
 

@@ -19,6 +19,15 @@ namespace RogueWave
             YNegative
         }
 
+
+        [Header("UI")]
+        [SerializeField, Tooltip("The name of the tile as displayed in the UI.")]
+        string m_DisplayName = string.Empty;
+        [SerializeField, Tooltip("The description of the tile as displayed in the UI."), TextArea(2,5)]
+        string m_Description;
+        [SerializeField, Tooltip("The sprite to use when representing this tile, or a level containing this tile, in the UI.")]
+        internal Sprite icon;
+
         [SerializeField, Tooltip("The tile prefab to spawn for this tile type.")]
         BaseTile tilePrefab;
 
@@ -39,7 +48,7 @@ namespace RogueWave
         internal float enemySpawnChance = 0f;
 
         [SerializeField, Tooltip("The constraints that define the placement of this tile.")]
-        internal TileConstraint constraints;
+        public TileConstraint constraints;
 
         [Header("Connections")]
         [SerializeField, Tooltip("The constraints that define neighbours to the x positive edge.")]
@@ -52,12 +61,6 @@ namespace RogueWave
         internal List<TileNeighbour> zNegativeConstraints = new List<TileNeighbour>();
 
 
-        [Header("UI")]
-        [SerializeField, Tooltip("The name of the tile as displayed in the UI.")]
-        string m_DisplayName = string.Empty;
-        [SerializeField, Tooltip("The sprite to use when representing this tile, or a level containing this tile, in the UI.")]
-        internal Sprite icon;
-
         internal Vector3 TileArea {
             get => tilePrefab is MultiCellTile multiCellTilePrefab ? multiCellTilePrefab.TileArea : Vector3.one;
         }
@@ -69,6 +72,18 @@ namespace RogueWave
                     return name;
                 }
                 return m_DisplayName; 
+            }
+        }
+
+        public string Description
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(m_Description))
+                {
+                    return string.Empty;
+                }
+                return m_Description;
             }
         }
 
@@ -206,17 +221,17 @@ namespace RogueWave
     }
 
     [Serializable]
-    internal class TileConstraint
+    public class TileConstraint
     {
         [Header("Constraints")]
         [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
             "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the bottome left of the allowed areas for this tile will be at (10, 0, 10).")]
-        internal Vector3 bottomLeftBoundary = Vector3.zero;
+        public Vector3 bottomLeftBoundary = Vector3.zero;
         [SerializeField, Tooltip("The bounds of the tile. This is used to determine the area that the tile can be placed in. This is expressed as a % of the map area from the bottom left of the total area. " +
             "For example, if this value is (0.5, 0, 0.5) and the level is 20x20x5 tiles then the top right of the allowed areas for this tile will be at (10, 0, 10).")]
-        internal Vector3 topRightBoundary = Vector3.one;
+        public Vector3 topRightBoundary = Vector3.one;
         [SerializeField, Range(0.01f, 1f), Tooltip("The liklihood of this tile definition being selected. If a random number is <= this value and other constraints match then this will be a candidate.")]
-        internal float weight = 0.5f;
+        public float weight = 0.5f;
 
         internal TileConstraint()
         {

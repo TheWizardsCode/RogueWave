@@ -23,7 +23,7 @@ namespace WizardsCode.RogueWave
 
         [MMFInspectorGroup("Rogue Wave", true, 12, true)]
         [Tooltip("The WeaponEffectController that will provide the settings needed for the FX contrroller (below).")]
-        public WeaponController WeaponEffects;
+        public BasicWeaponController WeaponEffects;
         [Tooltip("The motor that will drive the effect motion.")]
         public LineRenderer EffectLine;
 

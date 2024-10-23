@@ -36,7 +36,7 @@ namespace RogueWave.Editor
         [SerializeField, Tooltip("The text component to display the challenge rating of the enemy. If null this will be ignored for this enemy."), ShowIf("showUI")]
         TMP_Text challengeRatingText;
 
-        private WeaponController weapon;
+        private BasicWeaponController weapon;
         private BaseTriggerBehaviour trigger;
         private BasicHealthManager healthManager;
         private BasicEnemyController enemyController;
@@ -137,7 +137,7 @@ namespace RogueWave.Editor
 
         private void Setup()
         {
-            weapon = GetComponentInChildren<WeaponController>();
+            weapon = GetComponentInChildren<BasicWeaponController>();
             trigger = GetComponentInChildren<BaseTriggerBehaviour>();
             healthManager = GetComponentInChildren<BasicHealthManager>();
             enemyController = GetComponentInChildren<BasicEnemyController>();

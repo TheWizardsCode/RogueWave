@@ -4,11 +4,14 @@ using UnityEngine;
 
 namespace WizardsCode.RogueWave
 {
-    public class HitscanFiringBehaviour : LineWeaponBehaviour
+    public class HitscanFiringBehaviour : LineWeaponBehaviour, IWeaponFiringBehaviour
     {
         // Damage
-        [SerializeField, Tooltip("The amount of damage this weapon will do to the player per second."), BoxGroup("Damage")]
+        [SerializeField, Tooltip("The amount of damage this weapon does when it hits the target."), BoxGroup("Damage")]
         private float damageAmount = 2f;
+
+        public bool DamageOverTime { get => false; }
+        public float DamageAmount { get => damageAmount; set => damageAmount = value; }
 
         public override void StartBehaviour(Transform target)
         {

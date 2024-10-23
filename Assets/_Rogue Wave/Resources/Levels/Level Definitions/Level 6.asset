@@ -14,16 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   seed: 0
   lotSize: {x: 25, y: 25}
-  mapSize: {x: 16, y: 16}
+  mapSize: {x: 14, y: 14}
   encloseLevel: 1
   defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   waves:
-  - {fileID: 11400000, guid: 8ba987bbb206e844f9c44927cb06a78d, type: 2}
-  - {fileID: 11400000, guid: 36437a8c64c95a541b55b88fe8e67543, type: 2}
-  - {fileID: 11400000, guid: 3ce55440cfc43c9498b1edc2258d3d3d, type: 2}
-  - {fileID: 11400000, guid: bf5c1e4567024a146aac6ee175c3337b, type: 2}
-  - {fileID: 11400000, guid: 8933f491b5b58ba46a400d479a36370b, type: 2}
   - {fileID: 11400000, guid: bcc18c73d27157f4ab2b2842e1cf7563, type: 2}
   - {fileID: 11400000, guid: 9211fd51c1857ff4485adcf94dcd6c6a, type: 2}
   - {fileID: 11400000, guid: 09d6f715d147ea2498d87ac96838ec06, type: 2}
@@ -31,18 +26,167 @@ MonoBehaviour:
   - {fileID: 11400000, guid: e4bc06f44fbafdb46a4427f942e9f53f, type: 2}
   - {fileID: 11400000, guid: 3dfa33bf1cbbc414c9c8fd043c7a3d3b, type: 2}
   - {fileID: 11400000, guid: 9985a11221e2ee5449968247c27bad15, type: 2}
+  - {fileID: 11400000, guid: 191ddeccc6d02d34b89e49b472073a3b, type: 2}
+  - {fileID: 11400000, guid: 809e91482926ece4a8f8555ea088542c, type: 2}
   - {fileID: 11400000, guid: 355dfd4460ad0724fbe827e593befc49, type: 2}
   - {fileID: 11400000, guid: c4711be1bc5c4f645a34d19b13985a2e, type: 2}
   - {fileID: 11400000, guid: 18b55d7c1ab73ca479df14588bfd24f0, type: 2}
   - {fileID: 11400000, guid: 2b44a1e3993063843b518024ef2c0b3d, type: 2}
+  - {fileID: 11400000, guid: a8d955fcc4bf49847a734c0dd3b88922, type: 2}
+  - {fileID: 11400000, guid: d0ea9b22ba1e06f4db7a91d05b815c5e, type: 2}
+  - {fileID: 11400000, guid: 55693a847258f184c8a84087d6be3291, type: 2}
   waveWait: 5
   generateNewWaves: 1
-  maxAlive: 100
+  maxAlive: 160
   generateLevelOnSpawn: 1
   prePlacedTiles:
-  - {fileID: 11400000, guid: fc73239519b5b0f428d12a983cb79c5d, type: 2}
   - {fileID: 11400000, guid: 996df388e5e1d2c43ac3048a38b10ef1, type: 2}
+  - {fileID: 11400000, guid: fc73239519b5b0f428d12a983cb79c5d, type: 2}
   - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
   deathAudioClips: []
+  levelWaveGenerationConfiguration:
+    flow:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.1
+        value: 0.2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.2
+        value: 0.1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.3
+        value: 0.4
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.4
+        value: 0.2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.5
+        value: 0.6
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.6
+        value: 0.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.7
+        value: 0.7
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.8
+        value: 0.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.9
+        value: 0.9
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.95
+        value: 0.3
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    levelNumber: 6
+    MapSize: {x: 14, y: 14}
+    numberOfWaves: 16
+    startingChallengeRating: 300
+    peakChallengeRating: 600
+    prePlacedTiles:
+    - {fileID: 11400000, guid: 996df388e5e1d2c43ac3048a38b10ef1, type: 2}
+    - {fileID: 11400000, guid: fc73239519b5b0f428d12a983cb79c5d, type: 2}
+    - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
+    enemies:
+    - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
+    - {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
+    - {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
+    - {fileID: 9165906392841844883, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
+    - {fileID: 4070675553001932281, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
+    - {fileID: 2718792272166400357, guid: 3746b354cbd2ebf48bc933b85f6205b9, type: 3}
+    - {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
+    - {fileID: 4070675553001932281, guid: 9df54c08e26d9e64583aefeb1cd720b7, type: 3}
+    - {fileID: 3259290649580598187, guid: 6ff1abb8aecc3ab459450253178136f4, type: 3}
+    earliestWavePercentage:
+    - 0.01
+    - 0.07
+    - 0.1
+    - 0.44
+    - 0.17
+    - 0.42
+    - 0.58
+    - 0.63
+    - 0.76
