@@ -1,7 +1,9 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
+using NeoFPSEditor.Hub.Pages;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RogueWave
@@ -70,6 +72,11 @@ namespace RogueWave
         private float timeInState = 0;
         private Collider aggroTarget;
 
+        /// <summary>
+        /// Get the colliders that have been detected by the pawn, sorted by distance from the pawn.
+        /// This is a queue of key value pairs where the key is the distance from the pawn and the value is the collider.
+        /// The queue is updated whenever the queue is deemed invalid, which is usually when 
+        /// </summary>
         public Queue<KeyValuePair<float, Collider>> sortedColliders
         {
             get
@@ -234,7 +241,10 @@ namespace RogueWave
 
         /// <summary>
         /// Updates the local collection of known objects of interest within the detection range.
+        /// The data is stored internally in a sorted Array of Colliders (`colliders`) and an Array of distances from the pawn to the collider (`colliderDistances`).
+        /// The index for each array is the same, so the distance to the collider at `colliders[i]` is `colliderDistances[i]`.
         /// </summary>
+        /// <seealso cref="GetNearestObject"/>
         private void DetectObjectsOfInterest()
         {
             Array.Clear(colliders, 0, detectedObjectsCount);

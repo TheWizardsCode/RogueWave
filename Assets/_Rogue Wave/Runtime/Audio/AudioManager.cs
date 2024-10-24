@@ -228,6 +228,11 @@ namespace WizardsCode.RogueWave
             source.Play();
         }
 
+        internal static void StopLooping(AudioSource source)
+        {
+            FadeOut(source, 1f, true);
+        }
+
         /// <summary>
         /// Play a looping sound effect in 3D space using a pooled audio source.
         /// </summary>

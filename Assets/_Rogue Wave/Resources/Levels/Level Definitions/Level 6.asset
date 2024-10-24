@@ -25,16 +25,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4ec685bb0da53c740842160eaba685c8, type: 2}
   - {fileID: 11400000, guid: e4bc06f44fbafdb46a4427f942e9f53f, type: 2}
   - {fileID: 11400000, guid: 3dfa33bf1cbbc414c9c8fd043c7a3d3b, type: 2}
-  - {fileID: 11400000, guid: 9985a11221e2ee5449968247c27bad15, type: 2}
-  - {fileID: 11400000, guid: 191ddeccc6d02d34b89e49b472073a3b, type: 2}
-  - {fileID: 11400000, guid: 809e91482926ece4a8f8555ea088542c, type: 2}
-  - {fileID: 11400000, guid: 355dfd4460ad0724fbe827e593befc49, type: 2}
-  - {fileID: 11400000, guid: c4711be1bc5c4f645a34d19b13985a2e, type: 2}
-  - {fileID: 11400000, guid: 18b55d7c1ab73ca479df14588bfd24f0, type: 2}
-  - {fileID: 11400000, guid: 2b44a1e3993063843b518024ef2c0b3d, type: 2}
-  - {fileID: 11400000, guid: a8d955fcc4bf49847a734c0dd3b88922, type: 2}
-  - {fileID: 11400000, guid: d0ea9b22ba1e06f4db7a91d05b815c5e, type: 2}
-  - {fileID: 11400000, guid: 55693a847258f184c8a84087d6be3291, type: 2}
   waveWait: 5
   generateNewWaves: 1
   maxAlive: 160
@@ -163,7 +153,7 @@ MonoBehaviour:
       m_RotationOrder: 4
     levelNumber: 6
     MapSize: {x: 14, y: 14}
-    numberOfWaves: 16
+    numberOfWaves: 6
     startingChallengeRating: 300
     peakChallengeRating: 600
     prePlacedTiles:
@@ -183,10 +173,10 @@ MonoBehaviour:
     earliestWavePercentage:
     - 0.01
     - 0.07
-    - 0.1
-    - 0.44
-    - 0.17
+    - 0.05
+    - 0.63
+    - 0.13
     - 0.42
-    - 0.58
+    - 0.56
     - 0.63
     - 0.76

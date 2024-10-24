@@ -9,6 +9,7 @@ using Random = UnityEngine.Random;
 using UnityEngine.Serialization;
 using System.Text;
 using WizardsCode.RogueWave;
+using ProceduralToolkit;
 
 namespace RogueWave
 {
@@ -94,6 +95,8 @@ namespace RogueWave
         internal float explosionForceOnDeath = 15;
 
         // Audio Juice
+        [SerializeField, Tooltip("The maximum distance from the player that the enemy will play awareness audio (does not affect weapons audio)."), BoxGroup("Audio Juice")]
+        float maxAudioDistance = 30;
         enum AwarenessAudioType { None, Bark, Drone }
         [SerializeField, Tooltip("The type of audio to play when the enemy is aware of the player."), BoxGroup("Audio Juice")]
         AwarenessAudioType awarenessAudioType = AwarenessAudioType.Bark;
@@ -261,6 +264,7 @@ namespace RogueWave
                 if (_target == null && FpsSoloCharacter.localPlayerCharacter != null)
                 {
                     _target = FpsSoloCharacter.localPlayerCharacter.transform;
+                    _targetNanobotManger = Target.GetComponent<NanobotManager>();
                 }
                 return _target;
             }
@@ -309,7 +313,7 @@ namespace RogueWave
 
                 frameOfNextSightTest = Time.frameCount + Random.Range(7, 18);
 
-                if (Vector3.Distance(Target.position, transform.position) <= viewDistance)
+                if (cachedDistanceToTarget <= viewDistance)
                 {
                     Vector3 rayTargetPosition = Target.position;
                     rayTargetPosition.y = Target.position.y + 0.8f; // TODO: Should use the seek targets
@@ -462,8 +466,6 @@ namespace RogueWave
             destinationMinY = gameMode.currentLevelDefinition.lotSize.y;
             destinationMaxX = (gameMode.currentLevelDefinition.mapSize.x - 1) * gameMode.currentLevelDefinition.lotSize.x;
             destinationMaxY = (gameMode.currentLevelDefinition.mapSize.y - 1) * gameMode.currentLevelDefinition.lotSize.y;
-
-            StartDroneAudio();
         }
 
         protected virtual void OnDisable()
@@ -501,6 +503,11 @@ namespace RogueWave
             AudioManager.PlayLooping(m_AudioSource, droneClip);
         }
 
+        private void StopDroneAudio()
+        {
+            AudioManager.StopLooping(m_AudioSource);
+        }
+
 
         private void DeathVFX()
         {
@@ -515,23 +522,40 @@ namespace RogueWave
             }
         }
 
-        protected virtual void Update()
+        float cachedDistanceToTarget;
+        float timeOfNextTargetDistanceCheck = 0;
+        protected virtual async void Update()
         {
             if (movementController != null)
             {
                 UpdateMovement();
             }
 
-            if (awarenessAudioType == AwarenessAudioType.Bark && Time.timeSinceLevelLoad > timeOfNextBark)
+            if (Time.time > timeOfNextTargetDistanceCheck)
             {
-                PlayBark();
+                cachedDistanceToTarget = Vector3.Distance(Target.position, transform.position);
+                timeOfNextTargetDistanceCheck = Time.time + Random.value;
+            }
+
+            if (awarenessAudioType != AwarenessAudioType.None && cachedDistanceToTarget <= maxAudioDistance)
+            {
+                if (awarenessAudioType == AwarenessAudioType.Drone && !m_AudioSource.isPlaying)
+                {
+                    StartDroneAudio();
+                }
+                else if (awarenessAudioType == AwarenessAudioType.Bark && Time.timeSinceLevelLoad > timeOfNextBark)
+                {
+                    PlayBark();
+                }
+            } 
+            else if (awarenessAudioType == AwarenessAudioType.Drone && m_AudioSource.isPlaying)
+            {
+                StopDroneAudio();
             }
         }
 
         private void PlayBark()
         {
-            // OPTIMIZATION: Only play barks if the player is within a certain distance
-            // OPTIMIZATION: Only play a bark if another enemy of the same type has NOT played a bark in the last barkFrequency.x seconds
             if (m_AudioSource.isPlaying)
             {
                 return;
@@ -704,6 +728,7 @@ namespace RogueWave
         private float destinationMaxY;
         protected AudioSource m_AudioSource;
         private float timeOfNextBark;
+        private NanobotManager _targetNanobotManger;
 
         private bool IsValidDestination(Vector3 destination, float avoidanceDistance)
         {

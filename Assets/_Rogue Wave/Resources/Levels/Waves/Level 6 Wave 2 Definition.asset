@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Level 6 Wave 2 Definition
   m_EditorClassIdentifier: 
   enemies:
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
+    baseWeight: 0.48975047
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
-    baseWeight: 0.12863879
-  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
-    baseWeight: 0.14758338
-  spawnEventFrequency: 4.25
-  numberToSpawn: 30
+    baseWeight: 0.4496802
+  spawnEventFrequency: 4.75
+  numberToSpawn: 32
   waveDuration: 7
   spawnOrder: 0
-  challengeRating: 359
-  targetChallengeRating: 359
+  challengeRating: 404
+  targetChallengeRating: 404
   randomizeEnemyTypes: 1

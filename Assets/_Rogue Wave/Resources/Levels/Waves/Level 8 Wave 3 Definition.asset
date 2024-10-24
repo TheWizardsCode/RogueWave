@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Level 8 Wave 3 Definition
   m_EditorClassIdentifier: 
   enemies:
+  - pooledEnemyPrefab: {fileID: 9165906392841844883, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
+    baseWeight: 0.41891077
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
-    baseWeight: 0.6333633
+    baseWeight: 0.09142089
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
-    baseWeight: 0.21571648
-  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
-    baseWeight: 0.85017353
-  spawnEventFrequency: 5
-  numberToSpawn: 57
+    baseWeight: 0.41278285
+  spawnEventFrequency: 5.5
+  numberToSpawn: 71
   waveDuration: 10
   spawnOrder: 0
-  challengeRating: 575
-  targetChallengeRating: 575
+  challengeRating: 680
+  targetChallengeRating: 680
   randomizeEnemyTypes: 1

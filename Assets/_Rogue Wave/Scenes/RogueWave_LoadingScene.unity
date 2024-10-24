@@ -140,7 +140,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &339703288
 RectTransform:
   m_ObjectHideFlags: 0
@@ -150,16 +150,16 @@ RectTransform:
   m_GameObject: {fileID: 339703287}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 990623994}
+  m_Father: {fileID: 1713671519}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 70, y: 80}
-  m_SizeDelta: {x: 800, y: 240}
-  m_Pivot: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &339703289
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,19 +182,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 45d3feba10e11ae40b112d47d9065bf0, type: 3}
-    m_FontSize: 32
+    m_FontSize: 63
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
-    m_MaxSize: 246
-    m_Alignment: 6
+    m_MaxSize: 259
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: You can quicksave the game at any point or use the save option from the
-    in-game menu to bookmark important points in the game
+  m_Text: "Survive for 20 minutes, \n or destroy the Spawner"
 --- !u!222 &339703290
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -391,50 +390,22 @@ MonoBehaviour:
   m_HintObject: {fileID: 339703287}
   m_LoadingScreenData:
   - heroImage: {fileID: 21300000, guid: 2162901062068734580404dbef558f25, type: 3}
-    hint: If you want to change between toggle sprint/crouch and hold to sprint/crouch
-      then you can rebind the keys from the options menu
+    hint: Survive for 20 minutes,   or destroy the Spawner
   - heroImage: {fileID: 21300000, guid: 2ca0b787730aaf34c902b5993c8509dc, type: 3}
-    hint: Some weapons have alternate firing modes which you can select with the
-      "Switch Modes" input
+    hint: Upgrades called in during a run do not survive death
   - heroImage: {fileID: 21300000, guid: 2b454c3b9bd2ef640b54108fbcd2e946, type: 3}
-    hint: You can quicksave the game at any point or use the save option from the
-      in-game menu to bookmark important points in the game
+    hint: Make temporary run upgrades permanent in the Hub
   - heroImage: {fileID: 21300000, guid: bec9a647536198f43a3f28346de299a1, type: 3}
-    hint: 
+    hint: Nanobots can only build one thing at a time, watch that ammo
   - heroImage: {fileID: 21300000, guid: 9b3a85798eda7ed45b322fffc4cb059c, type: 3}
-    hint: 
+    hint: Don't fear death, you will lose run upgrades, the nanobots will recover
+      resources collected
   - heroImage: {fileID: 21300000, guid: 76801a6aca21e434590c577d82f36502, type: 3}
     hint: Move into the portal to travel home.
-  - heroImage: {fileID: 21300000, guid: bec9a647536198f43a3f28346de299a1, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 92bc1a46b3d17bb49917e23b95ac4953, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 24d4f39fd71cba042b2fb5c184cd92de, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 58e8d947c4666e84f9c636ae8279c159, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 7d99e0ea76c84e74db3d187c00041ab9, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: d58c1e797a38b7c42bea82978a916a85, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 61e316301b4dc1e45aa1086841b12274, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 4f96e9dc74183984aad52efc7d661863, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 7aaa6138e23e9d543b48f65e6742803d, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 4908c33962e546447a3cee955ad4fa80, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 7375c55154f2d1543ace8c09fd3d72d2, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 10e492599ca68904b9b0556fb49240a6, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 4e9035b4bd914844d852924f4bb9b2ef, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: 431d85fbf5e001f4ba33a9752975d029, type: 3}
-    hint: 
-  - heroImage: {fileID: 21300000, guid: c65a44d872be3f242894d53b050c97b7, type: 3}
-    hint: 
+  - heroImage: {fileID: 21300000, guid: 76801a6aca21e434590c577d82f36502, type: 3}
+    hint: Spawners pause between waves, that's when you should push
+  - heroImage: {fileID: 21300000, guid: 76801a6aca21e434590c577d82f36502, type: 3}
+    hint: No two versions of a level are the same
   m_SaveWarningObject: {fileID: 966770203}
   m_AudioListener: {fileID: 1384751630}
 --- !u!1 &847970061
@@ -452,7 +423,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &847970062
 RectTransform:
   m_ObjectHideFlags: 0
@@ -509,9 +480,9 @@ RectTransform:
   m_Father: {fileID: 847970062}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 0.43823242, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &858960590
 MonoBehaviour:
@@ -580,7 +551,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &966770204
 RectTransform:
   m_ObjectHideFlags: 0
@@ -599,7 +570,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 340, y: 50}
+  m_AnchoredPosition: {x: 1532.8, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &990623993
@@ -633,7 +604,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2051841688}
-  - {fileID: 339703288}
+  - {fileID: 1713671519}
   - {fileID: 966770204}
   m_Father: {fileID: 523842603}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -855,6 +826,82 @@ CanvasRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497159850}
+  m_CullTransparentMesh: 1
+--- !u!1 &1713671518
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1713671519}
+  - component: {fileID: 1713671521}
+  - component: {fileID: 1713671520}
+  m_Layer: 5
+  m_Name: Hint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1713671519
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713671518}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 339703288}
+  m_Father: {fileID: 990623994}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 50, y: 50}
+  m_SizeDelta: {x: 1300, y: 280}
+  m_Pivot: {x: 0, y: 0}
+--- !u!114 &1713671520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713671518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.47058824}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1713671521
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1713671518}
   m_CullTransparentMesh: 1
 --- !u!1 &1958910498
 GameObject:

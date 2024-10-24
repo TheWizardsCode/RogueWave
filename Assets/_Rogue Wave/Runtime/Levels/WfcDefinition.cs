@@ -36,7 +36,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The waves of enemies to spawn in this level."), Expandable]
         internal WaveDefinition[] waves;
         [SerializeField, Tooltip("The duration of the wait between each spawn wave in seconds.")]
-        internal float waveWait = 5f;
+        internal float waveWait = 10f;
         [SerializeField, Tooltip("If there are no more eaves defined should the spawners generate new ones?")]
         internal bool generateNewWaves = false;
         [SerializeField, Tooltip("The maximum number of enemies that can be alive at any one time. Note that this may be overridden in the spawner settings. If this is set to 0 then there is no limit.")]
