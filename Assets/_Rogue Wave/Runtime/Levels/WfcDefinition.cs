@@ -56,7 +56,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The audio to play when the level is failed. This might include a Nanobot announcement about the level, for example.")]
         internal AudioClip[] deathAudioClips = new AudioClip[0];
 
-        [SerializeField, Tooltip("The configuration to use if this level is to be re-generated using the Level Wave Generator.")]
+        [SerializeField, ReadOnly, Tooltip("The configuration to use if this level is to be re-generated using the Level Wave Generator.")]
         public LevelWaveGenerationConfiguration levelWaveGenerationConfiguration;
 
         public string DisplayName => name;

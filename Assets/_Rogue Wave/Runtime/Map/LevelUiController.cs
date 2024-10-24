@@ -57,6 +57,11 @@ namespace RogueWave
             StringBuilder specialTileDescription = new StringBuilder();
             foreach (TileDefinition tile in levelDefinition.prePlacedTiles)
             {
+                if (!tile.DisplayName.Contains("Player Spawn"))
+                {
+                    specialTileDescription.AppendLine($"  - {tile.DisplayName}");
+                }
+
                 if (tile.icon == null)
                 {
                     continue;
@@ -65,8 +70,6 @@ namespace RogueWave
                 Image icon = Instantiate(iconPrototype, iconPrototype.transform.parent);
                 icon.sprite = tile.icon;
                 icon.name = tile.name;
-
-                specialTileDescription.AppendLine($"  - {tile.DisplayName}");
             }
 
             TooltipTrigger tooltip = GetComponent<TooltipTrigger>();
