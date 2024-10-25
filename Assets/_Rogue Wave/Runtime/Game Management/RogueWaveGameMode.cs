@@ -591,7 +591,7 @@ namespace RogueWave
             NanobotManager manager = character.GetComponent<NanobotManager>();
             for (int i = 0; i < RogueLiteManager.runData.Recipes.Count; i++)
             {
-                manager.Add(RogueLiteManager.runData.Recipes[i]);
+                manager.AddToRunRecipes(RogueLiteManager.runData.Recipes[i]);
             }
 
             // since a recipe may have adjusted the max health, we need to reset the health to the new max

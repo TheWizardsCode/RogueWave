@@ -19,11 +19,11 @@ namespace RogueWave {
             if (nanobotManager != null)
             {
                 RogueLiteManager.runData.Add(weaponPickupRecipe);
-                nanobotManager.Add(weaponPickupRecipe);
+                nanobotManager.AddToRunRecipes(weaponPickupRecipe);
                 if (ammoPickupRecipe != null)
                 {
                     RogueLiteManager.runData.Add(ammoPickupRecipe);
-                    nanobotManager.Add(ammoPickupRecipe);
+                    nanobotManager.AddToRunRecipes(ammoPickupRecipe);
                 }
             }
         }

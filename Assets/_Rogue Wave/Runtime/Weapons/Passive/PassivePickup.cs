@@ -22,7 +22,7 @@ namespace RogueWave
             if (nanobotManager != null)
             {
                 RogueLiteManager.runData.Add(recipe);
-                nanobotManager.Add(recipe);
+                nanobotManager.AddToRunRecipes(recipe);
             }
 
             if (audioClips.Length > 0)

@@ -419,7 +419,7 @@ namespace RogueWave
                     yield return Announce(clip);
 
                     RogueLiteManager.runData.Add(currentOfferRecipes[i]);
-                    Add(currentOfferRecipes[i]);
+                    AddToRunRecipes(currentOfferRecipes[i]);
 
                     m_RecipesCalledInStat.Add(1);
                     
@@ -797,13 +797,15 @@ namespace RogueWave
         /// Adds the recipe to the list of recipes available to these nanobots on this run.
         /// </summary>
         /// <param name="recipe">The recipe to add.</param>
-        public void Add(IRecipe recipe)
+        public void AddToRunRecipes(IRecipe recipe)
         {
             if (recipe == null)
             {
                 Debug.LogError("Attempting to add a null recipe to the NanobotManager.");
                 return;
             }
+
+            RogueLiteManager.runData.Add(recipe);
 
             // TODO: This is messy, far too many if...else statements. Do we really need to keep separate lists now that they have a common AbstractRecipe base class?
             if (recipe is AmmoRecipe ammo && !ammoRecipes.Contains(ammo))
@@ -823,7 +825,7 @@ namespace RogueWave
                 weaponRecipes.Add(weapon);
                 if (weapon.ammoRecipe != null)
                 {
-                    Add(weapon.ammoRecipe);
+                    AddToRunRecipes(weapon.ammoRecipe);
                 }
             }
             else if (recipe is ToolRecipe tool && !toolRecipes.Contains(tool))

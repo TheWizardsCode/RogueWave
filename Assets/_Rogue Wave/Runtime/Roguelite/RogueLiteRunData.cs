@@ -42,6 +42,7 @@ namespace RogueWave
         }
 
         private static List<IRecipe> m_RunRecipeData = new List<IRecipe>();
+        [Obsolete("This field needs to be made private (see m_RunRecipeData) to force access through the Add and Remove methods. Likley need to add some additional access functionality.")]
         public List<IRecipe> Recipes { get { return m_RunRecipeData; } }
 
         /// <summary>
@@ -71,7 +72,7 @@ namespace RogueWave
                 // REFACTOR: this code is a duplicate of code in the persistent data class
                 if (RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipe.UniqueID) == false)
                 {
-                    if (weapon.overridePrimaryWeapon)
+                    if (weapon.overridePrimaryWeapon || RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
                     {
                         RogueLiteManager.persistentData.WeaponBuildOrder.Insert(0, recipe.UniqueID);
                     }

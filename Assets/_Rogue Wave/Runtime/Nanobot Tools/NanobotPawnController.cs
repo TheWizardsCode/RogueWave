@@ -216,7 +216,7 @@ namespace RogueWave
                 foreach (IRecipe recipe in startingRecipes)
                 {
                     RogueLiteManager.persistentData.Add(recipe);
-                    nanobotManager.Add(recipe);
+                    nanobotManager.AddToRunRecipes(recipe);
                 }
             }
         }

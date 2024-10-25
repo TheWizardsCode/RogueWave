@@ -110,7 +110,7 @@ namespace RogueWave.UI
             if (nanobotManager != null)
             {
                 RogueLiteManager.runData.Add(offer);
-                nanobotManager.Add(offer);
+                nanobotManager.AddToRunRecipes(offer);
             }
 
             RogueLiteManager.persistentData.Add(offer);

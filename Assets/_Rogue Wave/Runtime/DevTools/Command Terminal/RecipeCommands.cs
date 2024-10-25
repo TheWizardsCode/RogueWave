@@ -1,4 +1,5 @@
 using RogueWave;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace WizardsCode.RogueWave.CommandTermiinal
             DumpRecipeList(groupedRecipes);
         }
 
-        [RegisterCommand(Help = "Add a specific recipe to the temporary collection. If no recipe is identified in the parameters then a list of all recipes will be output to the terminal", MinArgCount = 0, MaxArgCount = 1), ]
+        [RegisterCommand(Help = "Add a specific recipe to the temporary collection. Recipe is identified by an index or name. If no recipe is identified in the parameters then a list of all recipes will be output to the terminal.", MinArgCount = 0, MaxArgCount = 1), ]
         public static void AddTemporaryRecipe(CommandArg[] args)
         {
             RecipeManager.Initialise();
@@ -29,36 +30,65 @@ namespace WizardsCode.RogueWave.CommandTermiinal
             {
                 Terminal.Log("You need to specify the recipe to add, avaialble recipes are:\n");
                 DumpRecipeList(groupedRecipes);
-                Terminal.Log("\nPlease run the command again specifying the recipe to add using the numbers above.");
+                Terminal.Log("\nPlease run the command again specifying the recipe to add using the index number or name above.");
                 return;
             }
 
-            IRecipe recipe;
-            int index = 0;
-            foreach (var group in groupedRecipes)
+            IRecipe recipe = null;
+            if (int.TryParse(args[0].String, out int requestedIndex))
             {
-                var uniqueRecipes = group
-                    .GroupBy(recipe => recipe.DisplayName)
-                    .Select(g => new { Recipe = g.First(), Count = g.Count() })
-                    .OrderBy(tuple => tuple.Recipe.DisplayName);
-                foreach (var tuple in uniqueRecipes)
+                if (requestedIndex < 0 || requestedIndex >= groupedRecipes.SelectMany(group => group).Count())
                 {
-                    if (index == args[0].Int)
+                    Terminal.Log("Invalid index.\n");
+                    DumpRecipeList(groupedRecipes);
+                    Terminal.Log("\nPlease run the command again specifying the recipe to add using the index number or name above.");
+                    return;
+                }
+                else
+                {
+                    int index = 0;
+                    foreach (var group in groupedRecipes)
                     {
-                        recipe = tuple.Recipe;
-                        RogueLiteManager.runData.Add(recipe);
-                        if (Application.isPlaying)
+                        var uniqueRecipes = group
+                            .GroupBy(recipe => recipe.DisplayName)
+                            .Select(g => new { Recipe = g.First(), Count = g.Count() })
+                            .OrderBy(tuple => tuple.Recipe.DisplayName);
+
+                        foreach (var tuple in uniqueRecipes)
                         {
-                            GameObject.FindAnyObjectByType<NanobotManager>().Add(recipe);
+                            if (index == requestedIndex)
+                            {
+                                recipe = tuple.Recipe;
+                                RogueLiteManager.runData.Add(recipe);
+                                break;
+                            }
+                            index++;
                         }
-                        Terminal.Log($"Added {recipe.DisplayName} to temporary collection.");
-                        return;
                     }
-                    index++;
+                }
+            } else
+            {
+                foreach (var group in groupedRecipes)
+                {
+                    var recipeDictionary = RecipeManager.allRecipes.Values
+                        .GroupBy(recipe => recipe.DisplayName)
+                        .ToDictionary(g => g.Key, g => g.First());
+
+                    recipe = recipeDictionary.FirstOrDefault(kvp => kvp.Key.Contains(args[0].String, StringComparison.OrdinalIgnoreCase)).Value;
+
+                    break;
                 }
             }
 
-            Terminal.LogError($"Index is not valid {args[0].Int}.");
+            if (recipe != null)
+            {
+                GameObject.FindAnyObjectByType<NanobotManager>().AddToRunRecipes(recipe);
+                Terminal.Log($"Added {recipe.DisplayName} to temporary collection.");
+            } 
+            else
+            {
+                Terminal.LogError($"Selection is not valid. It should be an integer or a string matching one of the names above. You provided '{args[0]}'.");
+            }
         }
 
         [RegisterCommand(Help = "Add a specific recipe to the permanent collection. If no recipe is identified in the parameters then a list of all recipes will be output to the terminal", MinArgCount = 0, MaxArgCount = 1), ]
@@ -93,7 +123,7 @@ namespace WizardsCode.RogueWave.CommandTermiinal
                         RogueLiteManager.persistentData.Add(recipe);
                         RogueLiteManager.runData.Add(recipe); if (Application.isPlaying)
                         {
-                            GameObject.FindAnyObjectByType<NanobotManager>().Add(recipe);
+                            GameObject.FindAnyObjectByType<NanobotManager>().AddToRunRecipes(recipe);
                         }
 
                         Terminal.Log($"Added {recipe.DisplayName} to permanent collection.");
