@@ -2,11 +2,9 @@ using UnityEngine;
 using UnityEditor;
 using RogueWave;
 using System;
-using UnityEditorInternal;
 using System.Linq;
 using System.Collections.Generic;
 using Random = UnityEngine.Random;
-using System.Diagnostics.Eventing.Reader;
 
 namespace WizardsCode.RogueWave_Dev.Editor
 {
@@ -42,7 +40,6 @@ namespace WizardsCode.RogueWave_Dev.Editor
         private Dictionary<BasicEnemyController, float> earliestWavePercentage = new Dictionary<BasicEnemyController, float>();
 
         bool m_LevelExists = false;
-        private bool LevelExists => m_LevelExists;
 
         [MenuItem("Tools/Rogue Wave/Level and Wave Generator")]
         public static void ShowWindow()
@@ -52,7 +49,7 @@ namespace WizardsCode.RogueWave_Dev.Editor
 
         private void OnEnable()
         {
-            UpdateLevelExists();
+            TryGetExistingLevel(out _);
             RefreshTileDefinitions();
             RefreshAllEnemies();
         }
@@ -94,9 +91,10 @@ namespace WizardsCode.RogueWave_Dev.Editor
             levelNumber = EditorGUILayout.IntField("Level Number", levelNumber);
             if (levelNumber != originalLevelNumber)
             {
-                UpdateLevelExists();
+                TryGetExistingLevel(out _);
             }
-            if (LevelExists && GUILayout.Button("Load config from existing level"))
+
+            if (m_LevelExists && GUILayout.Button("Load config from existing level"))
             {
                 LoadGenerationSettingsForLevel();
             }
@@ -109,9 +107,17 @@ namespace WizardsCode.RogueWave_Dev.Editor
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space();
         }
-        bool UpdateLevelExists()
+
+        /// <summary>
+        /// Check to see if a WfcDefinition already exists for this level.
+        /// 
+        /// The result of this test is cached in `m_LevelExists`.
+        /// </summary>
+        /// <returns>True if the level already exists</returns>
+        /// <param name="wfcDefinition">The WfcDefinition for the level if it exists, otherwise null.</param>
+        bool TryGetExistingLevel(out WfcDefinition wfcDefinition)
         {
-            WfcDefinition wfcDefinition = AssetDatabase.LoadAssetAtPath<WfcDefinition>(GetWfcDefinitionPath());
+            wfcDefinition = AssetDatabase.LoadAssetAtPath<WfcDefinition>(GetWfcDefinitionPath());
             m_LevelExists = wfcDefinition != null;
             return m_LevelExists;
         }
@@ -125,8 +131,10 @@ namespace WizardsCode.RogueWave_Dev.Editor
             numberOfWaves = config.numberOfWaves;
             startingChallengeRating = config.startingChallengeRating;
             peakChallengeRating = config.peakChallengeRating;
-            prePlacedTiles = config.prePlacedTiles;
             earliestWavePercentage = config.enemies.ToDictionary(enemy => enemy, enemy => config.earliestWavePercentage[Array.IndexOf(config.enemies, enemy)]);
+
+            // The following items are commonly edited in the inspector so we need to copy them over rather than rely on the config object
+            prePlacedTiles = wfcDefinition.prePlacedTiles;
 
             return wfcDefinition;
         }
@@ -186,13 +194,28 @@ namespace WizardsCode.RogueWave_Dev.Editor
                     EditorGUILayout.BeginHorizontal();
                     EditorGUILayout.LabelField(new GUIContent($"{enemy.name} (CR {enemy.challengeRating})", "The name of the enemy and a Challenge Rating that gives an indication of how tough the enemy is."));
 
-                    int earliestWave = numberOfWaves - Mathf.RoundToInt(numberOfWaves * (1 - earliestWavePercentage[currentEnemy]));
-                    earliestWavePercentage[currentEnemy] = EditorGUILayout.Slider(new GUIContent($"Earliest Wave {earliestWave}", "A normalized % of progress through the levels that the player will make before they are likely to encounter this enemy."), earliestWavePercentage[currentEnemy], 0f, 1f);
+                    int earliestWave = GetEarliestWave(currentEnemy);
+                    string waveDescription = $"Waves from: {earliestWave + 1}";
+                    if (earliestWave < 0)
+                    {
+                        waveDescription = "Does not appear";
+                    }
+                    else if (earliestWave == 0)
+                    {
+                        waveDescription = "From the start";
+                    }
+
+                    earliestWavePercentage[currentEnemy] = EditorGUILayout.Slider(new GUIContent(waveDescription, "A normalized % of progress through the levels that the player will make before they are likely to encounter this enemy."), earliestWavePercentage[currentEnemy], 0f, 1f);
                     EditorGUILayout.EndHorizontal();
                 }
             }
             EditorGUILayout.EndVertical();
             EditorGUILayout.Space();
+        }
+
+        private int GetEarliestWave(BasicEnemyController currentEnemy)
+        {
+            return numberOfWaves - (int)(numberOfWaves * (1 - earliestWavePercentage[currentEnemy])) - 1;
         }
 
         private void DrawButtons()
@@ -233,10 +256,10 @@ namespace WizardsCode.RogueWave_Dev.Editor
             overwriteChoice = 0;
 
             // Create the base WFC Definition
-            if (LevelExists)
+            if (m_LevelExists)
             {
                 bool overwrite = EditorUtility.DisplayDialog(
-                    "File Exists",
+                    "Level Definition Exists",
                     $"WfcDefinition for Level {levelNumber} already exists. Do you want to overwrite it?",
                     "Yes",
                     "No"
@@ -246,8 +269,12 @@ namespace WizardsCode.RogueWave_Dev.Editor
                     return;
                 }
             }
-            
-            WfcDefinition wfcDefinition = ScriptableObject.CreateInstance<WfcDefinition>();
+
+            WfcDefinition wfcDefinition;
+            if (!TryGetExistingLevel(out wfcDefinition))
+            {
+                wfcDefinition = ScriptableObject.CreateInstance<WfcDefinition>();
+            }
             
             wfcDefinition.name = $"Level {levelNumber}";
             wfcDefinition.prePlacedTiles = prePlacedTiles;
@@ -284,7 +311,7 @@ namespace WizardsCode.RogueWave_Dev.Editor
                     if (overwriteChoice == 0)
                     {
                         overwriteChoice = EditorUtility.DisplayDialogComplex(
-                            "File Exists",
+                            "Wave Definition Exists",
                             $"WaveDefinition for Level {levelNumber} Wave {i + 1} already exists. What would you like to do?",
                             $"Yes to wave {i + 1}",
                             "Yes to All",
@@ -292,9 +319,11 @@ namespace WizardsCode.RogueWave_Dev.Editor
                         );
                     }
 
-                    if (overwriteChoice == 3)
+                    if (overwriteChoice == 2)
                     {
-                        return;
+                        wfcDefinition.Waves[i] = waveDefinition;
+                        overwriteChoice = 0;
+                        continue;
                     }
                 }
 
@@ -304,13 +333,14 @@ namespace WizardsCode.RogueWave_Dev.Editor
                 List<BasicEnemyController> availableEnemies = new List<BasicEnemyController>();
                 foreach (BasicEnemyController enemy in allEnemies)
                 {
-                    if (earliestWavePercentage[enemy] > 0 && numberOfWaves - Mathf.RoundToInt(numberOfWaves * (1 - earliestWavePercentage[enemy])) <= i)
+                    int earliestWave = GetEarliestWave(enemy);
+                    if (earliestWavePercentage[enemy] > 0 && earliestWave >= 0 && earliestWave <= i)
                     {
                         availableEnemies.Add(enemy);
                     }
                 }
 
-                waveDefinition.GenerateWave(targetChallengeRating, true, availableEnemies.ToArray());
+                waveDefinition.GenerateWave(targetChallengeRating, true, availableEnemies.ToArray(), (15.0f * 60) / numberOfWaves);
 
                 wfcDefinition.Waves[i] = waveDefinition;
 
@@ -324,8 +354,15 @@ namespace WizardsCode.RogueWave_Dev.Editor
                 }
             }
 
-            // Save the ScriptableObject as an asset
-            AssetDatabase.CreateAsset(wfcDefinition, GetWfcDefinitionPath());
+            // Save the ScriptableObject as an asset and ping/select it in the Editor
+            if (m_LevelExists)
+            {
+                EditorUtility.SetDirty(wfcDefinition);
+            }
+            else
+            {
+                AssetDatabase.CreateAsset(wfcDefinition, GetWfcDefinitionPath());
+            }
             AssetDatabase.SaveAssets();
 
             Selection.activeObject = wfcDefinition;
@@ -400,7 +437,7 @@ namespace WizardsCode.RogueWave_Dev.Editor
             foreach (BasicEnemyController enemy in allEnemies)
             {
                 BasicEnemyController currentEnemy = enemy;
-                earliestWavePercentage[currentEnemy] = Mathf.Clamp01(((float)currentEnemy.challengeRating / peakChallengeRating) * Random.Range(0.8f, 1.2f));
+                earliestWavePercentage[currentEnemy] = Mathf.Clamp01(((float)currentEnemy.challengeRating / peakChallengeRating));
             }
 
             // Normalize the earliest wave percentages so that they are between 0.01 and 1

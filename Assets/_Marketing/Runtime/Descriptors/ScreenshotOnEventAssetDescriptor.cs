@@ -6,6 +6,7 @@ using UnityEditor.Recorder;
 using UnityEngine;
 using WizardsCode.RogueWave;
 using Time = UnityEngine.Time;
+using PlasticPipe.PlasticProtocol.Messages;
 
 namespace WizardsCode.Marketing
 {
@@ -13,7 +14,7 @@ namespace WizardsCode.Marketing
     public class ScreenshotOnEventAssetDescriptor : AssetDescriptor
     {
         [SerializeField, Tooltip("The Game Event to trigger the capture of a Screenshot."), BoxGroup("Screenshot")]
-        GameEvent m_HeroImageGameEvent;
+        GameEvent[] m_HeroImageGameEvents;
         [SerializeField, Tooltip("The number of screenshots to take when the game event is triggered."), BoxGroup("Screenshot")]
         int m_ScreenshotCount = 3;
         [SerializeField, Tooltip("Minimum number of frames between screenshots."), BoxGroup("Screenshot")]
@@ -21,7 +22,7 @@ namespace WizardsCode.Marketing
         [SerializeField, Tooltip("The target frame rate of the image sequence."), BoxGroup("Screenshot")]
         float m_FrameRate = 30;
 
-        internal GameEvent ScreenshotGameEvent => m_HeroImageGameEvent;
+        internal GameEvent[] ScreenshotGameEvents => m_HeroImageGameEvents;
         internal int ScreenshotCount => m_ScreenshotCount;
         private int nextPermittedScreenshotFrame = 0; internal float FrameRate => m_FrameRate;
 

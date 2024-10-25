@@ -25,24 +25,33 @@ MonoBehaviour:
   m_BackgroundPosition: {x: 0, y: 0, z: 0}
   m_BackgroundRotation: {x: 0, y: 0, z: 0}
   heroCount: 21
-  screenshotCount: 76
+  screenshotCount: 90
   imageSequenceCount: 2
   videoCount: 4
-  m_HeroImageGameEvent: {fileID: 11400000, guid: 3fbb0d7d8b4f19548b8dff71a5b20ec1, type: 2}
+  m_HeroImageGameEvents:
+  - {fileID: 11400000, guid: 3fbb0d7d8b4f19548b8dff71a5b20ec1, type: 2}
+  - {fileID: 11400000, guid: 43a549dfb2a4e0d4481ade6be3be865d, type: 2}
+  - {fileID: 11400000, guid: 859d745b043854340a4de239e46093c6, type: 2}
+  - {fileID: 11400000, guid: d898f23fd09e164458efacd0c01beb00, type: 2}
   m_ScreenshotCount: 3
   m_MinimumFramesBetweenScreenshots: 60
   m_FrameRate: 24
-  m_LevelDefinition: {fileID: 11400000, guid: 1db357c8e85b1d94d9350fcc9ae60dd3, type: 2}
-  m_TerminalCommands: '# KillPercentageEnemies 1
+  m_LevelDefinition: {fileID: 11400000, guid: 64026e604c392c446bc78c60062dd773, type: 2}
+  m_TerminalCommands: 'wait 1
 
-    # DisableSpawning
+
+    KillPercentageEnemies 1
+
+    DisableSpawning
 
 
     wait
     1
 
 
-    #setmaxhealth 10000'
+    # settimeinlevel 297
+
+    setmaxhealth 10000'
   m_PlayerStartPosition: {x: 43.099586, y: 1000, z: 23.756985}
   m_PlayerStartRotation: {x: 0, y: 0.6849333, z: 0, w: 0.7286058}
   m_Recipes:

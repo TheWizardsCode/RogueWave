@@ -481,6 +481,8 @@ namespace RogueWave
         }
         void OnDeath()
         {
+            onDeath?.Invoke(this);
+
             if (deathJuicePrefab != null)
             {
                 DeathVFX();
@@ -858,8 +860,7 @@ namespace RogueWave
             }
 
             OnDeath();
-            onDeath?.Invoke(this);
-
+            
             if (enemyKillsStat != null)
             {
                 enemyKillsStat.Add(1);

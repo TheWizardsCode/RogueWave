@@ -110,8 +110,6 @@ namespace RogueWave
 
             StopAllCoroutines();
             healthManager.onIsAliveChanged -= OnAliveIsChanged;
-
-            onSpawnerDestroyed?.Invoke(this);
         }
 
         protected override void Update()
@@ -258,7 +256,6 @@ namespace RogueWave
             newWave.Init(
                 spawnConfig.ToArray(),
                 Mathf.Max(lastWave.SpawnEventFrequency - 0.1f, 0.1f), // faster!
-                lastWave.WaveDuration + Random.Range(1f, 5f), // longer!
                 WaveDefinition.SpawnOrder.WeightedRandom
             );
             return newWave;
@@ -277,7 +274,7 @@ namespace RogueWave
             {
                 float waveStart = Time.time;
                 WaitForSeconds waitForSpawn = new WaitForSeconds(currentWave.SpawnEventFrequency);
-                while (Time.time - waveStart < currentWave.WaveDuration - currentWave.SpawnEventFrequency && (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
+                while (Time.time - waveStart < currentWave.Duration - currentWave.SpawnEventFrequency && (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
                 {
                     yield return waitForSpawn;
 
@@ -286,7 +283,7 @@ namespace RogueWave
                         if (activeRange == 0 || Vector3.SqrMagnitude(FpsSoloCharacter.localPlayerCharacter.transform.position - transform.position) <= activeRangeSqr)
                         {
                             SpawnEnemy();
-                            while (Time.time - waveStart < currentWave.WaveDuration && ignoreMaxAlive == false && currentLevel.maxAlive != 0 && spawnedEnemies.Count >= currentLevel.maxAlive) {
+                            while (Time.time - waveStart < currentWave.Duration && ignoreMaxAlive == false && currentLevel.maxAlive != 0 && spawnedEnemies.Count >= currentLevel.maxAlive) {
                                 yield return waitForSpawn;
                             }
                             yield return null;
@@ -390,6 +387,8 @@ namespace RogueWave
                         }
                     }
                 }
+
+                onSpawnerDestroyed?.Invoke(this);
             }
 
             base.OnAliveIsChanged(isAlive);

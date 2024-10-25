@@ -193,7 +193,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1.2
-  m_Text: "Survive for 20 minutes, \n or destroy the Spawner"
+  m_Text: "Survive for 5 waves, \nor destroy the Spawner,\nthen the Nanobots will
+    get you out.  "
 --- !u!222 &339703290
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -390,7 +391,8 @@ MonoBehaviour:
   m_HintObject: {fileID: 339703287}
   m_LoadingScreenData:
   - heroImage: {fileID: 21300000, guid: 2162901062068734580404dbef558f25, type: 3}
-    hint: Survive for 20 minutes,   or destroy the Spawner
+    hint: 'Survive for 5 waves,  or destroy the Spawner, then the Nanobots will get
+      you out.  '
   - heroImage: {fileID: 21300000, guid: 2ca0b787730aaf34c902b5993c8509dc, type: 3}
     hint: Upgrades called in during a run do not survive death
   - heroImage: {fileID: 21300000, guid: 2b454c3b9bd2ef640b54108fbcd2e946, type: 3}

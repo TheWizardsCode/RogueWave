@@ -18,6 +18,7 @@ using UnityEngine.SceneManagement;
 using NeoFPS.Samples;
 using WizardsCode.RogueWave;
 using System.Linq;
+using TunnelEffect;
 
 namespace RogueWave
 {
@@ -32,6 +33,8 @@ namespace RogueWave
         [Header("Victory")]
         [SerializeField, Tooltip("The amount of time to wait after victory before heading to the hub")]
         float m_VictoryDuration = 5f;
+        [SerializeField, Tooltip("The prefab to use for the extraction FX."), Required]
+        ExtractionFXController extractionFx;
 
         [Header("Character")]
         [SerializeField, NeoPrefabField(required = true), Tooltip("The player prefab to instantiate if none exists.")]
@@ -69,6 +72,12 @@ namespace RogueWave
         [Header("Events")]
         [SerializeField, Tooltip("Game event to fire when the player spawns into the level.")]
         GameEvent playerSpawnedEvent;
+        [SerializeField, Tooltip("Game event to fire when the player dies.")]
+        GameEvent playerDiedEvent;
+        [SerializeField, Tooltip("Game event to fire when the player escapes a level (based on time).")]
+        GameEvent playerEscapedEvent;
+        [SerializeField, Tooltip("Game event to fire when the player exits via a portal.")]
+        GameEvent playerExitedViaPortalEvent;
         [SerializeField, Tooltip("The event to trigger when the level generator creates a spawner.")]
         public UnityEvent<Spawner> onSpawnerCreated;
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
@@ -183,6 +192,13 @@ namespace RogueWave
             }
 
             timeInLevel += Time.deltaTime;
+
+            if (timeInLevel >= currentLevelDefinition.Duration && m_VictoryCoroutine == null)
+            {
+                LogGameState("Level Cleared - Timed Extraction");
+                m_VictoryCoroutine = StartCoroutine(DelayedLevelTimerAchievedCoroutine(m_VictoryDuration));
+            }
+
             levelProgressBar.Value = timeInLevel;
 
             updateHUD();
@@ -199,6 +215,10 @@ namespace RogueWave
 
         internal void OnSpawnerDestroyed(Spawner spawner)
         {
+            extractionFx.extractionType = ExtractionFXController.ExtractionType.SpawnerDestroyed;
+            extractionFx.gameObject.SetActive(true);
+            AudioManager.FadeAllExceptNanobots(0, 2);
+
             if (FpsSoloCharacter.localPlayerCharacter != null && FpsSoloCharacter.localPlayerCharacter.isAlive == false)
             {
                 return;
@@ -212,7 +232,7 @@ namespace RogueWave
                 bossSpawnersRemaining--;
             }
 
-            LogGameState("Level Cleared");
+            LogGameState("Level Cleared - Spawners destroyed");
 
             if (bossSpawnersRemaining == 0 && m_VictoryCoroutine == null)
             {
@@ -220,8 +240,20 @@ namespace RogueWave
             }
         }
 
+        protected override IEnumerator DelayedDeathReactionCoroutine(float delay)
+        {
+            extractionFx.extractionType = ExtractionFXController.ExtractionType.Death;
+            extractionFx.gameObject.SetActive(true);
+            AudioManager.FadeAllExceptNanobots(0, 1);
+
+            yield return base.DelayedDeathReactionCoroutine(delay);
+        }
+
         protected override void DelayedDeathAction()
         {
+         
+            playerDiedEvent?.Raise();
+
             MusicManager.Instance.PlayDeathMusic();
 
             LogGameState("Death");
@@ -247,6 +279,8 @@ namespace RogueWave
         {
             m_GameLog.Add("C, ");
 
+            playerExitedViaPortalEvent?.Raise();
+
             SaveGameData("usedPortal");
             GameLog.ClearLog();
 
@@ -261,12 +295,75 @@ namespace RogueWave
         }
 
         /// <summary>
-        /// Level cleared is when all spawners are defeated and the player has not die, but the player has not yet exited the level via the portal.
+        /// Level timer achieved is when the timeInLevel reaches the target, and the player has not died, but the player has not yet exited the level via the portal.
         /// </summary>
         /// <param name="delay"></param>
         /// <returns></returns>
+        /// <seealso cref="DelayedLevelClearedCoroutine(float)"/>
+        /// <seealso cref="DelayedLevelCompleteCoroutine(float)"/>"/>
+        private IEnumerator DelayedLevelTimerAchievedCoroutine(float delay)
+        {
+            extractionFx.gameObject.SetActive(true);
+            extractionFx.extractionType = ExtractionFXController.ExtractionType.PlayerEscaped;
+            AudioManager.FadeAllExceptNanobots(0, 1);
+            yield return new WaitForSeconds(extractionFx.duration / 4);
+
+            playerEscapedEvent?.Raise();
+            yield return new WaitForSeconds(extractionFx.duration / 4);
+
+            onLevelComplete?.Invoke();
+            SaveGameData("Level Timer Achieved");
+
+            // Temporary magnet buff to pull in victory rewards
+            MagnetController magnet = null;
+            float originalRange = 0;
+            float originalSpeed = 0;
+            if (FpsSoloCharacter.localPlayerCharacter != null)
+            {
+                magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
+                if (magnet != null)
+                {
+                    originalRange = magnet.range;
+                    originalSpeed = magnet.speed;
+                    magnet.range = 100;
+                    magnet.speed = 25;
+                }
+            }
+
+            yield return new WaitForSeconds(delay);
+
+            // Reset magnet
+            if (magnet != null)
+            {
+                magnet.range = originalRange;
+                magnet.speed = originalSpeed;
+            }
+
+            RogueLiteManager.persistentData.currentGameLevel++;
+
+            if (m_VictoryCount != null)
+            {
+                m_VictoryCount.Add(1);
+            }
+
+            if (inGame)
+                DelayedVictoryAction(false);
+        }
+
+        /// <summary>
+        /// Level cleared is when all spawners are defeated, and the player has not died, but the player has not yet exited the level via the portal.
+        /// </summary>
+        /// <param name="delay"></param>
+        /// <returns></returns>
+        /// <seealso cref="DelayedLevelTimerAchievedCoroutine(float)"/>
+        /// <seealso cref="DelayedLevelCompleteCoroutine(float)"/>
         private IEnumerator DelayedLevelClearedCoroutine(float delay)
         {
+            extractionFx.gameObject.SetActive(true);
+            extractionFx.extractionType = ExtractionFXController.ExtractionType.SpawnerDestroyed;
+            AudioManager.FadeAllExceptNanobots(0, 1);
+            yield return new WaitForSeconds(extractionFx.duration / 4);
+
             MusicManager.Instance.PlayMenuMusic();
 
             onLevelComplete?.Invoke();
@@ -316,8 +413,15 @@ namespace RogueWave
         /// </summary>
         /// <param name="delay"></param>
         /// <returns></returns>
+        /// <seealso cref="DelayedLevelTimerAchievedCoroutine(float)"/>
+        /// <seealso cref="DelayedLevelClearedCoroutine(float)"/>
         private IEnumerator DelayedLevelCompleteCoroutine(float delay)
         {
+            extractionFx.gameObject.SetActive(true);
+            extractionFx.extractionType = ExtractionFXController.ExtractionType.PortalUsed;
+            AudioManager.FadeAllExceptNanobots(0, 1);
+            yield return new WaitForSeconds(extractionFx.duration / 4);
+
             LogGameState("Portal used");
 
             FloatValueModifier modifier = FpsSoloCharacter.localPlayerCharacter.GetComponent<MovementUpgradeManager>().GetFloatModifier("moveSpeed");
@@ -452,15 +556,12 @@ namespace RogueWave
             m_RunCount.Add(1);
 
             // Configure the Level Progress Bar
-            if (levelProgressBar.isActiveAndEnabled)
-            {
-                levelProgressBar.gameObject.SetActive(true);
-                levelProgressBar.MaxValue = currentLevelDefinition.Duration;
-                levelProgressBar.MinValue = 0;
-                levelProgressBar.Value = 0;
-                levelProgressBar.levelDefinition = currentLevelDefinition;
-            }
-
+            levelProgressBar.gameObject.SetActive(true);
+            levelProgressBar.MaxValue = currentLevelDefinition.Duration;
+            levelProgressBar.MinValue = 0;
+            levelProgressBar.Value = 0;
+            levelProgressBar.levelDefinition = currentLevelDefinition;
+            
             timeInLevel = 0;
 
             // Configure the character health management
@@ -657,10 +758,10 @@ namespace RogueWave
         protected override bool PreSpawnStep()
         {
             // TODO: Are we going to have a level progress bar in the game? If note we should remove it rather than just disable it
-            if (levelProgressBar != null)
-            {
-                levelProgressBar.gameObject.SetActive(false);
-            }
+            //if (levelProgressBar != null)
+            //{
+            //    levelProgressBar.gameObject.SetActive(false);
+            //}
 
             RogueLiteManager.persistentData.runNumber++;
 

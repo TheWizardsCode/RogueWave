@@ -13,7 +13,8 @@ namespace WizardsCode.CommandTerminal
         OpenSmall,
         OpenFull
     }
-
+    
+    [DefaultExecutionOrder(9999)]
     public class Terminal : MonoBehaviour
     {
         [Header("Behaviour")]

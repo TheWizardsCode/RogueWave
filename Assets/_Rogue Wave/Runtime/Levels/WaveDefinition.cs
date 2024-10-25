@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using NeoFPS;
-using NUnit.Framework.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,8 +30,6 @@ namespace RogueWave
         private float spawnEventFrequency = 5f;
         [SerializeField, Range(1, 99), Tooltip("The number of enemies to spawn during a spawn event."), FormerlySerializedAs("spawnAmount"), OnValueChanged("UpdateCR")]
         private int numberToSpawn = 3;
-        [SerializeField, Tooltip("The duration of this wave in seconds. The spawner will continue to spawn enemies for this many seconds."), OnValueChanged("UpdateCR")]
-        private float waveDuration = 10f;
         [SerializeField, Tooltip("The order in which to spawn enemies.")] 
         private SpawnOrder spawnOrder = SpawnOrder.WeightedRandom;
 
@@ -42,7 +39,7 @@ namespace RogueWave
         public EnemySpawnConfiguration[] Enemies => enemies;
         public float SpawnEventFrequency => spawnEventFrequency;
         public int SpawnAmount => numberToSpawn;
-        public float WaveDuration => waveDuration;
+        public float Duration => 60;
         public SpawnOrder Order => spawnOrder;
 
         /// <summary>
@@ -67,7 +64,7 @@ namespace RogueWave
                 }
                 floatCR /= enemies.Length;
 
-                challengeRating = Mathf.RoundToInt(floatCR * numberToSpawn * (waveDuration / spawnEventFrequency));
+                challengeRating = Mathf.RoundToInt(floatCR * numberToSpawn * (Duration / spawnEventFrequency));
 #endif
 
                 return challengeRating;
@@ -87,11 +84,10 @@ namespace RogueWave
             }
         }
 
-        public void Init(EnemySpawnConfiguration[] enemies, float spawnRate, float waveDuration, SpawnOrder spawnOrder)
+        public void Init(EnemySpawnConfiguration[] enemies, float spawnRate, SpawnOrder spawnOrder)
         {
             this.enemies = enemies;
             this.spawnEventFrequency = spawnRate;
-            this.waveDuration = waveDuration;
             this.spawnOrder = spawnOrder;
             Init();
         }
@@ -156,7 +152,7 @@ namespace RogueWave
 
         private List<BasicEnemyController> availableEnemies = new List<BasicEnemyController>();
 
-        public void GenerateWave(int targetChallengeRating, bool randomizeEnemyTypes, BasicEnemyController[] availableEnemies)
+        public void GenerateWave(int targetChallengeRating, bool randomizeEnemyTypes, BasicEnemyController[] availableEnemies, float duration)
         {
             this.targetChallengeRating = targetChallengeRating;
             this.randomizeEnemyTypes = randomizeEnemyTypes;
@@ -177,7 +173,7 @@ namespace RogueWave
             {
                 if (availableEnemies.Count == 0)
                 {
-                    LoadAllEnemies();
+                    LoadAllAvailableEnemies();
                 }
 
                 // Randomize the enemies
@@ -200,7 +196,7 @@ namespace RogueWave
                 }
             }
 
-            // adjust the spawn rate, numbers and duration to hit the desired challenge rating
+            // adjust the spawn rate and numbers to hit the desired challenge rating and level duration
             spawnEventFrequency = Random.Range(1.0f, 4.0f);
             numberToSpawn = Random.Range(2, 15);
             int iterations = 5000;
@@ -209,39 +205,27 @@ namespace RogueWave
             {
                 iterations--;
 
-                int parameterToChange = Random.Range(0, 2);
-                switch (parameterToChange)
+                int parameterToChange = Random.Range(0, 100);
+                if (parameterToChange < 33) {
+                    if (currentChallengeRating < targetChallengeRating)
+                    {
+                        spawnEventFrequency = Mathf.Clamp(spawnEventFrequency - 0.25f, 1, 10);
+                    }
+                    else
+                    {
+                        spawnEventFrequency = Mathf.Clamp(spawnEventFrequency + 0.25f, 1, 10);
+                    }
+                }
+                else
                 {
-                    case 0:
-                        if (currentChallengeRating < targetChallengeRating)
-                        {
-                            spawnEventFrequency = Mathf.Clamp(spawnEventFrequency - 0.25f, 1, float.MaxValue);
-                        }
-                        else
-                        {
-                            spawnEventFrequency += 0.25f;
-                        }
-                        break;
-                    case 1:
-                        if (currentChallengeRating < targetChallengeRating)
-                        {
-                            numberToSpawn += 1;
-                        }
-                        else
-                        {
-                            numberToSpawn = Mathf.Clamp(numberToSpawn - 1, 1, int.MaxValue);
-                        }
-                        break;
-                    //case 2:
-                    //    if (currentChallengeRating < targetChallengeRating)
-                    //    {
-                    //        waveDuration += 0.25f;
-                    //    }
-                    //    else
-                    //    {
-                    //        waveDuration -= 0.25f;
-                    //    }
-                    //    break;
+                    if (currentChallengeRating < targetChallengeRating)
+                    {
+                        numberToSpawn += 1;
+                    }
+                    else
+                    {
+                        numberToSpawn = Mathf.Clamp(numberToSpawn - 1, 1, int.MaxValue);
+                    }
                 }
 
                 if (iterations == 0)
@@ -262,7 +246,7 @@ namespace RogueWave
             }
         }
 
-        private void LoadAllEnemies()
+        private void LoadAllAvailableEnemies()
         {
             string[] guids = AssetDatabase.FindAssets("t:Prefab");
             foreach (string guid in guids)

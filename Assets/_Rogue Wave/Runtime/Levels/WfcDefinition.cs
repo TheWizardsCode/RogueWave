@@ -150,7 +150,7 @@ namespace RogueWave
                 float duration = 0;
                 foreach (var wave in waves)
                 {
-                    duration += wave.WaveDuration;
+                    duration += wave.Duration;
                 }
                 return duration;
             }

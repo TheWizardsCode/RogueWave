@@ -43,7 +43,7 @@ namespace RogueWave.UI
                         waveStartIconImage.sprite = defaultWaveStartIcon;
                         waveStartIconImage.gameObject.SetActive(true);
 
-                        timeOfWave += wave.WaveDuration;
+                        timeOfWave += wave.Duration;
                     }
                 }
             }

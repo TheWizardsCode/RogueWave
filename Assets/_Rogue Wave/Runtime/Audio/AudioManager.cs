@@ -133,7 +133,7 @@ namespace WizardsCode.RogueWave
 
             if (stopWhenFaded)
             {
-                source.Stop();
+                source?.Stop();
             }
         }
 

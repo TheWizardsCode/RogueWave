@@ -3,6 +3,7 @@ using NeoFPS;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
+using WizardsCode.RogueWave;
 
 namespace WizardsCode.Marketing
 {
@@ -21,18 +22,28 @@ namespace WizardsCode.Marketing
 
         private IEnumerator Start()
         {
+            DontDestroyOnLoad(gameObject);
+
+            yield return null;
             NeoFpsInputManager.captureMouseCursor = true;
 
             foreach (AssetDescriptor assetDescriptor in assetDescriptors)
             {
                 assetDescriptor.LoadSceneSetup();
 
-                if (assetDescriptor is ScreenshotOnEventAssetDescriptor screenshotOnEventAssetDescriptor)
+                if (assetDescriptor is ScreenshotOnEventAssetDescriptor eventDescriptor)
                 {
-                    screenshotOnEventAssetDescriptor.ScreenshotGameEvent.RegisterListener(() =>
+                    foreach (GameEvent gameEvent in eventDescriptor.ScreenshotGameEvents)
                     {
-                        StartCoroutine(screenshotOnEventAssetDescriptor.GenerateAsset());
-                    });
+                        var currentDescriptor = eventDescriptor;
+                        gameEvent.RegisterListener(() =>
+                        {
+                            if (currentDescriptor != null && this != null) // TODO: this is here to stop concurrency errors, but it's not ideal it means we aren't grabbing some shots. Why does this happen at all?
+                            {
+                                StartCoroutine(currentDescriptor.GenerateAsset());
+                            }
+                        });
+                    }
                 }
                 else
                 {
