@@ -12,6 +12,7 @@ Purchase and install the following assets from the Unity asset store (links belo
 
   * 250 Sci-fi Flat Icons - Kat Grabowska https://assetstore.unity.com/packages/slug/223031?aid=1101l866w
   * Customizable SciFi Holo Interface - Excelsior Assets https://assetstore.unity.com/packages/slug/69794?aid=1101l866w
+  * Feel - More Mountains https://assetstore.unity.com/packages/slug/183370?aid=1101l866w
   * ForceField Effects - SineVFX https://assetstore.unity.com/packages/slug/123431?aid=1101l866w
   * Magic Arsenal - Archanor VFX https://assetstore.unity.com/packages/slug/20869?aid=1101l866w
   * Magic Effects Pack 1 - kripto289 https://assetstore.unity.com/packages/slug/99856?aid=1101l866w
@@ -20,9 +21,12 @@ Purchase and install the following assets from the Unity asset store (links belo
   * NeoFPS: FPS Controller, Template & Toolkit - Yondernauts Games https://assetstore.unity.com/packages/slug/150179?aid=1101l866w
   * Power-up FX - Archanor VFX https://assetstore.unity.com/packages/slug/152740?aid=1101l866w
   * Project Asset Manager - Doubling Technologies https://assetstore.unity.com/packages/slug/126313?aid=1101l866w
+  * Project Search & Replace - Enemy Hideout LLC https://assetstore.unity.com/packages/slug/55680?aid=1101l866w
   * ProTips - Tooltip System - ModelShark Studio https://assetstore.unity.com/packages/slug/44361?aid=1101l866w
+  * Realistic Effects Pack 3 - kripto289 https://assetstore.unity.com/packages/slug/27523?aid=1101l866w
   * Realistic Effects Pack 4 - kripto289 https://assetstore.unity.com/packages/slug/85675?aid=1101l866w
   * Sprite Shaders Ultimate - Ekincan Tas https://assetstore.unity.com/packages/slug/158988?aid=1101l866w
+  * Tunnel FX 2 - Kronnect https://assetstore.unity.com/packages/slug/86544?aid=1101l866w
   * Variety FX 2.0 - Archanor VFX https://assetstore.unity.com/packages/slug/235241?aid=1101l866w
   * Volumetric Fog & Mist 2 - Kronnect https://assetstore.unity.com/packages/slug/162694?aid=1101l866w
 
