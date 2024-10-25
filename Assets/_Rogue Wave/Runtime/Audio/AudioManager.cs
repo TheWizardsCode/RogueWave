@@ -70,9 +70,9 @@ namespace WizardsCode.RogueWave
             currentVolumes[twoDimensional] = startingVolume;
         }
 
-        public static void FadeGroup(AudioMixerGroup group, float targetVolume, float duration)
+        public static void FadeGroup(AudioMixerGroup group, float targetVolume, float duration, Action callback = null)
         {
-            Instance.StartCoroutine(FadeGroupCoroutine(group, targetVolume, duration));
+            Instance.StartCoroutine(FadeGroupCoroutine(group, targetVolume, duration, callback));
         }
 
         public static void ResetGroup(AudioMixerGroup group, float duration)
@@ -80,7 +80,7 @@ namespace WizardsCode.RogueWave
             Instance.StartCoroutine(FadeGroupCoroutine(group, Instance.currentVolumes[group], duration));
         }
 
-        internal static IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetValue, float duration, Action callback = null)
+        protected static IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetValue, float duration, Action callback = null)
         {
             float targetVolume = ConvertToVolume(targetValue);
 

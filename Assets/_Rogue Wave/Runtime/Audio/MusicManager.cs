@@ -178,12 +178,7 @@ namespace RogueWave
 
         public void StopMusic()
         {
-            StartCoroutine(StopMusicCo());
-        }
-
-        private IEnumerator StopMusicCo()
-        {
-            yield return AudioManager.FadeGroupCoroutine(source.outputAudioMixerGroup, 0, fadeDuration, 
+            AudioManager.FadeGroup(source.outputAudioMixerGroup, 0, fadeDuration, 
                 () => {
                     source.Stop();
                 });
