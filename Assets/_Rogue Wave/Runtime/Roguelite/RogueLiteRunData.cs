@@ -54,6 +54,7 @@ namespace RogueWave
         {
             recipe.Reset();
 
+            // This method should call RunData.AddRecipe, not directly add to the list, which means this checking is probably redundant if we use the right method.
             if (Recipes.Contains(recipe))
             {
                 if (recipe.IsStackable == false)

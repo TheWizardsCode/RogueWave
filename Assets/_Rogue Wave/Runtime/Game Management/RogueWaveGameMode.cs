@@ -19,6 +19,7 @@ using NeoFPS.Samples;
 using WizardsCode.RogueWave;
 using System.Linq;
 using TunnelEffect;
+using static WizardsCode.RogueWave.ExtractionFXController;
 
 namespace RogueWave
 {
@@ -215,9 +216,7 @@ namespace RogueWave
 
         internal void OnSpawnerDestroyed(Spawner spawner)
         {
-            extractionFx.extractionType = ExtractionFXController.ExtractionType.SpawnerDestroyed;
-            extractionFx.gameObject.SetActive(true);
-            AudioManager.FadeAllExceptNanobots(0, 2);
+            StartExtractionFX(ExtractionType.SpawnerDestroyed);
 
             if (FpsSoloCharacter.localPlayerCharacter != null && FpsSoloCharacter.localPlayerCharacter.isAlive == false)
             {
@@ -242,11 +241,16 @@ namespace RogueWave
 
         protected override IEnumerator DelayedDeathReactionCoroutine(float delay)
         {
-            extractionFx.extractionType = ExtractionFXController.ExtractionType.Death;
-            extractionFx.gameObject.SetActive(true);
-            AudioManager.FadeAllExceptNanobots(0, 1);
+            StartExtractionFX(ExtractionType.Death);
 
             yield return base.DelayedDeathReactionCoroutine(delay);
+        }
+
+        private void StartExtractionFX(ExtractionType extractionType)
+        {
+            RW_HudHider.HideHUD();
+            extractionFx.gameObject.SetActive(true);
+            AudioManager.FadeAllExceptNanobots(0, 1);
         }
 
         protected override void DelayedDeathAction()
@@ -303,9 +307,7 @@ namespace RogueWave
         /// <seealso cref="DelayedLevelCompleteCoroutine(float)"/>"/>
         private IEnumerator DelayedLevelTimerAchievedCoroutine(float delay)
         {
-            extractionFx.gameObject.SetActive(true);
-            extractionFx.extractionType = ExtractionFXController.ExtractionType.PlayerEscaped;
-            AudioManager.FadeAllExceptNanobots(0, 1);
+            StartExtractionFX(ExtractionType.PlayerEscaped);
             yield return new WaitForSeconds(extractionFx.duration / 4);
 
             playerEscapedEvent?.Raise();
@@ -417,9 +419,7 @@ namespace RogueWave
         /// <seealso cref="DelayedLevelClearedCoroutine(float)"/>
         private IEnumerator DelayedLevelCompleteCoroutine(float delay)
         {
-            extractionFx.gameObject.SetActive(true);
-            extractionFx.extractionType = ExtractionFXController.ExtractionType.PortalUsed;
-            AudioManager.FadeAllExceptNanobots(0, 1);
+            StartExtractionFX(ExtractionType.PortalUsed);
             yield return new WaitForSeconds(extractionFx.duration / 4);
 
             LogGameState("Portal used");

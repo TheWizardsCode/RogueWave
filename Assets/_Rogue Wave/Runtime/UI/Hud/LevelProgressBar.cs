@@ -10,12 +10,19 @@ namespace RogueWave.UI
         [SerializeField, Tooltip("A prototoype for the wave icon when rendered on the progress bar.")]
         Image waveIconPrototype;
 
-        RectTransform progressBarContainer;
+        RectTransform m_progressBarContainer;
         private WfcDefinition _levelDefinition;
 
-        private void Start()
+        RectTransform progressBarContainer
         {
-            progressBarContainer = GetComponent<RectTransform>();    
+            get
+            {
+                if (m_progressBarContainer == null)
+                {
+                    m_progressBarContainer = GetComponent<RectTransform>();
+                }
+                return m_progressBarContainer;
+            }
         }
 
         internal WfcDefinition levelDefinition
@@ -38,7 +45,7 @@ namespace RogueWave.UI
 
                         float xPos = (timeOfWave / MaxValue) * width - (width / 2);
                         // place the icon at the start of the wave
-                        Image waveStartIconImage = Instantiate<Image>(waveIconPrototype, Vector3.zero, Quaternion.identity, progressBarContainer);
+                        Image waveStartIconImage = Instantiate<Image>(waveIconPrototype, Vector3.zero, Quaternion.identity, m_progressBarContainer);
                         waveStartIconImage.rectTransform.anchoredPosition = new Vector2(xPos, 0);
                         waveStartIconImage.sprite = defaultWaveStartIcon;
                         waveStartIconImage.gameObject.SetActive(true);
