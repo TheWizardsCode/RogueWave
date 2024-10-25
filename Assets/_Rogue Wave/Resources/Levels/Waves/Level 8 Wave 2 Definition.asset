@@ -13,16 +13,15 @@ MonoBehaviour:
   m_Name: Level 8 Wave 2 Definition
   m_EditorClassIdentifier: 
   enemies:
-  - pooledEnemyPrefab: {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
-    baseWeight: 0.34356397
-  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
-    baseWeight: 0.56754327
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
-    baseWeight: 0.67223614
-  spawnEventFrequency: 1.25
-  numberToSpawn: 12
-  waveDuration: 10
+    baseWeight: 0.42201817
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
+    baseWeight: 0.3970384
+  - pooledEnemyPrefab: {fileID: 9165906392841844883, guid: 1d9f4d0c793a571489b3107cf0c9e683, type: 3}
+    baseWeight: 0.22959365
+  spawnEventFrequency: 9.25
+  numberToSpawn: 193
   spawnOrder: 0
-  challengeRating: 533
-  targetChallengeRating: 533
+  challengeRating: 6600
+  targetChallengeRating: 6600
   randomizeEnemyTypes: 1

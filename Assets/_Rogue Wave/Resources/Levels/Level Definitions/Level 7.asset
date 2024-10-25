@@ -24,15 +24,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 1525855020ce4b34dad5a39dc96e2212, type: 2}
   - {fileID: 11400000, guid: 8d20e6ef2bc069b4a9633179cbf51be6, type: 2}
   - {fileID: 11400000, guid: de3bcd434d4694d49adf8a95d2a9df65, type: 2}
-  - {fileID: 11400000, guid: dad1d4386fbb00a439d34ac7619fbfea, type: 2}
-  - {fileID: 11400000, guid: aea224c6a1fd1cf4d8a5a070e6593449, type: 2}
   waveWait: 5
   generateNewWaves: 1
   maxAlive: 170
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: fb0c96709df571946ac3c5ab66afd137, type: 2}
-  - {fileID: 11400000, guid: db7d2aa9075717e4390141c737c47ceb, type: 2}
+  - {fileID: 11400000, guid: c09e074e256e88c408d8affae0b7b3e0, type: 2}
   - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
@@ -154,12 +152,12 @@ MonoBehaviour:
       m_RotationOrder: 4
     levelNumber: 7
     MapSize: {x: 14, y: 14}
-    numberOfWaves: 7
-    startingChallengeRating: 500
-    peakChallengeRating: 800
+    numberOfWaves: 5
+    startingChallengeRating: 5000
+    peakChallengeRating: 8000
     prePlacedTiles:
     - {fileID: 11400000, guid: fb0c96709df571946ac3c5ab66afd137, type: 2}
-    - {fileID: 11400000, guid: db7d2aa9075717e4390141c737c47ceb, type: 2}
+    - {fileID: 11400000, guid: c09e074e256e88c408d8affae0b7b3e0, type: 2}
     - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
     enemies:
     - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}

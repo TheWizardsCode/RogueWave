@@ -22,6 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 36437a8c64c95a541b55b88fe8e67543, type: 2}
   - {fileID: 11400000, guid: 8ba987bbb206e844f9c44927cb06a78d, type: 2}
   - {fileID: 11400000, guid: 65db820773d1a1d4bb54ab04070ff241, type: 2}
+  - {fileID: 11400000, guid: 749327a124293934697746823d0c828c, type: 2}
+  - {fileID: 11400000, guid: 8962ce505d2781c47856bc0a931fc78a, type: 2}
   waveWait: 10
   generateNewWaves: 1
   maxAlive: 140
@@ -150,9 +152,9 @@ MonoBehaviour:
       m_RotationOrder: 4
     levelNumber: 4
     MapSize: {x: 10, y: 10}
-    numberOfWaves: 3
-    startingChallengeRating: 200
-    peakChallengeRating: 350
+    numberOfWaves: 5
+    startingChallengeRating: 2000
+    peakChallengeRating: 3500
     prePlacedTiles:
     - {fileID: 11400000, guid: d06759628af557e42b3babe3e8f4909e, type: 2}
     - {fileID: 11400000, guid: b3a48cd97854daa4283847f243cab8d7, type: 2}
@@ -171,7 +173,7 @@ MonoBehaviour:
     - 0.01
     - 0.07
     - 0.1
-    - 0
+    - 0.93
     - 0.17
     - 0.42
     - 0.58

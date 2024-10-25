@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05fde312255415440b722ae6c2cc41ea, type: 3}
+  m_Name: Level 4 Wave 5 Definition
+  m_EditorClassIdentifier: 
+  enemies:
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
+    baseWeight: 0.8510722
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
+    baseWeight: 0.702901
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
+    baseWeight: 0.2215633
+  spawnEventFrequency: 6.5
+  numberToSpawn: 71
+  spawnOrder: 0
+  challengeRating: 3500
+  targetChallengeRating: 3500
+  randomizeEnemyTypes: 1
