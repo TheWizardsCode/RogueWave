@@ -44,12 +44,13 @@ namespace WizardsCode.RogueWave
             if (interfaceAnimationManager != null)
             {
                 interfaceAnimationManager.OnEndAppear += OnAppear;
-                //interfaceAnimationManager.startAppear();
             }
         }
 
         private void OnAppear(InterfaceAnimManager _IAM)
         {
+            HudHider.HideHUD();
+
             StartCoroutine(FadeStandyMessageOut());
 
             // Select the current level
@@ -72,6 +73,8 @@ namespace WizardsCode.RogueWave
                 interfaceAnimationManager.OnEndAppear -= OnAppear;
                 interfaceAnimationManager.OnEndDisappear -= _GenerateLevelAndSpawn;
             }
+
+            HudHider.ShowHUD();
         }
 
         private IEnumerator FadeStandyMessageIn()
