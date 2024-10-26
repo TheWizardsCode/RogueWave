@@ -66,7 +66,7 @@ namespace WizardsCode.Marketing
 
             // Configure the player
             RogueLiteManager.persistentData.RecipeIds.Clear();
-            RogueLiteManager.runData.Recipes.Clear();
+            RogueLiteManager.runData.Clear();
             gameMode.StartingRunRecipes = m_Recipes;
             EditorUtility.SetDirty(gameMode);
 

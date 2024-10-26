@@ -20,6 +20,21 @@ namespace RogueWave
             set { m_RunNumber = value; }
         }
 
+        public int RecipeCount
+        {
+            get => RecipeIds.Count;
+        }
+
+        public string[] GetRecipeIDs()
+        {
+            return RecipeIds.ToArray();
+        }
+
+        public string GetRecipeIdAt(int index)
+        {
+            return RecipeIds[index];
+        }
+
         [SerializeField] internal int m_CurrentGameLevel = 0; // The currentl level of the game, this advances each time the player completes all waves in a level.abl
         public int currentGameLevel {
             get { return m_CurrentGameLevel; }
@@ -36,6 +51,7 @@ namespace RogueWave
             set { m_CurrentNanobotLevel = value; }
         }
 
+        [Obsolete("This should not be exposed publicly all required methods should be implemented in the class")]
         public List<string> RecipeIds = new List<string>();
         public List<string> _weaponBuildOrderBackingField = new List<string>(); // this is public to ensure it is serialized. TODO: write a custom serialiser for this class to avoid this
 

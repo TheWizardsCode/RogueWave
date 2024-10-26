@@ -80,6 +80,14 @@ namespace WizardsCode.RogueWave
             Instance.StartCoroutine(FadeGroupCoroutine(group, Instance.currentVolumes[group], duration));
         }
 
+        public static void ResetAll(float duration)
+        {
+            Instance.StartCoroutine(FadeGroupCoroutine(Instance.music, Instance.currentVolumes[instance.music], duration));
+            Instance.StartCoroutine(FadeGroupCoroutine(Instance.ui, Instance.currentVolumes[instance.ui], duration));
+            Instance.StartCoroutine(FadeGroupCoroutine(Instance.effectsMaster, Instance.currentVolumes[instance.effectsMaster], duration));
+            Instance.StartCoroutine(FadeGroupCoroutine(Instance.nanobots, Instance.currentVolumes[instance.nanobots], duration));
+        }
+
         protected static IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetValue, float duration, Action callback = null)
         {
             float targetVolume = ConvertToVolume(targetValue);
@@ -131,9 +139,9 @@ namespace WizardsCode.RogueWave
                 yield return null;
             }
 
-            if (stopWhenFaded)
+            if (stopWhenFaded && source)
             {
-                source?.Stop();
+                source.Stop();
             }
         }
 

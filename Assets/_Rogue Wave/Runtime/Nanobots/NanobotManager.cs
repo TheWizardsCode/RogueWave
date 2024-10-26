@@ -618,7 +618,7 @@ namespace RogueWave
             }
 
             // If we have built everything in the build order then try to build anything we bought during this run
-            foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
+            foreach (IRecipe recipe in RogueLiteManager.runData.GetRecipes())
             {
                 WeaponRecipe weapon = recipe as WeaponRecipe;
                 if (weapon != null && RogueLiteManager.persistentData.RecipeIds.Contains(weapon.uniqueID) == false)
@@ -799,13 +799,18 @@ namespace RogueWave
         /// <param name="recipe">The recipe to add.</param>
         public void AddToRunRecipes(IRecipe recipe)
         {
+#if UNITY_EDITOR
             if (recipe == null)
             {
                 Debug.LogError("Attempting to add a null recipe to the NanobotManager.");
                 return;
             }
 
-            RogueLiteManager.runData.Add(recipe);
+            if (!RogueLiteManager.runData.Contains(recipe))
+            {
+                throw new ArgumentException($"Attempted to add a recipe ({recipe} - {recipe.DisplayName}) to the current RunRecipes that is not in the `RogueLiteManager.runData`. Should add their first with RogueLiteManager.Add(recipe).");
+            }
+#endif
 
             // TODO: This is messy, far too many if...else statements. Do we really need to keep separate lists now that they have a common AbstractRecipe base class?
             if (recipe is AmmoRecipe ammo && !ammoRecipes.Contains(ammo))

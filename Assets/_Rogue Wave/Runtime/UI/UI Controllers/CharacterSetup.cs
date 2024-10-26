@@ -1,6 +1,5 @@
 using NeoFPS;
 using RogueWave;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -23,8 +22,7 @@ namespace WizardsCode.RogueWave
 
         private void ConfigureUI()
         {
-            IEnumerable<IGrouping<string, IRecipe>> groupedRunRecipes = RogueLiteManager.runData.Recipes
-                .GroupBy(recipe => recipe.Category);
+            IEnumerable<IGrouping<string, IRecipe>> groupedRunRecipes = RogueLiteManager.runData.GetGroupedRecipes();
 
             foreach (var group in groupedRunRecipes)
             {

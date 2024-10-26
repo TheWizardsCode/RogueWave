@@ -168,8 +168,6 @@ namespace RogueWave
                 recipe = weightedRandom.GetRandom();
                 pickupPrototype = recipe.Item.GetComponent<IPickup>();
             }
-
-            Debug.Log($"DiscoverableController.OnIsAliveChanged: {pickupPrototype}");
         }
 
         void DropRewards()

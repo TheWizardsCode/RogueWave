@@ -1,4 +1,5 @@
 using NeoFPS;
+using PlasticPipe.PlasticProtocol.Messages;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace RogueWave
         public RogueLiteRunData()
         {
             Loadout.Clear();
-            Recipes.Clear();
+            m_RunRecipeData.Clear();
         }
 
         /// <summary>
@@ -42,9 +43,7 @@ namespace RogueWave
         }
 
         private static List<IRecipe> m_RunRecipeData = new List<IRecipe>();
-        [Obsolete("This field needs to be made private (see m_RunRecipeData) to force access through the Add and Remove methods. Likley need to add some additional access functionality.")]
-        public List<IRecipe> Recipes { get { return m_RunRecipeData; } }
-
+        
         /// <summary>
         /// The recipes that will be available to the player in their NanobotManager when they start a level in a run.
         /// This will be reset on death.
@@ -55,7 +54,7 @@ namespace RogueWave
             recipe.Reset();
 
             // This method should call RunData.AddRecipe, not directly add to the list, which means this checking is probably redundant if we use the right method.
-            if (Recipes.Contains(recipe))
+            if (m_RunRecipeData.Contains(recipe))
             {
                 if (recipe.IsStackable == false)
                 {
@@ -89,16 +88,44 @@ namespace RogueWave
                 }
             }
 
-            Recipes.Add(recipe);
+            m_RunRecipeData.Add(recipe);
             isDirty = true;
             return true;
         }
 
         internal void Remove(IRecipe recipe)
         {
-            Recipes.Remove(recipe);
+            m_RunRecipeData.Remove(recipe);
             isDirty = true;
         }
+
+        /// <summary>
+        /// Get a list of all Run Recipes currently in the player's possession.
+        /// They will be grouped by category name (key) and IRecipe (value).
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<IGrouping<string, IRecipe>> GetGroupedRecipes()
+        {
+            return m_RunRecipeData.GroupBy(recipe => recipe.Category);
+        }
+
+        public List<IRecipe> GetRecipes()
+        {
+            return m_RunRecipeData;
+        }
+
+        public IRecipe GetRecipeAt(int index)
+        {
+            return m_RunRecipeData[index];
+        }
+
+        public void Clear()
+        {
+            m_RunRecipeData.Clear();
+            isDirty = true;
+        }
+
+        public int Count { get { return m_RunRecipeData.Count; } }
 
         /// <summary>
         /// Get the number of instances of a supplied recipe that are in the player's current recipe permanent + temporary collection.
@@ -107,12 +134,12 @@ namespace RogueWave
         /// <returns>The number of times the recipse appears in the permanent + temporary collections..</returns>
         public int GetCount(IRecipe recipe)
         {
-            return Recipes.Count(r => r == recipe);
+            return m_RunRecipeData.Count(r => r == recipe);
         }
 
         public bool Contains(IRecipe recipe)
         {
-            return Recipes.Contains(recipe);
+            return m_RunRecipeData.Contains(recipe);
         }
 
         // Add additional persistent data here

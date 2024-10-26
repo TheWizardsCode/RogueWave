@@ -75,7 +75,7 @@ namespace RogueWave.UI
             }
 
             ClearTemporaryRecipes();
-            AddRangeOfTemporaryRecipes(RogueLiteManager.runData.Recipes);
+            AddRangeOfTemporaryRecipes(RogueLiteManager.runData.GetRecipes());
             RemoveAllTemporaryRecipes(recipe => permanentRecipes.Contains(recipe));
         }
 

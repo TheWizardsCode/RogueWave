@@ -589,9 +589,9 @@ namespace RogueWave
 
             // Add nanobot recipes
             NanobotManager manager = character.GetComponent<NanobotManager>();
-            for (int i = 0; i < RogueLiteManager.runData.Recipes.Count; i++)
+            for (int i = 0; i < RogueLiteManager.runData.Count; i++)
             {
-                manager.AddToRunRecipes(RogueLiteManager.runData.Recipes[i]);
+                manager.AddToRunRecipes(RogueLiteManager.runData.GetRecipeAt(i));
             }
 
             // since a recipe may have adjusted the max health, we need to reset the health to the new max
@@ -625,7 +625,7 @@ namespace RogueWave
         {
             StringBuilder log = new StringBuilder($"{eventName}, ");
 
-            foreach (IRecipe recipe in RogueLiteManager.runData.Recipes)
+            foreach (IRecipe recipe in RogueLiteManager.runData.GetRecipes())
             {
                 log.Append($"Recipe: {recipe.DisplayName}");
                 if (RogueLiteManager.persistentData.RecipeIds.Contains(recipe.UniqueID))
@@ -696,9 +696,9 @@ namespace RogueWave
 
         private void ConfigureRecipeForRun(IRecipe recipe)
         {
-            if (recipe.IsStackable || RogueLiteManager.runData.Recipes.Contains(recipe) == false)
+            if (recipe.IsStackable || RogueLiteManager.runData.Contains(recipe) == false)
             {
-                RogueLiteManager.runData.Recipes.Add(recipe);
+                RogueLiteManager.runData.Add(recipe);
             }
         }
 
@@ -757,13 +757,9 @@ namespace RogueWave
         #region Pre Spawn
         protected override bool PreSpawnStep()
         {
-            // TODO: Are we going to have a level progress bar in the game? If note we should remove it rather than just disable it
-            //if (levelProgressBar != null)
-            //{
-            //    levelProgressBar.gameObject.SetActive(false);
-            //}
-
             RogueLiteManager.persistentData.runNumber++;
+
+            AudioManager.ResetAll(1);
 
             // If this is the first run then we need to ensure the player has a minimum amount of resources
             // TODO: Remove hard coding of resource stat key
@@ -776,9 +772,9 @@ namespace RogueWave
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
             {
                 RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe permanentRecipe);
-                if (RogueLiteManager.runData.Recipes.Contains(permanentRecipe))
+                if (RogueLiteManager.runData.Contains(permanentRecipe))
                 {
-                    RogueLiteManager.runData.Recipes.Remove(permanentRecipe);
+                    RogueLiteManager.runData.Remove(permanentRecipe);
                 }
             }
 
@@ -802,11 +798,11 @@ namespace RogueWave
 
             // Gather together all the run recipes, both from previous runs and from the starting recipes for this run's Game Mode
             List<IRecipe> recipes = new List<IRecipe>();
-            recipes.AddRange(RogueLiteManager.runData.Recipes);
+            recipes.AddRange(RogueLiteManager.runData.GetRecipes());
             recipes.AddRange(_startingRecipesRun);
 
             // Reset the run data to ensure we don't keep adding stackables on subsequent runs, the current run data will be added back below
-            RogueLiteManager.runData.Recipes.Clear();
+            RogueLiteManager.runData.Clear();
 
             // Reset loadout so that it can be reset for this run based on the builder order and any new weapons added since the last run
             RogueLiteManager.runData.Loadout.Clear();
@@ -820,7 +816,7 @@ namespace RogueWave
                 }
 
                 // Ensure that the player has all the recipes available to them in this run
-                RogueLiteManager.runData.Recipes.Add(recipes[i]);
+                RogueLiteManager.runData.Add(recipes[i]);
             }
 
             // Ensure the player has all the permanaent recipes available to them in this run and that they are correctly configured for the run
@@ -828,9 +824,9 @@ namespace RogueWave
             {
                 RogueLiteManager.persistentData.Add(_startingRecipesPermanent[i]);
             }
-            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            for (int i = 0; i < RogueLiteManager.persistentData.RecipeCount; i++)
             {
-                ConfigureRecipeForRun(RogueLiteManager.persistentData.RecipeIds[i]);
+                ConfigureRecipeForRun(RogueLiteManager.persistentData.GetRecipeIdAt(i));
             }
 
             // if we are showing a pre-spawn UI then we need to show it now

@@ -46,15 +46,16 @@ MonoBehaviour:
     #
     Add some run upgrades
 
-    addtemporaryrecipe sniper
+    addpermanentrecipe Life
+
+    addtemporaryrecipe Painkillers
 
 
-    wait 1
+    wait
+    1
 
-    w
 
-    #
-    End the level
+    # End the level
 
     settimeinlevel 299
 
