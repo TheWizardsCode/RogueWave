@@ -65,15 +65,16 @@ namespace WizardsCode.RogueWave
 
             float stepLength = duration / 3;
             extractionFx.transform.SetParent(FpsSoloCharacter.localPlayerCharacter.transform);
+            extractionFx.transform.localPosition = new Vector3(0, 2, 0);
             extractionFx.transform.rotation = FpsSoloCharacter.localPlayerCharacter.transform.rotation;
             Vector3 pos = FpsSoloCharacter.localPlayerCharacter.transform.position;
 
             while (extractionFx.globalAlpha < 1)
             {
                 extractionFx.globalAlpha += Time.deltaTime / (stepLength * 2);
-                pos.y += Time.deltaTime * 10f;
-                extractionFx.transform.position = pos;
-                extractionFx.transform.rotation = Quaternion.Euler(Mathf.Lerp(0, -45, extractionFx.globalAlpha), 0, 0);
+                //pos.y += Time.deltaTime * 10f;
+                //extractionFx.transform.position = pos;
+                //extractionFx.transform.rotation = Quaternion.Euler(Mathf.Lerp(0, -45, extractionFx.globalAlpha), 0, 0);
                 yield return null;
             }
 

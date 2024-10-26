@@ -67,6 +67,31 @@ namespace RogueWave
         private string generationFailureReport;
 
         /// <summary>
+        /// Hide all visible aspects of the level geometery
+        /// </summary>
+        [Button("Hide Level Geometry")]
+        internal void HideLevelGeometry()
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            root.gameObject.SetActive(false);
+        }
+
+        [Button("Show Level Geometry")]
+        internal void ShowLevelGeometry()
+        {
+            if (root == null)
+            {
+                return;
+            }
+
+            root.gameObject.SetActive(true);
+        }
+
+        /// <summary>
         /// Generate a level.
         /// </summary>
         /// <param name="levelDefinition">The definition of the level to generate using the Wave Function Collapse algorithm</param>

@@ -18,7 +18,6 @@ using UnityEngine.SceneManagement;
 using NeoFPS.Samples;
 using WizardsCode.RogueWave;
 using System.Linq;
-using TunnelEffect;
 using static WizardsCode.RogueWave.ExtractionFXController;
 
 namespace RogueWave
@@ -243,12 +242,27 @@ namespace RogueWave
         {
             StartExtractionFX(ExtractionType.Death);
 
+            // Prevent additional resources being collected after death
+            if (FpsSoloCharacter.localPlayerCharacter != null)
+            {
+                MagnetController magnet = FpsSoloCharacter.localPlayerCharacter.GetComponent<MagnetController>();
+                if (magnet != null)
+                {
+                    magnet.range = 0;
+                    magnet.speed = 0;
+                }
+            }
+
             yield return base.DelayedDeathReactionCoroutine(delay);
         }
 
         private void StartExtractionFX(ExtractionType extractionType)
         {
             RW_HudHider.HideHUD();
+            levelGenerator.HideLevelGeometry();
+            aiDirector.Kill(1);
+            FindObjectOfType<NanobotPawnController>()?.gameObject.SetActive(false);
+
             extractionFx.extractionType = extractionType;
             extractionFx.gameObject.SetActive(true);
             AudioManager.MuteAllExceptNanobots();
