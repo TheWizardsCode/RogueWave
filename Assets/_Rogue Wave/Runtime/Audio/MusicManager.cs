@@ -178,7 +178,7 @@ namespace RogueWave
 
         public void StopMusic()
         {
-            AudioManager.FadeGroup(source.outputAudioMixerGroup, 0, fadeDuration, 
+            AudioManager.FadeGroup(source.outputAudioMixerGroup, -80, fadeDuration, 
                 () => {
                     source.Stop();
                 });
@@ -186,7 +186,7 @@ namespace RogueWave
 
         internal void PlayEscapeMusic()
         {
-            AudioManager.FadeAllExceptNanobots(0, 1);
+            AudioManager.MuteAllExceptNanobots();
             PlayMenuMusic();
         }
 

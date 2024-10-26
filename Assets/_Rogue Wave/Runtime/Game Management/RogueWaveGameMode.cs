@@ -249,13 +249,13 @@ namespace RogueWave
         private void StartExtractionFX(ExtractionType extractionType)
         {
             RW_HudHider.HideHUD();
+            extractionFx.extractionType = extractionType;
             extractionFx.gameObject.SetActive(true);
-            AudioManager.FadeAllExceptNanobots(0, 1);
+            AudioManager.MuteAllExceptNanobots();
         }
 
         protected override void DelayedDeathAction()
         {
-         
             playerDiedEvent?.Raise();
 
             MusicManager.Instance.PlayDeathMusic();
@@ -361,9 +361,7 @@ namespace RogueWave
         /// <seealso cref="DelayedLevelCompleteCoroutine(float)"/>
         private IEnumerator DelayedLevelClearedCoroutine(float delay)
         {
-            extractionFx.gameObject.SetActive(true);
-            extractionFx.extractionType = ExtractionFXController.ExtractionType.SpawnerDestroyed;
-            AudioManager.FadeAllExceptNanobots(0, 1);
+            StartExtractionFX(ExtractionType.SpawnerDestroyed);
             yield return new WaitForSeconds(extractionFx.duration / 4);
 
             MusicManager.Instance.PlayMenuMusic();

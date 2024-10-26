@@ -69,6 +69,7 @@ namespace WizardsCode.RogueWave.CommandTermiinal
 
             if (recipe != null)
             {
+                RogueLiteManager.runData.Add(recipe);
                 GameObject.FindAnyObjectByType<NanobotManager>().AddToRunRecipes(recipe);
                 Terminal.Log($"Added {recipe.DisplayName} to temporary collection.");
             } 
@@ -155,6 +156,7 @@ namespace WizardsCode.RogueWave.CommandTermiinal
             {
                 //GameObject.FindAnyObjectByType<NanobotManager>().AddToRunRecipes(recipe);
                 RogueLiteManager.persistentData.Add(recipe);
+                GameObject.FindAnyObjectByType<NanobotManager>().AddToRunRecipes(recipe);
                 Terminal.Log($"Added {recipe.DisplayName} to temporary collection.");
             }
             else

@@ -46,20 +46,23 @@ MonoBehaviour:
     #
     Add some run upgrades
 
-    addpermanentrecipe Life
+    addpermanentrecipe Sniper
 
-    addtemporaryrecipe Painkillers
+    addtemporaryrecipe
+    Painkillers
 
 
-    wait
-    1
+    wait 1
 
 
     # End the level
 
-    settimeinlevel 299
+    #settimeinlevel 299
 
-    setmaxhealth 10000'
+    #killplayer
+
+    setmaxhealth
+    10000'
   m_PlayerStartPosition: {x: 43.099586, y: 1000, z: 23.756985}
   m_PlayerStartRotation: {x: 0, y: 0.6849333, z: 0, w: 0.7286058}
   m_Recipes:

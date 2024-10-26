@@ -117,6 +117,8 @@ namespace WizardsCode.Marketing
                 EditorApplication.isPlaying = true;
             }
 
+            AudioManager.ResetAll(1);
+
             int waitIterations = 10000;
             while (waitIterations > 0 && FpsSoloCharacter.localPlayerCharacter == null)
             {

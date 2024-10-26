@@ -9,6 +9,12 @@ namespace WizardsCode.RogueWave
     {
         [SerializeField, Tooltip("The duration the extraction effect should run for.")]
         internal float duration = 8;
+        [SerializeField, Tooltip("The audio clip for a death extractions.")]
+        internal AudioClip deathAudioClip;
+        [SerializeField, Tooltip("The audio clip for a spawner kill or timed extraction.")]
+        internal AudioClip extractionAudioClip;
+        [SerializeField, Tooltip("The audio clip for a portal extraction.")]
+        internal AudioClip portalAudioClip;
 
         internal enum ExtractionType
         {
@@ -20,9 +26,12 @@ namespace WizardsCode.RogueWave
         internal ExtractionType extractionType = ExtractionType.PlayerEscaped;
         internal bool isRunning = false;
         private TunnelFX2 extractionFx;
+        private AudioSource audioSource;
 
         private void Start()
         {
+            DontDestroyOnLoad(gameObject);
+            audioSource = GetComponent<AudioSource>();
             extractionFx = GetComponent<TunnelFX2>();
             StartCoroutine(FxUpdateCo());
         }
@@ -32,20 +41,22 @@ namespace WizardsCode.RogueWave
             switch (extractionType)
             {
                 case ExtractionType.SpawnerDestroyed:
-                    extractionFx.tintColor = new Color(22, 242, 0);
+                    extractionFx.tintColor = Color.green;
+                    audioSource.PlayOneShot(extractionAudioClip);
                     break;
                 case ExtractionType.PlayerEscaped:
-                    extractionFx.tintColor = new Color(22, 242, 0);
+                    extractionFx.tintColor = Color.green;
+                    audioSource.PlayOneShot(extractionAudioClip);
                     break;
                 case ExtractionType.PortalUsed:
-                    extractionFx.tintColor = new Color(22, 242, 0);
+                    extractionFx.tintColor = Color.green;
+                    audioSource.PlayOneShot(portalAudioClip);
                     break;
                 case ExtractionType.Death:
                     extractionFx.tintColor = Color.red;
+                    audioSource.PlayOneShot(deathAudioClip);
                     break;
             }
-
-            extractionFx.tintColor = Color.green;
 
             isRunning = true;
 

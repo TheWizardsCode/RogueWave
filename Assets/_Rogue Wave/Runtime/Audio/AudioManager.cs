@@ -29,7 +29,7 @@ namespace WizardsCode.RogueWave
         [SerializeField, Tooltip("2D effects are computationally cheaper than spatial effects but are less effective in creating spatial awareness.")]
         internal AudioMixerGroup twoDimensional;
 
-        static float mutedVolume = -80;
+        static float mutedVolumeDb = -80;
         Dictionary<AudioMixerGroup, float> currentVolumes = new Dictionary<AudioMixerGroup, float>();
 
         private static AudioManager instance;
@@ -70,31 +70,29 @@ namespace WizardsCode.RogueWave
             currentVolumes[twoDimensional] = startingVolume;
         }
 
-        public static void FadeGroup(AudioMixerGroup group, float targetVolume, float duration, Action callback = null)
+        public static void FadeGroup(AudioMixerGroup group, float targetVolumeDb, float duration, Action callback = null)
         {
-            Instance.StartCoroutine(FadeGroupCoroutine(group, targetVolume, duration, callback));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(group, targetVolumeDb, duration, callback));
         }
 
         public static void ResetGroup(AudioMixerGroup group, float duration)
         {
-            Instance.StartCoroutine(FadeGroupCoroutine(group, Instance.currentVolumes[group], duration));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(group, Instance.currentVolumes[group], duration));
         }
 
         public static void ResetAll(float duration)
         {
-            Instance.StartCoroutine(FadeGroupCoroutine(Instance.music, Instance.currentVolumes[instance.music], duration));
-            Instance.StartCoroutine(FadeGroupCoroutine(Instance.ui, Instance.currentVolumes[instance.ui], duration));
-            Instance.StartCoroutine(FadeGroupCoroutine(Instance.effectsMaster, Instance.currentVolumes[instance.effectsMaster], duration));
-            Instance.StartCoroutine(FadeGroupCoroutine(Instance.nanobots, Instance.currentVolumes[instance.nanobots], duration));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.music, Instance.currentVolumes[instance.music], duration));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.ui, Instance.currentVolumes[instance.ui], duration));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.effectsMaster, Instance.currentVolumes[instance.effectsMaster], duration));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.nanobots, Instance.currentVolumes[instance.nanobots], duration));
         }
 
-        protected static IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetValue, float duration, Action callback = null)
+        protected IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetVolumeDb, float duration, Action callback = null)
         {
-            float targetVolume = ConvertToVolume(targetValue);
-
             if (duration <= 0)
             {
-                group.audioMixer.SetFloat(group.name + "Volume", targetVolume);
+                group.audioMixer.SetFloat(group.name + "Volume", targetVolumeDb);
                 callback?.Invoke();
                 yield break;
             }
@@ -105,7 +103,7 @@ namespace WizardsCode.RogueWave
             while (time < duration)
             {
                 time += Time.deltaTime;
-                group.audioMixer.SetFloat(group.name + "Volume", Mathf.Lerp(startVolume, targetVolume, time / duration));
+                group.audioMixer.SetFloat(group.name + "Volume", Mathf.Lerp(startVolume, targetVolumeDb, time / duration));
                 yield return null;
             }
             callback?.Invoke();
@@ -145,23 +143,23 @@ namespace WizardsCode.RogueWave
             }
         }
 
-        internal static void FadeAllExceptNanobots(float targetValue, float fadeDuration, Action callback = null)
+        internal static void MuteAllExceptNanobots(float fadeDuration = 0, Action callback = null)
         {
-            float targetVolume = ConvertToVolume(targetValue);
+            float targetVolumeDb = -80;
 
-            Instance.StartCoroutine(FadeGroupCoroutine(Instance.music, targetVolume, fadeDuration, callback));
-            Instance.StartCoroutine(FadeGroupCoroutine(Instance.ui, targetVolume, fadeDuration, callback));
-            Instance.StartCoroutine(FadeGroupCoroutine(Instance.effectsMaster, targetVolume, fadeDuration, callback));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.music, targetVolumeDb, fadeDuration, callback));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.ui, targetVolumeDb, fadeDuration, callback));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.effectsMaster, targetVolumeDb, fadeDuration, callback));
         }
 
-        static float ConvertToVolume(float targetValue) {
-            if (targetValue < 0.001)
+        public static float ConvertNormalizedToDb(float targetValueNormalized) {
+            if (targetValueNormalized < 0.001)
             {
-                return mutedVolume;
+                return mutedVolumeDb;
             }
             else
             {
-                return Mathf.Log10(targetValue) * 20f;
+                return Mathf.Log10(targetValueNormalized) * 20f;
             }
         }
 
@@ -171,7 +169,7 @@ namespace WizardsCode.RogueWave
         /// ,param name="fadeDuration">The duration of the fade in seconds.Set to 0 for instant, defaults to 2.</param>
         internal static IEnumerator MuteMusic(float fadeDuration = 2)
         {
-            yield return FadeGroupCoroutine(Instance.music, mutedVolume, fadeDuration);
+            yield return Instance.FadeGroupCoroutine(Instance.music, mutedVolumeDb, fadeDuration);
         }
 
         /// <summary>
@@ -179,7 +177,7 @@ namespace WizardsCode.RogueWave
         /// </summary>
         public void MuteMusicForSession()
         {
-            currentVolumes[music] = mutedVolume;
+            currentVolumes[music] = mutedVolumeDb;
             MuteMusic();
         }
 

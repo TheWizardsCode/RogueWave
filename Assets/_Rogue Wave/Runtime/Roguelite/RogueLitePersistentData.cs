@@ -96,6 +96,11 @@ namespace RogueWave
         /// <returns>True if the recipe is added, false if not added because already present.</returns> 
         public bool Add(IRecipe recipe)
         {
+            if (!RogueLiteManager.runData.Contains(recipe))
+            {
+                RogueLiteManager.runData.Add(recipe);
+            }
+
             if (RecipeIds.Contains(recipe.UniqueID))
             {
                 if (recipe.IsStackable == false)
