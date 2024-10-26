@@ -30,7 +30,7 @@ MonoBehaviour:
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: 996df388e5e1d2c43ac3048a38b10ef1, type: 2}
-  - {fileID: 11400000, guid: fc73239519b5b0f428d12a983cb79c5d, type: 2}
+  - {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
   - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
@@ -154,10 +154,10 @@ MonoBehaviour:
     MapSize: {x: 14, y: 14}
     numberOfWaves: 5
     startingChallengeRating: 3000
-    peakChallengeRating: 6000
+    peakChallengeRating: 4500
     prePlacedTiles:
     - {fileID: 11400000, guid: 996df388e5e1d2c43ac3048a38b10ef1, type: 2}
-    - {fileID: 11400000, guid: fc73239519b5b0f428d12a983cb79c5d, type: 2}
+    - {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
     - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
     enemies:
     - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
@@ -172,10 +172,10 @@ MonoBehaviour:
     earliestWavePercentage:
     - 0.01
     - 0.07
-    - 0.05
+    - 0.41
     - 0.63
-    - 0.13
-    - 0.42
-    - 0.56
-    - 0.63
-    - 0.76
+    - 0.17
+    - 0.03
+    - 0.45
+    - 0.61
+    - 0.95

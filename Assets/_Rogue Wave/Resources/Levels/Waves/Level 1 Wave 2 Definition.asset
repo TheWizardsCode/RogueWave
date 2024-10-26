@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Level 1 Wave 2 Definition
   m_EditorClassIdentifier: 
   enemies:
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
+    baseWeight: 0.58810884
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
-    baseWeight: 0.3837958
-  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
-    baseWeight: 0.5463676
-  spawnEventFrequency: 8.75
-  numberToSpawn: 24
+    baseWeight: 0.8414668
+  spawnEventFrequency: 3.75
+  numberToSpawn: 8
   spawnOrder: 0
-  challengeRating: 1200
-  targetChallengeRating: 1200
+  challengeRating: 949
+  targetChallengeRating: 949
   randomizeEnemyTypes: 1
