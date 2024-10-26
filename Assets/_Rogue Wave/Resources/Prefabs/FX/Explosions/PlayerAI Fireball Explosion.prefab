@@ -4900,11 +4900,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4468634572152378}
-  - component: {fileID: 82161765139795298}
   - component: {fileID: 114570326930759748}
   - component: {fileID: 114979659285474882}
   - component: {fileID: 114179345394012056}
-  - component: {fileID: 114357810182857998}
   - component: {fileID: 9114020649159704030}
   m_Layer: 25
   m_Name: PlayerAI Fireball Explosion
@@ -4930,102 +4928,6 @@ Transform:
   - {fileID: 8320315354248160233}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &82161765139795298
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1997189390711552}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 243059815924327020, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
-  m_audioClip: {fileID: 8300000, guid: 4ab1f7e84fb9ead4b9fe61b9647eb79a, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.75
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 5
-  MaxDistance: 100
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.8
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0.027777778
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!114 &114570326930759748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5065,6 +4967,8 @@ MonoBehaviour:
   m_ShakeDuration: 0.75
   m_ExplosionDamageFilter:
     m_Value: 32511
+  _audioClips:
+  - {fileID: 8300000, guid: 6129b25643772a64884a46d8f5f4b262, type: 3}
   _customizableParticles: []
   _onExplosion: {fileID: 0}
 --- !u!114 &114179345394012056
@@ -5098,20 +5002,6 @@ MonoBehaviour:
   expandNeoComponents: 0
   expandOtherComponents: 0
   prefabGuid: 26277d2323fa8774f9f87269a869f044
---- !u!114 &114357810182857998
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1997189390711552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37fcdbdaadf889f40a268b3ec1773d6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_AudioSources:
-  - {fileID: 82161765139795298}
 --- !u!114 &9114020649159704030
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5197,7 +5087,8 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 82119019747868264, guid: 07faaf8b783e7dc49987590df8494f78, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

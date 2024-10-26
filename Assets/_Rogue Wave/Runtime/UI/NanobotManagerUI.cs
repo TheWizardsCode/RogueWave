@@ -33,7 +33,29 @@ namespace RogueWave
             base.Start();
         }
 
-        protected override void OnDestroy()
+        private void OnEnable()
+        {
+            SubscribeToNasnobotEvents();
+        }
+
+        private void SubscribeToNasnobotEvents()
+        {
+            if (nanobotManager != null)
+            {
+                nanobotManager.onRequestSent += OnRequestSent;
+                nanobotManager.onBuildStarted += OnBuildStarted;
+                nanobotManager.onStatusChanged += OnStatusChanged;
+                nanobotManager.onNanobotLevelUp += OnNanobotLevelUp;
+                nanobotManager.onOfferChanged += OnOfferChanged;
+            }
+        }
+
+        protected void OnDisable()
+        {
+            UnsubscritbeNanobotEvents();
+        }
+
+        private void UnsubscritbeNanobotEvents()
         {
             if (nanobotManager != null)
             {
@@ -43,20 +65,12 @@ namespace RogueWave
                 nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
                 nanobotManager.onOfferChanged -= OnOfferChanged;
             }
-
-            base.OnDestroy();
         }
 
         public override void OnPlayerCharacterChanged(ICharacter character)
         {
-            if (nanobotManager != null)
-            {
-                nanobotManager.onRequestSent += OnRequestSent;
-                nanobotManager.onBuildStarted += OnBuildStarted;
-                nanobotManager.onStatusChanged -= OnStatusChanged;
-                nanobotManager.onNanobotLevelUp -= OnNanobotLevelUp;
-                nanobotManager.onOfferChanged -= OnOfferChanged;
-            }
+            UnsubscritbeNanobotEvents();
+            SubscribeToNasnobotEvents();
 
             if (character as Component != null)
             {

@@ -1,9 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS;
-using PlasticPipe.PlasticProtocol.Messages;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 using WizardsCode.RogueWave;
 
 namespace RogueWave
@@ -14,7 +12,10 @@ namespace RogueWave
         [SerializeField, Tooltip("The Damage Filter that determines what can be damaged by this enemy."), BoxGroup("Damage")]
         private DamageFilter m_ExplosionDamageFilter = DamageFilter.AllNotPlayer;
 
-        [SerializeField, Tooltip("This list of particles will be adjested for the FX based on the object the explosion is triggered by. For example, they will have their colour adapted to match."), BoxGroup("Effects")]
+        // Juice
+        [SerializeField, Tooltip("Audio clips to select from when this expolosion occurs."), BoxGroup("Juice")]
+        AudioClip[] _audioClips = new AudioClip[0];
+        [SerializeField, Tooltip("This list of particles will be adjested for the FX based on the object the explosion is triggered by. For example, they will have their colour adapted to match."), BoxGroup("Juice")]
         ParticleSystem[] _customizableParticles;
 
         [SerializeField, Tooltip("A game event to raise whenever the explosion is triggered."), BoxGroup("Events")]
@@ -63,6 +64,9 @@ namespace RogueWave
         public override void Explode(float maxDamage, float maxForce, IDamageSource source = null, Transform ignoreRoot = null)
         {
             _onExplosion?.Raise();
+
+            if (_audioClips.Length > 0)
+            AudioManager.Play3DOneShot(_audioClips[Random.Range(0, _audioClips.Length)], transform.position);
 
             s_HealthManagers.Clear();
             base.Explode(maxDamage, maxForce, source, ignoreRoot);

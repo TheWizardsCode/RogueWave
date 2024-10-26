@@ -76,6 +76,7 @@ namespace RogueWave
 
         IEnumerator PlayMusicCo()
         {
+            WaitForSeconds standardWait = new WaitForSeconds(0.35f);
             while (true)
             {
                 // OPTIMIZATION: Only play music when the volume is not muted
@@ -89,7 +90,7 @@ namespace RogueWave
 
                     if (timeRemaining > 0)
                     {
-                        yield return null;
+                        yield return standardWait;
                     }
                     else
                     {
@@ -98,7 +99,6 @@ namespace RogueWave
                             yield return new WaitForSeconds(pauseDuration);
                         }
 
-                        AudioManager.ResetGroup(source.outputAudioMixerGroup, FpsSettings.audio.musicVolume);
                         source.clip = SelectNextClip();
                         if (source.clip != null)
                         {
@@ -111,7 +111,7 @@ namespace RogueWave
                     switch (nextType)
                     {
                         case MusicType.None:
-                            yield return null;
+                            yield return standardWait;
                             break;
                         default:
                             // mute then stop current music
@@ -128,11 +128,11 @@ namespace RogueWave
 
                             currentType = nextType;
 
-                            yield return null;
-
                             break;
                     }
                 }
+
+                yield return standardWait;
             }
         }
 
