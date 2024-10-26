@@ -346,6 +346,18 @@ PrefabInstance:
     m_TransformParent: {fileID: 1450764596457488462}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 32713bfd6ce1c914b9a2775049468e59, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32713bfd6ce1c914b9a2775049468e59, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32713bfd6ce1c914b9a2775049468e59, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32713bfd6ce1c914b9a2775049468e59, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -385,10 +397,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 32713bfd6ce1c914b9a2775049468e59, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: 32713bfd6ce1c914b9a2775049468e59, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: adc0e291d9706954d8b782080d249bb4, type: 2}
+      objectReference: {fileID: 2100000, guid: 775cfd7a3bf41274fb8c81691497e90f, type: 2}
     - target: {fileID: 919132149155446097, guid: 32713bfd6ce1c914b9a2775049468e59, type: 3}
       propertyPath: m_Name
       value: Model - Gem Fodder
