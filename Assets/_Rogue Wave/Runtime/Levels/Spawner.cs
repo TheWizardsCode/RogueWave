@@ -21,8 +21,6 @@ namespace RogueWave
         bool useLevelDefinition = false;
         [SerializeField, HideIf("useLevelDefinition"), Tooltip("The level definition to use to determine the waves to spawn. Set 'Use Level Definition' to true to use the waves set in the level.")]
         WfcDefinition levelDefinition;
-        [SerializeField, Tooltip("The time to wait between waves.")]
-        private float timeBetweenWaves = 5;
         [SerializeField, Tooltip("The radius around the spawner to spawn enemies.")]
         internal float spawnRadius = 5f;
         [SerializeField, Tooltip("A multiplier to apply to the spawn position. This can be useful if you want to endure that spawn position is outside a containing building, for example. The multiplier will be applied to the radius.")]
@@ -272,26 +270,23 @@ namespace RogueWave
             NextWave();
             while (currentWave != null)
             {
-                float waveStart = Time.time;
+                float waveEndTime = Time.time + currentWave.Duration - currentLevel.waveWait;
                 WaitForSeconds waitForSpawn = new WaitForSeconds(currentWave.SpawnEventFrequency);
-                while (Time.time - waveStart < currentWave.Duration - currentWave.SpawnEventFrequency && (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive))
+                while (Time.time < waveEndTime)
                 {
                     yield return waitForSpawn;
 
                     for (int i = 0; i < currentWave.SpawnAmount; i++)
                     {
-                        if (activeRange == 0 || Vector3.SqrMagnitude(FpsSoloCharacter.localPlayerCharacter.transform.position - transform.position) <= activeRangeSqr)
+                        if (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive)
                         {
                             SpawnEnemy();
-                            while (Time.time - waveStart < currentWave.Duration && ignoreMaxAlive == false && currentLevel.maxAlive != 0 && spawnedEnemies.Count >= currentLevel.maxAlive) {
-                                yield return waitForSpawn;
-                            }
                             yield return null;
                         }
                     }
                 }
 
-                yield return new WaitForSeconds(timeBetweenWaves);
+                yield return new WaitForSeconds(currentLevel.waveWait);
                 NextWave();
             }
         }
@@ -377,6 +372,11 @@ namespace RogueWave
             }
             else
             {
+                foreach (ShieldGenerator sg in shieldGenerators)
+                {
+                    sg.healthManager.health = 0;
+                }
+
                 if (destroySpawnsOnDeath)
                 {
                     for (int i = 0; i < spawnedEnemies.Count; i++)

@@ -32,15 +32,15 @@ MonoBehaviour:
   m_ScreenshotCount: 3
   m_MinimumFramesBetweenScreenshots: 60
   m_FrameRate: 24
-  m_LevelDefinition: {fileID: 11400000, guid: 64026e604c392c446bc78c60062dd773, type: 2}
+  m_LevelDefinition: {fileID: 11400000, guid: c1f1f6be0be799e4fb1be41afba4ab95, type: 2}
   m_TerminalCommands: 'wait 1
 
 
     # Make it safe
 
-    #KillPercentageEnemies 1
+    KillPercentageEnemies 1
 
-    #DisableSpawning
+    DisableSpawning
 
 
     #
@@ -57,7 +57,7 @@ MonoBehaviour:
 
     # End the level
 
-    settimeinlevel 299
+    #settimeinlevel 299
 
     #killplayer
 

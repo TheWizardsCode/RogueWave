@@ -215,8 +215,6 @@ namespace RogueWave
 
         internal void OnSpawnerDestroyed(Spawner spawner)
         {
-            StartExtractionFX(ExtractionType.SpawnerDestroyed);
-
             if (FpsSoloCharacter.localPlayerCharacter != null && FpsSoloCharacter.localPlayerCharacter.isAlive == false)
             {
                 return;
