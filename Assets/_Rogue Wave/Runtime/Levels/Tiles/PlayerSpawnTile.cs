@@ -1,6 +1,4 @@
 using NeoFPS;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RogueWave
@@ -14,6 +12,12 @@ namespace RogueWave
 
             SpawnPoint spawnPoint = spawn.AddComponent<SpawnPoint>();
             spawnPoint.transform.localPosition = new Vector3(Random.Range(10, tileWidth - 10), 0, Random.Range(10, tileDepth - 10));
+            
+            // rotate the spawn point to face the center of the map
+            int xCenter = Mathf.RoundToInt(levelGenerator.levelDefinition.mapSize.x / 2);
+            int yCenter = Mathf.RoundToInt(levelGenerator.levelDefinition.mapSize.y / 2);
+            Vector3 center = new Vector3(xCenter * tileWidth, 0, yCenter * tileDepth);
+            spawnPoint.transform.LookAt(center);
 
             SpawnManager.AddSpawnPoint(spawnPoint);
 
