@@ -95,6 +95,7 @@ MonoBehaviour:
   deathExplosionRadius: 25
   explosionDamageOnDeath: 50
   explosionForceOnDeath: 40
+  maxAudioDistance: 30
   awarenessAudioType: 1
   barkClips:
   - {fileID: 8300000, guid: 00691a4e2d8c378499973d568b8df69c, type: 3}
@@ -118,7 +119,7 @@ MonoBehaviour:
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   deathJuiceOffset: {x: 0, y: 1, z: 0}
   resourcesDropChance: 0.9
-  resourcesPrefab: {fileID: 8288433013401571843, guid: e3b7aef0d1da71d468b7539e7641fa4e, type: 3}
+  resourcesPrefab: {fileID: 8288433013401571843, guid: a3f846ddcd8e3d643b4056ed0885d751, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []

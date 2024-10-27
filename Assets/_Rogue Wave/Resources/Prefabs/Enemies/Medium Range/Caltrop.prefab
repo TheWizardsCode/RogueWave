@@ -191,7 +191,6 @@ MonoBehaviour:
   strengths: 
   weaknesses: 
   attacks: 
-  challengeRating: 4
   isAvailableToWaveDefinitions: 1
   requireLineOfSight: 1
   viewDistance: 80
@@ -218,6 +217,7 @@ MonoBehaviour:
   deathExplosionRadius: 10
   explosionDamageOnDeath: 35
   explosionForceOnDeath: 15
+  maxAudioDistance: 30
   awarenessAudioType: 1
   barkClips:
   - {fileID: 8300000, guid: 78d86a1f9c6d19a4798660726f602e4e, type: 3}
@@ -241,7 +241,7 @@ MonoBehaviour:
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   deathJuiceOffset: {x: 0, y: 1, z: 0}
   resourcesDropChance: 0.95
-  resourcesPrefab: {fileID: 8288433013401571843, guid: 72f7888ace28a354b9ab0462e17a1c8a, type: 3}
+  resourcesPrefab: {fileID: 8288433013401571843, guid: caf9459c819d25843b1b923efddbb709, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
