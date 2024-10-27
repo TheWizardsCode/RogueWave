@@ -77,58 +77,62 @@ namespace RogueWave
         IEnumerator PlayMusicCo()
         {
             WaitForSeconds standardWait = new WaitForSeconds(0.35f);
+
             while (true)
             {
-                // OPTIMIZATION: Only play music when the volume is not muted
-                if (currentType == nextType) 
+                if (AudioManager.Instance.MusicVolume > -80)
                 {
-                    float timeRemaining = 0;
-                    if (source.isPlaying)
+                    // OPTIMIZATION: Only play music when the volume is not muted
+                    if (currentType == nextType)
                     {
-                        timeRemaining = source.clip.length - source.time;
-                    }
-
-                    if (timeRemaining > 0)
-                    {
-                        yield return standardWait;
-                    }
-                    else
-                    {
-                        if (currentType == MusicType.Menu)
+                        float timeRemaining = 0;
+                        if (source.isPlaying)
                         {
-                            yield return new WaitForSeconds(pauseDuration);
+                            timeRemaining = source.clip.length - source.time;
                         }
 
-                        source.clip = SelectNextClip();
-                        if (source.clip != null)
+                        if (timeRemaining > 0)
                         {
-                            source.Play();
-                        }
-                    }
-                } 
-                else
-                {
-                    switch (nextType)
-                    {
-                        case MusicType.None:
                             yield return standardWait;
-                            break;
-                        default:
-                            // mute then stop current music
-                            yield return AudioManager.MuteMusic();
-                            source.Stop();
+                        }
+                        else
+                        {
+                            if (currentType == MusicType.Menu)
+                            {
+                                yield return new WaitForSeconds(pauseDuration);
+                            }
 
-                            // start next track
-                            AudioManager.ResetGroup(source.outputAudioMixerGroup, FpsSettings.audio.musicVolume);
                             source.clip = SelectNextClip();
                             if (source.clip != null)
                             {
-                                source.Stop();
+                                source.Play();
                             }
+                        }
+                    }
+                    else
+                    {
+                        switch (nextType)
+                        {
+                            case MusicType.None:
+                                yield return standardWait;
+                                break;
+                            default:
+                                // mute then stop current music
+                                yield return AudioManager.MuteMusic();
+                                source.Stop();
 
-                            currentType = nextType;
+                                // start next track
+                                AudioManager.ResetGroup(source.outputAudioMixerGroup, FpsSettings.audio.musicVolume);
+                                source.clip = SelectNextClip();
+                                if (source.clip != null)
+                                {
+                                    source.Stop();
+                                }
 
-                            break;
+                                currentType = nextType;
+
+                                break;
+                        }
                     }
                 }
 

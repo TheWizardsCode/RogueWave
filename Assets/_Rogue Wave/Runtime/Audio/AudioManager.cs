@@ -31,6 +31,7 @@ namespace WizardsCode.RogueWave
 
         static float mutedVolumeDb = -80;
         Dictionary<AudioMixerGroup, float> currentVolumes = new Dictionary<AudioMixerGroup, float>();
+        FpsAudioSettings neoAudioSettings;
 
         private static AudioManager instance;
         public static AudioManager Instance
@@ -48,21 +49,69 @@ namespace WizardsCode.RogueWave
             private set { instance = value; }
         }
 
+        public float MusicVolume {
+            get => currentVolumes[music];
+            internal set => currentVolumes[music] = value; 
+        }
+
         private void Start()
+        {
+            CaptureCurrentMixerLevels();
+        }
+
+        private void OnEnable()
+        {
+            neoAudioSettings = FpsAudioSettings.GetInstance("FpsSettings_Audio");
+            
+            neoAudioSettings.onMasterVolumeChanged += OnMasterVolumeChanged;
+            neoAudioSettings.onMusicVolumeChanged += OnMusicVolumeChanged;
+            neoAudioSettings.onAmbienceVolumeChanged += OnAmbienceVolumeChanged;
+            neoAudioSettings.onEffectsVolumeChanged += OnEffectsVolumeChanged;
+        }
+
+        private void OnEffectsVolumeChanged(float arg0)
+        {
+            currentVolumes[effectsMaster] = ConvertNormalizedToDb(FpsSettings.audio.effectsVolume);
+        }
+
+        private void OnAmbienceVolumeChanged(float arg0)
+        {
+            currentVolumes[ambience] = ConvertNormalizedToDb(FpsSettings.audio.ambienceVolume);
+        }
+
+        private void OnMusicVolumeChanged(float arg0)
+        {
+            MusicVolume = ConvertNormalizedToDb(FpsSettings.audio.musicVolume);
+        }
+
+        private void OnMasterVolumeChanged(float arg0)
+        {
+            currentVolumes[master] = ConvertNormalizedToDb(FpsSettings.audio.masterVolume);
+        }
+
+        private void OnDisable()
+        {
+            neoAudioSettings.onMasterVolumeChanged -= OnMasterVolumeChanged;
+            neoAudioSettings.onMusicVolumeChanged -= OnMusicVolumeChanged;
+            neoAudioSettings.onAmbienceVolumeChanged -= OnAmbienceVolumeChanged;
+            neoAudioSettings.onEffectsVolumeChanged -= OnEffectsVolumeChanged;
+        }
+
+        private void CaptureCurrentMixerLevels()
         {
             float startingVolume;
 
-            currentVolumes[master] = FpsSettings.audio.masterVolume;
-            currentVolumes[music] = FpsSettings.audio.musicVolume;
-            currentVolumes[ambience] = FpsSettings.audio.ambienceVolume;
-            currentVolumes[effectsMaster] = FpsSettings.audio.effectsVolume;
+            currentVolumes[master] = ConvertNormalizedToDb(FpsSettings.audio.masterVolume);
+            MusicVolume = ConvertNormalizedToDb(FpsSettings.audio.musicVolume);
+            currentVolumes[ambience] = ConvertNormalizedToDb(FpsSettings.audio.ambienceVolume);
+            currentVolumes[effectsMaster] = ConvertNormalizedToDb(FpsSettings.audio.effectsVolume);
 
-            ui.audioMixer.GetFloat(ui.name + "Volume", out startingVolume); 
+            ui.audioMixer.GetFloat(ui.name + "Volume", out startingVolume);
             currentVolumes[ui] = startingVolume;
-           
+
             nanobots.audioMixer.GetFloat(nanobots.name + "Volume", out startingVolume);
             currentVolumes[nanobots] = startingVolume;
-            
+
             spatial.audioMixer.GetFloat(spatial.name + "Volume", out startingVolume);
             currentVolumes[spatial] = startingVolume;
 

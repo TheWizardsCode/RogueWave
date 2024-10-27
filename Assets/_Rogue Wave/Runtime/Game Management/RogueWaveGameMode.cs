@@ -263,7 +263,7 @@ namespace RogueWave
 
             extractionFx.extractionType = extractionType;
             extractionFx.gameObject.SetActive(true);
-            AudioManager.MuteAllExceptNanobots();
+            AudioManager.MuteAllExceptNanobots(2);
         }
 
         protected override void DelayedDeathAction()
