@@ -34,12 +34,17 @@ MonoBehaviour:
   m_LevelDefinition: {fileID: 11400000, guid: e77665de19e25d44eb55f1412ec3b018, type: 2}
   m_TerminalCommands: 'KillPercentageEnemies 1
 
-    DisableSpawning
+    #DisableSpawning
+
+
+    setmaxhealth
+    10000
+
 
     wait 1
 
-    #spawnenemy
-    Saucer'
+
+    #spawnenemy Saucer'
   m_PlayerStartPosition: {x: 43.099586, y: 1000, z: 23.756985}
   m_PlayerStartRotation: {x: 0, y: 0.6849333, z: 0, w: 0.7286058}
   m_Recipes:
@@ -56,6 +61,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 313a2a278bab86c49ac1b126c99e8aa3, type: 2}
   - {fileID: 11400000, guid: 17019a4969b23484387e64b19935cf83, type: 2}
   - {fileID: 11400000, guid: 17019a4969b23484387e64b19935cf83, type: 2}
+  - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
+  - {fileID: 11400000, guid: e35559ed11f3d5d41b7abd38b2ad1cf1, type: 2}
   m_MuteMusic: 1
   enableMouseSmoothing: 1
   mouseSmoothingAmount: 0.5

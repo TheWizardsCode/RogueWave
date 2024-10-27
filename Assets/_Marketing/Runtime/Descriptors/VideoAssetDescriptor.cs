@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using NaughtyAttributes;
 using System;
 using System.Collections;
@@ -6,7 +7,6 @@ using UnityEditor.Recorder.Input;
 using UnityEditor.Recorder;
 using UnityEngine;
 using Time = UnityEngine.Time;
-using UnityEditor;
 
 namespace WizardsCode.Marketing
 {
@@ -110,3 +110,4 @@ namespace WizardsCode.Marketing
         }
     }
 }
+#endif

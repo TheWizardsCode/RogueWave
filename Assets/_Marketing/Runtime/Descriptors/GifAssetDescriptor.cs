@@ -1,5 +1,5 @@
+#if UNITY_EDITOR
 using NaughtyAttributes;
-using Steamworks;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -949,3 +949,4 @@ namespace WizardsCode.Marketing
     }
 #endregion
 }
+#endif

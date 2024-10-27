@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using NaughtyAttributes;
 using System;
 using System.Collections;
@@ -176,3 +177,4 @@ namespace WizardsCode.Marketing
         }
     }
 }
+#endif

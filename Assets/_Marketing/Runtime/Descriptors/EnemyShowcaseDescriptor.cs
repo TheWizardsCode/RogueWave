@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using RogueWave;
 using RogueWave.Editor;
 using System;
@@ -55,3 +56,4 @@ namespace WizardsCode.Marketing
         }
     }
 }
+#endif

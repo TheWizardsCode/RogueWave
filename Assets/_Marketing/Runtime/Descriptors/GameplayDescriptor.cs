@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using NaughtyAttributes;
 using RogueWave;
 using UnityEditor;
@@ -149,3 +150,4 @@ namespace WizardsCode.Marketing
         }
     }
 }
+#endif

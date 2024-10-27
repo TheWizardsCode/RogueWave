@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using NaughtyAttributes;
 using System;
 using System.Collections;
@@ -6,7 +7,6 @@ using UnityEditor.Recorder;
 using UnityEngine;
 using WizardsCode.RogueWave;
 using Time = UnityEngine.Time;
-using PlasticPipe.PlasticProtocol.Messages;
 
 namespace WizardsCode.Marketing
 {
@@ -111,3 +111,4 @@ namespace WizardsCode.Marketing
         }
     }
 }
+#endif

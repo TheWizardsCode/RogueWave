@@ -1,11 +1,10 @@
+#if UNITY_EDITOR
 using NaughtyAttributes;
 using System;
 using System.Collections;
 using UnityEditor.Recorder.Input;
 using UnityEditor.Recorder;
 using UnityEngine;
-using UnityEngine.Serialization;
-using WizardsCode.RogueWave;
 using Time = UnityEngine.Time;
 
 namespace WizardsCode.Marketing
@@ -91,3 +90,4 @@ namespace WizardsCode.Marketing
         }
     }
 }
+#endif

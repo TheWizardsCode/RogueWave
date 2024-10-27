@@ -1,5 +1,5 @@
+#if UNITY_EDITOR
 using System;
-using UnityEditor;
 using UnityEditor.Recorder;
 using UnityEditor.Recorder.Encoder;
 using UnityEditor.Recorder.Input;
@@ -184,3 +184,4 @@ namespace WizardsCode.Marketing
         }
     }
 }
+#endif

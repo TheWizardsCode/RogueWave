@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using NaughtyAttributes;
 using NeoFPS;
 using System.Collections;
@@ -68,3 +69,4 @@ namespace WizardsCode.Marketing
         }
     }
 }
+#endif
