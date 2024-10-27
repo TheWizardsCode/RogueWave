@@ -113,9 +113,9 @@ namespace RogueWave.UI
                 nanobotManager.AddToRunRecipes(offer);
             }
 
+            GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(offer.BuyCost);
             RogueLiteManager.persistentData.Add(offer);
             HubController.AddPermanentRecipe(offer);
-            GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(offer.BuyCost);
 
             offers.RemoveAll(o => o == offer);
             isDirty = true;
