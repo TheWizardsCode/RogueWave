@@ -259,7 +259,6 @@ namespace RogueWave
             RW_HudHider.HideHUD();
             levelGenerator.HideLevelGeometry();
             aiDirector.Kill(1);
-            FindObjectOfType<NanobotPawnController>()?.gameObject.SetActive(false);
 
             extractionFx.extractionType = extractionType;
             extractionFx.gameObject.SetActive(true);

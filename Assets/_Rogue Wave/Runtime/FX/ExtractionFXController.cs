@@ -30,7 +30,6 @@ namespace WizardsCode.RogueWave
 
         private void Start()
         {
-            DontDestroyOnLoad(gameObject);
             audioSource = GetComponent<AudioSource>();
             extractionFx = GetComponent<TunnelFX2>();
             StartCoroutine(FxUpdateCo());
