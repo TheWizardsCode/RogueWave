@@ -116,7 +116,6 @@ namespace RogueWave.UI
             RogueLiteManager.persistentData.Add(offer);
             HubController.AddPermanentRecipe(offer);
             GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(offer.BuyCost);
-            RogueLiteManager.persistentData.isDirty = true;
 
             offers.RemoveAll(o => o == offer);
             isDirty = true;
