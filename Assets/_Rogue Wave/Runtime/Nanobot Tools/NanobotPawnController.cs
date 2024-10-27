@@ -1,9 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
-using NeoFPSEditor.Hub.Pages;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace RogueWave

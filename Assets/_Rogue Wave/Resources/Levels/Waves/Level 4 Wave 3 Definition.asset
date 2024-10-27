@@ -13,15 +13,15 @@ MonoBehaviour:
   m_Name: Level 4 Wave 3 Definition
   m_EditorClassIdentifier: 
   enemies:
+  - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
+    baseWeight: 0.5941971
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: c9fe6a1fefde401498f4df8d4dabe3f1, type: 3}
-    baseWeight: 0.011040794
+    baseWeight: 0.0671418
   - pooledEnemyPrefab: {fileID: 4070675553001932281, guid: 48d1e5da616d77c49868f34093cc925e, type: 3}
-    baseWeight: 0.12776688
-  - pooledEnemyPrefab: {fileID: -6177641379027551643, guid: dc8e65fcc446be54ea416d0af616ad16, type: 3}
-    baseWeight: 0.1997785
-  spawnEventFrequency: 2
-  numberToSpawn: 13
+    baseWeight: 0.3409879
+  spawnEventFrequency: 8.75
+  numberToSpawn: 60
   spawnOrder: 0
-  challengeRating: 2660
-  targetChallengeRating: 2660
+  challengeRating: 2300
+  targetChallengeRating: 2300
   randomizeEnemyTypes: 1

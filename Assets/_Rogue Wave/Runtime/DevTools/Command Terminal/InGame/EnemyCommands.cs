@@ -1,6 +1,5 @@
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 using RogueWave;
-using System;
 using UnityEngine;
 using WizardsCode.CommandTerminal;
 
@@ -34,7 +33,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
             }
 
             director.SpawnEnemies(challengeRating);
-            
+
             Terminal.Log($"Spawned {challengeRating} enemies.");
         }
 
@@ -63,7 +62,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
                 {
                     enemy = availableEnemies[index];
                 }
-            } 
+            }
             else
             {
                 foreach (BasicEnemyController e in availableEnemies)
@@ -95,7 +94,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
         private static void ListToTerminal(BasicEnemyController[] enemies)
         {
             if (enemies.Length == 0)
-                {
+            {
                 Terminal.Log("No enemies available in spawners near the player.");
                 return;
             }
@@ -119,12 +118,12 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
                 {
                     Terminal.Log("Percentage must be between 0 and 1.");
                     return;
-                }   
+                }
                 percentage = args[0].Float;
             }
 
             director.Kill(percentage);
-            
+
             Terminal.Log($"Killed {percentage}% of enemies.");
         }
 
@@ -134,7 +133,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
             if (Terminal.IssuedError) return;
 
             director.DisableSpawning();
-            
+
             Terminal.Log("Spawning disabled.");
         }
 
@@ -144,7 +143,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
             if (Terminal.IssuedError) return;
 
             director.EnableSpawning();
-            
+
             Terminal.Log("Spawning enabled.");
         }
     }
