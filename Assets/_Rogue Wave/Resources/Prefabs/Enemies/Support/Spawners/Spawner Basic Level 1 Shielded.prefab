@@ -56,7 +56,6 @@ MonoBehaviour:
   strengths: 
   weaknesses: 
   attacks: 
-  challengeRating: 3
   isAvailableToWaveDefinitions: 0
   requireLineOfSight: 0
   viewDistance: 30
@@ -83,6 +82,7 @@ MonoBehaviour:
   deathExplosionRadius: 15
   explosionDamageOnDeath: 30
   explosionForceOnDeath: 25
+  maxAudioDistance: 30
   awarenessAudioType: 0
   barkClips: []
   barkFrequency: {x: 5, y: 10}
@@ -92,7 +92,7 @@ MonoBehaviour:
   deathJuicePrefab: {fileID: 8368124236480789540, guid: f4a82b8ced6b1db478db56de792ea2ea, type: 3}
   deathJuiceOffset: {x: 0, y: 1, z: 0}
   resourcesDropChance: 1
-  resourcesPrefab: {fileID: 8288433013401571843, guid: c5e67adb717297b479a13c4672a13627, type: 3}
+  resourcesPrefab: {fileID: 8288433013401571843, guid: 06296615c371bee43bb8bddaeccfee91, type: 3}
   onDeath:
     m_PersistentCalls:
       m_Calls: []
@@ -108,7 +108,6 @@ MonoBehaviour:
   activeRange: 0
   useLevelDefinition: 1
   levelDefinition: {fileID: 0}
-  timeBetweenWaves: 10
   spawnRadius: 5
   spawnPositionMultiplier: 1
   destroySpawnsOnDeath: 1

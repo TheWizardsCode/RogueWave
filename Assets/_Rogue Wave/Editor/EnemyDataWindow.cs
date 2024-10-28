@@ -62,12 +62,20 @@ namespace RogueWave.Editor
                     continue;
                 }
 
+                Color defaultColor = GUI.color;
+                string tooltipMessage = enemy.description;
+                if (!enemy.IsValid(out string errorMessage, out Component component))
+                {
+                    tooltipMessage = errorMessage;
+                    GUI.color = Color.red;
+                }
+
                 EditorGUILayout.BeginHorizontal();
                 EditorGUI.BeginChangeCheck();
 
                 // Meta Data
                 EditorGUILayout.LabelField(enemy.challengeRating.ToString(), GUILayout.Width(20));
-                if (GUILayout.Button(enemy.displayName, GUILayout.Width(200)))
+                if (GUILayout.Button(new GUIContent(enemy.name, tooltipMessage), GUILayout.Width(200)))
                 {
                     EditorGUIUtility.PingObject(enemy);
                     Selection.activeObject = enemy;
@@ -102,6 +110,8 @@ namespace RogueWave.Editor
                     enemyEdited = true;
                 }
                 EditorGUILayout.EndHorizontal();
+
+                GUI.color = defaultColor;
             }
                        
             EditorGUILayout.EndScrollView();

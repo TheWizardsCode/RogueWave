@@ -848,6 +848,7 @@ namespace RogueWave
             {
                 Vector3 pos = transform.position;
                 pos.y = 0;
+
                 ResourcesPickup resources = Instantiate(resourcesPrefab, pos, Quaternion.identity);
                 if (parentRenderer != null)
                 {
@@ -991,6 +992,33 @@ namespace RogueWave
                 return false;
             }
 
+            if (!ValidateLootDrops(out message, out component))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool ValidateLootDrops(out string message, out Component component)
+        {
+            component = null;
+            message = string.Empty;
+
+            if (resourcesDropChance < 0 || resourcesDropChance > 1)
+            {
+                component = this;
+                message = "Resource drop chance must be between 0 and 1.";
+                return false;
+            }
+
+            if (resourcesDropChance > 0 && resourcesPrefab == null)
+            {
+                component = this;
+                message = "No resources prefab defined.";
+                return false;
+            }
+
             return true;
         }
 
@@ -999,19 +1027,24 @@ namespace RogueWave
             component = null;
             message = string.Empty;
 
-            if (causeDamageOnDeath && deathExplosionRadius < 0.1f)
+            if (!causeDamageOnDeath)
+            {
+                return true;
+            }
+            
+            if (deathExplosionRadius < 1f)
             {
                 component = this;
                 message = "Death explosion radius is too small.";
                 return false;
             }
-            if (causeDamageOnDeath && explosionDamageOnDeath < 1)
+            if (explosionDamageOnDeath < 1)
             {
                 component = this;
                 message = "Explosion damage on death is too small.";
                 return false;
             }
-            if (causeDamageOnDeath && explosionForceOnDeath < 1)
+            if (explosionForceOnDeath < 1)
             {
                 component = this;
                 message = "Explosion force on death is too small.";
