@@ -18,13 +18,13 @@ MonoBehaviour:
   heroImage: {fileID: 21300000, guid: beca349231cd2f740b9d405ffdb04ae5, type: 3}
   icon: {fileID: 21300000, guid: f70f9ab6386a2dc43a3a66695ef2146e, type: 3}
   level: 1
-  baseWeight: 0.7
+  baseWeight: 0.9
   dependencies: []
   complements:
   - {fileID: 11400000, guid: 5ad59c04066989140849afdf9d28365d, type: 2}
   baseBuyCost: 300
+  isAvailable: 1
   isPowerUp: 1
-  isConsumable: 1
   cooldown: 45
   isStackable: 0
   maxStack: 1
@@ -49,4 +49,5 @@ MonoBehaviour:
   uniqueID: 575edd46-4720-4dad-b8cc-6c70b445a090
   pickup: {fileID: 9178763630004489105, guid: 793a6a0be4f3d204f88162471ffca28f, type: 3}
   overridePrimaryWeapon: 1
+  usesAmmo: 1
   ammoRecipe: {fileID: 11400000, guid: 643b1bd15f2739a4c8ccafac741ac2fc, type: 2}
