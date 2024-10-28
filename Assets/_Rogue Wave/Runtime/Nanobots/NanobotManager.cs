@@ -23,48 +23,48 @@ namespace RogueWave
         }
         enum voiceDescriptionLevel { Silent, Low, Medium, High }
 
-        [Header("Building")]
-        [SerializeField, Tooltip("A modifier curve used to change various values in the NanobotManager based on game difficulty, such as build cooldown and build speed.")]
+        // Building
+        [SerializeField, Tooltip("A modifier curve used to change various values in the NanobotManager based on game difficulty, such as build cooldown and build speed."), BoxGroup("Building")]
         private AnimationCurve difficultyModifier = AnimationCurve.Linear(0, 1, 1, 1);
-        [SerializeField, Tooltip("A modifier for the build time. This can be used by upgrades and buffs to decrease or increase build times.")]
+        [SerializeField, Tooltip("A modifier for the build time. This can be used by upgrades and buffs to decrease or increase build times."), BoxGroup("Building")]
         private float buildTimeModifier = 1;
-        [SerializeField, Tooltip("Cooldown between recipe builds.")]
+        [SerializeField, Tooltip("Cooldown between recipe builds."), BoxGroup("Building")]
         private float buildingCooldown = 4;
-        [SerializeField, Tooltip("The resources needed to reach the next nanobot level."), CurveRange(0, 100, 99, 50000, EColor.Green)]
+        [SerializeField, Tooltip("The resources needed to reach the next nanobot level."), CurveRange(0, 100, 99, 50000, EColor.Green), BoxGroup("Building")]
         private AnimationCurve resourcesForLevel;
-        [SerializeField, Tooltip("The time between recipe offers from the home planet. Once a player has levelled up they will recieve an updated offer until they accept one. This is the freqency at which the offer will be changed.")]
+        [SerializeField, Tooltip("The time between recipe offers from the home planet. Once a player has levelled up they will recieve an updated offer until they accept one. This is the freqency at which the offer will be changed."), BoxGroup("Building")]
         private float timeBetweenRecipeOffers = 10;
-        [SerializeField, Tooltip("How far away from the player will built pickup be spawned.")]
+        [SerializeField, Tooltip("How far away from the player will built pickup be spawned."), BoxGroup("Building")]
         private float pickupSpawnDistance = 3;
 
-        [Header("Feedbacks")]
-        [SerializeField, Tooltip("Define how 'chatty' the nanobots are. This will affect how often and in what level of detail they announce things to the player.")]
+        // Feedbacks
+        [SerializeField, Tooltip("Define how 'chatty' the nanobots are. This will affect how often and in what level of detail they announce things to the player."), BoxGroup("Feedbacks")]
         private voiceDescriptionLevel voiceDescription = voiceDescriptionLevel.High;
-        [SerializeField, Tooltip("The sound to play to indicate a new recipe is available from home planet. This will be played before the name of the recipe to tell the player that they can call it in if they want.")]
+        [SerializeField, Tooltip("The sound to play to indicate a new recipe is available from home planet. This will be played before the name of the recipe to tell the player that they can call it in if they want."), BoxGroup("Feedbacks")]
         private AudioClip[] recipeRequestPrefix;
-        [SerializeField, Tooltip("The sound to play to indicate a recipe has been requested.")]
+        [SerializeField, Tooltip("The sound to play to indicate a recipe has been requested."), BoxGroup("Feedbacks")]
         private AudioClip[] recipeRequested;
-        [SerializeField, Tooltip("The sound to play to indicate a recipe request has been queued. This will be played if the player requests the recipe, but the nanobots are busy with something else at that time.")]
+        [SerializeField, Tooltip("The sound to play to indicate a recipe request has been queued. This will be played if the player requests the recipe, but the nanobots are busy with something else at that time."), BoxGroup("Feedbacks")]
         private AudioClip[] recipeRequestQueued;
-        [SerializeField, Tooltip("The sound to play to indicate a new recipe has been recieved. This will be played before the name of the recipe to tell the player that the recipe has been recieved.")]
+        [SerializeField, Tooltip("The sound to play to indicate a new recipe has been recieved. This will be played before the name of the recipe to tell the player that the recipe has been recieved."), BoxGroup("Feedbacks")]
         private AudioClip[] recipeRecievedPrefix;
-        [SerializeField, Tooltip("The sound to play when the build is started. Note that this can be overridden in the recipe.")]
+        [SerializeField, Tooltip("The sound to play when the build is started. Note that this can be overridden in the recipe."), BoxGroup("Feedbacks")]
         private AudioClip[] buildStartedClips;
-        [SerializeField, Tooltip("The sound to play when the build is complete. Note that this can be overridden in the recipe.")]
+        [SerializeField, Tooltip("The sound to play when the build is complete. Note that this can be overridden in the recipe."), BoxGroup("Feedbacks")]
         private AudioClip[] buildCompleteClips;
-        [SerializeField, Tooltip("The default particle system to play when a pickup is spawned. Note that this can be overridden in the recipe."), FormerlySerializedAs("pickupSpawnParticlePrefab")]
+        [SerializeField, Tooltip("The default particle system to play when a pickup is spawned. Note that this can be overridden in the recipe."), FormerlySerializedAs("pickupSpawnParticlePrefab"), BoxGroup("Feedbacks")]
         ParticleSystem defaultPickupParticlePrefab;
-        [SerializeField, Tooltip("The default audio clip to play when a recipe name is needed, but the recipe does not have a name clip. This should never be used in practice.")]
+        [SerializeField, Tooltip("The default audio clip to play when a recipe name is needed, but the recipe does not have a name clip. This should never be used in practice."), BoxGroup("Feedbacks")]
         AudioClip defaultRecipeName;
 
         // Game Stats
-        [SerializeField, Foldout("Game Stats"), Tooltip("The current total resources available to the player.")]
+        [SerializeField, Tooltip("The current total resources available to the player."), BoxGroup("Game Stats")]
         private IntGameStat m_Resources;
-        [SerializeField, Foldout("Game Stats"), Tooltip("The unrefined crystal resources gathered.")]
+        [SerializeField, Tooltip("The unrefined crystal resources gathered."), BoxGroup("Game Stats")]
         private IntGameStat m_CrystalResourcesCollected;
-        [SerializeField, Tooltip("The GameStat to increment when a recipe is called in during a run."), Foldout("Game Stats")]
+        [SerializeField, Tooltip("The GameStat to increment when a recipe is called in during a run."), BoxGroup("Game Stats")]
         internal IntGameStat m_RecipesCalledInStat;
-        [SerializeField, Tooltip("The GameStat to store the maximum nanobot level the player has attained."), Foldout("Game Stats")]
+        [SerializeField, Tooltip("The GameStat to store the maximum nanobot level the player has attained."), BoxGroup("Game Stats")]
         internal IntGameStat m_MaxNanobotLevelStat;
 
         [SerializeField, Tooltip("Turn on debug features for the Nanobot Manager"), Foldout("Debug")]
@@ -273,8 +273,8 @@ namespace RogueWave
             if (resourcesForNextNanobotLevel <= 0)
             {
                 stackedLevelUps++;
-            }
-            if (stackedLevelUps > 0 && Time.timeSinceLevelLoad > nextLevelUpTime)
+                LevelUp();
+            } else if (stackedLevelUps > 0 && Time.timeSinceLevelLoad > nextLevelUpTime)
             {
                 LevelUp();
             }
@@ -468,6 +468,7 @@ namespace RogueWave
             }
 
             rewardCoroutine = null;
+            nextLevelUpTime = Time.timeSinceLevelLoad + 5;
         }
 
         int stackedLevelUps = 0;
@@ -497,8 +498,6 @@ namespace RogueWave
             {
                 m_MaxNanobotLevelStat.Add(1);
             }
-
-            nextLevelUpTime = Time.timeSinceLevelLoad + 10;
 
             GameLog.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
         }

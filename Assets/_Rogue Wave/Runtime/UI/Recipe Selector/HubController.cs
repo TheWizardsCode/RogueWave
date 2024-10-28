@@ -47,9 +47,6 @@ namespace RogueWave.UI
 
         private void OnEnable()
         {
-            m_ContinueButton.onClick.AddListener(QuitSelectionUI);
-            m_RerollButton.onClick.AddListener(RerollOffers);
-
             NeoFpsInputManager.captureMouseCursor = false;
 
             GameLog.Info($"Entering Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").value} resources.");
@@ -81,9 +78,6 @@ namespace RogueWave.UI
 
         private void OnDisable()
         {
-            m_ContinueButton.onClick.RemoveListener(QuitSelectionUI);
-            m_RerollButton.onClick.RemoveListener(RerollOffers);
-
             NeoFpsInputManager.captureMouseCursor = true;
 
             GameLog.Info($"Exiting Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").value} resources.");
@@ -128,7 +122,18 @@ namespace RogueWave.UI
             }
         }
 
-        private void RerollOffers()
+        public void LevelUp()
+        {
+            int costOfLevelUp = 1500;
+            if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= costOfLevelUp)
+            {
+                GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(costOfLevelUp);
+                RogueLiteManager.persistentData.currentNanobotLevel++;
+                RerollOffers();
+            }
+        }
+
+        public void RerollOffers()
         {
             if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= m_RerollCost)
             {
@@ -190,7 +195,7 @@ namespace RogueWave.UI
             isPermanentRecipesDirty = true;
         }
 
-        public void QuitSelectionUI()
+        public void PrepareNanotransfer()
         {
             if (FpsSoloCharacter.localPlayerCharacter == null)
             {
