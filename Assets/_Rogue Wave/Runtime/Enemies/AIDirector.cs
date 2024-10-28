@@ -379,8 +379,11 @@ namespace RogueWave
             int enemiesToKill = Mathf.RoundToInt(enemies.Count * percentage);
             for (int i = enemies.Count - 1; enemiesToKill > 0; i--)
             {
-                enemies[i].healthManager.SetHealth(0, false, null);
-                enemiesToKill--;
+                if (i < enemies.Count) // this is to prevent index out of range errors which might occur if something else is killing enemies at the same time
+                {
+                    enemies[i].healthManager.SetHealth(0, false, null);
+                    enemiesToKill--;
+                }
             }
         }
 

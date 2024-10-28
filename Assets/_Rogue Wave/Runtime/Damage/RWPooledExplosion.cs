@@ -66,10 +66,12 @@ namespace RogueWave
             _onExplosion?.Raise();
 
             if (_audioClips.Length > 0)
-            AudioManager.Play3DOneShot(_audioClips[Random.Range(0, _audioClips.Length)], transform.position);
+            {
+                AudioManager.Play3DOneShot(_audioClips[Random.Range(0, _audioClips.Length)], transform.position);
+            }
 
             s_HealthManagers.Clear();
-            base.Explode(maxDamage, maxForce, source, ignoreRoot);
+            base.Explode(maxDamage, maxForce, this, ignoreRoot);
         }
 
         protected override void CheckCollider(Collider c, Vector3 explosionCenter)

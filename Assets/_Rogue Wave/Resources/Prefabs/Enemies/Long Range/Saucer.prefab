@@ -97,9 +97,9 @@ MonoBehaviour:
   m_description: Stays high in the sky and attacks using a long range laser. The
     laser takes a while to lock on and doesn't do much damage when it does., so these
     are more of a nuisance than a threat.
-  strengths: 
-  weaknesses: 
-  attacks: 
+  strengths: Forces the player to ignore ground units.
+  weaknesses: Explode on destruction, taking out anything nearby.
+  attacks: Targeting laser, keep moving and it won't lock on.
   isAvailableToWaveDefinitions: 1
   requireLineOfSight: 1
   viewDistance: 150
@@ -110,8 +110,8 @@ MonoBehaviour:
   headLook: 0
   head: {fileID: 0}
   maxHeadRotation: 75
-  returnToSpawner: 0
-  seekDistance: 50
+  returnToSpawner: 1
+  seekDistance: 75
   optimalDistanceFromPlayer: 40
   destinationUpdateFrequency: 12
   spawnDefensiveUnitsOnDamage: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   deathExplosionRadius: 10
   explosionDamageOnDeath: 40
   explosionForceOnDeath: 15
+  maxAudioDistance: 30
   awarenessAudioType: 1
   barkClips:
   - {fileID: 8300000, guid: f5b1bb06d39c46645bbd899b2c225bc5, type: 3}

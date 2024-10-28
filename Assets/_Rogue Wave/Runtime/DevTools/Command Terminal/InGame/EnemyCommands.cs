@@ -67,7 +67,7 @@ namespace WizardsCode.RogueWave.CommandTerminal.InGame
             {
                 foreach (BasicEnemyController e in availableEnemies)
                 {
-                    if (e.name == args[0].String)
+                    if (e.name.ToLower() == args[0].String.ToLower())
                     {
                         enemy = e;
                         break;

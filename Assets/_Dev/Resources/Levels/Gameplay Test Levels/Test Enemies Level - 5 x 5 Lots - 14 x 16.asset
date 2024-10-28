@@ -25,7 +25,23 @@ MonoBehaviour:
   maxAlive: 200
   generateLevelOnSpawn: 1
   prePlacedTiles:
+  - {fileID: 11400000, guid: 683c4a736f70c9a41bb9242f2132c3cc, type: 2}
   - {fileID: 11400000, guid: ccca2893416a8f2458df113e4cc012b8, type: 2}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
   deathAudioClips: []
+  levelWaveGenerationConfiguration:
+    flow:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    levelNumber: 1
+    MapSize: {x: 10, y: 10}
+    numberOfWaves: 5
+    startingChallengeRating: 500
+    peakChallengeRating: 1000
+    prePlacedTiles: []
+    enemies: []
+    earliestWavePercentage: []

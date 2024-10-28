@@ -526,14 +526,14 @@ namespace RogueWave
 
         float cachedDistanceToTarget;
         float timeOfNextTargetDistanceCheck = 0;
-        protected virtual async void Update()
+        protected virtual void Update()
         {
             if (movementController != null)
             {
                 UpdateMovement();
             }
 
-            if (Time.time > timeOfNextTargetDistanceCheck)
+            if (Time.time > timeOfNextTargetDistanceCheck && Target)
             {
                 cachedDistanceToTarget = Vector3.Distance(Target.position, transform.position);
                 timeOfNextTargetDistanceCheck = Time.time + Random.value;

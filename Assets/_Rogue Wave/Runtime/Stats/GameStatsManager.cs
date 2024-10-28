@@ -39,6 +39,8 @@ namespace RogueWave.GameStats
         [SerializeField, Tooltip("The scene to load when displaying stats for the player."), Scene]
         private string m_StatsScene = "RogueWave_StatsScene";
 #if DISCORD_ENABLED
+        [SerializeField, Tooltip("The URL of the webhook to send Sorra's data log to.")]
+        WebhookData exceptionWebhook;
         [SerializeField, Tooltip("The URL of the webhook to send real player data log to.")]
         [FormerlySerializedAs("webhookData")]
         WebhookData playerDataWebhook;
@@ -160,6 +162,8 @@ namespace RogueWave.GameStats
             m_IntGameStats = Resources.LoadAll<IntGameStat>("");
             m_StringGameStats = Resources.LoadAll<StringGameStat>("");
             m_Achievements = Resources.LoadAll<Achievement>("");
+
+            Application.logMessageReceived += HandleLog;
         }
 
         private void OnDisable()
@@ -171,6 +175,19 @@ namespace RogueWave.GameStats
             }
             SteamClient.Shutdown();
 #endif
+
+            Application.logMessageReceived -= HandleLog;
+        }
+
+        void HandleLog(string logString, string stackTrace, LogType type)
+        {
+            if (type == LogType.Exception)
+            {
+                // Handle the exception here
+                Debug.Log("Exception caught: " + logString);
+                Debug.Log("Stack Trace: " + stackTrace);
+                StartCoroutine(SendExceptionToWebhookCoroutine(logString, stackTrace));
+            }
         }
 
 #if DISCORD_ENABLED
@@ -185,13 +202,31 @@ namespace RogueWave.GameStats
                 return;
             }
 
-            if (SystemInfo.deviceUniqueIdentifier == SORRA_THE_WIZARDS_CODE_DEVICE_ID)
-            {
-
-            }
-
             string[] chunks = GetDataAsYAML();
             StartCoroutine(SendDataToWebhookCoroutine(eventName, chunks));
+        }
+
+        IEnumerator SendExceptionToWebhookCoroutine(string logString, string stackTrace)
+        {
+            Message message = new Message();
+            message.username = "Rogue Wave";
+
+            Author author = new Author();
+            author.name = $"Rogue Wave (Exception Report, Player ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()}) v{Application.version}";
+            
+            //List<Embed> embeds = new List<Embed>();
+            //Embed embed = new Embed();
+            //embed.author = author;
+            //embed.title = logString;
+            //embed.description = stackTrace;
+            //embed.color = ColorUtils.ToColorCode(Color.red);
+            //embeds.Add(embed);
+            //message.embeds = embeds.ToArray();
+
+            message.content = $"Exception Report\nPlayer ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\nv{Application.version}\n\n{logString}\n\n```{stackTrace}```";
+
+            Webhook webhook = exceptionWebhook.CreateWebhook();
+            yield return webhook.Send(message);
         }
 
         IEnumerator SendDataToWebhookCoroutine(string eventName, string[] chunks)

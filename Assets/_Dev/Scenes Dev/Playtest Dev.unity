@@ -456,6 +456,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5773993234807199052, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
+      propertyPath: showDebug
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5773993234807199052, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
+      propertyPath: exceptionWebhook
+      value: 
+      objectReference: {fileID: 11400000, guid: 55e373a9927d17440a30ce6d6a8af002, type: 2}
     - target: {fileID: 8339059454815938398, guid: b3f2d7c8a102fd84281a651d5599b875, type: 3}
       propertyPath: m_Name
       value: Game Stats Manager
@@ -854,7 +862,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stopOnAssetCompletion: 0
   assetDescriptors:
-  - {fileID: 11400000, guid: bcb3572a1259383448cd697d0b5440da, type: 2}
+  - {fileID: 11400000, guid: d8ad6b6e09d70c24fb9a0dc12a9a6312, type: 2}
 --- !u!4 &1104205213
 Transform:
   m_ObjectHideFlags: 0
