@@ -31,7 +31,7 @@ namespace RogueWave
                 {
                     Vector3 direction = transform.position - target.position;
                     float distance = direction.magnitude;
-                    if (distance > 0.1)
+                    if (distance > 0.1 && distance <= range)
                     {
                         float adjustedSpeed = Mathf.Max(1f, speed * (1 + (range - distance) / range));
                         target.Translate(direction * (adjustedSpeed * Time.deltaTime / distance));

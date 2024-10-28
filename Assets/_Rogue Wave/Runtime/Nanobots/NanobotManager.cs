@@ -445,6 +445,7 @@ namespace RogueWave
         {
             if (rewardCoroutine != null || stackedLevelUps == 0) // if already offering rewards we need to wait until player has selected an upgrade. If there is no stacked level up we shouldn't be here at all.
             {
+                resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
                 return;
             }
 
@@ -525,7 +526,7 @@ namespace RogueWave
 
         private int GetRequiredResourcesForNextNanobotLevel()
         {
-            return Mathf.RoundToInt(resourcesForLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel + 1));
+            return Mathf.RoundToInt(resourcesForLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel + stackedLevelUps + 1));
         }
 
         // TODO: we can probably generalize these Try* methods now that we have refactored the recipes to use interfaces/Abstract classes
