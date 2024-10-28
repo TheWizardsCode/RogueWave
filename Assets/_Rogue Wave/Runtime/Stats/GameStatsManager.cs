@@ -160,7 +160,9 @@ namespace RogueWave.GameStats
             m_StringGameStats = Resources.LoadAll<StringGameStat>("");
             m_Achievements = Resources.LoadAll<Achievement>("");
 
+#if DEVELOPMENT_BUILD
             Application.logMessageReceived += HandleLog;
+#endif
         }
 
         private void OnDisable()
@@ -172,8 +174,9 @@ namespace RogueWave.GameStats
             }
             SteamClient.Shutdown();
 #endif
-
+#if DEVELOPMENT_BUILD
             Application.logMessageReceived -= HandleLog;
+#endif
         }
 
         void HandleLog(string logString, string stackTrace, LogType type)
@@ -205,11 +208,17 @@ namespace RogueWave.GameStats
 
         IEnumerator SendExceptionToWebhookCoroutine(string logString, string stackTrace)
         {
+            string playerID = SystemInfo.deviceUniqueIdentifier.GetHashCode().ToString();
+            if (SystemInfo.deviceUniqueIdentifier == SORRA_THE_WIZARDS_CODE_DEVICE_ID)
+            {
+                playerID = "Sorra The Orc";
+            }
+
             Message message = new Message();
             message.username = "Rogue Wave";
 
             Author author = new Author();
-            author.name = $"Rogue Wave (Exception Report, Player ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()}) v{Application.version}";
+            author.name = $"Rogue Wave (Exception Report, Player ID {playerID}) v{Application.version}";
 
             //List<Embed> embeds = new List<Embed>();
             //Embed embed = new Embed();
@@ -220,7 +229,7 @@ namespace RogueWave.GameStats
             //embeds.Add(embed);
             //message.embeds = embeds.ToArray();
 
-            message.content = $"Exception Report\nPlayer ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\nv{Application.version}\n\n{logString}\n\n";
+            message.content = $"Exception Report\nPlayer ID {playerID}\nv{Application.version}\n\n{logString}\n\n";
             if (stackTrace.Length + message.content.Length + 6 > 2000)
             {
                 message.content += $"```{stackTrace.Substring(0, 2000 - message.content.Length - 6)}```";

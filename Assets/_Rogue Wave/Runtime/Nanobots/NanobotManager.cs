@@ -186,7 +186,7 @@ namespace RogueWave
         {
             if (!alive)
             {
-                RogueLiteManager.persistentData.currentNanobotLevel = 0;
+                RogueLiteManager.persistentData.currentNanobotLevel = 1;
                 stackedLevelUps = 0;
             }
         }
@@ -207,6 +207,24 @@ namespace RogueWave
 
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
 
+            // When the player dies the nanobots are reset to level 1, but the player will have a bunch of resources to spend on the next run.
+            // We need to calculate how many level ups the nanobots should get with the resources they have.
+            // This gives the player a headstart on the next run.
+            if (RogueLiteManager.persistentData.currentNanobotLevel == 1)
+            {
+                int resourcesAvailable = GameStatsManager.Instance.GetIntStat("RESOURCES").value;
+                int resourcesForNextLevel = Mathf.RoundToInt(resourcesForLevel.Evaluate(stackedLevelUps + 1));
+                while (resourcesAvailable > resourcesForNextLevel)
+                {
+                    resourcesAvailable -= resourcesForNextLevel;
+                    stackedLevelUps++;
+
+                    resourcesForNextLevel = Mathf.RoundToInt(resourcesForLevel.Evaluate(stackedLevelUps + 1));
+                }
+            }
+            nextLevelUpTime = Time.timeSinceLevelLoad + 10;
+
+            // Ensure the recipes are not carrying over any adjustments from previous runs.
             foreach (var healthRecipe in healthRecipes)
             {
                 healthRecipe.Reset();
@@ -232,6 +250,7 @@ namespace RogueWave
                 itemRecipe.Reset();
             }
 
+            // If this is the combat scene then ensure there is a weapon in hand
             if (SceneManager.GetActiveScene().name != RogueLiteManager.combatScene)
             {
                 foreach (string guid in RogueLiteManager.persistentData.WeaponBuildOrder)
@@ -255,7 +274,7 @@ namespace RogueWave
             {
                 stackedLevelUps++;
             }
-            if (stackedLevelUps > 0)
+            if (stackedLevelUps > 0 && Time.timeSinceLevelLoad > nextLevelUpTime)
             {
                 LevelUp();
             }
@@ -452,6 +471,7 @@ namespace RogueWave
         }
 
         int stackedLevelUps = 0;
+        private float nextLevelUpTime;
 
         [Button("Level Up the Nanobots")]
         private void LevelUp()
@@ -477,6 +497,8 @@ namespace RogueWave
             {
                 m_MaxNanobotLevelStat.Add(1);
             }
+
+            nextLevelUpTime = Time.timeSinceLevelLoad + 10;
 
             GameLog.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
         }
