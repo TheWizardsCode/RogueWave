@@ -166,16 +166,29 @@ namespace RogueWave
 
         private void OnEnable()
         {
+            GetComponent<BasicHealthManager>().onIsAliveChanged += OnPlayerIsAliveChanged;
+
             RogueWaveGameMode.onLevelComplete += OnLevelComplete;
             RogueWaveGameMode.onPortalEntered += OnPortalEntered;
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             inVictoryRoutine = false;
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
+            GetComponent<BasicHealthManager>().onIsAliveChanged -= OnPlayerIsAliveChanged;
+
             RogueWaveGameMode.onLevelComplete -= OnLevelComplete;
             RogueWaveGameMode.onPortalEntered -= OnPortalEntered;
+        }
+
+        private void OnPlayerIsAliveChanged(bool alive)
+        {
+            if (!alive)
+            {
+                RogueLiteManager.persistentData.currentNanobotLevel = 0;
+                stackedLevelUps = 0;
+            }
         }
 
         private void OnPortalEntered()
