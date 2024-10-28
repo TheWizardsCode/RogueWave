@@ -258,7 +258,6 @@ namespace RogueWave
         {
             RW_HudHider.HideHUD();
             levelGenerator.HideLevelGeometry();
-            aiDirector.Kill(1);
 
             extractionFx.extractionType = extractionType;
             extractionFx.gameObject.SetActive(true);

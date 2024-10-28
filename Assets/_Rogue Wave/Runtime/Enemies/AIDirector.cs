@@ -63,6 +63,8 @@ namespace RogueWave
             }
         }
 
+        public int enemyCount => enemies.Count;
+
         /// <summary>
         /// Returns the suspected location of the player based on the reports made by the enemies.
         /// </summary>
@@ -379,11 +381,8 @@ namespace RogueWave
             int enemiesToKill = Mathf.RoundToInt(enemies.Count * percentage);
             for (int i = enemies.Count - 1; enemiesToKill > 0; i--)
             {
-                if (i < enemies.Count) // this is to prevent index out of range errors which might occur if something else is killing enemies at the same time
-                {
-                    enemies[i].healthManager.SetHealth(0, false, null);
-                    enemiesToKill--;
-                }
+                enemies[i].healthManager.SetHealth(0, false, null);
+                enemiesToKill--;
             }
         }
 

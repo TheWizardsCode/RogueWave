@@ -278,7 +278,7 @@ namespace RogueWave
 
                     for (int i = 0; i < currentWave.SpawnAmount; i++)
                     {
-                        if (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || spawnedEnemies.Count < currentLevel.maxAlive)
+                        if (ignoreMaxAlive == false || currentLevel.maxAlive == 0 || AIDirector.Instance.enemyCount < currentLevel.maxAlive)
                         {
                             SpawnEnemy();
                             yield return null;
@@ -297,7 +297,7 @@ namespace RogueWave
         /// <param name="prefab"></param>
         /// <param name="maxAliveOverride"></param>
         /// <returns>A reference to the instance spawned, null if it could not be spawned.</returns>
-        internal BasicEnemyController SpawnEnemy(BasicEnemyController prefab, bool maxAliveOverride = false)
+        internal BasicEnemyController SpawnEnemy(PooledObject prefab, bool maxAliveOverride = false)
         {
             Vector3 spawnPosition = transform.position + (Random.insideUnitSphere * spawnRadius * spawnPositionMultiplier);
             if (currentWave == null)
@@ -305,8 +305,7 @@ namespace RogueWave
                 currentWave = gameMode.GetEnemyWaveFromBossSpawner();
             }
 
-            // OPTIMIZATION: We are doing a GetComponent here, which is slow. We do the opposite in the other SpawnEnemy(override) method. We should refactor this to be consistent.
-            BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prefab.GetComponent<PooledObject>(), spawnPosition, Quaternion.identity);
+            BasicEnemyController enemy = PoolManager.GetPooledObject<BasicEnemyController>(prefab, spawnPosition, Quaternion.identity);
             enemy.onDeath.AddListener(OnEnemyDeath);
 
             spawnedEnemies.Add(enemy);
@@ -348,8 +347,8 @@ namespace RogueWave
                 Debug.LogError("No enemy prefab found in wave definition.");
                 return null;
             }
-            // OPTIMIZATION: We are doing a GetComponent here, which is slow. We do the opposite in the other SpawnEnemy(pooled, override) method. We should refactor this to be consistent.
-            BasicEnemyController enemy = SpawnEnemy(prefab.GetComponent<BasicEnemyController>(), maxAliveOverride);
+
+            BasicEnemyController enemy = SpawnEnemy(prefab, maxAliveOverride);
 
             return enemy;
         }

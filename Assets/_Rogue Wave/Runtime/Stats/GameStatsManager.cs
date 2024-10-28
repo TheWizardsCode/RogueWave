@@ -18,9 +18,6 @@ using System.Collections;
 using UnityEngine.Serialization;
 using System.Linq;
 using Lumpn.Discord.Utils;
-using WizardsCode.RogueWave;
-using NeoFPS;
-using UnityEngine.Events;
 
 namespace RogueWave.GameStats
 {
@@ -213,7 +210,7 @@ namespace RogueWave.GameStats
 
             Author author = new Author();
             author.name = $"Rogue Wave (Exception Report, Player ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()}) v{Application.version}";
-            
+
             //List<Embed> embeds = new List<Embed>();
             //Embed embed = new Embed();
             //embed.author = author;
@@ -223,7 +220,15 @@ namespace RogueWave.GameStats
             //embeds.Add(embed);
             //message.embeds = embeds.ToArray();
 
-            message.content = $"Exception Report\nPlayer ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\nv{Application.version}\n\n{logString}\n\n```{stackTrace}```";
+            message.content = $"Exception Report\nPlayer ID {SystemInfo.deviceUniqueIdentifier.GetHashCode()}\nv{Application.version}\n\n{logString}\n\n";
+            if (stackTrace.Length + message.content.Length + 6 > 2000)
+            {
+                message.content += $"```{stackTrace.Substring(0, 2000 - message.content.Length - 6)}```";
+            }
+            else
+            {
+                message.content += $"```{stackTrace}```";
+            }
 
             Webhook webhook = exceptionWebhook.CreateWebhook();
             yield return webhook.Send(message);
