@@ -240,6 +240,10 @@ namespace RogueWave
             // Are we leveling up?
             if (resourcesForNextNanobotLevel <= 0)
             {
+                stackedLevelUps++;
+            }
+            if (stackedLevelUps > 0)
+            {
                 LevelUp();
             }
 
@@ -428,32 +432,27 @@ namespace RogueWave
                     break;
                 }
 
-                // if the player does not want the recipe then we will offer another one in a few seconds
-                if (status != Status.Requesting && timeOfLastRewardOffer + timeBetweenRecipeOffers < Time.timeSinceLevelLoad)
-                {
-                    if (rewardCoroutine != null)
-                    {
-                        StopCoroutine(rewardCoroutine);
-                    }
-                    rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
-                }
-
                 yield return null;
             }
+
+            rewardCoroutine = null;
         }
+
+        int stackedLevelUps = 0;
 
         [Button("Level Up the Nanobots")]
         private void LevelUp()
         {
+            if (rewardCoroutine != null || stackedLevelUps == 0) // if already offering rewards we need to wait until player has selected an upgrade. If there is no stacked level up we shouldn't be here at all.
+            {
+                return;
+            }
+
+            stackedLevelUps--;
             RogueLiteManager.persistentData.currentNanobotLevel++;
 
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
             onNanobotLevelUp?.Invoke(RogueLiteManager.persistentData.currentNanobotLevel, resourcesForNextNanobotLevel);
-
-            if (rewardCoroutine != null)
-            {
-                StopCoroutine(rewardCoroutine);
-            }
 
             if (!inVictoryRoutine)
             {
