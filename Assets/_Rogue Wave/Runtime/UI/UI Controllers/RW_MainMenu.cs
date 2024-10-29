@@ -9,9 +9,9 @@ namespace RogueWave.UI
     public class RW_MainMenu : MainMenu
     {
         [SerializeField, Tooltip("The URL to open when the Wishlist button is clicked.")]
-        private string wishlistUrl = "steam://openurl/https://store.steampowered.com/app/2895630/Rogue_Wave";
+        private string wishlistUrl = "steam://run/2895630";
         [SerializeField, Tooltip("The URL to open when the Follow button is clicked.")]
-        private string followUrl = "steam://openurl/https://store.steampowered.com/app/2895630/Rogue_Wave";
+        private string feedbackUrl = "steam://openurl/https://forms.gle/tSWq7i9vpbaD8g3B6";
         [SerializeField, Tooltip("The URL to open when the user clicks the 'Join Discord' button.")]
         private string joinDiscordUrl = "https://discord.gg/Mp6XAz9T6w";
 
@@ -54,19 +54,19 @@ namespace RogueWave.UI
             }
             catch (Exception ex)
             {
-                GameLog.LogError($"User attempted to connect to the Wishlist but got an error: {ex.Message}");
+                GameStatsManager.Instance.HandleLog($"User attempted to Wishlist but got an error: {ex.Message}", ex.StackTrace, LogType.Exception);
             }
         }
 
-        public void Follow()
+        public void Feedback()
         {
             try
             {
-                System.Diagnostics.Process.Start(followUrl);
+                System.Diagnostics.Process.Start(feedbackUrl);
             }
             catch (Exception ex)
             {
-                GameLog.LogError($"User attempted to connect to the Follow page but got an error: {ex.Message}");
+                GameStatsManager.Instance.HandleLog($"User attempted to connect to the Feedback page but got an error: {ex.Message}", ex.StackTrace, LogType.Exception);
             }
         }
 

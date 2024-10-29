@@ -179,7 +179,7 @@ namespace RogueWave.GameStats
 #endif
         }
 
-        void HandleLog(string logString, string stackTrace, LogType type)
+        internal void HandleLog(string logString, string stackTrace, LogType type)
         {
             if (type == LogType.Exception)
             {
