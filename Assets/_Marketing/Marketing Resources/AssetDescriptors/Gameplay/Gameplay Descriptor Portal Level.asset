@@ -10,22 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 057b49433d30b6441927859de18641eb, type: 3}
-  m_Name: Gameplay Descriptor Portal Level 1
+  m_Name: Gameplay Descriptor Portal Level
   m_EditorClassIdentifier: 
   m_AssetName: Portal Level 1
   m_Description: Sets up the end game where the player is battling for entrance to
     the area with the portal within.
   m_Resolution: {x: 1920, y: 1080}
-  m_FrameRate: 10
-  m_CaptureHeroImage: 0
-  m_HeroFrame: 90
-  m_FramesEitherSideOfHero: 3
-  m_CaptureImageSequence: 0
-  m_ImageSequenceStartTime: 0
-  m_ImageSequenceEndTime: 10
-  m_CaptureVideo: 0
-  m_VideoStartTime: 0
-  m_VideoEndTime: 10
   m_CameraPosition: {x: 0, y: 100, z: 0}
   m_CameraRotation: {x: 90, y: 0, z: 0}
   m_LogoEnabled: 1
@@ -35,21 +25,24 @@ MonoBehaviour:
   m_BackgroundPosition: {x: 0, y: 0, z: 0}
   m_BackgroundRotation: {x: 0, y: 0, z: 0}
   heroCount: 17
+  screenshotCount: 0
   imageSequenceCount: 3
   videoCount: 6
-  m_LevelDefinition: {fileID: 11400000, guid: 4d920e59a2c95624eb76646df96e4ffc, type: 2}
+  m_HeroImageGameEvents: []
+  m_ScreenshotCount: 3
+  m_MinimumFramesBetweenScreenshots: 30
+  m_FrameRate: 10
+  m_LevelDefinition: {fileID: 11400000, guid: c1f1f6be0be799e4fb1be41afba4ab95, type: 2}
   m_TerminalCommands: 'killpercentageenemies 1
 
     disablespawning
 
-    wait 1
-
-    spawn
-    saucer
 
     wait 1
 
-    setmaxhealth 10000'
+
+    setmaxhealth
+    10000'
   m_PlayerStartPosition: {x: 150.63867, y: 1000, z: 229.26137}
   m_PlayerStartRotation: {x: 0, y: 0.99681777, z: 0, w: 0.07971423}
   m_Recipes:

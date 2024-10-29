@@ -20,8 +20,12 @@ namespace RogueWave
         void Awake()
         {
             canvasGroup = GetComponent<CanvasGroup>();
-            RogueWaveGameMode.onPortalEntered += OnPortalEntered;
             canvasGroup.alpha = 0f;
+        }
+
+        private void OnEnable()
+        {
+            RogueWaveGameMode.onPortalEntered += OnPortalEntered;
         }
 
         private void OnDestroy()
