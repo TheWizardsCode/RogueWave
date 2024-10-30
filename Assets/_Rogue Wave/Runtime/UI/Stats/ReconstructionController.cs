@@ -47,7 +47,7 @@ namespace RogueWave.GameStats
 #if UNITY_EDITOR
             if (GUI.Button(new Rect(10, 10, 150, 100), "Clear Stats\n(Editor Only)"))
             {
-                GameStatsManager.ResetStats();
+                GameStatsManager.Instance.ResetStats();
                 isInitialized = false;
 
                 for (int i = 0; i < m_PlayerContainer.childCount; i++)

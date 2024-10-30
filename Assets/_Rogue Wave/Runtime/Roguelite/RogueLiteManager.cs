@@ -242,7 +242,7 @@ namespace RogueWave
             currentProfile = profileName;
             ResetPersistentData();
             ResetRunData();
-            GameStatsManager.ResetStats();
+            GameStatsManager.Instance.ResetStats();
             persistentData.isDirty = true;
         }
 

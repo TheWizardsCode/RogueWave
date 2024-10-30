@@ -47,18 +47,16 @@ namespace RogueWave.GameStats
         WebhookData sorraDataWebhook;
 #endif
 
-        [SerializeField, ReadOnly] private Achievement[] m_Achievements = new Achievement[0];
-        [SerializeField, ReadOnly] private IntGameStat[] m_IntGameStats = default;
-        [SerializeField, ReadOnly] private StringGameStat[] m_StringGameStats = default;
-
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-        [SerializeField, Foldout("Steam"), Tooltip("The Steam App ID for the game.")]
-        private uint m_SteamAppId = 0;
-        [SerializeField, Foldout("Steam"), Tooltip("The frequency with which stats are stored to Steam.")]
+        [SerializeField, BoxGroup("Steam"), Tooltip("The frequency with which stats are stored to Steam.")]
         private float m_FrequencyOfSteamStatStore = 60;
 
         private float m_TimeToNextSteamStatStore = 0;
 #endif
+        [InfoBox("The following fields are populated automatically by the GameStatsManager. Provided in Read Only for debug purposes.")]
+        [SerializeField, ReadOnly] private Achievement[] m_Achievements = new Achievement[0];
+        [SerializeField, ReadOnly] private IntGameStat[] m_IntGameStats = default;
+        [SerializeField, ReadOnly] private StringGameStat[] m_StringGameStats = default;
 
         internal static bool isDirty;
 
@@ -133,24 +131,6 @@ namespace RogueWave.GameStats
         private void Awake()
         {
             DontDestroyOnLoad(gameObject);
-
-#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-            try
-            {
-                SteamClient.Init(m_SteamAppId, false); // false = manual callbacks (recommended in manual in the case of Unity)
-                Debug.Log($"Steam ID: {SteamClient.SteamId} ({SteamClient.Name})");
-
-                Debug.Log("Friends:");
-                foreach (var player in SteamFriends.GetFriends())
-                {
-                    Debug.Log($"Steam ID: {player.Id} ({player.Name}) {player.Relationship}");
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.LogError("Steamworks failed to initialize: " + e.Message);
-            }
-#endif
         }
 
         private void OnEnable()
@@ -167,13 +147,6 @@ namespace RogueWave.GameStats
 
         private void OnDisable()
         {
-#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-            if (isDirty)
-            {
-                SteamUserStats.StoreStats();
-            }
-            SteamClient.Shutdown();
-#endif
 #if DEVELOPMENT_BUILD
             Application.logMessageReceived -= HandleLog;
 #endif
@@ -443,18 +416,13 @@ namespace RogueWave.GameStats
                     m_TimeToNextSteamStatStore = m_FrequencyOfSteamStatStore;
                 }
             }
-
-            SteamClient.RunCallbacks();
 #endif
         }
 
         [Button("Reset Stats and Achievements"), ShowIf("showDebug")]
-        internal static void ResetStats()
+        internal void ResetStats()
         {
             ResetLocalStatsAndAchievements();
-#if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-            ResetSteamStats();
-#endif
             Debug.Log("Stats and achievements reset.");
         }
 
@@ -501,7 +469,7 @@ namespace RogueWave.GameStats
                 {
                     Debug.Log($"Scriptable Object: {stat.key} = {stat.value}");
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-                    DumpSteamStat(stat);
+                    DumpSteamStatInt(stat);
 #endif
                 }
             }
@@ -523,21 +491,6 @@ namespace RogueWave.GameStats
         }
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-        [Button("Disable Steamworks")]
-        private void DisableSteamworks()
-        {
-            // Remove the STEAMWORKS_ENABLED symbol to the project settings
-            PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);
-
-            defines = defines.Length > 0 ? Array.FindAll(defines, s => s != "STEAMWORKS_ENABLED") : new string[] { };
-            
-            Array.Resize(ref defines, defines.Length + 1);
-            defines[defines.Length - 1] = "STEAMWORKS_DISABLED";
-            
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
-            AssetDatabase.Refresh();
-        }
-
         private void ResetSteamStats()
         {
             SteamUserStats.ResetAll(true); // true = wipe achivements too
@@ -547,17 +500,9 @@ namespace RogueWave.GameStats
             Debug.Log("Steam Stats and achievements reset.");
         }
 
-        private void DumpSteamStat(GameStat stat)
+        private void DumpSteamStatInt(GameStat<int> stat)
         {
-            switch (stat.type)
-            {
-                case GameStat.StatType.Int:
-                    Debug.Log($"Steam: {stat.key} = {SteamUserStats.GetStatInt(stat.key)}");
-                    break;
-                case GameStat.StatType.Float:
-                    Debug.Log($"Steam: {stat.key} = {SteamUserStats.GetStatFloat(stat.key)}");
-                    break;
-            }
+            Debug.Log($"Steam: {stat.key} = {SteamUserStats.GetStatInt(stat.key)}");
         }
 
         private void DumpSteamAchievement(Achievement achievement)
@@ -574,35 +519,15 @@ namespace RogueWave.GameStats
 
             Debug.LogError($"Steam: {achievement.name} = Not found");
         }
-#else
-        [Button("Enable Steamworks"), ShowIf("showDebug")]
-        private void EnableSteamworks()
-        {
-            PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);
-            
-            defines = defines.Length > 0 ? Array.FindAll(defines, s => s != "STEAMWORKS_DISABLED") : new string[] { };
-
-            Array.Resize(ref defines, defines.Length + 1);
-            defines[defines.Length - 1] = "STEAMWORKS_ENABLED";
-
-            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
-            AssetDatabase.Refresh();
-        }
-#endif
-
-        [Button]
-        private void SendTestMessage()
-        {
-            SendDataToWebhook("Test From Inspector");    
-        }
-#endif
+#endif // steamworks
+#endif // editor
         #endregion
     }
 
     [Serializable]
     internal struct ScoreCallculation
     {
-        [SerializeField, Tooltip("The stat this scord caclulation is based on.")]
+        [SerializeField, Tooltip("The stat this score caclulation is based on.")]
         internal IntGameStat stat;
         [SerializeField, Tooltip("The number of points per unit of the stat.")]
         internal int pointsPerUnit;

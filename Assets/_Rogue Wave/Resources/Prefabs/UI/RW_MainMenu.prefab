@@ -8540,7 +8540,7 @@ MonoBehaviour:
   m_PopupSurround: {fileID: 1148521411397668}
   m_ShowOnStart: 1
   m_StartingNavControls: {fileID: 1058690841736062103}
-  wishlistUrl: https://store.steampowered.com/app/2895630/Rogue_Wave
+  wishlistUrl: steam://run/2895630
   feedbackUrl: steam://openurl/https://forms.gle/tSWq7i9vpbaD8g3B6
   joinDiscordUrl: https://discord.gg/Mp6XAz9T6w
 --- !u!1 &1309483799180110
@@ -28959,7 +28959,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 99, y: 110}
+  m_SizeDelta: {x: 930, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7504285289323111695
 CanvasRenderer:
@@ -29431,7 +29431,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Follow us on Steam.
+  m_Text: Help us make this game better.
 --- !u!114 &5969142346125469762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30971,8 +30971,8 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1800, y: 182.01501}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 1940, y: 140}
+  m_Pivot: {x: 0, y: 0}
 --- !u!114 &3673856375236391389
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30988,7 +30988,7 @@ MonoBehaviour:
   m_Padding:
     m_Left: 0
     m_Right: 0
-    m_Top: 0
+    m_Top: 10
     m_Bottom: 0
   m_ChildAlignment: 0
   m_Spacing: 0
@@ -33831,9 +33831,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: -317.33328, y: -55}
-  m_SizeDelta: {x: 622.6667, y: 110}
-  m_Pivot: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1900, y: 160}
+  m_Pivot: {x: 0, y: 1}
 --- !u!222 &4606392203056515174
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -33913,13 +33913,13 @@ MonoBehaviour:
     m_DisabledTrigger: Disabled
   m_Interactable: 1
   m_TargetGraphic: {fileID: 315605376540636177}
-  m_Style: {fileID: 11400000, guid: 72d2d46e77d068047a9181346d3ae419, type: 2}
+  m_Style: {fileID: 11400000, guid: 453b0121585cd48448ceb46f5f1cde9f, type: 2}
   m_Backgrounds:
   - {fileID: 315605376540636177}
   m_LabelText: {fileID: 4575077653700949379}
   m_DescriptionText: {fileID: 7158909006408700763}
   m_ControlsText: []
-  m_Label: Wishlist
+  m_Label: Wishlist on Steam
   m_Description: Be notified when the game releases on Steam.
   m_Indentable: {fileID: 0}
   m_OnClick:
@@ -34523,7 +34523,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 72.015015}
+  m_SizeDelta: {x: 1940, y: 160}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5834853948564730893
 GameObject:
@@ -34984,7 +34984,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 99, y: 110}
+  m_SizeDelta: {x: 930, y: 110}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7172546980283046278
 CanvasRenderer:
@@ -35071,15 +35071,15 @@ MonoBehaviour:
   m_LabelText: {fileID: 7178090400819977561}
   m_DescriptionText: {fileID: 3550843233087597385}
   m_ControlsText: []
-  m_Label: Follow
-  m_Description: Follow us on Steam.
+  m_Label: Provide Feedback
+  m_Description: Help us make this game better.
   m_Indentable: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4088098735303341033}
         m_TargetAssemblyTypeName: RogueWave.UI.RW_MainMenu, org.wizardscode.roguewave
-        m_MethodName: Follow
+        m_MethodName: Feedback
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -35213,7 +35213,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7115991174131180136}
-  - component: {fileID: 1200794900159063145}
   m_Layer: 5
   m_Name: Demo NavControls
   m_TagString: Untagged
@@ -35241,52 +35240,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1200794900159063145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6138798001320039481}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3abd99c89b8be3641b1ec292411da84d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
-  m_Layout: 1
-  m_NavigateLeft: {fileID: 0}
-  m_NavigateRight: {fileID: 0}
-  m_NavigateUp: {fileID: 0}
-  m_NavigateDown: {fileID: 0}
 --- !u!1 &6178984766198583923
 GameObject:
   m_ObjectHideFlags: 0
@@ -37166,12 +37119,12 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 45d3feba10e11ae40b112d47d9065bf0, type: 3}
-    m_FontSize: 20
+    m_FontSize: 32
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 48
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
@@ -37935,13 +37888,13 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 6351493096385267764}
   m_TextComponent: {fileID: 9139345262359795848}
   m_Placeholder: {fileID: 2045300893496990054}
-  m_ContentType: 4
+  m_ContentType: 9
   m_InputType: 0
   m_AsteriskChar: 42
   m_KeyboardType: 1
   m_LineType: 0
   m_HideMobileInput: 0
-  m_CharacterValidation: 3
+  m_CharacterValidation: 0
   m_CharacterLimit: 0
   m_OnSubmit:
     m_PersistentCalls:
@@ -38139,8 +38092,10 @@ GameObject:
   m_Component:
   - component: {fileID: 6904758947287277970}
   - component: {fileID: 7515444934843929360}
+  - component: {fileID: 4681235982364076989}
+  - component: {fileID: 5995816716531906403}
   m_Layer: 5
-  m_Name: NavControls_Root
+  m_Name: Demo Nav Control Root
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -38163,10 +38118,10 @@ RectTransform:
   m_Father: {fileID: 7115991174131180136}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 40, y: -811.1}
-  m_SizeDelta: {x: 1800, y: -825.97}
-  m_Pivot: {x: 0, y: 1}
+  m_AnchorMax: {x: 1, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 300}
+  m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &7515444934843929360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38180,10 +38135,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
+    m_Left: 10
+    m_Right: 10
+    m_Top: 10
+    m_Bottom: 10
   m_ChildAlignment: 0
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
@@ -38193,6 +38148,44 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!222 &4681235982364076989
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7646455838820556827}
+  m_CullTransparentMesh: 1
+--- !u!114 &5995816716531906403
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7646455838820556827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.28137746, g: 0.3735848, b: 0.2784264, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &7654562552673206276
 GameObject:
   m_ObjectHideFlags: 0
@@ -38319,7 +38312,7 @@ MonoBehaviour:
   m_DescriptionText: {fileID: 2911574674131466038}
   m_ControlsText: []
   m_Label: Create New Player Profile & Start Game
-  m_Description: This will overwrite any profile with the same name
+  m_Description: You will be able to select this profile by name
   m_Indentable: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
@@ -39414,7 +39407,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: This will overwrite any profile with the same name
+  m_Text: You will be able to select this profile by name
 --- !u!114 &6377928182545389644
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39588,7 +39581,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Follow
+  m_Text: Provide Feedback
 --- !u!1 &9028115680952867543
 GameObject:
   m_ObjectHideFlags: 0
@@ -39656,18 +39649,18 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 45d3feba10e11ae40b112d47d9065bf0, type: 3}
-    m_FontSize: 32
+    m_FontSize: 48
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 2
     m_MaxSize: 48
-    m_Alignment: 3
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 0
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wishlist
+  m_Text: Wishlist on Steam
 --- !u!1001 &616513527694864445
 PrefabInstance:
   m_ObjectHideFlags: 0

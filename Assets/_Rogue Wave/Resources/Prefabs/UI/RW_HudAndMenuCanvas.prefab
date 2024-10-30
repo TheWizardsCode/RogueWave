@@ -295,7 +295,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &4299400582454696186
 MonoBehaviour:
@@ -2600,7 +2600,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2783440753034356722
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2633,7 +2633,7 @@ CanvasGroup:
   m_Enabled: 1
   m_Alpha: 1
   m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &752076721822877059
 MonoBehaviour:
@@ -7185,6 +7185,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: DeathPopup
       objectReference: {fileID: 0}
+    - target: {fileID: 1208834378792126, guid: c0e24e643cb309b488897fbc063a8243, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114481970114017886, guid: c0e24e643cb309b488897fbc063a8243, type: 3}
       propertyPath: m_Text
       value: "Extracting to \nAvoid Death"
@@ -7296,6 +7300,10 @@ PrefabInstance:
     - target: {fileID: 224886325127892034, guid: c0e24e643cb309b488897fbc063a8243, type: 3}
       propertyPath: m_SizeDelta.y
       value: 256
+      objectReference: {fileID: 0}
+    - target: {fileID: 225851527898899364, guid: c0e24e643cb309b488897fbc063a8243, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
