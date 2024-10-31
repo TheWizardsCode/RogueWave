@@ -1,6 +1,5 @@
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 using NeoFPS.SinglePlayer;
-using System;
 using WizardsCode.CommandTerminal;
 
 public class PlayerCommands

@@ -7,9 +7,9 @@ using System.Linq;
 using UnityEngine;
 using WizardsCode.CommandTerminal;
 
-public class SteamworksCommands : MonoBehaviour
+public class SteamworksCommands
 {
-    [RegisterCommand(Help = "View the current status of the Steam client", MaxArgCount = 0)]
+    [RegisterCommand(Help = "View the current status of the Steam client", MaxArgCount = 0, RuntimeLevel = 0)]
     static void SteamClientStatus(CommandArg[] args)
     {
         if (Terminal.IssuedError) return;

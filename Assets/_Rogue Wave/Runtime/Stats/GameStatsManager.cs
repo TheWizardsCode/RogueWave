@@ -156,11 +156,18 @@ namespace RogueWave.GameStats
         {
             if (type == LogType.Exception)
             {
-                // Handle the exception here
-                Debug.Log("Exception caught: " + logString);
-                Debug.Log("Stack Trace: " + stackTrace);
-                StartCoroutine(SendExceptionToWebhookCoroutine(logString, stackTrace));
+                SendExceptionToWebhook(logString, stackTrace);
             }
+        }
+
+        public void SendExceptionToWebhook(Exception exception)
+        {
+            StartCoroutine(SendExceptionToWebhookCoroutine(exception.Message, exception.StackTrace));
+        }
+
+        public void SendExceptionToWebhook(string logString, string stackTrace)
+        {
+            StartCoroutine(SendExceptionToWebhookCoroutine(logString, stackTrace));
         }
 
 #if DISCORD_ENABLED
@@ -181,6 +188,10 @@ namespace RogueWave.GameStats
 
         IEnumerator SendExceptionToWebhookCoroutine(string logString, string stackTrace)
         {
+#if UNITY_EDITOR || DEVELOPMENT_BUILD
+            Debug.LogError(logString + "\n\n" + stackTrace);
+#endif
+
             string playerID = SystemInfo.deviceUniqueIdentifier.GetHashCode().ToString();
             if (SystemInfo.deviceUniqueIdentifier == SORRA_THE_WIZARDS_CODE_DEVICE_ID)
             {

@@ -4,6 +4,7 @@ using UnityEngine.Assertions;
 using System;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using NaughtyAttributes;
 
 namespace WizardsCode.CommandTerminal
 {
@@ -17,50 +18,57 @@ namespace WizardsCode.CommandTerminal
     [DefaultExecutionOrder(9999)]
     public class Terminal : MonoBehaviour
     {
-        [Header("Behaviour")]
-        [SerializeField, Tooltip("If true, the console will be open when the game starts.")]
+        // [Header("Behaviour")]
+        [SerializeField, Tooltip("If true, the console will be open when the game starts."), BoxGroup("Behaviour")]
         bool OpenOnStart = false;
-        [SerializeField, Tooltip("The timescale to apply when the console is open.")]
+        [SerializeField, Tooltip("The timescale to apply when the console is open."), BoxGroup("Behaviour")]
         internal float TimeScale = 0.1f;
 
-        [Header("Window")]
-        [Range(0, 1)]
-        [SerializeField]
+        //[Header("Window")]
+        [SerializeField, Range(0, 1), BoxGroup("Window")]
         float MaxHeight = 0.7f;
-
-        [SerializeField]
-        [Range(0, 1)]
+        [SerializeField, Range(0, 1), BoxGroup("Window")]
         float SmallTerminalRatio = 0.33f;
 
-        [SerializeField] string ToggleHotkey      = "`";
-        [SerializeField] string ToggleFullHotkey  = "#`";
-        [SerializeField] int BufferSize           = 512;
+        //[Header("Input/Output")]
+        [SerializeField, BoxGroup("Input/Output")] 
+        string ToggleHotkey      = "`";
+        [SerializeField, BoxGroup("Input/Output")]
+        string ToggleFullHotkey  = "#`";
+        [SerializeField, BoxGroup("Input/Output")]
+        int BufferSize           = 512;
 
-        [Header("Input")]
-        [SerializeField] Font ConsoleFont;
-        [SerializeField] string InputCaret        = ">";
+        //[Header("UI")]
+        [SerializeField, BoxGroup("UI")] 
+        Font ConsoleFont;
+        [SerializeField, BoxGroup("UI")]
+        string InputCaret        = ">";
+        [SerializeField, Range(0, 1), BoxGroup("UI")]
+        float InputContrast;
+        [SerializeField, BoxGroup("UI")]
+        Color BackgroundColor    = Color.black;
+        [SerializeField, BoxGroup("UI")]
+        Color ForegroundColor    = Color.white;
+        [SerializeField, BoxGroup("UI")]
+        Color ShellColor         = Color.white;
+        [SerializeField, BoxGroup("UI")]
+        Color InputColor         = Color.cyan;
+        [SerializeField, BoxGroup("UI")]
+        Color WarningColor       = Color.yellow;
+        [SerializeField, BoxGroup("UI")]
+        Color ErrorColor         = Color.red;
 
-        [Header("Theme")]
-        [Range(0, 1)]
-        [SerializeField] float InputContrast;
-        [SerializeField] Color BackgroundColor    = Color.black;
-        [SerializeField] Color ForegroundColor    = Color.white;
-        [SerializeField] Color ShellColor         = Color.white;
-        [SerializeField] Color InputColor         = Color.cyan;
-        [SerializeField] Color WarningColor       = Color.yellow;
-        [SerializeField] Color ErrorColor         = Color.red;
-
-        [Header("Commands")]
-        [SerializeField, Tooltip("A list of additional assemblies to search for commands. The built in commands will always be provided. If left empty, only the built in terminal commands will be used.")]
+        //[Header("Command Sources")]
+        [SerializeField, Tooltip("A list of additional assemblies to search for commands. The built in commands will always be provided. If left empty, only the built in terminal commands will be used."), BoxGroup("Command Sources")]
         string[] CommandAssemblies;
 
+        //[Header("Events")
         [Serializable]
         public class LogEvent : UnityEvent<TerminalLogType, string> { }
-        [Header("Events")]
-        [SerializeField, Tooltip("Whenever a Log is recorded it will also be passed to this event.")]
+        [SerializeField, Tooltip("Whenever a Log is recorded it will also be passed to this event."), BoxGroup("Events")]
         public LogEvent OnLog;
 
-        [TextArea(minLines: 10, maxLines: 20), Tooltip("This is the output of the `help` command. It will be updated each time the application is run so that it reflects the currently available commands.")]
+        [TextArea(minLines: 10, maxLines: 20), Tooltip("This is the output of the `help` command. It will be updated each time the application is run so that it reflects the currently available commands."), BoxGroup("Help")]
         public string HelpText = "Each time the application is started this text will update to the latest version.";
 
         TerminalState state;
@@ -287,7 +295,7 @@ namespace WizardsCode.CommandTerminal
                 SetState(TerminalState.Close);
             }
 
-#if DEVELOPMENTBUILD || UNITY_EDITOR
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
             Shell.RuntimeLevel = 999999;
 #endif
         }

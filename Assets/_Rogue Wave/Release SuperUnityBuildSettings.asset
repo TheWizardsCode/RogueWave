@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3d5886119a5c7b34d8872ab527ca3e1b, type: 3}
-  m_Name: SuperUnityBuildSettings
+  m_Name: Release SuperUnityBuildSettings
   m_EditorClassIdentifier: 
   _basicSettings:
     baseBuildFolder: Builds
@@ -26,7 +26,7 @@ MonoBehaviour:
   _releaseTypeList:
     releaseTypes:
     - typeName: DeveloperTest_NoSteamWorks
-      bundleIdentifier: com.Wizards-Code.RogueWave
+      bundleIdentifier: com.WizardsCode.RogueWave
       companyName: Wizards Code
       productName: Rogue Wave
       syncAppNameWithProduct: 1
@@ -48,6 +48,8 @@ MonoBehaviour:
         - fileGUID: 448349ad5824f9f4e888d58e8fea37d4
           sceneActive: 1
         - fileGUID: 25dcd75b7a6c45e4c8d3de36d89c4593
+          sceneActive: 1
+        - fileGUID: e43ce68b81dc33c4cbab910465b99fcf
           sceneActive: 1
     - typeName: Release_NoSteamWorks
       bundleIdentifier: com.Wizards-Code.RogueWave
@@ -73,17 +75,43 @@ MonoBehaviour:
           sceneActive: 1
         - fileGUID: 25dcd75b7a6c45e4c8d3de36d89c4593
           sceneActive: 1
+    - typeName: DeveloperTest_WithSteamworks
+      bundleIdentifier: com.WizardsCode.RogueWave
+      companyName: Wizards Code
+      productName: Rogue Wave
+      syncAppNameWithProduct: 1
+      appBuildName: Rogue Wave
+      buildOptions: 1
+      customDefines: STEAMWORKS_ENABLED
+      sceneList:
+        releaseScenes:
+        - fileGUID: 1c5ac81b33c25354493cf5509cdec7a9
+          sceneActive: 1
+        - fileGUID: a0f3f3e3cd0ea744c9be2690f0371031
+          sceneActive: 1
+        - fileGUID: bb58b10c0d3b40b489fcc89256f23cd5
+          sceneActive: 1
+        - fileGUID: 448349ad5824f9f4e888d58e8fea37d4
+          sceneActive: 1
+        - fileGUID: f28dd97162b09e64fbd292eb2f1cbcc5
+          sceneActive: 1
+        - fileGUID: d88bdbeec6ad907498cb496116fbd849
+          sceneActive: 1
+        - fileGUID: 25dcd75b7a6c45e4c8d3de36d89c4593
+          sceneActive: 1
+        - fileGUID: e43ce68b81dc33c4cbab910465b99fcf
+          sceneActive: 1
   _platformList:
     platforms:
     - {fileID: 2802847493315861311}
     - {fileID: 1933041726888299612}
   _projectConfigurations:
     configSet:
-      _Buckets: 0b000000ffffffff04000000ffffffff0c0000000d00000009000000ffffffffffffffffffffffffffffffff070000000e000000ffffffff0f0000000600000005000000
-      _HashCodes: 7cf2e821cabe90148c2d7b57bc0e1311e43c587782c6780aaf8df663c0023f5ee14b961e9d662b1b2bd6e40d0193b97e293dc30d85a1052eb838366dc7a9d60a00000000
-      _Next: ffffffffffffffffffffffffffffffff00000000ffffffffffffffffffffffff02000000ffffffffffffffff03000000080000000a00000001000000ffffffff00000000
-      _Count: 16
-      _Version: 16
+      _Buckets: ffffffff0e000000ffffffff000000000c000000110000000b00000015000000ffffffffffffffff16000000ffffffffffffffff05000000ffffffffffffffff0f0000001700000001000000ffffffffffffffff0200000008000000ffffffffffffffffffffffff1400000009000000070000000a000000ffffffffffffffff0400000012000000ffffffff13000000ffffffff
+      _HashCodes: 7cf2e821cabe90148c2d7b57bc0e1311e43c587782c6780aaf8df663c0023f5ee14b961e9d662b1b2bd6e40d0193b97e293dc30d85a1052eb838366dc7a9d60a3b466423b3777e65917a422817b8a173cfb89e111f2b7f3bb22d6941fd14322900000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+      _Next: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff03000000ffffffffffffffffffffffffffffffffffffffffffffffff06000000ffffffff100000000d000000ffffffffffffffff00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+      _Count: 24
+      _Version: 24
       _FreeList: -1
       _FreeCount: 0
       _Keys:
@@ -103,6 +131,26 @@ MonoBehaviour:
       - Release_NoSteamWorks/Linux/Linux x64
       - Release_NoSteamWorks/Linux
       - Release_NoSteamWorks
+      - DeveloperTest_WithSteamworks/PC/Windows x64 (App)/Mono
+      - DeveloperTest_WithSteamworks/PC/Windows x64 (App)
+      - DeveloperTest_WithSteamworks/PC
+      - DeveloperTest_WithSteamworks/Linux/Linux x64/Mono/Steam Deck
+      - DeveloperTest_WithSteamworks/Linux/Linux x64/Mono
+      - DeveloperTest_WithSteamworks/Linux/Linux x64
+      - DeveloperTest_WithSteamworks/Linux
+      - DeveloperTest_WithSteamworks
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
+      - 
       - 
       _Values:
       - enabled: 1
@@ -124,7 +172,7 @@ MonoBehaviour:
       - enabled: 0
         childKeys:
         - DeveloperTest_NoSteamWorks/Linux/Linux x64
-      - enabled: 1
+      - enabled: 0
         childKeys:
         - DeveloperTest_NoSteamWorks/PC
         - DeveloperTest_NoSteamWorks/Linux
@@ -151,6 +199,53 @@ MonoBehaviour:
         childKeys:
         - Release_NoSteamWorks/PC
         - Release_NoSteamWorks/Linux
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys:
+        - DeveloperTest_WithSteamworks/PC/Windows x64 (App)/Mono
+      - enabled: 1
+        childKeys:
+        - DeveloperTest_WithSteamworks/PC/Windows x64 (App)
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys:
+        - DeveloperTest_WithSteamworks/Linux/Linux x64/Mono/Steam Deck
+      - enabled: 1
+        childKeys:
+        - DeveloperTest_WithSteamworks/Linux/Linux x64/Mono
+      - enabled: 0
+        childKeys:
+        - DeveloperTest_WithSteamworks/Linux/Linux x64
+      - enabled: 1
+        childKeys:
+        - DeveloperTest_WithSteamworks/PC
+        - DeveloperTest_WithSteamworks/Linux
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
+      - enabled: 1
+        childKeys: []
       - enabled: 1
         childKeys: []
     showViewOptions: 0
