@@ -1,5 +1,29 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6312504943381864071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86e19aa5315bf4a409c07e84ca8c4248, type: 3}
+  m_Name: FileOperation
+  m_EditorClassIdentifier: 
+  actionType: 1
+  actionName: FileOperation
+  note: 
+  actionEnabled: 1
+  configureEditor: 0
+  filter:
+    condition: 0
+    clauses: []
+  inputPath: steam_appid.txt
+  outputPath: $BUILDPATH/steam_appid.txt
+  recursiveSearch: 1
+  operation: 1
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,11 +39,11 @@ MonoBehaviour:
   _basicSettings:
     baseBuildFolder: Builds\DevelopmentBuild
     buildPath: 
-    openFolderPostBuild: 1
+    openFolderPostBuild: 0
     constantsFileLocation: Assets\SuperUnityBuild
   _productParameters:
-    buildCounter: 52
-    buildVersion: 2024.10.31.3035
+    buildCounter: 58
+    buildVersion: 2024.11.01.3225
     versionTemplate: $YEAR.$MONTH.$DAY.$SECONDS
     autoGenerate: 1
     syncWithPlayerSettings: 0
@@ -76,6 +100,8 @@ MonoBehaviour:
         - fileGUID: 25dcd75b7a6c45e4c8d3de36d89c4593
           sceneActive: 1
         - fileGUID: e43ce68b81dc33c4cbab910465b99fcf
+          sceneActive: 1
+        - fileGUID: 47ebcbbad2612904393a538ea8302b5d
           sceneActive: 1
   _platformList:
     platforms:
@@ -167,6 +193,7 @@ MonoBehaviour:
     buildActions: []
   _postBuildActions:
     buildActions:
+    - {fileID: -6312504943381864071}
     - {fileID: 1052664132551260574}
 --- !u!114 &1052664132551260574
 MonoBehaviour:

@@ -48,8 +48,8 @@ namespace WizardsCode.Marketing
         [SerializeField, HideInInspector]
         internal int videoCount = 0;
 
-        internal string AssetName => m_AssetName;
-        internal string Description => m_Description;
+        public string AssetName => m_AssetName;
+        public string Description => m_Description;
         internal Vector2Int Resolution => m_Resolution;
 
         protected RecorderUtils recorder;

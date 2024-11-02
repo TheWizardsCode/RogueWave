@@ -1,11 +1,10 @@
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-using NeoFPS;
-using Steamworks;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
+using HeathenEngineering.SteamworksIntegration.API;
+using Steamworks;
 using UnityEngine;
 using WizardsCode.CommandTerminal;
+using WizardsCode.RogueWave;
 
 public class SteamworksCommands
 {
@@ -14,22 +13,9 @@ public class SteamworksCommands
     {
         if (Terminal.IssuedError) return;
 
-        Terminal.Log("Steam Client Status: " + (SteamClient.IsValid ? "Active" : "Inactive"));
-        if (SteamClient.IsValid)
-        {
-            var playername = SteamClient.Name;
-            var playersteamid = SteamClient.SteamId;
+        Terminal.Log("Steam Running: " + (SteamAPI.IsSteamRunning() ? "Yes" : "No"));
 
-            Terminal.Log($"Steam ID: {playersteamid} ({playername})");
-
-            Terminal.Log($"{SteamFriends.GetFriends().Count()} Friends:");
-            Terminal.Log("Steam ID, Name, Level, Relationship, State");
-            foreach (Friend friend in SteamFriends.GetFriends())
-            {
-                Terminal.Log($"Steam ID: {friend.Id}, {friend.Name}, {friend.SteamLevel}, {friend.Relationship}, {friend.State}");
-            }
-
-        }
+        Terminal.Log("Steam Client Status: " + (App.Initialized ? "Initialized" : "Inactive"));
     }
 
     [RegisterCommand(Help = "Take a screenshot.", MaxArgCount = 0, RuntimeLevel = 0)]
@@ -37,7 +23,7 @@ public class SteamworksCommands
     {
         if (Terminal.IssuedError) return;
 
-        SteamScreenshots.TriggerScreenshot();
+        SteamworksController.Instance.TakeScreenshot();
     }
 }
 #endif

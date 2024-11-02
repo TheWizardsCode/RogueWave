@@ -32,8 +32,6 @@ namespace RogueWave
         private float buildingCooldown = 4;
         [SerializeField, Tooltip("The resources needed to reach the next nanobot level."), CurveRange(0, 100, 99, 50000, EColor.Green), BoxGroup("Building")]
         private AnimationCurve resourcesForLevel;
-        [SerializeField, Tooltip("The time between recipe offers from the home planet. Once a player has levelled up they will recieve an updated offer until they accept one. This is the freqency at which the offer will be changed."), BoxGroup("Building")]
-        private float timeBetweenRecipeOffers = 10;
         [SerializeField, Tooltip("How far away from the player will built pickup be spawned."), BoxGroup("Building")]
         private float pickupSpawnDistance = 3;
 

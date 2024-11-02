@@ -52,7 +52,7 @@ namespace RogueWave
         [Header("Level Management")]
         [SerializeField, Tooltip("If true the level will be generated when the game mode starts.")]
         bool m_generateLevelOnStart = false;
-        [SerializeField, Tooltip("The campaign definitions which defines the levels to play in order, which in turn defines the enemies, geometry and more for each level."), Expandable, FormerlySerializedAs("campaign")]
+        [SerializeField, Tooltip("The campaign definitions which defines the levels to play in order, which in turn defines the enemies, geometry and more for each level."), Expandable]
         CampaignDefinition m_Campaign;
 
         // Game Stats
@@ -792,7 +792,7 @@ namespace RogueWave
                 RogueLiteManager.persistentData.Add(recipe);
             }
 
-            // If the character died then the weapon build order may have weapons that were in the rundata and need to be removed.
+            // If the character died then the weapon build order may have weapons that were in the rundata only and need to be removed.
             for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0; i--)
             {
                 if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[i], out IRecipe weapon))

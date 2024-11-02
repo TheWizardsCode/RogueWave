@@ -23,6 +23,21 @@
       "dependencies": {},
       "url": "https://package.openupm.com"
     },
+    "com.heathen.steamworkscomplete": {
+      "version": "file:com.heathen.steamworkscomplete",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.heathen.systemcore": {
+      "version": "https://github.com/heathen-engineering/SystemCore.git?path=/com.heathen.systemcore",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.mathematics": "1.2.6"
+      },
+      "hash": "a0aa0ca0704c1319b43b661aeb1a9c2e4a4f6db5"
+    },
     "com.rest.elevenlabs": {
       "version": "3.2.9",
       "depth": 0,
@@ -32,6 +47,13 @@
         "com.utilities.encoder.ogg": "3.1.4"
       },
       "url": "https://package.openupm.com"
+    },
+    "com.rlabrecque.steamworks.net": {
+      "version": "https://github.com/rlabrecque/Steamworks.NET.git?path=/com.rlabrecque.steamworks.net",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "a2fc889ab2672981ec3e6225d551d86ce6923121"
     },
     "com.syomus.proceduraltoolkit": {
       "version": "https://github.com/Syomus/ProceduralToolkit.git#upm",

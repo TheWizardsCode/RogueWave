@@ -18,24 +18,6 @@ namespace WizardsCode.Marketing
     {
         [HorizontalLine(color: EColor.Gray)]
 
-        //[Header("Level Settings")]
-        [SerializeField, Tooltip("The level definition to use when generating this level."), Expandable, BoxGroup("Level Settings")]
-        WfcDefinition m_LevelDefinition;
-        [SerializeField, Tooltip("Terminal commands to execute once the player has spawned in."), TextArea(5, 10), BoxGroup("Level Settings")]
-        string m_TerminalCommands;
-
-        [HorizontalLine(color: EColor.Gray)]
-
-        //[Header("Player Settings")]
-        [SerializeField, Tooltip("The position of the player at the start of the gameplay."), BoxGroup("Player Settings")]
-        Vector3 m_PlayerStartPosition;
-        [SerializeField, Tooltip("The rotation of the player at the start of the gameplay."), BoxGroup("Player Settings")]
-        Quaternion m_PlayerStartRotation;
-        [SerializeField, Tooltip("The recipes the player should have on startup."), BoxGroup("Player Settings")]
-        AbstractRecipe[] m_Recipes;
-
-        [HorizontalLine(color: EColor.Gray)]
-
         //[Header("Audio Settings")]
         [SerializeField, Tooltip("Should the music be muted for this gameplay setting."), BoxGroup("Audio Settings")]
         bool m_MuteMusic = true;
@@ -47,6 +29,20 @@ namespace WizardsCode.Marketing
         bool enableMouseSmoothing = false;
         [SerializeField, Tooltip("The amount of mouse smoothing to apply."), Range(0.01f, 1), BoxGroup("Input Settings"), ShowIf("enableMouseSmoothing")]
         float mouseSmoothingAmount = 0.5f;
+
+        [HorizontalLine(color: EColor.Gray)]
+
+        // Scenario settings
+        [SerializeField, Tooltip("The level definition and player configuration to use when generating this level."), Expandable, BoxGroup("Scenario Settings")]
+        ScenarioDescriptor m_Scenario;
+        [SerializeField, Tooltip("Terminal commands to execute once the player has spawned in."), TextArea(5, 10), BoxGroup("Level Settings")]
+        string m_TerminalCommands;
+        [SerializeField, Tooltip("The position of the player at the start of the gameplay."), BoxGroup("Player Settings")]
+        Vector3 m_PlayerStartPosition;
+        [SerializeField, Tooltip("The rotation of the player at the start of the gameplay."), BoxGroup("Player Settings")]
+        Quaternion m_PlayerStartRotation;
+
+        [HorizontalLine(color: EColor.Gray)]
 
         private RogueWaveGameMode gameMode;
 
@@ -63,12 +59,12 @@ namespace WizardsCode.Marketing
                 Debug.LogError("You must set the campaign to a test campaign before starting a gameplay session. This process overwrites settings and is destructive.");
                 return;
             }
-            campaign.SetLevel(m_LevelDefinition);
+            campaign.SetLevel(m_Scenario.LevelDefinition);
 
             // Configure the player
             RogueLiteManager.persistentData.RecipeIds.Clear();
             RogueLiteManager.runData.Clear();
-            gameMode.StartingRunRecipes = m_Recipes;
+            gameMode.StartingRunRecipes = m_Scenario.Recipes;
             EditorUtility.SetDirty(gameMode);
 
             _ = StartGamePlay();
@@ -83,19 +79,6 @@ namespace WizardsCode.Marketing
             enableMouseSmoothing = FpsSettings.input.enableMouseSmoothing;
             mouseSmoothingAmount = FpsSettings.input.mouseSmoothing;
             
-            gameMode = FindObjectOfType<RogueWaveGameMode>();
-
-            CampaignDefinition campaign = gameMode.Campaign;
-            if (campaign.name.StartsWith("Test"))
-            {
-                m_LevelDefinition = campaign.GetLevel();
-            }
-            else
-            {
-                EditorUtility.DisplayDialog("Error", "You must set the campaign to a test campaign before saving a gameplay session. This process overwrites settings and is destructive.", "OK");
-            }
-
-            m_Recipes = gameMode.StartingRunRecipes;
         }
 
         [Button]

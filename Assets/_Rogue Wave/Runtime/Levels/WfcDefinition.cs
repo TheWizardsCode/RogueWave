@@ -152,6 +152,11 @@ namespace RogueWave
                 {
                     duration += wave.Duration;
                 }
+
+                if (duration == 0)
+                {
+                    duration = float.MaxValue;
+                }
                 return duration;
             }
         }

@@ -2,8 +2,10 @@
 using UnityEditor;
 #endif
 
+// REFACTOR: Move the steam specific code to SteamworksController
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-using Steamworks;
+using HeathenEngineering.SteamworksIntegration.API;
+using StatsClient = HeathenEngineering.SteamworksIntegration.API.StatsAndAchievements.Client;
 #endif
 
 using UnityEngine;
@@ -18,6 +20,7 @@ using System.Collections;
 using UnityEngine.Serialization;
 using System.Linq;
 using Lumpn.Discord.Utils;
+using UnityEngine.SocialPlatforms.Impl;
 
 namespace RogueWave.GameStats
 {
@@ -421,7 +424,7 @@ namespace RogueWave.GameStats
             m_TimeToNextSteamStatStore -= Time.deltaTime;
             if (isDirty && m_TimeToNextSteamStatStore > 0)
             {
-                if (SteamUserStats.StoreStats())
+                if (StatsAndAchievements.Client.StoreStats())
                 {
                     isDirty = false;
                     m_TimeToNextSteamStatStore = m_FrequencyOfSteamStatStore;
@@ -496,7 +499,7 @@ namespace RogueWave.GameStats
                     Debug.Log($"Scriptable Object: {achievement.key} = locked");
                 }
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
-                DumpSteamAchievement(achievement);
+                DumpSteamAchievement(achievement.key);
 #endif
             }
         }
@@ -504,31 +507,36 @@ namespace RogueWave.GameStats
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         private void ResetSteamStats()
         {
-            SteamUserStats.ResetAll(true); // true = wipe achivements too
-            SteamUserStats.StoreStats();
-            SteamUserStats.RequestCurrentStats();
+            StatsClient.ResetAllStats(true); // true = wipe achivements too
 
             Debug.Log("Steam Stats and achievements reset.");
         }
 
         private void DumpSteamStatInt(GameStat<int> stat)
         {
-            Debug.Log($"Steam: {stat.key} = {SteamUserStats.GetStatInt(stat.key)}");
+            if (StatsClient.GetStat(stat.key, out int value))
+            {
+                Debug.Log($"Steam: {stat.key} = {value}");
+            } 
+            else
+            {
+                Debug.LogError($"Steam: {stat.key} = Not found");
+            }
         }
 
-        private void DumpSteamAchievement(Achievement achievement)
+        private void DumpSteamAchievement(string achievementName)
         {
-            foreach (Steamworks.Data.Achievement steamAchievement in SteamUserStats.Achievements)
+            bool achieved;
+            DateTime unlockTime;
+            if (StatsClient.GetAchievement(achievementName, out achieved, out unlockTime))
             {
-                if (steamAchievement.Identifier == achievement.key)
-                {
-                    string state = steamAchievement.State ? "Unlocked" : "Locked";
-                    Debug.Log($"Steam: {achievement.key} = {state}");
-                    return;
-                }
+                string state = achieved ? "Unlocked" : "Locked";
+                Debug.Log($"Steam: {achievementName} = {state}");
             }
-
-            Debug.LogError($"Steam: {achievement.name} = Not found");
+            else
+            {
+                Debug.LogError($"Steam: {achievementName} = Not found");
+            }
         }
 #endif // steamworks
 #endif // editor

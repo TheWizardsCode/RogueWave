@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 057b49433d30b6441927859de18641eb, type: 3}
+  m_Name: Gameplay Descriptor Screenshot Test
+  m_EditorClassIdentifier: 
+  m_AssetName: Screenshot Test
+  m_Description: This will take a steam screenshot every 10 seconds. It will also
+    take a screenshot when the player enters a particular trigger zone (at the entrance
+    to the passageway)
+  m_Resolution: {x: 1920, y: 1080}
+  m_CameraPosition: {x: 0, y: 0, z: 0}
+  m_CameraRotation: {x: 0, y: 0, z: 0}
+  m_LogoEnabled: 1
+  m_LogoPosition: {x: 0, y: 0, z: 0}
+  m_LogoRotation: {x: 0, y: 0, z: 0}
+  m_FogEnabled: 1
+  m_BackgroundPosition: {x: 0, y: 0, z: 0}
+  m_BackgroundRotation: {x: 0, y: 0, z: 0}
+  heroCount: 17
+  screenshotCount: 0
+  imageSequenceCount: 2
+  videoCount: 4
+  m_HeroImageGameEvents: []
+  m_ScreenshotCount: 3
+  m_MinimumFramesBetweenScreenshots: 30
+  m_FrameRate: 60
+  m_MuteMusic: 1
+  enableMouseSmoothing: 1
+  mouseSmoothingAmount: 0.5
+  m_Scenario: {fileID: 11400000, guid: d541800ea60fff74f8d6347c3b0937ae, type: 2}
+  m_TerminalCommands: 'KillPercentageEnemies 1
+
+    # DisableSpawning
+
+
+    watch
+    10 takescreenshot'
+  m_PlayerStartPosition: {x: 43.099586, y: 1000, z: 23.756985}
+  m_PlayerStartRotation: {x: 0, y: 0.6849333, z: 0, w: 0.7286058}
