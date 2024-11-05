@@ -959,40 +959,39 @@ namespace RogueWave
 
         public bool Validate()
         {
-            return IsValid(out string message, out Component component);
+            return IsValid(out string message);
         }
 
-        public virtual bool IsValid(out string message, out Component component)
+        public virtual bool IsValid(out string message)
         {
             message = string.Empty;
-            component = null;
 
-            if (!ValidateDeathBehaviours(out message, out component))
+            if (!ValidateDeathBehaviours(out message))
             {
                 return false;
             }
 
-            if (!ValidateFX(out message, out component))
+            if (!ValidateFX(out message))
             {
                 return false;
             }
 
-            if (!ValidateAnimation(out message, out component))
+            if (!ValidateAnimation(out message))
             {
                 return false;
             }
 
-            if (!ValidateWeapons(out message, out component))
+            if (!ValidateWeapons(out message))
             {
                 return false;
             }
 
-            if (!ValidateSpawnDefensiveUnits(out message, out component))
+            if (!ValidateSpawnDefensiveUnits(out message))
             {
                 return false;
             }
 
-            if (!ValidateLootDrops(out message, out component))
+            if (!ValidateLootDrops(out message))
             {
                 return false;
             }
@@ -1000,21 +999,18 @@ namespace RogueWave
             return true;
         }
 
-        private bool ValidateLootDrops(out string message, out Component component)
+        private bool ValidateLootDrops(out string message)
         {
-            component = null;
             message = string.Empty;
 
             if (resourcesDropChance < 0 || resourcesDropChance > 1)
             {
-                component = this;
                 message = "Resource drop chance must be between 0 and 1.";
                 return false;
             }
 
             if (resourcesDropChance > 0 && resourcesPrefab == null)
             {
-                component = this;
                 message = "No resources prefab defined.";
                 return false;
             }
@@ -1022,9 +1018,8 @@ namespace RogueWave
             return true;
         }
 
-        bool ValidateDeathBehaviours(out string message, out Component component)
+        bool ValidateDeathBehaviours(out string message)
         {
-            component = null;
             message = string.Empty;
 
             if (!causeDamageOnDeath)
@@ -1034,19 +1029,16 @@ namespace RogueWave
             
             if (deathExplosionRadius < 1f)
             {
-                component = this;
                 message = "Death explosion radius is too small.";
                 return false;
             }
             if (explosionDamageOnDeath < 1)
             {
-                component = this;
                 message = "Explosion damage on death is too small.";
                 return false;
             }
             if (explosionForceOnDeath < 1)
             {
-                component = this;
                 message = "Explosion force on death is too small.";
                 return false;
             }
@@ -1054,34 +1046,29 @@ namespace RogueWave
             return true;
         }
 
-        bool ValidateFX(out string message, out Component component)
+        bool ValidateFX(out string message)
         {
-            component = null;
             message = string.Empty;
 
             if (awarenessAudioType == AwarenessAudioType.Bark && (barkClips == null || barkClips.Length == 0)) {
-                component = this;
                 message = "Awareness audio type is set to Bark, but there are no bark audio clips.";
                 return false;
             }
 
             if (awarenessAudioType == AwarenessAudioType.Drone && droneClip == null)
             {
-                component = this;
                 message = "Awareness audio type is set to drone, but there is no drone audio clip.";
                 return false;
             }
 
             if (deathJuicePrefab == null)
             {
-                component = this;
                 message = "No death juice prefab defined.";
                 return false;
             }
 
             if (deathClips.Length == 0)
             {
-                component = this;
                 message = "No death audio clips defined.";
                 return false;
             }
@@ -1089,14 +1076,12 @@ namespace RogueWave
             return true;
         }
 
-        bool ValidateAnimation(out string message, out Component component)
+        bool ValidateAnimation(out string message)
         {
-            component = null;
             message = string.Empty;
 
             if (headLook && head == null)
             {
-                component = this;
                 message = "Head look is set to true, but no head object is defined.";
                 return false;
             }
@@ -1104,9 +1089,8 @@ namespace RogueWave
             return true;
         }
 
-        bool ValidateWeapons(out string message, out Component component)
+        bool ValidateWeapons(out string message)
         {
-            component = null;
             message = string.Empty;
 
             BasicWeaponBehaviour[] weapons = GetComponentsInChildren<BasicWeaponBehaviour>();
@@ -1114,23 +1098,20 @@ namespace RogueWave
             {
                 if (!weapon.IsValid(out message))
                 {
-                    component = weapon;
                     return false;
                 }
             }
             return true;
         }
 
-        bool ValidateSpawnDefensiveUnits(out string message, out Component component)
+        bool ValidateSpawnDefensiveUnits(out string message)
         {
-            component = null;
             message = string.Empty;
 
             if (spawnDefensiveUnitsOnDamage)
             {
                 if (spawnOnDamagePrototypes.Length == 0)
                 {
-                    component = this;
                     message = "Spawn Defesive Units on Damage is set to true, but there are no prototypes to spawn.";
                 }
 
@@ -1138,7 +1119,6 @@ namespace RogueWave
                 {
                     if (obj == null)
                     {
-                        component = this;
                         message = "At least one of the prototypes for defensive units spawned on damage is null.";
                         return false;
                     }

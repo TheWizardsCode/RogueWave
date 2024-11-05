@@ -64,7 +64,7 @@ namespace RogueWave.Editor
 
                 Color defaultColor = GUI.color;
                 string tooltipMessage = enemy.description;
-                if (!enemy.IsValid(out string errorMessage, out Component component))
+                if (!enemy.IsValid(out string errorMessage))
                 {
                     tooltipMessage = errorMessage;
                     GUI.color = Color.red;

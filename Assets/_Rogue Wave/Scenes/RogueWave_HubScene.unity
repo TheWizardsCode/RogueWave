@@ -1434,6 +1434,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: RW_InGameMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 7205005622776857369, guid: d1f23ebe68264f34d9317216530dc517, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3504,7 +3508,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.0009765625, y: -30}
+  m_AnchoredPosition: {x: -0.0008544922, y: -30}
   m_SizeDelta: {x: 0, y: 140}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!114 &1478363794
@@ -3598,9 +3602,9 @@ RectTransform:
   m_Father: {fileID: 1594955185}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0}
   m_AnchoredPosition: {x: 290, y: 5}
-  m_SizeDelta: {x: 1320, y: 80}
+  m_SizeDelta: {x: -590, y: 80}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1509369220
 MonoBehaviour:

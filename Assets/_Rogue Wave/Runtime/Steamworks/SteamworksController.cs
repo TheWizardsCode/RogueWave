@@ -143,6 +143,7 @@ namespace WizardsCode.RogueWave
             if (canTakeScreenshot)
             {
                 StartCoroutine(TakeScreenshotsCoroutine(m_NumberOfSscreenhots, delayBetweenShots, cooldown));
+                
                 return true;
             } 
             else
@@ -181,7 +182,14 @@ namespace WizardsCode.RogueWave
 
             for (int i = 0; i < numberOfShots; i++)
             {
-                Screenshots.TriggerScreenshot();
+                try
+                {
+                    Screenshots.TriggerScreenshot();
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Failed to take screenshot: " + e.Message);
+                }
                 yield return new WaitForSeconds(delayBetweenShots);
             }
 

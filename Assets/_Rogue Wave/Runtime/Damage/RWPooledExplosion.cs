@@ -85,40 +85,14 @@ namespace RogueWave
         }
 
 #if UNITY_EDITOR
-        internal bool IsValid(out string message, out Component component)
+        internal bool IsValid(out string message)
         {
             message = string.Empty;
-            component = this;
-
-            if (!ValidateRequiredFields(out message, out component)) return false;
-
 
             if (GetComponent<PooledObject>() == null) 
             { 
                 message = "`RWPooledExplosion` requires a PooledObject component as a sibling.";
                 return false;
-            }
-
-            return true;
-        }
-
-        private bool ValidateRequiredFields(out string message, out Component component)
-        {
-            message = string.Empty;
-            component = this;
-
-            var fields = GetType().GetFields();
-            foreach (var field in fields)
-            {
-                var required = field.GetCustomAttributes(typeof(RequiredAttribute), true);
-                if (required.Length > 0)
-                {
-                    if (field.GetValue(this) == null)
-                    {
-                        message = $"Field {field.Name} is required but not set in {name}.";
-                        return false;
-                    }
-                }
             }
 
             return true;
