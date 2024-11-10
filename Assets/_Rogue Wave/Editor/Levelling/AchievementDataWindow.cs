@@ -36,10 +36,18 @@ namespace RogueWave.Editor
             achievements = Resources.LoadAll<Achievement>("");
             Array.Sort(achievements, (x, y) =>
             {
-                int statComparison = x.stat.CompareTo(y.stat);
+                int statComparison = 0;
+                if (x.stat != null && y.stat != null)
+                {
+                    statComparison = x.stat.CompareTo(y.stat);
+                    if (statComparison == 0)
+                    {
+                        return x.targetValue.CompareTo(y.targetValue);
+                    }
+                }
                 if (statComparison == 0)
                 {
-                    return x.targetValue.CompareTo(y.targetValue);
+                    return x.category.CompareTo(y.category);
                 }
                 if (statComparison == 0)
                 {
@@ -57,7 +65,8 @@ namespace RogueWave.Editor
         {
             List<Achievement> filteredAchievements = FilterGUI();
             int demoLockedCount = filteredAchievements.Count(a => a.isDemoLocked);
-            int invalidCount = filteredAchievements.Count(a => !a.Validate(out string statusMsg));
+            int invalidCount = filteredAchievements.Count(a => !a.Validate(out string _));
+            int notDemoLockedAndInvalidCount = filteredAchievements.Count(a => !a.isDemoLocked && !a.Validate(out string _));
 
             EditorGUILayout.BeginHorizontal();
             // add a button to create a new achievement
@@ -72,8 +81,14 @@ namespace RogueWave.Editor
                 EditorGUIUtility.PingObject(newAchievement);
                 Selection.activeObject = newAchievement;
             }
-            EditorGUILayout.LabelField($"Showing {filteredAchievements.Count} of {achievements.Length} (Demo Locked: {demoLockedCount}, of which {invalidCount} are invalid)");
+            EditorGUILayout.LabelField($"Showing {filteredAchievements.Count} of {achievements.Length}. {invalidCount} are invalid. {demoLockedCount} are demo locked.");
             EditorGUILayout.EndHorizontal();
+
+            if (notDemoLockedAndInvalidCount > 0)
+            {
+                GUI.backgroundColor = Color.red;
+                EditorGUILayout.HelpBox($"{notDemoLockedAndInvalidCount} not demo locked and invalid.", MessageType.Error);
+            }
 
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             EditorGUILayout.BeginHorizontal();
