@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 693fe29a27bd30e4f827291b5782a126, type: 3}
-  m_Name: Destroy Buildings (1)
+  m_Name: Generic genocide
   m_EditorClassIdentifier: 
-  m_Key: DESTRUCTIBLE_BUILDINGS_1
-  m_DisplayName: Demolition baby!
-  m_Description: Destroy, or cause to be destroyed,  a building.
-  m_HeroImage: {fileID: 21300000, guid: f80c07e7d39d4104bb4f29056c6f186e, type: 3}
-  m_Icon: {fileID: 21300000, guid: b850e7945d7c57944bc03f8c33a71139, type: 3}
+  m_IsDemoLocked: 0
+  m_Key: ENEMY_KILLS_100_GENERIC
+  m_DisplayName: Generic genocide
+  m_Description: Dispatch 100 generic enemies
+  m_HeroImage: {fileID: 21300000, guid: ccbff31201d8b27458d6950beb57fd61, type: 3}
+  m_Icon: {fileID: 21300000, guid: a8dcd4db6d2759c4ba647a683fa08e7a, type: 3}
   m_Category: 2
-  m_StatToTrack: {fileID: 11400000, guid: 03433b0597f2acf4f8b6da63cfb60368, type: 2}
-  m_TargetValue: 1
+  m_StatToTrack: {fileID: 11400000, guid: 86043e26fe7a4564f91093790836a74c, type: 2}
+  m_TargetValue: 100
   onUnlockEvent: {fileID: 11400000, guid: b062e84cce1634d4b8f87fbce28ae2a0, type: 2}
   m_IsUnlocked: 0
-  m_TimeOfUnlock: 9/7/2024 7:46:19 AM
+  m_TimeOfUnlock: 

@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Serialization;
 using WizardsCode.RogueWave;
@@ -10,8 +11,10 @@ namespace RogueWave.GameStats
     [CreateAssetMenu(fileName = "New Achievement", menuName = "Rogue Wave/Stats/Achievement")]
     public class Achievement : ScriptableObject, IParameterizedGameEventListener<int>
     {
-        enum Category { Uncategorized, Levelling, Offense, Defense, Objectives }
+        public enum Category { Uncategorized, Levelling, Offense, Defense, Objectives }
 
+        [SerializeField, Tooltip("A demo locked achievement is one that is not available to the demo version of the game. Demo locked achievements may not have been implemented yet.")]
+        bool m_IsDemoLocked = true;
         [SerializeField, Tooltip("The key to use to store this achievement in the GameStatsManager.")]
         string m_Key;
         [SerializeField, Tooltip("The name of the achievement as used in the User Interface."), FormerlySerializedAs("m_DispayName")]
@@ -40,10 +43,16 @@ namespace RogueWave.GameStats
         [SerializeField, Tooltip("The UTC time the achievement was unlocked (if it is unlocked)."), ReadOnly, ShowIf("m_IsUnlocked")]
         string m_TimeOfUnlock;
 
+        public bool isDemoLocked => m_IsDemoLocked;
         public string key => m_Key;
         public string displayName => m_DisplayName;
         public string description => m_Description;
         public Sprite icon => m_Icon;
+        public Category category
+        {
+            get => m_Category;
+            set => m_Category = value;
+        }
         public IntGameStat stat => m_StatToTrack;
         public float targetValue => m_TargetValue;
         public bool isUnlocked => m_IsUnlocked;
@@ -51,6 +60,12 @@ namespace RogueWave.GameStats
         
         private void OnEnable()
         {
+#if UNITY_EDITOR
+            if (stat == null)
+            {
+                Debug.LogError($"Achievement {displayName} has no stat to track.");
+            }
+#endif
             stat.onChangeEvent?.AddListener(this);
         }
 
@@ -98,6 +113,22 @@ namespace RogueWave.GameStats
             Reset();
         }
 
+        [Button("Set to demo locked (recommended as achievement is not valid)"), HideIf(EConditionOperator.Or, "Validate", "m_IsDemoLocked")]
+        void SetToDemoLocked()
+        {
+            m_IsDemoLocked = true;
+        }
+
+        internal bool Validate()
+        {
+            return Validate(out string _);
+        }
+
+        internal bool Validate(out string message)
+        {
+            return IsValid(out message);
+        }
+
         bool IsValid(out string message)
         {
             if (string.IsNullOrEmpty(m_Key))
@@ -106,9 +137,8 @@ namespace RogueWave.GameStats
                 return false;
             }
 
-            if (string.IsNullOrEmpty(m_DisplayName))
+            if (!IsValidName(out message))
             {
-                message = "Display Name cannot be empty";
                 return false;
             }
 
@@ -121,6 +151,50 @@ namespace RogueWave.GameStats
             if (m_Category == Category.Uncategorized)
             {
                 message = "Category cannot be Uncategorized";
+                return false;
+            }
+
+            string path = UnityEditor.AssetDatabase.GetAssetPath(this);
+            string[] pathParts = path.Split('/');
+            if (pathParts.Length < 2 || pathParts[pathParts.Length - 2] != m_Category.ToString())
+            {
+                message = $"Category and storage folder for {name} do not match.";
+                return false;
+            }
+
+            message = string.Empty;
+            return true;
+        }
+
+        bool IsValidName(out string message)
+        {
+            if(string.IsNullOrEmpty(m_DisplayName))
+            {
+                message = "Display Name cannot be empty";
+                return false;
+            }
+
+            if (m_DisplayName.Length > 50)
+            {
+                message = "Display Name cannot be longer than 50 characters";
+                return false;
+            }
+
+            if (m_DisplayName.Contains("\n"))
+            {
+                message = "Display Name cannot contain new lines";
+                return false;
+            }
+
+            if (m_DisplayName.Contains("\r"))
+            {
+                message = "Display Name cannot contain carriage returns";
+                return false;
+            }
+
+            if (m_DisplayName != this.name)
+            {
+                message = $"Dispaly name '{m_DisplayName}' is not the same as the filename '{name}'.";
                 return false;
             }
 
