@@ -35,8 +35,18 @@ namespace RogueWave.Editor
             achievements = Resources.LoadAll<Achievement>("");
             Array.Sort(achievements, (x, y) =>
             {
-                return x.category.CompareTo(y.category);
+                int statComparison = x.stat.CompareTo(y.stat);
+                if (statComparison == 0)
+                {
+                    return x.targetValue.CompareTo(y.targetValue);
+                }
+                if (statComparison == 0)
+                {
+                    return x.displayName.CompareTo(y.displayName);
+                }
+                return statComparison;
             });
+
         }
 
         enum Status { Any, Invalid, Valid }
@@ -65,7 +75,9 @@ namespace RogueWave.Editor
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Category", GUILayout.Width(100));
-            EditorGUILayout.LabelField("Display name", GUILayout.Width(400));
+            EditorGUILayout.LabelField("Display name", GUILayout.Width(200));
+            EditorGUILayout.LabelField("Stat", GUILayout.Width(200));
+            EditorGUILayout.LabelField("Value", GUILayout.Width(30));
             EditorGUILayout.EndHorizontal();
 
             foreach (Achievement achievement in filteredAchievements)
@@ -100,16 +112,18 @@ namespace RogueWave.Editor
                 EditorGUILayout.BeginHorizontal();
                 EditorGUI.BeginChangeCheck();
 
-
                 achievement.category = (Achievement.Category)EditorGUILayout.EnumPopup(achievement.category, GUILayout.Width(100));
 
                 string displayName = $"{achievement.displayName}";
                 GUIStyle richTextStyle = new GUIStyle(GUI.skin.button) { richText = true };
-                if (GUILayout.Button(new GUIContent(displayName, $"{achievement.description}\n\n{statusMsg}"), richTextStyle, GUILayout.Width(400)))
+                if (GUILayout.Button(new GUIContent(displayName, $"{achievement.description}\n\n{statusMsg}"), richTextStyle, GUILayout.Width(200)))
                 {
                     EditorGUIUtility.PingObject(achievement);
                     Selection.activeObject = achievement;
                 }
+
+                achievement.stat = (IntGameStat)EditorGUILayout.ObjectField(achievement.stat, typeof(IntGameStat), false, GUILayout.Width(200));
+                achievement.targetValue = EditorGUILayout.FloatField(achievement.targetValue, GUILayout.Width(30));
 
                 if (EditorGUI.EndChangeCheck())
                 {

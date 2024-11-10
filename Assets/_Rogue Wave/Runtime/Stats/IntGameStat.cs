@@ -128,6 +128,11 @@ namespace RogueWave.GameStats
         {
             Subtract(1);
         }
+
+        internal int CompareTo(IntGameStat stat)
+        {
+            return value.CompareTo(stat.value);
+        }
 #endif
     }
 }

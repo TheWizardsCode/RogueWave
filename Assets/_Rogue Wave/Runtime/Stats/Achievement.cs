@@ -11,7 +11,7 @@ namespace RogueWave.GameStats
     [CreateAssetMenu(fileName = "New Achievement", menuName = "Rogue Wave/Stats/Achievement")]
     public class Achievement : ScriptableObject, IParameterizedGameEventListener<int>
     {
-        public enum Category { Uncategorized, Levelling, Offense, Defense, Objectives }
+        public enum Category { Uncategorized, Levelling, Offense, Defense, Objective }
 
         [SerializeField, Tooltip("A demo locked achievement is one that is not available to the demo version of the game. Demo locked achievements may not have been implemented yet.")]
         bool m_IsDemoLocked = true;
@@ -53,8 +53,16 @@ namespace RogueWave.GameStats
             get => m_Category;
             set => m_Category = value;
         }
-        public IntGameStat stat => m_StatToTrack;
-        public float targetValue => m_TargetValue;
+        public IntGameStat stat
+        {
+            get { return m_StatToTrack; }
+            internal set { m_StatToTrack = value; }
+        }
+        public float targetValue
+        {
+            get { return m_TargetValue; }
+            internal set { m_TargetValue = value; }
+        }
         public bool isUnlocked => m_IsUnlocked;
         public string timeOfUnlock => m_TimeOfUnlock;
         
@@ -64,6 +72,7 @@ namespace RogueWave.GameStats
             if (stat == null)
             {
                 Debug.LogError($"Achievement {displayName} has no stat to track.");
+                return;
             }
 #endif
             stat.onChangeEvent?.AddListener(this);
@@ -71,6 +80,10 @@ namespace RogueWave.GameStats
 
         private void OnDisable()
         {
+            if (stat == null)
+            {
+                return;
+            }
             stat.onChangeEvent?.RemoveListener(this);
         }
 
@@ -131,13 +144,17 @@ namespace RogueWave.GameStats
 
         bool IsValid(out string message)
         {
-            if (string.IsNullOrEmpty(m_Key))
+            if(!IsValidKey(out message))
             {
-                message = "Key cannot be empty";
                 return false;
             }
 
             if (!IsValidName(out message))
+            {
+                return false;
+            }
+
+            if (!IsValidCategory(out message))
             {
                 return false;
             }
@@ -148,17 +165,60 @@ namespace RogueWave.GameStats
                 return false;
             }
 
-            if (m_Category == Category.Uncategorized)
+            if (onUnlockEvent == null)
             {
-                message = "Category cannot be Uncategorized";
+                message = "On Unlock Event cannot be empty";
                 return false;
             }
 
-            string path = UnityEditor.AssetDatabase.GetAssetPath(this);
-            string[] pathParts = path.Split('/');
-            if (pathParts.Length < 2 || pathParts[pathParts.Length - 2] != m_Category.ToString())
+            message = string.Empty;
+            return true;
+        }
+
+        bool IsValidKey(out string message)
+        {
+            if (string.IsNullOrEmpty(m_Key))
             {
-                message = $"Category and storage folder for {name} do not match.";
+                message = "Key cannot be empty";
+                return false;
+            }
+
+            if (m_Key.ToUpper() != m_Key)
+            {
+                message = "Key must be all uppercase";
+                return false;
+            }
+
+            if (m_Key.Contains(" "))
+            {
+                message = "Key cannot contain spaces";
+                return false;
+            }
+
+            if (m_Key.Contains("\n"))
+            {
+                message = "Key cannot contain new lines";
+                return false;
+            }
+
+            if (m_Key.Contains("\r"))
+            {
+                message = "Key cannot contain carriage returns";
+                return false;
+            }
+
+            if (m_Key.Contains("\t"))
+            {
+                message = "Key cannot contain tabs";
+                return false;
+            }
+
+            if (!m_Key.StartsWith("LEVELLING_") 
+                && !m_Key.StartsWith("OFFENSE_") 
+                && !m_Key.StartsWith("DEFENSE_") 
+                && !m_Key.StartsWith("OBJECTIVE_"))
+            {
+                message = "Key must start with 'LEVELLING_', 'OFFENSE_', 'DEFENSE_' or 'OBJECTIVE_'";
                 return false;
             }
 
@@ -195,6 +255,26 @@ namespace RogueWave.GameStats
             if (m_DisplayName != this.name)
             {
                 message = $"Dispaly name '{m_DisplayName}' is not the same as the filename '{name}'.";
+                return false;
+            }
+
+            message = string.Empty;
+            return true;
+        }
+
+        bool IsValidCategory(out string message)
+        {
+            if (m_Category == Category.Uncategorized)
+            {
+                message = "Category cannot be Uncategorized";
+                return false;
+            }
+
+            string path = UnityEditor.AssetDatabase.GetAssetPath(this);
+            string[] pathParts = path.Split('/');
+            if (pathParts.Length < 2 || pathParts[pathParts.Length - 2] != m_Category.ToString())
+            {
+                message = $"Category and storage folder for {name} do not match.";
                 return false;
             }
 
