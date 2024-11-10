@@ -1,6 +1,7 @@
 using RogueWave.GameStats;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -55,6 +56,8 @@ namespace RogueWave.Editor
         void OnGUI()
         {
             List<Achievement> filteredAchievements = FilterGUI();
+            int demoLockedCount = filteredAchievements.Count(a => a.isDemoLocked);
+            int invalidCount = filteredAchievements.Count(a => !a.Validate(out string statusMsg));
 
             EditorGUILayout.BeginHorizontal();
             // add a button to create a new achievement
@@ -69,7 +72,7 @@ namespace RogueWave.Editor
                 EditorGUIUtility.PingObject(newAchievement);
                 Selection.activeObject = newAchievement;
             }
-            EditorGUILayout.LabelField($"Showing {filteredAchievements.Count} of {achievements.Length}");
+            EditorGUILayout.LabelField($"Showing {filteredAchievements.Count} of {achievements.Length} (Demo Locked: {demoLockedCount}, of which {invalidCount} are invalid)");
             EditorGUILayout.EndHorizontal();
 
             scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
