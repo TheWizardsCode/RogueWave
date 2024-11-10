@@ -159,6 +159,11 @@ namespace RogueWave.GameStats
                 return false;
             }
 
+            if (!HasValidImages(out message))
+            {
+                return false;
+            }
+
             if (m_StatToTrack == null)
             {
                 message = "Stat to track cannot be empty";
@@ -222,6 +227,17 @@ namespace RogueWave.GameStats
                 return false;
             }
 
+            // check that the key is unique to this achievement
+            Achievement[] achievements = Resources.LoadAll<Achievement>("");
+            foreach (Achievement achievement in achievements)
+            {
+                if (achievement != this && achievement.key == m_Key)
+                {
+                    message = $"Key '{m_Key}' is not unique to this achievement, also used in '{achievement.name}'.";
+                    return false;
+                }
+            }
+
             message = string.Empty;
             return true;
         }
@@ -255,6 +271,36 @@ namespace RogueWave.GameStats
             if (m_DisplayName != this.name)
             {
                 message = $"Dispaly name '{m_DisplayName}' is not the same as the filename '{name}'.";
+                return false;
+            }
+
+            message = string.Empty;
+            return true;
+        }
+
+        bool HasValidImages(out string message)
+        {
+            if (m_HeroImage == null)
+            {
+                message = "Hero Image cannot be empty";
+                return false;
+            }
+
+            if (m_Icon == null)
+            {
+                message = "Icon cannot be empty";
+                return false;
+            }
+
+            if (m_Icon.name.StartsWith("Placeholder"))
+            {
+                message = "Icon cannot be a placeholder";
+                return false;
+            }
+
+            if (m_HeroImage.name.StartsWith("Placeholder"))
+            {
+                message = "Hero Image cannot be a placeholder";
                 return false;
             }
 

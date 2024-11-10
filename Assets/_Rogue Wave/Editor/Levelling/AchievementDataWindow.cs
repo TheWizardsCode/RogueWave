@@ -36,27 +36,42 @@ namespace RogueWave.Editor
             achievements = Resources.LoadAll<Achievement>("");
             Array.Sort(achievements, (x, y) =>
             {
+                int categoryComparison = x.category.CompareTo(y.category);
+                if (categoryComparison != 0)
+                {
+                    return categoryComparison;
+                }
+
                 int statComparison = 0;
                 if (x.stat != null && y.stat != null)
                 {
                     statComparison = x.stat.CompareTo(y.stat);
-                    if (statComparison == 0)
-                    {
-                        return x.targetValue.CompareTo(y.targetValue);
-                    }
                 }
-                if (statComparison == 0)
+                else if (x.stat == null && y.stat != null)
                 {
-                    return x.category.CompareTo(y.category);
+                    statComparison = -1;
                 }
-                if (statComparison == 0)
+                else if (x.stat != null && y.stat == null)
                 {
-                    return x.displayName.CompareTo(y.displayName);
+                    statComparison = 1;
                 }
-                return statComparison;
-            });
 
+                if (statComparison != 0)
+                {
+                    return statComparison;
+                }
+
+                int targetValueComparison = x.targetValue.CompareTo(y.targetValue);
+                if (targetValueComparison != 0)
+                {
+                    return targetValueComparison;
+                }
+
+                return x.displayName.CompareTo(y.displayName);
+            });
         }
+
+
 
         enum Status { Any, Invalid, Valid }
         Status filterStatus = Status.Any;
@@ -86,7 +101,6 @@ namespace RogueWave.Editor
 
             if (notDemoLockedAndInvalidCount > 0)
             {
-                GUI.backgroundColor = Color.red;
                 EditorGUILayout.HelpBox($"{notDemoLockedAndInvalidCount} not demo locked and invalid.", MessageType.Error);
             }
 
@@ -95,12 +109,13 @@ namespace RogueWave.Editor
             EditorGUILayout.LabelField("Category", GUILayout.Width(100));
             EditorGUILayout.LabelField("Display name", GUILayout.Width(200));
             EditorGUILayout.LabelField("Stat", GUILayout.Width(200));
-            EditorGUILayout.LabelField("Value", GUILayout.Width(30));
+            EditorGUILayout.LabelField("Value", GUILayout.Width(50));
             EditorGUILayout.EndHorizontal();
 
             foreach (Achievement achievement in filteredAchievements)
             {
-                if (achievement.Validate(out string statusMsg))
+                bool isValid = achievement.Validate(out string statusMsg);
+                if (isValid)
                 {
                     if (achievement.isDemoLocked)
                     {
@@ -118,12 +133,10 @@ namespace RogueWave.Editor
                     if (achievement.isDemoLocked)
                     {
                         GUI.backgroundColor = Color.yellow;
-                        statusMsg += "\nDemo locked achievement. Click to select it.";
                     }
                     else
                     {
                         GUI.backgroundColor = Color.red;
-                        statusMsg += "\nClick to select the achievement.";
                     }
                 }
 
@@ -141,7 +154,12 @@ namespace RogueWave.Editor
                 }
 
                 achievement.stat = (IntGameStat)EditorGUILayout.ObjectField(achievement.stat, typeof(IntGameStat), false, GUILayout.Width(200));
-                achievement.targetValue = EditorGUILayout.FloatField(achievement.targetValue, GUILayout.Width(30));
+                achievement.targetValue = EditorGUILayout.FloatField(achievement.targetValue, GUILayout.Width(50));
+
+                if (!isValid)
+                {
+                    EditorGUILayout.HelpBox(statusMsg, MessageType.Error);
+                }
 
                 if (EditorGUI.EndChangeCheck())
                 {
@@ -159,6 +177,16 @@ namespace RogueWave.Editor
                 AssetDatabase.SaveAssets();
                 UpdateAchievementList();
                 achievementEdited = false;
+            }
+
+
+            // Add right-click context menu
+            if (Event.current.type == EventType.ContextClick)
+            {
+                GenericMenu menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Refresh Data"), false, UpdateAchievementList);
+                menu.ShowAsContext();
+                Event.current.Use();
             }
         }
 
