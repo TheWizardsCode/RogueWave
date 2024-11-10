@@ -78,7 +78,16 @@ namespace WizardsCode.RogueWave
             get => m_Instance;
             set => m_Instance = value;
         }
-        public string PlayerName { get => User.Client.Id.Name; }
+        public string PlayerName {
+            get
+            {
+                if (PlayerSteamId == null)
+                {
+                    return "Unknown";
+                }
+                return PlayerSteamId.Name;
+            }
+        }
         public UserData PlayerSteamId { get => User.Client.Id; }
         public bool ConnectedToSteam { get; private set; }
 

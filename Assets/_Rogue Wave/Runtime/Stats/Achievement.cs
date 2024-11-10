@@ -10,6 +10,8 @@ namespace RogueWave.GameStats
     [CreateAssetMenu(fileName = "New Achievement", menuName = "Rogue Wave/Stats/Achievement")]
     public class Achievement : ScriptableObject, IParameterizedGameEventListener<int>
     {
+        enum Category { Uncategorized, Levelling, Offense, Defense, Objectives }
+
         [SerializeField, Tooltip("The key to use to store this achievement in the GameStatsManager.")]
         string m_Key;
         [SerializeField, Tooltip("The name of the achievement as used in the User Interface."), FormerlySerializedAs("m_DispayName")]
@@ -20,6 +22,8 @@ namespace RogueWave.GameStats
         Sprite m_HeroImage;
         [SerializeField, Tooltip("The icon to use for the achievement.")]
         Sprite m_Icon;
+        [SerializeField, Tooltip("The category of the achievement.")]
+        Category m_Category = Category.Uncategorized;
 
         [Header("Tracking")]
         [SerializeField, Tooltip("The stat that this achievement is tracking.")]
@@ -92,6 +96,36 @@ namespace RogueWave.GameStats
         void TestReset()
         {
             Reset();
+        }
+
+        bool IsValid(out string message)
+        {
+            if (string.IsNullOrEmpty(m_Key))
+            {
+                message = "Key cannot be empty";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(m_DisplayName))
+            {
+                message = "Display Name cannot be empty";
+                return false;
+            }
+
+            if (m_StatToTrack == null)
+            {
+                message = "Stat to track cannot be empty";
+                return false;
+            }
+
+            if (m_Category == Category.Uncategorized)
+            {
+                message = "Category cannot be Uncategorized";
+                return false;
+            }
+
+            message = string.Empty;
+            return true;
         }
 #endif
     }

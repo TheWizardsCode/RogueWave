@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d2355b4b0d5b44d9ade584c1a4ad28, type: 3}
+  m_Name: Validate Achievement
+  m_EditorClassIdentifier: 
+  m_DisplayName: Validate Achievement
+  m_Description: Validate all components of type Achievement in the project. Validation
+    is performed by executing the method IsValid() in addition to some automated
+    tests for specific components.
+  m_Category: {fileID: 11400000, guid: d506523910f210843ae0bf6424c9429c, type: 2}
+  m_Priority: 1000
+  m_ActivateOnUpdateAtStart: 0
+  m_ComponentScript: {fileID: 11500000, guid: 693fe29a27bd30e4f827291b5782a126, type: 3}

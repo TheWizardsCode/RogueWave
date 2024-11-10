@@ -116,6 +116,7 @@ namespace RogueWave.GameStats
         }
 
 #if UNITY_EDITOR
+
         [Button]
         void TestAddOne()
         {
