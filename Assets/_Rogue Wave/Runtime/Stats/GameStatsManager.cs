@@ -96,6 +96,7 @@ namespace RogueWave.GameStats
             }
         }
 
+        public Achievement[] Achievements => m_Achievements;
 
 #if DISCORD_ENABLED
         WebhookData activeWebhook

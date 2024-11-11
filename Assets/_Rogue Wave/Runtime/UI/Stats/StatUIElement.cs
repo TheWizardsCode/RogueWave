@@ -1,11 +1,25 @@
+using ModelShark;
 using RosgueWave.UI;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace RogueWave.GameStats
 {
     public class StatUIElement : RogueWaveUIElement
     {
-        public TMPro.TextMeshProUGUI label;
-        public TMPro.TextMeshProUGUI value;
+        [SerializeField, Tooltip("The label to display the name of the stat.")]
+        TextMeshProUGUI nameLabel;
+        [SerializeField, Tooltip("The label to display the value of the stat.")]
+        TextMeshProUGUI achievementLabel;
+        [SerializeField, Tooltip("The icon to display the achievement.")]
+        Image achievementIcon;
+        [SerializeField, Tooltip("The label to display the value of the stat.")]
+        TextMeshProUGUI valueLabel;
+        [SerializeField, Tooltip("The tooltip trigger for this element.")]
+        TooltipTrigger m_tooltipTrigger;
+
+        string m_bodyText = string.Empty;
 
         IntGameStat m_stat;
         public IntGameStat stat
@@ -14,19 +28,41 @@ namespace RogueWave.GameStats
             set
             {
                 m_stat = value;
-                SetLabel(m_stat.displayName);
-                SetValue(m_stat.ToString());
+                nameLabel.text = m_stat.displayName;
+                valueLabel.text = m_stat.ToString();
+                SetTooltipText();
             }
         }
 
-        public void SetLabel(string text)
+        Achievement m_achievement;
+        public Achievement achievement
         {
-            label.text = text;
+            get { return m_achievement; }
+            set
+            {
+                m_achievement = value;
+                achievementLabel.transform.parent.gameObject.SetActive(true);
+                achievementLabel.text = $"{m_achievement.displayName} @ {m_achievement.targetValue}";
+                achievementIcon.sprite = m_achievement.icon;
+
+                SetTooltipText();
+            }
         }
 
-        public void SetValue(string text)
+        void SetTooltipText()
         {
-            value.text = text;
+            if (stat == null)
+            {
+                return;
+            }
+
+            m_bodyText = $"{stat.displayName} = {stat.value}.";
+
+            if (m_achievement != null)
+            {
+                m_bodyText += $"\n\n{m_achievement.description} to unlock \"{m_achievement.displayName}\".";
+            }
+            m_tooltipTrigger.SetText("BodyText", m_bodyText);
         }
     }
 }

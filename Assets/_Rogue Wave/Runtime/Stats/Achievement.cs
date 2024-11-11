@@ -68,23 +68,12 @@ namespace RogueWave.GameStats
         
         private void OnEnable()
         {
-#if UNITY_EDITOR
-            if (stat == null)
-            {
-                Debug.LogError($"Achievement {displayName} has no stat to track.");
-                return;
-            }
-#endif
-            stat.onChangeEvent?.AddListener(this);
+            stat?.onChangeEvent?.AddListener(this);
         }
 
         private void OnDisable()
         {
-            if (stat == null)
-            {
-                return;
-            }
-            stat.onChangeEvent?.RemoveListener(this);
+            stat?.onChangeEvent?.RemoveListener(this);
         }
 
         internal void Reset()

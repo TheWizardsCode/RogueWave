@@ -3,6 +3,7 @@ using NeoSaveGames.SceneManagement;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using WizardsCode.RogueWave;
 
 namespace RogueWave.GameStats
@@ -91,7 +92,26 @@ namespace RogueWave.GameStats
             foreach (IntGameStat stat in stats)
             {
                 StatUIElement element = Instantiate(m_StatElementPrefab, transform);
+                element.name = stat.name;
                 element.stat = stat;
+
+                // Get all the achievements in GameStatsManager.instance.Achievements that are not unlocked and have the same stat as the one we are looking at
+                List<Achievement> achievements = GameStatsManager.Instance?.Achievements.Where(a => a.stat == stat && !a.isUnlocked).ToList();
+                float target = float.MaxValue;
+                Achievement tracked = null;
+                foreach(Achievement achievement in achievements)
+                {
+                    if (achievement.targetValue < target)
+                    {
+                        target = achievement.targetValue;
+                        element.achievement = achievement;
+                    }
+                }
+
+                if (tracked != null)
+                {
+                    Debug.Log("Tracking achievement: " + tracked.name);
+                }
 
                 element.transform.SetParent(parent);
                 element.gameObject.SetActive(true);
