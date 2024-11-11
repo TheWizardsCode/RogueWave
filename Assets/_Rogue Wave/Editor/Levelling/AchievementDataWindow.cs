@@ -78,33 +78,49 @@ namespace RogueWave.Editor
 
         void OnGUI()
         {
-            List<Achievement> filteredAchievements = FilterGUI();
-            int demoLockedCount = filteredAchievements.Count(a => a.isDemoLocked);
-            int invalidCount = filteredAchievements.Count(a => !a.Validate(out string _));
-            int notDemoLockedAndInvalidCount = filteredAchievements.Count(a => !a.isDemoLocked && !a.Validate(out string _));
+            List<Achievement> AllFilteredAchievements = FilterGUI();
+            List<Achievement> notDemoLockedAndInvalid = AllFilteredAchievements.Where(a => !a.isDemoLocked && !a.Validate(out string _)).ToList();
+            List<Achievement> DemoLockedAndInvalid = AllFilteredAchievements.Where(a => a.isDemoLocked && !a.Validate(out string _)).ToList();
+            List<Achievement> validAchievements = AllFilteredAchievements.Where(a => a.Validate(out string _)).ToList();
+            
+            HeadingGUI(AllFilteredAchievements);
 
-            EditorGUILayout.BeginHorizontal();
-            // add a button to create a new achievement
-            if (GUILayout.Button("Create New Achievement"))
+            EditorGUILayout.Space();
             {
-                Achievement newAchievement = ScriptableObject.CreateInstance<Achievement>();
-                newAchievement.name = "New Achievement";
-                AssetDatabase.CreateAsset(newAchievement, "Assets/_Rogue Wave/Resources/Achievements/New Achievement.asset");
+                EditorGUILayout.LabelField("Not Demo Locked and Invalid (Release Blockers)", EditorStyles.boldLabel);
+                scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+                AchievementList(notDemoLockedAndInvalid);
+
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Demo Locked and Invalid Achievements (Important)", EditorStyles.boldLabel);
+                AchievementList(DemoLockedAndInvalid);
+
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Valid Achievements (All Good)", EditorStyles.boldLabel);
+                AchievementList(validAchievements);
+            }
+            EditorGUILayout.EndScrollView();
+
+            if (achievementEdited
+                && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Tab))
+            {
                 AssetDatabase.SaveAssets();
                 UpdateAchievementList();
-
-                EditorGUIUtility.PingObject(newAchievement);
-                Selection.activeObject = newAchievement;
+                achievementEdited = false;
             }
-            EditorGUILayout.LabelField($"Showing {filteredAchievements.Count} of {achievements.Length}. {invalidCount} are invalid. {demoLockedCount} are demo locked.");
-            EditorGUILayout.EndHorizontal();
 
-            if (notDemoLockedAndInvalidCount > 0)
+            // Add right-click context menu
+            if (Event.current.type == EventType.ContextClick)
             {
-                EditorGUILayout.HelpBox($"{notDemoLockedAndInvalidCount} not demo locked and invalid.", MessageType.Error);
+                GenericMenu menu = new GenericMenu();
+                menu.AddItem(new GUIContent("Refresh Data"), false, UpdateAchievementList);
+                menu.ShowAsContext();
+                Event.current.Use();
             }
+        }
 
-            scrollPosition = EditorGUILayout.BeginScrollView(scrollPosition);
+        private void AchievementList(List<Achievement> AllFilteredAchievements)
+        {
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("Category", GUILayout.Width(100));
             EditorGUILayout.LabelField("Display name", GUILayout.Width(200));
@@ -112,7 +128,7 @@ namespace RogueWave.Editor
             EditorGUILayout.LabelField("Value", GUILayout.Width(50));
             EditorGUILayout.EndHorizontal();
 
-            foreach (Achievement achievement in filteredAchievements)
+            foreach (Achievement achievement in AllFilteredAchievements)
             {
                 bool isValid = achievement.Validate(out string statusMsg);
                 if (isValid)
@@ -120,12 +136,10 @@ namespace RogueWave.Editor
                     if (achievement.isDemoLocked)
                     {
                         GUI.backgroundColor = Color.grey;
-                        statusMsg += "\nValid, demo locked achievement. Click to select it.";
                     }
                     else
                     {
                         GUI.backgroundColor = Color.green;
-                        statusMsg = "\nValid achievement, available in the demo. Click to select it.";
                     }
                 }
                 else
@@ -156,11 +170,8 @@ namespace RogueWave.Editor
                 achievement.stat = (IntGameStat)EditorGUILayout.ObjectField(achievement.stat, typeof(IntGameStat), false, GUILayout.Width(200));
                 achievement.targetValue = EditorGUILayout.FloatField(achievement.targetValue, GUILayout.Width(50));
 
-                if (!isValid)
-                {
-                    EditorGUILayout.HelpBox(statusMsg, MessageType.Error);
-                }
-
+                EditorGUILayout.LabelField(statusMsg);
+                
                 if (EditorGUI.EndChangeCheck())
                 {
                     EditorUtility.SetDirty(achievement);
@@ -168,26 +179,25 @@ namespace RogueWave.Editor
                 }
                 EditorGUILayout.EndHorizontal();
             }
+        }
 
-            EditorGUILayout.EndScrollView();
-
-            if (achievementEdited
-                && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.Tab))
+        private void HeadingGUI(List<Achievement> shownAchievements)
+        {
+            EditorGUILayout.BeginHorizontal();
+            // add a button to create a new achievement
+            if (GUILayout.Button("Create New Achievement"))
             {
+                Achievement newAchievement = ScriptableObject.CreateInstance<Achievement>();
+                newAchievement.name = "New Achievement";
+                AssetDatabase.CreateAsset(newAchievement, "Assets/_Rogue Wave/Resources/Achievements/New Achievement.asset");
                 AssetDatabase.SaveAssets();
                 UpdateAchievementList();
-                achievementEdited = false;
-            }
 
-
-            // Add right-click context menu
-            if (Event.current.type == EventType.ContextClick)
-            {
-                GenericMenu menu = new GenericMenu();
-                menu.AddItem(new GUIContent("Refresh Data"), false, UpdateAchievementList);
-                menu.ShowAsContext();
-                Event.current.Use();
+                EditorGUIUtility.PingObject(newAchievement);
+                Selection.activeObject = newAchievement;
             }
+            EditorGUILayout.LabelField($"Showing {shownAchievements.Count} of {this.achievements.Length}.");
+            EditorGUILayout.EndHorizontal();
         }
 
         private List<Achievement> FilterGUI()
