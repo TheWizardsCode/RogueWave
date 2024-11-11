@@ -80,9 +80,10 @@ namespace RogueWave.Editor
         {
             List<Achievement> AllFilteredAchievements = FilterGUI();
             List<Achievement> notDemoLockedAndInvalid = AllFilteredAchievements.Where(a => !a.isDemoLocked && !a.Validate(out string _)).ToList();
-            List<Achievement> DemoLockedAndInvalid = AllFilteredAchievements.Where(a => a.isDemoLocked && !a.Validate(out string _)).ToList();
-            List<Achievement> validAchievements = AllFilteredAchievements.Where(a => a.Validate(out string _)).ToList();
-            
+            List<Achievement> demoLockedAndInvalid = AllFilteredAchievements.Where(a => a.isDemoLocked && !a.Validate(out string _)).ToList();
+            List<Achievement> notDemoLockedAndValid = AllFilteredAchievements.Where(a => !a.isDemoLocked && a.Validate(out string _)).ToList();
+            List<Achievement> demoLockedAndValid = AllFilteredAchievements.Where(a => a.isDemoLocked && a.Validate(out string _)).ToList();
+
             HeadingGUI(AllFilteredAchievements);
 
             EditorGUILayout.Space();
@@ -93,11 +94,15 @@ namespace RogueWave.Editor
 
                 EditorGUILayout.Space();
                 EditorGUILayout.LabelField("Demo Locked and Invalid Achievements (Important)", EditorStyles.boldLabel);
-                AchievementList(DemoLockedAndInvalid);
+                AchievementList(demoLockedAndInvalid);
 
                 EditorGUILayout.Space();
-                EditorGUILayout.LabelField("Valid Achievements (All Good)", EditorStyles.boldLabel);
-                AchievementList(validAchievements);
+                EditorGUILayout.LabelField("Valid Achievements in the Demo (All Good)", EditorStyles.boldLabel);
+                AchievementList(notDemoLockedAndValid);
+
+                EditorGUILayout.Space();
+                EditorGUILayout.LabelField("Valid Achievements not in the Demo (All Good)", EditorStyles.boldLabel);
+                AchievementList(demoLockedAndValid);
             }
             EditorGUILayout.EndScrollView();
 

@@ -159,11 +159,6 @@ namespace RogueWave.GameStats
                 return false;
             }
 
-            if (!HasValidImages(out message))
-            {
-                return false;
-            }
-
             if (m_StatToTrack == null)
             {
                 message = "Stat to track cannot be empty";
@@ -173,6 +168,11 @@ namespace RogueWave.GameStats
             if (onUnlockEvent == null)
             {
                 message = "On Unlock Event cannot be empty";
+                return false;
+            }
+
+            if (!HasValidImages(out message))
+            {
                 return false;
             }
 
