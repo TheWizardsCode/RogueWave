@@ -143,6 +143,11 @@ namespace RogueWave.GameStats
                 return false;
             }
 
+            if (!IsValidDescription(out message))
+            {
+                return false;
+            }
+
             if (!IsValidCategory(out message))
             {
                 return false;
@@ -162,6 +167,25 @@ namespace RogueWave.GameStats
 
             if (!HasValidImages(out message))
             {
+                return false;
+            }
+
+            message = string.Empty;
+            return true;
+        }
+
+        private bool IsValidDescription(out string message)
+        {
+            if (string.IsNullOrEmpty(m_Description))
+            {
+                message = "Description cannot be empty";
+                return false;
+            }
+
+            int maxDescriptionLength = 60;
+            if (m_Description.Length > maxDescriptionLength)
+            {
+                message = $"Description cannot be longer than {maxDescriptionLength} characters";
                 return false;
             }
 
@@ -239,9 +263,10 @@ namespace RogueWave.GameStats
                 return false;
             }
 
-            if (m_DisplayName.Length > 50)
+            int maxNameLength = 23;
+            if (m_DisplayName.Length > maxNameLength)
             {
-                message = "Display Name cannot be longer than 50 characters";
+                message = $"Display Name cannot be longer than {maxNameLength} characters";
                 return false;
             }
 
@@ -317,5 +342,26 @@ namespace RogueWave.GameStats
             return true;
         }
 #endif
+
+        /// <summary>
+        /// Get all the achievements in a given category.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        internal static List<Achievement> AllInCategory(Category category)
+        {
+            List<Achievement> achievements = new List<Achievement>();
+            Achievement[] allAchievements = Resources.LoadAll<Achievement>("");
+            foreach (Achievement achievement in allAchievements)
+            {
+                if (achievement.category == category)
+                {
+                    achievements.Add(achievement);
+                }
+            }
+
+            return achievements;
+        }
     }
 }

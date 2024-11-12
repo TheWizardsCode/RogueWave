@@ -1,9 +1,11 @@
 using NeoFPS;
 using NeoSaveGames.SceneManagement;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.UI;
 using WizardsCode.RogueWave;
 
 namespace RogueWave.GameStats
@@ -23,10 +25,14 @@ namespace RogueWave.GameStats
         IntGameStat[] m_PlayerStats;
 
         [Header("Achievements")]
-        [SerializeField, Tooltip("The container to put the achievements in.")]
-        RectTransform m_AchievementsContainer;
-        [SerializeField, Tooltip("The prefab to use for the achievement elements.")]
-        AchievementUIElement m_AchievementElementPrefab;
+        [SerializeField, Tooltip("The container to put the achievement summaries in on the main page.")]
+        RectTransform m_AchievementsSummaryContainer;
+        [SerializeField, Tooltip("The prefab to use for the achievement summary elements on the main page.")]
+        AchievementUIElement m_AchievementSummaryElementPrefab;
+        [SerializeField, Tooltip("The button to show the achievements list.")]
+        Button m_ShowAchievementsListButton;
+        [SerializeField, Tooltip("The container for the complete achievements list.")]
+        RectTransform m_AchievementsListContainer;
 
         private bool isInitialized;
 
@@ -35,6 +41,8 @@ namespace RogueWave.GameStats
             NeoFpsInputManager.captureMouseCursor = false;
             RogueLiteManager.persistentData.isDirty = true; // Set to true as a security in case we fogot to set it somewhere
             RogueLiteManager.SaveProfile();
+
+            m_ShowAchievementsListButton.onClick.AddListener(ShowAchievementList);
         }
 
         void OnDisable()
@@ -76,10 +84,10 @@ namespace RogueWave.GameStats
             {
                 foreach (Achievement achievement in achievements.OrderByDescending(a => a.timeOfUnlock))
                 {
-                    AchievementUIElement element = Instantiate(m_AchievementElementPrefab, transform);
-                    element.achievement = achievement;
+                    AchievementUIElement element = Instantiate(m_AchievementSummaryElementPrefab, transform);
+                    element.Achievement = achievement;
 
-                    element.transform.SetParent(m_AchievementsContainer);
+                    element.transform.SetParent(m_AchievementsSummaryContainer);
                     element.gameObject.SetActive(true);
                 }
             }
@@ -127,6 +135,35 @@ namespace RogueWave.GameStats
             {
                 NeoSceneManager.LoadScene(RogueLiteManager.mainMenuScene);
             }
+        }
+
+        public void ShowAchievementList()
+        {
+            // REFACTOR: The element names should not be hard coded. Move the population logic to specialist controllers.
+
+            m_AchievementsListContainer.gameObject.SetActive(true);
+            // for each category of achievement create a new category element
+            //foreach (Achievement.Category category in Enum.GetValues(typeof(Achievement.Category)))
+            //{
+            //    RectTransform categoryElement = Instantiate(m_AchievementCategoryPrototype, m_AchievementsListContainer);   
+            //    categoryElement.gameObject.SetActive(true);
+            //    categoryElement.Find("Title").GetComponent<Text>().text = category.ToString();
+
+            //    // for each achievement in the category create a new achievement element
+            //    foreach (Achievement achievement in GameStatsManager.Instance.Achievements.Where(a => a.category == category))
+            //    {
+            //        RectTransform achievementElement = Instantiate(m_AchievementPrototype, categoryElement);
+            //        achievementElement.gameObject.SetActive(true);
+            //        achievementElement.Find("Name").GetComponent<Text>().text = achievement.displayName;
+            //        achievementElement.Find("Description").GetComponent<Text>().text = achievement.description;
+            //        achievementElement.Find("Icon").GetComponent<Image>().sprite = achievement.icon;
+            //    }
+            //}
+        }
+
+        public void HideAcievementList()
+        {
+            m_AchievementsListContainer.gameObject.SetActive(false);
         }
     }
 }

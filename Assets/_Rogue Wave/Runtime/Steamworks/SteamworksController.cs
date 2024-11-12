@@ -22,13 +22,13 @@ namespace WizardsCode.RogueWave
 
         [SerializeField, Tooltip("Show the management buttons for enabling and disabling Steamworks."), BoxGroup("Management")]
         private bool showManagement = false;
-#if BUILD_DEMO && STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+#if DEMO && STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [InfoBox("The build system is currently setup to build the demo version of the game. If you want to build the full version of the game click the Build Full Game button in the management section below.")]
         [SerializeField, Tooltip("The Steam Demo App Settings for Steamworks integration."), Expandable, Required, BoxGroup("Steam")]
         private SteamSettings m_SteamDemoAppSettings;
 #endif
 
-#if !BUILD_DEMO && STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+#if !DEMO && STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         [InfoBox("The build system is currently setup to build the Full version version of the game. If you want to build the full version of the game click the Build Demo button in the management section below.")]
         [SerializeField, Tooltip("The Steam Main App settings for Steamworks integration."), Expandable, Required, BoxGroup("Steam")]
         private SteamSettings m_SteamMainAppSettings;
@@ -95,11 +95,11 @@ namespace WizardsCode.RogueWave
         {
 #endif
 
-#if BUILD_DEMO && STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+#if DEMO && STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
             m_SteamSettings = m_SteamDemoAppSettings;
 #endif
 
-#if !BUILD_DEMO && STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
+#if !DEMO && STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
             m_SteamSettings = m_SteamMainAppSettings;
 #endif
 
@@ -208,13 +208,13 @@ namespace WizardsCode.RogueWave
 
 #endif
 
-#if UNITY_EDITOR && BUILD_DEMO
+#if UNITY_EDITOR && DEMO
         [Button("Set to Build Full Game", EButtonEnableMode.Editor), ShowIf("showManagement")]
         private void SetToBuildFullGame() {
-            // Remove the BUILD_DEMO symbol to the project settings
+            // Remove the DEMO symbol to the project settings
             PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);
 
-            defines = defines.Length > 0 ? Array.FindAll(defines, s => s != "BUILD_DEMO") : new string[] { };
+            defines = defines.Length > 0 ? Array.FindAll(defines, s => s != "DEMO") : new string[] { };
 
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
             AssetDatabase.Refresh();
@@ -222,15 +222,15 @@ namespace WizardsCode.RogueWave
 
 #endif
 
-#if UNITY_EDITOR && !BUILD_DEMO
+#if UNITY_EDITOR && !DEMO
         [Button("Set to Build Demo", EButtonEnableMode.Editor), ShowIf("showManagement")]
         private void SetToBuildDemo()
         {
-            // Add the BUILD_DEMO symbol to the project settings
+            // Add the DEMO symbol to the project settings
             PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);
 
             Array.Resize(ref defines, defines.Length + 1);
-            defines[defines.Length - 1] = "BUILD_DEMO";
+            defines[defines.Length - 1] = "DEMO";
 
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
             AssetDatabase.Refresh();
