@@ -62,14 +62,12 @@ namespace RogueWave
 
         IEnumerator InvokeMethodCoroutine<T>(System.Action<T> method, T parameter, float delaySeconds)
         {
-            Debug.Log($"Delaying explosion effect by {delaySeconds} seconds.");
             yield return new WaitForSeconds(delaySeconds);
             method(parameter);
         }
 
         IEnumerator InvokeMethodCoroutine<T1, T2>(System.Action<T1, T2> method, T1 parameter1, T2 parameter2, float delaySeconds)
         {
-            Debug.Log($"Delaying impact by {delaySeconds} seconds.");
             yield return new WaitForSeconds(delaySeconds);
             method(parameter1, parameter2);
         }
