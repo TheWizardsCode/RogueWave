@@ -47,9 +47,8 @@ namespace WizardsCode.RogueWave
         {
             foreach (Achievement.Category category in Enum.GetValues(typeof(Achievement.Category)))
             {
-                List<Achievement> achievements = Achievement.AllInCategory(category);
+                List<Achievement> achievements = GameStatsManager.Instance.AllAchievementsInCategory(category);
                 if (achievements.Count == 0) continue;
-
 
                 AchievementCategoryController categoryElement = Instantiate(m_AchievementCategoryPrototype, m_AchievementCategoryContainer);
                 categoryElement.Category = category;

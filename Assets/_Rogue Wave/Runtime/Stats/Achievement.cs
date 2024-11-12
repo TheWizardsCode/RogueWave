@@ -341,27 +341,6 @@ namespace RogueWave.GameStats
             message = string.Empty;
             return true;
         }
-#endif
-
-        /// <summary>
-        /// Get all the achievements in a given category.
-        /// </summary>
-        /// <param name="category"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        internal static List<Achievement> AllInCategory(Category category)
-        {
-            List<Achievement> achievements = new List<Achievement>();
-            Achievement[] allAchievements = Resources.LoadAll<Achievement>("");
-            foreach (Achievement achievement in allAchievements)
-            {
-                if (achievement.category == category)
-                {
-                    achievements.Add(achievement);
-                }
-            }
-
-            return achievements;
-        }
+#endif  
     }
 }

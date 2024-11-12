@@ -30,7 +30,7 @@ namespace WizardsCode.RogueWave
                 {
                     m_Category = value;
                     Title = m_Category.ToString();
-                    m_achievements = Achievement.AllInCategory(m_Category);
+                    m_achievements = GameStatsManager.Instance.AllAchievementsInCategory(m_Category);
 
                     foreach (Achievement achievement in m_achievements)
                     {

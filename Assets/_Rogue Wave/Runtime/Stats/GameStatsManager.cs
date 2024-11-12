@@ -20,7 +20,7 @@ using System.Collections;
 using UnityEngine.Serialization;
 using System.Linq;
 using Lumpn.Discord.Utils;
-using UnityEngine.SocialPlatforms.Impl;
+using static RogueWave.GameStats.Achievement;
 
 namespace RogueWave.GameStats
 {
@@ -98,6 +98,8 @@ namespace RogueWave.GameStats
 
         public Achievement[] Achievements => m_Achievements;
 
+        Dictionary<Category, List<Achievement>> m_CategorizedAchievements = new Dictionary<Category, List<Achievement>>();
+
 #if DISCORD_ENABLED
         WebhookData activeWebhook
         {
@@ -142,11 +144,78 @@ namespace RogueWave.GameStats
             m_Instance = this;
             m_IntGameStats = Resources.LoadAll<IntGameStat>("");
             m_StringGameStats = Resources.LoadAll<StringGameStat>("");
-            m_Achievements = Resources.LoadAll<Achievement>("");
+            BuildAchievementCache();
 
 #if DEVELOPMENT_BUILD
             Application.logMessageReceived += HandleLog;
 #endif
+        }
+
+        private void BuildAchievementCache()
+        {
+            m_Achievements = Resources.LoadAll<Achievement>("");
+            Array.Sort(m_Achievements, (x, y) =>
+            {
+#if DEMO
+                if (x.isDemoLocked && !y.isDemoLocked)
+                {
+                    return 1;
+                }
+                if (!x.isDemoLocked && y.isDemoLocked)
+                {
+                    return -1;
+                }
+#endif
+
+                int categoryComparison = x.category.CompareTo(y.category);
+                if (categoryComparison != 0)
+                {
+                    return categoryComparison;
+                }
+
+                int statComparison = 0;
+                if (x.stat != null && y.stat != null)
+                {
+                    statComparison = x.stat.CompareTo(y.stat);
+                }
+                else if (x.stat == null && y.stat != null)
+                {
+                    statComparison = -1;
+                }
+                else if (x.stat != null && y.stat == null)
+                {
+                    statComparison = 1;
+                }
+
+                if (statComparison != 0)
+                {
+                    return statComparison;
+                }
+
+                int targetValueComparison = x.targetValue.CompareTo(y.targetValue);
+                if (targetValueComparison != 0)
+                {
+                    return targetValueComparison;
+                }
+
+                return x.displayName.CompareTo(y.displayName);
+            });
+
+            m_NotDemoLocked = Achievements.Where(a => !a.isDemoLocked && a.Validate(out string _)).ToArray();
+            m_DemoLocked = Achievements.Where(a => a.isDemoLocked && a.Validate(out string _)).ToArray();
+
+            foreach (Category category in Enum.GetValues(typeof(Category)))
+            {
+                List<Achievement> achievements = new List<Achievement>();
+                foreach (Achievement achievement in Achievements)
+                {
+                    if (achievement.category == category)
+                    {
+                        achievements.Add(achievement);
+                    }
+                }
+                m_CategorizedAchievements.Add(category, achievements);
+            }
         }
 
         private void OnDisable()
@@ -465,6 +534,17 @@ namespace RogueWave.GameStats
             }
         }
 
+        /// <summary>
+        /// Get all the achievements in a given category.
+        /// </summary>
+        /// <param name="category"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        internal List<Achievement> AllAchievementsInCategory(Category category)
+        {
+            return m_CategorizedAchievements.GetValueOrDefault(category);
+        }
+
         #region EDITOR_ONLY
 #if UNITY_EDITOR
         [HorizontalLine(color: EColor.Blue)]
@@ -504,6 +584,22 @@ namespace RogueWave.GameStats
 #endif
             }
         }
+
+        private Achievement[] m_NotDemoLocked;
+        /// <summary>
+        /// Get a sorted list of all the achievements that are not demo locked
+        /// </summary>
+        /// <seealso cref="Achievements"/>
+        /// <seealso cref="DemoLockedAchievements"/>
+        public Achievement[] NotDemoLockedAchievements => m_NotDemoLocked;
+
+        private Achievement[] m_DemoLocked;
+        /// <summary>
+        /// Get a sorted list of all the achievements that are demo locked
+        /// </summary>
+        /// <seealso cref="Achievements"/>
+        /// <seealso cref="NotDemoLockedAchievements"/>
+        public Achievement[] DemoLockedAchievements => m_DemoLocked;
 
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
         private void ResetSteamStats()
