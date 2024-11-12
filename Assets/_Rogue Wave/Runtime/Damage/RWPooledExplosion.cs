@@ -74,6 +74,34 @@ namespace RogueWave
             base.Explode(maxDamage, maxForce, this, ignoreRoot);
         }
 
+        protected override void ApplyExplosionDamageEffect(DamageHandlerInfo info)
+        {
+            CoroutineHelper.Instance.InvokeMethodWithDelay(ApplyExplosionDamageEffectDelayed, info, info.falloff / 3);
+        }
+
+        void ApplyExplosionDamageEffectDelayed(DamageHandlerInfo info)
+        {
+            float damage = maxDamage * info.falloff * info.damageShare;
+            if (info.damageHandler != null && info.damageHandler.enabled)
+                info.damageHandler.AddDamage(damage, this);
+        }
+
+        protected override void ApplyExplosionForceEffect(ImpactHandlerInfo info, Vector3 center)
+        {
+            CoroutineHelper.Instance.InvokeMethodWithDelay(ApplyExplosionForceEffectDelayed, info, center, info.falloff / 3);
+        }
+
+        protected void ApplyExplosionForceEffectDelayed(ImpactHandlerInfo info, Vector3 explosionCenter) {
+            if (info.impactHandler != null)
+                info.impactHandler.HandlePointImpact(info.collider.bounds.center, info.direction * (info.falloff * maxForce));
+            else
+            {
+                var rigidbody = info.collider.attachedRigidbody;
+                if (rigidbody != null)
+                    rigidbody.AddExplosionForce(maxForce, explosionCenter, radius, 0.25f, ForceMode.Impulse);
+            }
+        }
+
         protected override void CheckCollider(Collider c, Vector3 explosionCenter)
         {
             IHealthManager healthManager = c.GetComponentInParent<IHealthManager>();
