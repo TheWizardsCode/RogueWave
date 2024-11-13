@@ -705,18 +705,15 @@ namespace RogueWave
         /// <returns></returns>
         private bool TryAmmoRecipes(float minimumAmmoAmount)
         {
-            AmmoRecipe chosenRecipe = null;
-            float chosenAmount = 0;
-
             SharedPoolAmmo ammoPoolUnderTest = inventory.selected.GetComponent<SharedPoolAmmo>();
 
             // First check the ammo for the currently selected weapon
-            if (inventory.selected == null)
+            if (inventory.selected != null)
             {
                 for (int i = 0; i < ammoRecipes.Count; i++)
                 {
                     if (ammoRecipes[i].ammo.itemIdentifier == ammoPoolUnderTest.ammoType.itemIdentifier
-                        && ammoPoolUnderTest.currentAmmo >= ammoRecipes[i].ammo.maxQuantity * minimumAmmoAmount)
+                        && ammoPoolUnderTest.currentAmmo <= ammoRecipes[i].ammo.maxQuantity * minimumAmmoAmount)
                     {
                         if (m_Resources.value >= ammoRecipes[i].BuildCost && ammoRecipes[i].ShouldBuild)
                         {
