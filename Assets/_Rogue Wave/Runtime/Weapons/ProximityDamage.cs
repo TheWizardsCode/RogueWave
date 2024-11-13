@@ -1,4 +1,5 @@
 using NeoFPS;
+using PlasticGui.WorkspaceWindow;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,8 @@ namespace RogueWave
         private DamageType damageType = DamageType.Default;
         [SerializeField, Tooltip("The total damage to apply per second.")]
         private float damagePerSecond = 10f;
+        [SerializeField, Tooltip("The maximum amount of damage to apply. Once this is reached the enemy can no longer consume energy from the target. They will return to their spawn point. If this is set to 0 then there is no limit on the damage done.")]
+        private float maxDamage = 10f;
         [SerializeField, Tooltip("A description of the damage to use in logs, etc.")]
         private string damageDescription = "Proximity";
 
@@ -23,12 +26,15 @@ namespace RogueWave
         ParticleSystem contactEffect;
 
         private DamageFilter _outDamageFilter = DamageFilter.AllDamageAllTeams;
+        BasicEnemyController owner;
 
         private Dictionary<int, IDamageHandler> damageHandlers = new Dictionary<int, IDamageHandler>();
+        private float inflictedDamageSinceRecharge;
 
         protected void Awake()
         {
             _outDamageFilter = new DamageFilter(damageType, DamageTeamFilter.All);
+            owner = GetComponentInParent<BasicEnemyController>();
         }
 
         protected void OnTriggerEnter(Collider other)
@@ -46,11 +52,23 @@ namespace RogueWave
         }
 
         protected void OnTriggerStay(Collider other)
-        {
+        {   
             IDamageHandler handler;
             if (damageHandlers.TryGetValue(other.gameObject.GetInstanceID(), out handler))
             {
-                handler.AddDamage(damagePerSecond * Time.deltaTime, this);
+                float damage = damagePerSecond * Time.deltaTime;
+
+                handler.AddDamage(damage, this);
+
+                if (maxDamage > 0)
+                {
+                    inflictedDamageSinceRecharge += damage;
+                    if (inflictedDamageSinceRecharge >= maxDamage)
+                    {
+                        inflictedDamageSinceRecharge = 0;
+                        owner.IsRecharging = true;
+                    }
+                }
             }
         }
 

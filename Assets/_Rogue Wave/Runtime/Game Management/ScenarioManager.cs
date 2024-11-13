@@ -1,7 +1,9 @@
 using NaughtyAttributes;
+using NeoFPS.SinglePlayer;
 using NeoSaveGames;
 using RogueWave;
 using UnityEngine;
+using WizardsCode.CommandTerminal;
 
 namespace WizardsCode.RogueWave
 {
@@ -16,7 +18,7 @@ namespace WizardsCode.RogueWave
 
         [SerializeField, Tooltip("The dummy campaign to use when loading a scenario into the game mode."), ReadOnly]
         CampaignDefinition m_Campaign;
-        [SerializeField, Tooltip("The scenario to load.")]
+        [SerializeField, Tooltip("The scenario to load."), Expandable]
         ScenarioDescriptor m_Scenario;
 
         float m_CountdownDelay = 5;
@@ -42,14 +44,25 @@ namespace WizardsCode.RogueWave
                 // log countdown every second
                 if (m_CountdownDelay > 0 && m_CountdownDelay % 1 < Time.deltaTime)
                 {
-                    Debug.Log("Starting in " + m_CountdownDelay + " seconds");
+                    Debug.Log("Starting scenario in " + (int)m_CountdownDelay + " seconds");
                 }
             }
 
-            m_Started = true;
             GetComponent<RogueWaveGameMode>().GenerateLevel();
 
-            Destroy(this, 10);
+            if (FpsSoloCharacter.localPlayerCharacter == null)
+            {
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(m_Scenario.TerminalScript))
+            {
+                TerminalCommands.RunScript(m_Scenario.TerminalScript);
+            }
+
+            m_Started = true;
+
+            Destroy(this, 20);
         }
     }
 }

@@ -1,0 +1,46 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
+  m_Name: Sparse 25 x 25 Lots - 4 x 4 - No Waves
+  m_EditorClassIdentifier: 
+  seed: 0
+  lotSize: {x: 25, y: 25}
+  mapSize: {x: 4, y: 4}
+  encloseLevel: 0
+  defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
+  wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  waves: []
+  waveWait: 5
+  generateNewWaves: 0
+  maxAlive: 200
+  generateLevelOnSpawn: 1
+  prePlacedTiles:
+  - {fileID: 11400000, guid: 55e7d1abd699dbb42aa88e342b42df88, type: 2}
+  - {fileID: 11400000, guid: e9040a76b7ac1b04ebf6f1103f976dbc, type: 2}
+  levelReadyAudioClips: []
+  levelCompleteAudioClips: []
+  deathAudioClips: []
+  levelWaveGenerationConfiguration:
+    flow:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    levelNumber: 1
+    MapSize: {x: 10, y: 10}
+    numberOfWaves: 5
+    startingChallengeRating: 500
+    peakChallengeRating: 1000
+    prePlacedTiles: []
+    enemies: []
+    earliestWavePercentage: []

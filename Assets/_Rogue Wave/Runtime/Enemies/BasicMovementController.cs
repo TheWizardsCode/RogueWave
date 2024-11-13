@@ -172,6 +172,8 @@ namespace RogueWave
             this.destination = destination;
             this.currentSpeedMultiplier = speedMultiplier;
             this.currentSquadLeader = squadLeader;
+
+            currentSqrDistanceToGoal = Vector3.SqrMagnitude(destination - transform.position);
         }
 
         internal virtual void MoveTowards(float speedMultiplier, BasicEnemyController squadLeader)

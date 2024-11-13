@@ -270,9 +270,36 @@ namespace RogueWave
             }
         }
 
+        bool m_IsRecharging = false;
+        /// <summary>
+        /// When an enemy is recharching it will return to its spawn point. Once it reaches the spawn point it will stop recharging and resume normal behaviour.
+        /// </summary>
+        internal bool IsRecharging { 
+            get {  return m_IsRecharging; }
+            set {                 
+                if (value != m_IsRecharging)
+                {
+                    m_IsRecharging = value;
+                    if (m_IsRecharging)
+                    {
+                        goalDestination = spawnPosition;
+                        movementController.SetMovementGoals(goalDestination, 1, squadLeader);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Tests to see if the enemy is ready to update their destination.
+        /// They will only do this if they are not rechargeing and the time is right.
+        /// </summary>
         internal bool shouldUpdateDestination
         {
             get {
+                if (IsRecharging)
+                {
+                    return false;
+                }
                 return Time.timeSinceLevelLoad > timeOfNextDestinationChange;
             }
         }
@@ -281,6 +308,11 @@ namespace RogueWave
         {
             get
             {
+                if (IsRecharging)
+                {
+                    return false;
+                }
+
                 if (requireLineOfSight)
                 {
                     return CanSeeTarget;
@@ -402,7 +434,6 @@ namespace RogueWave
         private bool underOrders;
         internal BasicHealthManager healthManager;
         private PooledObject pooledObject;
-        private bool isRecharging;
         // TODO: Are both fromPool and isPooled needed?
         private bool fromPool;
         private bool isPooled = false;
@@ -530,7 +561,7 @@ namespace RogueWave
         {
             if (movementController != null)
             {
-                UpdateMovement();
+                UpdateMovementObjective();
             }
 
             if (Time.time > timeOfNextTargetDistanceCheck && Target)
@@ -566,8 +597,20 @@ namespace RogueWave
             timeOfNextBark = Time.timeSinceLevelLoad + Random.Range(barkFrequency.x, barkFrequency.y);
         }
 
-        private void UpdateMovement()
+        private void UpdateMovementObjective()
         {
+            if (IsRecharging)
+            {
+                if (movementController.hasArrived)
+                {
+                    IsRecharging = false;
+                }
+                else
+                {
+                    return;
+                }
+            }
+
             bool isTimeToUpdateDestination = shouldUpdateDestination;
 
             if (Target == null)
@@ -580,14 +623,14 @@ namespace RogueWave
                 return;
             }
 
-            if (isTimeToUpdateDestination || SquadCanSeeTarget || movementController.hasArrived)
-            {
-                UpdateDestination();
-            }
-
             if (underOrders && movementController.hasArrived)
             {
                 underOrders = false;
+            }
+
+            if (isTimeToUpdateDestination || SquadCanSeeTarget || movementController.hasArrived)
+            {
+                UpdateDestination();
             }
 
             if (underOrders)
@@ -602,23 +645,18 @@ namespace RogueWave
 
         private void UpdateDestination()
         {
-            float sqrDistance = Vector3.SqrMagnitude(goalDestination - Target.position);
-
             if (shouldAttack)
             {
                 goalDestination = GetDestination(Target.position);
             }
             else if (!underOrders)
             {
-                // if line of sight is not required then update the destination at the appropriate time
+                float sqrDistance = Vector3.SqrMagnitude(goalDestination - Target.position);
+
+                // if line of sight is not required then update the destination
                 if (!requireLineOfSight)
                 {
                     goalDestination = GetDestination(Target.position);
-                }
-                // else if the enemy is recharging and time is up then stop recharging
-                else if (isRecharging)
-                {
-                    isRecharging = false;
                 }
                 // else current destination is < the seek distance (how far the enemy is willing to move from its "base") then we need a new destination
                 else if (sqrDistance < sqrSeekDistance)
@@ -636,11 +674,11 @@ namespace RogueWave
                 // time for a wander
                 else
                 {
-                    if (Vector3.SqrMagnitude(goalDestination - Target.position) > sqrSeekDistance)
+                    if (sqrDistance > sqrSeekDistance)
                     {
                         if (returnToSpawner)
                         {
-                            isRecharging = true;
+                            IsRecharging = true;
                             goalDestination = spawnPosition;
                         }
                         else
@@ -700,7 +738,7 @@ namespace RogueWave
             Vector3 wanderDestination = Vector3.positiveInfinity;
             if (Time.timeSinceLevelLoad > timeOfNextDestinationChange)
             {
-                isRecharging = false;
+                IsRecharging = false;
                 timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
 
                 int tries = 0;
