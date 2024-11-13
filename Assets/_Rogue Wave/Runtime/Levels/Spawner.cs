@@ -81,7 +81,18 @@ namespace RogueWave
         private WfcDefinition currentLevel;
         private int currentWaveIndex = -1;
         internal WaveDefinition currentWave;
-        internal WaveDefinition lastWave => currentLevel.waves[currentLevel.waves.Length - 1];
+        internal WaveDefinition lastWave
+        {
+            get
+            {
+                if (currentLevel == null || currentLevel.waves.Length == 0)
+                {
+                    return null;
+                }
+
+                return currentLevel.waves[currentLevel.waves.Length - 1];
+            }
+        }
 
         private int livingShieldGenerators = 0;
         private float activeRangeSqr;
@@ -321,7 +332,7 @@ namespace RogueWave
         /// <returns>The enemy spawned, null if current maxAlive is hit and we are not ignoring maxalive, or if an enemy cannot be spawned for some other reason.</returns>
         internal BasicEnemyController SpawnEnemy(bool maxAliveOverride = false)
         {
-            if (spawningEnabled == false)
+            if (spawningEnabled == false || currentLevel == null)
             {
                 return null;
             }

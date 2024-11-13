@@ -2528,8 +2528,8 @@ MonoBehaviour:
   m_BodyTransformHandler: {fileID: 4053917508628190249}
   m_DamageAudioThreshold: 0.05
   m_ApplyFallDamage: 1
-  m_LandingMinForce: 10
-  m_LandingFullForce: 40
+  m_LandingMinForce: 20
+  m_LandingFullForce: 80
   m_BodyImpactDamage: 1
   m_BodyMinForce: 25
   m_BodyFullForce: 100
@@ -2807,7 +2807,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  timeBetweenRecipeOffers: 20
   pickupSpawnDistance: 2
   voiceDescription: 3
   recipeRequestPrefix:

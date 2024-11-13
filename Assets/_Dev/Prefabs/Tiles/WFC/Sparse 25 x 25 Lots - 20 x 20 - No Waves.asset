@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Sparse 25 x 25 Lots - 4 x 4 - No Waves
+  m_Name: Sparse 25 x 25 Lots - 20 x 20 - No Waves
   m_EditorClassIdentifier: 
   seed: 0
   lotSize: {x: 25, y: 25}
-  mapSize: {x: 4, y: 4}
-  encloseLevel: 0
+  mapSize: {x: 20, y: 20}
+  encloseLevel: 1
   defaultTileDefinition: {fileID: 11400000, guid: 244a18d649d4f494498689d213467fe8, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
   waves: []
@@ -24,7 +24,7 @@ MonoBehaviour:
   maxAlive: 200
   generateLevelOnSpawn: 1
   prePlacedTiles:
-  - {fileID: 11400000, guid: 683c4a736f70c9a41bb9242f2132c3cc, type: 2}
+  - {fileID: 11400000, guid: 61668e039e7afa94c9f74eab2bfadfc6, type: 2}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
   deathAudioClips: []
