@@ -61,6 +61,11 @@ namespace RogueWave
             }
         }
 
+        protected override bool raycastCheck
+        {
+            get { return false; }
+        }
+
         public override void Explode(float maxDamage, float maxForce, IDamageSource source = null, Transform ignoreRoot = null)
         {
             _onExplosion?.Raise();

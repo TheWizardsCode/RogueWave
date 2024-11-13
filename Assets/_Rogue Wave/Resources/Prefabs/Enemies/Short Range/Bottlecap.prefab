@@ -109,7 +109,7 @@ MonoBehaviour:
   headLook: 0
   head: {fileID: 0}
   maxHeadRotation: 75
-  returnToSpawner: 0
+  returnToSpawner: 1
   seekDistance: 75
   optimalDistanceFromPlayer: 0.2
   destinationUpdateFrequency: 8
@@ -123,8 +123,8 @@ MonoBehaviour:
   squadRole: 1
   causeDamageOnDeath: 1
   deathExplosionRadius: 5
-  explosionDamageOnDeath: 20
-  explosionForceOnDeath: 15
+  explosionDamageOnDeath: 40
+  explosionForceOnDeath: 20
   maxAudioDistance: 30
   awarenessAudioType: 2
   barkClips: []
