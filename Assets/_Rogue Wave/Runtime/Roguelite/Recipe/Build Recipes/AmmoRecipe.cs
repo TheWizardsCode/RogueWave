@@ -10,7 +10,7 @@ namespace RogueWave
     public class AmmoRecipe : GenericItemRecipe<Pickup>
     {
         [SerializeField, Tooltip("The ammo type this recipe creates.")]
-        private SharedAmmoType ammo;
+        internal SharedAmmoType ammo;
 
         public override string Category => "Ammunition";
 
@@ -51,34 +51,6 @@ namespace RogueWave
                     return 1;
                 }
                 return ((pickup as InventoryItemPickup).GetItemPrefab() as FpsInventoryAmmo).quantity / ((float)ammo.maxQuantity - sharedPoolAmmo.currentAmmo);
-            }
-        }
-
-        /// <summary>
-        /// Test if the player has a given amount of ammo, expressed as a percentage of the maximum.
-        /// </summary>
-        /// <param name="requiredAmmoAmount">A value between 0 and 1 which is a % of the maxQuantity of ammo the player can hold.</param>
-        /// <returns></returns>
-        public bool HasAmount(float requiredAmmoAmount)
-        {
-            if (inventory.selected == null)
-            {
-                return false;
-            }
-
-            SharedPoolAmmo sharedPoolAmmo = inventory.selected.GetComponent<SharedPoolAmmo>();
-            if (sharedPoolAmmo == null)
-            {
-                return false;
-            }
-
-            if (sharedPoolAmmo.ammoType.itemIdentifier == ammo.itemIdentifier)
-            {
-                return sharedPoolAmmo.currentAmmo >= ammo.maxQuantity * requiredAmmoAmount;
-            }
-            else
-            {
-                return true;
             }
         }
     }

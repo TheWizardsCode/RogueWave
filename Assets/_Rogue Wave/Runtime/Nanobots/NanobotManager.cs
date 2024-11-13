@@ -287,7 +287,7 @@ namespace RogueWave
                 return;
             }
 
-            // Prioritize building ammo if the player is low on ammo
+            // Prioritize building ammo if the player is low
             if (TryAmmoRecipes(0.2f))
             {
                 return;
@@ -298,6 +298,12 @@ namespace RogueWave
             {
                 return;
             }
+
+            // If any weapon has zero ammo then build ammo for it
+            //if (TryAllAmmoRecipes())
+            //{
+            //    return;
+            //}
 
             // Prioritize building shield if the player does not have a shield or is low on shield
             if (TryShieldRecipes(0.4f))
@@ -701,35 +707,72 @@ namespace RogueWave
         {
             AmmoRecipe chosenRecipe = null;
             float chosenAmount = 0;
-            for (int i = 0; i < ammoRecipes.Count; i++)
-            {
-                if (ammoRecipes[i].HasAmount(minimumAmmoAmount))
-                {
-                    continue;
-                }
 
-                if (m_Resources.value >= ammoRecipes[i].BuildCost && ammoRecipes[i].ShouldBuild)
+            SharedPoolAmmo ammoPoolUnderTest = inventory.selected.GetComponent<SharedPoolAmmo>();
+
+            // First check the ammo for the currently selected weapon
+            if (inventory.selected == null)
+            {
+                for (int i = 0; i < ammoRecipes.Count; i++)
                 {
-                    float ammoAmount = Mathf.Min(1, ammoRecipes[i].ammoAmountPerCent);
-                    if (ammoAmount > chosenAmount)
+                    if (ammoRecipes[i].ammo.itemIdentifier == ammoPoolUnderTest.ammoType.itemIdentifier
+                        && ammoPoolUnderTest.currentAmmo >= ammoRecipes[i].ammo.maxQuantity * minimumAmmoAmount)
                     {
-                        chosenRecipe = ammoRecipes[i];
-                        chosenAmount = ammoAmount;
-                    } else if (ammoAmount == chosenAmount && (chosenRecipe == null || (chosenRecipe != null && chosenRecipe.BuildCost > ammoRecipes[i].BuyCost)))
-                    {
-                        chosenRecipe = ammoRecipes[i];
-                        chosenAmount = ammoAmount;
+                        if (m_Resources.value >= ammoRecipes[i].BuildCost && ammoRecipes[i].ShouldBuild)
+                        {
+                            return TryRecipe(ammoRecipes[i]);
+                        }
                     }
                 }
             }
 
-            if (chosenRecipe != null)
+            // if we have enough ammo for the currently selected weapon then check ammo for all other weapons in the inventory
+            for (int i = 0; i < inventory.numSlots; i++)
             {
-                return TryRecipe(chosenRecipe);
+                if (inventory.GetSlotItem(i) != inventory.selected
+                    && inventory.GetSlotItem(i) is FpsInventoryWieldableSwappable wieldable)
+                {
+                    ammoPoolUnderTest = wieldable.GetComponent<SharedPoolAmmo>();
+                    
+                    if (ammoPoolUnderTest != null && ammoPoolUnderTest.currentAmmo == 0)
+                    {
+                        for (int j = 0; j < ammoRecipes.Count; j++)
+                        {
+                            if (ammoRecipes[j].ammo.itemIdentifier == ammoPoolUnderTest.ammoType.itemIdentifier)
+                            {
+                                if (m_Resources.value >= ammoRecipes[j].BuildCost && ammoRecipes[j].ShouldBuild)
+                                {
+                                    return TryRecipe(ammoRecipes[j]);
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             return false;
         }
+
+        /// <summary>
+        /// If ammo for any weapon in the inventory is zero then try build more.
+        /// </summary>
+        /// <returns></returns>
+        //private bool TryAllAmmoRecipes()
+        //{
+        //    // iterate over all the ammo recipes and try to build any that are needed
+        //    for (int i = 0; i < ammoRecipes.Count; i++)
+        //    {
+        //        if (ammoRecipes[i].ShouldBuild)
+        //        {
+        //            if (ammoRecipes[i].HasAmount(0))
+        //            {
+        //                continue;
+        //            }
+
+        //        }
+        //    }
+            
+        //}
 
         private bool TryRecipe(IRecipe recipe)
         {
