@@ -1886,11 +1886,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_StartActive: 1
   m_ActivationMode: 0
-  m_MagazineSize: 1
-  m_StartingMagazine: 1
+  m_MagazineSize: 2
+  m_StartingMagazine: 2
   m_ReloadDelayType: 1
-  m_ReloadDuration: 3
-  m_BlockingDuration: 3
+  m_ReloadDuration: 3.5
+  m_BlockingDuration: 3.5
   m_ReloadAnimTrigger: Reload
   m_ReloadAudio: {fileID: 8300000, guid: f27eb9d34c0c0cb40a78c9e19d940ff2, type: 3}
   m_Volume: 1
@@ -2327,7 +2327,7 @@ MonoBehaviour:
   m_OnDeselect:
     m_PersistentCalls:
       m_Calls: []
-  m_DropObject: {fileID: 4318029971744144400, guid: 06350c6ac0c9c164da890b998ded814c, type: 3}
+  m_DropObject: {fileID: 0}
   m_Category:
     m_Value: 0
 --- !u!114 &114703956772107806
