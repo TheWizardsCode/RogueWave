@@ -73,8 +73,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb4f6b079a31f949b8a10f7e86b427e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 30
-  m_HealthMax: 30
+  m_Health: 100
+  m_HealthMax: 100
   m_CanDamageSelf: 1
   m_OnHealthChanged:
     m_PersistentCalls:
@@ -414,11 +414,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
       propertyPath: range
-      value: 30
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
       propertyPath: damage
-      value: 75
+      value: 150
       objectReference: {fileID: 0}
     - target: {fileID: 3745816065710939083, guid: a61d3ffa2d2eb204c952c1bb5e498f44, type: 3}
       propertyPath: m_Cooldown
