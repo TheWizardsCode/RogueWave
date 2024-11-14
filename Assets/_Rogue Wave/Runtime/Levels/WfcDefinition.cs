@@ -31,6 +31,8 @@ namespace RogueWave
         internal TileDefinition defaultTileDefinition;
         [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles."), ShowIf("encloseLevel"), Expandable]
         internal TileDefinition wallTileDefinition;
+        [SerializeField, Tooltip("A set of tiles that are not allowed to appear in this level.")]
+        internal TileDefinition[] forbiddenTiles = new TileDefinition[0];
 
         [Header("Enemies")]
         [SerializeField, Tooltip("The waves of enemies to spawn in this level."), Expandable]

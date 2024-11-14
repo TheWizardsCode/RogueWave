@@ -30,7 +30,7 @@ namespace RogueWave
         [Header("Rewards")]
         [SerializeField, Tooltip("The chance of dropping a reward when killed.")]
         internal float resourcesDropChance = 0.5f;
-        [SerializeField, Tooltip("The collection of pickup recipes from which the discovered item will be chosen. If none are valid for this player then the resources prefab will be used.")]
+        [SerializeField, Tooltip("A collection of pickup recipes from which a random item will be chosen if loot is to be dropped. Something useful for the player will always be dropped, i.e. stackable or unowned items.")]
         internal List<AbstractRecipe> possibleDrops = null;
         [SerializeField, Tooltip("Should the material on the resources dropped match the material on the object being destroyed?")]
         internal bool inheritMaterial = true;

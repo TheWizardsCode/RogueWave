@@ -48,6 +48,8 @@ namespace WizardsCode.RogueWave
                 }
             }
 
+            m_Started = true;
+
             GetComponent<RogueWaveGameMode>().GenerateLevel();
 
             if (FpsSoloCharacter.localPlayerCharacter == null)
@@ -59,8 +61,6 @@ namespace WizardsCode.RogueWave
             {
                 TerminalCommands.RunScript(m_Scenario.TerminalScript);
             }
-
-            m_Started = true;
 
             Destroy(this, 20);
         }

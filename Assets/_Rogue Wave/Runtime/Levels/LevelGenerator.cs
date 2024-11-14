@@ -378,23 +378,13 @@ namespace RogueWave
 
                         // Debug.Log($"Tile at ({x}, {y}) has {candidates.Count} possible candidates.");
 
-
-                        // TODO convert this to an exlude list rather than include list
-                        //foreach (AvailableTile candidate in levelDefinition.availableTiles)
-                        //{
-                        //    if (IsValidTileFor(x, y, candidate.tile))
-                        //    {
-                        //        candidates.Add(candidate.InstantiateTile());
-
-                        //        if (candidates.Count > lowestEntropy)
-                        //        {
-                        //            break;
-                        //        }
-                        //    } else
-                        //    {
-                        //          Debug.Log($"Available Tile {candidate.tile.name} is not valid for ({x}, {y})");
-                        //    }
-                        //}
+                        foreach (TileDefinition forbiddenTile in levelDefinition.forbiddenTiles)
+                        {
+                            if (candidates.Contains(forbiddenTile))
+                            {
+                                candidates.Remove(forbiddenTile);
+                            }
+                        }
 
                         candidatesForTilesYetToCollapse[x, y] = candidates.ToList<TileDefinition>();
                         uncollapsedTiles++;
