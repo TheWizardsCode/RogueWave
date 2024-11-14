@@ -1,6 +1,5 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
-using NeoSaveGames;
 using RogueWave;
 using UnityEngine;
 using WizardsCode.CommandTerminal;
@@ -21,8 +20,7 @@ namespace WizardsCode.RogueWave
         [SerializeField, Tooltip("The scenario to load."), Expandable]
         ScenarioDescriptor m_Scenario;
 
-        float m_CountdownDelay = 5;
-        bool m_Started = false;
+        bool m_IsInitialized = false;
 
         private void Awake()
         {
@@ -34,23 +32,17 @@ namespace WizardsCode.RogueWave
             GetComponent<RogueWaveGameMode>().StartingRunRecipes = m_Scenario.Recipes;
         }
 
+        private void Start()
+        {
+            GetComponent<RogueWaveGameMode>().GenerateLevel();
+        }
+
         private void Update()
         {
-            if (m_Started) return;
-
-            while (m_CountdownDelay > 0)
+            if (m_IsInitialized)
             {
-                m_CountdownDelay -= Time.deltaTime;
-                // log countdown every second
-                if (m_CountdownDelay > 0 && m_CountdownDelay % 1 < Time.deltaTime)
-                {
-                    Debug.Log("Starting scenario in " + (int)m_CountdownDelay + " seconds");
-                }
+                return;
             }
-
-            m_Started = true;
-
-            GetComponent<RogueWaveGameMode>().GenerateLevel();
 
             if (FpsSoloCharacter.localPlayerCharacter == null)
             {
@@ -63,6 +55,8 @@ namespace WizardsCode.RogueWave
             }
 
             Destroy(this, 20);
+
+            m_IsInitialized = true;
         }
     }
 }

@@ -88,7 +88,9 @@ namespace RogueWave
         {
             float damage = maxDamage * info.falloff * info.damageShare;
             if (info.damageHandler != null && info.damageHandler.enabled)
+            {
                 info.damageHandler.AddDamage(damage, this);
+            }
         }
 
         protected override void ApplyExplosionForceEffect(ImpactHandlerInfo info, Vector3 center)
