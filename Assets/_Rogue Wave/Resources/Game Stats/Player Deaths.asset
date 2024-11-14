@@ -10,15 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e31ac7dbe2b44245b7a3db430cb72da, type: 3}
-  m_Name: Deaths
+  m_Name: Player Deaths
   m_EditorClassIdentifier: 
   m_Key: DEATH_COUNT
   m_displayName: Deaths
   m_description: 
   m_DefaultValue: 0
+  onChangeEvent: {fileID: 11400000, guid: c3935ecf683c74a49a62e3d040604d47, type: 2}
+  m_CurrentValue: 1
+  isTime: 0
   m_FormatString: 0000
-  onChangeEvent: {fileID: 0}
-  increasedAmount: {fileID: 0}
-  decreasedAmount: {fileID: 0}
   contributeToScore: 0
   m_ScoreMultiplier: 1
+  increasedAmount: {fileID: 0}
+  decreasedAmount: {fileID: 0}

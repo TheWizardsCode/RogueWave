@@ -1926,6 +1926,18 @@ PrefabInstance:
       propertyPath: extractionFx
       value: 
       objectReference: {fileID: 1051823329}
+    - target: {fileID: 7050872739850107185, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: playerDiedEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: d898f23fd09e164458efacd0c01beb00, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: playerEscapedEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 859d745b043854340a4de239e46093c6, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: playerExitedViaPortalEvent
+      value: 
+      objectReference: {fileID: 11400000, guid: 43a549dfb2a4e0d4481ade6be3be865d, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 1012723418001126764, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}

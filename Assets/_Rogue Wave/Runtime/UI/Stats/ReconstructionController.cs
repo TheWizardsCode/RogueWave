@@ -139,26 +139,7 @@ namespace RogueWave.GameStats
 
         public void ShowAchievementList()
         {
-            // REFACTOR: The element names should not be hard coded. Move the population logic to specialist controllers.
-
             m_AchievementsListContainer.gameObject.SetActive(true);
-            // for each category of achievement create a new category element
-            //foreach (Achievement.Category category in Enum.GetValues(typeof(Achievement.Category)))
-            //{
-            //    RectTransform categoryElement = Instantiate(m_AchievementCategoryPrototype, m_AchievementsListContainer);   
-            //    categoryElement.gameObject.SetActive(true);
-            //    categoryElement.Find("Title").GetComponent<Text>().text = category.ToString();
-
-            //    // for each achievement in the category create a new achievement element
-            //    foreach (Achievement achievement in GameStatsManager.Instance.Achievements.Where(a => a.category == category))
-            //    {
-            //        RectTransform achievementElement = Instantiate(m_AchievementPrototype, categoryElement);
-            //        achievementElement.gameObject.SetActive(true);
-            //        achievementElement.Find("Name").GetComponent<Text>().text = achievement.displayName;
-            //        achievementElement.Find("Description").GetComponent<Text>().text = achievement.description;
-            //        achievementElement.Find("Icon").GetComponent<Image>().sprite = achievement.icon;
-            //    }
-            //}
         }
 
         public void HideAcievementList()

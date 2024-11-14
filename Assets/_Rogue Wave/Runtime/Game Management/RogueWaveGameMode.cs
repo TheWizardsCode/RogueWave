@@ -64,7 +64,7 @@ namespace RogueWave
         private IntGameStat m_VictoryCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of portal exits in the game. A portal exist is when a player finds a portal and manages to exit through it.")]
         private IntGameStat m_PortalExitsCount;
-        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of deaths in the game.")]
+        [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The count of player deaths.")]
         private IntGameStat m_DeathCount;
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("The time player stat for recording how long a player has been inside runs.")]
         private IntGameStat m_TimePlayedStat;
