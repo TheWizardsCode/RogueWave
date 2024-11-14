@@ -15,7 +15,13 @@ MonoBehaviour:
   m_DisplayName: Gems Test
   m_Description: A small level with only Gems in it.
   m_LevelDefinition: {fileID: 11400000, guid: 482d9ae4a5a95a247948ec40823b0e66, type: 2}
-  m_TerminalCommands: SetMaxHealth 10000
+  m_TerminalCommands: 'KillPercentageEnemies 1
+
+    DisableSpawning
+
+
+    SetMaxHealth
+    10000'
   m_Recipes:
   - {fileID: 11400000, guid: f8b7d6fca4a35ba4c9343acd4bf3bcdd, type: 2}
   - {fileID: 11400000, guid: 45e79de6def403d4789a88693b860f74, type: 2}
