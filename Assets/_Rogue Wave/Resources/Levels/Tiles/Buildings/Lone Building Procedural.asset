@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
+  m_Name: Lone Building Procedural
+  m_EditorClassIdentifier: 
+  m_DisplayName: Building
+  m_Description: 
+  icon: {fileID: 0}
+  tilePrefab: {fileID: 4512869180751816955, guid: 0632310973690cd4b8d6f686f3ab92ef, type: 3}
+  isFlat: 1
+  tileHeight: 1
+  noiseCellSize: 0.5
+  noiseFrequency: 3
+  groundMaterial: {fileID: 2100000, guid: 9b788c94567942545872c6cee61b6dd2, type: 2}
+  enemySpawnChance: 0
+  constraints:
+    bottomLeftBoundary: {x: 0.4, y: 0, z: 0.4}
+    topRightBoundary: {x: 0.6, y: 1, z: 0.6}
+    weight: 0.837
+  xPositiveConstraints: []
+  xNegativeConstraints: []
+  zPositiveConstraints: []
+  zNegativeConstraints: []

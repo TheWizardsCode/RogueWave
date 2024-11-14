@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1502995325194625006}
   - component: {fileID: 3330521954649590052}
   m_Layer: 0
-  m_Name: Crystal Patch - Bushes  - Small
+  m_Name: Crystal Patch - Grass and Bushes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,9 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767695d7d426bc4419f3b6153be82a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  crystalPrefab:
-  - {fileID: 8833195273473885070, guid: 993f2174ac5d36d40866addc9e1f1612, type: 3}
-  yOffSet: {x: -0.25, y: 0}
-  scaleRange: {x: 0.75, y: 1.25}
-  numberOfCrystals: {x: 12, y: 26}
-  radius: 8
+  numberOfCrystals: {x: 19, y: 46}
+  crystalItemData:
+  - crystalPrefab: {fileID: 8833195273473885070, guid: 993f2174ac5d36d40866addc9e1f1612, type: 3}
+    yOffset: {x: -0.13934292, y: 0}
+    scaleRange: {x: 0.75, y: 1.25}
+    radius: 15
+    weight: 0.713
+  - crystalPrefab: {fileID: 8005421940692841325, guid: da384b574a5c859419d9ae3b0ec059ef, type: 3}
+    yOffset: {x: -0.2583519, y: 0}
+    scaleRange: {x: 0.75, y: 1.25}
+    radius: 8
+    weight: 0.5
