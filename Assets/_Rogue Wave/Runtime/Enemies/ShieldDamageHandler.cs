@@ -54,7 +54,7 @@ namespace WizardsCode.RogueWave
         public override DamageResult AddDamage(float damage, IDamageSource source)
         {
             Debug.LogWarning("ShieldDamageHandler.AddDamage(float damage) called but we are not playing hit FX from this method as we don't have a hit point.");
-            PassThroughDamage(damage);
+            PassThroughDamage(damage, source);
             GeneratorFeedbackFx();
             return DamageResult.Blocked;
         }
@@ -98,20 +98,29 @@ namespace WizardsCode.RogueWave
             }
         }
 
+        private void PassThroughDamage(float damage)
+        {
+            PassThroughDamage(damage, null);
+        }
+
         /// <summary>
         /// Pass hrough some of the damage to the shield generators. This is intended to make the shield generators a target
         /// </summary>
         /// <param name="damage">The amount of damage to the shield, this will be reduced and passed to a generator.</param>
-        private void PassThroughDamage(float damage)
+        private void PassThroughDamage(float damage, IDamageSource source)
         {
             float passThrough = Mathf.Max(1, damage * passThroughPercentage);
-            if (generatorDamageHandlers.Last())
-            {
-                generatorDamageHandlers.Last().AddDamage(passThrough);
-            }
-            else
+            // if the last generator is not active, remove it from the list
+            if (!generatorDamageHandlers.Last())
             {
                 generatorDamageHandlers.RemoveAt(generatorDamageHandlers.Count - 1);
+            }
+
+            if (source != null)
+            {
+                generatorDamageHandlers.Last().AddDamage(passThrough, source);
+            } else
+            {
                 generatorDamageHandlers.Last().AddDamage(passThrough);
             }
         }
