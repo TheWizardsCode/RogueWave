@@ -14,6 +14,8 @@ namespace RogueWave.GameStats
         TextMeshProUGUI achievementLabel;
         [SerializeField, Tooltip("The icon to display the achievement.")]
         Image achievementIcon;
+        [SerializeField, Tooltip("The progress bar for the achievement.")]
+        Slider achievementProgress;
         [SerializeField, Tooltip("The label to display the value of the stat.")]
         TextMeshProUGUI valueLabel;
         [SerializeField, Tooltip("The tooltip trigger for this element.")]
@@ -44,6 +46,10 @@ namespace RogueWave.GameStats
                 achievementLabel.transform.parent.gameObject.SetActive(true);
                 achievementLabel.text = $"{m_achievement.displayName} @ {m_achievement.targetValue}";
                 achievementIcon.sprite = m_achievement.icon;
+
+                achievementProgress.value = 0;
+                achievementProgress.maxValue = m_achievement.targetValue;
+                achievementProgress.value = m_achievement.stat.value;
 
                 SetTooltipText();
             }

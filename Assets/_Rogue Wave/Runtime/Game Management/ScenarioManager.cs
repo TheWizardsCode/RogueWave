@@ -1,6 +1,7 @@
 using NaughtyAttributes;
 using NeoFPS.SinglePlayer;
 using RogueWave;
+using RogueWave.GameStats;
 using UnityEngine;
 using WizardsCode.CommandTerminal;
 
@@ -27,8 +28,10 @@ namespace WizardsCode.RogueWave
             m_Campaign.levels = new WfcDefinition[1];
             m_Campaign.levels[0] = m_Scenario.LevelDefinition;
 
-            // FIXME: Should not clear the recipes here. We should create a temporary profile that gets deleted at the end of the game.
+            // FIXME: Should not clear the recipes here. We should create a temporary profile that gets deleted at the end of the scenario.
             RogueLiteManager.persistentData.RecipeIds.Clear();
+            RogueLiteManager.runData.Clear();
+            GameStatsManager.Instance.ResetStats();
             GetComponent<RogueWaveGameMode>().StartingRunRecipes = m_Scenario.Recipes;
         }
 

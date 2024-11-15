@@ -26,17 +26,15 @@ namespace WizardsCode.RogueWave
         [SerializeField, Tooltip("A description of the scenario."), TextArea(2, 5), BoxGroup("Metadata")]
         string m_Description;
 
-        //[Header("Level Settings")]
-        [SerializeField, Tooltip("The level definition to use when generating this level."), Expandable, BoxGroup("Level Settings")]
-        WfcDefinition m_LevelDefinition;
-        [SerializeField, Tooltip("Terminal commands to execute once the player has spawned in."), TextArea(5, 10), BoxGroup("Level Settings")]
-        string m_TerminalCommands;
-
-        [HorizontalLine(color: EColor.Gray)]
-
         //[Header("Player Settings")]
         [SerializeField, Tooltip("The recipes the player should have on startup."), BoxGroup("Player Settings")]
         AbstractRecipe[] m_Recipes;
+
+        //[Header("Level Settings")]
+        [SerializeField, Tooltip("Terminal commands to execute once the player has spawned in."), TextArea(5, 10), BoxGroup("Level Settings")]
+        string m_TerminalCommands;
+        [SerializeField, Tooltip("The level definition to use when generating this level."), Expandable, BoxGroup("Level Settings")]
+        WfcDefinition m_LevelDefinition;
 
         public string DisplayName { get { return m_DisplayName; } }
         public string Description { get { return m_Description; } }

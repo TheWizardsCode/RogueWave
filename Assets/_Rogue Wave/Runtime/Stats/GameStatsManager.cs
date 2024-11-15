@@ -503,6 +503,9 @@ namespace RogueWave.GameStats
 #endif
         }
 
+        /// <summary>
+        /// Resets all stats to their default values. Locks all achievements.
+        /// </summary>
         [Button("Reset Stats and Achievements"), ShowIf("showDebug")]
         internal void ResetStats()
         {

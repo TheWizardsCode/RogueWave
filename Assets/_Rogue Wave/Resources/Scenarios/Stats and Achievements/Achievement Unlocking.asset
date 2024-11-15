@@ -9,9 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c5efb4cba2c97354e94fee3e3562a7f7, type: 3}
-  m_Name: Player Death
+  m_Script: {fileID: 11500000, guid: cf97130430ab24b4a8905e6ec8335b36, type: 3}
+  m_Name: Achievement Unlocking
   m_EditorClassIdentifier: 
-  description: Player died
-  parameters: Player is extracted just before death and reconstructed.
-  stat: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
+  m_DisplayName: 
+  m_Description: 
+  m_LevelDefinition: {fileID: 11400000, guid: 38ee79f15534a4248a5ddcd241cd5a73, type: 2}
+  m_TerminalCommands: 
+  m_Recipes: []
