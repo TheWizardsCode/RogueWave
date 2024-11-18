@@ -31,7 +31,9 @@ namespace RogueWave
         internal TileDefinition defaultTileDefinition;
         [SerializeField, Tooltip("The tile to use for boundary walls. Walls will attempt to autoconnect to adjacent tiles."), ShowIf("encloseLevel"), Expandable]
         internal TileDefinition wallTileDefinition;
-        [SerializeField, Tooltip("A set of tiles that are not allowed to appear in this level.")]
+        [SerializeField, Tooltip("Types of tile that cannot be used in this level. If you want to include some specifc tiles of a given type then do not exclude the type here, instead exclude the ones you don't want in the `Forbidden Tiles` below. Note that if a tile appears in the `Pre-Placed Tiles` list below it will not be excluded regardless of the settings here."), EnumFlags]
+        internal TileDefinition.TileType excludedTileTypes = TileDefinition.TileType.SetAreas;
+        [SerializeField, Tooltip("A set of tiles that are not allowed to appear in this level. If you want to exclude entire categories of tile then use `Exclude Tile Types` above. Note that if a tile appears in the `Pre-Placed Tiles` list below it will not be excluded regardless of the settings here.")]
         internal TileDefinition[] forbiddenTiles = new TileDefinition[0];
 
         [Header("Enemies")]

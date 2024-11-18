@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de8813b9e997ca4c8af3dc99838e4e3, type: 3}
+  m_Name: Step 0 Welcome
+  m_EditorClassIdentifier: 
+  displayName: Welcome
+  description: The welcome message displayed when the game first loads.
+  duration: 0
+  triggerBySceneLoad: 1
+  isLoadingScene: 0
+  sceneName: RogueWave_MainMenu
+  sceneLoadCount: 1
+  triggeringEvent: {fileID: 0}
+  heroImage: {fileID: 0}
+  script: "All your team are dead. \n\nYou are stranded.\n\nWe, your nanobots, can
+    keep you alive, but we can't get you home without a portal generator. \n\nTo
+    build the portal generator we need resources.\n\nLet's get started by seeing
+    if you can remember who you are, or maybe pick a new identity for yourself. "
+  actor: 0
+  audioClips: []
+  showDebug: 0
+  m_TooltipStyleOverride: {fileID: 0}
+  buttonText: Continue

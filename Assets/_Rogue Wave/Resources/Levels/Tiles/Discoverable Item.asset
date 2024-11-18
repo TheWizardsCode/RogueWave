@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
   m_Name: Discoverable Item
   m_EditorClassIdentifier: 
+  m_DisplayName: Discoverable Item
+  m_Description: 
+  icon: {fileID: 21300000, guid: 9d6ecaf79482f444a8185509243b4b47, type: 3}
+  tileType: 8
   tilePrefab: {fileID: -4389124811740532362, guid: 56be7bfa5ef89a44c83fb53fa60d129b, type: 3}
   isFlat: 1
   tileHeight: 1
@@ -67,5 +71,3 @@ MonoBehaviour:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 0, y: 0, z: 0}
       weight: 0.478
-  m_DisplayName: Discoverable Item
-  icon: {fileID: 21300000, guid: 9d6ecaf79482f444a8185509243b4b47, type: 3}

@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
   m_Name: Wall - Destructible
   m_EditorClassIdentifier: 
+  m_DisplayName: Destructible Wall
+  m_Description: 
+  icon: {fileID: 0}
+  tileType: 2
   tilePrefab: {fileID: -643772105435015575, guid: 6555781fe15e54249a25e485a5490936, type: 3}
   isFlat: 1
   tileHeight: 1
@@ -107,5 +111,3 @@ MonoBehaviour:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
       weight: 0.369
-  m_DisplayName: Destructible Wall
-  icon: {fileID: 0}

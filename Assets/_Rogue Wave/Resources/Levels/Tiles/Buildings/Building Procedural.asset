@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
   m_Name: Building Procedural
   m_EditorClassIdentifier: 
+  m_DisplayName: Building
+  m_Description: 
+  icon: {fileID: 0}
+  tileType: 3
   tilePrefab: {fileID: 4512869180751816955, guid: 0632310973690cd4b8d6f686f3ab92ef, type: 3}
   isFlat: 1
   tileHeight: 1
@@ -127,5 +131,3 @@ MonoBehaviour:
       bottomLeftBoundary: {x: 0.25, y: 0, z: 0.25}
       topRightBoundary: {x: 0.75, y: 1, z: 0.75}
       weight: 0.8
-  m_DisplayName: Building
-  icon: {fileID: 0}

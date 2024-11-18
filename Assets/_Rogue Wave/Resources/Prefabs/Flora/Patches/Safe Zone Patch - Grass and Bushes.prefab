@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2240847932507530799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1502995325194625006}
+  - component: {fileID: 3330521954649590052}
+  m_Layer: 0
+  m_Name: Safe Zone Patch - Grass and Bushes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1502995325194625006
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2240847932507530799}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 947.4789, y: -343.2635, z: -4.905227}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3330521954649590052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2240847932507530799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 767695d7d426bc4419f3b6153be82a2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  numberOfCrystals: {x: 19, y: 46}
+  crystalItemData:
+  - crystalPrefab: {fileID: 8833195273473885070, guid: 8ec60c73c455d654ea15cbf2ff2eebad, type: 3}
+    yOffset: {x: -0.13934292, y: 0}
+    scaleRange: {x: 0.96198666, y: 1.4619867}
+    radius: 15
+    weight: 0.612
+  - crystalPrefab: {fileID: 8833195273473885070, guid: 3b2384d4d3246a844a85d60c26bd4141, type: 3}
+    yOffset: {x: -0.086919025, y: 0}
+    scaleRange: {x: 0.9532386, y: 1.4532382}
+    radius: 8
+    weight: 0.613
+  - crystalPrefab: {fileID: 8833195273473885070, guid: 171f9b39bfe8edf4f8025ecb6405f749, type: 3}
+    yOffset: {x: -0.086919025, y: 0}
+    scaleRange: {x: 0.8472453, y: 1.347245}
+    radius: 8
+    weight: 0.626
+  - crystalPrefab: {fileID: 8833195273473885070, guid: 722cb651952e95a4d8771b8f38cb6f51, type: 3}
+    yOffset: {x: -0.086919025, y: 0}
+    scaleRange: {x: 0.93141633, y: 1.431416}
+    radius: 8
+    weight: 0.576
+  - crystalPrefab: {fileID: 8005421940692841325, guid: 7ba0b0e02fc7f084aaf3f838284640b0, type: 3}
+    yOffset: {x: -0.12788081, y: -0.040961787}
+    scaleRange: {x: 1.0000004, y: 1.5}
+    radius: 8
+    weight: 0.541
+  - crystalPrefab: {fileID: 8005421940692841325, guid: 1f24ab28d95f10f4d97a176b142ce187, type: 3}
+    yOffset: {x: -0.12788081, y: -0.040961787}
+    scaleRange: {x: 1.0000004, y: 1.5}
+    radius: 8
+    weight: 0.436
+  - crystalPrefab: {fileID: 3558364245683320878, guid: 467c625ae4b63494bb2f99aea33d32b3, type: 3}
+    yOffset: {x: -0.21049315, y: -0.06278384}
+    scaleRange: {x: 0.87218475, y: 1.3721845}
+    radius: 8
+    weight: 0.042

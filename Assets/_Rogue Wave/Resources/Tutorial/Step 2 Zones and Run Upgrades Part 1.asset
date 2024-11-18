@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de8813b9e997ca4c8af3dc99838e4e3, type: 3}
+  m_Name: Step 2 Zones and Run Upgrades Part 1
+  m_EditorClassIdentifier: 
+  displayName: Zones and Run Upgrades
+  description: The player is dropped into a reasonably safe zone to gather their
+    first resources and call in their first upgrades.
+  duration: 0
+  triggerBySceneLoad: 0
+  triggeringEvent: {fileID: 11400000, guid: 62734dc33d914fe498082946709a707d, type: 2}
+  isLoadingScene: 1
+  sceneName: RogueWave_MainMenu
+  sceneLoadCount: 1
+  heroImage: {fileID: 0}
+  script: "This is a fairly safe zone but resources are a little scarce here. \n\nWatch
+    out for some of the flora, which emits poisonous spores if disturbed.  But you
+    don't need to worry too much about being attacked here, there are only animals
+    here. \n\nThat said, remember this is not like your world. you will likely encounter
+    some wild animals that operate in strange ways."
+  actor: 0
+  audioClips: []
+  showDebug: 0
+  m_TooltipStyleOverride: {fileID: 0}
+  buttonText: Continue

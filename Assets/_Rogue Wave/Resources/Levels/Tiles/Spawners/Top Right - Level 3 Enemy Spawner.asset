@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
   m_Name: Top Right - Level 3 Enemy Spawner
   m_EditorClassIdentifier: 
+  m_DisplayName: Spawner
+  m_Description: 
+  icon: {fileID: 0}
+  tileType: 6
   tilePrefab: {fileID: 4840245277533164759, guid: 3bb7115df90dcdf499b461abc47192c4, type: 3}
   isFlat: 0
   tileHeight: 5
@@ -52,5 +56,3 @@ MonoBehaviour:
       bottomLeftBoundary: {x: 0, y: 0, z: 0}
       topRightBoundary: {x: 1, y: 1, z: 1}
       weight: 0.5
-  m_DisplayName: Spawner
-  icon: {fileID: 0}

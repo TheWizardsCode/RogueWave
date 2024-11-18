@@ -1,23 +1,43 @@
+using ModelShark;
 using NaughtyAttributes;
 using NeoSaveGames.SceneManagement;
 using RosgueWave.UI;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using WizardsCode.CommandTerminal;
 using WizardsCode.Common;
+using WizardsCode.Tutorial;
 using Random = UnityEngine.Random;
 
 namespace RogueWave.Tutorial
 {
+    [RequireComponent(typeof(AudioSource))]
     public class TutorialManager : MonoBehaviour
     {
         internal const string SCENE_PROGRESS_KEY_PREFIX = "SceneLoadCount_";
-        [SerializeField, Tooltip("The loading scene that will be used to transition between scenes. When this scene is loaded some of the tutorial content will be displayed."), Scene]
-        private string loadingScreen;
-        [SerializeField, Tooltip("The scene to play if no profiles exist. This is the start of the tutorial."), Scene]
-        private string introScene;
 
+        [SerializeField, Tooltip("The scene to play if no profiles exist. This is the start of the tutorial."), Scene, BoxGroup("Scenes")]
+        private string introScene;
+        [SerializeField, Tooltip("The loading scene that will be used to transition between scenes. When this scene is loaded some of the tutorial content will be displayed."), Scene, BoxGroup("Scenes")]
+        private string loadingScreen;
+
+
+        [SerializeField, Tooltip("The tooltip style for tutorial messages."), BoxGroup("Tutorial Tooltips"), ShowIf("showWelcomeTooltip")]
+        internal TooltipStyle tutorialTooltipStyle;
+        [SerializeField, Tooltip("The minimum width for the tutorial tooltips."), BoxGroup("Tutorial Tooltips"), ShowIf("showWelcomeTooltip")]
+        internal int tutorialTooltipMinWidth = 300;
+        [SerializeField, Tooltip("The maximum width for the tutorial tooltips."), BoxGroup("Tutorial Tooltips"), ShowIf("showWelcomeTooltip")]
+        internal int tutorialTooltipMaxWidth = 500;
+        [SerializeField, Tooltip("If true the tutorial manager will show the welcome tooltop on first load."), BoxGroup("Welcome Tooltip")]
+        private bool showWelcomeTooltip = true;
+        [SerializeField, Tooltip("The tutorial step to use as the welcome message."), BoxGroup("Welcome Tooltip"), ShowIf("showWelcomeTooltip")]
+        private PopupTutorialStep welcomeTooltip;
+
+        [SerializeField, Tooltip("Show the debug tooling for the tutorial system."), BoxGroup("Debug")]
+        private bool showDebug = false;
+        [SerializeField, Tooltip("Should the tutorial be reset when the game starts?"), BoxGroup("Debug"), ShowIf("showDebug")]
+        private bool resetTutorial = false;
+        
         TutorialStep[] tutorialSteps;
 
         int[] sceneLoadCounts;
@@ -26,6 +46,13 @@ namespace RogueWave.Tutorial
 
         private void Awake()
         {
+#if UNITY_EDITOR
+            if (resetTutorial)
+            {
+                ClearTutorialProgress();
+            }
+#endif
+
             DontDestroyOnLoad(gameObject);
             audioSource = gameObject.GetComponent<AudioSource>();
 
@@ -37,17 +64,37 @@ namespace RogueWave.Tutorial
             }
 
             tutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
+            foreach (ITutorialStep step in tutorialSteps)
+            {
+                step.TutorialManager = this;
+
+                if (!step.TriggerBySceneLoad)
+                {
+                    step.TriggeringEvent.RegisterListener(() => step.Execute());}
+            }
+
+            NeoSceneManager.onSceneLoadRequested += OnSceneLoadRequested;
+            NeoSceneManager.onSceneLoaded += OnSceneLoaded;
         }
 
         private void Start()
         {
-            NeoSceneManager.onSceneLoadRequested += OnSceneLoadRequested;
-            NeoSceneManager.onSceneLoaded += OnSceneLoaded;
-
             RogueLiteManager.UpdateAvailableProfiles();
             if (!RogueLiteManager.hasProfile)
             {
                 NeoSceneManager.LoadScene(introScene);
+            }
+
+            if (showWelcomeTooltip)
+            {
+                if (welcomeTooltip == null)
+                {
+                    Debug.LogError("No welcome tooltip has been set in the Tutorial Manager, yet showWelcomeTooltip is set to true.");
+                }
+                else
+                {
+                    welcomeTooltip.Execute();
+                }
             }
         }
 
@@ -55,14 +102,27 @@ namespace RogueWave.Tutorial
         {
             NeoSceneManager.onSceneLoadRequested -= OnSceneLoadRequested;
             NeoSceneManager.onSceneLoaded -= OnSceneLoaded;
+
+            foreach (TutorialStep step in tutorialSteps)
+            {
+                if (!step.TriggerBySceneLoad)
+                {
+                    step.TriggeringEvent.UnregisterListener(step.Execute);
+                }
+            }
         }
 
         private void OnSceneLoaded(int sceneIndex)
         {
-            GameLog.Log($"Scene loaded (index: {sceneIndex}");
+            //GameLog.Log($"Scene loaded (index: {sceneIndex}");
 
             foreach (TutorialStep step in tutorialSteps)
             {
+                if (!step.TriggerBySceneLoad)
+                {
+                    continue;
+                }
+
                 if (!step.isLoadingScene 
                     && sceneIndex == SceneManagement.SceneBuildIndexFromName(step.sceneName) 
                     && step.sceneLoadCount == sceneLoadCounts[sceneIndex])
@@ -88,6 +148,11 @@ namespace RogueWave.Tutorial
 
             foreach (TutorialStep step in tutorialSteps)
             {
+                if (!step.TriggerBySceneLoad) 
+                { 
+                    continue; 
+                }
+
                 if (step.isLoadingScene && sceneName == step.sceneName && step.sceneLoadCount == sceneLoadCounts[sceneIndex])
                 {
                     currentlyActiveStep = step;
@@ -111,17 +176,6 @@ namespace RogueWave.Tutorial
                 sceneClip = currentlyActiveStep.audioClips[Random.Range(0, currentlyActiveStep.audioClips.Length)];
             }
 
-            if (sceneClip != null)
-            {
-                endTime += sceneClip.length + 0.75f;
-            }
-
-            if (sceneClip == null)
-            {
-                this.currentlyActiveStep = null;
-                yield break;
-            }
-
             RogueWaveUIElement[] managedUIElements = null;
             Canvas canvas = FindObjectOfType<Canvas>();
 
@@ -136,8 +190,9 @@ namespace RogueWave.Tutorial
 
             yield return new WaitForSeconds(0.75f);
 
-            audioSource.clip = sceneClip;
-            audioSource.Play();
+            endTime += currentlyActiveStep.duration;
+
+            currentlyActiveStep.Execute();
 
             while (Time.time < endTime)
             {
@@ -158,9 +213,12 @@ namespace RogueWave.Tutorial
 
             float oldDuration = NeoSceneManager.instance.minLoadScreenTime;
             NeoSceneManager.instance.minLoadScreenTime = currentlyActiveStep.duration;
-            
-            audioSource.clip = currentlyActiveStep.audioClips[Random.Range(0, currentlyActiveStep.audioClips.Length)];
-            audioSource.Play();
+
+            if (currentlyActiveStep.audioClips.Length > 0)
+            {
+                audioSource.clip = currentlyActiveStep.audioClips[Random.Range(0, currentlyActiveStep.audioClips.Length)];
+                audioSource.Play();
+            }
 
             float endTime = 0;
             if (currentlyActiveStep.duration <= 0) {
@@ -189,6 +247,7 @@ namespace RogueWave.Tutorial
 
 #if UNITY_EDITOR
         [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Reset Tutorial Progress", priority = 1)]
+        [Button, ShowIf("showDebug")]
 #endif
         public static void ClearTutorialProgress()
         {

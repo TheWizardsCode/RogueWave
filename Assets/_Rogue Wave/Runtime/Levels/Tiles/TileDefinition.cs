@@ -2,15 +2,29 @@ using NaughtyAttributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace RogueWave
 {
 	[CreateAssetMenu(fileName = "NewTileDefinition", menuName = "Rogue Wave/Tile Definition", order = 250)]
 	public class TileDefinition : ScriptableObject
     {
+        public enum TileType
+        {
+            Undefined = 0,
+            Empty = 1 << 0,
+            Wall = 1 << 1,
+            Building = 1 << 2,
+            Flora = 1 << 3,
+            SocialSpace = 1 << 4,
+            EnemySpawner = 1 << 5,
+            PlayerSpawner = 1 << 6,
+            DiscoverableItem = 1 << 7,
+            SetAreas = 1 << 8,
+            Infrastructure = 1 << 9
+        }
+
+
         public enum Direction
         {
             XPositive,
@@ -28,6 +42,8 @@ namespace RogueWave
         [SerializeField, Tooltip("The sprite to use when representing this tile, or a level containing this tile, in the UI.")]
         internal Sprite icon;
 
+        [SerializeField, Tooltip("The type of tile this is. This is used to determine how the tile is used in the level.")]
+        internal TileType tileType = TileType.Undefined;
         [SerializeField, Tooltip("The tile prefab to spawn for this tile type.")]
         BaseTile tilePrefab;
 

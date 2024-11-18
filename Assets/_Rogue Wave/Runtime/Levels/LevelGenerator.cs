@@ -376,7 +376,18 @@ namespace RogueWave
                             }
                         }
 
-                        // Debug.Log($"Tile at ({x}, {y}) has {candidates.Count} possible candidates.");
+                        var itemsToRemove = new List<TileDefinition>();
+                        foreach (var tile in candidates)
+                        {
+                            if (levelDefinition.excludedTileTypes.HasFlag(tile.tileType))
+                            {
+                                itemsToRemove.Add(tile);
+                            }
+                        }
+                        foreach (var tile in itemsToRemove)
+                        {
+                            candidates.Remove(tile);
+                        }
 
                         foreach (TileDefinition forbiddenTile in levelDefinition.forbiddenTiles)
                         {
@@ -385,6 +396,8 @@ namespace RogueWave
                                 candidates.Remove(forbiddenTile);
                             }
                         }
+
+                        // Debug.Log($"Tile at ({x}, {y}) has {candidates.Count} possible candidates.");
 
                         candidatesForTilesYetToCollapse[x, y] = candidates.ToList<TileDefinition>();
                         uncollapsedTiles++;
