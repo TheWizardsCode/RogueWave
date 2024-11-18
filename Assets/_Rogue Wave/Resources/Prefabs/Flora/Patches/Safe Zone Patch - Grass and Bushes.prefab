@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767695d7d426bc4419f3b6153be82a2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  numberOfCrystals: {x: 19, y: 46}
+  numberOfCrystals: {x: 30, y: 57}
   crystalItemData:
   - crystalPrefab: {fileID: 8833195273473885070, guid: 8ec60c73c455d654ea15cbf2ff2eebad, type: 3}
     yOffset: {x: -0.13934292, y: 0}
@@ -54,17 +54,17 @@ MonoBehaviour:
   - crystalPrefab: {fileID: 8833195273473885070, guid: 3b2384d4d3246a844a85d60c26bd4141, type: 3}
     yOffset: {x: -0.086919025, y: 0}
     scaleRange: {x: 0.9532386, y: 1.4532382}
-    radius: 8
+    radius: 15
     weight: 0.613
   - crystalPrefab: {fileID: 8833195273473885070, guid: 171f9b39bfe8edf4f8025ecb6405f749, type: 3}
     yOffset: {x: -0.086919025, y: 0}
     scaleRange: {x: 0.8472453, y: 1.347245}
-    radius: 8
+    radius: 15
     weight: 0.626
   - crystalPrefab: {fileID: 8833195273473885070, guid: 722cb651952e95a4d8771b8f38cb6f51, type: 3}
     yOffset: {x: -0.086919025, y: 0}
     scaleRange: {x: 0.93141633, y: 1.431416}
-    radius: 8
+    radius: 15
     weight: 0.576
   - crystalPrefab: {fileID: 8005421940692841325, guid: 7ba0b0e02fc7f084aaf3f838284640b0, type: 3}
     yOffset: {x: -0.12788081, y: -0.040961787}
@@ -83,6 +83,11 @@ MonoBehaviour:
     weight: 0.042
   - crystalPrefab: {fileID: 6026615556191218271, guid: 4388da78972e2ec49a9eaa4357688d81, type: 3}
     yOffset: {x: -0.16684893, y: -0.019139618}
+    scaleRange: {x: 0.87218475, y: 1.3067181}
+    radius: 3
+    weight: 0.017
+  - crystalPrefab: {fileID: 1306792317830211334, guid: 44423155f4e98d241b1e25d2a883e928, type: 3}
+    yOffset: {x: 0, y: 0}
     scaleRange: {x: 0.87218475, y: 1.3067181}
     radius: 8
     weight: 0.017

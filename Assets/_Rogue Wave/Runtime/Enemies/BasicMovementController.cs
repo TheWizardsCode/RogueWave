@@ -399,7 +399,7 @@ namespace RogueWave
             float testingAngle = 12;
             float verticalAngle = 0;
 
-            // check for obstacle to the above/in front
+            // check for obstacle above/in front
             Ray ray = new Ray(enemyController.sensor.position, Quaternion.AngleAxis(-testingAngle, transform.right) * transform.forward);
             if (Physics.Raycast(ray, out RaycastHit forwardUpHit, obstacleAvoidanceDistance, enemyController.sensorMask))
             {
@@ -532,6 +532,16 @@ namespace RogueWave
                     }
                 }
             }
+
+            // Ensure that the enemy is above the ground
+            //ray = new Ray(transform.position, -transform.up);
+            //if (Physics.Raycast(ray, out RaycastHit hit, minimumHeight, enemyController.sensorMask))
+            //{
+            //    if (hit.collider.CompareTag("Ground"))
+            //    {
+            //        transform.position = hit.point + Vector3.up * minimumHeight;
+            //    }
+            //}
         }
 
         private void OnDrawGizmosSelected()

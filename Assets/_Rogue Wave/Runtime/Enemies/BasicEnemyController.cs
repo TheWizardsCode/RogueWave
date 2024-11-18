@@ -668,7 +668,14 @@ namespace RogueWave
                     }
                     else
                     {
-                        goalDestination = GetDestination(lastKnownTargetPosition);
+                        if (lastKnownTargetPosition != Vector3.zero)
+                        {
+                            goalDestination = GetWanderDestination();
+                        }
+                        else
+                        {
+                            goalDestination = GetDestination(lastKnownTargetPosition);
+                        }
                     }
                 }
                 // time for a wander
@@ -676,7 +683,7 @@ namespace RogueWave
                 {
                     if (sqrDistance > sqrSeekDistance)
                     {
-                        if (returnToSpawner)
+                        if (returnToSpawner && movementController.hasArrived)
                         {
                             IsRecharging = true;
                             goalDestination = spawnPosition;
