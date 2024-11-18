@@ -45,7 +45,7 @@ namespace RogueWave
                 NeoFpsAudioManager.PlayEffectAudioAtPosition(contactClip[Random.Range(0, contactClip.Length)], other.transform.position);
                 if (contactEffect != null)
                 {
-                    contactEffect.gameObject.SetActive(true);
+                    contactEffect.Play();
                 }
                 damageHandlers.Add(other.gameObject.GetInstanceID(), damageHandler);
             }
@@ -78,7 +78,7 @@ namespace RogueWave
 
             if (contactEffect != null)
             {
-                contactEffect.gameObject.SetActive(false);
+                contactEffect.Stop();
             }
         }
 

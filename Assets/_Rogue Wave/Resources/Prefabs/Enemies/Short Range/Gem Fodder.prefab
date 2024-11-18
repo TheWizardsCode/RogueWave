@@ -515,14 +515,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1450764596457488462}
     m_Modifications:
-    - target: {fileID: 715693049552409892, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
-      propertyPath: contactEffect
-      value: 
-      objectReference: {fileID: 4051812084665668562}
-    - target: {fileID: 1120541826775380849, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
-      propertyPath: m_Radius
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 1881717928048593120, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
       propertyPath: m_Name
       value: Proximity Weapon
@@ -567,26 +559,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9048004109631748063, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
-      propertyPath: looping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9074052902740785125, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
-      propertyPath: looping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9074525784797973765, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
-      propertyPath: looping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9074556537945837807, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
-      propertyPath: looping
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9163502982383585307, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -595,11 +567,6 @@ PrefabInstance:
 --- !u!4 &1965897515796100135 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6817774594015439600, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
-  m_PrefabInstance: {fileID: 5032170605116415703}
-  m_PrefabAsset: {fileID: 0}
---- !u!198 &4051812084665668562 stripped
-ParticleSystem:
-  m_CorrespondingSourceObject: {fileID: 9074525784797973765, guid: 6b774844ad739584dbfe978e0bceff96, type: 3}
   m_PrefabInstance: {fileID: 5032170605116415703}
   m_PrefabAsset: {fileID: 0}
 --- !u!135 &5357359798638194086 stripped

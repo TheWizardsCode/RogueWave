@@ -53,7 +53,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 2.2
+  m_Radius: 3
   m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &715693049552409892
 MonoBehaviour:
@@ -69,6 +69,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageType: 1
   damagePerSecond: 3
+  maxDamage: 10
   damageDescription: Proximity
   contactClip:
   - {fileID: 8300000, guid: 3213660c10924a31a150909b3d2beaa6, type: 3}
@@ -81,7 +82,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 0d5784c12b9f4b3ca47ac1982c8187b2, type: 3}
   - {fileID: 8300000, guid: b4b92a6f75db4266a9d80989a83eb380, type: 3}
   - {fileID: 8300000, guid: 82d908f36c62429da021a086bea78875, type: 3}
-  contactEffect: {fileID: 0}
+  contactEffect: {fileID: 9074525784797973765}
 --- !u!1001 &9164634226807137919
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -104,7 +105,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1160175390895716, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1325701260836988, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
       propertyPath: m_IsActive
@@ -180,6 +181,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198058917562290592, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
       propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198058917562290592, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198058917562290592, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
@@ -540,6 +545,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198192822720673424, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
       propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198192822720673424, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198192822720673424, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
@@ -948,6 +957,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198267624842881914, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
       propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198267624842881914, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198267624842881914, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
@@ -988,6 +1001,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 198951458002866586, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
       propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 198951458002866586, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
+      propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 198951458002866586, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
@@ -1043,6 +1060,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
+--- !u!198 &9074525784797973765 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 198267624842881914, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
+  m_PrefabInstance: {fileID: 9164634226807137919}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &9160411845680701087 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4222467361863904, guid: aca1d0fb7c25c9049a64185a4788c6ab, type: 3}
