@@ -43,7 +43,6 @@ namespace RogueWave
         {
             gameObject.SetActive(true);
             this.levelDefinition = definition;
-            launchButton.gameObject.SetActive(false);
 
             iconPrototype.name = "Enemy Icon";
             if (levelDefinition.challengeRating < 100)
@@ -83,14 +82,24 @@ namespace RogueWave
             {
                 tooltip.SetText("SpecialTiles", " ");
             }
+
             StringBuilder sb = new StringBuilder();
-            int number = 1;
-            foreach (WaveDefinition wave in levelDefinition.waves)
+            if (levelDefinition.waves.Length == 0)
             {
-                sb.AppendLine($"  - {number}: {string.Join(", ", wave.enemies.Select(e => e.pooledEnemyPrefab.name))} (CR: {wave.ChallengeRating})");
-                number++;
+                sb.AppendLine("  - No enemy spawner detected");
+            }
+            else
+            {
+                int number = 1;
+                foreach (WaveDefinition wave in levelDefinition.waves)
+                {
+                    sb.AppendLine($"  - {number}: {string.Join(", ", wave.enemies.Select(e => e.pooledEnemyPrefab.name))} (CR: {wave.ChallengeRating})");
+                    number++;
+                }
             }
             tooltip.SetText("Waves", sb.ToString());
+
+            SetLaunchButtonStatus();
         }
 
         public void OnClick()
@@ -104,14 +113,37 @@ namespace RogueWave
 
         private void ConfigureLaunchButtons()
         {
-            launchButton.gameObject.SetActive(true);
+            SetLaunchButtonStatus();
+
             foreach (Transform sibling in transform.parent)
             {
                 LevelUiController siblingLevel = sibling.GetComponent<LevelUiController>();
                 if (siblingLevel != null && siblingLevel != this)
                 {
-                    siblingLevel.launchButton.gameObject.SetActive(false);
+                    siblingLevel.launchButton.interactable = false;
                 }
+            }
+        }
+
+        private void SetLaunchButtonStatus()
+        {
+            if (levelDefinition.IsUnlocked)
+            {
+                if (levelDefinition.Completed)
+                {
+                    launchButton.GetComponentInChildren<TMP_Text>().text = "Revisit";
+                    launchButton.interactable = false;
+                }
+                else
+                {
+                    launchButton.GetComponentInChildren<TMP_Text>().text = "Go!";
+                    launchButton.interactable = true;
+                }
+            }
+            else
+            {
+                launchButton.GetComponentInChildren<TMP_Text>().text = "Locked";
+                launchButton.interactable = false;
             }
         }
 

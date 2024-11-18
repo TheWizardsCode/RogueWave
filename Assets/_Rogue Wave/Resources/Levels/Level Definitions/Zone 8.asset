@@ -10,27 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Level 6
+  m_Name: Zone 8
   m_EditorClassIdentifier: 
+  displayName: Zone 8
+  description: 
+  unlockAchievement: {fileID: 0}
   seed: 0
   lotSize: {x: 25, y: 25}
-  mapSize: {x: 14, y: 14}
+  mapSize: {x: 10, y: 10}
   encloseLevel: 1
   defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  excludedTileTypes: 256
+  forbiddenTiles: []
   waves:
-  - {fileID: 11400000, guid: bcc18c73d27157f4ab2b2842e1cf7563, type: 2}
-  - {fileID: 11400000, guid: 9211fd51c1857ff4485adcf94dcd6c6a, type: 2}
-  - {fileID: 11400000, guid: 09d6f715d147ea2498d87ac96838ec06, type: 2}
-  - {fileID: 11400000, guid: 4ec685bb0da53c740842160eaba685c8, type: 2}
-  - {fileID: 11400000, guid: e4bc06f44fbafdb46a4427f942e9f53f, type: 2}
+  - {fileID: 11400000, guid: f70e23693ff605c4d97194af9108c91b, type: 2}
+  - {fileID: 11400000, guid: 25fbe7545dcc1ee4ea86234167623dc4, type: 2}
+  - {fileID: 11400000, guid: cf39fce4577da4843929417c7620d31c, type: 2}
+  - {fileID: 11400000, guid: 956ad4cb8efcb1646bd74e8d172c98d1, type: 2}
+  - {fileID: 11400000, guid: 95abd44d453faa7499b86f1e04b2776d, type: 2}
   waveWait: 10
   generateNewWaves: 1
-  maxAlive: 160
+  maxAlive: 180
   generateLevelOnSpawn: 1
   prePlacedTiles:
-  - {fileID: 11400000, guid: 996df388e5e1d2c43ac3048a38b10ef1, type: 2}
-  - {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
+  - {fileID: 11400000, guid: 683c4a736f70c9a41bb9242f2132c3cc, type: 2}
+  - {fileID: 11400000, guid: b3a48cd97854daa4283847f243cab8d7, type: 2}
   - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
@@ -150,14 +155,14 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    levelNumber: 6
-    MapSize: {x: 14, y: 14}
+    levelNumber: 8
+    MapSize: {x: 10, y: 10}
     numberOfWaves: 5
-    startingChallengeRating: 3500
-    peakChallengeRating: 5000
+    startingChallengeRating: 4000
+    peakChallengeRating: 8000
     prePlacedTiles:
-    - {fileID: 11400000, guid: 996df388e5e1d2c43ac3048a38b10ef1, type: 2}
-    - {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
+    - {fileID: 11400000, guid: 683c4a736f70c9a41bb9242f2132c3cc, type: 2}
+    - {fileID: 11400000, guid: b3a48cd97854daa4283847f243cab8d7, type: 2}
     - {fileID: 11400000, guid: 851e142b2a9e08c4195350c79584d12d, type: 2}
     enemies:
     - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
@@ -172,10 +177,10 @@ MonoBehaviour:
     earliestWavePercentage:
     - 0.01
     - 0.07
-    - 0.41
+    - 0.1
+    - 0.34
+    - 0.42
+    - 0.42
+    - 0.18
     - 0.63
-    - 0.17
-    - 0.03
-    - 0.45
-    - 0.61
-    - 0.95
+    - 0.54

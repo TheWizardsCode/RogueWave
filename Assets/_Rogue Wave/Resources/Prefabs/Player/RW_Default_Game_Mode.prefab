@@ -59,6 +59,7 @@ GameObject:
   - component: {fileID: 3957620431239229239}
   - component: {fileID: 905963099382226170}
   - component: {fileID: 2767766673360794206}
+  - component: {fileID: 592254960094768115}
   m_Layer: 0
   m_Name: RW_Default_Game_Mode
   m_TagString: Untagged
@@ -83,6 +84,7 @@ Transform:
   - {fileID: 6262499156547862416}
   - {fileID: 4040435941306778648}
   - {fileID: 3237868730650947828}
+  - {fileID: 1770731422232321023}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7050872739850107185
@@ -102,7 +104,7 @@ MonoBehaviour:
   m_PreSpawnUI: {fileID: 1715862449206160665, guid: ddf14a90891832a459b07cf9400c6ee7, type: 3}
   m_SpawnPlayerOnStart: 1
   m_VictoryDuration: 5
-  extractionFx: {fileID: 4085115037935910914}
+  extractionFx: {fileID: 922359241883921161}
   m_PlayerPrefab: {fileID: 114330862915175946, guid: 3b4baa77285369e46a04c916100b828b, type: 3}
   m_CharacterPrefab: {fileID: 4053288922990363585, guid: 0b24de9ee7ef5c34a8fbb496881f4707, type: 3}
   initialHealth: 40
@@ -111,7 +113,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 62971bdb51f7f334fa6332062ea8fa87, type: 2}
   _startingRecipesRun: []
   m_generateLevelOnStart: 0
-  m_Campaign: {fileID: 11400000, guid: e1d6e9a426540b246af58b0d7e5d3eea, type: 2}
+  m_Campaign: {fileID: 11400000, guid: 4510a5b0a6b282a4993e2009bf52b8ae, type: 2}
   m_GameLog: {fileID: 11400000, guid: a64aa179fd7ec1f4bb9586fec27026ef, type: 2}
   m_RunCount: {fileID: 11400000, guid: 61be915018e3ba9469bee0e78b8cc2ba, type: 2}
   m_VictoryCount: {fileID: 11400000, guid: 4a86b584964785a46926b78951b13b1f, type: 2}
@@ -119,9 +121,9 @@ MonoBehaviour:
   m_DeathCount: {fileID: 11400000, guid: d61d671ec33722d4ebecf71ed136d33b, type: 2}
   m_TimePlayedStat: {fileID: 11400000, guid: cd470668f69eda34db38f3129ed8601f, type: 2}
   playerSpawnedEvent: {fileID: 11400000, guid: 62734dc33d914fe498082946709a707d, type: 2}
-  playerDiedEvent: {fileID: 0}
-  playerEscapedEvent: {fileID: 0}
-  playerExitedViaPortalEvent: {fileID: 0}
+  playerDiedEvent: {fileID: 11400000, guid: d898f23fd09e164458efacd0c01beb00, type: 2}
+  playerEscapedEvent: {fileID: 11400000, guid: 859d745b043854340a4de239e46093c6, type: 2}
+  playerExitedViaPortalEvent: {fileID: 11400000, guid: 43a549dfb2a4e0d4481ade6be3be865d, type: 2}
   onSpawnerCreated:
     m_PersistentCalls:
       m_Calls: []
@@ -251,6 +253,34 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &592254960094768115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5223561033937574973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846ade22369f4584385244da875af707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: b062e84cce1634d4b8f87fbce28ae2a0, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 7050872739850107185}
+        m_TargetAssemblyTypeName: RogueWave.RogueWaveGameMode, org.wizardscode.roguewave
+        m_MethodName: OnAchievementUnlocked
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &6012438873311502382
 GameObject:
   m_ObjectHideFlags: 0
@@ -499,10 +529,67 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
   m_PrefabInstance: {fileID: 5043619578101066242}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4085115037935910914 stripped
+--- !u!1001 &8179477989024039177
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 5226446580903751955}
+    m_Modifications:
+    - target: {fileID: 3595648648278100428, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_Name
+      value: Extraction Tunnel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+--- !u!114 &922359241883921161 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9029637207977994752, guid: 9e819497401ef314f89b48f868620a76, type: 3}
-  m_PrefabInstance: {fileID: 5043619578101066242}
+  m_PrefabInstance: {fileID: 8179477989024039177}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
@@ -510,3 +597,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f52d914a5590ad47a9d60a5bc854217, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &1770731422232321023 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7571027320532638454, guid: 9e819497401ef314f89b48f868620a76, type: 3}
+  m_PrefabInstance: {fileID: 8179477989024039177}
+  m_PrefabAsset: {fileID: 0}

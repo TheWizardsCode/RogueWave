@@ -22,10 +22,10 @@ namespace WizardsCode.RogueWave
         private RectTransform standbyPanel;
 
         [Header("Level Map")]
-        [SerializeField, Tooltip("The campaign definition to use for the map."), Expandable]
-        private CampaignDefinition campaignDefinition;
         [SerializeField, Tooltip("The parent object to hold the map.")]
         private RectTransform parent;
+
+        private CampaignDefinition campaignDefinition;
 
         public override Selectable startingSelection
         {
@@ -34,6 +34,7 @@ namespace WizardsCode.RogueWave
 
         private void Start()
         {
+            campaignDefinition = FindObjectOfType<RogueWaveGameMode>().Campaign;
             GenerateMap();
         }
 
@@ -146,7 +147,7 @@ namespace WizardsCode.RogueWave
                 levelElement.Init(levelDefinition);
                 levelElement.name = levelDefinition.DisplayName;
                 levelElement.OnLevelClicked += OnLevelClicked;
-
+                
                 columnIndex++;
             }
         }

@@ -19,6 +19,7 @@ using NeoFPS.Samples;
 using WizardsCode.RogueWave;
 using System.Linq;
 using static WizardsCode.RogueWave.ExtractionFXController;
+using System;
 
 namespace RogueWave
 {
@@ -864,6 +865,18 @@ namespace RogueWave
             }
 
             RogueLiteManager.persistentData.isDirty = true;
+        }
+
+        public void OnAchievementUnlocked(Achievement achievement)
+        {
+            if (currentLevelDefinition.completedAchievement == achievement && currentLevelDefinition.extractUponCompletion)
+            {
+                if (m_VictoryCoroutine == null)
+                {
+                    LogGameState("Level Cleared - Completed Achievement");
+                    m_VictoryCoroutine = StartCoroutine(DelayedLevelCompleteCoroutine(m_VictoryDuration));
+                }
+            }
         }
 
         internal void RegisterPortal(PortalController portal)

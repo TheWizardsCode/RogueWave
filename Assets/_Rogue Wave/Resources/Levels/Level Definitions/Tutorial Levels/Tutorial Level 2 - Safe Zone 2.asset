@@ -10,11 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Safe Zone 1 - No Waves
+  m_Name: Tutorial Level 2 - Safe Zone 2
   m_EditorClassIdentifier: 
+  displayName: Safe Zone 2
+  description: 
+  unlockAchievement: {fileID: 11400000, guid: d7d1170ef89450546a4094698361c5dd, type: 2}
   seed: 0
   lotSize: {x: 25, y: 25}
-  mapSize: {x: 20, y: 20}
+  mapSize: {x: 10, y: 10}
   encloseLevel: 1
   defaultTileDefinition: {fileID: 11400000, guid: 3a728f45fec478b468fe70fc4df5f1d0, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 660fe9fd2fb428a45b0e71753076a8ba, type: 2}
@@ -22,7 +25,6 @@ MonoBehaviour:
   forbiddenTiles:
   - {fileID: 11400000, guid: 5d01d1101da7caf438911fcd75d8f6d3, type: 2}
   - {fileID: 11400000, guid: 8c46c3f90739ab8478ee6f9d13b715a9, type: 2}
-  - {fileID: 11400000, guid: 7937126061b5d704ea90b17adf1ca66e, type: 2}
   - {fileID: 11400000, guid: 2b891ffa06888064da5224b8f6c5c8b7, type: 2}
   waves: []
   waveWait: 5

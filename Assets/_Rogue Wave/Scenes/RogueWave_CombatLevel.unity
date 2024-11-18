@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1012602652}
-  m_IndirectSpecularColor: {r: 0.0013716118, g: 0.0043146163, b: 0.014689375, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1663,7 +1662,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 905963099382226170, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
   m_PrefabInstance: {fileID: 1877036596}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1877036599}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 421f12c4cc2c4614f9e0616ef942cf44, type: 3}
@@ -1923,6 +1922,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1811197117}
     - target: {fileID: 7050872739850107185, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      propertyPath: m_Campaign
+      value: 
+      objectReference: {fileID: 11400000, guid: 4510a5b0a6b282a4993e2009bf52b8ae, type: 2}
+    - target: {fileID: 7050872739850107185, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       propertyPath: extractionFx
       value: 
       objectReference: {fileID: 1051823329}
@@ -1945,13 +1948,60 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 5226446580903751955, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1051823328}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5223561033937574973, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1877036600}
   m_SourcePrefab: {fileID: 100100000, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
 --- !u!4 &1877036597 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5226446580903751955, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
   m_PrefabInstance: {fileID: 1877036596}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1877036598 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7050872739850107185, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+  m_PrefabInstance: {fileID: 1877036596}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877036599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe07f003119ea994b8921e2e6f63f8a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1877036599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5223561033937574973, guid: 3f2b5cc90618dbb46b29cd834ae94c12, type: 3}
+  m_PrefabInstance: {fileID: 1877036596}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1877036600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1877036599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 846ade22369f4584385244da875af707, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 11400000, guid: b062e84cce1634d4b8f87fbce28ae2a0, type: 2}
+  Response:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1877036598}
+        m_TargetAssemblyTypeName: RogueWave.RogueWaveGameMode, org.wizardscode.roguewave
+        m_MethodName: OnAchievementUnlocked
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &1895975397
 PrefabInstance:
   m_ObjectHideFlags: 0

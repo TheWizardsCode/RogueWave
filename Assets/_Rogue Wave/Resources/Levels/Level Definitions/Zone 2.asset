@@ -10,27 +10,32 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Level 3
+  m_Name: Zone 2
   m_EditorClassIdentifier: 
+  displayName: 'Zone 2 '
+  description: 
+  unlockAchievement: {fileID: 0}
   seed: 0
   lotSize: {x: 25, y: 25}
-  mapSize: {x: 10, y: 10}
+  mapSize: {x: 8, y: 8}
   encloseLevel: 1
   defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  excludedTileTypes: 256
+  forbiddenTiles: []
   waves:
-  - {fileID: 11400000, guid: d4b0e437136e476478ae4b38450caeb5, type: 2}
-  - {fileID: 11400000, guid: 01a2adc2928cc0a4bb94dc1d6469b265, type: 2}
-  - {fileID: 11400000, guid: 6fa5b17bebeae8847ad647af161b3439, type: 2}
-  - {fileID: 11400000, guid: 9e24e55deb2656b48937f4f9bd41586c, type: 2}
-  - {fileID: 11400000, guid: bc2df539fe776364185ffe463460e717, type: 2}
+  - {fileID: 11400000, guid: f545b534c099a924c88c3f7f324e71b4, type: 2}
+  - {fileID: 11400000, guid: 273bb9a4b35c19e429004a37da0600f6, type: 2}
+  - {fileID: 11400000, guid: 93005a647864ec04ba24767121db174c, type: 2}
+  - {fileID: 11400000, guid: 393849d506e0ff44aa3eb03ad111a95a, type: 2}
+  - {fileID: 11400000, guid: 495b14cd6150e46408ae8dfafc17447e, type: 2}
   waveWait: 10
   generateNewWaves: 1
-  maxAlive: 130
+  maxAlive: 120
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: d06759628af557e42b3babe3e8f4909e, type: 2}
-  - {fileID: 11400000, guid: b3a48cd97854daa4283847f243cab8d7, type: 2}
+  - {fileID: 11400000, guid: 7432d555d7bbbc545ba8968d3c49d34b, type: 2}
   levelReadyAudioClips: []
   levelCompleteAudioClips: []
   deathAudioClips: []
@@ -149,14 +154,14 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    levelNumber: 3
-    MapSize: {x: 10, y: 10}
+    levelNumber: 2
+    MapSize: {x: 8, y: 8}
     numberOfWaves: 5
-    startingChallengeRating: 2000
-    peakChallengeRating: 2750
+    startingChallengeRating: 1500
+    peakChallengeRating: 2000
     prePlacedTiles:
     - {fileID: 11400000, guid: d06759628af557e42b3babe3e8f4909e, type: 2}
-    - {fileID: 11400000, guid: b3a48cd97854daa4283847f243cab8d7, type: 2}
+    - {fileID: 11400000, guid: 7432d555d7bbbc545ba8968d3c49d34b, type: 2}
     enemies:
     - {fileID: 4070675553001932281, guid: 7dc7dfe04f45a9744bb4f37c5cbd57cc, type: 3}
     - {fileID: 4070675553001932281, guid: 400bc9d6f76a42a48bacbf4977d62dc7, type: 3}
@@ -170,10 +175,10 @@ MonoBehaviour:
     earliestWavePercentage:
     - 0.01
     - 0.07
-    - 0.43
+    - 0.1
     - 0
-    - 0.36
-    - 0.12
-    - 0.99
-    - 0.75
+    - 0.17
+    - 0.27
+    - 0.79
+    - 0.56
     - 0

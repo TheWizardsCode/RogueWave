@@ -10,23 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db2780a62bc34f542a3786313e30077a, type: 3}
-  m_Name: Level 5
+  m_Name: Zone 6
   m_EditorClassIdentifier: 
+  displayName: Zone 6
+  description: 
+  unlockAchievement: {fileID: 0}
   seed: 0
   lotSize: {x: 25, y: 25}
   mapSize: {x: 14, y: 14}
   encloseLevel: 1
   defaultTileDefinition: {fileID: 11400000, guid: 398f3e923b86aff449c789596ad79ce2, type: 2}
   wallTileDefinition: {fileID: 11400000, guid: 3378576966df0934bbfa901eba00ff64, type: 2}
+  excludedTileTypes: 256
+  forbiddenTiles: []
   waves:
-  - {fileID: 11400000, guid: 3ce55440cfc43c9498b1edc2258d3d3d, type: 2}
-  - {fileID: 11400000, guid: bf5c1e4567024a146aac6ee175c3337b, type: 2}
-  - {fileID: 11400000, guid: 8933f491b5b58ba46a400d479a36370b, type: 2}
-  - {fileID: 11400000, guid: d8879ee6ee7890d4380bc6a060a632f4, type: 2}
-  - {fileID: 11400000, guid: 369c576de85f0f64bafa8d4ab3d2b114, type: 2}
+  - {fileID: 11400000, guid: bcc18c73d27157f4ab2b2842e1cf7563, type: 2}
+  - {fileID: 11400000, guid: 9211fd51c1857ff4485adcf94dcd6c6a, type: 2}
+  - {fileID: 11400000, guid: 09d6f715d147ea2498d87ac96838ec06, type: 2}
+  - {fileID: 11400000, guid: 4ec685bb0da53c740842160eaba685c8, type: 2}
+  - {fileID: 11400000, guid: e4bc06f44fbafdb46a4427f942e9f53f, type: 2}
   waveWait: 10
   generateNewWaves: 1
-  maxAlive: 150
+  maxAlive: 160
   generateLevelOnSpawn: 1
   prePlacedTiles:
   - {fileID: 11400000, guid: 996df388e5e1d2c43ac3048a38b10ef1, type: 2}
@@ -150,11 +155,11 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    levelNumber: 5
+    levelNumber: 6
     MapSize: {x: 14, y: 14}
     numberOfWaves: 5
-    startingChallengeRating: 3000
-    peakChallengeRating: 4000
+    startingChallengeRating: 3500
+    peakChallengeRating: 5000
     prePlacedTiles:
     - {fileID: 11400000, guid: 996df388e5e1d2c43ac3048a38b10ef1, type: 2}
     - {fileID: 11400000, guid: efb24c1a68b57a543b1312f4a2081986, type: 2}
