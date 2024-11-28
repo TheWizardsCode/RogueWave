@@ -1,5 +1,6 @@
 using ModelShark;
 using NaughtyAttributes;
+using NeoFPS;
 using NeoSaveGames.SceneManagement;
 using RosgueWave.UI;
 using System.Collections;
@@ -112,10 +113,43 @@ namespace RogueWave.Tutorial
             }
         }
 
+        private void Update()
+        {
+            if (TooltipManager.Instance != null && TooltipManager.Instance.VisibleTooltips().Count > 0)
+            {
+                bool cursorEnabled = false;
+                foreach (TooltipStyle tip in TooltipManager.Instance.VisibleTooltips())
+                {
+                    if (tip.cursorEnabled)
+                    {
+                        cursorEnabled = true;
+                        break;
+                    }
+                }
+
+                if (cursorEnabled)
+                {
+                    Cursor.lockState = CursorLockMode.None;
+                    Cursor.visible = true;
+                }
+                else
+                {
+                    if (NeoFpsInputManager.captureMouseCursor)
+                    {
+                        Cursor.lockState = CursorLockMode.Locked;
+                        Cursor.visible = false;
+                    }
+                    else
+                    {
+                        Cursor.lockState = CursorLockMode.None;
+                        Cursor.visible = true;
+                    }
+                }
+            }
+        }
+
         private void OnSceneLoaded(int sceneIndex)
         {
-            //GameLog.Log($"Scene loaded (index: {sceneIndex}");
-
             foreach (TutorialStep step in tutorialSteps)
             {
                 if (!step.TriggerBySceneLoad)
@@ -167,8 +201,6 @@ namespace RogueWave.Tutorial
 
         private IEnumerator ExecuteSceneLoadedStep()
         {
-            GameLog.Log($"Executing scene loaded tutorial step in {currentlyActiveStep.sceneName}");
-
             float endTime = Time.time;
             AudioClip sceneClip = null;
             if (currentlyActiveStep.audioClips.Length > 0)
@@ -209,8 +241,6 @@ namespace RogueWave.Tutorial
 
         private IEnumerator ExecuteSceneLoadingStep()
         {
-            GameLog.Log($"Executing scene loading tutorial step in {currentlyActiveStep.sceneName}");
-
             float oldDuration = NeoSceneManager.instance.minLoadScreenTime;
             NeoSceneManager.instance.minLoadScreenTime = currentlyActiveStep.duration;
 

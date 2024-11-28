@@ -19,7 +19,6 @@ using NeoFPS.Samples;
 using WizardsCode.RogueWave;
 using System.Linq;
 using static WizardsCode.RogueWave.ExtractionFXController;
-using System;
 
 namespace RogueWave
 {
@@ -294,13 +293,12 @@ namespace RogueWave
         {
             m_GameLog.Add("C, ");
 
-            playerExitedViaPortalEvent?.Raise();
+            if (usedPortal) {
+                playerExitedViaPortalEvent?.Raise();
 
-            SaveGameData("usedPortal");
-            GameLog.ClearLog();
+                SaveGameData("usedPortal");
+                GameLog.ClearLog();
 
-            if (usedPortal)
-            {
                 NeoSceneManager.LoadScene(RogueLiteManager.portalScene);
             }
             else
@@ -360,7 +358,9 @@ namespace RogueWave
             }
 
             if (inGame)
+            {
                 DelayedVictoryAction(false);
+            }
         }
 
         /// <summary>
@@ -416,7 +416,9 @@ namespace RogueWave
             }
 
             if (inGame)
+            {
                 DelayedVictoryAction(false);
+            }
         }
 
         /// <summary>
@@ -462,7 +464,9 @@ namespace RogueWave
             }
 
             if (inGame)
+            {
                 DelayedVictoryAction(true);
+            }
         }
 
         /// <summary>
@@ -873,8 +877,8 @@ namespace RogueWave
             {
                 if (m_VictoryCoroutine == null)
                 {
-                    LogGameState("Level Cleared - Completed Achievement");
-                    m_VictoryCoroutine = StartCoroutine(DelayedLevelCompleteCoroutine(m_VictoryDuration));
+                    LogGameState($"Level Cleared - Unlocked {achievement.displayName}");
+                    m_VictoryCoroutine = StartCoroutine(DelayedLevelClearedCoroutine(m_VictoryDuration));
                 }
             }
         }

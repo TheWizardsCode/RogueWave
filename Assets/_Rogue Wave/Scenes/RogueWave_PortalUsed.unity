@@ -38,7 +38,6 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.09691752, g: 0.14289683, b: 0.2182675, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -407,26 +406,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6749420315573853626, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6749420315573853626, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6749420315573853626, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6749420315573853626, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6749420315573853626, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8461757649144180606, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -596,6 +575,7 @@ GameObject:
   - component: {fileID: 1613145712}
   - component: {fileID: 1613145713}
   - component: {fileID: 1613145711}
+  - component: {fileID: 1613145714}
   m_Layer: 0
   m_Name: Music Manager
   m_TagString: Untagged
@@ -726,10 +706,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b389cc3a6765c694499da924d1e1440c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tracks:
-  - {fileID: 8300000, guid: 11e216d6ca10f7f4b87b20cce3500b39, type: 3}
+  menuTracks: []
+  combatTracks: []
   fadeDuration: 2
   pauseDuration: 3
+--- !u!114 &1613145714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1613145710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b7719bfed588a542a9b2bcd5e785b15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  master: {fileID: 24300002, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+  music: {fileID: 243651810819452942, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+  nanobots: {fileID: 4335624798834282943, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+  effectsMaster: {fileID: 243957145267007018, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+  ui: {fileID: 243733795572159108, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+  ambience: {fileID: 243851859824196598, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+  spatial: {fileID: 243059815924327020, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
+  twoDimensional: {fileID: 2605475669295944050, guid: 090e176f124ab2e448830cb64d8618db, type: 2}
 --- !u!1 &1866998861
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,8 +760,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eebd5a9c686195a4d98e957f64f78c9e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  introScene: RogueWave_MainMenu
   loadingScreen: RogueWave_LoadingScene
-  introScene: 
+  tutorialTooltipStyle: {fileID: 0}
+  tutorialTooltipMinWidth: 300
+  tutorialTooltipMaxWidth: 500
+  showWelcomeTooltip: 0
+  welcomeTooltip: {fileID: 0}
+  showDebug: 0
+  resetTutorial: 0
 --- !u!4 &1866998863
 Transform:
   m_ObjectHideFlags: 0
@@ -1113,15 +1120,19 @@ MonoBehaviour:
   m_text: 'Congratulations. You made it home and thus completed the demo.
 
 
-    Most
-    levels are procedurally generated, why not try to find another way through?
-
-    Or
-    simply carry on in endless mode.
+    The
+    full game will, of course, have much more content. Some of which you will have
+    seen hints at in the demo.
 
 
-    Let us know what you thought. Join our
-    discord, below.'
+    Most levels are procedurally generated, why
+    not try to find another way through?
+
+    Or simply carry on in endless mode.
+
+
+    Help
+    us improve the game, provide your feedback below, and/or join our discord.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1148,10 +1159,10 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.75
-  m_fontSizeBase: 36
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
-  m_enableAutoSizing: 1
+  m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
@@ -1329,8 +1340,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -324.95}
-  m_SizeDelta: {x: 1600, y: 200}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1100, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7233797836864204105
 CanvasRenderer:
@@ -1372,10 +1383,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 6188147484124454786}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1600, y: 200}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

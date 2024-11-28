@@ -41,7 +41,7 @@ namespace WizardsCode.Tutorial
             tooltipTrigger.SetText("BodyText", script);
             tooltipTrigger.SetText("ButtonText", buttonText);
             
-            tooltipTrigger.Popup(8f, TutorialManager.gameObject);
+            tooltipTrigger.Popup(Mathf.Infinity, TutorialManager.gameObject);
         }
     }
 }
