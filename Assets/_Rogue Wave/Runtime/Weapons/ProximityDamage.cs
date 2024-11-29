@@ -12,6 +12,8 @@ namespace RogueWave
     {
         [SerializeField, Tooltip("The type of damage. You can manage damage types in the Neo FPS hub.")]
         private DamageType damageType = DamageType.Default;
+        [SerializeField, Tooltip("The delay before damage is applied after contact is made. This is used to allow animations and effects time to play.")]
+        private float damageDelay = 0f;
         [SerializeField, Tooltip("The total damage to apply per second.")]
         private float damagePerSecond = 10f;
         [SerializeField, Tooltip("The maximum amount of damage to apply. Once this is reached the enemy can no longer consume energy from the target. They will return to their spawn point. If this is set to 0 then there is no limit on the damage done.")]
@@ -30,6 +32,7 @@ namespace RogueWave
 
         private Dictionary<int, IDamageHandler> damageHandlers = new Dictionary<int, IDamageHandler>();
         private float inflictedDamageSinceRecharge;
+        private float timeOfFirstContact;
 
         protected void Awake()
         {
@@ -48,15 +51,22 @@ namespace RogueWave
                     contactEffect.Play();
                 }
                 damageHandlers.Add(other.gameObject.GetInstanceID(), damageHandler);
+
+                timeOfFirstContact = Time.time;
             }
         }
 
         protected void OnTriggerStay(Collider other)
         {   
+            if (timeOfFirstContact + damageDelay > Time.time)
+            {
+                return;
+            }
+
             IDamageHandler handler;
             if (damageHandlers.TryGetValue(other.gameObject.GetInstanceID(), out handler))
             {
-                float damage = damagePerSecond * Time.deltaTime;
+                float damage = damagePerSecond * Time.deltaTime / damageHandlers.Count;
 
                 handler.AddDamage(damage, this);
 

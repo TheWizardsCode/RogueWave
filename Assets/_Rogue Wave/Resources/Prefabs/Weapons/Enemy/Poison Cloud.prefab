@@ -53,7 +53,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 3
+  m_Radius: 6
   m_Center: {x: 0, y: 1.4, z: 0}
 --- !u!114 &4747576072693336032
 MonoBehaviour:
@@ -68,7 +68,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageType: 5
-  damagePerSecond: 4
+  damageDelay: 1
+  damagePerSecond: 2
   maxDamage: 0
   damageDescription: Poison
   contactClip:
