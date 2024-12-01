@@ -565,7 +565,7 @@ GameObject:
   - component: {fileID: 831646703}
   - component: {fileID: 831646705}
   m_Layer: 0
-  m_Name: Tutorial Manager
+  m_Name: Story Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -588,10 +588,10 @@ MonoBehaviour:
   tutorialTooltipStyle: {fileID: 8987198942988261233, guid: 7612d4bb44770de409bdd8925dfdae13, type: 3}
   tutorialTooltipMinWidth: 400
   tutorialTooltipMaxWidth: 700
-  showWelcomeTooltip: 1
-  welcomeTooltip: {fileID: 11400000, guid: 5ec13dc1932ed694a8b6e9dcbe15561a, type: 2}
+  showWelcomeBeat: 1
+  welcomeBeat: {fileID: 11400000, guid: 5ec13dc1932ed694a8b6e9dcbe15561a, type: 2}
   showDebug: 1
-  resetTutorial: 1
+  resetStory: 0
 --- !u!4 &831646704
 Transform:
   m_ObjectHideFlags: 0

@@ -776,10 +776,11 @@ namespace RogueWave
 
             // If this is the first run then we need to ensure the player has a minimum amount of resources
             // TODO: Remove hard coding of resource stat key
-            if (RogueLiteManager.persistentData.runNumber == 1 && GameStatsManager.Instance.GetIntStat("RESOURCES").value < 150) // this will be the players first run
-            {
-                GameStatsManager.Instance.GetIntStat("RESOURCES").SetValue(150);
-            }
+            // Looks like we no longer need this. Code commented out 11/28/24
+            //if (RogueLiteManager.persistentData.runNumber == 1 && GameStatsManager.Instance.GetIntStat("RESOURCES").value < 150) // this will be the players first run
+            //{
+            //    GameStatsManager.Instance.GetIntStat("RESOURCES").SetValue(150);
+            //}
 
             // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.
             for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)

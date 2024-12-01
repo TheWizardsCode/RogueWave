@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de8813b9e997ca4c8af3dc99838e4e3, type: 3}
+  m_Name: Beat 2 Zones and Run Upgrades
+  m_EditorClassIdentifier: 
+  displayName: Zones and Run Upgrades
+  description: The player is dropped into a reasonably safe zone to gather their
+    first resources and call in their first upgrades.
+  duration: 12
+  requiredEvent: {fileID: 11400000, guid: 62734dc33d914fe498082946709a707d, type: 2}
+  requiredAchievement: {fileID: 0}
+  hasSceneTrigger: 0
+  sceneName: RogueWave_CombatLevel
+  isLoadingScene: 0
+  heroImage: {fileID: 0}
+  script: "This is a fairly safe zone but resources are a little scarce here. \n\nWatch
+    out for some of the flora, which emits poisonous spores if disturbed.  But you
+    don't need to worry too much about being attacked here, there are only animals
+    here. \n\nThat said, remember this is not like your world. you will likely encounter
+    some wild animals that operate in strange ways.\n\nAs you gather resources we
+    will be able to build upgrades in the field. Listen out for notifications and
+    watch your HUD for details.\r\n\r\nOnce you have gathered 500 resources here
+    we will bring you back for some more upgrades."
+  actor: 0
+  audioClips: []
+  showDebug: 0
+  m_TooltipStyleOverride: {fileID: 8987198942988261233, guid: 06a7aa39576313045baa2ecb5335e3bd, type: 3}
+  buttonText: Continue

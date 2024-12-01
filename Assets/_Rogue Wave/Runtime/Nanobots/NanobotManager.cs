@@ -18,8 +18,9 @@ namespace RogueWave
     {
         public enum ResourceType
         {
-            Refined,
-            Crystal
+            Refined = 0,
+            Crystal = 1,
+            Moissanite = 10
         }
         enum voiceDescriptionLevel { Silent, Low, Medium, High }
 
@@ -60,6 +61,8 @@ namespace RogueWave
         private IntGameStat m_Resources;
         [SerializeField, Tooltip("The unrefined crystal resources gathered."), BoxGroup("Game Stats")]
         private IntGameStat m_CrystalResourcesCollected;
+        [SerializeField, Tooltip("The number of special crystals collected so far. Special crystals are the ones needed to create the portal home."), BoxGroup("Game Stats")]
+        private IntGameStat m_SpecialCrystalsCollected;
         [SerializeField, Tooltip("The GameStat to increment when a recipe is called in during a run."), BoxGroup("Game Stats")]
         internal IntGameStat m_RecipesCalledInStat;
         [SerializeField, Tooltip("The GameStat to store the maximum nanobot level the player has attained."), BoxGroup("Game Stats")]
@@ -705,10 +708,10 @@ namespace RogueWave
         /// <returns></returns>
         private bool TryAmmoRecipes(float minimumAmmoAmount)
         {
-            SharedPoolAmmo ammoPoolUnderTest = inventory.selected.GetComponent<SharedPoolAmmo>();
+            SharedPoolAmmo ammoPoolUnderTest = inventory.selected?.GetComponent<SharedPoolAmmo>();
 
             // First check the ammo for the currently selected weapon
-            if (inventory.selected != null)
+            if (ammoPoolUnderTest != null)
             {
                 for (int i = 0; i < ammoRecipes.Count; i++)
                 {
@@ -965,10 +968,13 @@ namespace RogueWave
             resourcesForNextNanobotLevel -= amount;
             m_Resources.Add(amount);
 
-            // TODO: This should be handled by the GameStat.SetValue() method where we collect other stats like this. Or perhaps it should be an event fired here....
+            // TODO: We should replace the ResourceType enum with a Scriptable Object Enum which defines the game stats to be incremented when a resource is collected.
             if (resourceType == ResourceType.Crystal)
             {
-                m_CrystalResourcesCollected.Add(amount);
+                m_CrystalResourcesCollected.Add(amount); // TODO: perhaps crystals should be more valuable than refined resources, currently they are identical in value
+            } else if (resourceType == ResourceType.Moissanite)
+            {
+                m_SpecialCrystalsCollected.Add(1); // TODO: maybe collect special crystals individually so that we need to collect a target amount. This could be by finding it in the wild, or by creating it from other resources.
             }
         }
 

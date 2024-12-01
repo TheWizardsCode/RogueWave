@@ -1,6 +1,6 @@
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 using RogueWave.GameStats;
-using RogueWave.Tutorial;
+using RogueWave.Story;
 using System.Linq;
 using UnityEngine;
 using WizardsCode.CommandTerminal;
@@ -14,7 +14,7 @@ namespace WizardsCode.RogueWave.CommandTerminal
         {
             if (Terminal.IssuedError) return;
 
-            TutorialManager.ClearTutorialProgress();
+            StoryManager.ClearStoryProgress();
             Terminal.Log("Tutorial progress cleared.");
         }
 

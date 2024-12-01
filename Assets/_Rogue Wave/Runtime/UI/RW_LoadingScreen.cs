@@ -1,5 +1,5 @@
 ﻿using NeoSaveGames.SceneManagement;
-using RogueWave.Tutorial;
+using RogueWave.Story;
 using System;
 using System.Collections;
 using System.Text.RegularExpressions;
@@ -54,10 +54,10 @@ namespace RogueWave.UI
                 ShowSaveWarning();
             }
 
-            TutorialManager tutorialManager = GameObject.FindObjectOfType<TutorialManager>();
+            StoryManager tutorialManager = GameObject.FindObjectOfType<StoryManager>();
             if (tutorialManager != null)
             {
-                isTutorial = tutorialManager.currentlyActiveStep != null;
+                isTutorial = tutorialManager.currentlyActiveBeat != null && !tutorialManager.currentlyActiveBeat.IsComplete;
             } else
             {
                 isTutorial = false;
@@ -65,8 +65,8 @@ namespace RogueWave.UI
 
             if (isTutorial)
             {
-                ShowHeroImage(tutorialManager.currentlyActiveStep.heroImage);
-                m_StoryText.text = Regex.Replace(tutorialManager.currentlyActiveStep.script, "\\s*<.*?/>", string.Empty);
+                ShowHeroImage(tutorialManager.currentlyActiveBeat.heroImage);
+                m_StoryText.text = Regex.Replace(tutorialManager.currentlyActiveBeat.script, "\\s*<.*?/>", string.Empty);
                 m_TutorialContainer.gameObject.SetActive(true);
                 m_NoneTutorialContainer.gameObject.SetActive(false);
             } else

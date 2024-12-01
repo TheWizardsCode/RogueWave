@@ -91,7 +91,7 @@ namespace RogueWave.GameStats
 
         public void OnEventRaised(IParameterizedGameEvent<int> e, int change)
         {
-            if (e is IntStatEvent intEvent && intEvent.stat == m_StatToTrack)
+            if (e is IntGameEvent intEvent && intEvent.stat == m_StatToTrack)
             {
                 if (intEvent.stat.value >= m_TargetValue)
                 {

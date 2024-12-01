@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de8813b9e997ca4c8af3dc99838e4e3, type: 3}
+  m_Name: Beat 3a Special Crystals and Permanent Upgrades
+  m_EditorClassIdentifier: 
+  displayName: Special Crystals and Permanent Upgrades
+  description: Back in the Hub the nanobots permanently install some upgrades for
+    the player.
+  duration: 12
+  requiredEvent: {fileID: 0}
+  requiredAchievement: {fileID: 0}
+  hasSceneTrigger: 1
+  sceneName: RogueWave_HubScene
+  isLoadingScene: 0
+  heroImage: {fileID: 0}
+  script: "We now have resources and can make you stronger. Any upgrades you select
+    here in the Hub are permanent. They will survive an emergency extraction. \n\nHowever,
+    to build the portal generator we need specific kinds of crystal. \n\nWhen you
+    have finished upgrading let us know by selecting the \"Prepare for Nanotransfer\"
+    and we'll prepare for a new zone that we believe contains some of these special
+    crystals."
+  actor: 0
+  audioClips: []
+  showDebug: 0
+  m_TooltipStyleOverride: {fileID: 0}
+  buttonText: Continue

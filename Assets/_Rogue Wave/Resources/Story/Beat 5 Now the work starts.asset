@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de8813b9e997ca4c8af3dc99838e4e3, type: 3}
+  m_Name: Beat 5 Now the work starts
+  m_EditorClassIdentifier: 
+  displayName: Special Crystals and Permanent Upgrades
+  description: Back in the Hub the nanobots permanently install some upgrades for
+    the player.
+  duration: 12
+  requiredEvent: {fileID: 0}
+  requiredAchievement: {fileID: 0}
+  hasSceneTrigger: 1
+  sceneName: RogueWave_HubScene
+  isLoadingScene: 0
+  heroImage: {fileID: 0}
+  script: "Wonderful, you have gathered the first specialist crystal. But we need
+    others. \n\nThe natives have figured out what we are up to. They want to stop
+    us. They've enabled spawners in each zone and will likely send in waves of enemies
+    to protect their resources. \n\nWill you focus on offense. defense or a combination
+    of both? Will you seek to improve yourself or will you power up your nanobot
+    equipment?\n\nIn all likelyhood a balance of both approaches may be best, but
+    it's your choice."
+  actor: 0
+  audioClips: []
+  showDebug: 0
+  m_TooltipStyleOverride: {fileID: 0}
+  buttonText: Continue

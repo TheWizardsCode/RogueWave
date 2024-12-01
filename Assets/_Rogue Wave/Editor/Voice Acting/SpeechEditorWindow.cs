@@ -1,7 +1,7 @@
 using ElevenLabs;
 using ElevenLabs.Voices;
 using RogueWave;
-using RogueWave.Tutorial;
+using RogueWave.Story;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -25,7 +25,7 @@ namespace WizardsCode.Speech
         private RecorderController recordingController;
         private AudioSource audioSource;
         private AbstractRecipe[] allRecipes;
-        private TutorialStep[] allTutorialSteps;
+        private StoryBeat[] allTutorialSteps;
         private int voicelineVariations = 4;
         private float rate = 1;
 
@@ -52,7 +52,7 @@ namespace WizardsCode.Speech
             audioSource = FindAnyObjectByType<AudioSource>();
 
             allRecipes = Resources.LoadAll<AbstractRecipe>("Recipes");
-            allTutorialSteps = Resources.LoadAll<TutorialStep>("Tutorial");
+            allTutorialSteps = Resources.LoadAll<StoryBeat>("Tutorial");
 
             voicelineVariations = EditorPrefs.GetInt("SpeechEditorWindow.voicelineVariations");
             rate = EditorPrefs.GetFloat("SpeechEditorWindow.rate", 1);
@@ -159,7 +159,7 @@ namespace WizardsCode.Speech
         private async void OnTutorialStepGUI()
         {
             List<AbstractRecipe> voicedRecipe = new List<AbstractRecipe>();
-            List<TutorialStep> voicedTutorialSteps = new List<TutorialStep>();
+            List<StoryBeat> voicedTutorialSteps = new List<StoryBeat>();
 
             GUILayout.Space(10);
 
@@ -171,7 +171,7 @@ namespace WizardsCode.Speech
                 if (GUILayout.Button($"Generate All Unvoiced Tutorial Steps Voicelines", GUILayout.Width(300), GUILayout.Height(40)))
                 {
                     // TODO: only do this for unvoiced recipes. we have them in a separate list so we can do this.
-                    foreach (TutorialStep step in allTutorialSteps)
+                    foreach (StoryBeat step in allTutorialSteps)
                     {
                         if (step.audioClips.Length == 0)
                         {
@@ -194,7 +194,7 @@ namespace WizardsCode.Speech
             }
             GUILayout.EndHorizontal();
 
-            foreach (TutorialStep step in allTutorialSteps)
+            foreach (StoryBeat step in allTutorialSteps)
             {
                 GUILayout.BeginHorizontal();
                 if (step.audioClips.Length > 0)
@@ -239,7 +239,7 @@ namespace WizardsCode.Speech
 
             GUILayout.Space(10);
             GUILayout.Label("Voiced Tutorial Steps", EditorStyles.boldLabel);
-            foreach (TutorialStep step in voicedTutorialSteps)
+            foreach (StoryBeat step in voicedTutorialSteps)
             {
                 GUILayout.BeginHorizontal();
                 if (GUILayout.Button(step.displayName, EditorStyles.label))
@@ -376,7 +376,7 @@ namespace WizardsCode.Speech
             }
         }
 
-        private void SetVoiceFields(TutorialStep step)
+        private void SetVoiceFields(StoryBeat step)
         {
             textToConvert = step.script;
             filename = step.displayName;

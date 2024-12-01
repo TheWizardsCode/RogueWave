@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3de8813b9e997ca4c8af3dc99838e4e3, type: 3}
+  m_Name: Beat 3b Reconstruction
+  m_EditorClassIdentifier: 
+  displayName: Reconstruction
+  description: The player has experienced their first death and are being reconstructed.
+  duration: 12
+  requiredEvent: {fileID: 11400000, guid: d898f23fd09e164458efacd0c01beb00, type: 2}
+  requiredAchievement: {fileID: 0}
+  hasSceneTrigger: 1
+  sceneName: RogueWave_ReconstructionScene
+  isLoadingScene: 0
+  heroImage: {fileID: 0}
+  script: "We had to pull you out, you were too close to true death. \n\nEmergency
+    extractions only bring the essentials, you, the Nanobots with you and any resources
+    you have collected. Everything else has to be left behind.\n\r\nWhile we reconstruct
+    you take a look at your stats here. They can be useful in figuring out where
+    you are strong or weak. This can help you decide which zone to target next."
+  actor: 0
+  audioClips: []
+  showDebug: 0
+  m_TooltipStyleOverride: {fileID: 0}
+  buttonText: Continue

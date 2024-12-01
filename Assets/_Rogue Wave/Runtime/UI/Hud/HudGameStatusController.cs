@@ -109,7 +109,7 @@ namespace RogueWave
 
         public void OnResourcesChanged(IParameterizedGameEvent<int> e, int parameters)
         {
-            m_ResourcesText.text = ((IntStatEvent)e).stat.ToString();
+            m_ResourcesText.text = ((IntGameEvent)e).stat.ToString();
         }
     }
 }

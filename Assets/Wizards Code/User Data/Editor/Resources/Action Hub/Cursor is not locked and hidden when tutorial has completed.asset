@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f3a191fd1f7494eb7eb879d9e9e122, type: 3}
+  m_Name: Cursor is not locked and hidden when tutorial has completed
+  m_EditorClassIdentifier: 
+  m_DisplayName: Cursor is not locked and hidden when tutorial has completed
+  m_Description: 'The problem is that in TooltipManager.Update we are resetting the
+    cursor inside the check for active steps. When no active step exists the code
+    is not run and thus no reset takes place.
+
+
+    Need to track whether we changed
+    cursor behaviour and reset outside of the step check.'
+  m_Category: {fileID: 11400000, guid: 7921c15baccdd7f4a8e63e7b13745781, type: 2}
+  m_Priority: 5
+  m_ActivateOnUpdateAtStart: 0
+  m_IsComplete: 1
+  m_RelatedObjects: []

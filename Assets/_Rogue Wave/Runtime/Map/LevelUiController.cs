@@ -132,7 +132,7 @@ namespace RogueWave
                 if (levelDefinition.Completed)
                 {
                     launchButton.GetComponentInChildren<TMP_Text>().text = "Revisit";
-                    launchButton.interactable = false;
+                    launchButton.interactable = true;
                 }
                 else
                 {
