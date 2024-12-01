@@ -126,6 +126,8 @@ namespace RogueWave
                     cr += wave.ChallengeRating;
                 }
 
+                if (cr == 0) { cr = 1; }
+
                 return cr;
             }
         }
@@ -137,7 +139,7 @@ namespace RogueWave
                 StringBuilder sb = new StringBuilder();
 
                 sb.AppendLine(DisplayName);
-                sb.AppendLine($"Challenge Rating of {challengeRating}");
+                sb.AppendLine($"Challenge Rating: {challengeRating}");
 
                 HashSet<string> uniqueEnemies = new HashSet<string>();
                 foreach (WaveDefinition wave in waves)
@@ -147,7 +149,13 @@ namespace RogueWave
                         uniqueEnemies.Add(enemy.pooledEnemyPrefab.name);
                     }
                 }
-                sb.AppendLine($"<size=60%>({string.Join(", ", uniqueEnemies)})</size>");
+                if (uniqueEnemies.Count > 0)
+                {
+                    sb.AppendLine($"<size=60%>({string.Join(", ", uniqueEnemies)})</size>");
+                } else
+                {
+                    sb.AppendLine("No intelligent lifeforms identified in this zone.");
+                }
                 sb.AppendLine();
 
                 StringBuilder contains = new StringBuilder();
@@ -157,7 +165,7 @@ namespace RogueWave
                     {
                         continue;
                     }
-                    contains.AppendLine($"\t{tile.name}");
+                    contains.AppendLine($"\t{tile.DisplayName}");
                 }
 
                 if (contains.Length > 0)

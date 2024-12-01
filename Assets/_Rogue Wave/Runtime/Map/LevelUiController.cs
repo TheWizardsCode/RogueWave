@@ -6,7 +6,6 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using WizardsCode.RogueWave;
 
 namespace RogueWave
 {
@@ -177,14 +176,17 @@ namespace RogueWave
                 }
             }
 
-            // Sort enemies by their name
-            sortedEnemies = sortedEnemies.OrderBy(enemy => enemy.name).ToList();
-
-            foreach (var enemy in sortedEnemies)
+            if (sortedEnemies.Count > 0)
             {
-                EnemyDetailsUIController element = Instantiate(enemyDetailsPrototype, enemiesScrollRect.content);
-                element.enemy = enemy;
-                element.gameObject.SetActive(true);
+                // Sort enemies by their name
+                sortedEnemies = sortedEnemies.OrderBy(enemy => enemy.name).ToList();
+
+                foreach (var enemy in sortedEnemies)
+                {
+                    EnemyDetailsUIController element = Instantiate(enemyDetailsPrototype, enemiesScrollRect.content);
+                    element.enemy = enemy;
+                    element.gameObject.SetActive(true);
+                }
             }
         }
     }
