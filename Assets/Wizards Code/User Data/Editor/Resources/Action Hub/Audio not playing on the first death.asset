@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1f3a191fd1f7494eb7eb879d9e9e122, type: 3}
+  m_Name: Audio not playing on the first death
+  m_EditorClassIdentifier: 
+  m_DisplayName: Audio not playing on the first death
+  m_Description: 'Incorrect fade is happening in here...
+
+
+    Nanobots fading from
+    -80 to -80 over 0.1 seconds.
+
+    UnityEngine.Debug:Log (object)
+
+    WizardsCode.RogueWave.AudioManager/<FadeGroupCoroutine>d__29:MoveNext
+    () (at Assets/_Rogue Wave/Runtime/Audio/AudioManager.cs:152)
+
+    UnityEngine.MonoBehaviour:StartCoroutine
+    (System.Collections.IEnumerator)
+
+    WizardsCode.RogueWave.AudioManager:FadeGroup
+    (UnityEngine.Audio.AudioMixerGroup,single,single,System.Action) (at Assets/_Rogue
+    Wave/Runtime/Audio/AudioManager.cs:124)
+
+    WizardsCode.RogueWave.AudioManager:PlayNanobotOneShot
+    (UnityEngine.AudioClip,single) (at Assets/_Rogue Wave/Runtime/Audio/AudioManager.cs:354)
+
+    RogueWave.Story.StoryBeat:PlayClip
+    () (at Assets/_Rogue Wave/Runtime/Story/StoryBeat.cs:117)
+
+    RogueWave.Story.StoryBeat/<Execute>d__38:MoveNext
+    () (at Assets/_Rogue Wave/Runtime/Story/StoryBeat.cs:138)
+
+    UnityEngine.SetupCoroutine:InvokeMoveNext
+    (System.Collections.IEnumerator,intptr)
+
+'
+  m_Category: {fileID: 11400000, guid: 7921c15baccdd7f4a8e63e7b13745781, type: 2}
+  m_Priority: 10
+  m_ActivateOnUpdateAtStart: 0
+  m_IsComplete: 0
+  m_RelatedObjects: []
