@@ -66,7 +66,6 @@ namespace WizardsCode.StoryTeller
         private bool resetStory = false;
 
         Story m_Story;
-        StoryBeat[] storyBeats;
         private IActorController m_activeSpeaker;
 
         private Dictionary<string, Type> directions = new Dictionary<string, Type>();
@@ -76,8 +75,7 @@ namespace WizardsCode.StoryTeller
         List<WaitForState> waitForStates = new List<WaitForState>();
 
         AudioSource audioSource;
-        public IStoryBeat CurrentlyActiveBeat;
-
+        
         private bool m_IsDisplayingUI = false;
         bool isUIDirty = false;
         StringBuilder m_NewTextToDisplay = new StringBuilder();
@@ -164,30 +162,11 @@ namespace WizardsCode.StoryTeller
 
         private void Awake()
         {
-#if UNITY_EDITOR
-            if (resetStory)
-            {
-                ClearStoryProgress();
-            }
-#endif
-
             m_Story = new Story(m_InkJSON.text);
             IsDisplayingUI = true;
 
             DontDestroyOnLoad(gameObject);
             audioSource = gameObject.GetComponent<AudioSource>();
-
-            storyBeats = Resources.LoadAll<StoryBeat>("Story");
-            foreach (IStoryBeat beat in storyBeats)
-            {
-                beat.StoryManager = this;
-
-                IStoryBeat thisBeat = beat;
-                if (beat.RequiredEvent)
-                {
-                    beat.RequiredEvent.RegisterListener(() => OnRequiredEvent(thisBeat));
-                }
-            }
         }
 
         private void Start()
@@ -474,19 +453,6 @@ namespace WizardsCode.StoryTeller
             });
         }
 
-        private void StartBeat(IStoryBeat beat)
-        {
-#if UNITY_EDITOR
-            if (CurrentlyActiveBeat != null)
-            {
-                Debug.LogError("A story beat is already active, cannot start another beat until the current one is complete. Either wait for it to complete or call `StoryManager.FinishCurrentBeat()");
-                return;
-            }
-#endif
-            CurrentlyActiveBeat = beat;
-            StartCoroutine(beat.Execute());
-        }
-
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
@@ -497,15 +463,6 @@ namespace WizardsCode.StoryTeller
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
             SceneManager.activeSceneChanged -= OnActiveSceneChanged;
-
-            foreach (StoryBeat step in storyBeats)
-            {
-                if (step.RequiredEvent)
-                {
-                    IStoryBeat thisStep = step;
-                    step.RequiredEvent.UnregisterListener(() => OnRequiredEvent(thisStep));
-                }
-            }
         }
 
         private void Update()
@@ -536,44 +493,9 @@ namespace WizardsCode.StoryTeller
             }
         }
 
-        /// <summary>
-        /// Call this to advance the story ahead of the time elapsing.
-        /// </summary>
-        internal void FinishCurrentBeat()
-        {
-            // TODO: AudioManager.StopNanobots();
-
-            CurrentlyActiveBeat.Complete();
-            CurrentlyActiveBeat = null;
-        }
-
-        private void OnRequiredEvent(IStoryBeat beat)
-        {
-            if (!beat.HasSceneTrigger && !beat.IsComplete) // only execute if there is no scene defined, otherwise we will execute the next time the scene is loaded
-            {
-                StartBeat(beat);
-            }
-        }
-
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            foreach (StoryBeat step in storyBeats)
-            {
-                if (!step.HasSceneTrigger || step.IsComplete)
-                {
-                    continue;
-                }
-
-                if (step.hasSceneTrigger
-                    && !step.isLoadingScene
-                    && scene.name == step.sceneName)
-                {
-                    CurrentlyActiveBeat = step;
-
-                    StartCoroutine(ExecuteSceneLoadedStep());
-                    break;
-                }
-            }
+            throw new NotImplementedException();
         }
 
         private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
@@ -581,43 +503,8 @@ namespace WizardsCode.StoryTeller
             throw new NotImplementedException();
         }
 
-
-        //private void OnSceneLoadRequested(int sceneIndex, string sceneName)
-        //{
-        //    if (sceneIndex < 0) {
-        //        sceneIndex = SceneManagement.SceneBuildIndexFromName(sceneName);
-        //    }
-
-        //    currentlyActiveBeat = null;
-
-        //    foreach (StoryBeat step in storyBeats)
-        //    {
-        //        if (!step.HasSceneTrigger) 
-        //        { 
-        //            continue; 
-        //        }
-
-        //        if (step.isLoadingScene 
-        //            && sceneName == step.sceneName)
-        //        {
-        //            currentlyActiveBeat = step;
-
-        //            StartCoroutine(ExecuteSceneLoadingStep());
-        //            return;
-        //        }
-        //    }
-
-        //    NeoSceneManager.instance.minLoadScreenTime = 3;
-        //}
-
-        private IEnumerator ExecuteSceneLoadedStep()
+        private IEnumerator HideStoryManagedUIElements()
         {
-            if (CurrentlyActiveBeat.IsLoadingScene 
-                || !CurrentlyActiveBeat.ReadyToExecute) 
-            { 
-                yield break; 
-            }
-
             StoryManagedUIElement[] managedUIElements = null;
             Canvas canvas = FindObjectOfType<Canvas>();
 
@@ -632,25 +519,11 @@ namespace WizardsCode.StoryTeller
 
             yield return new WaitForSeconds(0.75f);
 
-            yield return CurrentlyActiveBeat.Execute();
-
             if (managedUIElements != null)
             {
                 SetUIState(true, managedUIElements);
             }
         }
-
-        //private IEnumerator ExecuteSceneLoadingStep()
-        //{
-        //    if (!currentlyActiveBeat.isLoadingScene || currentlyActiveBeat.IsComplete) { yield break; }
-
-        //    float oldDuration = NeoSceneManager.instance.minLoadScreenTime;
-        //    NeoSceneManager.instance.minLoadScreenTime = currentlyActiveBeat.duration;
-
-        //    yield return currentlyActiveBeat.Execute();
-
-        //    NeoSceneManager.instance.minLoadScreenTime = oldDuration;
-        //}
 
         /// <summary>
         /// Enables and disables UI elements when a story step is started or stopped.
@@ -690,18 +563,6 @@ namespace WizardsCode.StoryTeller
             {
                 Debug.LogError($"There is a direction that needs to operate on {objectName}, but the object cannot be found.");
                 return null;
-            }
-        }
-
-#if UNITY_EDITOR
-        [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Reset Story Progress", priority = 1)]
-        [Button, ShowIf("showDebug")]
-#endif
-        public static void ClearStoryProgress()
-        {
-            foreach(StoryBeat step in Resources.LoadAll<StoryBeat>("Story"))
-            {
-                step.Reset();
             }
         }
 

@@ -54,29 +54,11 @@ namespace RogueWave.UI
                 ShowSaveWarning();
             }
 
-            StoryManager storyManager = GameObject.FindObjectOfType<StoryManager>();
-            if (storyManager != null)
-            {
-                isStoryBeat = storyManager.CurrentlyActiveBeat != null && !storyManager.CurrentlyActiveBeat.IsComplete;
-            } else
-            {
-                isStoryBeat = false;
-            }
-
-            if (isStoryBeat)
-            {
-                ShowHeroImage(storyManager.CurrentlyActiveBeat.HeroImage);
-                m_StoryText.text = Regex.Replace(storyManager.CurrentlyActiveBeat.Script, "\\s*<.*?/>", string.Empty);
-                m_TutorialContainer.gameObject.SetActive(true);
-                m_NoneTutorialContainer.gameObject.SetActive(false);
-            } else
-            {
-                int loadingScreenDataIndex = Random.Range(0, m_LoadingScreenData.Length);
-                ShowHint(loadingScreenDataIndex);
-                ShowHeroImage(loadingScreenDataIndex);
-                m_TutorialContainer.gameObject.SetActive(false);
-                m_NoneTutorialContainer.gameObject.SetActive(true);
-            }
+            int loadingScreenDataIndex = Random.Range(0, m_LoadingScreenData.Length);
+            ShowHint(loadingScreenDataIndex);
+            ShowHeroImage(loadingScreenDataIndex);
+            m_TutorialContainer.gameObject.SetActive(false);
+            m_NoneTutorialContainer.gameObject.SetActive(true);
 
             NeoSceneManager.preSceneActivation += PreSceneActivation;
             NeoSceneManager.onSceneLoadProgress += OnSceneLoadProgress;

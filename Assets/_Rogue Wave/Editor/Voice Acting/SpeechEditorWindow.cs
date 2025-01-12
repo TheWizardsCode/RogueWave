@@ -25,7 +25,6 @@ namespace WizardsCode.Speech
         private RecorderController recordingController;
         private AudioSource audioSource;
         private AbstractRecipe[] allRecipes;
-        private StoryBeat[] allTutorialSteps;
         private int voicelineVariations = 4;
         private float rate = 1;
 
@@ -52,7 +51,6 @@ namespace WizardsCode.Speech
             audioSource = FindAnyObjectByType<AudioSource>();
 
             allRecipes = Resources.LoadAll<AbstractRecipe>("Recipes");
-            allTutorialSteps = Resources.LoadAll<StoryBeat>("Tutorial");
 
             voicelineVariations = EditorPrefs.GetInt("SpeechEditorWindow.voicelineVariations");
             rate = EditorPrefs.GetFloat("SpeechEditorWindow.rate", 1);
@@ -103,7 +101,6 @@ namespace WizardsCode.Speech
             EditorGUILayout.EndScrollView();
 
             tutorialStepScrollPosition = EditorGUILayout.BeginScrollView(tutorialStepScrollPosition, GUILayout.MaxHeight(height));
-            OnTutorialStepGUI();
             EditorGUILayout.EndScrollView();
             GUILayout.FlexibleSpace();
         }
@@ -153,125 +150,6 @@ namespace WizardsCode.Speech
                 EditorSceneManager.OpenScene(originalScene);
                 EditorApplication.playModeStateChanged -= PlayModeStateChanged;
                 originalScene = string.Empty;
-            }
-        }
-
-        private async void OnTutorialStepGUI()
-        {
-            List<AbstractRecipe> voicedRecipe = new List<AbstractRecipe>();
-            List<StoryBeat> voicedTutorialSteps = new List<StoryBeat>();
-
-            GUILayout.Space(10);
-
-            GUILayout.BeginHorizontal();
-            GUILayout.Label("Unvoiced Tutorial Steps", EditorStyles.boldLabel);
-            // TODO: Only show this button if there are unvoiced tutorial steps
-            if (Application.isPlaying)
-            {
-                if (GUILayout.Button($"Generate All Unvoiced Tutorial Steps Voicelines", GUILayout.Width(300), GUILayout.Height(40)))
-                {
-                    // TODO: only do this for unvoiced recipes. we have them in a separate list so we can do this.
-                    foreach (StoryBeat step in allTutorialSteps)
-                    {
-                        if (step.audioClips.Length == 0)
-                        {
-                            SetVoiceFields(step);
-
-                            int voiceIndex = 0;
-                            if (step.actor == Actor.Random) {
-                                voiceIndex = Random.Range(0, activeVoices.Count);
-                            } else
-                            {
-                                voiceIndex = (int)step.actor;
-                            }
-                            List<AudioClip> clips = await GenerateNanobotVoicelines(voiceIndex);
-                            step.audioClips = clips.ToArray();
-                            EditorUtility.SetDirty(step);
-                            AssetDatabase.SaveAssets();
-                        }
-                    }
-                }
-            }
-            GUILayout.EndHorizontal();
-
-            foreach (StoryBeat step in allTutorialSteps)
-            {
-                GUILayout.BeginHorizontal();
-                if (step.audioClips.Length > 0)
-                {
-                    voicedTutorialSteps.Add(step);
-                }
-                else
-                {
-                    if (GUILayout.Button(step.displayName, EditorStyles.label))
-                    {
-                        SetVoiceFields(step);
-                        Selection.activeObject = step;
-                    }
-                    if (Application.isPlaying)
-                    {
-                        if (GUILayout.Button($"Generate {voicelineVariations} Tutorial Step Voicelines", GUILayout.Width(200)))
-                        {
-                            Selection.activeObject = step;
-                            SetVoiceFields(step);
-
-                            EditorApplication.delayCall += async () =>
-                            {
-                                int voiceIndex = 0;
-                                if (step.actor == Actor.Random)
-                                {
-                                    voiceIndex = Random.Range(0, activeVoices.Count);
-                                }
-                                else
-                                {
-                                    voiceIndex = (int)step.actor;
-                                }
-                                List<AudioClip> clips = await GenerateNanobotVoicelines(voiceIndex); 
-                                step.audioClips = clips.ToArray();
-                                EditorUtility.SetDirty(step);
-                                AssetDatabase.SaveAssets();
-                            };
-                        }
-                    }
-                }
-                GUILayout.EndHorizontal();
-            }
-
-            GUILayout.Space(10);
-            GUILayout.Label("Voiced Tutorial Steps", EditorStyles.boldLabel);
-            foreach (StoryBeat step in voicedTutorialSteps)
-            {
-                GUILayout.BeginHorizontal();
-                if (GUILayout.Button(step.displayName, EditorStyles.label))
-                {
-                    EditorGUIUtility.PingObject(step);
-                    Selection.activeObject = step;
-                }
-
-                if (!Application.isPlaying)
-                {
-                    if (GUILayout.Button($"Delete All", GUILayout.Width(80)))
-                    {
-                        foreach (AudioClip clip in step.audioClips)
-                        {
-                            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(clip));
-                        }
-                        step.audioClips = new AudioClip[0];
-                        EditorUtility.SetDirty(step);
-                        AssetDatabase.SaveAssets();
-                    }
-
-                    if (GUILayout.Button($"Play {step.audioClips.Length} Script Clip(s)", GUILayout.Width(200)))
-                    {
-                        audioSource.outputAudioMixerGroup = null;
-                        foreach (AudioClip clip in step.audioClips)
-                        {
-                            audioSource.PlayOneShot(clip);
-                            await Task.Delay((int)(clip.length * 1.15f) * 1000);
-                        }
-                    }
-                }
-                GUILayout.EndHorizontal();
             }
         }
 
@@ -374,13 +252,6 @@ namespace WizardsCode.Speech
                 }
                 GUILayout.EndHorizontal();
             }
-        }
-
-        private void SetVoiceFields(StoryBeat step)
-        {
-            textToConvert = step.Script;
-            filename = step.displayName;
-            category = "Tutorial";
         }
 
         private void SetVoiceFields(AbstractRecipe recipe)
