@@ -1,12 +1,11 @@
 using ModelShark;
-using RosgueWave.UI;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace RogueWave.GameStats
 {
-    public class StatUIElement : RogueWaveUIElement
+    public class StatUIElement : MonoBehaviour
     {
         [SerializeField, Tooltip("The label to display the name of the stat.")]
         TextMeshProUGUI nameLabel;
@@ -44,12 +43,12 @@ namespace RogueWave.GameStats
             {
                 m_achievement = value;
                 achievementLabel.transform.parent.gameObject.SetActive(true);
-                achievementLabel.text = $"{m_achievement.displayName} @ {m_achievement.targetValue}";
+                achievementLabel.text = $"{m_achievement.displayName} @ {m_achievement.TargetValue}";
                 achievementIcon.sprite = m_achievement.icon;
 
                 achievementProgress.value = 0;
-                achievementProgress.maxValue = m_achievement.targetValue;
-                achievementProgress.value = m_achievement.stat.value;
+                achievementProgress.maxValue = m_achievement.TargetValue;
+                achievementProgress.value = m_achievement.Stat.value;
 
                 SetTooltipText();
             }

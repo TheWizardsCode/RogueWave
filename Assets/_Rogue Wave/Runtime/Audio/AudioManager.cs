@@ -42,6 +42,7 @@ namespace WizardsCode.RogueWave
                 {
                     GameObject settingsObject = FpsSettings.runtimeSettingsObject; // ensure the settings object is created
                     instance = FindObjectOfType<AudioManager>();
+                    instance.CaptureCurrentMixerLevels();
                     DontDestroyOnLoad(instance);
                 }
                 return instance;
@@ -52,11 +53,6 @@ namespace WizardsCode.RogueWave
         public float MusicVolume {
             get => currentVolumes[music];
             internal set => currentVolumes[music] = value; 
-        }
-
-        private void Start()
-        {
-            CaptureCurrentMixerLevels();
         }
 
         private void OnEnable()
@@ -119,22 +115,41 @@ namespace WizardsCode.RogueWave
             currentVolumes[twoDimensional] = startingVolume;
         }
 
+        /// <summary>
+        /// Set a group to a specified volume. The volume can be faded in
+        /// or instantly changed.
+        /// </summary>
+        /// <param name="group">The mixer group to reset.</param>
+        /// <param name="targetVolumeDb">The volume that the group should be set to.</param>
+        /// <param name="duration">If the duration is set to 0 then the group will be
+        /// set to the required volume instantly. If it is set to a value > 0 then it
+        /// will be faded over that number of seconds.</param>
+        /// <param name="callback">A callback that will be executed when the fade is completed. This will often be used to play a clip.</param>
         public static void FadeGroup(AudioMixerGroup group, float targetVolumeDb, float duration, Action callback = null)
         {
             Instance.StartCoroutine(Instance.FadeGroupCoroutine(group, targetVolumeDb, duration, callback));
         }
 
-        public static void ResetGroup(AudioMixerGroup group, float duration)
+        /// <summary>
+        /// Reset a group to the volume set by the player in settings. The volume can be faded in
+        /// or instantly changed.
+        /// </summary>
+        /// <param name="group">The mixer group to reset.</param>
+        /// <param name="duration">If the duration is set to 0 then the group will be
+        /// set to the required volume instantly. If it is set to a value > 0 then it
+        /// will be faded over that number of seconds.</param>
+        /// <param name="callback">A callback that will be executed when the fade is completed. This will often be used to play a clip.</param>
+        public static void ResetGroup(AudioMixerGroup group, float duration, Action callback = null)
         {
-            Instance.StartCoroutine(Instance.FadeGroupCoroutine(group, Instance.currentVolumes[group], duration));
+            Instance.StartCoroutine(Instance.FadeGroupCoroutine(group, Instance.currentVolumes[group], duration, callback));
         }
 
         public static void ResetAll(float duration)
         {
-            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.music, Instance.currentVolumes[instance.music], duration));
-            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.ui, Instance.currentVolumes[instance.ui], duration));
-            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.effectsMaster, Instance.currentVolumes[instance.effectsMaster], duration));
-            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.nanobots, Instance.currentVolumes[instance.nanobots], duration));
+            ResetGroup(Instance.music, duration);
+            ResetGroup(Instance.ui, duration);
+            ResetGroup(Instance.effectsMaster, duration);
+            ResetGroup(Instance.nanobots, duration);
         }
 
         protected IEnumerator FadeGroupCoroutine(AudioMixerGroup group, float targetVolumeDb, float duration, Action callback = null)
@@ -148,13 +163,25 @@ namespace WizardsCode.RogueWave
 
             float startVolume;
             group.audioMixer.GetFloat(group.name + "Volume", out startVolume);
-            float time = 0;
-            while (time < duration)
+            if (startVolume == targetVolumeDb)
             {
-                time += Time.deltaTime;
-                group.audioMixer.SetFloat(group.name + "Volume", Mathf.Lerp(startVolume, targetVolumeDb, time / duration));
+                callback?.Invoke();
+                yield break;
+            }
+            
+            float finishTime = Time.realtimeSinceStartup + duration;
+
+            Debug.Log(group.name + " fading from " + startVolume + " to " + targetVolumeDb + " over " + duration + " seconds.");
+            
+            while (Time.realtimeSinceStartup < finishTime)
+            {
+                group.audioMixer.SetFloat(group.name + "Volume", Mathf.Lerp(startVolume, targetVolumeDb, (1 - (finishTime - Time.realtimeSinceStartup)) / duration));
                 yield return null;
             }
+
+            Debug.Log(group.name + " fade is complete.");
+            group.audioMixer.SetFloat(group.name + "Volume", targetVolumeDb);
+
             callback?.Invoke();
         }
 
@@ -315,6 +342,7 @@ namespace WizardsCode.RogueWave
         /// <seealso cref="Play2DOneShot(AudioClip)"/>
         internal static void Play2DOneShot(AudioSource source, AudioClip clip, float volume = 0.8f)
         {
+            Debug.Log($"Playing 2D one shot {clip} at volume {volume}");
             source.PlayOneShot(clip, volume);
         }
 
@@ -335,15 +363,38 @@ namespace WizardsCode.RogueWave
             return source;
         }
 
+        static AudioSource currentNanobotSource;
         internal static AudioSource PlayNanobotOneShot(AudioClip clip, float volume = 0.8f)
         {
-            var source = NeoFpsAudioManager.Get2DAudioSource();
-            if (source == null)
-                return null;
+            if (currentNanobotSource == null)
+            {
+                currentNanobotSource = NeoFpsAudioManager.Get2DAudioSource();
+                if (currentNanobotSource == null)
+                    return null;
 
-            source.PlayOneShot(clip, volume);
+                Play2DOneShot(currentNanobotSource, clip, volume);
+            } else if (currentNanobotSource.isPlaying)
+            {
+                Debug.Log("Fading existing nanobot voice line.");
+                FadeGroup(Instance.nanobots, mutedVolumeDb, 0.1f, () => Play2DOneShot(currentNanobotSource, clip, volume));
+            }
 
-            return source;
+            ResetGroup(Instance.nanobots, 0, () => Play2DOneShot(currentNanobotSource, clip, volume));
+            return currentNanobotSource;
+        }
+
+        internal static void StopNanobots()
+        {
+            if (currentNanobotSource == null)
+            {
+                return;
+            }
+
+            FadeGroup(Instance.nanobots, mutedVolumeDb, 0.1f, () =>
+            {
+                currentNanobotSource.Stop();
+                ResetGroup(Instance.nanobots, 0);
+            });
         }
 
         internal static AudioSource PlayAmbience(AudioClip audioClip, Vector3 position, float volume = 0.8f)

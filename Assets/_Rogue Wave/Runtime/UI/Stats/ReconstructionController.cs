@@ -104,14 +104,14 @@ namespace RogueWave.GameStats
                 element.stat = stat;
 
                 // Get all the achievements in GameStatsManager.instance.Achievements that are not unlocked and have the same stat as the one we are looking at
-                List<Achievement> achievements = GameStatsManager.Instance?.Achievements.Where(a => a.stat == stat && !a.isUnlocked).ToList();
+                List<Achievement> achievements = GameStatsManager.Instance?.Achievements.Where(a => a.Stat == stat && !a.isUnlocked).ToList();
                 float target = float.MaxValue;
                 Achievement tracked = null;
                 foreach(Achievement achievement in achievements)
                 {
-                    if (achievement.targetValue < target)
+                    if (achievement.TargetValue < target)
                     {
-                        target = achievement.targetValue;
+                        target = achievement.TargetValue;
                         element.achievement = achievement;
                     }
                 }

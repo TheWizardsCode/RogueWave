@@ -603,12 +603,10 @@ namespace RogueWave
             {
                 if (movementController.hasArrived)
                 {
+                    goalDestination = GetWanderDestination();
                     IsRecharging = false;
                 }
-                else
-                {
-                    return;
-                }
+                return;
             }
 
             bool isTimeToUpdateDestination = shouldUpdateDestination;
@@ -668,7 +666,7 @@ namespace RogueWave
                     }
                     else
                     {
-                        if (lastKnownTargetPosition != Vector3.zero)
+                        if (lastKnownTargetPosition == Vector3.zero)
                         {
                             goalDestination = GetWanderDestination();
                         }
@@ -743,29 +741,27 @@ namespace RogueWave
         internal Vector3 GetWanderDestination()
         {
             Vector3 wanderDestination = Vector3.positiveInfinity;
-            if (Time.timeSinceLevelLoad > timeOfNextDestinationChange)
+            
+            IsRecharging = false;
+            timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
+
+            int tries = 0;
+            while (!IsValidDestination(wanderDestination, 1f) && tries < 50)
             {
-                IsRecharging = false;
-                timeOfNextDestinationChange = Time.timeSinceLevelLoad + destinationUpdateFrequency;
-
-                int tries = 0;
-                while (!IsValidDestination(wanderDestination, 1f) && tries < 50)
-                {
-                    tries++;
-                    wanderDestination.x = Random.Range(destinationMinX, destinationMaxX);
-                    wanderDestination.y = Random.Range(movementController.minimumHeight, movementController.maximumHeight);
-                    wanderDestination.z = Random.Range(destinationMinY, destinationMaxY);
-                }
-
-
-                if (tries == 50)
-                {
-                    wanderDestination = spawnPosition;
-#if UNITY_EDITOR
-                    Debug.LogWarning($"{name} unable to find a wander destination returning to spawn position.");
-#endif
-                }
+                tries++;
+                wanderDestination.x = Random.Range(destinationMinX, destinationMaxX);
+                wanderDestination.y = Random.Range(movementController.minimumHeight, movementController.maximumHeight);
+                wanderDestination.z = Random.Range(destinationMinY, destinationMaxY);
             }
+
+            if (tries == 50)
+            {
+                wanderDestination = spawnPosition;
+#if UNITY_EDITOR
+                Debug.LogWarning($"{name} unable to find a wander destination returning to spawn position.");
+#endif
+            }
+
             return wanderDestination;
         }
 

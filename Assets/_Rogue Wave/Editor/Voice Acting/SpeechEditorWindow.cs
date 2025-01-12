@@ -1,7 +1,6 @@
 using ElevenLabs;
 using ElevenLabs.Voices;
 using RogueWave;
-using RogueWave.Story;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -10,7 +9,8 @@ using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Audio;
 using WizardsCode.Audio;
-using static RogueWave.Constants;
+using WizardsCode.StoryTeller;
+using static WizardsCode.StoryTeller.Constants;
 
 namespace WizardsCode.Speech
 {
@@ -378,7 +378,7 @@ namespace WizardsCode.Speech
 
         private void SetVoiceFields(StoryBeat step)
         {
-            textToConvert = step.script;
+            textToConvert = step.Script;
             filename = step.displayName;
             category = "Tutorial";
         }

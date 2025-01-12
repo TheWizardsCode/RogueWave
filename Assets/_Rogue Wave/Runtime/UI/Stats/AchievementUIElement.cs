@@ -1,13 +1,11 @@
 using ModelShark;
 using NaughtyAttributes;
-using RosgueWave.UI;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace RogueWave.GameStats {
-    public class AchievementUIElement : RogueWaveUIElement
+    public class AchievementUIElement : MonoBehaviour
     {
         [SerializeField, Tooltip("The label to display the achievement name."), Required]
         TextMeshProUGUI m_NameLabel;

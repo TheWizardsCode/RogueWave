@@ -1,11 +1,11 @@
 ﻿using NeoSaveGames.SceneManagement;
-using RogueWave.Story;
 using System;
 using System.Collections;
 using System.Text.RegularExpressions;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using WizardsCode.StoryTeller;
 using Random = UnityEngine.Random;
 
 namespace RogueWave.UI
@@ -41,7 +41,7 @@ namespace RogueWave.UI
         [Header("Audio Listener")]
         [SerializeField, Tooltip("The audio listener for the loading screen (disabled when activating the main scene)")]
         private AudioListener m_AudioListener = null;
-        private bool isTutorial;
+        private bool isStoryBeat;
 
         private void Start()
         {
@@ -54,19 +54,19 @@ namespace RogueWave.UI
                 ShowSaveWarning();
             }
 
-            StoryManager tutorialManager = GameObject.FindObjectOfType<StoryManager>();
-            if (tutorialManager != null)
+            StoryManager storyManager = GameObject.FindObjectOfType<StoryManager>();
+            if (storyManager != null)
             {
-                isTutorial = tutorialManager.currentlyActiveBeat != null && !tutorialManager.currentlyActiveBeat.IsComplete;
+                isStoryBeat = storyManager.CurrentlyActiveBeat != null && !storyManager.CurrentlyActiveBeat.IsComplete;
             } else
             {
-                isTutorial = false;
+                isStoryBeat = false;
             }
 
-            if (isTutorial)
+            if (isStoryBeat)
             {
-                ShowHeroImage(tutorialManager.currentlyActiveBeat.heroImage);
-                m_StoryText.text = Regex.Replace(tutorialManager.currentlyActiveBeat.script, "\\s*<.*?/>", string.Empty);
+                ShowHeroImage(storyManager.CurrentlyActiveBeat.HeroImage);
+                m_StoryText.text = Regex.Replace(storyManager.CurrentlyActiveBeat.Script, "\\s*<.*?/>", string.Empty);
                 m_TutorialContainer.gameObject.SetActive(true);
                 m_NoneTutorialContainer.gameObject.SetActive(false);
             } else
@@ -138,7 +138,7 @@ namespace RogueWave.UI
             {
                 return;
             }
-            else if (!isTutorial)
+            else if (!isStoryBeat)
             {
                 m_NoneTutorialHeroImage.sprite = heroImage;
             }

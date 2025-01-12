@@ -206,6 +206,15 @@ namespace RogueWave
         #endregion
 
         #region Game Events
+        public void Pause()
+        {
+            NeoFpsTimeScale.FreezeTime();
+        }
+
+        public void Unpause()
+        {
+            NeoFpsTimeScale.ResumeTime();
+        }
 
         private Coroutine m_VictoryCoroutine = null;
         private float m_VictoryTimer = 0f;

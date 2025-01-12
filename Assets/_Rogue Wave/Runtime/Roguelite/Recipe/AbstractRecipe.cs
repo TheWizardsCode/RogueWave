@@ -294,9 +294,7 @@ namespace RogueWave
                 } 
                 else if (RogueLiteManager.runData.Contains(this) || RogueLiteManager.persistentData.Contains(this))
                 {
-#if UNITY_EDITOR
-                    Debug.Log($"Either runData or persistentData already contains {this}. Cannot offer.");
-#endif
+                    // Debug.Log($"Either runData or persistentData already contains {this}. Cannot offer.");
                     return false;
                 }
 
@@ -304,14 +302,10 @@ namespace RogueWave
                 {
                     if (RogueLiteManager.runData.Contains(dependency) == false && RogueLiteManager.persistentData.Contains(dependency) == false)
                     {
-#if UNITY_EDITOR
-                        Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot offer.");
-#endif
+                        // Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot offer.");
                         return false;
                     }
-#if UNITY_EDITOR
-                    Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can offer.");
-#endif
+                    // Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " and is in the player's persistent or run data. Can offer.");
                 }
 
                 return true;

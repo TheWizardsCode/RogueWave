@@ -5,8 +5,8 @@ using System.Collections;
 using UnityEditor.Recorder.Input;
 using UnityEditor.Recorder;
 using UnityEngine;
-using WizardsCode.RogueWave;
 using Time = UnityEngine.Time;
+using WizardsCode.RogueWave;
 
 namespace WizardsCode.Marketing
 {

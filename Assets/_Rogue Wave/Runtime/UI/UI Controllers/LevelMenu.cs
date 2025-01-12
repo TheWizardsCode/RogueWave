@@ -100,15 +100,29 @@ namespace WizardsCode.RogueWave
             standbyPanel.gameObject.SetActive(false);
         }
 
+        public void GenerateLevel()
+        {
+            StartCoroutine(FadeStandyMessageIn());
+            if (interfaceAnimationManager != null)
+            {
+                interfaceAnimationManager.OnEndDisappear += _GenerateLevel;
+                interfaceAnimationManager.startDisappear();
+            }
+        }
+
         public void GenerateLevelAndSpawn()
         {
-
             StartCoroutine(FadeStandyMessageIn());
             if (interfaceAnimationManager != null)
             {
                 interfaceAnimationManager.OnEndDisappear += _GenerateLevelAndSpawn;
                 interfaceAnimationManager.startDisappear();
             }
+        }
+
+        private void _GenerateLevel(InterfaceAnimManager _IAM)
+        {
+            ((RogueWaveGameMode)gameMode).GenerateLevel();
         }
 
         private void _GenerateLevelAndSpawn(InterfaceAnimManager _IAM)

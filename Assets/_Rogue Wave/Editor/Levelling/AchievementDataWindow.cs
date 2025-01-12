@@ -43,15 +43,15 @@ namespace RogueWave.Editor
                 }
 
                 int statComparison = 0;
-                if (x.stat != null && y.stat != null)
+                if (x.Stat != null && y.Stat != null)
                 {
-                    statComparison = x.stat.CompareTo(y.stat);
+                    statComparison = x.Stat.CompareTo(y.Stat);
                 }
-                else if (x.stat == null && y.stat != null)
+                else if (x.Stat == null && y.Stat != null)
                 {
                     statComparison = -1;
                 }
-                else if (x.stat != null && y.stat == null)
+                else if (x.Stat != null && y.Stat == null)
                 {
                     statComparison = 1;
                 }
@@ -61,7 +61,7 @@ namespace RogueWave.Editor
                     return statComparison;
                 }
 
-                int targetValueComparison = x.targetValue.CompareTo(y.targetValue);
+                int targetValueComparison = x.TargetValue.CompareTo(y.TargetValue);
                 if (targetValueComparison != 0)
                 {
                     return targetValueComparison;
@@ -79,10 +79,10 @@ namespace RogueWave.Editor
         void OnGUI()
         {
             List<Achievement> AllFilteredAchievements = FilterGUI();
-            List<Achievement> notDemoLockedAndInvalid = AllFilteredAchievements.Where(a => !a.isDemoLocked && !a.Validate(out string _)).ToList();
-            List<Achievement> demoLockedAndInvalid = AllFilteredAchievements.Where(a => a.isDemoLocked && !a.Validate(out string _)).ToList();
-            List<Achievement> notDemoLockedAndValid = AllFilteredAchievements.Where(a => !a.isDemoLocked && a.Validate(out string _)).ToList();
-            List<Achievement> demoLockedAndValid = AllFilteredAchievements.Where(a => a.isDemoLocked && a.Validate(out string _)).ToList();
+            List<Achievement> notDemoLockedAndInvalid = AllFilteredAchievements.Where(a => !a.isDemoLocked && !a.Validate()).ToList();
+            List<Achievement> demoLockedAndInvalid = AllFilteredAchievements.Where(a => a.isDemoLocked && !a.Validate()).ToList();
+            List<Achievement> notDemoLockedAndValid = AllFilteredAchievements.Where(a => !a.isDemoLocked && a.Validate()).ToList();
+            List<Achievement> demoLockedAndValid = AllFilteredAchievements.Where(a => a.isDemoLocked && a.Validate()).ToList();
 
             HeadingGUI(AllFilteredAchievements);
 
@@ -172,8 +172,8 @@ namespace RogueWave.Editor
                     Selection.activeObject = achievement;
                 }
 
-                achievement.stat = (IntGameStat)EditorGUILayout.ObjectField(achievement.stat, typeof(IntGameStat), false, GUILayout.Width(200));
-                achievement.targetValue = EditorGUILayout.FloatField(achievement.targetValue, GUILayout.Width(50));
+                achievement.Stat = (IntGameStat)EditorGUILayout.ObjectField(achievement.Stat, typeof(IntGameStat), false, GUILayout.Width(200));
+                achievement.TargetValue = EditorGUILayout.FloatField(achievement.TargetValue, GUILayout.Width(50));
 
                 EditorGUILayout.LabelField(statusMsg);
                 
