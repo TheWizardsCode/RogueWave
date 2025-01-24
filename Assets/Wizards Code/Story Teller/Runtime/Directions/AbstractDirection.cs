@@ -13,7 +13,15 @@ namespace WizardsCode.StoryTeller
     /// </summary>
     public abstract class AbstractDirection
     {
+        /// <summary>
+        /// A human readable name for this direction. 
+        /// </summary>
         abstract public string DirectionName { get; }
+
+        /// <summary>
+        /// Called when the direction is encountered in the Ink story.
+        /// </summary>
+        /// <param name="parameters">An array of arguments supplied in the Ink file.</param>
         abstract public void Execute(string[] parameters);
 
         internal void LogError(string message, string[] parameters)
@@ -38,14 +46,7 @@ namespace WizardsCode.StoryTeller
             {
                 if (args.Length > maxRequiredCount)
                 {
-                    warning = "Incorrect number of arguments in Direction. There should be between " + minRequiredCount + " and " + maxRequiredCount + " Ignoring the additional arguments: ";
-                }
-            }
-            else
-            {
-                if (args.Length > minRequiredCount)
-                {
-                    warning = "Incorrect number of arguments in Direction. There should " + minRequiredCount + ". Ignoring the additional arguments: ";
+                    error = "Too many arguments in Direction. There should be no more than " + maxRequiredCount + ". Ignoring direction: ";
                 }
             }
 

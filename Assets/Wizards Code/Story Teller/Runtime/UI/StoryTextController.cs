@@ -42,8 +42,7 @@ namespace WizardsCode.StoryTeller
 
 
         float _targetScale = 1.0f;
-        float _closeEnough = 0.01f; // small enough to be invisible
-        float _prettySmall = 0.1f; // small enough to be able to detect we're aiming for small
+        float _smallEnoughToBeHidden = 0.1f; // small enough to be able to detect we're aiming for small
         private IActorController m_ActiveSpeaker;
         private ScrollRect scrollRect;
 
@@ -88,7 +87,6 @@ namespace WizardsCode.StoryTeller
         /** reveal chars, once per pass */
         IEnumerator RevealChars()
         {
-            isFinished = false;
             float lastTime = Time.realtimeSinceStartup;
 
             while (m_CurrentText.maxVisibleCharacters < m_CurrentText.text.Length)
@@ -148,7 +146,7 @@ namespace WizardsCode.StoryTeller
         /** convenience method, detects if _trget_ scale is small */
         public bool IsHidden()
         {
-            return _targetScale < _prettySmall;
+            return _targetScale < _smallEnoughToBeHidden;
         }
 
         /// <summary>

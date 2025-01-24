@@ -41,7 +41,7 @@ namespace WizardsCode.RogueWave
         private void OnEnable()
         {
             NeoFpsInputManager.captureMouseCursor = false;
-            StartCoroutine(FadeStandyMessageIn());
+            StartCoroutine(FadeStandbyMessageTextIn());
             if (interfaceAnimationManager != null)
             {
                 interfaceAnimationManager.OnEndAppear += OnAppear;
@@ -78,7 +78,7 @@ namespace WizardsCode.RogueWave
             HudHider.ShowHUD();
         }
 
-        private IEnumerator FadeStandyMessageIn()
+        private IEnumerator FadeStandbyMessageTextIn()
         {
             standbyPanel.gameObject.SetActive(true);
             CanvasGroup canvasGroup = standbyPanel.GetComponent<CanvasGroup>();
@@ -100,19 +100,9 @@ namespace WizardsCode.RogueWave
             standbyPanel.gameObject.SetActive(false);
         }
 
-        public void GenerateLevel()
-        {
-            StartCoroutine(FadeStandyMessageIn());
-            if (interfaceAnimationManager != null)
-            {
-                interfaceAnimationManager.OnEndDisappear += _GenerateLevel;
-                interfaceAnimationManager.startDisappear();
-            }
-        }
-
         public void GenerateLevelAndSpawn()
         {
-            StartCoroutine(FadeStandyMessageIn());
+            StartCoroutine(FadeStandbyMessageTextIn());
             if (interfaceAnimationManager != null)
             {
                 interfaceAnimationManager.OnEndDisappear += _GenerateLevelAndSpawn;

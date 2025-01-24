@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 using TMPro;
@@ -70,15 +71,18 @@ namespace WizardsCode.StoryTeller
 
         private Dictionary<string, Type> directions = new Dictionary<string, Type>();
         private Dictionary<string, Transform> m_CachedObjects = new Dictionary<string, Transform>();
+        private Dictionary<string, SceneToKnotMapping> m_SceneToKnotMapping = new Dictionary<string, SceneToKnotMapping>();
 
         private static StoryManager _instance;
-        List<WaitForState> waitForStates = new List<WaitForState>();
+        List<AbstractWaitForDirection> waitForStates = new List<AbstractWaitForDirection>();
 
         AudioSource audioSource;
         
         private bool m_IsDisplayingUI = false;
         bool isUIDirty = false;
         StringBuilder m_NewTextToDisplay = new StringBuilder();
+        bool wasWaiting = false; // Set to true when we were waiting for something to happen, e.g. an actor to reach a target position and it has now happened. This is used to re-trigger the story progression, e.g. in Update().
+        bool resumeStory = false; // Set to true if the should be resumed from the current StoryPath. This is used, for example, when a new scene has been loaded and we need to resume from a specific knot.
 
         internal bool IsDisplayingUI
         {
@@ -87,58 +91,25 @@ namespace WizardsCode.StoryTeller
             {
                 m_IsDisplayingUI = value;
                 isUIDirty = value;
+                m_StoryCanvas.gameObject.SetActive(value);
             }
         }
 
-        bool wasWaiting = false;
         private bool isWaiting
         {
             get
             {
                 for (int i = waitForStates.Count - 1; i >= 0; i--)
                 {
-                    // REFACTOR: Move these states out into their own classes that contain the logic for waiting. This can then be a simple call to a parameter on the state, e.g. waitForStates[i].IsWaiting
-                    switch (waitForStates[i].waitType)
+                    if (waitForStates[i].IsWaiting)
                     {
-                        case WaitForState.WaitType.ReachTarget:
-                            if (waitForStates[i].actor.IsMoving)
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                wasWaiting = true;
-                                waitForStates.RemoveAt(i);
-                                if (waitForStates.Count == 0) return false;
-                            }
-                            break;
-                        case WaitForState.WaitType.Time:
-                            if (Time.timeSinceLevelLoad < waitForStates[i].endTime)
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                wasWaiting = true;
-                                waitForStates.RemoveAt(i);
-                                if (waitForStates.Count == 0) return false;
-                            }
-                            break;
-                        case WaitForState.WaitType.SceneLoaded:
-                            if (!SceneManager.GetSceneByName(waitForStates[i].sceneName).isLoaded)
-                            {
-                                return true;
-                            }
-                            else
-                            {
-                                wasWaiting = true;
-                                waitForStates.RemoveAt(i);
-                                if (waitForStates.Count == 0) return false;
-                            }
-                            break;
-                        default:
-                            Debug.LogError("Direction to wait gives a unrecognized state to wait for: '" + waitForStates[i].waitType + "'");
-                            break;
+                        return true;
+                    } 
+                    else
+                    {
+                        wasWaiting = true;
+                        waitForStates.RemoveAt(i);
+                        if (waitForStates.Count == 0) return false;
                     }
                 }
                 return false;
@@ -317,7 +288,7 @@ namespace WizardsCode.StoryTeller
             }
 
             string line;
-            while (m_CurrentText.isFinished && m_Story.canContinue && !isWaiting)
+            while (m_NewTextToDisplay.Length == 0 && m_CurrentText.isFinished && m_Story.canContinue && !isWaiting)
             {
                 line = m_Story.Continue();
 
@@ -365,8 +336,6 @@ namespace WizardsCode.StoryTeller
                     string speaker = line.Substring(0, indexOfSpeakerChar).Trim();
                     string speech = line.Substring(indexOfSpeakerChar + 1).Trim();
 
-                    m_NewTextToDisplay.Clear();
-
                     m_activeSpeaker = FindActor(speaker);
 
                     if (m_activeSpeaker != null)
@@ -377,8 +346,8 @@ namespace WizardsCode.StoryTeller
                     m_NewTextToDisplay.Append(speech);
                     if (m_ActiveTimePerCharacter > 0)
                     {
-                        WaitForDirection waitFor = new WaitForDirection();
-                        waitFor.Execute(new string[1] { $"{m_ActiveTimePerCharacter * speech.Length}" });
+                        WaitForDurationDirection waitFor = new WaitForDurationDirection();
+                        waitFor.Execute(m_ActiveTimePerCharacter * speech.Length);
                     }
 
                     isUIDirty = true;
@@ -386,14 +355,12 @@ namespace WizardsCode.StoryTeller
                 // No named actor, so interpret it as narration/descriptive text
                 else
                 {
-                    m_NewTextToDisplay.Clear();
-
                     m_activeSpeaker = null;
                     m_NewTextToDisplay.Append(line);
                     if (m_ActiveTimePerCharacter > 0)
                     {
-                        WaitForDirection waitFor = new WaitForDirection();
-                        waitFor.Execute(new string[1] { $"{m_ActiveTimePerCharacter * line.Length}" });
+                        WaitForDurationDirection waitFor = new WaitForDurationDirection();
+                        waitFor.Execute(m_ActiveTimePerCharacter * line.Length);
                     }
 
                     isUIDirty = true;
@@ -456,51 +423,69 @@ namespace WizardsCode.StoryTeller
         private void OnEnable()
         {
             SceneManager.sceneLoaded += OnSceneLoaded;
-            SceneManager.activeSceneChanged += OnActiveSceneChanged;
         }
 
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
-            SceneManager.activeSceneChanged -= OnActiveSceneChanged;
         }
 
         private void Update()
         {
-             if (isWaiting || !m_CurrentText.isFinished) return;
+            if (isWaiting || !m_CurrentText.isFinished) return;
 
-            if (wasWaiting)
+            if (wasWaiting || resumeStory)
             {
                 wasWaiting = false;
-                ProcessStoryChunk();
+                resumeStory = false;
+                IsDisplayingUI = true;
             }
 
+            ProcessStoryChunk();
+            
             if (IsDisplayingUI)
             {
-                if (isUIDirty)
-                {
-                    ProcessStoryChunk();
-                }
                 if (isUIDirty)
                 {
                     UpdateTextGUI();
                     UpdateChoicesGUI();
                 }
             }
-            else
-            {
-                m_StoryCanvas.gameObject.SetActive(false);
-            }
         }
 
         private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            throw new NotImplementedException();
+            foreach (KeyValuePair<string, SceneToKnotMapping> mapping in m_SceneToKnotMapping)
+            {
+                if (scene.name == mapping.Key)
+                {
+                    ResumeFromKnot(mapping.Value.knotName);
+                    if (mapping.Value.oneShot)
+                    {
+                        m_SceneToKnotMapping.Remove(mapping.Key);
+                    }
+                    return;
+                }
+            }
         }
 
-        private void OnActiveSceneChanged(Scene oldScene, Scene newScene)
+        internal void ResumeFromKnot(string knotName)
         {
-            throw new NotImplementedException();
+            resumeStory = true;
+            m_Story.ChoosePathString(knotName);
+        }
+
+        internal void AddSceneLoadListener(SceneToKnotMapping mapping)
+        {
+            if (m_SceneToKnotMapping.TryGetValue(mapping.sceneName, out SceneToKnotMapping existingMapping))
+            {
+                Debug.LogWarning($"The scene name '{mapping.sceneName}' already exists in the scene to knot mapping. The knot of '{existingMapping.knotName}' will be replaced with '{mapping.knotName}'. To avoid this warning explicitly remove the existing listener before adding a new one.");
+                m_SceneToKnotMapping[mapping.sceneName] = mapping;
+            }
+            else
+            {
+                m_SceneToKnotMapping.Add(mapping.sceneName, mapping);
+            }
         }
 
         private IEnumerator HideStoryManagedUIElements()
@@ -566,50 +551,29 @@ namespace WizardsCode.StoryTeller
             }
         }
 
-        internal void AddWaitForState(WaitForState state)
+        internal void AddWaitForState(AbstractWaitForDirection direction)
         {
-            waitForStates.Add(state);
-        }
-
-        internal void AddSceneLoadListener(string sceneName, string knotName, bool oneShot)
-        {
-            throw new NotImplementedException();
+            waitForStates.Add(direction);
         }
     }
 
-    class WaitForState
+    class SceneToKnotMapping
     {
-        public enum WaitType { ReachTarget, Time, SceneLoaded }
-        public IActorController actor;
-        public WaitType waitType;
-        public float endTime = float.NegativeInfinity;
-        public string sceneName = string.Empty;
+        public string sceneName;
+        public string knotName;
+        public bool oneShot = true;
 
-        public WaitForState(float duration)
-        {
-            waitType = WaitType.Time;
-            this.endTime = Time.timeSinceLevelLoad + duration;
-        }
-
-        public WaitForState(IActorController actor)
-        {
-            this.actor = actor;
-            this.waitType = WaitType.ReachTarget;
-            this.endTime = 0f;
-        }
-
-        public WaitForState(string sceneName)
+        /// <summary>
+        /// Create a new mappwing.
+        /// </summary>
+        /// <param name="sceneName"></param>
+        /// <param name="knotName"></param>
+        /// <Param name="oneShot"></param>
+        public SceneToKnotMapping(string sceneName, string knotName, bool oneShot = true)
         {
             this.sceneName = sceneName;
-            this.waitType = WaitType.SceneLoaded;
-            this.endTime = 0f;
-        }
-
-        public WaitForState(IActorController actor, string waitForState)
-        {
-            this.actor = actor;
-            waitType = WaitType.ReachTarget;
-            this.endTime = 0f;
+            this.knotName = knotName;
+            this.oneShot = oneShot;
         }
     }
 }

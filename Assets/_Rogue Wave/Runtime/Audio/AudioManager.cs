@@ -179,7 +179,7 @@ namespace WizardsCode.RogueWave
                 yield return null;
             }
 
-            Debug.Log(group.name + " fade is complete.");
+            Debug.Log($"{group.name} fade to {targetVolumeDb}dB is complete.");
             group.audioMixer.SetFloat(group.name + "Volume", targetVolumeDb);
 
             callback?.Invoke();
