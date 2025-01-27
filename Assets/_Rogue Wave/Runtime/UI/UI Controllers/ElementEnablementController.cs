@@ -45,22 +45,22 @@ namespace WizardsCode.RogueWave
             switch (m_ComparisonType)
             {
                 case ComparisonType.Equal:
-                    element.interactable = m_GameStatInt.value == m_CompareValue;
+                    element.interactable = m_GameStatInt.Value == m_CompareValue;
                     break;
                 case ComparisonType.NotEqual:
-                    element.interactable = m_GameStatInt.value != m_CompareValue;
+                    element.interactable = m_GameStatInt.Value != m_CompareValue;
                     break;
                 case ComparisonType.Greater:
-                    element.interactable = m_GameStatInt.value > m_CompareValue;
+                    element.interactable = m_GameStatInt.Value > m_CompareValue;
                     break;
                 case ComparisonType.GreaterOrEqual:
-                    element.interactable = m_GameStatInt.value >= m_CompareValue;
+                    element.interactable = m_GameStatInt.Value >= m_CompareValue;
                     break;
                 case ComparisonType.Less:
-                    element.interactable = m_GameStatInt.value < m_CompareValue;
+                    element.interactable = m_GameStatInt.Value < m_CompareValue;
                     break;
                 case ComparisonType.LessOrEqual:
-                    element.interactable = m_GameStatInt.value <= m_CompareValue;
+                    element.interactable = m_GameStatInt.Value <= m_CompareValue;
                     break;
             }
 

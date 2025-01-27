@@ -48,7 +48,7 @@ namespace RogueWave.GameStats
 
                 achievementProgress.value = 0;
                 achievementProgress.maxValue = m_achievement.TargetValue;
-                achievementProgress.value = m_achievement.Stat.value;
+                achievementProgress.value = m_achievement.Stat.Value;
 
                 SetTooltipText();
             }
@@ -61,7 +61,7 @@ namespace RogueWave.GameStats
                 return;
             }
 
-            m_bodyText = $"{stat.displayName} = {stat.value}.";
+            m_bodyText = $"{stat.displayName} = {stat.Value}.";
 
             if (m_achievement != null)
             {

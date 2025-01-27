@@ -49,7 +49,7 @@ namespace RogueWave.UI
         {
             NeoFpsInputManager.captureMouseCursor = false;
 
-            GameLog.Info($"Entering Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").value} resources.");
+            GameLog.Info($"Entering Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").Value} resources.");
 
             clearPermanentRecipes();
             foreach (string recipeID in RogueLiteManager.persistentData.RecipeIds)
@@ -80,7 +80,7 @@ namespace RogueWave.UI
         {
             NeoFpsInputManager.captureMouseCursor = true;
 
-            GameLog.Info($"Exiting Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").value} resources.");
+            GameLog.Info($"Exiting Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").Value} resources.");
         }
 
         private void OnGUI()
@@ -110,7 +110,7 @@ namespace RogueWave.UI
                 m_ContinueButton.interactable = true;
             }
 
-            if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= m_RerollCost)
+            if (GameStatsManager.Instance.GetIntStat("RESOURCES").Value >= m_RerollCost)
             {
                 m_RerollButton.interactable = true;
                 m_RerollButton.GetComponent<Image>().color = style.colours.normal;
@@ -125,7 +125,7 @@ namespace RogueWave.UI
         public void LevelUp()
         {
             int costOfLevelUp = 1500;
-            if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= costOfLevelUp)
+            if (GameStatsManager.Instance.GetIntStat("RESOURCES").Value >= costOfLevelUp)
             {
                 GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(costOfLevelUp);
                 RogueLiteManager.persistentData.currentNanobotLevel++;
@@ -135,7 +135,7 @@ namespace RogueWave.UI
 
         public void RerollOffers()
         {
-            if (GameStatsManager.Instance.GetIntStat("RESOURCES").value >= m_RerollCost)
+            if (GameStatsManager.Instance.GetIntStat("RESOURCES").Value >= m_RerollCost)
             {
                 GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(m_RerollCost);
 

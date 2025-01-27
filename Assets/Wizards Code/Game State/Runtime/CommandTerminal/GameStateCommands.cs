@@ -34,7 +34,7 @@ namespace RogueWave.GameStats
                         continue;
                     }
 
-                    Terminal.Log($"{stat.key} = {stat.value}");
+                    Terminal.Log($"{stat.key} = {stat.Value}");
                 }
             }
         }

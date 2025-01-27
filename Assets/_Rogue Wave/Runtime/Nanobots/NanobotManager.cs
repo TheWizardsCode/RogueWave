@@ -62,7 +62,7 @@ namespace RogueWave
         [SerializeField, Tooltip("The unrefined crystal resources gathered."), BoxGroup("Game Stats")]
         private IntGameStat m_CrystalResourcesCollected;
         [SerializeField, Tooltip("The number of special crystals collected so far. Special crystals are the ones needed to create the portal home."), BoxGroup("Game Stats")]
-        private IntGameStat m_SpecialCrystalsCollected;
+        private IntGameStat m_PortalCrystalsCollected;
         [SerializeField, Tooltip("The GameStat to increment when a recipe is called in during a run."), BoxGroup("Game Stats")]
         internal IntGameStat m_RecipesCalledInStat;
         [SerializeField, Tooltip("The GameStat to store the maximum nanobot level the player has attained."), BoxGroup("Game Stats")]
@@ -213,7 +213,7 @@ namespace RogueWave
             // This gives the player a headstart on the next run.
             if (RogueLiteManager.persistentData.currentNanobotLevel == 1)
             {
-                int resourcesAvailable = GameStatsManager.Instance.GetIntStat("RESOURCES").value;
+                int resourcesAvailable = GameStatsManager.Instance.GetIntStat("RESOURCES").Value;
                 int resourcesForNextLevel = Mathf.RoundToInt(resourcesForLevel.Evaluate(stackedLevelUps + 1));
                 while (resourcesAvailable > resourcesForNextLevel)
                 {
@@ -501,7 +501,7 @@ namespace RogueWave
                 rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
             }
 
-            if (m_MaxNanobotLevelStat != null && m_MaxNanobotLevelStat.value < RogueLiteManager.persistentData.currentNanobotLevel)
+            if (m_MaxNanobotLevelStat != null && m_MaxNanobotLevelStat.Value < RogueLiteManager.persistentData.currentNanobotLevel)
             {
                 m_MaxNanobotLevelStat.Add(1);
             }
@@ -588,7 +588,7 @@ namespace RogueWave
                     return false;
                 }
 
-                if (m_Resources.value >= healthRecipes[i].BuildCost && healthRecipes[i].ShouldBuild)
+                if (m_Resources.Value >= healthRecipes[i].BuildCost && healthRecipes[i].ShouldBuild)
                 {
                     float healAmount = Mathf.Min(1, healthRecipes[i].healAmountPerCent);
                     if (healAmount > chosenAmount)
@@ -686,7 +686,7 @@ namespace RogueWave
             {
                 // TODO: make a decision on whether to make a generic item in a more intelligent way
                 // TODO: can we make tests that are dependent on the pickup, e.g. when the pickup is triggered it will only be picked up if needed 
-                if (m_Resources.value < itemRecipes[i].BuildCost)
+                if (m_Resources.Value < itemRecipes[i].BuildCost)
                 {
                     continue;
                 }
@@ -718,7 +718,7 @@ namespace RogueWave
                     if (ammoRecipes[i].ammo.itemIdentifier == ammoPoolUnderTest.ammoType.itemIdentifier
                         && ammoPoolUnderTest.currentAmmo <= ammoRecipes[i].ammo.maxQuantity * minimumAmmoAmount)
                     {
-                        if (m_Resources.value >= ammoRecipes[i].BuildCost && ammoRecipes[i].ShouldBuild)
+                        if (m_Resources.Value >= ammoRecipes[i].BuildCost && ammoRecipes[i].ShouldBuild)
                         {
                             return TryRecipe(ammoRecipes[i]);
                         }
@@ -740,7 +740,7 @@ namespace RogueWave
                         {
                             if (ammoRecipes[j].ammo.itemIdentifier == ammoPoolUnderTest.ammoType.itemIdentifier)
                             {
-                                if (m_Resources.value >= ammoRecipes[j].BuildCost && ammoRecipes[j].ShouldBuild)
+                                if (m_Resources.Value >= ammoRecipes[j].BuildCost && ammoRecipes[j].ShouldBuild)
                                 {
                                     return TryRecipe(ammoRecipes[j]);
                                 }
@@ -782,7 +782,7 @@ namespace RogueWave
                 return false;
             }
 
-            if (m_Resources.value < recipe.BuildCost) 
+            if (m_Resources.Value < recipe.BuildCost) 
             {
                 return false;
             }
@@ -974,7 +974,7 @@ namespace RogueWave
                 m_CrystalResourcesCollected.Add(amount); // TODO: perhaps crystals should be more valuable than refined resources, currently they are identical in value
             } else if (resourceType == ResourceType.Moissanite)
             {
-                m_SpecialCrystalsCollected.Add(1); // TODO: maybe collect special crystals individually so that we need to collect a target amount. This could be by finding it in the wild, or by creating it from other resources.
+                m_PortalCrystalsCollected.Add(1); // TODO: maybe collect special crystals individually so that we need to collect a target amount. This could be by finding it in the wild, or by creating it from other resources.
             }
         }
 

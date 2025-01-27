@@ -93,7 +93,7 @@ namespace RogueWave.GameStats
         {
             if (e is IntGameEvent intEvent && intEvent.Stat == m_StatToTrack)
             {
-                if (intEvent.Stat.value >= m_TargetValue)
+                if (intEvent.Stat.Value >= m_TargetValue)
                 {
                     Unlock();
                 }

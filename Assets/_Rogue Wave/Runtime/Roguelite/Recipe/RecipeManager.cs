@@ -159,7 +159,7 @@ namespace RogueWave
                     continue;
                 }
 
-                if (!allowUnaffordable && GameStatsManager.Instance.GetIntStat("RESOURCES").value < recipe.BuyCost)
+                if (!allowUnaffordable && GameStatsManager.Instance.GetIntStat("RESOURCES").Value < recipe.BuyCost)
                 {
 #if UNITY_EDITOR
                     //Debug.Log($"Skip: {recipe} is too expensive for the player at a cost of {recipe.BuyCost}.");

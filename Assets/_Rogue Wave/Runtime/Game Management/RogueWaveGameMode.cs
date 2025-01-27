@@ -677,7 +677,7 @@ namespace RogueWave
             }
 
             // TODO: Remove hard coding of resource stat key
-            log.Append($"Resources: {GameStatsManager.Instance.GetIntStat("RESOURCES").value}, ");
+            log.Append($"Resources: {GameStatsManager.Instance.GetIntStat("RESOURCES").Value}, ");
             log.Append($"Nanobot Level: {RogueLiteManager.persistentData.currentNanobotLevel}, ");
             log.Append($"Game Level: {RogueLiteManager.persistentData.currentGameLevel}, ");
             log.Append($"Run Number: {RogueLiteManager.persistentData.runNumber}, ");

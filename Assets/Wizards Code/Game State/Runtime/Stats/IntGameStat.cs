@@ -44,7 +44,7 @@ namespace RogueWave.GameStats
                     throw new Exception("Asking for a score contribution from a stat that is not set to contribute to the score.");
                 }
 
-                return value * m_ScoreMultiplier;
+                return Value * m_ScoreMultiplier;
             }
         }
 
@@ -52,33 +52,22 @@ namespace RogueWave.GameStats
         {
             if (isTime)
             {
-                return TimeSpan.FromSeconds(value).ToString(@"hh\:mm\:ss");
+                return TimeSpan.FromSeconds(Value).ToString(@"hh\:mm\:ss");
             }
             else
             {
-                return value.ToString(m_FormatString);
+                return Value.ToString(m_FormatString);
             }
-        }
-
-        public override int SetValue(int value)
-        {
-            if (m_CurrentValue != value)
-            {
-                m_CurrentValue = value;
-            }
-
-            return m_CurrentValue;
         }
 
         public override int Add(int change)
         {
             if (change == 0)
             {
-                return value;
+                return Value;
             }
 
-            m_CurrentValue = m_CurrentValue + change;
-            onChangeEvent?.Raise(change);
+            Value = Value + change;
 
             if (change > 0 && increasedAmount != null)
             {
@@ -88,18 +77,17 @@ namespace RogueWave.GameStats
             {
                 decreasedAmount.Add(change * -1);
             }
-            return value;
+            return Value;
         }
 
         public override int Subtract(int change)
         {
             if (change == 0)
             {
-                return value;
+                return Value;
             }
 
-            m_CurrentValue = (dynamic)m_CurrentValue - change;
-            onChangeEvent?.Raise(change);
+            Value = (dynamic)Value - change;
 
             if (change > 0 && decreasedAmount != null)
             {
@@ -109,7 +97,7 @@ namespace RogueWave.GameStats
             {
                 increasedAmount.Add(change * -1);
             }
-            return value;
+            return Value;
         }
 
 #if UNITY_EDITOR
@@ -128,7 +116,7 @@ namespace RogueWave.GameStats
 
         public int CompareTo(IntGameStat stat)
         {
-            return value.CompareTo(stat.value);
+            return Value.CompareTo(stat.Value);
         }
 #endif
     }

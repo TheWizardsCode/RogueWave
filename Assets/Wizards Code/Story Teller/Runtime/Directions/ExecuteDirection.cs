@@ -33,7 +33,7 @@ namespace WizardsCode.StoryTeller
             Transform obj = StoryManager.Instance.FindTarget(objectName);
             if (!obj)
             {
-                LogError($"Direction to execute method with the arguments {string.Join(", ", parameters)} but no object with the name {componentName} can be found", parameters);
+                LogError($"{StoryManager.GetCurrentKnotName()} contains a direction to execute method with the arguments {string.Join(", ", parameters)} but no object with the name {componentName} can be found", parameters);
                 return;
             }
             else
@@ -41,7 +41,7 @@ namespace WizardsCode.StoryTeller
                 Component component = obj.GetComponent(componentName);
                 if (!component)
                 {
-                    LogError($"Direction to execute method with the arguments {string.Join(", ", parameters)} but no component with the name {componentName} can be found on the object", parameters);
+                    LogError($"{StoryManager.GetCurrentKnotName()} contains a direction to execute method with the arguments {string.Join(", ", parameters)} but no component with the name {componentName} can be found on the object", parameters);
                     return;
                 }
                 else
@@ -51,7 +51,7 @@ namespace WizardsCode.StoryTeller
 
                     if (method == null)
                     {
-                        LogError($"Direction to execute method with the arguments {string.Join(", ", parameters)} but no method with the name {methodName} can be found on the component", parameters);
+                        LogError($"{StoryManager.GetCurrentKnotName()} contains a direction to execute method with the arguments {string.Join(", ", parameters)} but no method with the name {methodName} can be found on the component", parameters);
                         return;
                     }
                     else

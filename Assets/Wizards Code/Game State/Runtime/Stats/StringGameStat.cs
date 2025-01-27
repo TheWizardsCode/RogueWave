@@ -26,17 +26,7 @@ namespace RogueWave.GameStats
 
         public override string ToString()
         {
-            return value;
-        }
-
-        public override string SetValue(string value)
-        {
-            if (m_CurrentValue != value)
-            {
-                m_CurrentValue = value;
-            }
-
-            return m_CurrentValue;
+            return Value;
         }
 
         /// <summary>
@@ -48,13 +38,13 @@ namespace RogueWave.GameStats
         {
             if (string.IsNullOrEmpty(postfix))
             {
-                return value;
+                return Value;
             }
 
-            m_CurrentValue = m_CurrentValue + postfix;
+            Value = Value + postfix;
             onChangeEvent?.Raise(postfix);
 
-            return value;
+            return Value;
         }
 
         /// <summary>
@@ -66,19 +56,19 @@ namespace RogueWave.GameStats
         {
             if (string.IsNullOrEmpty(substring))
             {
-                return value;
+                return Value;
             }
 
-            int idx = m_CurrentValue.IndexOf(substring);
+            int idx = Value.IndexOf(substring);
             if (idx < 0)
             {
-                return value;
+                return Value;
             }
 
-            m_CurrentValue = value.Remove(idx, substring.Length);
+            Value = Value.Remove(idx, substring.Length);
             onChangeEvent?.Raise(substring);
 
-            return value;
+            return Value;
         }
     }
 }

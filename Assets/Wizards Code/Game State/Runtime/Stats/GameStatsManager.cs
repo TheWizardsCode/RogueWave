@@ -228,10 +228,13 @@ namespace RogueWave.GameStats
         {
             if (type == LogType.Exception)
             {
+#if DISCORD_ENABLED
                 SendExceptionToWebhook(logString, stackTrace);
+#endif
             }
         }
 
+#if DISCORD_ENABLED
         public void SendExceptionToWebhook(Exception exception)
         {
             StartCoroutine(SendExceptionToWebhookCoroutine(exception.Message, exception.StackTrace));
@@ -242,7 +245,7 @@ namespace RogueWave.GameStats
             StartCoroutine(SendExceptionToWebhookCoroutine(logString, stackTrace));
         }
 
-#if DISCORD_ENABLED
+
         /// <summary>
         /// Send the stats to the discord server. The `eventName` is the name of the event that triggered the sending of the stats and will be included in the message.
         /// </summary>
@@ -380,7 +383,7 @@ namespace RogueWave.GameStats
             {
                 if (stat.key != null)
                 {
-                    sb.Append($"  - {stat.key}: {stat.value}\n");
+                    sb.Append($"  - {stat.key}: {stat.Value}\n");
                 }
             }
 
@@ -520,13 +523,13 @@ namespace RogueWave.GameStats
             IntGameStat[] intGameStats = Resources.LoadAll<IntGameStat>("");
             foreach (IntGameStat stat in intGameStats)
             {
-                stat.SetValue(stat.defaultValue);
+                stat.Value = stat.defaultValue;
             }
 
             StringGameStat[] strGameStats = Resources.LoadAll<StringGameStat>("");
             foreach (StringGameStat stat in strGameStats)
             {
-                stat.SetValue(stat.defaultValue);
+                stat.Value = stat.defaultValue;
             }
 
             Achievement[] achievements = Resources.LoadAll<Achievement>("");
@@ -551,7 +554,7 @@ namespace RogueWave.GameStats
 #if UNITY_EDITOR
         [HorizontalLine(color: EColor.Blue)]
         [SerializeField]
-        #pragma warning disable CS0414 // used in Button attribute
+#pragma warning disable CS0414 // used in Button attribute
         bool showDebug = false;
 #pragma warning restore CS0414
 
@@ -564,7 +567,7 @@ namespace RogueWave.GameStats
             {
                 if (stat.key != null)
                 {
-                    Debug.Log($"Scriptable Object: {stat.key} = {stat.value}");
+                    Debug.Log($"Scriptable Object: {stat.key} = {stat.Value}");
 #if STEAMWORKS_ENABLED && !STEAMWORKS_DISABLED
                     DumpSteamStatInt(stat);
 #endif
@@ -639,7 +642,7 @@ namespace RogueWave.GameStats
         }
 #endif // steamworks
 #endif // editor
-        #endregion
+#endregion
     }
 
     [Serializable]

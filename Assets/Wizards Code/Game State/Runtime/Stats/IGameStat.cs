@@ -6,8 +6,7 @@ namespace WizardsCode.RogueWave
         string displayName { get; }
         string description { get; }
 
-        T value { get; }
-        T SetValue(T value);
+        T Value { get; set; }
         T Add(T change);
         T Subtract(T change);
 

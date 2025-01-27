@@ -224,7 +224,6 @@ namespace WizardsCode.RogueWave
             float targetVolumeDb = -80;
 
             Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.music, targetVolumeDb, fadeDuration, callback));
-            Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.ui, targetVolumeDb, fadeDuration, callback));
             Instance.StartCoroutine(Instance.FadeGroupCoroutine(Instance.effectsMaster, targetVolumeDb, fadeDuration, callback));
         }
 
@@ -373,7 +372,8 @@ namespace WizardsCode.RogueWave
                     return null;
 
                 Play2DOneShot(currentNanobotSource, clip, volume);
-            } else if (currentNanobotSource.isPlaying)
+            } 
+            else if (currentNanobotSource.isPlaying)
             {
                 Debug.Log("Fading existing nanobot voice line.");
                 FadeGroup(Instance.nanobots, mutedVolumeDb, 0.1f, () => Play2DOneShot(currentNanobotSource, clip, volume));

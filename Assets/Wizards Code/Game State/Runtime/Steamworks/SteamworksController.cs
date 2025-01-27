@@ -116,7 +116,9 @@ namespace WizardsCode.RogueWave
                 catch (Exception e)
                 {
                     ConnectedToSteam = false;
+#if DISCORD_ENABLED
                     GameStatsManager.Instance.SendExceptionToWebhook("Steamworks failed to initialize: " + e.Message, e.StackTrace);
+#endif
                 }
             }
             else if (Instance != this)
@@ -209,7 +211,7 @@ namespace WizardsCode.RogueWave
 #endif
 
 #if UNITY_EDITOR && DEMO
-        [Button("Set to Build Full Game", EButtonEnableMode.Editor), ShowIf("showManagement")]
+                    [Button("Set to Build Full Game", EButtonEnableMode.Editor), ShowIf("showManagement")]
         private void SetToBuildFullGame() {
             // Remove the DEMO symbol to the project settings
             PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, out string[] defines);

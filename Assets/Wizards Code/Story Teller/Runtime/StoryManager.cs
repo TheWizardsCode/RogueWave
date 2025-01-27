@@ -5,7 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 using TMPro;
@@ -24,7 +23,7 @@ namespace WizardsCode.StoryTeller
         // Ink
         [SerializeField, Tooltip("The Ink file to work with."), BoxGroup("Ink Configuration"), Required]
         TextAsset m_InkJSON;
-
+        
         // Scenes
         [SerializeField, Tooltip("The scene to play if no profiles exist. This is the start of the story."), Scene, BoxGroup("Scenes")]
         private string introScene;
@@ -60,10 +59,15 @@ namespace WizardsCode.StoryTeller
         float m_ActiveTimePerCharacter = 0.01f;
         [SerializeField, Tooltip("If there is only one option available in the story should it automatically be chosen? If set to false the story will wait for the player to select the choice."), BoxGroup("UI")]
         bool m_autoAdvanceSingleChoice = false;
+        [SerializeField, Tooltip("If there is no text to display should the UI be hidden? Setting this to false may result in unexpected behaviour if the UI is not designed to manage knots with empty text."), BoxGroup("UI")]
+        bool m_AutoHideUIOnEmptyText = true;
 
+        // Debug
         [SerializeField, Tooltip("Show the debug tooling for the story system."), BoxGroup("Debug")]
-        private bool showDebug = false;
-        [SerializeField, Tooltip("Should the story be reset when the game starts?"), BoxGroup("Debug"), ShowIf("showDebug"), FormerlySerializedAs("resetTutorial")]
+        private bool showDebugOptions = false;
+        [SerializeField, Tooltip("Use verbose logging."), BoxGroup("Debug"), ShowIf("showDebugOptions")]
+        private bool verboseLogging = false;
+        [SerializeField, Tooltip("Should the story be reset when the game starts?"), BoxGroup("Debug"), ShowIf("showDebugOptions"), FormerlySerializedAs("resetTutorial")]
         private bool resetStory = false;
 
         Story m_Story;
@@ -282,6 +286,7 @@ namespace WizardsCode.StoryTeller
                 {
                     if (m_autoAdvanceSingleChoice)
                     {
+                        Log("Only one choice available and auto advance is on. Automatically choosing the one option.");
                         m_Story.ChooseChoiceIndex(0);
                     }
                 }
@@ -291,6 +296,7 @@ namespace WizardsCode.StoryTeller
             while (m_NewTextToDisplay.Length == 0 && m_CurrentText.isFinished && m_Story.canContinue && !isWaiting)
             {
                 line = m_Story.Continue();
+                Log("Processing line: " + line);
 
                 // Process Directions;
                 int cmdIdx = line.IndexOf(">>>");
@@ -312,6 +318,7 @@ namespace WizardsCode.StoryTeller
                     {
                         if (direction.Name.ToLower() == name.ToLower() + "direction")
                         {
+                            Log($"Found direction: {direction.Name}.");
                             cmd = (AbstractDirection)Activator.CreateInstance(direction);
                             break;
                         }
@@ -326,12 +333,18 @@ namespace WizardsCode.StoryTeller
                     string[] args = line.Substring(endIdx + startIdx + 1).Split(',');
                     args = Array.ConvertAll(args, s => s.Trim());
 
+                    Log($"Executing direction: {cmd.DirectionName} with argumens {string.Join(", ", args)}.");
                     cmd.Execute(args);
                 }
 
                 // is it dialogue?
                 else if (Regex.IsMatch(line, "^(\\w*>)|^(\\w*\\s\\w*>)", RegexOptions.IgnoreCase)) // we have an actors name
                 {
+                    if (string.IsNullOrEmpty(line) && m_AutoHideUIOnEmptyText)
+                    {
+                        IsDisplayingUI = false;
+                    }
+
                     int indexOfSpeakerChar = line.IndexOf(">");
                     string speaker = line.Substring(0, indexOfSpeakerChar).Trim();
                     string speech = line.Substring(indexOfSpeakerChar + 1).Trim();
@@ -355,6 +368,11 @@ namespace WizardsCode.StoryTeller
                 // No named actor, so interpret it as narration/descriptive text
                 else
                 {
+                    if (string.IsNullOrEmpty(line) && m_AutoHideUIOnEmptyText)
+                    {
+                        IsDisplayingUI = false;
+                    }
+
                     m_activeSpeaker = null;
                     m_NewTextToDisplay.Append(line);
                     if (m_ActiveTimePerCharacter > 0)
@@ -436,20 +454,30 @@ namespace WizardsCode.StoryTeller
 
             if (wasWaiting || resumeStory)
             {
+                Log("Finished waiting for resumption of the story.");
                 wasWaiting = false;
                 resumeStory = false;
                 IsDisplayingUI = true;
             }
 
             ProcessStoryChunk();
-            
+
             if (IsDisplayingUI)
             {
                 if (isUIDirty)
                 {
+                    Log("Updating the UI.");
                     UpdateTextGUI();
                     UpdateChoicesGUI();
                 }
+            }
+        }
+
+        void Log(string message)
+        {
+            if (verboseLogging)
+            {
+                Debug.Log($"<color=green>[StoryManager]</color> {message}");
             }
         }
 
@@ -459,7 +487,7 @@ namespace WizardsCode.StoryTeller
             {
                 if (scene.name == mapping.Key)
                 {
-                    ResumeFromKnot(mapping.Value.knotName);
+                    ResumeFromKnot(mapping.Value.path);
                     if (mapping.Value.oneShot)
                     {
                         m_SceneToKnotMapping.Remove(mapping.Key);
@@ -479,7 +507,7 @@ namespace WizardsCode.StoryTeller
         {
             if (m_SceneToKnotMapping.TryGetValue(mapping.sceneName, out SceneToKnotMapping existingMapping))
             {
-                Debug.LogWarning($"The scene name '{mapping.sceneName}' already exists in the scene to knot mapping. The knot of '{existingMapping.knotName}' will be replaced with '{mapping.knotName}'. To avoid this warning explicitly remove the existing listener before adding a new one.");
+                Debug.LogWarning($"The scene name '{mapping.sceneName}' already exists in the scene to knot mapping. The knot of '{existingMapping.path}' will be replaced with '{mapping.path}'. To avoid this warning explicitly remove the existing listener before adding a new one.");
                 m_SceneToKnotMapping[mapping.sceneName] = mapping;
             }
             else
@@ -509,6 +537,28 @@ namespace WizardsCode.StoryTeller
                 SetUIState(true, managedUIElements);
             }
         }
+
+        /// <summary>
+        /// Add a value to a list variable.
+        /// </summary>
+        /// <param name="listVariableName">Name of the List variable as it appears in the Ink content.</param>
+        /// <param name="item">The value of the item to add.</param>
+        public static void AddToInkListVariable(string listVariableName, string item)
+        {
+            InkList list = Instance.m_Story.variablesState[listVariableName] as InkList;
+            list.AddItem(item);
+        }
+
+        /// <summary>
+        /// Set a variable in the Ink story.
+        /// </summary>
+        /// <param name="variableName">The name of the Ink variable</param>
+        /// <param name="value">The value to set it to</param>
+        public static void SetInkVariable(string variableName, int value)
+        {
+            Instance.m_Story.variablesState[variableName] = value;
+        }
+
 
         /// <summary>
         /// Enables and disables UI elements when a story step is started or stopped.
@@ -555,12 +605,17 @@ namespace WizardsCode.StoryTeller
         {
             waitForStates.Add(direction);
         }
+
+        internal static string GetCurrentKnotName()
+        {
+            return Instance.m_Story.state.currentPathString;
+        }
     }
 
     class SceneToKnotMapping
     {
         public string sceneName;
-        public string knotName;
+        public string path;
         public bool oneShot = true;
 
         /// <summary>
@@ -569,10 +624,10 @@ namespace WizardsCode.StoryTeller
         /// <param name="sceneName"></param>
         /// <param name="knotName"></param>
         /// <Param name="oneShot"></param>
-        public SceneToKnotMapping(string sceneName, string knotName, bool oneShot = true)
+        public SceneToKnotMapping(string sceneName, string path, bool oneShot = true)
         {
             this.sceneName = sceneName;
-            this.knotName = knotName;
+            this.path = path;
             this.oneShot = oneShot;
         }
     }

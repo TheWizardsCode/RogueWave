@@ -285,7 +285,7 @@ namespace RogueWave
                     {
                         if (wrapperArray.stats[i].key == stats[y].key)
                         {
-                            stats[y].SetValue(wrapperArray.stats[i].value);
+                            stats[y].Value = wrapperArray.stats[i].value;
                         }
                     }
                 }
@@ -338,7 +338,7 @@ namespace RogueWave
                 for (int i = 0; i < stats.Length; i++)
                 {
                     StatsWrapper wrapper = new StatsWrapper(stats[i].key);
-                    wrapper.value = stats[i].value;
+                    wrapper.value = stats[i].Value;
                     sb.Append(JsonUtility.ToJson(wrapper, true));
                     if (i < stats.Length - 1)
                     {

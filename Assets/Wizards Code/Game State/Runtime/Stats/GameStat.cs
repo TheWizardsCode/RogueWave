@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using WizardsCode.RogueWave;
+using WizardsCode.StoryTeller;
 
 namespace RogueWave.GameStats
 {
@@ -28,28 +29,37 @@ namespace RogueWave.GameStats
         [Header("Value")]
         [SerializeField, Tooltip("The default value for this stat.")]
         T m_DefaultValue = default;
+        [SerializeField, Tooltip("The name of the ink variable to use to sync this stat in the Ink story. If left blank then the Ink story will be unaware of this stat.")]
+        string m_InkVariableName = default;
 
         [Header("Events")]
         [SerializeField, Tooltip("The event to raise when this stat is changed.")]
         internal ParameterizedGameEvent<T> onChangeEvent = default;
 
-        public T m_CurrentValue = default;
-        public T value { 
-            get { return m_CurrentValue; } 
-        }
-
-        public virtual T SetValue(T value)
-        {
-            // This method should be overridden in subclasses in order to remove the need for this kind of validation.
-#if UNITY_EDITOR
-            Debug.LogWarning("An implementation of GameStat has not overrideen SetValue which has performance implications.");
-#endif
-
-            if (!EqualityComparer<T>.Default.Equals(m_CurrentValue, value))
+        protected T m_CurrentValue = default;
+        public T Value { 
+            get { return m_CurrentValue; }
+            set
             {
+                // If we need to check equality before setting the value, we like this, bit it is expensive.
+                // Taken out of the flow for now, if we need it we can put it back in.
+                //if (!EqualityComparer<T>.Default.Equals(m_CurrentValue, value))
+                
                 m_CurrentValue = value;
+
+                if (!string.IsNullOrEmpty(m_InkVariableName))
+                {
+                    if (m_CurrentValue is int intValue)
+                    {
+                        StoryManager.SetInkVariable(m_InkVariableName, intValue);
+                    } else
+                    {
+                        Debug.LogError($"There is a mapping between `{this.name}` and `{m_InkVariableName}` in the Ink story, but syncing `{m_CurrentValue.GetType()}` volues is not implemented yet.");
+                    }
+                }
+
+                onChangeEvent?.Raise(value);
             }
-            return m_CurrentValue;
         }
 
         public virtual T Add(T change)
@@ -61,13 +71,12 @@ namespace RogueWave.GameStats
 
             if (Comparer<T>.Default.Compare(change, default(T)) == 0)
             {
-                return value;
+                return Value;
             }
 
-            m_CurrentValue = (dynamic)m_CurrentValue + change;
-            onChangeEvent.Raise(m_CurrentValue);
+            Value = (dynamic)Value + change;
 
-            return value;
+            return Value;
         }
 
         public virtual T Subtract(T change)
@@ -79,13 +88,12 @@ namespace RogueWave.GameStats
 
             if (Comparer<T>.Default.Compare(change, default(T)) == 0)
             {
-                return value;
+                return Value;
             }
             
-            m_CurrentValue = (dynamic)m_CurrentValue - change;
-            onChangeEvent.Raise(m_CurrentValue);
+            Value = (dynamic)Value - change;
 
-            return value;
+            return Value;
         }
 
         public T defaultValue => m_DefaultValue;
