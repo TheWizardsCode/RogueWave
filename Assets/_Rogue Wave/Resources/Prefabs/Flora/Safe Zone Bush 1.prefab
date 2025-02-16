@@ -46,8 +46,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afb4f6b079a31f949b8a10f7e86b427e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Health: 50
-  m_HealthMax: 50
+  m_Health: 20
+  m_HealthMax: 20
   m_CanDamageSelf: 1
   m_OnHealthChanged:
     m_PersistentCalls:
@@ -88,8 +88,8 @@ MonoBehaviour:
   m_ImpactDamageMultiplier: 1
   resourcesDropChance: 1
   possibleDrops:
-  - {fileID: 11400000, guid: 815ebce1535b29e499db5e8b30ab6d61, type: 2}
   - {fileID: 11400000, guid: 443b89453523e8749a0a1d0029783749, type: 2}
+  - {fileID: 11400000, guid: 92f766f1da4481a4b92d9aca304b5a9d, type: 2}
   inheritMaterial: 1
   magnetizeResources: 1
   destructibleDestroyed: {fileID: 11400000, guid: 0863d8c1db6c8c042bcae75ad8ba3677, type: 2}

@@ -1,3 +1,4 @@
+using NAudio.CoreAudioApi;
 using System;
 using UnityEngine;
 
@@ -8,8 +9,6 @@ namespace WizardsCode.StoryTeller
     /// `Resources/Audio/TYPE/NAME`
     /// 
     /// Example usage:
-    /// 
-    /// 
     /// 
     /// SOURCE: is the game object from which the sound will be played (must have an AudioSource)
     /// TYPE: is an arbitrary FX type name
@@ -40,6 +39,7 @@ namespace WizardsCode.StoryTeller
             {
                 //OPTIMIZATION: cache audio source
                 source = obj.GetComponentInChildren<AudioSource>();
+                source.outputAudioMixerGroup.audioMixer.SetFloat("Volume", 1);
                 if (!source)
                 {
                     Debug.LogError($"Direction to play SoundFX with the arguments {string.Join(", ", parameters)} but no audio source was found on the the object with the name name {parameters[0].Trim()}.");
@@ -67,7 +67,7 @@ namespace WizardsCode.StoryTeller
             }
             else
             {
-                Debug.LogError($"There is a direction to play the soundFX '{path}/{clip}' but no resource file of that name.");
+                Debug.LogError($"There is a direction to play the soundFX '{path}/{clip}' but no resource file of that name exists.");
             }
         }
     }

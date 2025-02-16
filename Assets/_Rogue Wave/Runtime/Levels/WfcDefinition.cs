@@ -21,7 +21,7 @@ namespace RogueWave
         internal string displayName = string.Empty;
         [SerializeField, Tooltip("The description of the level."), BoxGroup("Meta Data")]
         internal string description = string.Empty;
-        [SerializeField, Tooltip("An achievement that must be unlocked to enable this level. If this is null then the level will always be unlocked."), BoxGroup("Meta Data")]
+        [SerializeField, Tooltip("An achievement that must be unlocked to enable this level. If this is null then the level will always be unlocked."), BoxGroup("Meta Data"), TextArea(2,6)]
         internal Achievement unlockAchievement;
         [SerializeField, Tooltip("An achievement that must be unlocked for this level to be considered complete. If this is null then the level can never be considered completed."), BoxGroup("Meta Data")]
         internal Achievement completedAchievement;

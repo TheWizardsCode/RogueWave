@@ -339,9 +339,10 @@ namespace WizardsCode.RogueWave
         /// <param name="source">The audio source with which to play the sound.</param>
         /// <param name="clip">The clip to play.</param>
         /// <seealso cref="Play2DOneShot(AudioClip)"/>
-        internal static void Play2DOneShot(AudioSource source, AudioClip clip, float volume = 0.8f)
+        internal static void Play2DOneShot(AudioSource source, AudioClip clip, AudioMixerGroup group, float volume = 1f)
         {
-            Debug.Log($"Playing 2D one shot {clip} at volume {volume}");
+            Debug.Log($"Playing 2D one shot {clip} at volume {volume} via source {source.GetInstanceID()}");
+            source.outputAudioMixerGroup = group;
             source.PlayOneShot(clip, volume);
         }
 
@@ -349,21 +350,31 @@ namespace WizardsCode.RogueWave
         /// Play a one shot sound effect in 2D space using a pooled audio source.
         /// </summary>
         /// <param name="clip">The clip to play.</param>
+        /// <param name="group">The audio mixer group to play the sound in. If null (default) then the Two Dimensional Effects group is used.</param>
+        /// <param name="volume">The volume to play the sound at. Default is 1.</param>
         /// <returns>The audio source that is playing the sound.</returns>
         /// <seealso cref="Play2DOneShot(AudioSource source, AudioClip clip)"/>
-        internal static AudioSource Play2DOneShot(AudioClip clip, float volume = 0.8f)
+        internal static AudioSource Play2DOneShot(AudioClip clip, AudioMixerGroup group = null, float volume = 1f)
         {
             var source = NeoFpsAudioManager.Get2DAudioSource();
+            if (group == null)
+            {
+                currentNanobotSource.outputAudioMixerGroup = group;
+            }
+            else
+            {
+                currentNanobotSource.outputAudioMixerGroup = Instance.twoDimensional;
+            }
             if (source == null)
                 return null;
 
-            Play2DOneShot(source, clip, volume);
+            Play2DOneShot(source, clip, Instance.twoDimensional, volume);
 
             return source;
         }
 
         static AudioSource currentNanobotSource;
-        internal static AudioSource PlayNanobotOneShot(AudioClip clip, float volume = 0.8f)
+        internal static AudioSource PlayNanobotOneShot(AudioClip clip, float volume = 1f)
         {
             if (currentNanobotSource == null)
             {
@@ -371,16 +382,24 @@ namespace WizardsCode.RogueWave
                 if (currentNanobotSource == null)
                     return null;
 
-                Play2DOneShot(currentNanobotSource, clip, volume);
-            } 
+                Play2DOneShot(currentNanobotSource, clip, Instance.nanobots, volume);
+                return currentNanobotSource;
+            }
             else if (currentNanobotSource.isPlaying)
             {
                 Debug.Log("Fading existing nanobot voice line.");
-                FadeGroup(Instance.nanobots, mutedVolumeDb, 0.1f, () => Play2DOneShot(currentNanobotSource, clip, volume));
+                FadeGroup(Instance.nanobots, mutedVolumeDb, 0.1f, () =>
+                {
+                    currentNanobotSource.Stop();
+                    ResetGroup(Instance.nanobots, 0, () => Play2DOneShot(currentNanobotSource, clip, Instance.nanobots, volume));
+                });
+                return currentNanobotSource;
             }
-
-            ResetGroup(Instance.nanobots, 0, () => Play2DOneShot(currentNanobotSource, clip, volume));
-            return currentNanobotSource;
+            else
+            {
+                ResetGroup(Instance.nanobots, 0, () => Play2DOneShot(currentNanobotSource, clip, Instance.nanobots, volume));
+                return currentNanobotSource;
+            }
         }
 
         internal static void StopNanobots()

@@ -2,12 +2,13 @@
 VAR runCount = 0
 VAR deathCount = 0
 VAR portalCrystalsCollected = 0
+VAR inReconstruction = 0
 
 // Event driven actions
 >>> ResumeOnSceneLoad: RogueWave_ReconstructionScene, Reconstruction
 
 // The Start
->>> PlayAudio: Nanobots, Story/Tutorial, Beat 0 Welcome
+>>> PlayNanobotAudio: Story/Tutorial, Beat 0 Welcome
 
 All your team are dead.
 
@@ -24,7 +25,7 @@ Let's get started by seeing if you can remember who you are, or maybe pick a new
 === New_Identity
 
 >>> execute: NavControls_Root.RogueWaveRootNavControls.OnClickNewGame
->>> PlayAudio: Nanobots, Story/Tutorial, Beat 0 We are a part of you
+>>> PlayNanobotAudio: Story/Tutorial, Beat 0 We are a part of you
 
 We are a part of you. The interface you see in front of you is controlled by us.
 
@@ -41,7 +42,7 @@ When ready click "Create Identity & Start".
 >>> execute: MainGamePanel_CreateProfile.CreateNewProfilePanel.OnClickCreateProfile
 >>> HideStoryUI:
 >>> WaitForSceneLoad: RogueWave_CombatLevel
->>> PlayAudio: Nanobots, Story/Tutorial, Beat 1 Introduction Part 1
+>>> PlayNanobotAudio: Story/Tutorial, Beat 1 Introduction Part 1
 
 We can "Nanotransfer" you into zones across the planet to gather the resources we need.
 
@@ -53,7 +54,7 @@ Those that stay can keep a link open to you for 5 minutes. After that amount of 
 
 === Understanding_Nanotransfer
 
->>> PlayAudio: Nanobots, Story/Tutorial, Beat 1 Introduction Part 2
+>>> PlayNanobotAudio: Story/Tutorial, Beat 1 Introduction Part 2
 
 When you are ready we'll send you out there to take a look around.
 
@@ -69,7 +70,7 @@ You should focus on keeping yourself safe and gathering tne resources we need to
 
 >>> AudioMixer: Audio/RogueWave_AudioMixer, EffectsVolume, 0
 >>> execute: Rogue Wave Game Mode.RogueWaveGameMode.GenerateLevel
->>> PlayAudio: Nanobots, Story/Tutorial, Beat 2 Zones and Run Upgrades
+>>> PlayNanobotAudio: Story/Tutorial, Beat 2 Zones and Run Upgrades
 
 This is a safe zone but resources here are a little scarce.
 
@@ -88,7 +89,7 @@ Once you have gathered 500 resources we'll bring you back for some more permanen
 >>> HideStoryUI:
 >>> Execute: Level Menu(Clone).LevelMenu.Spawn
 >>> AudioMixer: Audio/RogueWave_AudioMixer, EffectsVolume, 1
->>> ResumeOnSceneLoad: RogueWave_HubScene, In_Hub
+>>> ResumeOnSceneLoad: RogueWave_HubScene, In_Hub, true
 
     + [Collect Moisannite] -> Collected_Moisannite
     + [Survive] -> In_Hub
@@ -96,18 +97,30 @@ Once you have gathered 500 resources we'll bring you back for some more permanen
 
 === In_Hub
 
-{portalCrystalsCollected == 0:
-    >>> PlayAudio: Nanobots, Story/Tutorial, Beat 3a Special Crystals and Permanent Upgrades
-
-    We now have resources and can make you stronger. Any upgrades you select here in the Hub are permanent. That is. they'll survive an emergency extraction.
+{inReconstruction == 1:
+    ~ inReconstruction = 0
+    >>> PlayNanobotAudio: Story/Tutorial, Beat 3c We Can Keep Doing This
     
-    However, to build the portal generator we need specific kinds of crystal.
+    Don't worry, we can do this as often as we need to. You will get stronger.
     
-    When you feel strong enough we'll send you to a new zone that contains Moisannite. We'll put a marker on it to make it easier for you to collect.
-    
-    + [Let's Go!] -> In_Run
+    + [Of course.] -> In_Run
 -else:
-    -> Start_Real_Work
+    {portalCrystalsCollected == 0:
+        { stopping:
+        	- >>> PlayAudio: Nanobots, Story/Tutorial, Beat 3a Special Crystals and Permanent Upgrades
+        
+                We now have resources and can make you stronger. Any upgrades you select here in the Hub are permanent. That is. they'll survive an emergency extraction.
+            
+                However, to build the portal generator we need specific kinds of crystal.
+            
+                When you feel strong enough we'll send you to a new zone that contains Moisannite. We'll put a marker on it to make it easier for you to collect.
+            - We still need that Moisannite. Give it another go.
+        }
+        
+        + [Let's Go!] -> In_Run
+    -else:
+        -> Start_Real_Work
+    }
 }
 
 === Collected_Moisannite
@@ -124,7 +137,7 @@ Great, you have your first crystal for the portal. Many more to go.
 
 === Start_Real_Work
 
->>> PlayAudio: Nanobots, Story/Tutorial, Beat 5 Now the work starts
+>>> PlayNanobotAudio: Story/Tutorial, Beat 5 Now the work starts
 
 We'll provide links to zones where we have gathered intelligence.
 
@@ -137,12 +150,10 @@ Remember you can always revisit earlier zones.
 === Reconstruction
 
 ~ deathCount = deathCount + 1
+~ inReconstruction = 1
 
 {deathCount == 1:
-    >>> execute: Level Menu(Clone).LevelMenu.Spawn
-    >>> AudioMixer: Audio/RogueWave_AudioMixer, EffectsVolume, 1
-    >>> ResumeOnSceneLoad: RogueWave_HubScene, Portal_Crystals, true
-    >>> PlayAudio: Nanobots, Story/Tutorial, Beat 3b Reconstruction
+    >>> PlayNanobotAudio: Story/Tutorial, Beat 3b Reconstruction
 
     We had to pull you out, you were too close to true death.
 
@@ -150,17 +161,19 @@ Remember you can always revisit earlier zones.
     
     While we reconstruct you take a look at your stats here. They can be useful in figuring out where you are strong or weak.
     
-    + [Try Again] -> In_Run
--else:
-    >>> HideStoryUI:
+    + [Try Again] -> Reviewing_Stats
     
-    {runCount == 1:
-        + [Survive] -> In_Hub
-    -else:
-        + [Survive] -> Start_Real_Work
-    }
+-else:
+    -> Reviewing_Stats
 }
 
+=== Reviewing_Stats
+
+>>> HideStoryUI:
+>>> ResumeOnSceneLoad: RogueWave_HubScene, In_Hub, true
+
+    + [Try again] -> In_Hub
+    + [Quit] -> The_End
 
 === The_End
 

@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 using UnityEngine.Serialization;
 using System.Text;
 using WizardsCode.RogueWave;
-using ProceduralToolkit;
 
 namespace RogueWave
 {

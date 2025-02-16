@@ -52,9 +52,7 @@ namespace RogueWave
         [Header("Level Management")]
         [SerializeField, Tooltip("If true the level will be generated when the game mode starts.")]
         bool m_generateLevelOnStart = false;
-        [SerializeField, Tooltip("The campaign definitions which defines the levels to play in order, which in turn defines the enemies, geometry and more for each level."), Expandable]
-        CampaignDefinition m_Campaign;
-
+        
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("A short textual log of the game results.")]
         private StringGameStat m_GameLog;
@@ -82,6 +80,8 @@ namespace RogueWave
         public UnityEvent<Spawner> onSpawnerCreated;
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
         public UnityEvent<BasicEnemyController> onEnemySpawned;
+
+        private CampaignManager CampaignManager => FindObjectOfType<CampaignManager>();
 
         public override bool spawnOnStart
         {
@@ -111,7 +111,7 @@ namespace RogueWave
             }
         }
 
-        public CampaignDefinition Campaign => m_Campaign;
+        public CampaignDefinition Campaign => CampaignManager.CurrentCampaign;
 
         private AIDirector m_aiDirector;
         private AIDirector aiDirector
@@ -159,16 +159,18 @@ namespace RogueWave
         public WfcDefinition currentLevelDefinition
         {
             get { 
-                if (m_Campaign.levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
-                    return m_Campaign.levels[m_Campaign.levels.Length - 1]; 
+                if (Campaign.levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
+                    return Campaign.levels[Campaign.levels.Length - 1]; 
                 else
-                    return m_Campaign.levels[RogueLiteManager.persistentData.currentGameLevel];
+                    return Campaign.levels[RogueLiteManager.persistentData.currentGameLevel];
             }
         }
 
         #region Unity Life-cycle
         protected override void Awake()
         {
+
+
             statusHud = FindObjectOfType<HudGameStatusController>();
             levelGenerator = GetComponentInChildren<LevelGenerator>();
 
@@ -531,7 +533,7 @@ namespace RogueWave
         {
             if (m_generateLevelOnStart)
             {
-                levelGenerator.Generate(currentLevelDefinition, m_Campaign.seed);
+                levelGenerator.Generate(currentLevelDefinition, Campaign.seed);
             }
 
             base.OnStart();
@@ -621,7 +623,7 @@ namespace RogueWave
 
             startTime = Time.time;
 
-            m_GameLog.Add($"{m_Campaign.name}-{RogueLiteManager.persistentData.currentGameLevel}-");
+            m_GameLog.Add($"{Campaign.name}-{RogueLiteManager.persistentData.currentGameLevel}-");
 
             LogGameState("Character Spawned");
 
@@ -870,7 +872,7 @@ namespace RogueWave
         {
             if (currentLevelDefinition.generateLevelOnSpawn)
             {
-                levelGenerator.Generate(currentLevelDefinition, m_Campaign.seed);
+                levelGenerator.Generate(currentLevelDefinition, Campaign.seed);
             }
 
             if (currentLevelDefinition.levelReadyAudioClips != null && currentLevelDefinition.levelReadyAudioClips.Length > 0)

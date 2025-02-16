@@ -367,6 +367,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1737725626056767186, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
+      propertyPath: m_Text
+      value: Create Identity & Start
+      objectReference: {fileID: 0}
     - target: {fileID: 2278920627779949251, guid: 7a3775421ef0892479d3f50397cde80b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -956,7 +960,7 @@ GameObject:
   - component: {fileID: 831646703}
   - component: {fileID: 831646705}
   m_Layer: 0
-  m_Name: Story Manager
+  m_Name: Campaign Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -971,7 +975,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 831646702}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eebd5a9c686195a4d98e957f64f78c9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 99da472a795d770459e7a7e4be87e639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_InkJSON: {fileID: 4900000, guid: d92a25ecb3cbc024180a37e7e3b0f308, type: 3}
@@ -989,9 +993,11 @@ MonoBehaviour:
   m_CurrentText: {fileID: 710674140}
   m_ActiveTimePerCharacter: 0.01
   m_autoAdvanceSingleChoice: 0
-  showDebugOptions: 0
-  verboseLogging: 0
+  m_AutoHideUIOnEmptyText: 1
+  showDebugOptions: 1
+  verboseLogging: 1
   resetStory: 1
+  m_Campaign: {fileID: 11400000, guid: 4510a5b0a6b282a4993e2009bf52b8ae, type: 2}
 --- !u!4 &831646704
 Transform:
   m_ObjectHideFlags: 0

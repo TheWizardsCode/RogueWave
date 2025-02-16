@@ -8,6 +8,7 @@ using NaughtyAttributes;
 using NeoFPS.Samples;
 using System.Collections.ObjectModel;
 using RogueWave.GameStats;
+using WizardsCode.RogueWave;
 
 namespace RogueWave.UI
 {
@@ -74,6 +75,21 @@ namespace RogueWave.UI
             ClearTemporaryRecipes();
             AddRangeOfTemporaryRecipes(RogueLiteManager.runData.GetRecipes());
             RemoveAllTemporaryRecipes(recipe => permanentRecipes.Contains(recipe));
+
+            EnableNextCampaignIfReady();
+        }
+
+        /// <summary>
+        /// Checks to see if the conditions for completion of the current campaign have been met.
+        /// If they have then the next campaign will be unlocked.
+        /// </summary>
+        private void EnableNextCampaignIfReady()
+        {
+            CampaignManager campaignManager = FindObjectOfType<CampaignManager>();
+            if (campaignManager.CurrentCampaign.IsComplete)
+            {
+               campaignManager.CurrentCampaign = campaignManager.CurrentCampaign.nextCampaign;
+            }
         }
 
         private void OnDisable()

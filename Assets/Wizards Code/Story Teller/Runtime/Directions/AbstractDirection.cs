@@ -33,7 +33,7 @@ namespace WizardsCode.StoryTeller
             Debug.LogWarning($"{message}\nCaused by Ink direction command implemented by {this}\n\nParameters: {string.Join(", ", parameters)}");
         }
 
-        internal bool ValidateArgumentCount(string[] args, int minRequiredCount, int maxRequiredCount = 0)
+        protected bool ValidateArgumentCount(string[] args, int minRequiredCount, int maxRequiredCount = 0)
         {
             string error = "";
             string warning = "";

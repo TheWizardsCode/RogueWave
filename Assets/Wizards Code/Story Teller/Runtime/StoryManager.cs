@@ -80,8 +80,6 @@ namespace WizardsCode.StoryTeller
         private static StoryManager _instance;
         List<AbstractWaitForDirection> waitForStates = new List<AbstractWaitForDirection>();
 
-        AudioSource audioSource;
-        
         private bool m_IsDisplayingUI = false;
         bool isUIDirty = false;
         StringBuilder m_NewTextToDisplay = new StringBuilder();
@@ -141,7 +139,6 @@ namespace WizardsCode.StoryTeller
             IsDisplayingUI = true;
 
             DontDestroyOnLoad(gameObject);
-            audioSource = gameObject.GetComponent<AudioSource>();
         }
 
         private void Start()
