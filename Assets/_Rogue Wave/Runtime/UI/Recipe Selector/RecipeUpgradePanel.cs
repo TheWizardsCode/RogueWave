@@ -52,7 +52,7 @@ namespace RogueWave.UI
         internal void RerollOffers()
         {
             int requiredWeapons = 0;
-            if (RogueLiteManager.persistentData.runNumber == 0)
+            if (RogueLiteManager.PersistentData.runNumber == 0)
             {
                 requiredWeapons = 1;
             }
@@ -109,12 +109,12 @@ namespace RogueWave.UI
         {
             if (nanobotManager != null)
             {
-                RogueLiteManager.runData.Add(offer);
+                RogueLiteManager.RunData.Add(offer);
                 nanobotManager.AddToRunRecipes(offer);
             }
 
             GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(offer.BuyCost);
-            RogueLiteManager.persistentData.Add(offer);
+            RogueLiteManager.PersistentData.Add(offer);
             HubController.AddPermanentRecipe(offer);
 
             offers.RemoveAll(o => o == offer);

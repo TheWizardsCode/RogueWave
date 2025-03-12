@@ -43,10 +43,10 @@ namespace RogueWave
         {
             if (ammoRecipe != null)
             {
-                RogueLiteManager.runData.Add(ammoRecipe);
+                RogueLiteManager.RunData.Add(ammoRecipe);
                 FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>().AddToRunRecipes(ammoRecipe);
             }
-            RogueLiteManager.runData.AddToLoadout(pickup.GetItemPrefab() as FpsInventoryItemBase);
+            RogueLiteManager.RunData.AddToLoadout(pickup.GetItemPrefab() as FpsInventoryItemBase);
 
             base.BuildFinished();
         }

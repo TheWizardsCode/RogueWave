@@ -77,7 +77,7 @@ namespace RogueWave
         private void OnClickCreateProfile()
         {
             RogueLiteManager.CreateNewProfile(m_InputField.text);
-            NeoSceneManager.LoadScene(RogueLiteManager.combatScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.CombatScene);
         }
 	}
 }

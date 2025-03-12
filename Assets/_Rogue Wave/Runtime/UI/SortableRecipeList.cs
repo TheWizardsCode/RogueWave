@@ -14,7 +14,7 @@ namespace RogueWave
         void OnEnable()
         {
             int index = 0;
-            foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
+            foreach (string id in RogueLiteManager.PersistentData.WeaponBuildOrder)
             {
                 IRecipe recipe;
                 if (RecipeManager.TryGetRecipe(id, out recipe))
@@ -50,12 +50,12 @@ namespace RogueWave
 
         void MoveItem(int index, int direction)
         {
-            if (index + direction < 0 || index + direction >= RogueLiteManager.persistentData.WeaponBuildOrder.Count)
+            if (index + direction < 0 || index + direction >= RogueLiteManager.PersistentData.WeaponBuildOrder.Count)
                 return; 
 
-            string id = RogueLiteManager.persistentData.WeaponBuildOrder[index];
-            RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(index);
-            RogueLiteManager.persistentData.WeaponBuildOrder.Insert(index + direction, id);
+            string id = RogueLiteManager.PersistentData.WeaponBuildOrder[index];
+            RogueLiteManager.PersistentData.WeaponBuildOrder.RemoveAt(index);
+            RogueLiteManager.PersistentData.WeaponBuildOrder.Insert(index + direction, id);
             
             RectTransform recipeUI = labels[index];
             labels.RemoveAt(index);
@@ -73,7 +73,7 @@ namespace RogueWave
             button.onClick.RemoveAllListeners();
             button.onClick.AddListener(() => MoveItem(newIndex, 1));
 
-            RogueLiteManager.persistentData.isDirty = true;
+            RogueLiteManager.PersistentData.isDirty = true;
         }
     }
 }

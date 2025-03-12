@@ -35,7 +35,10 @@ namespace RogueWave
             return RecipeIds[index];
         }
 
-        [SerializeField] internal int m_CurrentGameLevel = 0; // The currentl level of the game, this advances each time the player completes all waves in a level.abl
+        [SerializeField] internal int m_CurrentGameLevel = 0;
+        /// <summary>
+        /// The current level within the current campaign. This is the level that the player is currently playing.
+        /// </summary>
         public int currentGameLevel {
             get { return m_CurrentGameLevel; }
             set { 
@@ -96,9 +99,9 @@ namespace RogueWave
         /// <returns>True if the recipe is added, false if not added because already present.</returns> 
         public bool Add(IRecipe recipe)
         {
-            if (!RogueLiteManager.runData.Contains(recipe))
+            if (!RogueLiteManager.RunData.Contains(recipe))
             {
-                RogueLiteManager.runData.Add(recipe);
+                RogueLiteManager.RunData.Add(recipe);
             }
 
             if (RecipeIds.Contains(recipe.UniqueID))

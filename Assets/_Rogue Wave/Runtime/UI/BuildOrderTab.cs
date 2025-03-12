@@ -35,7 +35,7 @@ namespace RogueWave
             }
 
             int index = 0;
-            foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
+            foreach (string id in RogueLiteManager.PersistentData.WeaponBuildOrder)
             {
                 IRecipe recipe;
                 if (RecipeManager.TryGetRecipe(id, out recipe))
@@ -45,12 +45,12 @@ namespace RogueWave
                 }
             }
 
-            foreach (string id in RogueLiteManager.persistentData.RecipeIds)
+            foreach (string id in RogueLiteManager.PersistentData.RecipeIds)
             {
                 IRecipe recipe;
                 if (RecipeManager.TryGetRecipe(id, out recipe)
                     && recipe is WeaponRecipe
-                    && RogueLiteManager.persistentData.WeaponBuildOrder.Contains(id) == false)
+                    && RogueLiteManager.PersistentData.WeaponBuildOrder.Contains(id) == false)
                 {
                     builds.Add(InstantiateDoNotBuildElement(recipe, index));
                     index++;
@@ -87,19 +87,19 @@ namespace RogueWave
 
         void MoveItem(int index, int direction)
         {
-            if (index + direction < 0 || index + direction >= RogueLiteManager.persistentData.WeaponBuildOrder.Count)
+            if (index + direction < 0 || index + direction >= RogueLiteManager.PersistentData.WeaponBuildOrder.Count)
                 return;
 
-            string id = RogueLiteManager.persistentData.WeaponBuildOrder[index];
-            RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(index);
-            RogueLiteManager.persistentData.WeaponBuildOrder.Insert(index + direction, id);
+            string id = RogueLiteManager.PersistentData.WeaponBuildOrder[index];
+            RogueLiteManager.PersistentData.WeaponBuildOrder.RemoveAt(index);
+            RogueLiteManager.PersistentData.WeaponBuildOrder.Insert(index + direction, id);
 
             BuildElement recipeUI = builds[index];
             builds.RemoveAt(index);
             builds.Insert(index + direction, recipeUI);
             ConfigureUI();
 
-            RogueLiteManager.persistentData.isDirty = true;
+            RogueLiteManager.PersistentData.isDirty = true;
         }
 
         private void ConfigureMoveButtons()
@@ -128,7 +128,7 @@ namespace RogueWave
                 button = builds[index].rectTransform.Find("Down Button")?.GetComponent<Button>();
                 if (button != null)
                 {
-                    if (index < RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1)
+                    if (index < RogueLiteManager.PersistentData.WeaponBuildOrder.Count - 1)
                     {
                         button.gameObject.SetActive(true);
                         button.onClick.RemoveAllListeners();
@@ -160,16 +160,16 @@ namespace RogueWave
 
         private void RemoveItemFromBuild(int index)
         {
-            RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(index);
-            RogueLiteManager.persistentData.isDirty = true;
+            RogueLiteManager.PersistentData.WeaponBuildOrder.RemoveAt(index);
+            RogueLiteManager.PersistentData.isDirty = true;
 
             ConfigureUI();
         }
 
         private void AddItemToBuild(int index)
         {
-            RogueLiteManager.persistentData.WeaponBuildOrder.Add(builds[index].recipe.UniqueID);
-            RogueLiteManager.persistentData.isDirty = true;
+            RogueLiteManager.PersistentData.WeaponBuildOrder.Add(builds[index].recipe.UniqueID);
+            RogueLiteManager.PersistentData.isDirty = true;
 
             ConfigureUI();
         }

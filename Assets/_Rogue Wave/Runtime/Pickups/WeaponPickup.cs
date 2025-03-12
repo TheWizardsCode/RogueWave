@@ -18,11 +18,11 @@ namespace RogueWave {
             NanobotManager nanobotManager = character.GetComponent<NanobotManager>();
             if (nanobotManager != null)
             {
-                RogueLiteManager.runData.Add(weaponPickupRecipe);
+                RogueLiteManager.RunData.Add(weaponPickupRecipe);
                 nanobotManager.AddToRunRecipes(weaponPickupRecipe);
                 if (ammoPickupRecipe != null)
                 {
-                    RogueLiteManager.runData.Add(ammoPickupRecipe);
+                    RogueLiteManager.RunData.Add(ammoPickupRecipe);
                     nanobotManager.AddToRunRecipes(ammoPickupRecipe);
                 }
             }

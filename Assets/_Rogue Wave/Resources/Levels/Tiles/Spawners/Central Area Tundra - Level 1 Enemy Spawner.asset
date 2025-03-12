@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe44b0ff02e315d459baaaaea937e781, type: 3}
+  m_Name: Central Area Tundra - Level 1 Enemy Spawner
+  m_EditorClassIdentifier: 
+  m_DisplayName: Spawner
+  m_Description: 
+  icon: {fileID: 0}
+  tileType: 6
+  tilePrefab: {fileID: 4840245277533164759, guid: badcfbe7566108c4caa59e48d134560b, type: 3}
+  isFlat: 0
+  tileHeight: 5
+  noiseCellSize: 0.75
+  noiseFrequency: 3
+  groundMaterial: {fileID: 2100000, guid: 4c1dfe560ac75954ab5bbf2b42b92077, type: 2}
+  enemySpawnChance: 0
+  constraints:
+    bottomLeftBoundary: {x: 0.5, y: 0, z: 0.5}
+    topRightBoundary: {x: 1, y: 1, z: 1}
+    weight: 0.8
+  xPositiveConstraints:
+  - tileDefinition: {fileID: 11400000, guid: 3a728f45fec478b468fe70fc4df5f1d0, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.63
+  xNegativeConstraints:
+  - tileDefinition: {fileID: 11400000, guid: 3a728f45fec478b468fe70fc4df5f1d0, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.63
+  zPositiveConstraints:
+  - tileDefinition: {fileID: 11400000, guid: 3a728f45fec478b468fe70fc4df5f1d0, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.63
+  zNegativeConstraints:
+  - tileDefinition: {fileID: 11400000, guid: 3a728f45fec478b468fe70fc4df5f1d0, type: 2}
+    constraints:
+      bottomLeftBoundary: {x: 0, y: 0, z: 0}
+      topRightBoundary: {x: 1, y: 1, z: 1}
+      weight: 0.63

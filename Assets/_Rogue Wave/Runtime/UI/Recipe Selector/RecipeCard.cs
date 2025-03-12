@@ -144,18 +144,18 @@ namespace RogueWave.UI
 
         public void MakePermanent()
         {
-            RogueLiteManager.runData.Remove(recipe);
+            RogueLiteManager.RunData.Remove(recipe);
             HubController.RemoveTemporaryRecipe(recipe);
-            RogueLiteManager.persistentData.Add(recipe);
+            RogueLiteManager.PersistentData.Add(recipe);
             HubController.AddPermanentRecipe(recipe);
 
             if (recipe is WeaponRecipe weapon)
             {
                 if (weapon.ammoRecipe != null)
                 {
-                    RogueLiteManager.runData.Remove(weapon.ammoRecipe);
+                    RogueLiteManager.RunData.Remove(weapon.ammoRecipe);
                     HubController.RemoveTemporaryRecipe(weapon.ammoRecipe);
-                    RogueLiteManager.persistentData.Add(weapon.ammoRecipe);
+                    RogueLiteManager.PersistentData.Add(weapon.ammoRecipe);
                     HubController.AddPermanentRecipe(weapon.ammoRecipe);
                 }
             }

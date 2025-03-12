@@ -14,7 +14,7 @@ namespace WizardsCode.RogueWave.CommandTermiinal
         {
             RecipeManager.Initialise();
             List<IRecipe> recipes = new List<IRecipe>();
-            foreach (string id in RogueLiteManager.persistentData.GetRecipeIDs()) {
+            foreach (string id in RogueLiteManager.PersistentData.GetRecipeIDs()) {
                 if (RecipeManager.TryGetRecipe(id, out IRecipe recipe))
                 {
                     Terminal.Log(recipe.DisplayName);
@@ -27,7 +27,7 @@ namespace WizardsCode.RogueWave.CommandTermiinal
         {
             RecipeManager.Initialise();
             List<IRecipe> recipes = new List<IRecipe>();
-            foreach (IRecipe recipe in RogueLiteManager.runData.GetRecipes())
+            foreach (IRecipe recipe in RogueLiteManager.RunData.GetRecipes())
             {
                 Terminal.Log(recipe.DisplayName);
             }
@@ -69,7 +69,7 @@ namespace WizardsCode.RogueWave.CommandTermiinal
 
             if (recipe != null)
             {
-                RogueLiteManager.runData.Add(recipe);
+                RogueLiteManager.RunData.Add(recipe);
                 GameObject.FindAnyObjectByType<NanobotManager>().AddToRunRecipes(recipe);
                 Terminal.Log($"Added {recipe.DisplayName} to temporary collection.");
             } 
@@ -155,7 +155,7 @@ namespace WizardsCode.RogueWave.CommandTermiinal
             if (recipe != null)
             {
                 //GameObject.FindAnyObjectByType<NanobotManager>().AddToRunRecipes(recipe);
-                RogueLiteManager.persistentData.Add(recipe);
+                RogueLiteManager.PersistentData.Add(recipe);
                 GameObject.FindAnyObjectByType<NanobotManager>().AddToRunRecipes(recipe);
                 Terminal.Log($"Added {recipe.DisplayName} to temporary collection.");
             }

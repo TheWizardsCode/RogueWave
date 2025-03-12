@@ -52,7 +52,7 @@ namespace RogueWave
         [Header("Level Management")]
         [SerializeField, Tooltip("If true the level will be generated when the game mode starts.")]
         bool m_generateLevelOnStart = false;
-        
+
         // Game Stats
         [SerializeField, Expandable, Foldout("Game Stats"), Tooltip("A short textual log of the game results.")]
         private StringGameStat m_GameLog;
@@ -81,7 +81,16 @@ namespace RogueWave
         [SerializeField, Tooltip("The event to trigger when an enemy is spawned into the game.")]
         public UnityEvent<BasicEnemyController> onEnemySpawned;
 
-        private CampaignManager CampaignManager => FindObjectOfType<CampaignManager>();
+        CampaignManager m_CampaignManager;
+        private CampaignManager CampaignManager {
+            get {
+                if (m_CampaignManager == null)
+                {
+                    m_CampaignManager = FindObjectOfType<CampaignManager>();
+                }
+                return m_CampaignManager;
+            }
+        }
 
         public override bool spawnOnStart
         {
@@ -158,25 +167,43 @@ namespace RogueWave
 
         public WfcDefinition currentLevelDefinition
         {
-            get { 
-                if (Campaign.levels.Length <= RogueLiteManager.persistentData.currentGameLevel)
-                    return Campaign.levels[Campaign.levels.Length - 1]; 
+            get {
+                if (Campaign.levels.Length <= RogueLiteManager.PersistentData.currentGameLevel)
+                    return Campaign.levels[Campaign.levels.Length - 1];
                 else
-                    return Campaign.levels[RogueLiteManager.persistentData.currentGameLevel];
+                    return Campaign.levels[RogueLiteManager.PersistentData.currentGameLevel];
             }
         }
 
         #region Unity Life-cycle
+
         protected override void Awake()
         {
-
-
             statusHud = FindObjectOfType<HudGameStatusController>();
             levelGenerator = GetComponentInChildren<LevelGenerator>();
 
             levelProgressBar = FindObjectOfType<LevelProgressBar>(true);
 
             base.Awake();
+        }
+
+        private void OnEnable()
+        {
+            NeoSceneManager.onSceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            NeoSceneManager.onSceneLoaded -= OnSceneLoaded;
+        }
+
+        private void OnSceneLoaded(int index)
+        {
+            if (SceneManager.GetActiveScene().name == RogueLiteManager.CombatScene
+                || SceneManager.GetActiveScene().name == RogueLiteManager.reconstructionScene)
+            {
+                RogueLiteManager.SaveProfile();
+            }
         }
 
         protected override void OnDestroy()
@@ -290,9 +317,9 @@ namespace RogueWave
 
             RogueLiteManager.ResetRunData();
 
-            if (SceneManager.GetActiveScene().name != RogueLiteManager.combatScene) // must be the intro scene
+            if (SceneManager.GetActiveScene().name != RogueLiteManager.CombatScene) // must be the intro scene
             {
-                NeoSceneManager.LoadScene(RogueLiteManager.mainMenuScene);
+                NeoSceneManager.LoadScene(RogueLiteManager.MainMenuScene);
             }
             else
             {
@@ -310,11 +337,11 @@ namespace RogueWave
                 SaveGameData("usedPortal");
                 GameLog.ClearLog();
 
-                NeoSceneManager.LoadScene(RogueLiteManager.portalScene);
+                NeoSceneManager.LoadScene(RogueLiteManager.PortalScene);
             }
             else
             {
-                NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+                NeoSceneManager.LoadScene(RogueLiteManager.HubScene);
             }
         }
 
@@ -361,7 +388,7 @@ namespace RogueWave
                 magnet.speed = originalSpeed;
             }
 
-            RogueLiteManager.persistentData.currentGameLevel++;
+            RogueLiteManager.PersistentData.currentGameLevel++;
 
             if (m_VictoryCount != null)
             {
@@ -419,7 +446,7 @@ namespace RogueWave
                 magnet.speed = originalSpeed;
             }
 
-            RogueLiteManager.persistentData.currentGameLevel++;
+            RogueLiteManager.PersistentData.currentGameLevel++;
 
             if (m_VictoryCount != null)
             {
@@ -462,7 +489,7 @@ namespace RogueWave
                 yield return null;
             }
 
-            RogueLiteManager.persistentData.currentGameLevel++;
+            RogueLiteManager.PersistentData.currentGameLevel++;
 
             if (m_VictoryCount != null)
             {
@@ -594,12 +621,12 @@ namespace RogueWave
             healthManager.healthMax = initialHealth;
 
             IRecipe startingWeapon;
-            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[0], out startingWeapon))
+            if (RogueLiteManager.PersistentData.WeaponBuildOrder.Count > 0 && RecipeManager.TryGetRecipe(RogueLiteManager.PersistentData.WeaponBuildOrder[0], out startingWeapon))
             {
                 WeaponRecipe weaponRecipe = startingWeapon as WeaponRecipe;
                 if (weaponRecipe != null)
                 {
-                    RogueLiteManager.runData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
+                    RogueLiteManager.RunData.AddToLoadout(weaponRecipe.pickup.GetItemPrefab());
                 }
             }
 
@@ -613,9 +640,9 @@ namespace RogueWave
 
             // Add nanobot recipes
             NanobotManager manager = character.GetComponent<NanobotManager>();
-            for (int i = 0; i < RogueLiteManager.runData.Count; i++)
+            for (int i = 0; i < RogueLiteManager.RunData.Count; i++)
             {
-                manager.AddToRunRecipes(RogueLiteManager.runData.GetRecipeAt(i));
+                manager.AddToRunRecipes(RogueLiteManager.RunData.GetRecipeAt(i));
             }
 
             // since a recipe may have adjusted the max health, we need to reset the health to the new max
@@ -623,7 +650,7 @@ namespace RogueWave
 
             startTime = Time.time;
 
-            m_GameLog.Add($"{Campaign.name}-{RogueLiteManager.persistentData.currentGameLevel}-");
+            m_GameLog.Add($"{Campaign.name}-{RogueLiteManager.PersistentData.currentGameLevel}-");
 
             LogGameState("Character Spawned");
 
@@ -649,10 +676,10 @@ namespace RogueWave
         {
             StringBuilder log = new StringBuilder($"{eventName}, ");
 
-            foreach (IRecipe recipe in RogueLiteManager.runData.GetRecipes())
+            foreach (IRecipe recipe in RogueLiteManager.RunData.GetRecipes())
             {
                 log.Append($"Recipe: {recipe.DisplayName}");
-                if (RogueLiteManager.persistentData.RecipeIds.Contains(recipe.UniqueID))
+                if (RogueLiteManager.PersistentData.RecipeIds.Contains(recipe.UniqueID))
                 {
                     log.Append(" (Permanent), ");
                 } else
@@ -670,7 +697,7 @@ namespace RogueWave
                 }
             }
 
-            foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
+            foreach (string id in RogueLiteManager.PersistentData.WeaponBuildOrder)
             {
                 if (RecipeManager.TryGetRecipe(id, out IRecipe recipe))
                 {
@@ -680,9 +707,9 @@ namespace RogueWave
 
             // TODO: Remove hard coding of resource stat key
             log.Append($"Resources: {GameStatsManager.Instance.GetIntStat("RESOURCES").Value}, ");
-            log.Append($"Nanobot Level: {RogueLiteManager.persistentData.currentNanobotLevel}, ");
-            log.Append($"Game Level: {RogueLiteManager.persistentData.currentGameLevel}, ");
-            log.Append($"Run Number: {RogueLiteManager.persistentData.runNumber}, ");
+            log.Append($"Nanobot Level: {RogueLiteManager.PersistentData.currentNanobotLevel}, ");
+            log.Append($"Game Level: {RogueLiteManager.PersistentData.currentGameLevel}, ");
+            log.Append($"Run Number: {RogueLiteManager.PersistentData.runNumber}, ");
 
             if (FpsSoloCharacter.localPlayerCharacter != null)
             {
@@ -701,7 +728,7 @@ namespace RogueWave
 
                 m_DeathCount.Add(1);
 
-                RogueLiteManager.persistentData.isDirty = true;
+                RogueLiteManager.PersistentData.isDirty = true;
             }
         }
 
@@ -720,17 +747,17 @@ namespace RogueWave
 
         private void ConfigureRecipeForRun(IRecipe recipe)
         {
-            if (recipe.IsStackable || RogueLiteManager.runData.Contains(recipe) == false)
+            if (recipe.IsStackable || RogueLiteManager.RunData.Contains(recipe) == false)
             {
-                RogueLiteManager.runData.Add(recipe);
+                RogueLiteManager.RunData.Add(recipe);
             }
         }
 
         private FpsInventoryLoadout ConfigureLoadout()
         {
-            for (int i = 0; i < RogueLiteManager.runData.Loadout.Count; i++)
+            for (int i = 0; i < RogueLiteManager.RunData.Loadout.Count; i++)
             {
-                FpsInventoryItemBase item = RogueLiteManager.runData.Loadout[i];
+                FpsInventoryItemBase item = RogueLiteManager.RunData.Loadout[i];
                 FpsSwappableCategory category = FpsSwappableCategory.Firearm;
 
                 FpsInventoryQuickUseSwappableItem quickUse = item as FpsInventoryQuickUseSwappableItem;
@@ -781,7 +808,7 @@ namespace RogueWave
         #region Pre Spawn
         protected override bool PreSpawnStep()
         {
-            RogueLiteManager.persistentData.runNumber++;
+            RogueLiteManager.PersistentData.runNumber++;
 
             AudioManager.ResetAll(1);
 
@@ -794,64 +821,64 @@ namespace RogueWave
             //}
 
             // RunData, between levels, will contain all permanent and temporary recipes. In order to strip duplication of stackables in the permanent data we need to remove any that are already in the run data.
-            for (int i = 0; i < RogueLiteManager.persistentData.RecipeIds.Count; i++)
+            for (int i = 0; i < RogueLiteManager.PersistentData.RecipeIds.Count; i++)
             {
-                RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.RecipeIds[i], out IRecipe permanentRecipe);
-                if (RogueLiteManager.runData.Contains(permanentRecipe))
+                RecipeManager.TryGetRecipe(RogueLiteManager.PersistentData.RecipeIds[i], out IRecipe permanentRecipe);
+                if (RogueLiteManager.RunData.Contains(permanentRecipe))
                 {
-                    RogueLiteManager.runData.Remove(permanentRecipe);
+                    RogueLiteManager.RunData.Remove(permanentRecipe);
                 }
             }
 
             // Ensure Game Mode permanent starting recipes are added to the player
             foreach (IRecipe recipe in _startingRecipesPermanent)
             {
-                RogueLiteManager.persistentData.Add(recipe);
+                RogueLiteManager.PersistentData.Add(recipe);
             }
 
             // If the character died then the weapon build order may have weapons that were in the rundata only and need to be removed.
-            for (int i = RogueLiteManager.persistentData.WeaponBuildOrder.Count - 1; i >= 0; i--)
+            for (int i = RogueLiteManager.PersistentData.WeaponBuildOrder.Count - 1; i >= 0; i--)
             {
-                if (RecipeManager.TryGetRecipe(RogueLiteManager.persistentData.WeaponBuildOrder[i], out IRecipe weapon))
+                if (RecipeManager.TryGetRecipe(RogueLiteManager.PersistentData.WeaponBuildOrder[i], out IRecipe weapon))
                 {
-                    if (!RogueLiteManager.persistentData.Contains(weapon))
+                    if (!RogueLiteManager.PersistentData.Contains(weapon))
                     {
-                        RogueLiteManager.persistentData.WeaponBuildOrder.RemoveAt(i);
+                        RogueLiteManager.PersistentData.WeaponBuildOrder.RemoveAt(i);
                     }
                 }
             }
 
             // Gather together all the run recipes, both from previous runs and from the starting recipes for this run's Game Mode
             List<IRecipe> recipes = new List<IRecipe>();
-            recipes.AddRange(RogueLiteManager.runData.GetRecipes());
+            recipes.AddRange(RogueLiteManager.RunData.GetRecipes());
             recipes.AddRange(_startingRecipesRun);
 
             // Reset the run data to ensure we don't keep adding stackables on subsequent runs, the current run data will be added back below
-            RogueLiteManager.runData.Clear();
+            RogueLiteManager.RunData.Clear();
 
             // Reset loadout so that it can be reset for this run based on the builder order and any new weapons added since the last run
-            RogueLiteManager.runData.Loadout.Clear();
+            RogueLiteManager.RunData.Loadout.Clear();
 
             // Ensure the build order contains all the weapons that are available in this run, ones that are already present are not touched, but ones that are missing are added.
             for (int i = 0; i < recipes.Count; i++)
             {
-                if (recipes[i] is WeaponRecipe && !RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipes[i].UniqueID))
+                if (recipes[i] is WeaponRecipe && !RogueLiteManager.PersistentData.WeaponBuildOrder.Contains(recipes[i].UniqueID))
                 {
-                    RogueLiteManager.persistentData.WeaponBuildOrder.Add(recipes[i].UniqueID);
+                    RogueLiteManager.PersistentData.WeaponBuildOrder.Add(recipes[i].UniqueID);
                 }
 
                 // Ensure that the player has all the recipes available to them in this run
-                RogueLiteManager.runData.Add(recipes[i]);
+                RogueLiteManager.RunData.Add(recipes[i]);
             }
 
             // Ensure the player has all the permanaent recipes available to them in this run and that they are correctly configured for the run
             for (int i = 0; i < _startingRecipesPermanent.Length; i++)
             {
-                RogueLiteManager.persistentData.Add(_startingRecipesPermanent[i]);
+                RogueLiteManager.PersistentData.Add(_startingRecipesPermanent[i]);
             }
-            for (int i = 0; i < RogueLiteManager.persistentData.RecipeCount; i++)
+            for (int i = 0; i < RogueLiteManager.PersistentData.RecipeCount; i++)
             {
-                ConfigureRecipeForRun(RogueLiteManager.persistentData.GetRecipeIdAt(i));
+                ConfigureRecipeForRun(RogueLiteManager.PersistentData.GetRecipeIdAt(i));
             }
 
             // if we are showing a pre-spawn UI then we need to show it now
@@ -880,7 +907,7 @@ namespace RogueWave
                 NeoFpsAudioManager.PlayEffectAudioAtPosition(currentLevelDefinition.levelReadyAudioClips[Random.Range(0, currentLevelDefinition.levelReadyAudioClips.Length)], Camera.main.transform.position);
             }
 
-            RogueLiteManager.persistentData.isDirty = true;
+            RogueLiteManager.PersistentData.isDirty = true;
         }
 
         public void OnAchievementUnlocked(Achievement achievement)
@@ -911,7 +938,7 @@ namespace RogueWave
 
                 MusicManager.Instance.PlayEscapeMusic();
 
-                RogueLiteManager.persistentData.isDirty = true;
+                RogueLiteManager.PersistentData.isDirty = true;
                 RogueLiteManager.SaveProfile();
             }
         }

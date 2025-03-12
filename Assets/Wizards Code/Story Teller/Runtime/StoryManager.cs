@@ -1,29 +1,31 @@
+using Ink;
 using Ink.Runtime;
 using NaughtyAttributes;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Security.AccessControl;
 using System.Text;
 using System.Text.RegularExpressions;
 using TMPro;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+using Path = System.IO.Path;
 
 namespace WizardsCode.StoryTeller
 {
     [RequireComponent(typeof(AudioSource))]
+    [DefaultExecutionOrder(-10000)]
     public class StoryManager : MonoBehaviour
     {
         internal const string SCENE_PROGRESS_KEY_PREFIX = "SceneLoadCount_";
 
-        // Ink
-        [SerializeField, Tooltip("The Ink file to work with."), BoxGroup("Ink Configuration"), Required]
-        TextAsset m_InkJSON;
-        
         // Scenes
         [SerializeField, Tooltip("The scene to play if no profiles exist. This is the start of the story."), Scene, BoxGroup("Scenes")]
         private string introScene;
@@ -70,6 +72,7 @@ namespace WizardsCode.StoryTeller
         [SerializeField, Tooltip("Should the story be reset when the game starts?"), BoxGroup("Debug"), ShowIf("showDebugOptions"), FormerlySerializedAs("resetTutorial")]
         private bool resetStory = false;
 
+        TextAsset m_InkJSON;
         Story m_Story;
         private IActorController m_activeSpeaker;
 
@@ -80,11 +83,21 @@ namespace WizardsCode.StoryTeller
         private static StoryManager _instance;
         List<AbstractWaitForDirection> waitForStates = new List<AbstractWaitForDirection>();
 
-        private bool m_IsDisplayingUI = false;
-        bool isUIDirty = false;
+        private bool m_IsDisplayingUI =true;
+        protected bool isUIDirty = false;
         StringBuilder m_NewTextToDisplay = new StringBuilder();
         bool wasWaiting = false; // Set to true when we were waiting for something to happen, e.g. an actor to reach a target position and it has now happened. This is used to re-trigger the story progression, e.g. in Update().
         bool resumeStory = false; // Set to true if the should be resumed from the current StoryPath. This is used, for example, when a new scene has been loaded and we need to resume from a specific knot.
+
+        protected virtual string StoryFilename
+        {
+            get
+            {
+                string filename = "storySaveFile.json";
+                string filepath = Path.Combine(Application.persistentDataPath, filename);
+                return filepath;
+            }
+        }
 
         internal bool IsDisplayingUI
         {
@@ -126,19 +139,46 @@ namespace WizardsCode.StoryTeller
                 {
                     if (_instance == null)
                     {
-                        _instance = FindAnyObjectByType<StoryManager>();
+                        _instance = FindAnyObjectByType<StoryManager>(FindObjectsInactive.Include);
                     }
                 }
                 return _instance;
             }
         }
 
+        public Story ActiveStory
+        {
+            get { return m_Story; }
+            set { m_Story = value; }
+        }
+
         private void Awake()
         {
-            m_Story = new Story(m_InkJSON.text);
             IsDisplayingUI = true;
 
+            if (resetStory)
+            {
+                ResetStory();
+            }
+
             DontDestroyOnLoad(gameObject);
+        }
+
+        public void ResetStory()
+        {
+            File.Delete(StoryFilename);
+            PlayerPrefs.DeleteKey($"{Application.productName}_StoryResumePoint");
+            PlayerPrefs.DeleteKey($"{Application.productName}_StoryScene");
+        }
+
+        private void OnEnable()
+        {
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        private void OnDisable()
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
         }
 
         private void Start()
@@ -173,8 +213,40 @@ namespace WizardsCode.StoryTeller
             {
                 directions.Add(implementingType.Name.Substring(0, implementingType.Name.IndexOf("Direction")), implementingType);
             }
+        }
+
+        /// <summary>
+        /// Call this whenever you want to start a new story or are loading an existing story.
+        /// </summary>
+        /// <param name="inkJSON"></param>
+        public void InitializeStory(TextAsset inkJSON) {
+            if (ActiveStory != null)
+            {
+                ActiveStory.onError -= HandleError;
+            }
+
+            if (inkJSON == null)
+            {
+                Debug.Log("No Ink JSON file provided when attempting to initialize the story.");
+                ActiveStory = null;
+                return;
+            }
+
+            m_InkJSON = inkJSON;
+            ActiveStory = new Story(m_InkJSON.text);
+            ActiveStory.onError += HandleError;
+     
+            Load();
 
             BindExternalFunctions();
+        }
+
+        private void HandleError(string msg, ErrorType type)
+        {
+                if( type == Ink.ErrorType.Warning )
+                    Debug.LogWarning(msg);
+                else
+                    Debug.LogError(msg);
         }
 
         public void ShowUI()
@@ -207,12 +279,12 @@ namespace WizardsCode.StoryTeller
         {
             if (!m_CurrentText.isFinished) return;
 
-            if (m_Story.currentChoices.Count >= 1)
+            if (ActiveStory.currentChoices.Count >= 1)
             {
-                for (int i = m_Story.currentChoices.Count - 1; i >= 0; i--)
+                for (int i = ActiveStory.currentChoices.Count - 1; i >= 0; i--)
                 {
                     choicesPanel.gameObject.SetActive(true);
-                    Choice choice = m_Story.currentChoices[i];
+                    Choice choice = ActiveStory.currentChoices[i];
                     Button choiceButton = Instantiate(m_ChoiceButtonPrefab) as Button;
                     choiceButton.gameObject.transform.position = new Vector3(175, 900, 0);
                     choiceButton.gameObject.SetActive(true);
@@ -225,7 +297,7 @@ namespace WizardsCode.StoryTeller
                         ContinueStory(choice);
                     });
 
-                    Vector3 pos = new Vector3(m_ButtonXOffset, m_ButtonYOffset * (m_Story.currentChoices.Count - i + 1) + m_ButtonYBottomMargin, 0);
+                    Vector3 pos = new Vector3(m_ButtonXOffset, m_ButtonYOffset * (ActiveStory.currentChoices.Count - i + 1) + m_ButtonYBottomMargin, 0);
                     StartCoroutine(AnimateButtonPlacement(choiceButton.GetComponent<RectTransform>(), pos));
                 }
 
@@ -266,7 +338,7 @@ namespace WizardsCode.StoryTeller
         void ContinueStory(Choice choice)
         {
             EraseChoices();
-            m_Story.ChooseChoiceIndex(choice.index);
+            ActiveStory.ChooseChoiceIndex(choice.index);
             m_NewTextToDisplay.Clear();
             m_CurrentText.ClearText();
             isUIDirty = true;
@@ -277,22 +349,22 @@ namespace WizardsCode.StoryTeller
         /// </summary>
         void ProcessStoryChunk()
         {
-            if (!m_Story.canContinue && !isWaiting)
+            if (!ActiveStory.canContinue && !isWaiting)
             {
-                if (m_Story.currentChoices.Count == 1)
+                if (ActiveStory.currentChoices.Count == 1)
                 {
                     if (m_autoAdvanceSingleChoice)
                     {
                         Log("Only one choice available and auto advance is on. Automatically choosing the one option.");
-                        m_Story.ChooseChoiceIndex(0);
+                        ActiveStory.ChooseChoiceIndex(0);
                     }
                 }
             }
 
             string line;
-            while (m_NewTextToDisplay.Length == 0 && m_CurrentText.isFinished && m_Story.canContinue && !isWaiting)
+            while (m_NewTextToDisplay.Length == 0 && m_CurrentText.isFinished && ActiveStory.canContinue && !isWaiting)
             {
-                line = m_Story.Continue();
+                line = ActiveStory.Continue();
                 Log("Processing line: " + line);
 
                 // Process Directions;
@@ -429,24 +501,21 @@ namespace WizardsCode.StoryTeller
 
         void BindExternalFunctions()
         {
-            m_Story.BindExternalFunction("ConvertToSpaced", (string value) =>
+            if (ActiveStory == null) return;
+
+            ActiveStory.BindExternalFunction("ConvertToSpaced", (string value) =>
             {
                 return value.Replace('_', ' ');
             });
         }
 
-        private void OnEnable()
-        {
-            SceneManager.sceneLoaded += OnSceneLoaded;
-        }
-
-        private void OnDisable()
-        {
-            SceneManager.sceneLoaded -= OnSceneLoaded;
-        }
-
         private void Update()
         {
+            if (ActiveStory == null) {
+                HideUI();
+                return;
+            }
+            
             if (isWaiting || !m_CurrentText.isFinished) return;
 
             if (wasWaiting || resumeStory)
@@ -497,7 +566,8 @@ namespace WizardsCode.StoryTeller
         internal void ResumeFromKnot(string knotName)
         {
             resumeStory = true;
-            m_Story.ChoosePathString(knotName);
+            ActiveStory.ChoosePathString(knotName);
+            ShowUI();
         }
 
         internal void AddSceneLoadListener(SceneToKnotMapping mapping)
@@ -542,7 +612,9 @@ namespace WizardsCode.StoryTeller
         /// <param name="item">The value of the item to add.</param>
         public static void AddToInkListVariable(string listVariableName, string item)
         {
-            InkList list = Instance.m_Story.variablesState[listVariableName] as InkList;
+            if (Instance.ActiveStory == null) return;
+            
+            InkList list = Instance.ActiveStory.variablesState[listVariableName] as InkList;
             list.AddItem(item);
         }
 
@@ -553,7 +625,14 @@ namespace WizardsCode.StoryTeller
         /// <param name="value">The value to set it to</param>
         public static void SetInkVariable(string variableName, int value)
         {
-            Instance.m_Story.variablesState[variableName] = value;
+            if (Instance == null || Instance.ActiveStory == null) return;
+
+            if (Instance.ActiveStory.variablesState[variableName] == null)
+            {
+                Debug.LogError($"The variable {variableName} does not exist in the Ink story.");
+                return;
+            }
+            Instance.ActiveStory.variablesState[variableName] = value;
         }
 
 
@@ -605,7 +684,56 @@ namespace WizardsCode.StoryTeller
 
         internal static string GetCurrentKnotName()
         {
-            return Instance.m_Story.state.currentPathString;
+            return Instance.ActiveStory.state.currentPathString;
+        }
+
+
+
+        /// <summary>
+        /// Save the current state of the story to a JSON string. The current knot name is stored in player prefs.
+        /// </summary>
+        public virtual void Save(string knotName)
+        {
+            if (ActiveStory == null) return;
+
+            Debug.Log("Saving story to " + StoryFilename);
+            string json = ActiveStory.state.ToJson();
+            File.WriteAllText(StoryFilename, json);
+
+            PlayerPrefs.SetString($"{Application.productName}_StoryResumePoint", knotName);
+            PlayerPrefs.SetString($"{Application.productName}_StoryScene", SceneManager.GetActiveScene().name);
+        }
+
+        /// <summary>
+        /// Load the state of the story from a JSON string and restart from the knot name stored in player prefs.
+        /// 
+        /// If no load file eists no action is taken.
+        /// </summary>
+        public virtual void Load()
+        {
+            if (File.Exists(StoryFilename))
+            {
+                Debug.Log("Loading story from " + StoryFilename);
+                string json = File.ReadAllText(StoryFilename);
+                ActiveStory.state.LoadJson(json);
+
+                // Resume from the knot stored in player prefs when the appropriate scene is loaded.
+                ActiveStory.ResetCallstack();
+                string knotName = PlayerPrefs.GetString($"{Application.productName}_StoryResumePoint");
+                string sceneName = PlayerPrefs.GetString($"{Application.productName}_StoryScene");
+                if (SceneManager.GetActiveScene().name != sceneName)
+                {
+                    AbstractDirection cmd = (AbstractDirection)Activator.CreateInstance(typeof(WaitForSceneLoadDirection));
+                    cmd.Execute(new string[] { sceneName, knotName });
+                    HideUI();
+                }
+                else
+                {
+                    ActiveStory.ChoosePathString(knotName);
+                    isUIDirty = true;
+                    ShowUI();
+                }
+            }
         }
     }
 

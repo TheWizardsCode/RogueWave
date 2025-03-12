@@ -22,7 +22,7 @@ namespace WizardsCode.RogueWave
 
         private void ConfigureUI()
         {
-            IEnumerable<IGrouping<string, IRecipe>> groupedRunRecipes = RogueLiteManager.runData.GetGroupedRecipes();
+            IEnumerable<IGrouping<string, IRecipe>> groupedRunRecipes = RogueLiteManager.RunData.GetGroupedRecipes();
 
             foreach (var group in groupedRunRecipes)
             {

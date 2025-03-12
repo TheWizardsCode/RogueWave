@@ -132,9 +132,9 @@ namespace RogueWave
                 }
                 currentKillscore = totalChallengeRatingKilled / timeSlice;
 
-                float targetKillScore = targetSkillScoreByLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel);
+                float targetKillScore = targetSkillScoreByLevel.Evaluate(RogueLiteManager.PersistentData.currentNanobotLevel);
 
-                int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.persistentData.currentNanobotLevel + 1) * targetKillScore * challengeRatingMultiplierByDifficulty.Evaluate(FpsSettings.playstyle.difficulty)) + 1;
+                int challengeRatingToSend = Mathf.RoundToInt((RogueLiteManager.PersistentData.currentNanobotLevel + 1) * targetKillScore * challengeRatingMultiplierByDifficulty.Evaluate(FpsSettings.playstyle.difficulty)) + 1;
                 int challengeRatingSent = 0;
                 if (currentKillscore < targetKillScore)
                 {

@@ -154,7 +154,7 @@ namespace RogueWave
                     continue;
                 }
 
-                if (RogueLiteManager.runData.GetCount(recipe) >= recipe.MaxStack)
+                if (RogueLiteManager.RunData.GetCount(recipe) >= recipe.MaxStack)
                 {
                     continue;
                 }

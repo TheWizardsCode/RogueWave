@@ -66,15 +66,15 @@ namespace RogueWave
             if (recipe is WeaponRecipe weapon)
             {
                 // REFACTOR: this code is a duplicate of code in the persistent data class
-                if (RogueLiteManager.persistentData.WeaponBuildOrder.Contains(recipe.UniqueID) == false)
+                if (RogueLiteManager.PersistentData.WeaponBuildOrder.Contains(recipe.UniqueID) == false)
                 {
-                    if (weapon.overridePrimaryWeapon || RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
+                    if (weapon.overridePrimaryWeapon || RogueLiteManager.PersistentData.WeaponBuildOrder.Count == 0)
                     {
-                        RogueLiteManager.persistentData.WeaponBuildOrder.Insert(0, recipe.UniqueID);
+                        RogueLiteManager.PersistentData.WeaponBuildOrder.Insert(0, recipe.UniqueID);
                     }
                     else
                     {
-                        RogueLiteManager.persistentData.WeaponBuildOrder.Insert(1, recipe.UniqueID);
+                        RogueLiteManager.PersistentData.WeaponBuildOrder.Insert(1, recipe.UniqueID);
                     }
                 }
 

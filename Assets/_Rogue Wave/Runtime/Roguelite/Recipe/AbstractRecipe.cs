@@ -128,7 +128,7 @@ namespace RogueWave
                 
                 if (IsStackable)
                 {
-                    int ownedCopies = RogueLiteManager.runData.GetCount(this);
+                    int ownedCopies = RogueLiteManager.RunData.GetCount(this);
                     return Mathf.RoundToInt(baseBuyCost * (1 + (ownedCopies * 0.25f)));
                 }
                 else
@@ -202,7 +202,7 @@ namespace RogueWave
                 int ownedComplements = 0;
                 foreach (IRecipe complement in dependencies)
                 {
-                    if (RogueLiteManager.runData.Contains(complement))
+                    if (RogueLiteManager.RunData.Contains(complement))
                     {
                         ownedComplements++;
                     }
@@ -210,7 +210,7 @@ namespace RogueWave
 
                 foreach (IRecipe complement in complements)
                 {
-                    if (RogueLiteManager.runData.Contains(complement))
+                    if (RogueLiteManager.RunData.Contains(complement))
                     {
                         ownedComplements++;
                     }
@@ -221,7 +221,7 @@ namespace RogueWave
                     adjustedWeight += ownedComplements * 0.05f;
                 }
 
-                int count = RogueLiteManager.runData.GetCount(this);
+                int count = RogueLiteManager.RunData.GetCount(this);
                 if (IsStackable && count > 0)
                 {   
                     adjustedWeight *= 1.1f + ((float)count/maxStack);
@@ -268,7 +268,7 @@ namespace RogueWave
                     return false;
                 }
 
-                if (isStackable && (RogueLiteManager.runData.GetCount(this) >= MaxStack || RogueLiteManager.persistentData.GetCount(this) >= MaxStack))
+                if (isStackable && (RogueLiteManager.RunData.GetCount(this) >= MaxStack || RogueLiteManager.PersistentData.GetCount(this) >= MaxStack))
                 {
                     return false;
                 }
@@ -287,12 +287,12 @@ namespace RogueWave
             {
                 if (IsStackable)
                 {
-                    if (RogueLiteManager.runData.GetCount(this) >= MaxStack || RogueLiteManager.persistentData.GetCount(this) >= MaxStack)
+                    if (RogueLiteManager.RunData.GetCount(this) >= MaxStack || RogueLiteManager.PersistentData.GetCount(this) >= MaxStack)
                     {
                         return false;
                     }
                 } 
-                else if (RogueLiteManager.runData.Contains(this) || RogueLiteManager.persistentData.Contains(this))
+                else if (RogueLiteManager.RunData.Contains(this) || RogueLiteManager.PersistentData.Contains(this))
                 {
                     // Debug.Log($"Either runData or persistentData already contains {this}. Cannot offer.");
                     return false;
@@ -300,7 +300,7 @@ namespace RogueWave
 
                 foreach (IRecipe dependency in dependencies)
                 {
-                    if (RogueLiteManager.runData.Contains(dependency) == false && RogueLiteManager.persistentData.Contains(dependency) == false)
+                    if (RogueLiteManager.RunData.Contains(dependency) == false && RogueLiteManager.PersistentData.Contains(dependency) == false)
                     {
                         // Debug.Log(dependency.DisplayName + " is a dependency of " + DisplayName + " but is not in the player's persistent or run data. Cannot offer.");
                         return false;

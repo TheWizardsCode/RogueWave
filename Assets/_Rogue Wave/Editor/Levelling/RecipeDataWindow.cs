@@ -126,7 +126,7 @@ namespace RogueWave.Editor
 
                 if (Application.isPlaying)
                 {
-                    if (RogueLiteManager.runData.Contains(recipe))
+                    if (RogueLiteManager.RunData.Contains(recipe))
                     {
                         EditorGUILayout.LabelField("Y", GUILayout.Width(10));
                         EditorGUILayout.LabelField(recipe.BuyCost.ToString(), GUILayout.Width(40));

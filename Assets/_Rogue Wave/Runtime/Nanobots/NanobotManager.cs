@@ -187,7 +187,7 @@ namespace RogueWave
         {
             if (!alive)
             {
-                RogueLiteManager.persistentData.currentNanobotLevel = 1;
+                RogueLiteManager.PersistentData.currentNanobotLevel = 1;
                 stackedLevelUps = 0;
             }
         }
@@ -211,7 +211,7 @@ namespace RogueWave
             // When the player dies the nanobots are reset to level 1, but the player will have a bunch of resources to spend on the next run.
             // We need to calculate how many level ups the nanobots should get with the resources they have.
             // This gives the player a headstart on the next run.
-            if (RogueLiteManager.persistentData.currentNanobotLevel == 1)
+            if (RogueLiteManager.PersistentData.currentNanobotLevel == 1)
             {
                 int resourcesAvailable = GameStatsManager.Instance.GetIntStat("RESOURCES").Value;
                 int resourcesForNextLevel = Mathf.RoundToInt(resourcesForLevel.Evaluate(stackedLevelUps + 1));
@@ -252,9 +252,9 @@ namespace RogueWave
             }
 
             // If this is the combat scene then ensure there is a weapon in hand
-            if (SceneManager.GetActiveScene().name != RogueLiteManager.combatScene)
+            if (SceneManager.GetActiveScene().name != RogueLiteManager.CombatScene)
             {
-                foreach (string guid in RogueLiteManager.persistentData.WeaponBuildOrder)
+                foreach (string guid in RogueLiteManager.PersistentData.WeaponBuildOrder)
                 {
                     RecipeManager.TryGetRecipe(guid, out IRecipe recipe);
                     m_Resources.Add(recipe.BuildCost);
@@ -382,7 +382,7 @@ namespace RogueWave
         {
             timeOfLastRewardOffer = Time.timeSinceLevelLoad;
             int weapons = 0;
-            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count < 3)
+            if (RogueLiteManager.PersistentData.WeaponBuildOrder.Count < 3)
             {
                 weapons = 1;
             }
@@ -461,7 +461,7 @@ namespace RogueWave
                     Announce(clip);
                     yield return Announce(clip);
 
-                    RogueLiteManager.runData.Add(currentOfferRecipes[i]);
+                    RogueLiteManager.RunData.Add(currentOfferRecipes[i]);
                     AddToRunRecipes(currentOfferRecipes[i]);
 
                     m_RecipesCalledInStat.Add(1);
@@ -491,22 +491,22 @@ namespace RogueWave
             }
 
             stackedLevelUps--;
-            RogueLiteManager.persistentData.currentNanobotLevel++;
+            RogueLiteManager.PersistentData.currentNanobotLevel++;
 
             resourcesForNextNanobotLevel = GetRequiredResourcesForNextNanobotLevel();
-            onNanobotLevelUp?.Invoke(RogueLiteManager.persistentData.currentNanobotLevel, resourcesForNextNanobotLevel);
+            onNanobotLevelUp?.Invoke(RogueLiteManager.PersistentData.currentNanobotLevel, resourcesForNextNanobotLevel);
 
             if (!inVictoryRoutine)
             {
                 rewardCoroutine = StartCoroutine(OfferInGameRewardRecipe());
             }
 
-            if (m_MaxNanobotLevelStat != null && m_MaxNanobotLevelStat.Value < RogueLiteManager.persistentData.currentNanobotLevel)
+            if (m_MaxNanobotLevelStat != null && m_MaxNanobotLevelStat.Value < RogueLiteManager.PersistentData.currentNanobotLevel)
             {
                 m_MaxNanobotLevelStat.Add(1);
             }
 
-            GameLog.Info($"Nanobot level up to {RogueLiteManager.persistentData.currentNanobotLevel}");
+            GameLog.Info($"Nanobot level up to {RogueLiteManager.PersistentData.currentNanobotLevel}");
         }
 
         /// <summary>
@@ -567,7 +567,7 @@ namespace RogueWave
 
         private int GetRequiredResourcesForNextNanobotLevel()
         {
-            return Mathf.RoundToInt(resourcesForLevel.Evaluate(RogueLiteManager.persistentData.currentNanobotLevel + stackedLevelUps + 1));
+            return Mathf.RoundToInt(resourcesForLevel.Evaluate(RogueLiteManager.PersistentData.currentNanobotLevel + stackedLevelUps + 1));
         }
 
         // TODO: we can probably generalize these Try* methods now that we have refactored the recipes to use interfaces/Abstract classes
@@ -646,7 +646,7 @@ namespace RogueWave
         private bool TryWeaponRecipes()
         {
             // Build weapons in the build order first
-            foreach (string id in RogueLiteManager.persistentData.WeaponBuildOrder)
+            foreach (string id in RogueLiteManager.PersistentData.WeaponBuildOrder)
             {
                 IRecipe weapon;
                 if (RecipeManager.TryGetRecipe(id, out weapon))
@@ -659,10 +659,10 @@ namespace RogueWave
             }
 
             // If we have built everything in the build order then try to build anything we bought during this run
-            foreach (IRecipe recipe in RogueLiteManager.runData.GetRecipes())
+            foreach (IRecipe recipe in RogueLiteManager.RunData.GetRecipes())
             {
                 WeaponRecipe weapon = recipe as WeaponRecipe;
-                if (weapon != null && RogueLiteManager.persistentData.RecipeIds.Contains(weapon.uniqueID) == false)
+                if (weapon != null && RogueLiteManager.PersistentData.RecipeIds.Contains(weapon.uniqueID) == false)
                 {
                     if (TryRecipe(weapon))
                     {
@@ -829,10 +829,10 @@ namespace RogueWave
 
                 Vector3 position = transform.position + (transform.forward * pickupSpawnDistance) + (transform.up * 1f);
                 int positionCheck = 0;
-                while (Physics.CheckSphere(position, 0.5f) || positionCheck > 10)
+                while (Physics.CheckSphere(position, 0.5f) && positionCheck < 10)
                 {
                     positionCheck++;
-                    position -= transform.forward;
+                    position -= transform.forward / 5;
                 }
 
                 go.transform.position = position;
@@ -881,7 +881,7 @@ namespace RogueWave
                 return;
             }
 
-            if (!RogueLiteManager.runData.Contains(recipe))
+            if (!RogueLiteManager.RunData.Contains(recipe))
             {
                 throw new ArgumentException($"Attempted to add a recipe ({recipe} - {recipe.DisplayName}) to the current RunRecipes that is not in the `RogueLiteManager.runData`. Should add their first with RogueLiteManager.Add(recipe).");
             }

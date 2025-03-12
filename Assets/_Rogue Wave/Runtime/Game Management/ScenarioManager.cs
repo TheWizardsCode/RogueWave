@@ -29,8 +29,8 @@ namespace WizardsCode.RogueWave
             m_Campaign.levels[0] = m_Scenario.LevelDefinition;
 
             // FIXME: Should not clear the recipes here. We should create a temporary profile that gets deleted at the end of the scenario.
-            RogueLiteManager.persistentData.RecipeIds.Clear();
-            RogueLiteManager.runData.Clear();
+            RogueLiteManager.PersistentData.RecipeIds.Clear();
+            RogueLiteManager.RunData.Clear();
             GameStatsManager.Instance.ResetStats();
             GetComponent<RogueWaveGameMode>().StartingRunRecipes = m_Scenario.Recipes;
         }

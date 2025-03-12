@@ -39,7 +39,7 @@ namespace RogueWave.GameStats
         void OnEnable()
         {
             NeoFpsInputManager.captureMouseCursor = false;
-            RogueLiteManager.persistentData.isDirty = true; // Set to true as a security in case we fogot to set it somewhere
+            RogueLiteManager.PersistentData.isDirty = true; // Set to true as a security in case we fogot to set it somewhere
             RogueLiteManager.SaveProfile();
 
             m_ShowAchievementsListButton.onClick.AddListener(ShowAchievementList);
@@ -128,12 +128,12 @@ namespace RogueWave.GameStats
 
         public static void LoadNextScene()
         {
-            if (RogueLiteManager.hasProfile)
+            if (RogueLiteManager.HasProfile)
             {
-                NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+                NeoSceneManager.LoadScene(RogueLiteManager.HubScene);
             } else
             {
-                NeoSceneManager.LoadScene(RogueLiteManager.mainMenuScene);
+                NeoSceneManager.LoadScene(RogueLiteManager.MainMenuScene);
             }
         }
 

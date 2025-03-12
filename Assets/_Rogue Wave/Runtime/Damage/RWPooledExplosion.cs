@@ -76,7 +76,7 @@ namespace RogueWave
             }
 
             s_HealthManagers.Clear();
-            base.Explode(maxDamage, maxForce, this, ignoreRoot);
+            base.Explode(maxDamage, maxForce, source, ignoreRoot);
         }
 
         protected override void ApplyExplosionDamageEffect(DamageHandlerInfo info)
@@ -86,8 +86,13 @@ namespace RogueWave
 
         void ApplyExplosionDamageEffectDelayed(DamageHandlerInfo info)
         {
+            if (info.damageHandler == null)
+            {
+                return;
+            }
+
             float damage = maxDamage * info.falloff * info.damageShare;
-            if (info.damageHandler != null && info.damageHandler.enabled)
+            if (info.damageHandler.gameObject && info.damageHandler.enabled)
             {
                 info.damageHandler.AddDamage(damage, this);
             }

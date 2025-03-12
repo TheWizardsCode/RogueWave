@@ -1,5 +1,6 @@
 using NaughtyAttributes;
 using NeoFPS;
+using OggVorbisEncoder.Setup;
 using RogueWave.GameStats;
 using System;
 using System.Collections.Generic;
@@ -19,14 +20,16 @@ namespace RogueWave
         // Meta Data
         [SerializeField, Tooltip("The name of the level."), BoxGroup("Meta Data")]
         internal string displayName = string.Empty;
-        [SerializeField, Tooltip("The description of the level."), BoxGroup("Meta Data")]
+        [SerializeField, Tooltip("The description of the level."), TextArea(2,6), BoxGroup("Meta Data")]
         internal string description = string.Empty;
-        [SerializeField, Tooltip("An achievement that must be unlocked to enable this level. If this is null then the level will always be unlocked."), BoxGroup("Meta Data"), TextArea(2,6)]
+        [SerializeField, Tooltip("An achievement that must be unlocked to enable this level. If this is null then the level will always be unlocked."), BoxGroup("Meta Data")]
         internal Achievement unlockAchievement;
         [SerializeField, Tooltip("An achievement that must be unlocked for this level to be considered complete. If this is null then the level can never be considered completed."), BoxGroup("Meta Data")]
         internal Achievement completedAchievement;
         [SerializeField, Tooltip("When the level is completed should the player be immediately extracted? If set to false the player will have to survive until the extraction time, if set to true then the player will be extracted immediately. Note that this will have no effect if there is no `Completed Achievement` set above."), BoxGroup("Meta Data")]
         internal bool extractUponCompletion = true;
+        [SerializeField, Tooltip("If true then the level can be replayed multiple times. If false then the level can only be played until it is completed, after that revisiting will not be possible."), BoxGroup("Meta Data")]
+        internal bool isReplayable = true;
 
         // Size and Layout
         [SerializeField, Tooltip("The seed to use for the level generation. If this is set to <= 0 then a random seed will be used."), BoxGroup("Size and Layout")]

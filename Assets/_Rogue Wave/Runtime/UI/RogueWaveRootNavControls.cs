@@ -32,7 +32,7 @@ namespace RogueWave
             if (m_ContinueButton != null)
             {
                 // Check if can continue (this can block so do it intermittently)
-                if (RogueLiteManager.hasProfile)
+                if (RogueLiteManager.HasProfile)
                 {
                     EventSystem.current.SetSelectedGameObject(m_ContinueButton.gameObject);
                     selectedSet = true;
@@ -49,7 +49,7 @@ namespace RogueWave
 
             if (m_SelectProfileButton != null)
             {
-                if (RogueLiteManager.hasProfile)
+                if (RogueLiteManager.HasProfile)
                 {
                     m_SelectProfileButton.onClick.AddListener(OnClickSelectProfile);
                     m_SelectProfileButton.gameObject.SetActive(true);
@@ -101,7 +101,7 @@ namespace RogueWave
         public void OnClickContinue()
         {
             RogueLiteManager.LoadProfile(0);
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.HubScene);
         }
     }
 }

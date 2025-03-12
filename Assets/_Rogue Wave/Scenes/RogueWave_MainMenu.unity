@@ -978,7 +978,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99da472a795d770459e7a7e4be87e639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_InkJSON: {fileID: 4900000, guid: d92a25ecb3cbc024180a37e7e3b0f308, type: 3}
   introScene: RogueWave_MainMenu
   loadingScreen: RogueWave_MainMenu
   m_startTalkingCue: {fileID: 0}
@@ -994,10 +993,13 @@ MonoBehaviour:
   m_ActiveTimePerCharacter: 0.01
   m_autoAdvanceSingleChoice: 0
   m_AutoHideUIOnEmptyText: 1
-  showDebugOptions: 1
-  verboseLogging: 1
-  resetStory: 1
-  m_Campaign: {fileID: 11400000, guid: 4510a5b0a6b282a4993e2009bf52b8ae, type: 2}
+  showDebugOptions: 0
+  verboseLogging: 0
+  resetStory: 0
+  m_Campaign:
+  - {fileID: 11400000, guid: 4510a5b0a6b282a4993e2009bf52b8ae, type: 2}
+  - {fileID: 11400000, guid: e1d6e9a426540b246af58b0d7e5d3eea, type: 2}
+  m_CurrentCampaignIndex: 0
 --- !u!4 &831646704
 Transform:
   m_ObjectHideFlags: 0

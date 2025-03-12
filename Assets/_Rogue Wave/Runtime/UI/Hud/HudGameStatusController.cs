@@ -30,12 +30,12 @@ namespace RogueWave
 
             if (m_GameLevelNumberText != null)
             {
-                m_GameLevelNumberText.text = (RogueLiteManager.persistentData.currentGameLevel + 1).ToString();
+                m_GameLevelNumberText.text = (RogueLiteManager.PersistentData.currentGameLevel + 1).ToString();
             }
 
             if (m_NanobotLevelNumberText != null)
             {
-                m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
+                m_NanobotLevelNumberText.text = (RogueLiteManager.PersistentData.currentNanobotLevel + 1).ToString();
             }
 
             m_LevelStatusPanel.gameObject.SetActive(false);
@@ -84,7 +84,7 @@ namespace RogueWave
             if (nanobotManager != null)
             {
                 nanobotManager.onNanobotLevelUp += OnNanobotLevelUp;
-                OnNanobotLevelUp(RogueLiteManager.persistentData.currentNanobotLevel, 150);
+                OnNanobotLevelUp(RogueLiteManager.PersistentData.currentNanobotLevel, 150);
                 
                 m_ResourcesUI.gameObject.SetActive(true);
             }
@@ -95,7 +95,7 @@ namespace RogueWave
 
             if (m_GameLevelNumberText != null)
             {
-                m_GameLevelNumberText.text = (RogueLiteManager.persistentData.currentGameLevel + 1).ToString();
+                m_GameLevelNumberText.text = (RogueLiteManager.PersistentData.currentGameLevel + 1).ToString();
             }
         }
 

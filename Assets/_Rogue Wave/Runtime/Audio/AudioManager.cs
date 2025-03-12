@@ -344,6 +344,7 @@ namespace WizardsCode.RogueWave
             Debug.Log($"Playing 2D one shot {clip} at volume {volume} via source {source.GetInstanceID()}");
             source.outputAudioMixerGroup = group;
             source.PlayOneShot(clip, volume);
+            Debug.Log("Audio played as one shot.");
         }
 
         /// <summary>

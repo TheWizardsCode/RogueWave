@@ -57,9 +57,9 @@ namespace WizardsCode.RogueWave
             // Select the current level
             for (int i = 0; i < parent.childCount; i++)
             {
-                if (i == RogueLiteManager.persistentData.currentGameLevel)
+                if (i == RogueLiteManager.PersistentData.currentGameLevel)
                 {
-                    Button button = parent.GetChild(i).GetComponent<Button>();
+                    Button button = parent.GetChild(i).GetComponentInChildren<Button>();
                     EventSystem.current.SetSelectedGameObject(button.gameObject);
                     button.onClick.Invoke();
                 }
@@ -158,7 +158,7 @@ namespace WizardsCode.RogueWave
 
         private void OnLevelClicked(LevelUiController controller)
         {
-            RogueLiteManager.persistentData.currentGameLevel = Array.IndexOf(campaignDefinition.levels, controller.levelDefinition);
+            RogueLiteManager.PersistentData.currentGameLevel = Array.IndexOf(campaignDefinition.levels, controller.levelDefinition);
         }
     }
 }

@@ -213,8 +213,8 @@ namespace RogueWave
                 NanobotManager nanobotManager = FpsSoloCharacter.localPlayerCharacter.GetComponent<NanobotManager>();
                 foreach (IRecipe recipe in startingRecipes)
                 {
-                    RogueLiteManager.persistentData.Add(recipe);
-                    RogueLiteManager.runData.Add(recipe);
+                    RogueLiteManager.PersistentData.Add(recipe);
+                    RogueLiteManager.RunData.Add(recipe);
                     nanobotManager.AddToRunRecipes(recipe);
                 }
             }

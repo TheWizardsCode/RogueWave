@@ -36,7 +36,7 @@ namespace RogueWave
         void OnClickSelectProfile(int index)
         {
             RogueLiteManager.LoadProfile(index);
-            NeoSceneManager.LoadScene(RogueLiteManager.hubScene);
+            NeoSceneManager.LoadScene(RogueLiteManager.HubScene);
         }
     }
 }

@@ -6,6 +6,8 @@ using System.Collections;
 using System.IO;
 using System.Text;
 using UnityEngine;
+using WizardsCode.RogueWave;
+using WizardsCode.StoryTeller;
 
 namespace RogueWave
 {
@@ -25,7 +27,8 @@ namespace RogueWave
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void Init()
         {
-            currentProfile = null;
+            UpdateAvailableProfiles();
+            LoadProfile(0);
         }
 
         public static string reconstructionScene
@@ -61,10 +64,17 @@ namespace RogueWave
                 UpdateAvailableProfiles();
             }
         }
+
+        [UnityEditor.MenuItem("Tools/Rogue Wave/Profiles/Reset Tutorial", priority = 0)]
+        static void ResetTutorial()
+        {
+            StoryManager.Instance.ResetStory();
+        }
 #endif
 
         const string k_ProfileExtension = "profileData";
         const string k_StatsExtension = "statsData";
+        const string k_CampaignExtension = "campaignData";
         const string k_Subfolder = "Profiles";
 
         private RuntimeBehaviour m_ProxyBehaviour = null;
@@ -75,13 +85,13 @@ namespace RogueWave
             private set;
         } = { };
 
-        public static string currentProfile
+        public static string CurrentProfile
         {
             get;
             private set;
         } = string.Empty;
 
-        public static string mainMenuScene
+        public static string MainMenuScene
         {
             get
             {
@@ -92,7 +102,7 @@ namespace RogueWave
             }
         }
 
-        public static string hubScene
+        public static string HubScene
         {
             get
             {
@@ -103,7 +113,7 @@ namespace RogueWave
             }
         }
 
-        public static string combatScene
+        public static string CombatScene
         {
             get
             {
@@ -111,7 +121,7 @@ namespace RogueWave
             }
         }
 
-        public static string portalScene
+        public static string PortalScene
         {
             get
             {
@@ -123,7 +133,7 @@ namespace RogueWave
         }
 
         private static RogueLitePersistentData m_PersistentData = null;
-        public static RogueLitePersistentData persistentData
+        public static RogueLitePersistentData PersistentData
         {
             get
             {
@@ -134,7 +144,7 @@ namespace RogueWave
         }
 
         private static RogueLiteRunData m_RunData = null;
-        public static RogueLiteRunData runData
+        public static RogueLiteRunData RunData
         {
             get
             {
@@ -144,7 +154,7 @@ namespace RogueWave
             }
         }
 
-        public static bool hasProfile { 
+        public static bool HasProfile { 
             get
             {
                 return availableProfiles != null && availableProfiles.Length != 0;
@@ -153,7 +163,7 @@ namespace RogueWave
 
         protected override void OnDestroy()
         {
-            RogueLiteManager.persistentData.isDirty = true; // set to true as a security in case we have any bugs not setting it
+            RogueLiteManager.PersistentData.isDirty = true; // set to true as a security in case we have any bugs not setting it
             SaveProfile();
 
             base.OnDestroy();
@@ -176,20 +186,6 @@ namespace RogueWave
 
         class RuntimeBehaviour : MonoBehaviour
         {
-            void Start()
-            {
-                StartCoroutine(SaveProfileData());
-            }
-            IEnumerator SaveProfileData()
-            {
-                var wait = new WaitForSecondsRealtime(3f);
-                while (true)
-                {
-                    yield return wait;
-
-                    SaveProfile();
-                }
-            }
         }
 
         static RogueLitePersistentData CreatePersistentDataFromJson(string json)
@@ -199,13 +195,13 @@ namespace RogueWave
             else
                 m_PersistentData = new RogueLitePersistentData();
 
-            return persistentData;
+            return PersistentData;
         }
 
         public static RogueLitePersistentData ResetPersistentData()
         {
             m_PersistentData = new RogueLitePersistentData();
-            return persistentData;
+            return PersistentData;
         }
 
         public static void AssignPersistentData(RogueLitePersistentData custom)
@@ -231,7 +227,7 @@ namespace RogueWave
             else
                 availableProfiles = new FileInfo[0];
 
-            if (currentProfile == string.Empty && availableProfiles.Length > 0)
+            if (CurrentProfile == string.Empty && availableProfiles.Length > 0)
             {
                 LoadProfile(0);
             }
@@ -239,11 +235,11 @@ namespace RogueWave
 
         public static void CreateNewProfile(string profileName)
         {
-            currentProfile = profileName;
+            CurrentProfile = profileName;
             ResetPersistentData();
             ResetRunData();
             GameStatsManager.Instance.ResetStats();
-            persistentData.isDirty = true;
+            PersistentData.isDirty = true;
         }
 
         public static string GetProfileName(int index)
@@ -256,11 +252,25 @@ namespace RogueWave
                 return Path.GetFileNameWithoutExtension(availableProfiles[index].Name);
         }
 
+        /// <summary>
+        /// Get the absolute file path for the current profile save files.
+        /// Note that this does not return a string with the file extension.
+        /// Each save file for a given profile will have the same name but with a different extension.
+        /// The extension should be added in the code saving the file.
+        /// </summary>
+        /// <returns>The absolute path to the save files for this profile, without the specificc file extension.</returns>
+        public string GetSaveFilenameSansExtension()
+        {
+            return string.Format("{0}{1}", ProfilesFolderPath, CurrentProfile);
+        }
+
         public static void LoadProfile(int index)
         {
-            RogueLiteManager.persistentData.isDirty = true; // Set to true as a security in case we fogot to set it somewhere
-            SaveProfile();
+            if (index < 0 || index + 1 >= availableProfiles.Length)
+                return;
 
+            RogueLiteManager.PersistentData.isDirty = true; // Set to true as a security in case we fogot to set it somewhere
+            
             // Load the file if available and create new instance from json
             using (var stream = availableProfiles[index].OpenText())
             {
@@ -269,31 +279,52 @@ namespace RogueWave
             }
 
             // Get the profile name
-            currentProfile = GetProfileName(index);
+            CurrentProfile = GetProfileName(index);
 
             // Load the stats from the saved files
-            string path = string.Format("{0}{1}.{2}", ProfilesFolderPath, currentProfile, k_StatsExtension);
-            if (File.Exists(path))
+            if (instance != null) // checking for null as we may be running this before the instance is created, in which case there is no profile to load yet
             {
-                string json = File.ReadAllText(path);
-                StatsWrapperArray wrapperArray = JsonUtility.FromJson<StatsWrapperArray>(json);
-                IntGameStat[] stats = Resources.LoadAll<IntGameStat>("");
-
-                for (int i = 0; i < wrapperArray.stats.Length; i++)
+                string path = string.Format("{0}.{1}", instance.GetSaveFilenameSansExtension(), k_StatsExtension);
+                if (File.Exists(path))
                 {
-                    for (int y = 0; y < stats.Length; y++)
+                    string json = File.ReadAllText(path);
+                    StatsWrapperArray wrapperArray = JsonUtility.FromJson<StatsWrapperArray>(json);
+                    IntGameStat[] stats = Resources.LoadAll<IntGameStat>("");
+
+                    for (int i = 0; i < wrapperArray.stats.Length; i++)
                     {
-                        if (wrapperArray.stats[i].key == stats[y].key)
+                        for (int y = 0; y < stats.Length; y++)
                         {
-                            stats[y].Value = wrapperArray.stats[i].value;
+                            if (wrapperArray.stats[i].key == stats[y].key)
+                            {
+                                stats[y].Value = wrapperArray.stats[i].value;
+                            }
                         }
                     }
+                }
+
+                // Load the campaign data
+                if (CampaignManager.Instance != null)
+                {
+                    string campaignPath = string.Format("{0}.{1}", instance.GetSaveFilenameSansExtension(), k_CampaignExtension);
+                    if (File.Exists(campaignPath))
+                    {
+                        using (var stream = File.OpenText(campaignPath))
+                        {
+                            string json = stream.ReadToEnd();
+                            JsonUtility.FromJsonOverwrite(json, CampaignManager.Instance);
+                        }
+                    }
+                    CampaignManager.Instance.InitializeStory(((CampaignManager)CampaignManager.Instance).CurrentCampaign.InkStory);
                 }
             }
         }
 
         public static void SaveProfile()
         {
+            if (instance == null)
+                return;
+
 //#if UNITY_EDITOR
 //            if (currentProfile == string.Empty)
 //            {
@@ -315,7 +346,7 @@ namespace RogueWave
 //#endif
 
             // Only save if there have been changes
-            if (persistentData == null || !persistentData.isDirty || currentProfile == string.Empty)
+            if (PersistentData == null || !PersistentData.isDirty || CurrentProfile == string.Empty)
                 return;
 
             // Check the folder exists
@@ -323,14 +354,14 @@ namespace RogueWave
                 Directory.CreateDirectory(ProfilesFolderPath);
 
             // Write the profile data
-            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", ProfilesFolderPath, currentProfile, k_ProfileExtension)))
+            using (var stream = File.CreateText(string.Format("{0}.{1}", instance.GetSaveFilenameSansExtension(), k_ProfileExtension)))
             {
                 string json = JsonUtility.ToJson(m_PersistentData, true);
                 stream.Write(json);
             }
 
             // Write the stats data
-            using (var stream = File.CreateText(string.Format("{0}{1}.{2}", ProfilesFolderPath, currentProfile, k_StatsExtension)))
+            using (var stream = File.CreateText(string.Format("{0}.{1}", instance.GetSaveFilenameSansExtension(), k_StatsExtension)))
             {
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("{\n\"stats\": [");
@@ -352,8 +383,17 @@ namespace RogueWave
                 stream.Write(sb.ToString());
             }
 
-            // Wipe the instance dirty flag
-            persistentData.isDirty = false;
+            // Write the Campaign data
+            if (CampaignManager.Instance != null)
+            {
+                using (var stream = File.CreateText(string.Format("{0}.{1}", instance.GetSaveFilenameSansExtension(), k_CampaignExtension)))
+                {
+                    string json = JsonUtility.ToJson(CampaignManager.Instance, true);
+                    stream.Write(json);
+                }
+            }
+
+            PersistentData.isDirty = false;
 
             // Update available saves
             UpdateAvailableProfiles();
@@ -368,8 +408,8 @@ namespace RogueWave
         /// <seealso cref="RogueLitePersistentData.GetCount(IRecipe)"/>
         internal static int GetTotalCount(IRecipe recipe)
         {
-            int total = runData.GetCount(recipe);
-            total += persistentData.GetCount(recipe);
+            int total = RunData.GetCount(recipe);
+            total += PersistentData.GetCount(recipe);
             return total;
         }
 

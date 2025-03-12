@@ -35,7 +35,7 @@ namespace WizardsCode.RogueWave
         internal float m_Speed = 5f;
 
         [Header("Ammo Behaviour")]
-        [SerializeField, Tooltip("The layers that the weapon will damage.")]
+        [SerializeField, Tooltip("The layers that the weapon will damage. Note that Damage filters may still prevent damage occuring.")]
         internal LayerMask layers;
         [SerializeField, Tooltip("The maximum range of the weapon. For area of effect weapons this is the radius, for other weapons it is the distance from the firing point the weapon will reach.")]
         internal float range = 20f;

@@ -21,7 +21,7 @@ namespace RogueWave
             NanobotManager nanobotManager = character.GetComponent<NanobotManager>();
             if (nanobotManager != null)
             {
-                RogueLiteManager.runData.Add(recipe);
+                RogueLiteManager.RunData.Add(recipe);
                 nanobotManager.AddToRunRecipes(recipe);
             }
 

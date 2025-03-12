@@ -2,6 +2,7 @@
 VAR runCount = 0
 VAR deathCount = 0
 VAR portalCrystalsCollected = 0
+VAR spawnersDestroyed = 0
 VAR inReconstruction = 0
 
 // Event driven actions
@@ -24,6 +25,7 @@ Let's get started by seeing if you can remember who you are, or maybe pick a new
 
 === New_Identity
 
+>>> RogueWaveSavePoint: New_Identity
 >>> execute: NavControls_Root.RogueWaveRootNavControls.OnClickNewGame
 >>> PlayNanobotAudio: Story/Tutorial, Beat 0 We are a part of you
 
@@ -54,6 +56,7 @@ Those that stay can keep a link open to you for 5 minutes. After that amount of 
 
 === Understanding_Nanotransfer
 
+>>> RogueWaveSavePoint: Understanding_Nanotransfer
 >>> PlayNanobotAudio: Story/Tutorial, Beat 1 Introduction Part 2
 
 When you are ready we'll send you out there to take a look around.
@@ -97,6 +100,8 @@ Once you have gathered 500 resources we'll bring you back for some more permanen
 
 === In_Hub
 
+>>> RogueWaveSavePoint: In_Hub
+
 {inReconstruction == 1:
     ~ inReconstruction = 0
     >>> PlayNanobotAudio: Story/Tutorial, Beat 3c We Can Keep Doing This
@@ -114,12 +119,31 @@ Once you have gathered 500 resources we'll bring you back for some more permanen
                 However, to build the portal generator we need specific kinds of crystal.
             
                 When you feel strong enough we'll send you to a new zone that contains Moisannite. We'll put a marker on it to make it easier for you to collect.
+                
             - We still need that Moisannite. Give it another go.
         }
         
         + [Let's Go!] -> In_Run
     -else:
-        -> Start_Real_Work
+        {spawnersDestroyed == 0:
+            { stopping:
+                - It would seem the locals have figured out what we are doing. They have mobilized to protect their crystals from you.
+
+                    This next location is still fairly safe, but it has an enemy spawner within it.
+
+                    Enemies will transport into this area and attempt to destroy you.
+
+                    You have two options, destory the spawner, or survive long enough for us to be able to pull you out.
+
+                    To destroy the spawner you need to destroy the shield generator firts, then the spawner itself.
+                    
+                - Let's try that again, either survive for long enough for us to pull you out, or destroy the spawner
+            }
+            
+            + [Let's Go] -> In_Run
+        -else:
+            -> Start_Real_Work
+        }
     }
 }
 
@@ -137,7 +161,10 @@ Great, you have your first crystal for the portal. Many more to go.
 
 === Start_Real_Work
 
+>>> RogueWaveSavePoint: Start_Real_Work
 >>> PlayNanobotAudio: Story/Tutorial, Beat 5 Now the work starts
+
+Great, you have your first crystal for the portal. Many more to go.
 
 We'll provide links to zones where we have gathered intelligence.
 

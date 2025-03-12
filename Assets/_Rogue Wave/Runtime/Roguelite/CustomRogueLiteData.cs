@@ -14,7 +14,7 @@ namespace RogueWave
 
         void Awake()
         {
-            if (RogueLiteManager.persistentData == null)
+            if (RogueLiteManager.PersistentData == null)
             {
                 Debug.Log("Assigning custom rogue-lite player data");
                 RogueLiteManager.AssignPersistentData(m_CustomData);

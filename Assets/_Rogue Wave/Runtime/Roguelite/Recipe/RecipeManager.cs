@@ -145,7 +145,7 @@ namespace RogueWave
             // TODO: cache the results of this search. Invalidate the cache when a new recipe is added to the NanobotManager.
 #if UNITY_EDITOR
             Debug.Log($"Getting offer candidates for {typeof(T)}." +
-                $"\nNanobot level: {RogueLiteManager.persistentData.currentNanobotLevel}" +
+                $"\nNanobot level: {RogueLiteManager.PersistentData.currentNanobotLevel}" +
                 $"\nPowerup recipes: {powerupRecipes.Count}" +
                 $"\nResources: {GameStatsManager.Instance.GetIntStat("RESOURCES")}");
 #endif
@@ -167,7 +167,7 @@ namespace RogueWave
                     continue;
                 }
 
-                if (RogueLiteManager.persistentData.currentNanobotLevel < recipe.Level)
+                if (RogueLiteManager.PersistentData.currentNanobotLevel < recipe.Level)
                 {
 #if UNITY_EDITOR
                     //Debug.Log($"Skip: {recipe} level of {recipe.Level} is higher than the current nanobot level of {RogueLiteManager.persistentData.currentNanobotLevel}.");

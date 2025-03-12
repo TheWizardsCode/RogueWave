@@ -53,7 +53,7 @@ namespace RogueWave.UI
             GameLog.Info($"Entering Hub Scene with {GameStatsManager.Instance.GetIntStat("RESOURCES").Value} resources.");
 
             clearPermanentRecipes();
-            foreach (string recipeID in RogueLiteManager.persistentData.RecipeIds)
+            foreach (string recipeID in RogueLiteManager.PersistentData.RecipeIds)
             {
                 if (RecipeManager.TryGetRecipe(recipeID, out IRecipe recipe))
                 {
@@ -73,23 +73,10 @@ namespace RogueWave.UI
             }
 
             ClearTemporaryRecipes();
-            AddRangeOfTemporaryRecipes(RogueLiteManager.runData.GetRecipes());
+            AddRangeOfTemporaryRecipes(RogueLiteManager.RunData.GetRecipes());
             RemoveAllTemporaryRecipes(recipe => permanentRecipes.Contains(recipe));
 
-            EnableNextCampaignIfReady();
-        }
-
-        /// <summary>
-        /// Checks to see if the conditions for completion of the current campaign have been met.
-        /// If they have then the next campaign will be unlocked.
-        /// </summary>
-        private void EnableNextCampaignIfReady()
-        {
-            CampaignManager campaignManager = FindObjectOfType<CampaignManager>();
-            if (campaignManager.CurrentCampaign.IsComplete)
-            {
-               campaignManager.CurrentCampaign = campaignManager.CurrentCampaign.nextCampaign;
-            }
+            ((CampaignManager)CampaignManager.Instance).EnableNextCampaignIfReady();
         }
 
         private void OnDisable()
@@ -108,15 +95,15 @@ namespace RogueWave.UI
 
             if (m_GameLevelNumberText != null)
             {
-                m_GameLevelNumberText.text = (RogueLiteManager.persistentData.currentGameLevel + 1).ToString();
+                m_GameLevelNumberText.text = (RogueLiteManager.PersistentData.currentGameLevel + 1).ToString();
             }
 
             if (m_NanobotLevelNumberText != null)
             {
-                m_NanobotLevelNumberText.text = (RogueLiteManager.persistentData.currentNanobotLevel + 1).ToString();
+                m_NanobotLevelNumberText.text = (RogueLiteManager.PersistentData.currentNanobotLevel + 1).ToString();
             }
 
-            if (RogueLiteManager.persistentData.WeaponBuildOrder.Count == 0)
+            if (RogueLiteManager.PersistentData.WeaponBuildOrder.Count == 0)
             {
                 m_ContinueButton.label = "Build a Weapon";
                 m_ContinueButton.interactable = false;
@@ -144,7 +131,7 @@ namespace RogueWave.UI
             if (GameStatsManager.Instance.GetIntStat("RESOURCES").Value >= costOfLevelUp)
             {
                 GameStatsManager.Instance.GetIntStat("RESOURCES").Subtract(costOfLevelUp);
-                RogueLiteManager.persistentData.currentNanobotLevel++;
+                RogueLiteManager.PersistentData.currentNanobotLevel++;
                 RerollOffers();
             }
         }
@@ -215,9 +202,9 @@ namespace RogueWave.UI
         {
             if (FpsSoloCharacter.localPlayerCharacter == null)
             {
-                if (!string.IsNullOrWhiteSpace(RogueLiteManager.combatScene))
+                if (!string.IsNullOrWhiteSpace(RogueLiteManager.CombatScene))
                 {
-                    NeoSceneManager.LoadScene(RogueLiteManager.combatScene);
+                    NeoSceneManager.LoadScene(RogueLiteManager.CombatScene);
                 }
             }
             else
@@ -236,7 +223,7 @@ namespace RogueWave.UI
         {
             foreach (AbstractRecipe recipe in testRecipes)
             {
-                RogueLiteManager.persistentData.Add(recipe);
+                RogueLiteManager.PersistentData.Add(recipe);
             }
         }
 #endif
