@@ -10,16 +10,6 @@ namespace WizardsCode.RogueWave
         [SerializeField, Tooltip("The campaign definitions which defines the levels to play in order, which in turn defines the enemies, geometry and more for each level."), Expandable, BoxGroup("Campaigns")]
         CampaignDefinition[] m_Campaign;
 
-        protected override string StoryFilename
-        {
-            get
-            {
-                string filename = CurrentCampaign.campaignName.Replace(" ", "_") + ".json";
-                string filepath = $"{RogueLiteManager.instance.GetSaveFilenameSansExtension()}_{filename}";
-                return filepath;
-            }
-        }
-
         [SerializeField, HideInInspector]
         int m_CurrentCampaignIndex = 0;
         public CampaignDefinition CurrentCampaign 

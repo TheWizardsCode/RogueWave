@@ -89,16 +89,6 @@ namespace WizardsCode.StoryTeller
         bool wasWaiting = false; // Set to true when we were waiting for something to happen, e.g. an actor to reach a target position and it has now happened. This is used to re-trigger the story progression, e.g. in Update().
         bool resumeStory = false; // Set to true if the should be resumed from the current StoryPath. This is used, for example, when a new scene has been loaded and we need to resume from a specific knot.
 
-        protected virtual string StoryFilename
-        {
-            get
-            {
-                string filename = "storySaveFile.json";
-                string filepath = Path.Combine(Application.persistentDataPath, filename);
-                return filepath;
-            }
-        }
-
         internal bool IsDisplayingUI
         {
             get { return m_IsDisplayingUI; }
@@ -156,17 +146,13 @@ namespace WizardsCode.StoryTeller
         {
             IsDisplayingUI = true;
 
-            if (resetStory)
-            {
-                ResetStory();
-            }
-
             DontDestroyOnLoad(gameObject);
         }
 
         public void ResetStory()
         {
-            File.Delete(StoryFilename);
+            File.Delete(PlayerPrefs.GetString($"{Application.productName}_StoryFilename"));
+            PlayerPrefs.DeleteKey($"{Application.productName}_StoryFilename");
             PlayerPrefs.DeleteKey($"{Application.productName}_StoryResumePoint");
             PlayerPrefs.DeleteKey($"{Application.productName}_StoryScene");
         }
@@ -179,6 +165,20 @@ namespace WizardsCode.StoryTeller
         private void OnDisable()
         {
             SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+
+        /// <summary>
+        /// Initialize the Story Manager. This should be called before any other methods are called.
+        /// </summary>
+        /// <param name="saveFilename"></param>
+        public virtual void Init(string saveFilename)
+        {
+            PlayerPrefs.SetString($"{Application.productName}_StoryFilename", saveFilename);
+
+            if (resetStory)
+            {
+                ResetStory();
+            }
         }
 
         private void Start()
@@ -696,9 +696,16 @@ namespace WizardsCode.StoryTeller
         {
             if (ActiveStory == null) return;
 
-            Debug.Log("Saving story to " + StoryFilename);
+            string filename = PlayerPrefs.GetString($"{Application.productName}_StoryFilename");
+            if (string.IsNullOrEmpty(filename))
+            {
+                Debug.LogError("Story filename not set. Cannot save the story. Call StoryManager.Instance.Init(filename) first.");
+                return;
+            }
+
+            Debug.Log("Saving story to " + filename);
             string json = ActiveStory.state.ToJson();
-            File.WriteAllText(StoryFilename, json);
+            File.WriteAllText(filename, json);
 
             PlayerPrefs.SetString($"{Application.productName}_StoryResumePoint", knotName);
             PlayerPrefs.SetString($"{Application.productName}_StoryScene", SceneManager.GetActiveScene().name);
@@ -711,10 +718,17 @@ namespace WizardsCode.StoryTeller
         /// </summary>
         public virtual void Load()
         {
-            if (File.Exists(StoryFilename))
+            string filename = PlayerPrefs.GetString($"{Application.productName}_StoryFilename");
+            if (string.IsNullOrEmpty(filename))
             {
-                Debug.Log("Loading story from " + StoryFilename);
-                string json = File.ReadAllText(StoryFilename);
+                Debug.LogError("Story filename not set. Cannot load the story. Call StoryManager.Instance.Init(filename) first.");
+                return;
+            }
+
+            if (File.Exists(filename))
+            {
+                Debug.Log("Loading story from " + filename);
+                string json = File.ReadAllText(filename);
                 ActiveStory.state.LoadJson(json);
 
                 // Resume from the knot stored in player prefs when the appropriate scene is loaded.
@@ -733,6 +747,10 @@ namespace WizardsCode.StoryTeller
                     isUIDirty = true;
                     ShowUI();
                 }
+            }
+            else
+            {
+                Debug.LogError("No story save file found at " + filename);
             }
         }
     }

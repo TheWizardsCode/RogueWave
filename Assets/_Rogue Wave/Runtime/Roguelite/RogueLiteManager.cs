@@ -307,6 +307,8 @@ namespace RogueWave
                 if (CampaignManager.Instance != null)
                 {
                     string campaignPath = string.Format("{0}.{1}", instance.GetSaveFilenameSansExtension(), k_CampaignExtension);
+                    CampaignManager.Instance.Init(campaignPath);
+                    
                     if (File.Exists(campaignPath))
                     {
                         using (var stream = File.OpenText(campaignPath))

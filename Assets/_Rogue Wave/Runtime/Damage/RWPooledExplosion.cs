@@ -86,7 +86,7 @@ namespace RogueWave
 
         void ApplyExplosionDamageEffectDelayed(DamageHandlerInfo info)
         {
-            if (info.damageHandler == null)
+            if (info.damageHandler.gameObject.activeSelf)
             {
                 return;
             }
