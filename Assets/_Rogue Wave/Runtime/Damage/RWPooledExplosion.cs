@@ -86,9 +86,9 @@ namespace RogueWave
 
         void ApplyExplosionDamageEffectDelayed(DamageHandlerInfo info)
         {
-            if (info.damageHandler.gameObject.activeSelf)
+            if (info.damageHandler == null || !info.damageHandler.gameObject.activeSelf)
             {
-                return;
+                 return;
             }
 
             float damage = maxDamage * info.falloff * info.damageShare;
