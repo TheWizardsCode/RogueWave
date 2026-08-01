@@ -685,7 +685,7 @@ Managers are found via `FindObjectOfType`/`FindFirstObjectByType` in `Instance` 
 - `isDirty` propagation is manual and was the source of several safety-net additions (e.g. setting `isDirty = true` "as a security in case we forgot").
 - **Recommendation:** encapsulate collections, add a custom JSON serializer, and centralize dirty-flagging.
 
-### 8.9 Dead### 8.9 Dead / commented-out code
+### 8.9 Dead / commented-out code
 
 Large blocks of commented-out code remain in active files: `RogueWaveGameMode` (commented resource-grant, `SceneSetupCommands` usage), `NanobotManager` (`TryAllAmmoRecipes`), `WaveDefinition` (editor-only), `StoryManager` (commented Cinemachine/UI discovery), `RogueLiteManager` (editor-only profile creation), `GameStatsManager` (commented embed code). These create confusion about intended behaviour and drift from the actual code.
 
