@@ -19,6 +19,9 @@ Assets/_Dev/Resources/ElevenLabsConfiguration.asset.meta
 
 !Assets/Wizards Code
 
+# Vendored Inky editor is kept locally for authoring but never tracked
+Assets/Wizards Code/Story Teller/Inky/
+
 !/[Aa]ssets/Plugins
 /[Aa]ssets/Plugins/*
 !/[Aa]ssets/Plugins/unity-discord-main
@@ -114,3 +117,20 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 *.settings
+
+##################################
+Worklog Specific Ignores
+##################################
+
+# Ignore Worklog directory by default
+.worklog/
+
+# Keep defaults and plugins tracked
+!.worklog/config.defaults.yaml
+!.worklog/plugins/
+!.worklog/plugins/**
+
+# opencode temporary files
+.opencode/tmp/
+
+### End of Worklog Specific Ignores

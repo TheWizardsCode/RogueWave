@@ -12,7 +12,7 @@ script the story and provides tools for telling those stories within Unity.
 This asset contains the following primary components:
 
 * [ink-unity-integration](https://github.com/inkle/ink-unity-integration) - an API for playing Ink scripts in Unity
-* [Inky](https://github.com/inkle/inky) - a Windows editor for Ink files
+* [Inky](https://github.com/inkle/inky/releases) - an external Windows editor for Ink files, installed separately from the upstream releases (not bundled with this asset)
 * Story Teller - a set of extensions and tools for integrating Ink into projects
 
 ## Ink Extensions
