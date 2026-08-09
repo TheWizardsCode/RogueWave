@@ -125,6 +125,9 @@ Worklog Specific Ignores
 # Ignore Worklog directory by default
 .worklog/
 
+# Agent-installed git hooks (worklog auto-sync)
+.githooks/
+
 # Keep defaults and plugins tracked
 !.worklog/config.defaults.yaml
 !.worklog/plugins/
